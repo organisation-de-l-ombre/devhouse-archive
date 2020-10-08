@@ -4,7 +4,7 @@ import {RootState} from "../state";
 import {NotificationPayloadType} from "../notifications";
 import {Action} from "redux";
 import * as process from "process";
-import { fetchUser } from '../../../../core/api/account';
+import { fetchUser } from '@website/common';
 
 function makeId (length: number): string {
     let result           = '';

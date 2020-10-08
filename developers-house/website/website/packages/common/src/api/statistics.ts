@@ -1,6 +1,6 @@
 import {ServerResponse} from "./types/Response";
 import axios from "axios";
-import {returnOrThrow} from "./index";
+import {returnOrThrow} from "./utils";
 import {ServicesStatistics, StatusPageStatus} from "./types/Statistics";
 
 const fetchStats = async (): Promise<ServerResponse<ServicesStatistics>> => {

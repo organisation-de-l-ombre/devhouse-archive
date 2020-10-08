@@ -1,4 +1,4 @@
-import React, {PureComponent, ReactElement} from "react";
+import React, {PropsWithChildren, ReactElement, RefObject, useEffect, useRef, useState} from "react";
 import styled, {keyframes} from "styled-components";
 import {CustomThemedStyledProps} from "../../modules/themes";
 
@@ -6,42 +6,40 @@ type TypeWriterProps = {
     characterDisplayInterval: number;
 };
 
-class TypeWriter extends PureComponent<TypeWriterProps, { text: string }> {
-    constructor (props: TypeWriterProps) {
-        super(props);
+const wait = (time: number): Promise<void> => {
+    return new Promise<void>((e) => {
+        setTimeout(e, time);
+    });
+};
 
-        this.state = {
-            text: ""
+const TypeWriter = ({ children, characterDisplayInterval }: PropsWithChildren<{ characterDisplayInterval: number }>): ReactElement => {
+    const ref: RefObject<HTMLParagraphElement> = useRef<any>();
+
+    const updateText = (index: number) => {
+        return async () => {
+            index++;
+            if (children?.toString()[index] && ref.current) {
+                ref.current.innerHTML += children.toString()[index];
+                await wait(characterDisplayInterval);
+                ref.current.setAttribute('animation-frame', '' + requestAnimationFrame(updateText(index)));
+            }
         };
-    }
+    };
 
-    render (): ReactElement {
-        return <>{this.state.text}</>;
-    }
-
-    componentDidMount (): void {
-        this.displayString.bind(this)();
-    }
-
-    wait (time: number): Promise<void> {
-        return new Promise<void>((e) => {
-            setTimeout(e, time);
-        });
-    }
-
-    async displayString (): Promise<void> {
-        let currentChar: string | undefined = "";
-        let i = 0;
-        while (currentChar !== undefined) {
-            this.setState({
-                text: this.state.text + currentChar
-            });
-            currentChar = (this.props.children as string)[i];
-            i++;
-            await this.wait(this.props.characterDisplayInterval);
+    useEffect(() => {
+        if (ref.current) {
+            const currentId = ref.current.getAttribute('animation-frame');
+            if (currentId) {
+                cancelAnimationFrame(parseInt(currentId));
+            }
+            ref.current.setAttribute('animation-frame', '' + requestAnimationFrame(updateText(-1)));
         }
-    }
-}
+    }, [children, characterDisplayInterval]);
+
+    return (
+        <p ref={ref}></p>
+    )
+};
 
 const CursorEffect = keyframes`
   50% { opacity: 0; }

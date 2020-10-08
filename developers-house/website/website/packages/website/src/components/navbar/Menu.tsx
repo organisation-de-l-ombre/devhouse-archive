@@ -21,9 +21,12 @@ export function Menu(): ReactElement {
             <MenuItem as={NavLink} to={'/'} exact>
                 Home
                 </MenuItem>
+                <MenuItem as={NavLink} to={'/members'}>
+                Members
+            </MenuItem>
             <MenuItem as={NavLink} to={'/about'}>
                 About
-                </MenuItem>
+            </MenuItem>
         </MenuContainer>
     );
 }
