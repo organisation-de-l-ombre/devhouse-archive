@@ -1,9 +1,7 @@
 FROM node as build
 WORKDIR /build
-ARG NPM_CONFIG_REGISTRY
-ENV NPM_CONFIG_REGISTRY=${NPM_CONFIG_REGISTRY}
 COPY package.json .
-RUN npm set registry ${NPM_CONFIG_REGISTRY}
+RUN npm set registry http://127.0.0.1:4873/
 RUN npm install
 COPY . .
 RUN npm run build
