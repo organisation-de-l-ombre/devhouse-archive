@@ -3,7 +3,7 @@ include:
 
 build:
   stage: build
-  image: ubuntu
+  image: curlimages/curl
   variables:
     DOCKER_TLS_CERTDIR: ""
   services:
