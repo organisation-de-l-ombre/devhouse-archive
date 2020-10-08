@@ -3,7 +3,7 @@ include:
 
 build:
   stage: build
-  image: docker:dind
+  image: jannikz/dind-nodejs
   variables:
     DOCKER_TLS_CERTDIR: ""
   services:
@@ -18,6 +18,7 @@ build:
         export CI_APPLICATION_TAG=${CI_APPLICATION_TAG:-$CI_COMMIT_TAG}
       fi
       sh -c "`curl -fsSl https://raw.githubusercontent.com/rubensworks/lerna-docker/master/install.sh`"
+    - apt-get install git -y
     - lerna-docker $CI_APPLICATION_REPOSITORY push ${CI_APPLICATION_TAG:-$CI_COMMIT_TAG}
   rules:
     - if: '$CI_COMMIT_TAG || $CI_COMMIT_BRANCH'
