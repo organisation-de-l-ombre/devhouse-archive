@@ -3,16 +3,11 @@ include:
 
 build:
   stage: build
-  image: docker:dind
-  variables:
-    DOCKER_HOST: tcp://docker:2376
-    DOCKER_TLS_CERTDIR: "/certs"
-  services:
-    - docker:19.03.12-dind
+  image: node
   script:
     - |
       echo "//gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}">.npmrc
       npx lerna publish from-git
-    - ./.ci/lerna-docker $CI_APPLICATION_REPOSITORY push ${CI_APPLICATION_TAG:-$CI_COMMIT_TAG}
+    # - ./.ci/lerna-docker $CI_APPLICATION_REPOSITORY push ${CI_APPLICATION_TAG:-$CI_COMMIT_TAG}
   rules:
     - if: '$CI_COMMIT_TAG || $CI_COMMIT_BRANCH'
