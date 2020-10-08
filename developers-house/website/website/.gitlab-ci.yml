@@ -3,7 +3,7 @@ include:
 
 build:
   stage: build
-  image: curlimages/curl
+  image: docker:dind
   variables:
     DOCKER_TLS_CERTDIR: ""
   services:
