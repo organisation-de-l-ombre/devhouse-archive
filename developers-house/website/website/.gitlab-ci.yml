@@ -11,16 +11,8 @@ build:
     - docker:19.03.12-dind
   script:
     - |
-      apk --update add nodejs npm python3
-      npm install -g verdaccio@3.11.4 npm-cli-adduser
-      if [[ -z "$CI_COMMIT_TAG" ]]; then
-        export CI_APPLICATION_REPOSITORY=${CI_APPLICATION_REPOSITORY:-$CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG}
-        export CI_APPLICATION_TAG=${CI_APPLICATION_TAG:-$CI_COMMIT_SHA}
-      else
-        export CI_APPLICATION_REPOSITORY=${CI_APPLICATION_REPOSITORY:-$CI_REGISTRY_IMAGE}
-        export CI_APPLICATION_TAG=${CI_APPLICATION_TAG:-$CI_COMMIT_TAG}
-      fi
-      chmod +x ./.ci/lerna-docker
+      echo "//gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}">.npmrc
+      lerna publish from-git
     - ./.ci/lerna-docker $CI_APPLICATION_REPOSITORY push ${CI_APPLICATION_TAG:-$CI_COMMIT_TAG}
   rules:
     - if: '$CI_COMMIT_TAG || $CI_COMMIT_BRANCH'
