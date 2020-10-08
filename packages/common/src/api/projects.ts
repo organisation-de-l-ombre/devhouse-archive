@@ -4,7 +4,7 @@
 
 import {ServerResponse} from "./types/Response";
 import axios from "axios";
-import {returnOrThrow} from "./index";
+import {returnOrThrow} from "./utils";
 import {Projects} from "./types/Projects";
 
 const fetchProjects = async (): Promise<ServerResponse<Projects>> => {

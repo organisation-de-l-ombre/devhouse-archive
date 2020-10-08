@@ -1,11 +1,11 @@
 import React, {PureComponent, ReactElement} from "react";
-import Button from "../../../ui/Button";
-import ButtonGroup from "../../../ui/ButtonGroup";
-import {Notification} from "../../../../modules/state/state/notifications";
+import Button from "../ui/Button";
+import ButtonGroup from "../ui/ButtonGroup";
+import {Notification} from "../../modules/state/state/notifications";
 import styled, {keyframes} from "styled-components";
-import {CustomThemedStyledProps} from "../../../../modules/themes";
+import {CustomThemedStyledProps} from "../../modules/themes";
 
-class DisplayNotificationComponent extends PureComponent<{ destroy: Function; notification: Notification },
+class NotificationComponent extends PureComponent<{ destroy: Function; notification: Notification },
     { timeout: unknown }> {
     index = 0;
 
@@ -88,7 +88,7 @@ const BottomHideAnimation = keyframes`
     }
 `;
 
-export default styled(DisplayNotificationComponent)`
+export default styled(NotificationComponent)`
   position: fixed;
   justify-content: center;
   text-align: left;

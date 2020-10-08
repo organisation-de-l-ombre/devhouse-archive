@@ -1,12 +1,11 @@
 import React, { lazy, ReactElement, Suspense } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import NotificationsDisplayed from "../components/utils/NotificationsDisplayer/NotificationsDisplayed";
+import NotificationsDisplayed from "../components/notifications/NotificationsArea";
 import { useSelector } from "react-redux";
 import "normalize.css";
-import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { RootState } from "../modules/state/state/state";
 import { getThemeOrDefault } from "../modules/themes";
-import LoginCallback from "./LoginCallback";
 import { Menu } from "../components/navbar";
 import { CustomThemedStyledProps } from "../modules/themes";
 
@@ -38,9 +37,6 @@ const GlobalTheme = createGlobalStyle`
     cursor: pointer;
   }
 `;
-
-const PageContainer = styled.div``;
-
 export default function App(): ReactElement {
     const theme = useSelector((store: RootState) => store.theme.theme);
     return (
@@ -49,7 +45,7 @@ export default function App(): ReactElement {
                 <GlobalTheme />
                 <Menu />
                 <NotificationsDisplayed />
-                <PageContainer>
+                <div>
                     <Suspense fallback={""}>
                         <Switch>
                             <Route path="/" exact>
@@ -64,16 +60,12 @@ export default function App(): ReactElement {
                             <Route path="/members" exact>
                                 <MembersPage />
                             </Route>
-                            <Route path="/callback" exact>
-                                <LoginCallback />
-                            </Route>
                             <Route path="*">
                                 <NotFound />
                             </Route>
                         </Switch>
                     </Suspense>
-
-                </PageContainer>
+                </div>
             </Router>
         </ThemeProvider>
     );

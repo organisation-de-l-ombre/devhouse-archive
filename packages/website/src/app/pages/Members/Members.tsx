@@ -1,7 +1,7 @@
 import React, {PropsWithRef, PureComponent, ReactElement, Suspense} from "react";
 import {TitleBox} from "../../../components/ui/TitleBox";
 import TypeWriter from "../../../components/ui/TypeWriter";
-import {User} from "../../../core/api/types/User";
+import {User} from "@website/common/src/api/types/User";
 
 const MembersDisplay = React.lazy(() => import("./MembersDisplay"));
 
