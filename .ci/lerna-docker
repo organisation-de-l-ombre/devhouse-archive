@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+# Determine the Docker organization name
+org=$CI_APPLICATION_REPOSITORY
+# Set a version tag
+VERSION=$CI_APPLICATION_TAG
+
+# Set up a temporary npm registry on http://localhost:4873 in which we publish all current lerna packages
+mkdir -p /tmp/verdaccio/storage
+tool_dir="$(dirname "${BASH_SOURCE[0]}")"
+verdaccio --config $tool_dir/verdaccio-config.yaml &
+sleep 1
+REGISTRY_PID=$!
+npm-cli-adduser --registry http://localhost:4873 --username lerna --password lerna --email lerna@example.org
+npx lerna exec -- npm publish --silent --registry http://localhost:4873
+NPM_REGISTRY="http://127.0.0.1:4873/"
+
+# Restart the temporary npm registry, but now add an uplink to npm
+kill -9 $REGISTRY_PID
+verdaccio --config $tool_dir/verdaccio-config-uplink.yaml &
+sleep 1
+REGISTRY_PID=$!
+function finish {
+    # Stop and clean npm registry
+    kill -9 $REGISTRY_PID
+    rm -r /tmp/verdaccio/storage
+}
+trap finish EXIT
+
+# Build images for all packages with a Dockerfile, and optionally push them
+for package in packages/*; do
+    if [ -f $package/Dockerfile ]; then
+        imagename="$org/"$(echo $package | sed "s/packages\///")
+
+        echo "Building Docker image $imagename..."
+        if ! docker build --network="host" --build-arg NPM_REGISTRY=$NPM_REGISTRY -t $imagename:$VERSION $package; then
+            echo "Failed to build Docker image for $package"
+            exit 1;
+        fi
+        docker tag $imagename:$VERSION $imagename:latest
+        
+        if [[ $2 == "push" ]]; then
+            echo "Pushing Docker image $imagename..."
+            docker push $imagename:$VERSION
+            if [ "$LATEST" = true ] ; then
+                docker push $imagename:latest
+            fi
+        fi
+    fi
+done

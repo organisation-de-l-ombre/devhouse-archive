@@ -10,6 +10,7 @@ build:
     - docker:19.03.12-dind
   script:
     - |
+      npm install -g verdaccio@3.11.4 npm-cli-adduser
       if [[ -z "$CI_COMMIT_TAG" ]]; then
         export CI_APPLICATION_REPOSITORY=${CI_APPLICATION_REPOSITORY:-$CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG}
         export CI_APPLICATION_TAG=${CI_APPLICATION_TAG:-$CI_COMMIT_SHA}
@@ -17,9 +18,6 @@ build:
         export CI_APPLICATION_REPOSITORY=${CI_APPLICATION_REPOSITORY:-$CI_REGISTRY_IMAGE}
         export CI_APPLICATION_TAG=${CI_APPLICATION_TAG:-$CI_COMMIT_TAG}
       fi
-    - sh -c "`curl -fsSl https://raw.githubusercontent.com/rubensworks/lerna-docker/master/install.sh`"
-    - apt-get install git -y
-    - export PATH="$HOME/.lerna-docker/bin:$PATH"
-    - lerna-docker $CI_APPLICATION_REPOSITORY push ${CI_APPLICATION_TAG:-$CI_COMMIT_TAG}
+    - ./.ci/lerna-docker $CI_APPLICATION_REPOSITORY push ${CI_APPLICATION_TAG:-$CI_COMMIT_TAG}
   rules:
     - if: '$CI_COMMIT_TAG || $CI_COMMIT_BRANCH'
