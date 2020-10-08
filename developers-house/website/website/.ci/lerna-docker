@@ -7,8 +7,7 @@ VERSION=$CI_APPLICATION_TAG
 
 # Set up a temporary npm registry on http://localhost:4873 in which we publish all current lerna packages
 mkdir -p /tmp/verdaccio/storage
-tool_dir="$(dirname "${BASH_SOURCE[0]}")"
-verdaccio --config $tool_dir/verdaccio-config.yaml &
+verdaccio --config .ci/verdaccio-config.yaml &
 sleep 1
 REGISTRY_PID=$!
 npm-cli-adduser --registry http://localhost:4873 --username lerna --password lerna --email lerna@example.org
@@ -17,7 +16,7 @@ NPM_REGISTRY="http://127.0.0.1:4873/"
 
 # Restart the temporary npm registry, but now add an uplink to npm
 kill -9 $REGISTRY_PID
-verdaccio --config $tool_dir/verdaccio-config-uplink.yaml &
+verdaccio --config .ci/verdaccio-config-uplink.yaml &
 sleep 1
 REGISTRY_PID=$!
 function finish {
