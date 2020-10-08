@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 # Determine the Docker organization name
 org=$CI_APPLICATION_REPOSITORY
