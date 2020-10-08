@@ -3,7 +3,8 @@ WORKDIR /build
 ARG NPM_CONFIG_REGISTRY
 ENV NPM_CONFIG_REGISTRY=${NPM_CONFIG_REGISTRY}
 COPY package.json .
-RUN NPM_CONFIG_REGISTRY=${NPM_CONFIG_REGISTRY} npm install
+RUN npm set registry ${NPM_CONFIG_REGISTRY}
+RUN npm install
 COPY . .
 RUN npm run build
 FROM nginx
