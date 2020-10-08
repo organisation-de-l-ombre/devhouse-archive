@@ -5,7 +5,8 @@ build:
   stage: build
   image: docker:dind
   variables:
-    DOCKER_TLS_CERTDIR: ""
+    DOCKER_HOST: tcp://docker:2376
+    DOCKER_TLS_CERTDIR: "/certs"
   services:
     - docker:19.03.12-dind
   script:
