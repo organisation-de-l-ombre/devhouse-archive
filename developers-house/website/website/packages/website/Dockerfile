@@ -1,5 +1,6 @@
 FROM node as build
 WORKDIR /build
+ARG NPM_REGISTRY
 COPY package.json .
 RUN npm install
 COPY . .
