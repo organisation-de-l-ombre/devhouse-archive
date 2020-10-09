@@ -8,6 +8,10 @@ VERSION=$CI_APPLICATION_TAG
 # Build images for all packages with a Dockerfile, and optionally push them
 for package in packages/*; do
     if [ -f $package/Dockerfile ]; then
+
+        if [ -f $package/build.sh ]; then
+            sh -c "cd $package && ./build.sh"
+        fi
         imagename="$org/"$(echo $package | sed "s/packages\///")
 
         echo "Building Docker image $imagename..."
