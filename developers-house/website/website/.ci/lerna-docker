@@ -10,7 +10,7 @@ for package in packages/*; do
     if [ -f $package/Dockerfile ]; then
 
         if [ -f $package/build.sh ]; then
-            sh -c "cd $package && ./build.sh"
+            sh -c "cd $package && sh build.sh"
         fi
         imagename="$org/"$(echo $package | sed "s/packages\///")
 
