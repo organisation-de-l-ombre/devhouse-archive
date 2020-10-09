@@ -17,6 +17,7 @@ build:
         export CI_APPLICATION_REPOSITORY=${CI_APPLICATION_REPOSITORY:-$CI_REGISTRY_IMAGE}
         export CI_APPLICATION_TAG=${CI_APPLICATION_TAG:-$CI_COMMIT_TAG}
       fi
+      apk add nodejs yarn
     - yarn
     - yarn build
     - /build/build.sh
