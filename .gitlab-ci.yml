@@ -5,9 +5,6 @@ build:
   stage: build
   image: node
   script:
-    - |
-      echo "//gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}">.npmrc
-      npx lerna publish --yes --force-publish=*
-    # - ./.ci/lerna-docker $CI_APPLICATION_REPOSITORY push ${CI_APPLICATION_TAG:-$CI_COMMIT_TAG}
+     - ./.ci/lerna-docker $CI_APPLICATION_REPOSITORY push ${CI_APPLICATION_TAG:-$CI_COMMIT_TAG}
   rules:
     - if: '$CI_COMMIT_TAG || $CI_COMMIT_BRANCH'
