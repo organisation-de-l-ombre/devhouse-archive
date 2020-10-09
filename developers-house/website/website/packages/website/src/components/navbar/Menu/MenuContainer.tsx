@@ -3,7 +3,6 @@
  */
 
 import styled from "styled-components";
-import { CustomThemedStyledProps } from "../../../modules/themes";
 import MenuItem from "./MenuItem";
 import PrimedMenuItem from "./PrimedMenuContainer";
 import OnlyMobiles from "./OnlyMobiles";
@@ -14,7 +13,7 @@ export default styled.div<{ open: boolean }>`
     width: 100%;
     z-index: 4;
     // Coloring and internal style
-    background-color: ${(props: CustomThemedStyledProps<{ open: boolean }>): string => props.theme.background.primary};
+    background-color: ${(props): string => props.theme.background.primary};
     vertical-align: middle;
     // Layout
     display: flex;
@@ -25,7 +24,7 @@ export default styled.div<{ open: boolean }>`
         display: inline-block;
       }
       ${MenuItem} {
-        display: ${(opt: CustomThemedStyledProps<{ open: boolean }>): string => (opt.open ? 'inline-block' : 'none')};
+        display: ${(opt): string => (opt.open ? 'inline-block' : 'none')};
       }
       ${PrimedMenuItem} {
         flex: 1;

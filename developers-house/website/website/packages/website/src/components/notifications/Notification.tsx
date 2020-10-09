@@ -3,7 +3,6 @@ import Button from "../ui/Button";
 import ButtonGroup from "../ui/ButtonGroup";
 import {Notification} from "../../modules/state/state/notifications";
 import styled, {keyframes} from "styled-components";
-import {CustomThemedStyledProps} from "../../modules/themes";
 
 class NotificationComponent extends PureComponent<{ destroy: Function; notification: Notification },
     { timeout: unknown }> {
@@ -99,9 +98,9 @@ export default styled(NotificationComponent)`
   box-shadow: black 0px 0px 1px;
   padding: 1.2rem 1.2rem 1.1rem;
 
-  background-color: ${(props: CustomThemedStyledProps): string =>
+  background-color: ${(props): string =>
     props.theme.background.secondary};
-  color: ${(props: CustomThemedStyledProps): string =>
+  color: ${(props): string =>
     props.theme.foreground.primary};
 
   animation: ${BottomDisplayAnimation} 1s, ${BottomHideAnimation} 1s;

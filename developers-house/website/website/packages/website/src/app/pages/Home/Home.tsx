@@ -1,15 +1,14 @@
-import React, {ReactElement} from "react";
-import {FaDiscord} from "react-icons/fa";
-import {RiPencilRuler2Line} from "react-icons/ri";
+import React, { ReactElement } from "react";
+import { FaDiscord } from "react-icons/fa";
+import { RiPencilRuler2Line } from "react-icons/ri";
 
-import Button, {ButtonImage} from "../../../components/ui/Button";
+import Button, { ButtonImage } from "../../../components/ui/Button";
 import ButtonGroup from "../../../components/ui/ButtonGroup";
-import {discordLink} from "../../config.json";
-import {NavLink} from "react-router-dom";
-import styled, {CSSObject, keyframes} from "styled-components";
-import {CustomThemedStyledProps} from "../../../modules/themes";
-import {Card, CardFlexContainer, CardHeader, CardPadding, CardSection} from "../../../components/ui/Card";
-import {TitleBox} from "../../../components/ui/TitleBox";
+import { discordLink } from "../../config.json";
+import { NavLink } from "react-router-dom";
+import styled, { CSSObject, keyframes } from "styled-components";
+import { Card, CardFlexContainer, CardHeader, CardPadding, CardSection } from "../../../components/ui/Card";
+import { TitleBox } from "../../../components/ui/TitleBox";
 
 const HeaderAnimation = keyframes`
     from {
@@ -24,8 +23,7 @@ const HomeHeader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url(${(props: CustomThemedStyledProps): CSSObject =>
-    require(`../../../assets/${props.theme.name}/header-waves.svg`)});
+  background: url(${(props): CSSObject => require(`../../../assets/${props.theme.name}/header-waves.svg`)});
   background-repeat: no-repeat;
   background-size: 100% 100%;
 `;
@@ -45,7 +43,7 @@ const HomeHeaderContent = styled(TitleBox)`
   text-align: center;
 `;
 
-export default function HomePage (): ReactElement {
+export default function HomePage(): ReactElement {
     return (
         <>
             <HomeHeader>
@@ -62,13 +60,13 @@ export default function HomePage (): ReactElement {
                             rel="noopener noreferrer"
                         >
                             <ButtonImage>
-                                <FaDiscord/>
+                                <FaDiscord />
                             </ButtonImage>
                             Discord server
                         </Button>
                         <Button as={NavLink} to="/projects">
                             <ButtonImage>
-                                <RiPencilRuler2Line/>
+                                <RiPencilRuler2Line />
                             </ButtonImage>
                             View projects
                         </Button>

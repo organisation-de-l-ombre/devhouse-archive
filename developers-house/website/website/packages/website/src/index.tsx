@@ -6,9 +6,7 @@
 
 import React, {ReactElement, Suspense} from "react";
 import ReactDOM from "react-dom";
-import {ErrorBoundary, init} from "@sentry/react";
 // Start the tracing.
-init({dsn: "https://27e391d3fdac4bf8aa1b860a64b13b26@o375749.ingest.sentry.io/5389514"});
 
 
 /*
@@ -16,17 +14,9 @@ init({dsn: "https://27e391d3fdac4bf8aa1b860a64b13b26@o375749.ingest.sentry.io/53
  */
 const Root = React.lazy(() => import('./Root'));
 
-const ErrorPage = React.lazy(async () => {
-    const { ErrorPage } = await import('@website/app');
-    return { default: ErrorPage };
-});
-
 const MainComponent = (): ReactElement => (
     <Suspense fallback={'Loading website.'}>
-        { /* Catch the errors from the react application! */}
-        <ErrorBoundary fallback={<ErrorPage/>}>
-            <Root/>
-        </ErrorBoundary>
+        <Root></Root>
     </Suspense>
 );
 

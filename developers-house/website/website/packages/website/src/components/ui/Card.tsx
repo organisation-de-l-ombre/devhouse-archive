@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import {CustomThemedStyledProps} from "../../modules/themes";
 
 export const Card = styled.div`
   box-shadow: black 0 0 2px;
-  background-color: ${(props: CustomThemedStyledProps): string =>
+  background-color: ${(props): string =>
     props.theme.background.secondary};
   border-radius: 5px;
   overflow: hidden;
+  flex: 1;
   flex-direction: column;
 `;
 
@@ -20,7 +20,7 @@ export const CardHeader = styled.div<{ align?: string }>`
   flex-wrap: wrap;
   width: 100%;
   justify-content: ${(
-    props: CustomThemedStyledProps<{ align?: string }>
+    props
 ): string => props.align || "left"};
 `;
 

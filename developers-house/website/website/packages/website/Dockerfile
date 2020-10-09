@@ -1,9 +1,6 @@
-FROM node as build
-WORKDIR /build
-COPY package.json .
-RUN npm set registry http://localhost:4873/
-RUN npm install
-COPY . .
-RUN npm run build
-FROM nginx
-COPY --from=build /build/dist /usr/share/nginx/html
+# production environment
+FROM nginx:stable-alpine
+COPY build /usr/share/nginx/html
+COPY config.nginx /etc/nginx/nginx.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

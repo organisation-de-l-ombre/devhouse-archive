@@ -3,21 +3,28 @@
  * It loads the state and Suspense the service worker &
  * the App component.
  */
-import React, {ReactElement, StrictMode} from "react";
-import {StateWrapper} from "./modules/state/StateWrapper";
+import React, { ReactElement, StrictMode } from "react";
+import { StateWrapper } from "./modules/state/StateWrapper";
 import { useServiceWorker } from '@website/app';
-
+import { ErrorBoundary } from "@sentry/react";
 
 const App = React.lazy(() => import('./app/App'));
 
-export default function Root (): ReactElement {
+const ErrorPage = React.lazy(async () => {
+    const { ErrorPage } = await import('@website/app');
+    return { default: ErrorPage };
+});
+
+export default function Root(): ReactElement {
     // Use service worker from utilities.
     useServiceWorker();
     return (
-        <StrictMode>
-            <StateWrapper>
-                <App/>
-            </StateWrapper>
-        </StrictMode>
+        < ErrorBoundary fallback={< ErrorPage />}>
+            <StrictMode>
+                <StateWrapper>
+                    <App />
+                </StateWrapper>
+            </StrictMode>
+        </ErrorBoundary >
     );
 };

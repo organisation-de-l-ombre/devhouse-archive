@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import {CustomThemedStyledProps} from "../../modules/themes";
-
 type ButtonProps = {
     borderRadius?: string;
 };
@@ -9,20 +7,18 @@ const Button = styled.button<ButtonProps>`
   padding: 0.4rem 1rem 0.4rem 1rem;
   display: inline-flex;
   align-items: center;
-  border-radius: ${ (props: CustomThemedStyledProps<ButtonProps>): string => props.borderRadius || '5px' };
-  background-color: ${ (props: CustomThemedStyledProps): string => props.theme.background.primary };
+  border-radius: ${ (props): string => props.borderRadius || '5px' };
+  background-color: ${ (props): string => props.theme.background.primary };
   
-  color: ${ (props: CustomThemedStyledProps): string => props.theme.foreground.primary };
+  color: ${ (props): string => props.theme.foreground.primary };
   transition: background-color 0.5s;
   :hover {
-    background-color: ${ (props: CustomThemedStyledProps): string => props.theme.background.hover.primary };
+    background-color: ${ (props): string => props.theme.background.hover.primary };
   }
 `;
 
 
 export const ButtonImage = styled.div<{ size?: string }>`
-   height: ${ (props: { size?: string }): string => props.size || '32px' };
-   width: ${ (props: { size?: string }): string => props.size || '32px' };
    display: inline;
    margin: 0 0.25rem;
    svg {

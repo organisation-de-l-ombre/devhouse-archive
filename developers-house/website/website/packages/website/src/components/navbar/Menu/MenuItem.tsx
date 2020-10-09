@@ -4,7 +4,6 @@
 
 import React, {PropsWithChildren, ReactElement} from "react";
 import styled from "styled-components";
-import {CustomThemedStyledProps} from "../../../modules/themes";
 
 const MenuItem = (props: PropsWithChildren<any>): ReactElement => {
     return (
@@ -18,7 +17,7 @@ export default styled(MenuItem)`
     display: inline-block;
     padding: 1rem;
     &:hover, &.active {
-        background-color: ${(props: CustomThemedStyledProps): string => props.theme.background.hover.secondary};
+        background-color: ${(props): string => props.theme.background.hover.secondary};
     }
 `;
 
