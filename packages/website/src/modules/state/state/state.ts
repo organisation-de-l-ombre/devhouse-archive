@@ -4,6 +4,7 @@ import throttle from 'lodash.throttle';
 import axios, {AxiosRequestConfig} from 'axios';
 import notifications, {defaultState as notificationsDefaultState, NotificationsState} from './notifications';
 import theme, {defaultState as themeDefaultState, ThemeState} from './theme';
+import { createStateSyncMiddleware, initStateWithPrevTab  } from 'redux-state-sync';
 
 import {env} from "process";
 import user, {defaultState as userDefaultState, UserState} from "./user";
@@ -24,7 +25,7 @@ const loadDefaultState = (defaultState: RootState): RootState => {
 };
 
 export async function loadState (): Promise<Store> {
-    let callCompose = applyMiddleware(reduxThunk);
+    let callCompose = applyMiddleware(...[reduxThunk, createStateSyncMiddleware({})]);
 
     if (env.NODE_ENV !== 'production') {
         const {composeWithDevTools} = await import('redux-devtools-extension');
@@ -44,6 +45,8 @@ export async function loadState (): Promise<Store> {
         }),
         callCompose
     );
+    
+    initStateWithPrevTab(store);
 
     axios.interceptors.request.use((request): AxiosRequestConfig => {
         request.headers['Authorization'] = store.getState().user.token;

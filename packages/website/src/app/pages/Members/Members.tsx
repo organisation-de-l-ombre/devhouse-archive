@@ -1,16 +1,18 @@
 import React, {PropsWithRef, PureComponent, ReactElement, Suspense} from "react";
 import {TitleBox} from "../../../components/ui/TitleBox";
-import TypeWriter from "../../../components/ui/TypeWriter";
+import { TypeWriter } from "@website/app";
 import {User} from "@website/common/src/api/types/User";
 
 const MembersDisplay = React.lazy(() => import("./MembersDisplay"));
 
 export default class MembersPage extends PureComponent<{},
-    { isLoading: boolean; users: User[] | null; error: Error | null }> {
+    { isLoading: boolean; users: User[] | null; error: Error | null, text: string }> {
     constructor (props: PropsWithRef<{}>) {
         super(props);
 
-        this.state = {isLoading: true, users: null, error: null};
+        this.state = {isLoading: true, users: null, error: null, text: `Thanks to all of our team to have helped to develop and to make
+        possible this project! Without these persons below this project
+        wouldn't exist.`};
     }
 
     render (): ReactElement {
@@ -19,10 +21,8 @@ export default class MembersPage extends PureComponent<{},
                 <TitleBox>
                     <h1>Our members</h1>
                     <h2>
-                        <TypeWriter characterDisplayInterval={100}>
-                            Thanks to all of our team to have helped to develop and to make
-                            possible this project! Without these persons below this project
-                            wouldn't exist.
+                        <TypeWriter characterDisplayInterval={100} ended={() => this.setState({text:'hey ceci est un test'})}>
+                            { this.state.text }
                         </TypeWriter>
                     </h2>
                 </TitleBox>
