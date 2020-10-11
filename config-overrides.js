@@ -6,7 +6,7 @@ module.exports = (config) => {
     if (!config.plugins) {
         config.plugins = [];
     }
-    config.devtool = '';
+    config.devtool = undefined;
     if (process.env.NODE_ENV === 'production')
         config.plugins.push(new UglifyJsPlugin());
     else
