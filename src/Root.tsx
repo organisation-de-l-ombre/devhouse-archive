@@ -18,8 +18,40 @@ import { createState } from "state";
 import NotificationsArea from "components/notifications/NotificationsArea";
 import { ErrorPage } from "pages/ErrorPage";
 import { PersistGate } from "redux-persist/integration/react";
+import { register } from 'utilities';
+import { pushNotification } from "state/modules/notifications";
 
 const { store, persistor } = createState();
+
+register({
+    onUpdate(registration) {
+        store.dispatch(pushNotification({
+            level: "information",
+            text:
+                "A new update is available for the website. Would you like to load this new update ?",
+            time: 10000,
+            buttons: [
+                {
+                    text: "Yes",
+                    click: (): boolean => {
+                        registration.waiting?.postMessage({type: "SKIP_WAITING"});
+                        window.location.reload();
+                        return true;
+                    }
+                }
+            ]
+        }))
+    },
+    onSuccess() {
+        store.dispatch(pushNotification({
+            level: "information",
+            text:
+                "This website is now available for offline use.",
+            time: 5000,
+            buttons: []
+        }));
+    }
+})
 
 export default function Root(): ReactElement {
     return (

@@ -4,3 +4,4 @@ export * from './members';
 export * from './projects';
 export * from './statistics';
 export * from './types';
+export * from './serviceWorker';
