@@ -1,26 +1,44 @@
 import React, { ReactElement } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from '../../modules/state/state/state';
-import Notification from "./Notification";
+import { TransitionGroup } from "react-transition-group";
+import { Notification, removeNotification } from "state/modules/notifications";
+import styled from "styled-components";
+import './animations.css';
+import NotificationComponent from "./NotificationComponent";
+
+const NotificationZone = styled.div`
+    position: fixed;
+    justify-content: flex-end;
+    text-align: left;
+    bottom: 0;
+    width: 40%;
+    max-height: 30%;
+    z-index: 15;
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (max-width: 640px) {
+        width: 100vw;
+    }
+`;
 
 export default function NotificationsArea(): ReactElement {
-    const notification = useSelector(
-        (state: RootState) => state.notifications.notifications[0]
-    );
+    var notifications = useSelector(state => state.notifications.notifications);
     const dispatch = useDispatch();
-    const enabled = useSelector((state: RootState) => state.notifications.enable);
 
-    if (enabled && notification !== undefined) {
-        return (
-            <Notification
-                key={notification.text}
-                notification={notification}
-                destroy={(): void => {
-                    dispatch({ type: "NOTIFICATION_POP" });
-                }}
-            />
-        );
-    } else {
-        return <></>;
-    }
+    const callback = (notification: Notification) => {
+        dispatch(removeNotification(notification.id || ''));    
+    };
+
+    return (
+        <NotificationZone>
+            <TransitionGroup>
+            {
+                notifications.map((not) => {
+                return <NotificationComponent destroy={() => callback(not)} notification={not} key={not.id} />
+                })
+            }
+            </TransitionGroup>
+        </NotificationZone>
+    );
 }

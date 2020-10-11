@@ -16,6 +16,7 @@ const MenuItem = (props: PropsWithChildren<any>): ReactElement => {
 export default styled(MenuItem)`
     display: inline-block;
     padding: 1rem;
+    cursor: pointer;
     &:hover, &.active {
         background-color: ${(props): string => props.theme.background.hover.secondary};
     }

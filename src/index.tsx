@@ -6,17 +6,11 @@
 
 import React, {ReactElement, Suspense} from "react";
 import ReactDOM from "react-dom";
-// Start the tracing.
-
-
-/*
- * We use React.lazy to delay the main component loading.
- */
-const Root = React.lazy(() => import('./Root'));
+import Root from "Root";
 
 const MainComponent = (): ReactElement => (
     <Suspense fallback={'Loading website.'}>
-        <Root></Root>
+        <Root />
     </Suspense>
 );
 
