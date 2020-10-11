@@ -1,0 +1,8 @@
+include:
+  - template: Auto-DevOps.gitlab-ci.yml
+
+variables:
+    TEST_DISABLED: 'true'
+    KUBE_INGRESS_BASE_DOMAIN: '	developershouse.xyz'
+    ADDITIONAL_HOSTS: www.developershouse.xyz, .matthieu-dev.xyz, .developershouse.xyz, www.matthieu-dev.xyz
+    POSTGRES_ENABLED: 'false'
