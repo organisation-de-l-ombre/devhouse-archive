@@ -5,6 +5,7 @@ COPY package.json .
 COPY yarn.lock .
 RUN yarn
 COPY . .
+ENV PUBLIC_URL=https://dhcdn25ftr.b-cdn.net
 RUN yarn build
 
 FROM nginx:stable-alpine
