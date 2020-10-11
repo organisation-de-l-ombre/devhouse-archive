@@ -72,13 +72,6 @@ export default function HomePage(): ReactElement {
                             </ButtonImage>
                             View projects
                         </Button>
-                        <Button onClick={() => dispatch(pushNotification({
-                            text: 'Notification de test',
-                            time: 5000,
-                            level: 'warning'
-                        }))}>
-                            Test!
-                        </Button>
                     </ButtonGroup>
                 </HomeHeaderContent>
             </HomeHeader>
