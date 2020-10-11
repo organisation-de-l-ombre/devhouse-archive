@@ -31,7 +31,7 @@ function getTokenWithPopup (): Promise<string> {
 
     localStorage.setItem('state-oauth', state);
 
-    const clientId: string = process.env.REACT_APP_CLIENT_ID || '9d51d323-4ac8-4aa1-9c6e-631091560fc3';
+    const clientId: string = process.env.REACT_APP_CLIENT_ID || '';
     const redirect = `${document.location.protocol}//${document.location.host}/callback`;
     const apiAudience = 'https://api.developershouse.xyz/';
 
