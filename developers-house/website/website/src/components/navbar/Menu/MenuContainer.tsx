@@ -12,6 +12,7 @@ export default styled.div<{ open: boolean }>`
     top: 0;
     width: 100%;
     z-index: 4;
+    position: absolute;
     // Coloring and internal style
     background-color: ${(props): string => props.theme.background.primary};
     vertical-align: middle;
