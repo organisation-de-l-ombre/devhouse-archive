@@ -27,17 +27,17 @@ export default function NotificationsArea(): ReactElement {
     const dispatch = useDispatch();
 
     const callback = (notification: Notification) => {
-        dispatch(removeNotification(notification.id || ''));    
+        dispatch(removeNotification(notification.id || ''));
     };
 
     return (
         <NotificationZone>
             <TransitionGroup>
-            {
-                notifications.map((not) => {
-                return <NotificationComponent destroy={() => callback(not)} notification={not} key={not.id} />
-                })
-            }
+                {
+                    notifications.map((not) => {
+                        return <NotificationComponent destroy={() => callback(not)} notification={not} key={not.id} />
+                    })
+                }
             </TransitionGroup>
         </NotificationZone>
     );

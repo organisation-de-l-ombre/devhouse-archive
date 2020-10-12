@@ -38,6 +38,4 @@ const ErrorPage = styled(ErrorPageStructure)`
     color: white;
 `;
 
-export {
-    ErrorPage
-};
+export default ErrorPage;

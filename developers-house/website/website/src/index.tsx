@@ -6,7 +6,8 @@
 
 import React, {ReactElement, Suspense} from "react";
 import ReactDOM from "react-dom";
-import Root from "Root";
+
+const Root = React.lazy(() => import('Root'));
 
 const MainComponent = (): ReactElement => (
     <Suspense fallback={'Loading website.'}>
