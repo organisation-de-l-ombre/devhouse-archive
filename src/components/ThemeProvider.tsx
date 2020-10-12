@@ -135,6 +135,4 @@ const ThemeProvider = (props: PropsWithChildren<{}>): ReactElement => {
     )
 };
 
-export {
-    ThemeProvider
-};
+export default ThemeProvider;

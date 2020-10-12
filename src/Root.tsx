@@ -5,18 +5,18 @@
  */
 import React, { ReactElement } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { ThemeProvider } from "components/ThemeProvider";
 import { Provider } from "react-redux";
 import { createState } from "state";
-import { ErrorPage } from "pages/ErrorPage";
 import { PersistGate } from "redux-persist/integration/react";
 import { register } from 'utilities';
 import { pushNotification } from "state/modules/notifications";
 
 const { store, persistor } = createState();
 
+const ThemeProvider = React.lazy(() => import('components/ThemeProvider'))
 const Navigator = React.lazy(() => import('pages/Navigator'));
 const NotificationArea = React.lazy(() => import("components/notifications/NotificationsArea"));
+const ErrorPage = React.lazy(() => import('pages/ErrorPage'));
 
 register({
     onUpdate(registration) {
