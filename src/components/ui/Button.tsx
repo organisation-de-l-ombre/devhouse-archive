@@ -1,10 +1,11 @@
+import React, { ButtonHTMLAttributes, HTMLProps, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 type ButtonProps = {
     borderRadius?: string;
 };
 
 const Button = styled.button<ButtonProps>`
-  padding: 0.4rem 1rem 0.4rem 1rem;
+  padding: 0.7rem 1rem 0.7rem 1rem;
   display: inline-flex;
   align-items: center;
   border-radius: ${ (props): string => props.borderRadius || '5px' };
@@ -31,3 +32,6 @@ export const ButtonImage = styled.div<{ size?: string }>`
 `;
 
 export default Button;
+export {
+  Button
+};

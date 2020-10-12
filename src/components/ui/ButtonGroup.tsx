@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Button from "./Button";
+import { Button } from "./Button";
 
 type ButtonGroupProps = {
     borderRadius?: string;
@@ -15,6 +15,7 @@ const ButtonGroup = styled.div<ButtonGroupProps>`
     
     ${Button} {
         flex: 1;
+        position: relative;
         justify-content: center;
         border-radius: 0;
         padding: ${ (props): string =>  props.buttonPadding || '1rem'}

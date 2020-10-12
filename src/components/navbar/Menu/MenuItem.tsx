@@ -5,15 +5,7 @@
 import React, {PropsWithChildren, ReactElement} from "react";
 import styled from "styled-components";
 
-const MenuItem = (props: PropsWithChildren<any>): ReactElement => {
-    return (
-        <div {...props}>
-            { props.children }
-        </div>
-    );
-};
-
-export default styled(MenuItem)`
+export default styled.div`
     display: inline-block;
     padding: 1rem;
     cursor: pointer;

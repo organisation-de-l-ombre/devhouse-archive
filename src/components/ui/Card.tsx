@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const Card = styled.div`
-  box-shadow: black 0 0 2px;
   background-color: ${(props): string =>
     props.theme.background.secondary};
   border-radius: 5px;
