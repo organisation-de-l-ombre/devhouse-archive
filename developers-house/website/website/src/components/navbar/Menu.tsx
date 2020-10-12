@@ -7,6 +7,7 @@ import OnlyMobiles from "./Menu/OnlyMobiles";
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateTheme } from 'state/modules/theme';
+import Ripples from 'react-ripples';
 
 export function Menu(): ReactElement {
     const [open, setOpen] = useState<boolean>(false);
@@ -21,15 +22,21 @@ export function Menu(): ReactElement {
                     <GiHamburgerMenu style={{ transform: `rotate(${open ? '90' : '0'}deg)`, transition: 'all 250ms' }} />
                 </OnlyMobiles>
             </PrimedMenuItem>
-            <MenuItem as={NavLink} to={'/members'}>
-                Members
+            <Ripples>
+                <MenuItem as={NavLink} to={'/members'}>
+                    Members
+                </MenuItem>
+            </Ripples>
+            <Ripples>
+                <MenuItem as={NavLink} to={'/about'}>
+                    About
             </MenuItem>
-            <MenuItem as={NavLink} to={'/about'}>
-                About
+            </Ripples>
+            <Ripples>
+                <MenuItem as="a" onClick={() => dispatch(updateTheme(dark ? 'dark' : 'light'))}>
+                    Switch to {dark ? 'dark' : 'light'} theme
             </MenuItem>
-            <MenuItem as="a" onClick={() => dispatch(updateTheme(dark ? 'dark' : 'light'))}>
-                Switch to {dark ? 'dark' : 'light'} theme
-            </MenuItem>
+            </Ripples>
         </MenuContainer>
     );
 }

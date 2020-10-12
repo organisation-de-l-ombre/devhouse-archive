@@ -10,6 +10,7 @@ import { Card, CardFlexContainer, CardHeader, CardPadding, CardSection } from "c
 import { TitleBox } from "components/ui/TitleBox";
 import { useDispatch } from "react-redux";
 import { pushNotification } from "state/modules/notifications";
+import Ripples from 'react-ripples';
 
 const HeaderAnimation = keyframes`
     from {
@@ -55,27 +56,30 @@ export default function HomePage(): ReactElement {
                         Some nice projects around the Discord ecosystem.
                     </HeaderContentTitle>
                     <ButtonGroup>
-                        <Button
-                            as="a"
-                            target="_blank"
-                            href={''}
-                            rel="noopener noreferrer"
-                        >
-                            <ButtonImage>
-                                <FaDiscord />
-                            </ButtonImage>
+
+                        <Ripples>
+                            <Button
+                                as="a"
+                                target="_blank"
+                                href={''}
+                                rel="noopener noreferrer"
+                            >
+                                <ButtonImage>
+                                    <FaDiscord />
+                                </ButtonImage>
                             Discord server
                         </Button>
-                        <Button as={NavLink} to="/projects">
-                            <ButtonImage>
-                                <RiPencilRuler2Line />
-                            </ButtonImage>
+                            <Button as={NavLink} to="/projects">
+                                <ButtonImage>
+                                    <RiPencilRuler2Line />
+                                </ButtonImage>
                             View projects
                         </Button>
+                        </Ripples>
                     </ButtonGroup>
+
                 </HomeHeaderContent>
             </HomeHeader>
-
             <CardFlexContainer>
                 <Card>
                     <CardPadding>
