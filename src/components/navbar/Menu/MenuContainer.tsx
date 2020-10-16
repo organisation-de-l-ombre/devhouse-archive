@@ -25,6 +25,7 @@ export default styled.div<{ open: boolean }>`
         display: inline-block;
       }
       ${MenuItem} {
+        flex: 1;
         display: ${(opt): string => (opt.open ? 'inline-block' : 'none')};
       }
       ${PrimedMenuItem} {

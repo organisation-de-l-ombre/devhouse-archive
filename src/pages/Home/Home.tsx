@@ -1,25 +1,13 @@
-import React, { ReactElement } from "react";
-import { FaDiscord } from "react-icons/fa";
-import { RiPencilRuler2Line } from "react-icons/ri";
+import React, {ReactElement} from "react";
+import {FaDiscord} from "react-icons/fa";
+import {RiPencilRuler2Line} from "react-icons/ri";
 
-import Button, { ButtonImage } from "components/ui/Button";
+import Button, {ButtonImage} from "components/ui/Button";
 import ButtonGroup from "components/ui/ButtonGroup";
-import { NavLink } from "react-router-dom";
-import styled, { CSSObject, keyframes } from "styled-components";
-import { Card, CardFlexContainer, CardHeader, CardPadding, CardSection } from "components/ui/Card";
-import { TitleBox } from "components/ui/TitleBox";
-import { useDispatch } from "react-redux";
-import { pushNotification } from "state/modules/notifications";
-import Ripples from 'react-ripples';
-
-const HeaderAnimation = keyframes`
-    from {
-        transform: translateX(-300%);
-    }
-    to {
-        transform: none;
-    }
-`;
+import {NavLink} from "react-router-dom";
+import styled, {CSSObject} from "styled-components";
+import {Card, CardFlexContainer, CardHeader, CardPadding, CardSection} from "components/ui/Card";
+import {TitleBox} from "components/ui/TitleBox";
 
 const HomeHeader = styled.div`
   display: flex;
@@ -41,12 +29,10 @@ const HomeHeaderContent = styled(TitleBox)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  animation: ${HeaderAnimation} 1s;
   text-align: center;
 `;
 
 export default function HomePage(): ReactElement {
-    const dispatch = useDispatch();
     return (
         <>
             <HomeHeader>
@@ -56,26 +42,23 @@ export default function HomePage(): ReactElement {
                         Some nice projects around the Discord ecosystem.
                     </HeaderContentTitle>
                     <ButtonGroup>
-
-                        <Ripples>
-                            <Button
-                                as="a"
-                                target="_blank"
-                                href={''}
-                                rel="noopener noreferrer"
-                            >
-                                <ButtonImage>
-                                    <FaDiscord />
-                                </ButtonImage>
+                        <Button
+                            as="a"
+                            target="_blank"
+                            href={''}
+                            rel="noopener noreferrer"
+                        >
+                            <ButtonImage>
+                                <FaDiscord/>
+                            </ButtonImage>
                             Discord server
                         </Button>
-                            <Button as={NavLink} to="/projects">
-                                <ButtonImage>
-                                    <RiPencilRuler2Line />
-                                </ButtonImage>
+                        <Button as={NavLink} to="/projects">
+                            <ButtonImage>
+                                <RiPencilRuler2Line/>
+                            </ButtonImage>
                             View projects
                         </Button>
-                        </Ripples>
                     </ButtonGroup>
 
                 </HomeHeaderContent>

@@ -10,7 +10,7 @@ type UserStatus = 'offline' | 'online' | 'dnd' | 'idle';
  */
 type User = {
     /* The roles of the user (BitFlags) */
-    role: number;
+    role: string;
     username: string;
     discord: string;
 };
@@ -27,6 +27,7 @@ type DiscordUserInState = {
 type ProjectMember = {
     description: string;
     userState: DiscordUserInState;
+    socialNetworks: { name: string; icon: string; }[]
 } & User;
 
 export type {

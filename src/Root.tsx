@@ -3,13 +3,15 @@
  * It loads the state and Suspense the service worker &
  * the App component.
  */
-import React, { ReactElement } from "react";
-import { ErrorBoundary } from "react-error-boundary";
-import { Provider } from "react-redux";
-import { createState } from "state";
-import { PersistGate } from "redux-persist/integration/react";
-import { register } from 'utilities';
-import { pushNotification } from "state/modules/notifications";
+import React, {ReactElement} from "react";
+import {ErrorBoundary} from "react-error-boundary";
+import {Provider} from "react-redux";
+import {createState} from "state";
+import {PersistGate} from "redux-persist/integration/react";
+import {register} from 'utilities';
+import {pushNotification} from "state/modules/notifications";
+import {Menu} from "./components/navbar";
+import {BrowserRouter} from "react-router-dom";
 
 const { store, persistor } = createState();
 
@@ -55,7 +57,10 @@ export default function Root(): ReactElement {
                 <PersistGate loading={''} persistor={persistor}>
                     <ThemeProvider>
                         <NotificationArea />
-                        <Navigator/>
+                        <BrowserRouter>
+                            <Menu/>
+                            <Navigator/>
+                        </BrowserRouter>
                     </ThemeProvider>
                 </PersistGate>
             </Provider>

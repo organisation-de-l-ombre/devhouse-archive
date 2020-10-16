@@ -1,7 +1,7 @@
 .lst-not-enter {
     opacity: 0;
     overflow: hidden;
-    height: 0%;
+    height: 0;
     transform: translateY(100%);
 }
 
@@ -21,7 +21,7 @@
 .lst-not-exit-active {
     overflow: hidden;
     opacity: 0;
-    height: 0%;
+    height: 0;
     transform: translateY(100%);
     transition: opacity 500ms,  height 500ms, transform 300ms;
 }
