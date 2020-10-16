@@ -3,8 +3,8 @@ import {PayloadTypes, User, UserFetched, UserInit, UserTokenReceived} from "./in
 import {NotificationPayloadType} from "../notifications";
 import {Action} from "redux";
 import * as process from "process";
-import { fetchUser } from 'utilities';
-import { DefaultRootState } from "react-redux";
+import {fetchUser} from 'utilities';
+import {DefaultRootState} from "react-redux";
 
 function makeId (length: number): string {
     let result           = '';

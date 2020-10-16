@@ -1,10 +1,18 @@
-import React, { ButtonHTMLAttributes, HTMLProps, PropsWithChildren } from 'react';
+import React, { ReactElement } from 'react';
 import styled from 'styled-components';
+import Ripple from 'react-ripples';
+
 type ButtonProps = {
     borderRadius?: string;
 };
 
-const Button = styled.button<ButtonProps>`
+const RippleButton = (props: ButtonProps & React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>): ReactElement => {
+    return <Ripple>
+        <button {...props} />
+    </Ripple>
+}
+
+const Button = styled(RippleButton)`
   padding: 0.7rem 1rem 0.7rem 1rem;
   display: inline-flex;
   align-items: center;

@@ -4,16 +4,15 @@
 
 import {applyMiddleware, combineReducers, createStore, Store} from 'redux';
 import reduxThunk from 'redux-thunk';
-import axios, { AxiosRequestConfig } from 'axios';
-import { createStateSyncMiddleware, initStateWithPrevTab  } from 'redux-state-sync';
-import { Persistor, persistReducer, persistStore } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'
+import axios, {AxiosRequestConfig} from 'axios';
+import {createStateSyncMiddleware, initStateWithPrevTab} from 'redux-state-sync';
+import {Persistor, persistReducer, persistStore} from 'redux-persist';
 
-import { env } from "process";
+import {env} from "process";
 import localforage from 'localforage';
 import modules from './modules';
-import { DefaultRootState } from 'react-redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import {DefaultRootState} from 'react-redux';
+import {composeWithDevTools} from 'redux-devtools-extension';
 
 const persistConfig = {
     key: 'root',
@@ -50,7 +49,7 @@ export function createState (): { store: Store, persistor: Persistor } {
     }
 
     const store = createStore(persistReducer(persistConfig, combineReducers(reducers) as any), defaultState as DefaultRootState, callCompose);
-    
+
     initStateWithPrevTab(store);
 
     axios.interceptors.request.use((request): AxiosRequestConfig => {
@@ -58,7 +57,7 @@ export function createState (): { store: Store, persistor: Persistor } {
         return request;
     });
     let persistor = persistStore(store);
-    
+
     return {
         store,
         persistor

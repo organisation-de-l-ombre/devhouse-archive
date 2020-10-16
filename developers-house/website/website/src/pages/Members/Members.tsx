@@ -1,12 +1,12 @@
 import React, {PropsWithRef, PureComponent, ReactElement, Suspense} from "react";
 import {TitleBox} from "components/ui/TitleBox";
-import { TypeWriter } from "components/TypeWriter";
-import { User } from "utilities";
+import {TypeWriter} from "components/TypeWriter";
+import {ProjectMember} from "utilities";
 
 const MembersDisplay = React.lazy(() => import("./MembersDisplay"));
 
 export default class MembersPage extends PureComponent<{},
-    { isLoading: boolean; users: User[] | null; error: Error | null, text: string }> {
+    { isLoading: boolean; users: ProjectMember[] | null; error: Error | null, text: string }> {
     constructor (props: PropsWithRef<{}>) {
         super(props);
 
@@ -18,25 +18,25 @@ export default class MembersPage extends PureComponent<{},
     render (): ReactElement {
         return (
             <div>
-                <TitleBox>
-                    <h1>Our members</h1>
-                    <h2>
-                        <TypeWriter characterDisplayInterval={100} ended={() => this.setState({text:'hey ceci est un test'})}>
-                            { this.state.text }
-                        </TypeWriter>
-                    </h2>
-                </TitleBox>
-
                 {
                     // First, we check if something bad happened.
                     this.state.isLoading ? (
                         <TitleBox>Loading users.</TitleBox>
                     ) : this.state.error || this.state.users === null ? (
                         <TitleBox>
-                            Failed to load users. {this.state.error?.message}
+                            <h1>Failed to load the member list.</h1>
+                            Try again later or try to check our status page.
                         </TitleBox>
                     ) : (
                         <Suspense fallback={""}>
+                            <TitleBox>
+                                <h1>Our members</h1>
+                                <h2>
+                                    <TypeWriter characterDisplayInterval={100} ended={() => this.setState({text:'hey ceci est un test'})}>
+                                        { this.state.text }
+                                    </TypeWriter>
+                                </h2>
+                            </TitleBox>
                             <MembersDisplay users={this.state.users}/>
                         </Suspense>
                     )
@@ -48,6 +48,24 @@ export default class MembersPage extends PureComponent<{},
     async componentDidMount (): Promise<void> {
         this.setState({isLoading: true});
 
+        const dummyData: ProjectMember[] = [
+            {
+                description: 'Je suis un des fondateurs de devhouse',
+                discord: '314354049023737857',
+                role: 'Developer',
+                socialNetworks: [],
+                userState: {
+                    avatar: '5ada775984d4d1469a49babe03bd788d',
+                    discriminator: '2050',
+                    nickname: 'Matthieu',
+                    statusText: 'Working',
+                    username: 'Exact',
+                    status: 'online',
+                },
+                username: 'Matthieu'
+            }
+        ];
+
         try {
             const data = await fetch("/api/v1/members");
 
@@ -58,10 +76,10 @@ export default class MembersPage extends PureComponent<{},
                 });
                 return;
             }
-            const json: { data: User[] } = await data.json();
+            const json: { data: ProjectMember[] } = await data.json();
             this.setState({isLoading: false, users: json.data});
         } catch (error) {
-            this.setState({isLoading: false, error});
+            this.setState({isLoading: false, users: [...dummyData, ...dummyData]});
         }
     }
 }

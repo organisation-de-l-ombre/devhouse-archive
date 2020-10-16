@@ -1,4 +1,4 @@
-import { PersistState } from 'redux-persist';
+import {PersistState} from 'redux-persist';
 import * as notifications from './notifications';
 import * as theme from './theme';
 import * as user from './user';

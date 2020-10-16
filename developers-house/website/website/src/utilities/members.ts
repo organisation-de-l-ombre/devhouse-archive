@@ -3,8 +3,8 @@
  */
 
 import axios from 'axios';
-import {ProjectMember} from "./types/User";
-import {ServerResponse} from "./types/Response";
+import {ProjectMember} from "./types";
+import {ServerResponse} from "./types";
 import {returnOrThrow} from "./utils";
 
 const fetchMembers = async (): Promise<ServerResponse<ProjectMember[]>> => {

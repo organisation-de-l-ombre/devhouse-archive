@@ -1,10 +1,10 @@
 /*
- * Syncronize the theme to the styled-components variable.
+ * Synchronize the theme to the styled-components variable.
  */
 
-import React, { PropsWithChildren, ReactElement } from "react";
-import { useSelector } from "react-redux";
-import { createGlobalStyle, DefaultTheme, ThemeProvider as Theme } from 'styled-components';
+import React, {PropsWithChildren, ReactElement} from "react";
+import {useSelector} from "react-redux";
+import {createGlobalStyle, DefaultTheme, ThemeProvider as Theme} from 'styled-components';
 
 declare module 'styled-components' {
     export interface DefaultTheme {
@@ -26,9 +26,9 @@ declare module 'styled-components' {
             primary: string;
             secondary: string;
             tertiary: string;
-    
+
             page: string;
-    
+
             hover: {
                 primary: string;
                 secondary: string;

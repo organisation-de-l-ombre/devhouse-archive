@@ -16,7 +16,7 @@ const updateText = (index: number, children: ReactNode, ref: RefObject<HTMLParag
                 await wait(characterDisplayInterval);
                 ref.current.setAttribute('animation-frame', '' + requestAnimationFrame(updateText(index, children, ref, characterDisplayInterval, ended)));
                 return;
-            } catch (_) { /* Ignore animation errors */};
+            } catch (_) { /* Ignore animation errors */}
         }
         if (!children?.toString()[index] && ended) ended();
     };
@@ -33,10 +33,10 @@ const TypeWriterStructure = ({ children, characterDisplayInterval, ended }: Prop
             ref.current.innerHTML = '';
             ref.current.setAttribute('animation-frame', '' + requestAnimationFrame(updateText(-1, children, ref, characterDisplayInterval, ended)));
         }
-    }, []);
+    }, [characterDisplayInterval, children, ended]);
 
     return (
-        <p ref={ref}></p>
+        <p ref={ref}/>
     )
 };
 

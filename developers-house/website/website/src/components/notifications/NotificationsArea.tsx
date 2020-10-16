@@ -1,7 +1,7 @@
-import React, { ReactElement } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { TransitionGroup } from "react-transition-group";
-import { Notification, removeNotification } from "state/modules/notifications";
+import React, {ReactElement} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {TransitionGroup} from "react-transition-group";
+import {Notification, removeNotification} from "state/modules/notifications";
 import styled from "styled-components";
 import './animations.css';
 import NotificationComponent from "./NotificationComponent";

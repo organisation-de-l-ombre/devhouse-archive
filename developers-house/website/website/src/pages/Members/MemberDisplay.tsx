@@ -1,5 +1,10 @@
-import React, {ReactElement} from "react";
-/*
+import React, {ComponentProps, ReactElement} from "react";
+import styled from "styled-components";
+import {Card, CardPadding, CardHeader, CardSection} from "components/ui/Card";
+import UserAvatarStatus from "components/ui/UserAvatarStatus";
+import {getAvatar, ProjectMember, statusToColor} from "../../utilities";
+import ButtonGroup from "../../components/ui/ButtonGroup";
+
 const UserCardName = styled.div`
   display: flex;
   flex-direction: column;
@@ -16,65 +21,39 @@ const LogosInline = styled.div`
   justify-content: center;
   vertical-align: center;
 `;
-*/
 
-export default function MemberDisplay (
-): ReactElement {
-    /*
-    const {user, description, gitlab, github, website} = props.member;
-    const {avatar, presence, username, discriminator} = user;
 
+export default function MemberDisplay (props: ComponentProps<'section'> & { member: ProjectMember }): ReactElement {
     return (
         <Card>
             <CardPadding>
                 <CardHeader>
                     {
                         // Displays the user's avatar
-                        avatar && (
+                        props.member.userState.avatar && (
                             <UserAvatarStatus
-                                animate={presence?.status !== "offline"}
-                                statusColor={statusToColor(presence?.status)}
+                                animate={props.member.userState.status !== "offline"}
+                                statusColor={statusToColor(props.member.userState.status)}
                                 avatar={getAvatar(props.member)}
                             />
                         )
                     }
                     <UserCardName>
                         <LogosInline>
-                            <h3 style={{marginTop: "0.5em"}}>{username}</h3>
-                            <p style={{marginLeft: "0.3em"}}>#{discriminator}</p>
+                            <h3 style={{marginTop: "0.5em"}}>{props.member.username}</h3>
+                            <p style={{marginLeft: "0.3em"}}>#{props.member.userState.discriminator}</p>
                         </LogosInline>
 
                         <LogosInline as={ButtonGroup} buttonPadding="0.3rem">
-                            {github && (
-                                <Button as="a" href={github}>
-                                    <ButtonImage>
-                                        <AiFillGithub/>
-                                    </ButtonImage>
-                                </Button>
-                            )}
-                            {gitlab && (
-                                <Button as="a" href={gitlab}>
-                                    <ButtonImage>
-                                        <AiFillGitlab/>
-                                    </ButtonImage>
-                                </Button>
-                            )}
-                            {website && (
-                                <Button as="a" href={website}>
-                                    <ButtonImage>
-                                        <RiWindowLine/>
-                                    </ButtonImage>
-                                </Button>
-                            )}
+
                         </LogosInline>
                     </UserCardName>
                 </CardHeader>
 
                 <CardSection style={{textAlign: "center"}}>
-                    {description || "No description provided."}
+                    {props.member.description || "No description provided."}
                 </CardSection>
             </CardPadding>
         </Card>
-    );*/
-    return (<></>);
+    );
 }

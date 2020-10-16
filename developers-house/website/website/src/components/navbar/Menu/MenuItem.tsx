@@ -2,7 +2,6 @@
  * A simple menu item component for the Menu.
  */
 
-import React, {PropsWithChildren, ReactElement} from "react";
 import styled from "styled-components";
 
 export default styled.div`
