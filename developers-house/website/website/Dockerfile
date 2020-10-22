@@ -1,6 +1,7 @@
 # production environment
 FROM node:alpine as build
 WORKDIR /build
+RUN apk add python
 COPY package.json .
 COPY yarn.lock .
 RUN yarn
