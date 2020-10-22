@@ -57,7 +57,7 @@ export const defaultState: UserState = {
     loggedIn: false
 };
 
-export default function reducer (
+export default function reducer(
     state: UserState = defaultState,
     payload: PayloadTypes
 ): UserState {
@@ -95,7 +95,8 @@ export default function reducer (
             };
             break;
         }
-        default: break;
+        default:
+            break;
     }
     return state;
 }

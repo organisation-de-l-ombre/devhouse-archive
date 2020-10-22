@@ -49,7 +49,7 @@ export const defaultState: NotificationsState = {
     enable: true
 };
 
-export default function reducer (
+export default function reducer(
     state: NotificationsState = defaultState,
     payload: NotificationPayloadType
 ): NotificationsState {

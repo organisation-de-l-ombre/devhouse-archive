@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, {ReactElement} from 'react';
 import styled from 'styled-components';
 import Ripple from 'react-ripples';
 
@@ -16,13 +16,13 @@ const Button = styled(RippleButton)`
   padding: 0.7rem 1rem 0.7rem 1rem;
   display: inline-flex;
   align-items: center;
-  border-radius: ${ (props): string => props.borderRadius || '5px' };
-  background-color: ${ (props): string => props.theme.background.primary };
+  border-radius: ${(props): string => props.borderRadius || '5px'};
+  background-color: ${(props): string => props.theme.background.primary};
   
-  color: ${ (props): string => props.theme.foreground.primary };
+  color: ${(props): string => props.theme.foreground.primary};
   transition: background-color 0.5s;
   :hover {
-    background-color: ${ (props): string => props.theme.background.hover.primary };
+    background-color: ${(props): string => props.theme.background.hover.primary};
   }
 `;
 
@@ -31,8 +31,8 @@ export const ButtonImage = styled.div<{ size?: string }>`
    display: inline;
    margin: 0 0.25rem;
    svg {
-    height: ${ (props: { size?: string }): string => props.size || '32px' };
-    width: ${ (props: { size?: string }): string => props.size || '32px' };
+    height: ${(props: { size?: string }): string => props.size || '32px'};
+    width: ${(props: { size?: string }): string => props.size || '32px'};
     
     vertical-align: middle;
     display: inline-block;
@@ -41,5 +41,5 @@ export const ButtonImage = styled.div<{ size?: string }>`
 
 export default Button;
 export {
-  Button
+    Button
 };

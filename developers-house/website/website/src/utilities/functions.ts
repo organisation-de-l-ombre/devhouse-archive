@@ -1,6 +1,6 @@
-import {ProjectMember, ServerResponse, UserStatus} from "utilities/types";
+import {ProjectMember, ServerResponse} from "utilities/types";
 
-export function groupBy<T, TR> (
+export function groupBy<T, TR>(
     array: T[],
     parameter: (value: T) => TR
 ): Map<TR, T[]> {
@@ -19,7 +19,7 @@ const nameColor = {
     offline: "gray"
 };
 
-export function statusToColor (
+export function statusToColor(
     name: "online" | "idle" | "dnd" | "offline"
 ): string {
     return nameColor[name] || nameColor.offline;
@@ -43,7 +43,7 @@ export const sum = (a: number, b: number) => {
 };
 
 
-export function returnOrThrow<T> (response: ServerResponse<T>): ServerResponse<T> {
+export function returnOrThrow<T>(response: ServerResponse<T>): ServerResponse<T> {
     if (response.code === 200) {
         return response;
     }

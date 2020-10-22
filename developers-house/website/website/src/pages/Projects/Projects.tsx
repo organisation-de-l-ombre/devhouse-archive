@@ -1,5 +1,5 @@
 import React, {ReactElement} from "react";
 
-export default function ProjectsPage (): ReactElement {
+export default function ProjectsPage(): ReactElement {
     return <></>;
 }

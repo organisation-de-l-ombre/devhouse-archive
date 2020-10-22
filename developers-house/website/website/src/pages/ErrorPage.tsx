@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import {FallbackProps} from 'react-error-boundary';
 
 const ErrorPageStructure = (props: unknown & FallbackProps): ReactElement => {
-    const { resetErrorBoundary } = props;
+    const {resetErrorBoundary} = props;
     return (
         <div id="error-container" {...props}>
             <div id="error-window">

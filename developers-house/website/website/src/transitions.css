@@ -1,8 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 * {
-    transition:
-        background 300ms;
+    transition: background 300ms;
 }
 
 html, body {

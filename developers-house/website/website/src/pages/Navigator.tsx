@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Switch ,withRouter} from 'react-router-dom';
+import {Route, Switch, withRouter} from 'react-router-dom';
 import AboutPage from "pages/About/About";
 import HomePage from "pages/Home/Home";
 import MembersPage from "pages/Members/Members";
@@ -27,7 +27,7 @@ const Wrapper = styled.div`
     }
 `;
 
-const Navigator = ({ location }: RouteComponentProps) => {
+const Navigator = ({location}: RouteComponentProps) => {
     return (
         <Wrapper>
             <TransitionGroup>

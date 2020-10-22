@@ -4,16 +4,21 @@ import MemberDisplay from "./MemberDisplay";
 import {CardFlexContainer, CardHeader} from "components/ui/Card";
 import styled from "styled-components";
 
-const Container = styled.div`
-    display: grid;
-    grid-gap: 10px;
-    
-    grid-template-columns: auto repeat(3, 1fr) auto;
-`
+const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+const WrapperMembers = styled.div`
+    display: inline-flex;
+    flex-wrap: wrap;
+    flex-grow: 45%;
+    justify-content: center;
+`;
 
 export default function MembersList({
-    users
-}: {
+                                        users
+                                    }: {
     users: ProjectMember[];
 }): ReactElement {
     return (
@@ -24,14 +29,17 @@ export default function MembersList({
                 })
             ).map(([role, members], index) => {
                 return (
-                    <Container key={index}>
+                    <Wrapper key={index}>
                         <CardHeader align="center">
-                            <p style={{ fontSize: "25px" }}>{role}</p>
+                            <p style={{fontSize: "25px"}}>{role}</p>
                         </CardHeader>
+                        <WrapperMembers>
                         {members.map((member, index) => {
-                            return <MemberDisplay member={member} key={index} />;
+                            return <MemberDisplay member={member} key={index}/>;
                         })}
-                    </Container>
+                        </WrapperMembers>
+                        
+                    </Wrapper>
                 );
             })}
         </CardFlexContainer>

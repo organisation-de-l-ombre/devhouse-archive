@@ -17,11 +17,11 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 const persistConfig = {
     key: 'root',
     storage: localforage,
-  }
+}
 
 const buildDefaults = (): { defaultState: Partial<DefaultRootState>, reducers: { [T: string]: (...args: any[]) => unknown } } => {
-    const reducers: { [T: string]: (...args: any[]) => unknown } = { };
-    const state: DefaultRootState = { } as DefaultRootState;
+    const reducers: { [T: string]: (...args: any[]) => unknown } = {};
+    const state: DefaultRootState = {} as DefaultRootState;
 
     for (const module of Object.keys(modules)) {
         const mod = module as keyof typeof modules;
@@ -35,8 +35,8 @@ const buildDefaults = (): { defaultState: Partial<DefaultRootState>, reducers: {
     };
 };
 
-export function createState (): { store: Store, persistor: Persistor } {
-    const { defaultState, reducers } = buildDefaults();
+export function createState(): { store: Store, persistor: Persistor } {
+    const {defaultState, reducers} = buildDefaults();
 
     let callCompose = applyMiddleware(...[reduxThunk, createStateSyncMiddleware({
         blacklist: [

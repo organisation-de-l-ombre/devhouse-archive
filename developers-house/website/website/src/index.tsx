@@ -11,7 +11,7 @@ const Root = React.lazy(() => import('Root'));
 
 const MainComponent = (): ReactElement => (
     <Suspense fallback={'Loading website.'}>
-        <Root />
+        <Root/>
     </Suspense>
 );
 

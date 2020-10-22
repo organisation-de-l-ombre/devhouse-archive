@@ -36,7 +36,8 @@ declare module 'styled-components' {
             };
         };
     }
-};
+}
+;
 
 
 const themes: { [K: string]: DefaultTheme } = {
@@ -104,9 +105,9 @@ const GlobalTheme = createGlobalStyle`
   body {
     font-family: 'Roboto', sans-serif;
     color: ${(props): string =>
-        props.theme.foreground.page};
+    props.theme.foreground.page};
     background: ${(props): string =>
-        props.theme.background.page};
+    props.theme.background.page};
     text-decoration: none;
     padding: 0;
     margin: 0;
@@ -115,7 +116,7 @@ const GlobalTheme = createGlobalStyle`
   a {
     text-decoration: none;
     color: ${(props): string =>
-        props.theme.foreground.page};
+    props.theme.foreground.page};
   }
   
   button {
@@ -128,9 +129,9 @@ const GlobalTheme = createGlobalStyle`
 const ThemeProvider = (props: PropsWithChildren<{}>): ReactElement => {
     const currentTheme = useSelector((state) => state.theme.theme);
     return (
-        <Theme theme={ themes[currentTheme] }>
+        <Theme theme={themes[currentTheme]}>
             <GlobalTheme/>
-            { props.children }
+            {props.children}
         </Theme>
     )
 };
