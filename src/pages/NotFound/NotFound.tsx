@@ -21,7 +21,7 @@ const NotFoundContent = styled.div`
   }
 `;
 
-export default function NotFound (): ReactElement {
+export default function NotFound(): ReactElement {
     return (
         <NotFoundBase>
             <NotFoundContent>

@@ -1,6 +1,6 @@
 import React, {ComponentProps, ReactElement} from "react";
 import styled from "styled-components";
-import {Card, CardPadding, CardHeader, CardSection} from "components/ui/Card";
+import {Card, CardHeader, CardPadding, CardSection} from "components/ui/Card";
 import UserAvatarStatus from "components/ui/UserAvatarStatus";
 import {getAvatar, ProjectMember, statusToColor} from "../../utilities";
 import ButtonGroup from "../../components/ui/ButtonGroup";
@@ -23,7 +23,7 @@ const LogosInline = styled.div`
 `;
 
 
-export default function MemberDisplay (props: ComponentProps<'section'> & { member: ProjectMember }): ReactElement {
+export default function MemberDisplay(props: ComponentProps<'section'> & { member: ProjectMember }): ReactElement {
     return (
         <Card>
             <CardPadding>

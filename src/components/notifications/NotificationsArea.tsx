@@ -35,7 +35,7 @@ export default function NotificationsArea(): ReactElement {
             <TransitionGroup>
                 {
                     notifications.map((not) => {
-                        return <NotificationComponent destroy={() => callback(not)} notification={not} key={not.id} />
+                        return <NotificationComponent destroy={() => callback(not)} notification={not} key={not.id}/>
                     })
                 }
             </TransitionGroup>

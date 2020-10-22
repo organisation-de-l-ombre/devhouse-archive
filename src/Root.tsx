@@ -13,7 +13,7 @@ import {pushNotification} from "state/modules/notifications";
 import {Menu} from "./components/navbar";
 import {BrowserRouter} from "react-router-dom";
 
-const { store, persistor } = createState();
+const {store, persistor} = createState();
 
 const ThemeProvider = React.lazy(() => import('components/ThemeProvider'))
 const Navigator = React.lazy(() => import('pages/Navigator'));
@@ -54,9 +54,9 @@ export default function Root(): ReactElement {
     return (
         <ErrorBoundary FallbackComponent={ErrorPage}>
             <Provider store={store}>
-                <PersistGate loading={''} persistor={persistor}>
+                <PersistGate loading={'Loading the state...'} persistor={persistor}>
                     <ThemeProvider>
-                        <NotificationArea />
+                        <NotificationArea/>
                         <BrowserRouter>
                             <Menu/>
                             <Navigator/>
@@ -64,6 +64,6 @@ export default function Root(): ReactElement {
                     </ThemeProvider>
                 </PersistGate>
             </Provider>
-        </ErrorBoundary >
+        </ErrorBoundary>
     );
 };

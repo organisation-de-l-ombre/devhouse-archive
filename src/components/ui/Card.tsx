@@ -37,10 +37,9 @@ export const CardFlexContainer = styled.div`
   justify-content: center;
   margin: 1.5rem;
   ${Card} {
-    flex: 0 28%;
     margin: 5px;
     @media screen and (max-width: 1000px) {
-      flex: 1 100%;
+      min-width: 49%;
     }
   }
 `;

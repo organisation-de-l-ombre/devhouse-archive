@@ -2,7 +2,7 @@
 import React from "react";
 import styled from "styled-components";
 
-function UserAvatarStatus (props: {
+function UserAvatarStatus(props: {
     statusColor: string;
     avatar: string;
     animate?: boolean;

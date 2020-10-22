@@ -9,8 +9,8 @@ type ButtonGroupProps = {
 
 const ButtonGroup = styled.div<ButtonGroupProps>`
     display: flex;
-    flex-flow: ${ (props): string => props.direction || 'row' } wrap;
-    border-radius: ${ (props): string => props.borderRadius || '5px' };
+    flex-flow: ${(props): string => props.direction || 'row'} wrap;
+    border-radius: ${(props): string => props.borderRadius || '5px'};
     overflow: hidden;
     
     ${Button} {
@@ -18,7 +18,7 @@ const ButtonGroup = styled.div<ButtonGroupProps>`
         position: relative;
         justify-content: center;
         border-radius: 0;
-        padding: ${ (props): string =>  props.buttonPadding || '1rem'}
+        padding: ${(props): string => props.buttonPadding || '1rem'}
     }
 `;
 

@@ -6,24 +6,24 @@ import * as process from "process";
 import {fetchUser} from 'utilities';
 import {DefaultRootState} from "react-redux";
 
-function makeId (length: number): string {
-    let result           = '';
-    const characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+function makeId(length: number): string {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
-    for ( let i = 0; i < length; i++ ) {
+    for (let i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
 }
 
 
-function getTokenWithPopup (): Promise<string> {
+function getTokenWithPopup(): Promise<string> {
 
     const h = window.innerHeight / 1.5;
     const w = window.innerWidth / 2;
 
-    const y = window.top.outerHeight / 2 + window.top.screenY - ( h / 2);
-    const x = window.top.outerWidth / 2 + window.top.screenX - ( w / 2);
+    const y = window.top.outerHeight / 2 + window.top.screenY - (h / 2);
+    const x = window.top.outerWidth / 2 + window.top.screenX - (w / 2);
 
     const options = `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=${w}, height=${h}, top=${y}, left=${x}`;
 
@@ -52,7 +52,7 @@ function getTokenWithPopup (): Promise<string> {
 
         const channel = new BroadcastChannel('callback');
 
-        const listener = ({ data }: MessageEvent): void => {
+        const listener = ({data}: MessageEvent): void => {
             if (data.token && data.state) {
                 if (data.state === state) {
                     resolve(data.token);
@@ -71,7 +71,7 @@ function getTokenWithPopup (): Promise<string> {
     });
 }
 
-export function loginUser (): ThunkAction<void, DefaultRootState, PayloadTypes | NotificationPayloadType, Action<(PayloadTypes | NotificationPayloadType)['type']>> {
+export function loginUser(): ThunkAction<void, DefaultRootState, PayloadTypes | NotificationPayloadType, Action<(PayloadTypes | NotificationPayloadType)['type']>> {
     return async (dispatch): Promise<void> => {
         dispatch({
             type: UserInit
@@ -126,7 +126,7 @@ export function loginUser (): ThunkAction<void, DefaultRootState, PayloadTypes |
     };
 }
 
-export function logoutUser (): ThunkAction<void, DefaultRootState, PayloadTypes | NotificationPayloadType, Action<(PayloadTypes | NotificationPayloadType)['type']>> {
+export function logoutUser(): ThunkAction<void, DefaultRootState, PayloadTypes | NotificationPayloadType, Action<(PayloadTypes | NotificationPayloadType)['type']>> {
     return async (dispatch): Promise<void> => {
         dispatch({
             type: 'USER_LOGOUT'

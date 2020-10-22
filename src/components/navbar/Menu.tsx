@@ -29,7 +29,7 @@ export function Menu(): ReactElement {
                     Developer's House
                     <OnlyMobiles style={{float: 'right', verticalAlign: 'middle'}}>
                         <GiHamburgerMenu
-                            style={{transform: `rotate(${open ? '90' : '0'}deg)`,scale: 2, transition: 'all 250ms'}}/>
+                            style={{transform: `rotate(${open ? '90' : '0'}deg)`, scale: 2, transition: 'all 250ms'}}/>
                     </OnlyMobiles>
                 </PrimedMenuItem>
             </Ripples>

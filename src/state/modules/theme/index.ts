@@ -22,7 +22,7 @@ export const defaultState: ThemeState = {
     theme: 'dark',
 };
 
-export default function reducer (
+export default function reducer(
     state: ThemeState = defaultState,
     payload: PayloadTypes
 ): ThemeState {

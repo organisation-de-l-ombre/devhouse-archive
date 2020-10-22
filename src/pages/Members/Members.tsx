@@ -6,16 +6,16 @@ import {ProjectMember} from "utilities";
 const MembersDisplay = React.lazy(() => import("./MembersDisplay"));
 
 export default class MembersPage extends PureComponent<{},
-    { isLoading: boolean; users: ProjectMember[] | null; error: Error | null, text: string }> {
-    constructor (props: PropsWithRef<{}>) {
+    { isLoading: boolean; users: ProjectMember[] | null; error: Error | null }> {
+    constructor(props: PropsWithRef<{}>) {
         super(props);
 
-        this.state = {isLoading: true, users: null, error: null, text: `Thanks to all of our team to have helped to develop and to make
-        possible this project! Without these persons below this project
-        wouldn't exist.`};
+        this.state = {
+            isLoading: true, users: null, error: null
+        };
     }
 
-    render (): ReactElement {
+    render(): ReactElement {
         return (
             <div>
                 {
@@ -32,8 +32,10 @@ export default class MembersPage extends PureComponent<{},
                             <TitleBox>
                                 <h1>Our members</h1>
                                 <h2>
-                                    <TypeWriter characterDisplayInterval={100} ended={() => this.setState({text:'hey ceci est un test'})}>
-                                        { this.state.text }
+                                    <TypeWriter characterDisplayInterval={100}>
+                                        Thanks to all of our team to have helped to develop and to make
+                                        possible this project! Without these persons below this project
+                                        wouldn't exist.
                                     </TypeWriter>
                                 </h2>
                             </TitleBox>
@@ -45,7 +47,7 @@ export default class MembersPage extends PureComponent<{},
         );
     }
 
-    async componentDidMount (): Promise<void> {
+    async componentDidMount(): Promise<void> {
         this.setState({isLoading: true});
 
         const dummyData: ProjectMember[] = [

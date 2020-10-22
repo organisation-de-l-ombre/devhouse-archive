@@ -7,7 +7,7 @@ import {CSSTransition} from "react-transition-group";
 import {FaWindowClose} from 'react-icons/fa';
 
 const NotificationComponent = (props: { notification: Notification, destroy: Function }): ReactElement => {
-    const { notification, destroy } = props;
+    const {notification, destroy} = props;
 
     const [timer, setTimer] = useState<number | null>(null);
 
@@ -20,13 +20,13 @@ const NotificationComponent = (props: { notification: Notification, destroy: Fun
     }, [notification.time, destroy, timer]);
 
     return (
-        <CSSTransition timeout={500} classNames="lst-not"  {...{ ...props, destroy: undefined }} >
+        <CSSTransition timeout={500} classNames="lst-not"  {...{...props, destroy: undefined}} >
             <div>
                 <div>
                     {notification.text}
                     {notification.buttons && (
                         <ButtonGroup>
-                            { notification.buttons.map(
+                            {notification.buttons.map(
                                 (b: { text: string; click: () => void }, i: number) => {
                                     return (
                                         <Button key={i} onClick={b.click}>
@@ -38,7 +38,7 @@ const NotificationComponent = (props: { notification: Notification, destroy: Fun
                         </ButtonGroup>
                     )}
                 </div>
-                <FaWindowClose style={{ color: 'red', height: '100%', width: '100%' }} onClick={() => destroy()} />
+                <FaWindowClose style={{color: 'red', height: '100%', width: '100%'}} onClick={() => destroy()}/>
             </div>
         </CSSTransition>
     )
