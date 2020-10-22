@@ -11,7 +11,7 @@ image:
   pullPolicy: IfNotPresent
   secrets:
     - name: gitlab-registry
-podAnnotations: { }
+podAnnotations: {}
 application:
   track: stable
   tier: web
@@ -31,7 +31,7 @@ gitlab:
   envURL:
 service:
   enabled: true
-  annotations: { }
+  annotations: {}
   name: web
   type: ClusterIP
   url: http://my.host.com/
@@ -72,13 +72,13 @@ postgresql:
   enabled: false
   managed: false
   managedClassSelector:
-  #   matchLabels:
-  #     stack: gitlab (This is an example. The labels should match the labels on the CloudSQLInstanceClass)
+    #   matchLabels:
+    #     stack: gitlab (This is an example. The labels should match the labels on the CloudSQLInstanceClass)
 
 resources:
-  #  limits:
-  #    cpu: 100m
-  #    memory: 128Mi
+#  limits:
+#    cpu: 100m
+#    memory: 128Mi
   requests:
 #    cpu: 100m
 #    memory: 128Mi
@@ -98,16 +98,16 @@ networkPolicy:
   enabled: false
   spec:
     podSelector:
-      matchLabels: { }
+      matchLabels: {}
     ingress:
-      - from:
-          - podSelector:
-              matchLabels: { }
-          - namespaceSelector:
-              matchLabels:
-                app.gitlab.com/managed_by: gitlab
+    - from:
+      - podSelector:
+          matchLabels: {}
+      - namespaceSelector:
+          matchLabels:
+            app.gitlab.com/managed_by: gitlab
 
-workers: { }
+workers: {}
   # worker:
   #   replicaCount: 1
   #   terminationGracePeriodSeconds: 60
@@ -120,4 +120,4 @@ workers: { }
   #   - /bin/herokuish
   #   - procfile
   #   - start
-#   - stop_worker
+  #   - stop_worker
