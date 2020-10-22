@@ -71,18 +71,7 @@ export default function HomePage(): ReactElement {
                         </CardHeader>
 
                         <CardSection>
-                            Lorem ipsum dolor sit amet, congue amet mi tempus ut, praesent
-                            ante duis pulvinar, nibh erat aliquam faucibus, neque enim, nunc
-                            nulla accumsan. Augue curae nascetur sed proin ut, sed neque eu
-                            potenti et justo. Pellentesque risus, malesuada nunc, exercitation
-                            et. Donec nibh vestibulum justo eu aliquet mi, non libero velit,
-                            volutpat aenean vulputate in, condimentum convallis scelerisque
-                            vitae. Magna non, ac tortor integer vulputate risus, hendrerit
-                            vivamus, in eget justo. Donec scelerisque amet, nec at. Pede risus
-                            nec elementum, sed lectus dignissim eu. Est fringilla, dui cras
-                            volutpat turpis felis, eros pulvinar suspendisse eget, tortor
-                            nulla mollis. Nec vel dolor commodo amet, amet vulputate, conubia
-                            id integer lorem id, lobortis mauris ligula metus.
+
                         </CardSection>
                     </CardPadding>
                 </Card>
@@ -93,18 +82,7 @@ export default function HomePage(): ReactElement {
                         </CardHeader>
 
                         <CardSection>
-                            Lorem ipsum dolor sit amet, congue amet mi tempus ut, praesent
-                            ante duis pulvinar, nibh erat aliquam faucibus, neque enim, nunc
-                            nulla accumsan. Augue curae nascetur sed proin ut, sed neque eu
-                            potenti et justo. Pellentesque risus, malesuada nunc, exercitation
-                            et. Donec nibh vestibulum justo eu aliquet mi, non libero velit,
-                            volutpat aenean vulputate in, condimentum convallis scelerisque
-                            vitae. Magna non, ac tortor integer vulputate risus, hendrerit
-                            vivamus, in eget justo. Donec scelerisque amet, nec at. Pede risus
-                            nec elementum, sed lectus dignissim eu. Est fringilla, dui cras
-                            volutpat turpis felis, eros pulvinar suspendisse eget, tortor
-                            nulla mollis. Nec vel dolor commodo amet, amet vulputate, conubia
-                            id integer lorem id, lobortis mauris ligula metus.
+                            
                         </CardSection>
                     </CardPadding>
                 </Card>
@@ -115,18 +93,7 @@ export default function HomePage(): ReactElement {
                         </CardHeader>
 
                         <CardSection>
-                            Lorem ipsum dolor sit amet, congue amet mi tempus ut, praesent
-                            ante duis pulvinar, nibh erat aliquam faucibus, neque enim, nunc
-                            nulla accumsan. Augue curae nascetur sed proin ut, sed neque eu
-                            potenti et justo. Pellentesque risus, malesuada nunc, exercitation
-                            et. Donec nibh vestibulum justo eu aliquet mi, non libero velit,
-                            volutpat aenean vulputate in, condimentum convallis scelerisque
-                            vitae. Magna non, ac tortor integer vulputate risus, hendrerit
-                            vivamus, in eget justo. Donec scelerisque amet, nec at. Pede risus
-                            nec elementum, sed lectus dignissim eu. Est fringilla, dui cras
-                            volutpat turpis felis, eros pulvinar suspendisse eget, tortor
-                            nulla mollis. Nec vel dolor commodo amet, amet vulputate, conubia
-                            id integer lorem id, lobortis mauris ligula metus.
+                            
                         </CardSection>
                     </CardPadding>
                 </Card>
@@ -137,18 +104,6 @@ export default function HomePage(): ReactElement {
                         </CardHeader>
 
                         <CardSection>
-                            Lorem ipsum dolor sit amet, congue amet mi tempus ut, praesent
-                            ante duis pulvinar, nibh erat aliquam faucibus, neque enim, nunc
-                            nulla accumsan. Augue curae nascetur sed proin ut, sed neque eu
-                            potenti et justo. Pellentesque risus, malesuada nunc, exercitation
-                            et. Donec nibh vestibulum justo eu aliquet mi, non libero velit,
-                            volutpat aenean vulputate in, condimentum convallis scelerisque
-                            vitae. Magna non, ac tortor integer vulputate risus, hendrerit
-                            vivamus, in eget justo. Donec scelerisque amet, nec at. Pede risus
-                            nec elementum, sed lectus dignissim eu. Est fringilla, dui cras
-                            volutpat turpis felis, eros pulvinar suspendisse eget, tortor
-                            nulla mollis. Nec vel dolor commodo amet, amet vulputate, conubia
-                            id integer lorem id, lobortis mauris ligula metus.
                         </CardSection>
                     </CardPadding>
                 </Card>
