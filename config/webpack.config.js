@@ -30,8 +30,6 @@ const postcssNormalize = require('postcss-normalize');
 
 const appPackageJson = require(paths.appPackageJson);
 
-// Source maps are resource heavy and can cause out of memory issue for large source files.
-const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 // Some apps do not need the benefits of saving a web request, so not inlining the chunk
 // makes for a smoother build process.
 const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== 'false';
@@ -56,6 +54,8 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 module.exports = function (webpackEnv) {
     const isEnvDevelopment = webpackEnv === 'development';
     const isEnvProduction = webpackEnv === 'production';
+    // Source maps are resource heavy and can cause out of memory issue for large source files.
+    const shouldUseSourceMap = isEnvDevelopment;
 
     // Variable used for enabling profiling in Production
     // passed into alias object. Uses a flag if passed into the build command
@@ -542,7 +542,12 @@ module.exports = function (webpackEnv) {
             shouldInlineRuntimeChunk &&
             new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/]),
             isEnvProduction &&
-            new UglifyJsPlugin(),
+            new UglifyJsPlugin({
+                uglifyOptions: {
+                    sourceMap: shouldUseSourceMap,
+                    warnings: false,
+                },
+            }),
             // Makes some environment variables available in index.html.
             // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
             // <link rel="icon" href="%PUBLIC_URL%/favicon.ico">
