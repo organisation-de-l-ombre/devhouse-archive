@@ -2,6 +2,5 @@ include:
   - template: Auto-DevOps.gitlab-ci.yml
 
 variables:
-  TEST_DISABLED: 'true'
-  KUBE_INGRESS_BASE_DOMAIN: '	developershouse.xyz'
   POSTGRES_ENABLED: 'false'
+  DOCKER_BUILDKIT: '1'
