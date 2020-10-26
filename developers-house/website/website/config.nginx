@@ -1,0 +1,49 @@
+worker_processes  1;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    server_tokens off;
+    include /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    map $sent_http_content_type $expires {
+        default                    max;
+        text/html                  epoch;
+        text/css                   max;
+        application/javascript     max;
+        ~image/                    max;
+    }
+
+    sendfile        on;
+    keepalive_timeout  10;
+
+    server {
+        listen       80;
+        expires $expires;
+
+        add_header X-Frame-Options "SAMEORIGIN";
+        add_header X-XSS-Protection "1; mode=block";
+
+
+        location / {
+            limit_except GET { deny all; }
+            root   /usr/share/nginx/html;
+            index  index.html;
+            try_files $uri $uri/ /index.html;
+        }
+
+        location /service-worker.js {
+            limit_except GET { deny all; }
+            expires off;
+            root   /usr/share/nginx/html;
+        }
+
+        client_body_buffer_size 1K;
+        client_header_buffer_size 1k;
+        client_max_body_size 1k;
+        large_client_header_buffers 2 1k;
+    }
+}
