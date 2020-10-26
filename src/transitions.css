@@ -1,12 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-
 * {
     transition: background 300ms;
 }
-
-html, body {
+body {
     font-family: 'Roboto', sans-serif;
+    color: white;
+    background: rgb(40, 40, 40);
+    text-decoration: none;
     padding: 0;
     margin: 0;
-    overflow: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+button {
+    outline: none;
+    border: none;
+    cursor: pointer;
 }
