@@ -10,6 +10,7 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
 
+
 const isLocalhost = Boolean(
     window.location.hostname === "localhost" ||
     // [::1] is the IPv6 localhost address.
@@ -24,6 +25,7 @@ type Config = {
     onUpdate: (registration: ServiceWorkerRegistration) => void;
     onSuccess: (registration: ServiceWorkerRegistration) => void;
 };
+
 
 export function register(config: Config): void {
     if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
