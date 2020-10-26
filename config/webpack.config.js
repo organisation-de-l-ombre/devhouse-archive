@@ -1,7 +1,6 @@
 'use strict';
 
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const WebpackObfuscator = require('webpack-obfuscator');
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
@@ -544,8 +543,6 @@ module.exports = function (webpackEnv) {
             new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/]),
             isEnvProduction &&
             new UglifyJsPlugin(),
-            isEnvProduction &&
-            new WebpackObfuscator(),
             // Makes some environment variables available in index.html.
             // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
             // <link rel="icon" href="%PUBLIC_URL%/favicon.ico">

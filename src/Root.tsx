@@ -12,12 +12,13 @@ import {register} from 'utilities';
 import {pushNotification} from "state/modules/notifications";
 import {Menu} from "./components/navbar";
 import {BrowserRouter} from "react-router-dom";
+import SuspenseLoader from "./components/SuspenseLoader";
 
 const {store, persistor} = createState();
 
 const ThemeProvider = React.lazy(() => import('components/ThemeProvider'))
 const Navigator = React.lazy(() => import('pages/Navigator'));
-const NotificationArea = React.lazy(() => import("components/notifications/NotificationsArea"));
+const NotificationArea = React.lazy(() => import('components/notifications/NotificationsArea'));
 const ErrorPage = React.lazy(() => import('pages/ErrorPage'));
 
 (window as any).__Debug = (text: string) => {
@@ -64,11 +65,13 @@ export default function Root(): ReactElement {
             <Provider store={store}>
                 <PersistGate loading={'Loading the state...'} persistor={persistor}>
                     <ThemeProvider>
-                        <NotificationArea/>
-                        <BrowserRouter>
-                            <Menu/>
-                            <Navigator/>
-                        </BrowserRouter>
+                        <SuspenseLoader>
+                            <NotificationArea/>
+                            <BrowserRouter>
+                                <Menu/>
+                                <Navigator/>
+                            </BrowserRouter>
+                        </SuspenseLoader>
                     </ThemeProvider>
                 </PersistGate>
             </Provider>
