@@ -21,21 +21,13 @@ const Navigator = React.lazy(() => import('pages/Navigator'));
 const NotificationArea = React.lazy(() => import('components/notifications/NotificationsArea'));
 const ErrorPage = React.lazy(() => import('pages/ErrorPage'));
 
-(window as any).__Debug = (text: string) => {
-    store.dispatch(pushNotification({
-        level: 'information',
-        time: 1000,
-        text
-    }));
-}
-
 register({
     onUpdate(registration) {
         store.dispatch(pushNotification({
             level: "information",
             text:
                 "A new update is available for the website. Would you like to load this new update ?",
-            time: 10000,
+            time: -1,
             buttons: [
                 {
                     text: "Yes",

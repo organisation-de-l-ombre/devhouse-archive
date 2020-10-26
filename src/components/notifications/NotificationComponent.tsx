@@ -13,10 +13,12 @@ const NotificationComponent = (props: { notification: Notification, destroy: Fun
 
     useEffect(() => {
         if (timer) return;
-        setTimer(setTimeout(() => {
-            destroy();
-        }, notification.time));
-        return () => (timer && clearTimeout(timer)) || undefined;
+        if (notification.time !== -1) {
+            setTimer(setTimeout(() => {
+                destroy();
+            }, notification.time));
+            return () => (timer && clearTimeout(timer)) || undefined;
+        }
     }, [notification.time, destroy, timer]);
 
     return (
