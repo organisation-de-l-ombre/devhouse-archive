@@ -12,7 +12,7 @@ import {register} from 'utilities';
 import {pushNotification} from "state/modules/notifications";
 import {Menu} from "./components/navbar";
 import {BrowserRouter} from "react-router-dom";
-import SuspenseLoader from "./components/SuspenseLoader";
+import {Loader} from "./components/SuspenseLoader";
 
 const {store, persistor} = createState();
 
@@ -63,15 +63,13 @@ export default function Root(): ReactElement {
     return (
         <ErrorBoundary FallbackComponent={ErrorPage}>
             <Provider store={store}>
-                <PersistGate loading={'Loading the state...'} persistor={persistor}>
+                <PersistGate loading={<Loader/>} persistor={persistor}>
                     <ThemeProvider>
-                        <SuspenseLoader>
                             <NotificationArea/>
                             <BrowserRouter>
                                 <Menu/>
                                 <Navigator/>
                             </BrowserRouter>
-                        </SuspenseLoader>
                     </ThemeProvider>
                 </PersistGate>
             </Provider>

@@ -103,26 +103,15 @@ const themes: { [K: string]: DefaultTheme } = {
 
 const GlobalTheme = createGlobalStyle`
   body {
-    font-family: 'Roboto', sans-serif;
     color: ${(props): string =>
     props.theme.foreground.page};
     background: ${(props): string =>
     props.theme.background.page};
-    text-decoration: none;
-    padding: 0;
-    margin: 0;
   }
 
   a {
-    text-decoration: none;
     color: ${(props): string =>
     props.theme.foreground.page};
-  }
-  
-  button {
-    outline: none;
-    border: none;
-    cursor: pointer;
   }
 `;
 
