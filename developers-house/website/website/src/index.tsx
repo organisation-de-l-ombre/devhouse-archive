@@ -4,15 +4,16 @@
  * error reporting & performance monitoring.
  */
 
-import React, {ReactElement, Suspense} from "react";
+import React, {ReactElement} from "react";
 import ReactDOM from "react-dom";
+import SuspenseLoader from "./components/SuspenseLoader";
 
 const Root = React.lazy(() => import('Root'));
 
 const MainComponent = (): ReactElement => (
-    <Suspense fallback={'Loading website.'}>
+    <SuspenseLoader>
         <Root/>
-    </Suspense>
+    </SuspenseLoader>
 );
 
 /*
