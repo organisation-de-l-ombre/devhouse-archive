@@ -12,18 +12,21 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
     .slide-enter {
-        transform: translateX(100%);
+        opacity: 0;
     }
     .slide-enter-active {
-        transform: translateX(0%);
-        transition: transform 300ms ease-in-out;
+        opacity: 1;
+        transition: opacity 300ms ease-in-out;
     }
     .slide-exit {
-        transform: translateX(0%);
+        opacity: 0;
     }
     .slide-exit-active {
-        transform: translateX(-100%);
-        transition: transform 300ms ease-in-out;
+        opacity: 0;
+        transition: opacity 300ms 300ms ease-in-out;
+    }
+    .ignore-overflow {
+        overflow: hidden;
     }
 `;
 

@@ -102,6 +102,7 @@ const themes: { [K: string]: DefaultTheme } = {
 };
 
 const GlobalTheme = createGlobalStyle`
+  @import 'https://fonts.googleapis.com/css2?family=Roboto&display=swap';
   body {
     color: ${(props): string =>
     props.theme.foreground.page};
