@@ -1,7 +1,7 @@
 # ~ Ellie - The QR-Code generator
 
 Le service "Ellie" est chargé de créer de QR-Code pour les différents projets de Developer's House.
-"Ellie" est dévelopé en Rust et est fait pour être le plus rapide possible. 
+"Ellie" est dévelopé en javascript et est fait pour être le plus rapide possible. 
 
 Maintainer: Matthieu
 Developer: Matthieu
