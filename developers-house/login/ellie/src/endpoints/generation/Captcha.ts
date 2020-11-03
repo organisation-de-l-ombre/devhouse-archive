@@ -2,22 +2,13 @@
  * Generate a captcha with a given string.
  */
 
-import { Endpoint } from '../router';
+import {Endpoint} from '../router';
 import Sharp from 'sharp';
 import Simplex from 'simplex-noise';
-import {randomBytes} from "crypto";
 
 const dimensionsW = (h: number) => h * 3;
 
 const randomIntBetween = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1) + min);
-
-const randomColor = (): Sharp.Color => {
-    return {
-        r: randomIntBetween(0, 255),
-        g: randomIntBetween(0, 255),
-        b: randomIntBetween(0, 255),
-    }
-};
 
 const simplex = new Simplex();
 let index = 0;
