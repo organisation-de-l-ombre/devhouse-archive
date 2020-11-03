@@ -18,13 +18,7 @@ body {
   --card-min-dimensions: 25rem;
   --card-header-background: #181818;
   --card-internal-header: 4%;
-  --border-radius: 4px;
-}
-
-@media only screen and (max-width: 600px) {
-  :root {
-    --border-radius: 0px;
-  }
+  --border-radius: 5px;
 }
 
 .cover {

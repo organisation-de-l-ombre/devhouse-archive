@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import styles from '../styles/Warning.module.css';
+import styles from './Warning.module.css';
 
 export const Warning: React.FC = ({ children }) => {
     return (

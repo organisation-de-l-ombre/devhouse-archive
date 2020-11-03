@@ -1,0 +1,43 @@
+.button {
+    border: none;
+    padding: 10px;
+    border-radius: var(--border-radius);
+    background-color: var(--secondary);
+    color: white;
+    font-size: large;
+    margin-top: 3%;
+
+    outline: none;
+    box-shadow: gray 0 2px 2px;
+    transition: transform 300ms;
+
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+        transform: translateY(-3px);
+    }
+
+    &:active {
+        transform: translateY(2px);
+    }
+}
+
+.ripple {
+    position: absolute;
+    /* The absolute position we mentioned earlier */
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple 600ms linear;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+@keyframes ripple {
+    from {
+        opacity: 0.8;
+    }
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
