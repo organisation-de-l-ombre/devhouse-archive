@@ -22,8 +22,9 @@ const logger = morgan('combined');
 const requestProcess = (request: IncomingMessage, response: OutgoingMessage) => {
     if (response instanceof http.ServerResponse) {
         logger(request, response, () => {
-            if (Object.keys(routes).includes(request.url)) {
-                routes[request.url](request, response);
+            const url = request.url.split('?')[0];
+            if (Object.keys(routes).includes(url)) {
+                routes[url](request, response);
             } else {
                 response.end();
             }

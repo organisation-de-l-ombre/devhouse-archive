@@ -5,6 +5,7 @@
 import { Endpoint } from '../router';
 import Sharp from 'sharp';
 import Simplex from 'simplex-noise';
+import {randomBytes} from "crypto";
 
 const dimensionsW = (h: number) => h * 3;
 
@@ -23,7 +24,12 @@ let index = 0;
 
 export const generateCaptcha: Endpoint = async (request, response) => {
 
-    const height = 220;
+    const url = new URLSearchParams(request.url.split('?')[1]);
+
+    const data = url.get('text');
+    if (!data) return;
+
+    const height = 120;
 
     /*
      * Step one, generate a noise image texture.
@@ -54,12 +60,12 @@ export const generateCaptcha: Endpoint = async (request, response) => {
             } else {
                 grey3 = 255 - grey3;
             }
-            const r = invert < 0.3 ? 2 : (invert < 0.6 ? 0 : 1);
+
             textureRaw.set([
-                r === 0 ? grey2 : grey3,
-                r === 1 ? grey2 : grey3,
-                r === 2 ? grey2 : grey3,
-                invert * 8,
+                0,
+                grey2,
+                grey3,
+                invert * 3,
             ], lastPixelOffset);
             lastPixelOffset += 4;
         }
@@ -72,7 +78,9 @@ export const generateCaptcha: Endpoint = async (request, response) => {
      */
     const text = await Sharp(Buffer.from(`
     <svg xmlns="http://www.w3.org/2000/svg" width="${dimensionsW(height)}" height="${height}">
-        <text fill="black" rotate="${randomIntBetween(0, 10)}" x="${dimensionsW(height) / 4 + randomIntBetween(-10, 10)}" y="${height / 2 + (height / 1.5) / 2 + randomIntBetween(-10, 10)}" font-size="${height / 1.5 + randomIntBetween(2, 3)}">${randomIntBetween(0, 25555)}</text>
+        <text fill="black" rotate="${randomIntBetween(0, 10)}" x="${dimensionsW(height) / 4 + randomIntBetween(-10, 10)}" y="${height / 2 + (height / 1.5) / 2 + randomIntBetween(-10, 10)}" font-size="${height / 1.5 + randomIntBetween(2, 3)}">
+            ${data}
+        </text>
     </svg>    
     `))
         .resize(dimensionsW(height), height)
