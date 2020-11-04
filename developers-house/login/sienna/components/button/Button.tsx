@@ -3,8 +3,9 @@
  */
 
 
-import styles from './Button.module.scss';
+import * as stylesObject from './Button.module.scss';
 
+const styles = stylesObject.default;
 // Uses the dom to improve performance; Since this website is made to be runned on low-end devices.
 const event = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     const button: HTMLButtonElement = event.currentTarget as any;
