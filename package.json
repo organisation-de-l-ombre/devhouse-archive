@@ -16,6 +16,7 @@
   "scripts": {
     "dev": "yarn build && yarn start",
     "build": "tsc -p .",
-    "start": "node dist"
+    "start": "node dist",
+    "test": "exit 0"
   }
 }
