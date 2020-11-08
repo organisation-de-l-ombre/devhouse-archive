@@ -3,6 +3,7 @@
 .button {
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 
   &:hover {
     transform: translateY(-3px);
