@@ -50,26 +50,8 @@ export default class MembersPage extends PureComponent<{},
     async componentDidMount(): Promise<void> {
         this.setState({isLoading: true});
 
-        const dummyData: ProjectMember[] = [
-            {
-                description: 'Je suis un des fondateurs de devhouse',
-                discord: '314354049023737857',
-                role: 'Developer',
-                socialNetworks: [],
-                userState: {
-                    avatar: '5ada775984d4d1469a49babe03bd788d',
-                    discriminator: '2050',
-                    nickname: 'Matthieu',
-                    statusText: 'Working',
-                    username: 'Exact',
-                    status: 'online',
-                },
-                username: 'Matthieu'
-            }
-        ];
-
         try {
-            const data = await fetch("/api/v1/members");
+            const data = await fetch("https://developers-house-dev-website-group-abdera.matthieu-dev.xyz/staff/list");
 
             if (!data.ok) {
                 this.setState({
@@ -78,10 +60,10 @@ export default class MembersPage extends PureComponent<{},
                 });
                 return;
             }
-            const json: { data: ProjectMember[] } = await data.json();
-            this.setState({isLoading: false, users: json.data});
+            const json: ProjectMember[] = await data.json();
+            this.setState({ isLoading: false, users: json });
         } catch (error) {
-            this.setState({isLoading: false, users: [...dummyData, ...dummyData]});
+            this.setState({ isLoading: false, error });
         }
     }
 }
