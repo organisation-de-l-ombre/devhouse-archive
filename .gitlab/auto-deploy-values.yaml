@@ -37,8 +37,8 @@ service:
   url: http://my.host.com/
   additionalHosts:
   commonName:
-  externalPort: 8080
-  internalPort: 8080
+  externalPort: 5000
+  internalPort: 5000
 ingress:
   enabled: true
   tls:
@@ -57,15 +57,17 @@ ingress:
 prometheus:
   metrics: false
 livenessProbe:
+  path: "/"
   initialDelaySeconds: 15
   timeoutSeconds: 15
-  probeType: "exec"
-  command: "exit 0"
+  scheme: "HTTP"
+  probeType: "httpGet"
 readinessProbe:
+  path: "/"
   initialDelaySeconds: 5
   timeoutSeconds: 3
-  probeType: "exec"
-  command: "exit 0"
+  scheme: "HTTP"
+  probeType: "httpGet"
 postgresql:
   enabled: true
   managed: false
@@ -114,6 +116,18 @@ workers: { }
   #   - procfile
   #   - start
   #   - worker
+  #   livenessProbe:
+  #     path: "/"
+  #     initialDelaySeconds: 15
+  #     timeoutSeconds: 15
+  #     scheme: "HTTP"
+  #     probeType: "httpGet"
+  #   readinessProbe:
+  #     path: "/"
+  #     initialDelaySeconds: 5
+  #     timeoutSeconds: 3
+  #     scheme: "HTTP"
+  #     probeType: "httpGet"
   #   preStopCommand:
   #   - /bin/herokuish
   #   - procfile
