@@ -37,7 +37,9 @@ const route: RouteOptions = {
             message: error.message,
         });
     },
-    async handler(req, res) {
+    async handler(
+        req,
+        res) {
         /*
          * Fetch all the staff team from redis.
          */

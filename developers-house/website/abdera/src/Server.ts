@@ -34,7 +34,9 @@ export default class Server {
         this.server.decorateRequest('redis', this.redis);
 
         this.server.route(route);
-
+        this.server.get('/', (req, res) => {
+            res.send({code: 'OK',});
+        });
         this.server.listen({
             port,
             host: '0.0.0.0',
