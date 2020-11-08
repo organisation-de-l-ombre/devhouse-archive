@@ -5,7 +5,7 @@
 
 import Fastify, {FastifyInstance} from "fastify";
 import * as IORedis from "ioredis";
-import {Cluster, RedisOptions} from "ioredis";
+import Redis, {RedisOptions} from "ioredis";
 import route from "./routes/staff";
 
 declare module "fastify" {
@@ -23,13 +23,13 @@ const firstRedisNode: RedisOptions = {
 export default class Server {
 
     private readonly server: FastifyInstance;
-    private readonly redis: IORedis.Cluster;
+    private readonly redis: IORedis.Redis;
 
     constructor(port: number) {
         // Create the fastify server.
         this.server = Fastify({});
         // Connect to the redis cluster.
-        this.redis = new Cluster([firstRedisNode]);
+        this.redis = new Redis(firstRedisNode);
         // Add the redis connexion to all the requests objects.
         this.server.decorateRequest('redis', this.redis);
 
