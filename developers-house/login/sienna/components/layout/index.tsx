@@ -1,17 +1,13 @@
+import { FC } from 'react';
 import styles from './Layout.module.scss';
-import {Warning} from '../warning';
-import React from 'react';
+import { Warning } from '../warning';
 
-/*
- * The layout of the page.
- */
-export const Layout: React.FC = ({children}) => {
+export const Layout: FC = ({ children }) => {
     return (
-        // The page container
         <div className={styles.app}>
             <div className={styles.card}>
                 <div className={styles.header}>
-                    <h1>{} | Login</h1>
+                    <h1>Login</h1>
                 </div>
                 <div className={styles.content}>
                     <Warning>
@@ -22,12 +18,12 @@ export const Layout: React.FC = ({children}) => {
                 <div className={styles.footer}>
                     <p>
                         This website uses cookies 🍪 <br/>
-                        <a href="https://www.developershouse.xyz/terms" target="_blank">
+                        <a href="https://www.developershouse.xyz/terms" target="blank">
                             Learn more
                         </a>
                     </p>
                 </div>
             </div>
         </div>
-    )
+    );
 };

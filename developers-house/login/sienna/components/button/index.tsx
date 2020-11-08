@@ -1,13 +1,7 @@
-/*
- * Index component
- */
-
-
-import styles from './Button.module.scss';
 import React from 'react';
+import styles from './Button.module.scss';
 
-// Uses the dom to improve performance; Since this website is made to be run on low-end devices.
-const event = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+const event = (onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     const button: HTMLButtonElement = event.currentTarget as any;
     const circle = document.createElement('span');
     const diameter = Math.max(button.clientWidth, button.clientHeight);
@@ -23,13 +17,17 @@ const event = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (ripple) {
         ripple.remove();
     }
+
     button.appendChild(circle);
+
+    if (onClick) {
+        onClick(event);
+    }
 };
 
-export const Button: React.FC = (props) => {
+export const Button: React.FC<React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>> = (props) => {
     return (
-        <button {...props} className={styles.button} onClick={event}/>
+        <button {...props} className={styles.button} onClick={event(props.onClick)}/>
     );
 };
-
 export * from './ButtonContainer';
