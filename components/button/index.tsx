@@ -1,12 +1,12 @@
 /*
- * Button component
+ * Index component
  */
 
 
-import * as stylesObject from './Button.module.scss';
+import styles from './Button.module.scss';
+import React from 'react';
 
-const styles = stylesObject.default;
-// Uses the dom to improve performance; Since this website is made to be runned on low-end devices.
+// Uses the dom to improve performance; Since this website is made to be run on low-end devices.
 const event = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     const button: HTMLButtonElement = event.currentTarget as any;
     const circle = document.createElement('span');
@@ -16,7 +16,7 @@ const event = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     circle.style.width = circle.style.height = `${diameter}px`;
     circle.style.left = `${event.clientX - (button.offsetLeft + radius)}px`;
     circle.style.top = `${event.clientY - (button.offsetTop + radius)}px`;
-    circle.classList.add(styles.ripple); 
+    circle.classList.add(styles.ripple);
 
     const ripple = button.getElementsByClassName(styles.ripple)[0];
 
@@ -30,4 +30,6 @@ export const Button: React.FC = (props) => {
     return (
         <button {...props} className={styles.button} onClick={event}/>
     );
-}
+};
+
+export * from './ButtonContainer';

@@ -1,6 +1,5 @@
-import { Button } from '../components/Button';
-import { ButtonContainer } from '../components/ButtonContainer';
-import { Warning } from '../components/Warning';
+import { Button } from '../components/button';
+import { ButtonContainer } from '../components/button/ButtonContainer';
 
 export default function Home() {
   return (
@@ -8,14 +7,10 @@ export default function Home() {
       <h2>
         Debug menu
       </h2>
-      <p>
-        This page is currently in active developement.
-      </p>
       <ButtonContainer>
-
-      <Button>
-        Return the the main website.
-      </Button>
+        <Button>
+            Return the the main website.
+        </Button>
       </ButtonContainer>
     </div>
   );
