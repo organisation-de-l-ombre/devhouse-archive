@@ -36,10 +36,9 @@ const route: RouteOptions = {
             code: 500,
             message: error.message,
         });
+        reply.raw.end();
     },
-    async handler(
-        req,
-        res) {
+    async handler(req, res) {
         /*
          * Fetch all the staff team from redis.
          */
@@ -52,7 +51,7 @@ const route: RouteOptions = {
 
             const membersIds: string[] = JSON.parse(await redis.get('discord:cache:index'));
             if (Array.isArray(membersIds)) {
-                const members = membersIds.map((id) => fetchUser(id, redis).catch((): User => {
+                const members = await Promise.all(membersIds.map((id) => fetchUser(id, redis).catch((): User => {
                     return {
                         hoistRole: "unknown",
                         nickname: undefined,
@@ -64,12 +63,11 @@ const route: RouteOptions = {
                         avatar: "",
                         id: "unknown",
                     };
-                }));
+                })));
                 res.send(members);
                 return;
             }
         }
-
         throw new Error('Failed to fetch the user list from redis.');
     },
     url: "/staff/list",
