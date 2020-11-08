@@ -73,7 +73,6 @@ const route: RouteOptions = {
         throw new Error('Failed to fetch the user list from redis.');
     },
     url: "/staff/list",
-    version: "v1"
 };
 
 export default route;
