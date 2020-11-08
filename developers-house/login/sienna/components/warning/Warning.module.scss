@@ -1,0 +1,14 @@
+@import "./styles/colors";
+
+.warning {
+  border-radius: var(--border-radius);
+  color: invert($secondary_clr);
+  background-color: $secondary_clr !important;
+  padding: 10px;
+  box-shadow: gray 0 1px 2px;
+
+  p {
+    margin: 0;
+    padding: 0;
+  }
+}

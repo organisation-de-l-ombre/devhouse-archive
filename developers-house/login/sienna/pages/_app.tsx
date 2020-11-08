@@ -1,5 +1,6 @@
-import { Layout } from '../components/Layout';
-import '../styles/globals.scss'
+import { Layout } from '../components/layout';
+import '../styles/globals.scss';
+import React from 'react';
 
 function MyApp({ Component, pageProps }) {
   return (

@@ -2,19 +2,22 @@
  * Tests for the button component
  */
 
-import { render, screen } from '@testing-library/react';
-import { Button } from './Button';
+import {render, RenderResult} from '@testing-library/react';
+import {Button} from '.';
+import React from "react";
+import {randomBytes} from "crypto";
+
+const key = randomBytes(255).toString('hex');
 
 describe('Button behavior', () => {
+    let renderResult: RenderResult;
+
     it('Renders', () => {
-        render(
+        renderResult = render(
             <Button>
-                Test
+                {key}
             </Button>
         );
     });
 
-    it('Renders the text specified', () => {
-        expect(screen.getByText('Test')).toBeInTheDocument();
-    })
 });
