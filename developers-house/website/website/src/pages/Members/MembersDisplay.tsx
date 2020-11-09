@@ -1,12 +1,15 @@
-import {groupBy, ProjectMember} from "utilities";
+import {groupBy} from "utilities";
 import React, {ReactElement} from "react";
 import MemberDisplay from "./MemberDisplay";
 import {CardFlexContainer, CardHeader} from "components/ui/Card";
 import styled from "styled-components";
+import {CachedUser} from "./Members";
 
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
+    padding-left: 10%;
+    padding-right: 10%;
 `;
 
 const WrapperMembers = styled.div`
@@ -19,13 +22,13 @@ const WrapperMembers = styled.div`
 export default function MembersList({
                                         users
                                     }: {
-    users: ProjectMember[];
+    users: CachedUser[];
 }): ReactElement {
     return (
         <CardFlexContainer>
             {Array.from(
                 groupBy(Object.values(users), (user) => {
-                    return user.role;
+                    return user.hoistRole;
                 })
             ).map(([role, members], index) => {
                 return (
@@ -38,7 +41,7 @@ export default function MembersList({
                             return <MemberDisplay member={member} key={index}/>;
                         })}
                         </WrapperMembers>
-                        
+
                     </Wrapper>
                 );
             })}

@@ -1,4 +1,5 @@
 import {ProjectMember, ServerResponse} from "utilities/types";
+import {CachedUser} from "../pages/Members/Members";
 
 export function groupBy<T, TR>(
     array: T[],
@@ -25,13 +26,13 @@ export function statusToColor(
     return nameColor[name] || nameColor.offline;
 };
 
-export function getAvatar(member: ProjectMember): string {
-    return member.userState.avatar
-        ? `https://cdn.discordapp.com/avatars/${member.discord}/${
-            member.userState.avatar
-        }.${member.userState.avatar.startsWith("a_") ? "gif" : "png"}`
+export function getAvatar(member: CachedUser): string {
+    return member.avatar
+        ? `https://cdn.discordapp.com/avatars/${member.id}/${
+            member.avatar
+        }.${member.avatar.startsWith("a_") ? "gif" : "png"}`
         : `https://cdn.discordapp.com/embed/avatars/${
-            parseInt(member.userState.discriminator) % 5
+            parseInt(member.id) % 5
         }.png`;
 };
 

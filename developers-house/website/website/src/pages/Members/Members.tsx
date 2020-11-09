@@ -1,12 +1,24 @@
 import React, {PropsWithRef, PureComponent, ReactElement, Suspense} from "react";
 import {TitleBox} from "components/ui/TitleBox";
 import {TypeWriter} from "components/TypeWriter";
-import {ProjectMember} from "utilities";
 
 const MembersDisplay = React.lazy(() => import("./MembersDisplay"));
 
+export interface CachedUser {
+    username: string;
+    nickname: string;
+    presence: {
+        status: "online" | "dnd" | "offline" | "idle";
+        presenceText: string;
+    };
+    hoistRole: string;
+    avatar?: string;
+    id: string;
+}
+
+
 export default class MembersPage extends PureComponent<{},
-    { isLoading: boolean; users: ProjectMember[] | null; error: Error | null }> {
+    { isLoading: boolean; users: CachedUser[] | null; error: Error | null }> {
     constructor(props: PropsWithRef<{}>) {
         super(props);
 
@@ -60,7 +72,7 @@ export default class MembersPage extends PureComponent<{},
                 });
                 return;
             }
-            const json: ProjectMember[] = await data.json();
+            const json: CachedUser[] = await data.json();
             this.setState({ isLoading: false, users: json });
         } catch (error) {
             this.setState({ isLoading: false, error });
