@@ -15,9 +15,8 @@ declare module "fastify" {
 }
 
 const firstRedisNode: RedisOptions = {
-    host: process.env["REDIS_HOST"],
-    port: parseInt(process.env["REDIS_PORT"] || '6379'),
-    password: process.env["REDIS_PASSWORD"],
+	port: parseInt(process.env["REDIS_PORT"] || "6379"),
+	password: process.env["REDIS_PASSWORD"],
 };
 
 export default class Server {
@@ -29,7 +28,12 @@ export default class Server {
         // Create the fastify server.
         this.server = Fastify({});
         // Connect to the redis cluster.
-        this.redis = new Cluster([firstRedisNode]);
+        this.redis = new Cluster([{
+			...firstRedisNode,
+			host: process.env["REDIS_HOST"] || 'localhost',
+		}], { redisOptions: {
+			password: process.env["REDIS_PASSWORD"],
+		} });
         // Add the redis connexion to all the requests objects.
         this.server.decorateRequest('redis', this.redis);
 
