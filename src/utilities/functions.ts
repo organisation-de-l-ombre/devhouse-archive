@@ -1,4 +1,4 @@
-import {ProjectMember, ServerResponse} from "utilities/types";
+import {ServerResponse} from "utilities/types";
 import {CachedUser} from "../pages/Members/Members";
 
 export function groupBy<T, TR>(
