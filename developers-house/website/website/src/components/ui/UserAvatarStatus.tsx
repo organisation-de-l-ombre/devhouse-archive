@@ -70,5 +70,4 @@ function UserAvatarStatus(props: {
 
 export default styled(UserAvatarStatus)`
   min-width: 7rem;
-  height: 7rem;
 `;
