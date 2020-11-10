@@ -24,6 +24,13 @@ const ButtonGroup = styled.div<ButtonGroupProps>`
             padding: ${(props): string => props.buttonPadding || '1rem'}
         }
     }
+    ${Button} {
+            flex: 1;
+            position: relative;
+            justify-content: center;
+            border-radius: 0;
+            padding: ${(props): string => props.buttonPadding || '1rem'}
+    }
 `;
 
 export default ButtonGroup;
