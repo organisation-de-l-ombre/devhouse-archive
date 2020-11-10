@@ -19,11 +19,14 @@ const NotificationZone = styled.div`
 
     @media screen and (max-width: 640px) {
         width: 100vw;
+        ${NotificationComponent} {
+            flex: 1;
+        }
     }
 `;
 
 export default function NotificationsArea(): ReactElement {
-    var notifications = useSelector(state => state.notifications.notifications);
+    let notifications = useSelector(state => state.notifications.notifications);
     const dispatch = useDispatch();
 
     const callback = (notification: Notification) => {

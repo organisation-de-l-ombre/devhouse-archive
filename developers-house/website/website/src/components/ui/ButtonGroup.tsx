@@ -13,12 +13,16 @@ const ButtonGroup = styled.div<ButtonGroupProps>`
     border-radius: ${(props): string => props.borderRadius || '5px'};
     overflow: hidden;
     
-    ${Button} {
+    .react-ripples {
         flex: 1;
-        position: relative;
-        justify-content: center;
-        border-radius: 0;
-        padding: ${(props): string => props.buttonPadding || '1rem'}
+        display: flex;
+        ${Button} {
+            flex: 1;
+            position: relative;
+            justify-content: center;
+            border-radius: 0;
+            padding: ${(props): string => props.buttonPadding || '1rem'}
+        }
     }
 `;
 
