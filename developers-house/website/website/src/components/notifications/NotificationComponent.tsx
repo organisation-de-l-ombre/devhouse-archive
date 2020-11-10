@@ -27,7 +27,7 @@ const NotificationComponent = (props: { notification: Notification, destroy: Fun
                 <div>
                     {notification.text}
                     {notification.buttons && (
-                        <ButtonGroup>
+                        <ButtonGroup style={{ marginTop: '25px' }}>
                             {notification.buttons.map(
                                 (b: { text: string; click: () => void }, i: number) => {
                                     return (
@@ -40,14 +40,13 @@ const NotificationComponent = (props: { notification: Notification, destroy: Fun
                         </ButtonGroup>
                     )}
                 </div>
-                <FaWindowClose style={{color: 'red', height: '100%', width: '100%'}} onClick={() => destroy()}/>
+                <FaWindowClose style={{color: 'red', width: '100%', alignSelf: 'top'}} onClick={() => destroy()}/>
             </div>
         </CSSTransition>
     )
 };
 
 export default styled(NotificationComponent)`
-  justify-content: center;
   text-align: left;
   margin: 1%;
   margin-top: 5px;
@@ -57,5 +56,6 @@ export default styled(NotificationComponent)`
   background-color: white;
   color: black;
   display: grid;
+  grid-gap: 10px;
   grid-template-columns: 1fr 20px;
 `;
