@@ -1,4 +1,3 @@
-import {groupBy} from "utilities";
 import React, {ReactElement} from "react";
 import MemberDisplay from "./MemberDisplay";
 import {CardFlexContainer} from "components/ui/Card";
