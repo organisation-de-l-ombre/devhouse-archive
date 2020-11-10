@@ -1,60 +1,71 @@
 import React, {ComponentProps, ReactElement} from "react";
-import styled from "styled-components";
-import {Card, CardHeader, CardPadding, CardSection} from "components/ui/Card";
+import {Card, CardPadding, CardSection} from "components/ui/Card";
 import UserAvatarStatus from "components/ui/UserAvatarStatus";
 import {getAvatar, statusToColor} from "../../utilities";
-import ButtonGroup from "../../components/ui/ButtonGroup";
 import {CachedUser} from "./Members";
+import styled from "styled-components";
+import ButtonGroup from "components/ui/ButtonGroup";
+import {Button} from "components/ui/Button";
+import {AiFillGithub} from "react-icons/all";
 
-const UserCardName = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  flex: 1;
-  flex-wrap: wrap;
-  padding-left: 1.5rem;
+const CardHeader = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr auto;
+    grid-gap: 25px;
+    width: 100%;
+    align-items: center;
+    div h2, p {
+        word-break: break-all;
+    }
 `;
 
-const LogosInline = styled.div`
-  display: inline-flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  vertical-align: center;
-`;
-
-
-export default function MemberDisplay(props: ComponentProps<'section'> & { member: CachedUser }): ReactElement {
+function MemberDisplay(props: ComponentProps<'section'> & { member: CachedUser }): ReactElement {
     return (
-        <Card>
+        <Card className={props.className}>
             <CardPadding>
                 <CardHeader>
-                    {
-                        // Displays the user's avatar
-                        props.member.avatar && (
-                            <UserAvatarStatus
-                                animate={props.member.presence.status !== "offline"}
-                                statusColor={statusToColor(props.member.presence.status)}
-                                avatar={getAvatar(props.member)}
-                            />
-                        )
-                    }
-                    <UserCardName>
-                        <LogosInline>
-                            <h3 style={{marginTop: "0.5em"}}>{props.member.username}</h3>
-                            <p style={{marginLeft: "0.3em"}}>#{props.member.id}</p>
-                        </LogosInline>
+                        {
+                            // Displays the user's avatar
+                            props.member.avatar && (
+                                <UserAvatarStatus
+                                    animate={props.member.presence.status !== "offline"}
+                                    statusColor={statusToColor(props.member.presence.status)}
+                                    avatar={getAvatar(props.member)}
+                                />
+                            )
+                        }
+                    <div>
+                        <h2>
+                            {props.member.nickname || props.member.username}
+                        </h2>
+                        <p>
+                            {props.member.hoistRole}
+                        </p>
+                    </div>
 
-                        <LogosInline as={ButtonGroup} buttonPadding="0.3rem">
-
-                        </LogosInline>
-                    </UserCardName>
+                    <ButtonGroup style={{ gridColumn: '1 / 3' }}>
+                        <Button>
+                            <AiFillGithub size={20}/>
+                        </Button>
+                        <Button>
+                            <AiFillGithub size={20}/>
+                        </Button>
+                        <Button>
+                            <AiFillGithub size={20}/>
+                        </Button>
+                    </ButtonGroup>
                 </CardHeader>
 
-                <CardSection style={{textAlign: "center"}}>
-                    {"No description provided."}
+                <CardSection>
+                    {'No description for now.'.repeat(10)}
                 </CardSection>
             </CardPadding>
         </Card>
     );
 }
+
+export default styled(MemberDisplay)`
+    flex: 1 auto;
+    width: calc(33% - 20px);
+`;

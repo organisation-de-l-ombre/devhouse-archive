@@ -18,12 +18,12 @@ export interface CachedUser {
 
 
 export default class MembersPage extends PureComponent<{},
-    { isLoading: boolean; users: CachedUser[] | null; error: Error | null }> {
+    { isLoading: boolean; users: CachedUser[]; error: Error | null }> {
     constructor(props: PropsWithRef<{}>) {
         super(props);
 
         this.state = {
-            isLoading: true, users: null, error: null
+            isLoading: true, users: [], error: null
         };
     }
 
@@ -34,7 +34,7 @@ export default class MembersPage extends PureComponent<{},
                     // First, we check if something bad happened.
                     this.state.isLoading ? (
                         <TitleBox>Loading users.</TitleBox>
-                    ) : this.state.error || this.state.users === null ? (
+                    ) : this.state.error || this.state.users === [] ? (
                         <TitleBox>
                             <h1>Failed to load the member list.</h1>
                             Try again later or try to check our status page.
@@ -51,10 +51,11 @@ export default class MembersPage extends PureComponent<{},
                                     </TypeWriter>
                                 </h2>
                             </TitleBox>
-                            <MembersDisplay users={this.state.users}/>
                         </Suspense>
                     )
                 }
+
+                <MembersDisplay users={this.state.users}/>
             </div>
         );
     }
