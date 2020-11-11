@@ -6,16 +6,25 @@ const MembersDisplay = React.lazy(() => import("./MembersDisplay"));
 
 export interface CachedUser {
     username: string;
-    nickname: string;
-    presence: {
-        status: "online" | "dnd" | "offline" | "idle";
-        presenceText: string;
+    nickname?: string;
+    presence?: {
+        emote?: string;
+        status: "online" | "dnd" | "offline" | "idle" | "invisible";
+        presenceText?: string;
     };
-    hoistRole: string;
+    hoistRole: {
+        position: number;
+        color: string;
+        name: string;
+    };
+    connexions: {
+        name: string;
+        link: string;
+    }[];
     avatar?: string;
+    discriminator: string;
     id: string;
 }
-
 
 export default class MembersPage extends PureComponent<{},
     { isLoading: boolean; users: CachedUser[]; error: Error | null }> {

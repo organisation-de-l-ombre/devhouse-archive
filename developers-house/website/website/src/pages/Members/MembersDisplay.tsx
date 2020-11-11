@@ -21,7 +21,7 @@ export default function MembersList({
             <TransitionGroup>
                 <CSSTransition classNames={"lst-not"} timeout={500}>
                     <Wrapper>
-                        {users.map((member, index) => {
+                        {users.sort((x,y) => y.hoistRole.position - x.hoistRole.position).map((member, index) => {
                             return <MemberDisplay member={member} key={index}/>;
                         })}
 
