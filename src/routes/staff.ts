@@ -5,17 +5,28 @@
 import {FastifyReply, FastifyRequest, RouteOptions} from "fastify";
 import {Cluster} from "ioredis";
 
-type User = {
+export interface User {
     username: string;
-    nickname: string;
-    presence: {
-        status: 'online' | 'dnd' | 'offline' | 'idle';
-        presenceText: string;
+    nickname?: string;
+    presence?: {
+        emote?: string;
+        status: "online" | "dnd" | "offline" | "idle" | "invisible";
+        presenceText?: string;
     };
-    hoistRole: string;
-    avatar: string;
+    hoistRole: {
+        position: number;
+        color: string;
+        name: string;
+    };
+    connexions: {
+        name: string;
+        link: string;
+    }[];
+    avatar?: string;
+    discriminator: string;
     id: string;
-};
+}
+
 
 const fetchUser: (id: string, redis: Cluster) => Promise<User> = async (id, redis) => {
     if (await redis.exists(`discord:cache:users:${id}`)) {
@@ -52,18 +63,8 @@ const route: RouteOptions = {
             const membersIds: string[] = JSON.parse(await redis.get('discord:cache:index'));
             if (Array.isArray(membersIds)) {
                 const members = await Promise.all(membersIds.map((id) => fetchUser(id, redis).catch((): User => {
-                    return {
-                        hoistRole: "unknown",
-                        nickname: undefined,
-                        presence: {
-                            presenceText: undefined,
-                            status: "offline"
-                        },
-                        username: "unknown",
-                        avatar: "",
-                        id: "unknown",
-                    };
-                })));
+                    return undefined;
+                }))).then(x => x.filter(x => !!x));
                 res.send(members);
                 return;
             }
