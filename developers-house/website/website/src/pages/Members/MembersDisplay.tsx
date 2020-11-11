@@ -25,7 +25,6 @@ export default function MembersList({
                         {users.sort((x,y) => y.hoistRole.position - x.hoistRole.position).map((member, index) => {
                             return <MemberDisplay member={member} key={index}/>;
                         })}
-
                     </Wrapper>
                 </CSSTransition>
             </TransitionGroup>
