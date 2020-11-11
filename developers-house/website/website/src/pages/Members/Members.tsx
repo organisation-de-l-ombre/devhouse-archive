@@ -1,6 +1,7 @@
 import React, {PropsWithRef, PureComponent, ReactElement, Suspense} from "react";
 import {TitleBox} from "components/ui/TitleBox";
 import {TypeWriter} from "components/TypeWriter";
+import Button from "../../components/ui/Button";
 
 const MembersDisplay = React.lazy(() => import("./MembersDisplay"));
 
@@ -34,6 +35,7 @@ export default class MembersPage extends PureComponent<{},
         this.state = {
             isLoading: true, users: [], error: null
         };
+        this.load = this.load.bind(this);
     }
 
     render(): ReactElement {
@@ -59,17 +61,22 @@ export default class MembersPage extends PureComponent<{},
                                         wouldn't exist.
                                     </TypeWriter>
                                 </h2>
+                                <Button onClick={this.load}>Refresh</Button>
                             </TitleBox>
+
+                            <MembersDisplay users={this.state.users}/>
                         </Suspense>
                     )
                 }
-
-                <MembersDisplay users={this.state.users}/>
             </div>
         );
     }
 
     async componentDidMount(): Promise<void> {
+        await this.load();
+    }
+
+    async load(): Promise<void> {
         this.setState({isLoading: true});
 
         try {

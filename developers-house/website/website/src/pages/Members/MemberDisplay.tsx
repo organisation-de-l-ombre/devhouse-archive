@@ -12,7 +12,7 @@ const CardHeader = styled.div`
     display: grid;
     grid-template-columns: 1fr 2fr;
     grid-template-rows: 1fr auto;
-    grid-gap: 25px;
+    grid-gap: 10px;
     width: 100%;
     align-items: center;
     div h2, p {
@@ -22,11 +22,17 @@ const CardHeader = styled.div`
 
 const RoleLabel = styled.p`
     color: ${(props) => props.color};
-`
+`;
+
+const Emote = styled.img`
+    height: 32px;
+    display: inline-block;
+    transform: translateY(8px);
+`;
 
 function MemberDisplay(props: ComponentProps<'section'> & { member: CachedUser }): ReactElement {
     return (
-        <Card className={props.className}>
+        <Card className={props.className} style={{ flex: `${Math.floor(Math.random() * 50 + 1)} 33%` }}>
             <CardPadding>
                 <CardHeader>
                         {
@@ -46,6 +52,21 @@ function MemberDisplay(props: ComponentProps<'section'> & { member: CachedUser }
                         <RoleLabel color={props.member.hoistRole.color}>
                             {props.member.hoistRole.name}
                         </RoleLabel>
+                        <div>
+                            {
+                                props.member.presence?.presenceText && <p>
+                                    {
+                                        props.member.presence?.emote && (
+                                            props.member.presence.emote.startsWith('http') ?
+                                                <Emote src={props.member.presence.emote}/> : props.member.presence.emote
+                                        )
+                                    }
+                                    { '   ' + props.member.presence?.presenceText }
+                                </p>
+                            }
+                        </div>
+
+
                     </div>
 
                     <ButtonGroup style={{ gridColumn: '1 / 3' }}>
@@ -61,15 +82,12 @@ function MemberDisplay(props: ComponentProps<'section'> & { member: CachedUser }
                     </ButtonGroup>
                 </CardHeader>
 
-                <CardSection>
-                    {'No description for now.'.repeat(10)}
-                </CardSection>
+                <CardPadding>
+                    {'No description for now.'}
+                </CardPadding>
             </CardPadding>
         </Card>
     );
 }
 
-export default styled(MemberDisplay)`
-    flex: 1 auto;
-    width: calc(33% - 20px);
-`;
+export default MemberDisplay;
