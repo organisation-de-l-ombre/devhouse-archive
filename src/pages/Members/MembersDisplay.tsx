@@ -1,22 +1,15 @@
-import {groupBy} from "utilities";
 import React, {ReactElement} from "react";
 import MemberDisplay from "./MemberDisplay";
-import {CardFlexContainer, CardHeader} from "components/ui/Card";
+import {CardFlexContainer} from "components/ui/Card";
 import styled from "styled-components";
 import {CachedUser} from "./Members";
+import {CSSTransition, TransitionGroup} from "react-transition-group";
+import "../../components/notifications/animations.css";
 
 const Wrapper = styled.div`
     display: flex;
-    flex-direction: column;
-    padding-left: 10%;
-    padding-right: 10%;
-`;
-
-const WrapperMembers = styled.div`
-    display: inline-flex;
-    flex-wrap: wrap;
-    flex-grow: 45%;
-    justify-content: center;
+    flex-flow: row wrap;
+    padding: 1vw;
 `;
 
 export default function MembersList({
@@ -26,25 +19,15 @@ export default function MembersList({
 }): ReactElement {
     return (
         <CardFlexContainer>
-            {Array.from(
-                groupBy(Object.values(users), (user) => {
-                    return user.hoistRole;
-                })
-            ).map(([role, members], index) => {
-                return (
-                    <Wrapper key={index}>
-                        <CardHeader align="center">
-                            <p style={{fontSize: "25px"}}>{role}</p>
-                        </CardHeader>
-                        <WrapperMembers>
-                        {members.map((member, index) => {
+            <TransitionGroup>
+                <CSSTransition classNames={"lst-not"} timeout={500}>
+                    <Wrapper>
+                        {users.sort((x,y) => y.hoistRole.position - x.hoistRole.position).map((member, index) => {
                             return <MemberDisplay member={member} key={index}/>;
                         })}
-                        </WrapperMembers>
-
                     </Wrapper>
-                );
-            })}
+                </CSSTransition>
+            </TransitionGroup>
         </CardFlexContainer>
     );
 }

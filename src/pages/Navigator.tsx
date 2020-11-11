@@ -9,6 +9,8 @@ import 'transitions.css';
 import {CSSTransition, TransitionGroup} from "react-transition-group";
 import {RouteComponentProps} from "react-router";
 import styled from "styled-components";
+import {ErrorBoundary} from "react-error-boundary";
+import ErrorPage from "./ErrorPage";
 
 const Wrapper = styled.div`
     .slide-enter {
@@ -35,6 +37,7 @@ const Navigator = ({location}: RouteComponentProps) => {
         <Wrapper>
             <TransitionGroup>
                 <CSSTransition classNames={'slide'} key={location.pathname} timeout={300}>
+                    <ErrorBoundary FallbackComponent={ErrorPage}>
                     <Switch>
                         <Route path="/" exact>
                             <HomePage/>
@@ -52,6 +55,7 @@ const Navigator = ({location}: RouteComponentProps) => {
                             <NotFound/>
                         </Route>
                     </Switch>
+                    </ErrorBoundary>
                 </CSSTransition>
             </TransitionGroup>
         </Wrapper>);

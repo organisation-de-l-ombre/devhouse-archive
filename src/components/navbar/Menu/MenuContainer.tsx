@@ -19,6 +19,7 @@ export default styled.div<{ open: boolean }>`
     // Layout
     display: flex;
     flex-flow: row no-wrap;
+    box-shadow: black 0 0 11px;
     @media screen and (max-width: 640px) {
       flex-flow: column wrap;
       ${OnlyMobiles} {

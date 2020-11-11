@@ -17,11 +17,12 @@ const nameColor = {
     online: "rgb(67, 181, 129)",
     idle: "rgb(250, 166, 26)",
     dnd: "rgb(240, 71, 71)",
-    offline: "gray"
+    offline: "gray",
+    invisible: "gray",
 };
 
 export function statusToColor(
-    name: "online" | "idle" | "dnd" | "offline"
+    name: "online" | "idle" | "dnd" | "offline" | "invisible"
 ): string {
     return nameColor[name] || nameColor.offline;
 };
@@ -35,14 +36,6 @@ export function getAvatar(member: CachedUser): string {
             parseInt(member.id) % 5
         }.png`;
 };
-
-export const sum = (a: number, b: number) => {
-    if ('development' === process.env.NODE_ENV) {
-        console.log('boop');
-    }
-    return a + b;
-};
-
 
 export function returnOrThrow<T>(response: ServerResponse<T>): ServerResponse<T> {
     if (response.code === 200) {

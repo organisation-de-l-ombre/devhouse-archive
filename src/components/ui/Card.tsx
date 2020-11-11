@@ -3,10 +3,11 @@ import styled from "styled-components";
 export const Card = styled.div`
   background-color: ${(props): string =>
     props.theme.background.secondary};
-  border-radius: 5px;
+  border-radius: 7px;
   overflow: hidden;
   flex: 1;
   flex-direction: column;
+  box-shadow: ${(props): string => props.theme.background.tertiary} 0 0 2px;
 `;
 
 export const CardPadding = styled.div`
