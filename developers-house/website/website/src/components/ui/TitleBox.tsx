@@ -7,4 +7,5 @@ export const TitleBox = styled.div`
   padding-right: 1rem;
   justify-content: center;
   text-align: center;
+  height: 150%;
 `;
