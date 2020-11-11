@@ -16,9 +16,13 @@ const CardHeader = styled.div`
     width: 100%;
     align-items: center;
     div h2, p {
-        word-break: break-all;
+        word-break: break-word;
     }
 `;
+
+const RoleLabel = styled.p`
+    color: ${(props) => props.color};
+`
 
 function MemberDisplay(props: ComponentProps<'section'> & { member: CachedUser }): ReactElement {
     return (
@@ -27,21 +31,21 @@ function MemberDisplay(props: ComponentProps<'section'> & { member: CachedUser }
                 <CardHeader>
                         {
                             // Displays the user's avatar
-                            props.member.avatar && (
+                            (
                                 <UserAvatarStatus
-                                    animate={props.member.presence.status !== "offline"}
-                                    statusColor={statusToColor(props.member.presence.status)}
+                                    animate={props.member.presence?.status !== "offline"}
+                                    statusColor={statusToColor(props.member.presence?.status || 'offline')}
                                     avatar={getAvatar(props.member)}
                                 />
                             )
                         }
                     <div>
                         <h2>
-                            {props.member.nickname || props.member.username}
+                            {props.member.nickname || props.member.username} <sub>#{ props.member.discriminator }</sub>
                         </h2>
-                        <p>
-                            {props.member.hoistRole}
-                        </p>
+                        <RoleLabel color={props.member.hoistRole.color}>
+                            {props.member.hoistRole.name}
+                        </RoleLabel>
                     </div>
 
                     <ButtonGroup style={{ gridColumn: '1 / 3' }}>
