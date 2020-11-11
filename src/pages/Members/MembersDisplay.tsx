@@ -9,6 +9,7 @@ import "../../components/notifications/animations.css";
 const Wrapper = styled.div`
     display: flex;
     flex-flow: row wrap;
+    padding: 1vw;
 `;
 
 export default function MembersList({
