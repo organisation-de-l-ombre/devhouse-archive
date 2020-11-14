@@ -31,7 +31,7 @@ export function getAvatar(member: CachedUser): string {
     return member.avatar
         ? `https://cdn.discordapp.com/avatars/${member.id}/${
             member.avatar
-        }.${member.avatar.startsWith("a_") ? "gif" : "png"}`
+        }.${member.avatar.startsWith("a_") ? "gif" : "webp"}`
         : `https://cdn.discordapp.com/embed/avatars/${
             parseInt(member.id) % 5
         }.png`;
