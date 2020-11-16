@@ -4,6 +4,10 @@ include:
 variables:
   DOCKER_BUILDKIT: '1'
 
+stages:
+  - build
+  - docker
+
 node_build:
   image: node
   script:
@@ -20,6 +24,7 @@ node_build:
       - build
 
 build:
+  stage: docker
   needs:
     - node_build
   dependencies:
