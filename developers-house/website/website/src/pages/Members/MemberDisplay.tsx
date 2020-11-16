@@ -47,7 +47,7 @@ function MemberDisplay(props: ComponentProps<'section'> & { member: CachedUser }
                         }
                     <div>
                         <h2>
-                            {props.member.nickname || props.member.username} <sub>#{ props.member.discriminator }</sub>
+                            {props.member.username} <sub>#{ props.member.discriminator }</sub>
                         </h2>
                         <RoleLabel color={props.member.hoistRole.color}>
                             {props.member.hoistRole.name}
