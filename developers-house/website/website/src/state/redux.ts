@@ -13,10 +13,13 @@ import localforage from 'localforage';
 import modules from './modules';
 import {DefaultRootState} from 'react-redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
+import {PersistConfig} from "redux-persist/es/types";
 
-const persistConfig = {
+const persistConfig: PersistConfig<DefaultRootState> = {
     key: 'root',
     storage: localforage,
+    blacklist: ['notifications']
+
 }
 
 const buildDefaults = (): { defaultState: Partial<DefaultRootState>, reducers: { [T: string]: (...args: any[]) => unknown } } => {
@@ -40,8 +43,8 @@ export function createState(): { store: Store, persistor: Persistor } {
 
     let callCompose = applyMiddleware(...[reduxThunk, createStateSyncMiddleware({
         blacklist: [
-            'persist/PERSIST', 'persist/REHYDRATE'
-        ]
+            'persist/PERSIST', 'persist/REHYDRATE', 'notifications'
+        ],
     })]);
 
     if (env.NODE_ENV !== 'production') {
