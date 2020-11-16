@@ -4,7 +4,7 @@ include:
 variables:
   DOCKER_BUILDKIT: '1'
 
-build_artifact:
+pre_build:
   image: node
   script:
     - yarn install
@@ -13,12 +13,14 @@ build_artifact:
     key: node-modules
     paths:
       - node_modules
-  stage: .pre
+  stage: build
   artifacts:
     name: 'React build'
     paths:
       - build
 
 build:
+  needs:
+    - build_artifact
   dependencies:
     - build_artifact
