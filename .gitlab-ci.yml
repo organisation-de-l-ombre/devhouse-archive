@@ -20,7 +20,5 @@ build_artifact:
       - build
 
 build:
-  needs:
-    - build_artifact
   dependencies:
     - build_artifact
