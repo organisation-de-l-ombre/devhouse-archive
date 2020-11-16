@@ -4,7 +4,7 @@ include:
 variables:
   DOCKER_BUILDKIT: '1'
 
-pre_build:
+node_build:
   image: node
   script:
     - yarn install
@@ -21,6 +21,6 @@ pre_build:
 
 build:
   needs:
-    - build_artifact
+    - node_build
   dependencies:
-    - build_artifact
+    - node_build
