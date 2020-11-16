@@ -13,5 +13,11 @@
                 "next/babel"
             ]
         }
-    }
+    },
+    "presets": [
+        "@babel/preset-env",
+        "@babel/react",
+        "next/babel",
+        "@babel/preset-typescript"
+    ]
 }
