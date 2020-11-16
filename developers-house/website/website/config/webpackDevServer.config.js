@@ -100,6 +100,7 @@ module.exports = function (proxy, allowedHost) {
             index: paths.publicUrlOrPath,
         },
         public: allowedHost,
+
         // `proxy` is run between `before` and `after` `webpack-dev-server` hooks
         proxy,
         before(app, server) {
