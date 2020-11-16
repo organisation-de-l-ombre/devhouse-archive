@@ -2,5 +2,26 @@ include:
   - template: Auto-DevOps.gitlab-ci.yml
 
 variables:
-  POSTGRES_ENABLED: 'false'
   DOCKER_BUILDKIT: '1'
+
+stages:
+  - build
+
+'Build website':
+  image: node
+  script:
+    - yarn install
+    - yarn build
+  cache:
+    key: node-modules
+    paths:
+      - node_modules
+  stage: build
+  artifacts:
+    name: build
+    paths:
+      - build
+
+build:
+  dependencies:
+    - 'Build website'

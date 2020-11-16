@@ -191,7 +191,7 @@ module.exports = function (webpackEnv) {
                 (info => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/')),
             // Prevents conflicts when multiple webpack runtimes (from different apps)
             // are used on the same page.
-            jsonpFunction: `webpackJsonp${appPackageJson.name}`,
+            jsonpFunction: `__jsp_webpack${appPackageJson.name}`,
             // this defaults to 'window', but by setting it to 'this' then
             // module chunks which are built will work in web workers as well.
             globalObject: 'this',
@@ -271,7 +271,7 @@ module.exports = function (webpackEnv) {
             // https://twitter.com/wSokra/status/969679223278505985
             // https://github.com/facebook/create-react-app/issues/5358
             runtimeChunk: {
-                name: entrypoint => `runtime-${entrypoint.name}`,
+                name: entrypoint => `entrypoint-${entrypoint.name}`,
             },
         },
         resolve: {
