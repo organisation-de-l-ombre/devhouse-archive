@@ -45,7 +45,7 @@ export default function HomePage(): ReactElement {
                         <Button
                             as="a"
                             target="_blank"
-                            href={''}
+                            href={'https://discord.gg/r8RC2TjnFd'}
                             rel="noopener noreferrer"
                         >
                             <ButtonImage>
