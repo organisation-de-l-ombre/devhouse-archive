@@ -5,16 +5,17 @@
   display: flex;
   flex-flow: column;
 
-    width: 100%;
+  width: 100%;
 
-    button {
-      width: 100%;
-    }
+  button {
+    width: 100%;
+  }
 }
 
 .horizontal {
   flex-flow: row;
-  button, a {
+  button,
+  a {
     flex: 1;
     margin-left: 1.5%;
     margin-right: 1.5%;

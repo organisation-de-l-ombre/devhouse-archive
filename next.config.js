@@ -1,7 +1,7 @@
 module.exports = {
-    basePath: '/dialog',
-    assetPrefix: '/dialog',
-    api: {
-        externalResolver: true,
-    },
-}
+  basePath: "/dialog",
+  assetPrefix: "/dialog",
+  api: {
+    externalResolver: true,
+  },
+};
