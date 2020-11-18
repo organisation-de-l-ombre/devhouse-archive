@@ -1,30 +1,77 @@
-import React, { ReactElement } from 'react';
-import { Button, ButtonContainer } from '../components/button';
+import { GetServerSidePropsContext } from "next";
+import React, { ReactElement } from "react";
+import { Button, ButtonContainer } from "../components/button";
+import { AdminAPI, validateHydraResponse } from "../service/hydra";
 
-export default function Consent (): ReactElement {
+import { provide } from "../service/csrf";
+import { applySession } from "next-session";
 
+export default function Consent({
+  client: { challenge, name },
+  csrf,
+  requested_scope,
+}: {
+  csrf: string;
+  client: { challenge: string; name: string };
+  requested_scope: string[];
+}): ReactElement {
+  return (
+    <div>
+      <h2>Consent page</h2>
+      <p>
+        The application {name} needs some kind of access to your account and
+        needs your consent, if you do not trust this application, feel free to
+        reject the consent request. This application requires the following
+        permissions.
+      </p>
 
-    return (
-        <div>
-            <h2>Consent page</h2>
-            <p>
-                The application {} needs some kind of access to your account and needs your consent, if you do not trust this application, feel free to reject the consent request.
-                This application requires the following permissions.
-            </p>
+      <ul>
+        {requested_scope.map((val) => (
+          <li key={val}>{val}</li>
+        ))}
+      </ul>
+      <form method="POST" action="/dialog/api/consent/validate">
+        <ButtonContainer horizontal>
+          <Button name="validate" value="accept">
+            Accept
+          </Button>
+          <Button name="validate" value="reject">
+            Reject
+          </Button>
+          <input type="hidden" value={challenge} name="challenge" />
+          <input type="hidden" value={csrf} name="_csrf" />
+        </ButtonContainer>
+      </form>
+    </div>
+  );
+}
 
-            <ul>
-                <li>View your account</li>
-                <li>Edit your Kuizz account.</li>
-            </ul>
-
-            <ButtonContainer horizontal>
-                <Button>
-                    Accept
-                </Button>
-                <Button>
-                    Reject
-                </Button>
-            </ButtonContainer>
-        </div>
-    );
-};
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  // Fetch the request.
+  if (context.query.consent_challenge) {
+    const {
+      client: { client_name, client_id },
+      subject,
+      requested_scope,
+    } = await AdminAPI.getConsentRequest(
+      context.query.consent_challenge as string
+    ).then(validateHydraResponse);
+    // Load the session.
+    await applySession(context.req as any, context.res, {});
+    return {
+      props: {
+        client: {
+          name: client_name || client_id,
+          challenge: context.query.consent_challenge,
+        },
+        subject,
+        requested_scope,
+        csrf: await provide(context.req as any, context.res),
+      },
+    };
+  } else {
+    return {
+      notFound: true,
+    };
+  }
+}
