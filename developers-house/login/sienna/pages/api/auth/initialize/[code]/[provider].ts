@@ -1,7 +1,7 @@
 import { randomBytes } from 'crypto';
 import { NextApiHandler, NextApiRequest } from 'next'
 import { withSession, applySession, SessionData } from 'next-session';
-import { Providers } from '../../../../../providers'
+import { Providers } from '../../../../../service/providers'
 
 /*
  * Redirects to the requested url.

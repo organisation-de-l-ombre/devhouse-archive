@@ -1,6 +1,6 @@
 import FormData from 'form-data';
 import fetch from 'node-fetch';
-import {ConstructorType, GeneralUser, Provider} from "../post-server";
+import {ConstructorType, GeneralUser, Provider} from ".";
 
 export default class DiscordProvider implements Provider {
 
