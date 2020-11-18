@@ -1,3 +1,4 @@
 module.exports = {
-    basePath: '/dialog'
+    basePath: '/dialog',
+    assetPrefix: '/dialog',
 }
