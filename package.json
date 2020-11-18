@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.12.1",
+    "@oryd/hydra-client": "^1.9.0-alpha.2",
+    "axios": "^0.21.0",
     "jest-css-modules": "^2.1.0",
     "next": "10.0.0",
     "next-session": "^3.3.2",

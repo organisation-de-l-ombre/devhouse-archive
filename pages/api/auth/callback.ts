@@ -1,6 +1,6 @@
 import { NextApiHandler, NextApiRequest } from 'next'
 import { withSession, SessionData } from 'next-session';
-import { GeneralUser, Providers } from '../../../providers'
+import { GeneralUser, Providers } from '../../../service/providers'
 
 /*
  * Redirects to the requested url.
