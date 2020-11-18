@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Button.module.scss';
 
 const event = (onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    const button: HTMLButtonElement = event.currentTarget as any;
+    const button = event.currentTarget;
     const circle = document.createElement('span');
     const diameter = Math.max(button.clientWidth, button.clientHeight);
     const radius = diameter / 2;
