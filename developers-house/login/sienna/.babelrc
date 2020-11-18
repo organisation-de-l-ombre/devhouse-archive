@@ -12,12 +12,14 @@
             "presets": [
                 "next/babel"
             ]
+        },
+        "production": {
+            "presets": [
+                "@babel/preset-env",
+                "@babel/react",
+                "next/babel",
+                "@babel/preset-typescript"
+            ]
         }
     },
-    "presets": [
-        "@babel/preset-env",
-        "@babel/react",
-        "next/babel",
-        "@babel/preset-typescript"
-    ]
 }
