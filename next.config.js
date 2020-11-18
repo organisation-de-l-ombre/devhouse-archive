@@ -1,3 +1,3 @@
 module.exports = {
-    basePath: '/dialog/'
+    basePath: '/dialog'
 }
