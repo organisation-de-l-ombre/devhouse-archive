@@ -5,11 +5,9 @@ import { AdminAPI, validateHydraResponse } from "../service/hydra";
 
 const platforms = [
   "Discord",
-  "GitHub",
-  "GitLab",
-  "Instagram",
   "Google",
-  "Microsoft",
+  "Instagram",
+  "GitHub",
 ];
 
 export default function Home({
