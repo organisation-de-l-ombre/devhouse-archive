@@ -90,9 +90,9 @@ export default class MembersPage extends PureComponent<{},
                 return;
             }
             const json: CachedUser[] = await data.json();
-            this.setState({ isLoading: false, users: json });
+            this.setState({isLoading: false, users: json});
         } catch (error) {
-            this.setState({ isLoading: false, error });
+            this.setState({isLoading: false, error});
         }
     }
 }

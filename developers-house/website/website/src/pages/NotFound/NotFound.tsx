@@ -1,6 +1,5 @@
 import React, {ReactElement} from "react";
 import Button from "components/ui/Button";
-import {NavLink} from "react-router-dom";
 import styled from "styled-components";
 
 const NotFoundBase = styled.div`

@@ -38,23 +38,23 @@ const Navigator = ({location}: RouteComponentProps) => {
             <TransitionGroup>
                 <CSSTransition classNames={'slide'} key={location.pathname} timeout={300}>
                     <ErrorBoundary FallbackComponent={ErrorPage}>
-                    <Switch>
-                        <Route path="/" exact>
-                            <HomePage/>
-                        </Route>
-                        <Route path="/about" exact>
-                            <AboutPage/>
-                        </Route>
-                        <Route path="/projects" exact>
-                            <ProjectsPage/>
-                        </Route>
-                        <Route path="/members" exact>
-                            <MembersPage/>
-                        </Route>
-                        <Route path="*">
-                            <NotFound/>
-                        </Route>
-                    </Switch>
+                        <Switch>
+                            <Route path="/" exact>
+                                <HomePage/>
+                            </Route>
+                            <Route path="/about" exact>
+                                <AboutPage/>
+                            </Route>
+                            <Route path="/projects" exact>
+                                <ProjectsPage/>
+                            </Route>
+                            <Route path="/members" exact>
+                                <MembersPage/>
+                            </Route>
+                            <Route path="*">
+                                <NotFound/>
+                            </Route>
+                        </Switch>
                     </ErrorBoundary>
                 </CSSTransition>
             </TransitionGroup>

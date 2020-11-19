@@ -1,5 +1,6 @@
-import styled from "styled-components";
-import {Button} from "./Button";
+import React from 'react';
+import {SimplifiedHTMLProps} from "./Button";
+import styles from './button.module.scss';
 
 type ButtonGroupProps = {
     borderRadius?: string;
@@ -7,27 +8,9 @@ type ButtonGroupProps = {
     direction?: string;
 };
 
-const ButtonGroup = styled.div<ButtonGroupProps>`
-
-    
-    .react-ripples {
-        flex: 1;
-        display: flex;
-        button {
-            flex: 1;
-            position: relative;
-            justify-content: center;
-            border-radius: 0;
-            padding: ${(props): string => props.buttonPadding || '1rem'}
-        }
-    }
-    button {
-            flex: 1;
-            position: relative;
-            justify-content: center;
-            border-radius: 0;
-            padding: ${(props): string => props.buttonPadding || '1rem'}
-    }
-`;
+const ButtonGroup:
+    React.FC<SimplifiedHTMLProps<HTMLImageElement>> =
+    ({className, ...props}) =>
+        <div className={[className, styles.group].join(' ')} {...props} />;
 
 export default ButtonGroup;
