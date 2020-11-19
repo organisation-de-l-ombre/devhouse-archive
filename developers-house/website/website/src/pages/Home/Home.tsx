@@ -42,8 +42,7 @@ export default function HomePage(): ReactElement {
                         Some nice projects around the Discord ecosystem.
                     </HeaderContentTitle>
                     <ButtonGroup>
-                        <Button
-                        >
+                        <Button>
                             <ButtonImage>
                                 <FaDiscord/>
                             </ButtonImage>

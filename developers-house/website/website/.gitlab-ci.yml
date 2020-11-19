@@ -2,5 +2,44 @@ include:
   - template: Auto-DevOps.gitlab-ci.yml
 
 variables:
-  POSTGRES_ENABLED: 'false'
   DOCKER_BUILDKIT: '1'
+
+stages:
+  - build
+  - docker
+  - test
+  - deploy  # dummy stage to follow the template guidelines
+  - review
+  - dast
+  - staging
+  - canary
+  - production
+  - incremental rollout 10%
+  - incremental rollout 25%
+  - incremental rollout 50%
+  - incremental rollout 100%
+  - performance
+  - cleanup
+
+
+node_build:
+  image: node
+  script:
+    - yarn install
+    - yarn build
+  cache:
+    key: node-modules
+    paths:
+      - node_modules
+  stage: build
+  artifacts:
+    name: 'React build'
+    paths:
+      - build
+
+build:
+  stage: docker
+  needs:
+    - node_build
+  dependencies:
+    - node_build
