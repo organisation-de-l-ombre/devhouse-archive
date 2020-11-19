@@ -43,17 +43,13 @@ export default function HomePage(): ReactElement {
                     </HeaderContentTitle>
                     <ButtonGroup>
                         <Button
-                            as="a"
-                            target="_blank"
-                            href={''}
-                            rel="noopener noreferrer"
                         >
                             <ButtonImage>
                                 <FaDiscord/>
                             </ButtonImage>
                             Discord server
                         </Button>
-                        <Button as={NavLink} to="/projects">
+                        <Button>
                             <ButtonImage>
                                 <RiPencilRuler2Line/>
                             </ButtonImage>
@@ -82,7 +78,7 @@ export default function HomePage(): ReactElement {
                         </CardHeader>
 
                         <CardSection>
-                            
+
                         </CardSection>
                     </CardPadding>
                 </Card>
@@ -93,7 +89,7 @@ export default function HomePage(): ReactElement {
                         </CardHeader>
 
                         <CardSection>
-                            
+
                         </CardSection>
                     </CardPadding>
                 </Card>

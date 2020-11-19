@@ -1,10 +1,17 @@
 /*
  * A simple menu item component for the Menu.
  */
-import styled from "styled-components";
+import React from "react";
+import styles from "./navigation.module.scss";
 
-const OnlyMobiles = styled.div`
-    display: none;
-`;
+export const OnlyMobiles:
+    React.FC<
+        React.DetailedHTMLProps<
+            React.HTMLAttributes<HTMLDivElement>,
+            HTMLDivElement>
+        > =
+    ({ className, ...props }) =>
+        <div className={[className, styles.onlyMobiles].join(' ')} {...props} />;
+
 
 export default OnlyMobiles;

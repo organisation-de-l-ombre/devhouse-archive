@@ -1,7 +1,7 @@
 import React, {ReactElement, useEffect, useState} from "react";
 import Button from "../ui/Button";
 import ButtonGroup from "../ui/ButtonGroup";
-import styled from "styled-components";
+import styles from './notifications.module.scss';
 import {Notification} from 'state/modules/notifications';
 import {CSSTransition} from "react-transition-group";
 import {FaWindowClose} from 'react-icons/fa';
@@ -22,8 +22,8 @@ const NotificationComponent = (props: { notification: Notification, destroy: Fun
     }, [notification.time, destroy, timer]);
 
     return (
-        <CSSTransition timeout={500} classNames="lst-not"  {...{...props, destroy: undefined}} >
-            <div>
+        <CSSTransition timeout={500} classNames="notification" {...{...props, destroy: undefined}} >
+            <div className={styles.notification}>
                 <div>
                     {notification.text}
                     {notification.buttons && (
@@ -46,16 +46,4 @@ const NotificationComponent = (props: { notification: Notification, destroy: Fun
     )
 };
 
-export default styled(NotificationComponent)`
-  text-align: left;
-  margin: 1%;
-  margin-top: 5px;
-  border-radius: 5px;
-  z-index: 15;
-  padding: 1.2rem 1.2rem 1.1rem;
-  background-color: white;
-  color: black;
-  display: grid;
-  grid-gap: 10px;
-  grid-template-columns: 1fr 20px;
-`;
+export default NotificationComponent;

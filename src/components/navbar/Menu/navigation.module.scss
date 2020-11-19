@@ -1,0 +1,43 @@
+.active {}
+
+.item {
+    display: inline-block;
+    padding: 1rem;
+    cursor: pointer;
+    &:hover, &.active {
+        background-color: var(--background-primary);
+    }
+}
+
+
+.onlyMobiles {
+    display: none;
+}
+
+.container {
+    top: 0;
+    width: 100%;
+    z-index: 4;
+    position: absolute;
+    background-color: var(--background-primary);
+    vertical-align: middle;
+    display: flex;
+    flex-flow: row;
+    @media screen and (max-width: 640px) {
+        flex-flow: column wrap;
+        .onlyMobiles {
+            display: block;
+        }
+        * {
+            display: none;
+            flex: 1;
+        }
+        :first-child {
+            display: inline-block;
+        }
+    }
+}
+
+.open * {
+    display: inline-block;
+}

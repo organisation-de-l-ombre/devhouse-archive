@@ -29,7 +29,7 @@ export default function NotFound(): ReactElement {
                 <hr/>
                 <h2>Not found - This page doesn't exists</h2>
                 <p>We couldn't find this page on this application.</p>
-                <Button as={NavLink} to="/">
+                <Button>
                     Return home
                 </Button>
             </NotFoundContent>

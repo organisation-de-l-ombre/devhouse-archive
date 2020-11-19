@@ -5,6 +5,7 @@
 import React, {PropsWithChildren, ReactElement} from "react";
 import {useSelector} from "react-redux";
 import {createGlobalStyle, DefaultTheme, ThemeProvider as Theme} from 'styled-components';
+import styles from './themes.module.scss';
 
 declare module 'styled-components' {
     export interface DefaultTheme {
@@ -45,12 +46,12 @@ const themes: { [K: string]: DefaultTheme } = {
         name: "white",
         foreground: {
             // The three base colors
-            primary: "black",
+            primary: "",
             secondary: "black",
             tertiary: "black",
             page: "black",
             hover: {
-                primary: "rgb(35, 35, 35)",
+                primary: "",
                 secondary: "rgb(35, 35, 35)",
                 tertiary: ""
             }
@@ -114,15 +115,22 @@ const GlobalTheme = createGlobalStyle`
     color: ${(props): string =>
     props.theme.foreground.page};
   }
+  
+  :root {
+    
+  }
 `;
 
 const ThemeProvider = (props: PropsWithChildren<{}>): ReactElement => {
     const currentTheme = useSelector((state) => state.theme.theme);
     return (
-        <Theme theme={themes[currentTheme]}>
-            <GlobalTheme/>
-            {props.children}
-        </Theme>
+        <div className={styles[currentTheme]}>
+
+            <Theme theme={themes[currentTheme]}>
+                <GlobalTheme/>
+                {props.children}
+            </Theme>
+        </div>
     )
 };
 

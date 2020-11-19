@@ -1,0 +1,36 @@
+.button {
+  padding: 0.7rem 1rem 0.7rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 5px;
+  background-color: var(--background-primary);
+
+  color: var(--foreground-primary);
+  transition: background-color 0.5s;
+  :hover {
+    background-color: var(--foreground-hover-primary);
+  }
+
+  .image {
+    display: inline;
+    margin: 0 0.25rem;
+    svg {
+      height: 32px;
+      width: 32px;
+      vertical-align: middle;
+      display: inline-block;
+    }
+  }
+}
+
+.button__no_radius {
+  border-radius: 0;
+}
+
+
+.group {
+  display: flex;
+  flex-flow: row wrap;
+  border-radius: 5px;
+  overflow: hidden;
+}

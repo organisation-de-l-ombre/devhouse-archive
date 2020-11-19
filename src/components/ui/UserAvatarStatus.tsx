@@ -9,7 +9,6 @@ function UserAvatarStatus(props: {
 }): any {
     return (
         <svg
-            {...props}
             viewBox="0 0 19 19"
             version="1.1"
             height="100%"

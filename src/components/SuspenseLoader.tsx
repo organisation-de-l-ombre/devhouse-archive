@@ -1,10 +1,10 @@
 import React, { PropsWithChildren, Suspense } from 'react';
 import ReactLoaders from 'react-loaders';
 import 'loaders.css/src/animations/line-scale.scss';
-import './loader.scss';
+import styles from './loader.module.scss';
 
 export const Loader = () => {
-    return <div className="loader">
+    return <div className={styles.loader}>
         <div>
             <ReactLoaders type="line-scale" active />
             <p>Loading the websiteeeee!</p>
