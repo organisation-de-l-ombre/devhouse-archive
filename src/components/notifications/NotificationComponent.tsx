@@ -27,7 +27,7 @@ const NotificationComponent = (props: { notification: Notification, destroy: Fun
                 <div>
                     {notification.text}
                     {notification.buttons && (
-                        <ButtonGroup style={{ marginTop: '25px' }}>
+                        <ButtonGroup style={{marginTop: '25px'}}>
                             {notification.buttons.map(
                                 (b: { text: string; click: () => void }, i: number) => {
                                     return (

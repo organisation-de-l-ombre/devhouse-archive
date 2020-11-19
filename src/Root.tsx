@@ -75,11 +75,11 @@ export default function Root(): ReactElement {
             <Provider store={store}>
                 <PersistGate loading={<Loader/>} persistor={persistor}>
                     <ThemeProvider>
-                            <NotificationArea/>
-                            <BrowserRouter>
-                                <Menu/>
-                                <Navigator/>
-                            </BrowserRouter>
+                        <NotificationArea/>
+                        <BrowserRouter>
+                            <Menu/>
+                            <Navigator/>
+                        </BrowserRouter>
                     </ThemeProvider>
                 </PersistGate>
             </Provider>

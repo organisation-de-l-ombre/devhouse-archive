@@ -1,46 +1,29 @@
-import styled from "styled-components";
+import React from "react";
+import styles from "./card.module.scss";
+import {SimplifiedHTMLProps} from "./Button";
 
-export const Card = styled.div`
-  background-color: ${(props): string =>
-    props.theme.background.secondary};
-  border-radius: 7px;
-  overflow: hidden;
-  flex: 1;
-  flex-direction: column;
-  box-shadow: ${(props): string => props.theme.background.tertiary} 0 0 2px;
-`;
+export const Card:
+    React.FC<SimplifiedHTMLProps<HTMLImageElement>> =
+    ({className, ...props}) =>
+        <div className={[className, styles.card].join(' ')} {...props} />;
 
-export const CardPadding = styled.div`
-  padding: 1.5rem;
-`;
+export const CardPadding:
+    React.FC<SimplifiedHTMLProps<HTMLImageElement>> =
+    ({className, ...props}) =>
+        <div className={[className, styles.padding].join(' ')} {...props} />;
 
-export const CardHeader = styled.div<{ align?: string }>`
-  vertical-align: center;
-  display: inline-flex;
-  flex-wrap: wrap;
-  width: 100%;
-  justify-content: ${(
-    props
-): string => props.align || "left"};
-`;
+export const CardHeader:
+    React.FC<SimplifiedHTMLProps<HTMLImageElement>> =
+    ({className, ...props}) =>
+        <div className={[className, styles.header].join(' ')} {...props} />;
 
-export const CardSection = styled.div`
-  flex: 1;
-  padding-top: 1rem;
-  display: block;
-  word-break: break-word;
-`;
+export const CardSection:
+    React.FC<SimplifiedHTMLProps<HTMLImageElement>> =
+    ({className, ...props}) =>
+        <div className={[className, styles.section].join(' ')} {...props} />;
 
-export const CardFlexContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin: 1.5rem;
-  ${Card} {
-    margin: 5px;
-    @media screen and (max-width: 1000px) {
-      min-width: 49%;
-    }
-  }
-`;
+
+export const CardFlexContainer:
+    React.FC<SimplifiedHTMLProps<HTMLImageElement>> =
+    ({className, ...props}) =>
+        <div className={[className, styles.container].join(' ')} {...props} />;

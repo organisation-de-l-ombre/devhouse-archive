@@ -23,6 +23,7 @@ export function Menu(): ReactElement {
 
     return (
         <NavigationContainer open={open} onClick={globalClick}>
+            <OnlyMobiles>
                 <NavigationItem onClick={switchOpen}>
                     Developer's House
                     <OnlyMobiles style={{float: 'right', verticalAlign: 'middle'}}>
@@ -30,16 +31,17 @@ export function Menu(): ReactElement {
                             style={{transform: `rotate(${open ? '90' : '0'}deg)`, scale: 2, transition: 'all 250ms'}}/>
                     </OnlyMobiles>
                 </NavigationItem>
-                <NavLink to={'/'} exact>
-                    <NavigationItem onClick={switchOpenClick}>
-                        Home
-                    </NavigationItem>
-                </NavLink>
-                <NavLink to={'/members'}>
-                    <NavigationItem onClick={switchOpenClick}>
-                        Members
-                    </NavigationItem>
-                </NavLink>
+            </OnlyMobiles>
+            <NavLink to={'/'} exact>
+                <NavigationItem onClick={switchOpenClick}>
+                    Home
+                </NavigationItem>
+            </NavLink>
+            <NavLink to={'/members'}>
+                <NavigationItem onClick={switchOpenClick}>
+                    Members
+                </NavigationItem>
+            </NavLink>
             <NavLink to={'/about'}>
 
                 <NavigationItem onClick={switchOpenClick}>
