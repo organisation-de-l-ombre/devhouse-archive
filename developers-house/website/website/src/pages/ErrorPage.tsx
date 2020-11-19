@@ -31,8 +31,6 @@ const ErrorPage = styled(ErrorPageStructure)`
     justify-content: center;
     vertical-align: middle;
     height: 100vh;
-    margin-left: 5rem;
-    margin-right: 5rem;
     align-items: center;
     background-color: #141414;
     color: white;

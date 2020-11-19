@@ -8,15 +8,12 @@ type ButtonGroupProps = {
 };
 
 const ButtonGroup = styled.div<ButtonGroupProps>`
-    display: flex;
-    flex-flow: ${(props): string => props.direction || 'row'} wrap;
-    border-radius: ${(props): string => props.borderRadius || '5px'};
-    overflow: hidden;
+
     
     .react-ripples {
         flex: 1;
         display: flex;
-        ${Button} {
+        button {
             flex: 1;
             position: relative;
             justify-content: center;
@@ -24,7 +21,7 @@ const ButtonGroup = styled.div<ButtonGroupProps>`
             padding: ${(props): string => props.buttonPadding || '1rem'}
         }
     }
-    ${Button} {
+    button {
             flex: 1;
             position: relative;
             justify-content: center;

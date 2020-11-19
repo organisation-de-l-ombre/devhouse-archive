@@ -11,7 +11,7 @@ export function groupBy<T, TR>(
         ret.set(identifier, [...(ret.get(identifier) || []), value]);
     });
     return ret;
-};
+}
 
 const nameColor = {
     online: "rgb(67, 181, 129)",
@@ -24,7 +24,7 @@ export function statusToColor(
     name: "online" | "idle" | "dnd" | "offline"
 ): string {
     return nameColor[name] || nameColor.offline;
-};
+}
 
 export function getAvatar(member: CachedUser): string {
     return member.avatar
@@ -34,19 +34,4 @@ export function getAvatar(member: CachedUser): string {
         : `https://cdn.discordapp.com/embed/avatars/${
             parseInt(member.id) % 5
         }.png`;
-};
-
-export const sum = (a: number, b: number) => {
-    if ('development' === process.env.NODE_ENV) {
-        console.log('boop');
-    }
-    return a + b;
-};
-
-
-export function returnOrThrow<T>(response: ServerResponse<T>): ServerResponse<T> {
-    if (response.code === 200) {
-        return response;
-    }
-    throw new Error(`Failed to load the members ${response.message}`);
 }

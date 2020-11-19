@@ -31,16 +31,16 @@ function getTokenWithPopup(): Promise<string> {
 
     localStorage.setItem('state-oauth', state);
 
-    const clientId: string = process.env.REACT_APP_CLIENT_ID || '';
+    const clientId: string = process.env.REACT_APP_CLIENT_ID || 'b956f378-9b6c-49d8-9e52-a9fd708266d5';
     const redirect = `${document.location.protocol}//${document.location.host}/callback`;
-    const apiAudience = 'https://api.developershouse.xyz/';
+    const apiAudience = 'website';
 
     const scopes = [
-        'profile:view'
+        'account:all'
     ].join(' ');
 
     const popupWindow = window.open(
-        `http://oauth2.developershouse.xyz/oauth2/auth?response_type=token&client_id=${encodeURIComponent(clientId)}&scope=${encodeURIComponent(scopes)}&redirect_uri=${encodeURIComponent(redirect)}&state=${encodeURIComponent(state)}&audience=${encodeURIComponent(apiAudience)}`,
+        `http://auth-server.developershouse.xyz/oauth2/auth?response_type=token&client_id=${encodeURIComponent(clientId)}&scope=${encodeURIComponent(scopes)}&redirect_uri=${encodeURIComponent(redirect)}&state=${encodeURIComponent(state)}&audience=${encodeURIComponent(apiAudience)}`,
         'Login',
         options);
 

@@ -1,0 +1,35 @@
+.light {
+  --foreground-primary: black;
+  --foreground-secondary: black;
+  --foreground-tertiary: black;
+
+  --foreground-hover-primary: rgb(35, 35, 35);
+  --foreground-hover-secondary: rgb(35, 35, 35);
+  --foreground-hover-tertiary: rgb(35, 35, 35);
+
+  --background-primary: #cecece;
+  --background-secondary: #dedede;
+  --background-tertiary: "";
+
+  --background-hover-primary: #bdbdbd;
+  --background-hover-secondary: #cacaca;
+  --background-hover-tertiary: rgb(215, 215, 215);
+}
+
+.dark {
+  --foreground-primary: white;
+  --foreground-secondary: white;
+  --foreground-tertiary: white;
+
+  --foreground-hover-primary: rgb(220, 220, 220);
+  --foreground-hover-secondary: rgb(220, 220, 220);
+  --foreground-hover-tertiary: rgb(220, 220, 220);
+
+  --background-primary: #313131;
+  --background-secondary: #353535;
+  --background-tertiary: rgb(40, 40, 40);
+
+  --background-hover-primary: #424242;
+  --background-hover-secondary: #404040;
+  --background-hover-tertiary: rgb(215, 215, 215);
+}
