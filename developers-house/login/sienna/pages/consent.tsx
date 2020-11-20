@@ -58,6 +58,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     ).then(validateHydraResponse);
     // Load the session.
     await applySession(context.req as any, context.res, {});
+    (context.req as any).session.scopes = requested_scope;
     return {
       props: {
         client: {

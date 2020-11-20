@@ -45,8 +45,9 @@ const handler: NextApiHandler = async (
 
         const data = await AdminAPI.acceptLoginRequest(challenge, {
           subject: randomBytes(25).toString("base64"),
+          acr: 'betaNoAuth=true',
           context: {
-            betaNoAuth: true,
+
           },
         }).then(validateHydraResponse);
 
