@@ -8,6 +8,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "@oryd/hydra-client": "^1.9.0-alpha.2",
     "@types/ioredis": "^4.17.7",
     "fastify": "^3.7.0",
     "ioredis": "^4.19.2",
