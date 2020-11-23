@@ -3,30 +3,29 @@
  * Just served the members for now.
  */
 
-import { AdminApi } from '@oryd/hydra-client';
+import {AdminApi} from '@oryd/hydra-client';
 import Fastify, {FastifyInstance} from "fastify";
-import * as IORedis from "ioredis";
-import {Cluster, RedisOptions} from "ioredis";
-import { AdminAPI } from './hydra';
+import CreateRedis, {Redis} from "ioredis";
+import {AdminAPI} from './hydra';
 import route from "./routes/staff";
 import user from './routes/user';
 
 declare module "fastify" {
     export interface FastifyRequest {
-        redis: IORedis.Cluster;
+        redis: Redis;
         hydra: AdminApi;
     }
 }
 
-const firstRedisNode: RedisOptions = {
-	port: parseInt(process.env["REDIS_PORT"] || "6379"),
-	password: process.env["REDIS_PASSWORD"],
+const firstRedisNode: { host: string; port: number } = {
+    host: '',
+    port: parseInt(process.env["REDIS_PORT"] || "6379"),
 };
 
 export default class Server {
 
     private readonly server: FastifyInstance;
-    private readonly redis: Cluster;
+    private readonly redis: Redis;
 
     private readonly hydra: AdminApi;
 
@@ -34,13 +33,14 @@ export default class Server {
         // Create the fastify server.
         this.server = Fastify({});
         // Connect to the redis cluster.
-        this.redis = new Cluster([{
-			...firstRedisNode,
-			host: process.env["REDIS_HOST"] || 'localhost',
-		}], { redisOptions: {
-			password: process.env["REDIS_PASSWORD"],
-        } });
-        
+        this.redis = new CreateRedis({
+            sentinels: [
+                firstRedisNode,
+            ],
+            sentinelPassword: process.env["REDIS_PASSWORD"],
+            name: "redisfailover-persistent",
+        });
+
         this.hydra = AdminAPI;
         // Add the redis connexion to all the requests objects.
         this.server.decorateRequest('redis', this.redis);
