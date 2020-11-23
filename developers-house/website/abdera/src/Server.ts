@@ -18,7 +18,7 @@ declare module "fastify" {
 }
 
 const firstRedisNode: { host: string; port: number } = {
-    host: '',
+    host: process.env["REDIS_HOST"],
     port: parseInt(process.env["REDIS_PORT"] || "6379"),
 };
 
