@@ -5,6 +5,7 @@ import { AdminAPI, validateHydraResponse } from "../service/hydra";
 
 import { provide } from "../service/csrf";
 import { applySession } from "next-session";
+import { options } from '../service/session';
 
 export default function Consent({
   client: { challenge, name },
@@ -57,7 +58,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       context.query.consent_challenge as string
     ).then(validateHydraResponse);
     // Load the session.
-    await applySession(context.req as any, context.res, {});
+    await applySession(context.req as any, context.res, options);
     (context.req as any).session.scopes = requested_scope;
     return {
       props: {
@@ -67,7 +68,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         },
         subject,
         requested_scope,
-        csrf: await provide(context.req as any, context.res),
+        csrf: await provide(context.req as any),
       },
     };
   } else {

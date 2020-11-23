@@ -3,6 +3,7 @@ import { NextApiHandler, NextApiRequest } from "next";
 import { withSession, SessionData } from "next-session";
 import { AdminAPI, validateHydraResponse } from "../../../service/hydra";
 import { GeneralUser, Providers } from "../../../service/providers";
+import { options } from '../../../service/session';
 
 /*
  * Redirects to the requested url.
@@ -68,4 +69,4 @@ const handler: NextApiHandler = async (
   }
 };
 
-export default withSession(handler);
+export default withSession(handler, options);

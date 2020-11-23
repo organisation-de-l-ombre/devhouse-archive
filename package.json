@@ -11,8 +11,12 @@
   "dependencies": {
     "@babel/preset-typescript": "^7.12.1",
     "@oryd/hydra-client": "^1.9.0-alpha.2",
+    "@types/connect-redis": "^0.0.15",
+    "@types/ioredis": "^4.17.8",
     "axios": "^0.21.0",
+    "connect-redis": "^5.0.0",
     "csrf": "^3.1.0",
+    "ioredis": "^4.19.2",
     "jest-css-modules": "^2.1.0",
     "next": "10.0.0",
     "next-session": "^3.3.2",
