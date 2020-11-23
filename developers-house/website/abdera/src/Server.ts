@@ -38,7 +38,7 @@ export default class Server {
                 firstRedisNode,
             ],
             sentinelPassword: process.env["REDIS_PASSWORD"],
-            name: "redisfailover-persistent",
+            name: "mymaster",
         });
 
         this.hydra = AdminAPI;
