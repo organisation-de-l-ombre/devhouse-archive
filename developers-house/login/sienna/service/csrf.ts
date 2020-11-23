@@ -18,10 +18,8 @@ export function check(secret: string, token: string) {
 
 export async function provide(
   req: IncomingMessage & { session: SessionData },
-  res: ServerResponse
 ) {
   if (!req.session.csrf) {
-    await applySession(req, res);
     req.session.csrf = await createSession();
   }
   return create(req.session.csrf);

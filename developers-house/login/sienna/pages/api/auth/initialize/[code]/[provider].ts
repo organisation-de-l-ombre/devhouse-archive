@@ -2,6 +2,7 @@ import { randomBytes } from "crypto";
 import { NextApiHandler, NextApiRequest } from "next";
 import { withSession, applySession, SessionData } from "next-session";
 import { Providers } from "../../../../../service/providers";
+import { options } from '../../../../../service/session';
 
 /*
  * Redirects to the requested url.
@@ -29,7 +30,7 @@ const handler: NextApiHandler = async (
   if (Providers.has(provider)) {
     const state = randomBytes(255).toString("base64");
     // Save the session.
-    await applySession(req, res);
+    await applySession(req, res, options);
 
     req.session.login = {
       state,
@@ -50,4 +51,4 @@ const handler: NextApiHandler = async (
   });
 };
 
-export default withSession(handler);
+export default withSession(handler, options);

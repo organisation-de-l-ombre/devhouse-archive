@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { SessionData, withSession } from "next-session";
 import { check } from "../../../service/csrf";
 import { AdminAPI, validateHydraResponse } from "../../../service/hydra";
+import { options } from '../../../service/session';
 
 /*
  * Get the list of enabled features.
@@ -36,4 +37,4 @@ async function handler(
   }
 }
 
-export default withSession(handler);
+export default withSession(handler, options);
