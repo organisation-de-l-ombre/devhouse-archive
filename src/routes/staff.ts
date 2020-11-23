@@ -3,7 +3,7 @@
  */
 
 import {FastifyReply, FastifyRequest, RouteOptions} from "fastify";
-import {Cluster} from "ioredis";
+import {Redis} from "ioredis";
 
 export interface User {
     username: string;
@@ -28,7 +28,7 @@ export interface User {
 }
 
 
-const fetchUser: (id: string, redis: Cluster) => Promise<User> = async (id, redis) => {
+const fetchUser: (id: string, redis: Redis) => Promise<User> = async (id, redis) => {
     if (await redis.exists(`discord:cache:users:${id}`)) {
         const user: User = JSON.parse(await redis.get(`discord:cache:users:${id}`));
         return user;
