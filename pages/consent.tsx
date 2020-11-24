@@ -51,29 +51,36 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   // Fetch the request.
   if (context.query.consent_challenge) {
     const {
-      client: { client_name, client_id },
+      client: { client_name },
       subject,
       requested_scope,
+      request_url,
     } = await AdminAPI.getConsentRequest(
       context.query.consent_challenge as string
     ).then(validateHydraResponse);
     // Load the session.
     await applySession(context.req as any, context.res, options);
     (context.req as any).session.scopes = requested_scope;
+    const colorScheme = new URL(request_url).searchParams.get('cs');
+
     return {
       props: {
         client: {
-          name: client_name || client_id,
+          name: client_name || 'Unknown application',
           challenge: context.query.consent_challenge,
         },
         subject,
         requested_scope,
         csrf: await provide(context.req as any),
+        htmlClass: colorScheme === 'dark' ? 'dark' : 'light',
       },
     };
   } else {
     return {
       notFound: true,
+      props: {
+        htmlClass: 'dark',
+      }
     };
   }
 }
