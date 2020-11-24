@@ -4,8 +4,10 @@ import "../styles/globals.scss";
 
 export default function MyApp({ Component, pageProps }) {
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+      <div className={(pageProps.htmlClass || 'light') + ' provider'}>
+          <Layout>
+              <Component {...pageProps} />
+          </Layout>
+      </div>
   );
 }

@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
 import { Button, ButtonContainer } from "../components/button";
+import {GetServerSidePropsContext} from "next";
 
 export default function Error(): ReactElement {
   return (
@@ -19,3 +20,13 @@ export default function Error(): ReactElement {
     </div>
   );
 }
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+    // Fetch the request.
+    return {
+        props: {
+            htmlClass: 'dark',
+        }
+    };
+}
+

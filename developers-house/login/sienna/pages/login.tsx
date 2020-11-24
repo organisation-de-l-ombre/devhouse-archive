@@ -48,9 +48,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   if (context.query.login_challenge) {
     const {
       client: { client_name, client_id },
+      request_url,
     } = await AdminAPI.getLoginRequest(
       context.query.login_challenge as string
     ).then(validateHydraResponse);
+
+    const colorScheme = new URL(request_url).searchParams.get('cs');
 
     return {
       props: {
@@ -58,6 +61,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
           name: client_name || client_id,
           challenge: context.query.login_challenge,
         },
+        htmlClass: colorScheme === 'dark' ? 'dark' : 'light',
       },
     };
   } else {
