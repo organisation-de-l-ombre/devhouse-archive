@@ -20,13 +20,3 @@ export default function Error(): ReactElement {
     </div>
   );
 }
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-    // Fetch the request.
-    return {
-        props: {
-            htmlClass: 'dark',
-        }
-    };
-}
-
