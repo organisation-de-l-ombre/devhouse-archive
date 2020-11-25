@@ -638,6 +638,20 @@ module.exports = function (webpackEnv) {
                         options: {
                             cacheName: 'google-fonts-webfonts'
                         }
+                    },
+                    {
+                        urlPattern: /^https:\/\/cdn\.discordapp\.com/,
+                        handler: 'StaleWhileRevalidate',
+                        options: {
+                            cacheName: 'discord-avatar-cache'
+                        }
+                    },
+                    {
+                        urlPattern: /^https:\/\/developers-house-dev-website-group-abdera\.matthieu-dev\.xyz/,
+                        handler: 'NetworkFirst',
+                        options: {
+                            cacheName: 'api-responses',
+                        },
                     }
                 ]
             }),

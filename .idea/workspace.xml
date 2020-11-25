@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fix deployment of help chart" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="monorepo-build" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1ixXS3PptkQE3xVySEbjS51WmVB" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="yarn" />
+    <property name="ts.external.directory.path" value="C:\Users\Matthieu\Desktop\Developement\website-repo\react-application\node_modules\typescript\lib" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Matthieu\Desktop\Developement\website-repo\src\components" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="" />
+      <created>1602850212688</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1602850212688</updated>
+      <workItem from="1602850213837" duration="5791000" />
+      <workItem from="1602856570651" duration="353000" />
+      <workItem from="1603389361990" duration="1510000" />
+      <workItem from="1603901706550" duration="57000" />
+      <workItem from="1604061890257" duration="726000" />
+      <workItem from="1604159626938" duration="644000" />
+      <workItem from="1604849911471" duration="801000" />
+      <workItem from="1604923520120" duration="2287000" />
+      <workItem from="1605011679630" duration="5512000" />
+      <workItem from="1605072028828" duration="6050000" />
+      <workItem from="1605104405434" duration="1315000" />
+      <workItem from="1605797698025" duration="6518000" />
+      <workItem from="1605804281521" duration="8087000" />
+      <workItem from="1605974992940" duration="39000" />
+      <workItem from="1606027636646" duration="2800000" />
+      <workItem from="1606163868363" duration="614000" />
+      <workItem from="1606223366595" duration="594000" />
+      <workItem from="1606295542741" duration="7262000" />
+    </task>
+    <task id="LOCAL-00001" summary="new style and ux/ui improvements">
+      <created>1602854984402</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1602854984402</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Edit members.tsx to call the api">
+      <created>1604850114018</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1604850114018</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Members display fix">
+      <created>1604923839405</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1604923839405</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Fix import in functions.ts">
+      <created>1604924869914</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1604924869914</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Bad design: Fix 1: Redesign the cards, basic restructure.">
+      <created>1605015098717</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1605015098717</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Fix test error: Unused groupBy.">
+      <created>1605016830501</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1605016830501</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Re-fix design">
+      <created>1605074466867</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1605074466867</updated>
+    </task>
+    <task id="LOCAL-00008" summary="New layout">
+      <created>1605077449772</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1605077449772</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Remove unused import">
+      <created>1605077960024</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1605077960024</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Use css modules instead of styled-components.">
+      <created>1605803602419</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1605803602419</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Migrate to css modules 1 / 2">
+      <created>1605805883185</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1605805883185</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Adding values and removing the old chart">
+      <created>1606296383546</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1606296383546</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Fix &amp; prettier">
+      <created>1606297967538</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1606297967538</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Fix paths">
+      <created>1606298509860</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1606298509860</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Fix paths">
+      <created>1606298549709</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1606298549709</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Fix the gitlab ci for helm and postgres">
+      <created>1606302125701</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1606302125701</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Fix deployment of help chart">
+      <created>1606302757625</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1606302757625</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="new style and ux/ui improvements" />
+    <MESSAGE value="Edit members.tsx to call the api" />
+    <MESSAGE value="Members display fix" />
+    <MESSAGE value="Fix import in functions.ts" />
+    <MESSAGE value="Bad design: Fix 1: Redesign the cards, basic restructure." />
+    <MESSAGE value="Fix test error: Unused groupBy." />
+    <MESSAGE value="Re-fix design" />
+    <MESSAGE value="New layout" />
+    <MESSAGE value="Remove unused import" />
+    <MESSAGE value="Use css modules instead of styled-components." />
+    <MESSAGE value="Migrate to css modules 1 / 2" />
+    <MESSAGE value="Adding values and removing the old chart" />
+    <MESSAGE value="Fix &amp; prettier" />
+    <MESSAGE value="Fix paths" />
+    <MESSAGE value="Fix the gitlab ci for helm and postgres" />
+    <MESSAGE value="Fix deployment of help chart" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix deployment of help chart" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="690" y="307" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1605801418805">
+      <screen x="0" y="40" width="1920" height="1040" />
+    </state>
+    <state x="690" y="307" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.40.1920.1040@0.40.1920.1040" timestamp="1605801418805" />
+    <state x="666" y="481" width="598" height="158" key="GitCloneDialog" timestamp="1606147743113">
+      <screen x="0" y="40" width="1920" height="1040" />
+    </state>
+    <state x="666" y="481" width="598" height="158" key="GitCloneDialog/0.40.1920.1040@0.40.1920.1040" timestamp="1606147743113" />
+    <state x="552" y="293" key="Vcs.Push.Dialog.v2" timestamp="1606302758646">
+      <screen x="0" y="40" width="1920" height="1040" />
+    </state>
+    <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
+    <state x="777" y="474" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606297428811">
+      <screen x="0" y="40" width="1920" height="1040" />
+    </state>
+    <state x="777" y="474" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606297428811" />
+    <state x="719" y="273" key="git4idea.branch.GitSmartOperationDialog" timestamp="1606295619091">
+      <screen x="0" y="40" width="1920" height="1040" />
+    </state>
+    <state x="719" y="273" key="git4idea.branch.GitSmartOperationDialog/0.40.1920.1040@0.40.1920.1040" timestamp="1606295619091" />
+    <state x="752" y="418" key="scopes" timestamp="1605804413848">
+      <screen x="0" y="40" width="1920" height="1040" />
+    </state>
+    <state x="752" y="418" key="scopes/0.40.1920.1040@0.40.1920.1040" timestamp="1605804413848" />
+  </component>
+</project>
