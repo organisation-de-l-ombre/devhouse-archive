@@ -648,7 +648,7 @@ module.exports = function (webpackEnv) {
                     },
                     {
                         urlPattern: /^https:\/\/developers-house-dev-website-group-abdera\.matthieu-dev\.xyz/,
-                        handler: 'NetworkFirst',
+                        handler: 'StaleWhileRevalidate',
                         options: {
                             cacheName: 'api-responses',
                         },
