@@ -1,10 +1,10 @@
 {
    "type": "postgres",
-   "host": "localhost",
+   "host": "global-cluster.postgres",
    "port": 5433,
-   "username": "test",
-   "password": "test",
-   "database": "test",
+   "username": "scarlet_owner_user",
+   "password": "32nBj54YnDcKkc6RPyBrGWaXVjkcklk5403ZJznkXtCDjgYcJZdBu2wzwf8tJKxh",
+   "database": "scarlet",
    "synchronize": true,
    "logging": false,
    "entities": [
