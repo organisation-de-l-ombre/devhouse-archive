@@ -1,10 +1,11 @@
 import {UserController} from "./controller/UserController";
+import {Redis} from "ioredis";
 
 type Route<T> = {
     method: 'post' | 'get' | 'put' | 'delete' | 'patch';
     route: string;
     action: keyof T;
-    controller: new () => T;
+    controller: new (redis: Redis) => T;
 };
 
 type Routes<T> = Route<T>[];
@@ -39,9 +40,4 @@ export const Routes: Routes<UserController> = [{
     route: "/api/users/login",
     controller: UserController,
     action: "initiateLogin",
-}, {
-    method: "put",
-    route: "/api/users/login/push",
-    controller: UserController,
-    action: "pushLogin",
 }];

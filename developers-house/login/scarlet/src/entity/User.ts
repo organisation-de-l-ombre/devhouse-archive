@@ -66,13 +66,13 @@ export class User {
      * The list of accounts related to this user.
      */
     @OneToMany(() => Link, link => link.user)
-    links: Link[];
+    links: Promise<Link[]>;
 
     /*
      * A two fa account
      */
     @OneToOne(() => TwoFA, twoFa => twoFa.user,  { nullable: true })
-    twoFactor?: TwoFA;
+    twoFactor?: Promise<TwoFA>;
 
     // TODO: Updated ad and created at.
 }
