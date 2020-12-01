@@ -1,12 +1,13 @@
-FROM golang as build
-
+FROM node as build
 WORKDIR /build
+COPY package.json .
+RUN yarn
 COPY . .
-RUN cd server && \
-    go build
+RUN yarn build
+RUN cp ormconfig.prod.json build/ormconfig.json
 
-FROM alpine
+FROM node
+COPY --from=build /build/node_modules ./node_modules
+COPY --from=build /build/build .
 
-WORKDIR /app
-COPY --from=build /build/server/server .
-CMD /app/server
+CMD node index
