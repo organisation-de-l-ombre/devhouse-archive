@@ -24,6 +24,12 @@ createConnection().then(async connection => {
         });
     });
 
+    app.get('/_healz', (req, res) => {
+        res.json({
+            status: 'OK',
+        });
+    });
+
     const errorHandler: ErrorRequestHandler = (error: RequestError, req, res, next) => {
         if (error) {
             res.statusCode = error.code;

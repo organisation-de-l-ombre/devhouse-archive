@@ -57,13 +57,13 @@ ingress:
 prometheus:
   metrics: false
 livenessProbe:
-  path: "/"
+  path: "/_healz"
   initialDelaySeconds: 15
   timeoutSeconds: 15
   scheme: "HTTP"
   probeType: "httpGet"
 readinessProbe:
-  path: "/"
+  path: "/_healz"
   initialDelaySeconds: 5
   timeoutSeconds: 3
   scheme: "HTTP"
