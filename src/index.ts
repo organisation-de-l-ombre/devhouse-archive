@@ -6,24 +6,32 @@ import {ErrorRequestHandler, NextFunction, Request, Response} from "express";
 import {Routes} from "./routes";
 import {RequestError} from "./utils/RequestError";
 import CreateRedis from "ioredis";
-import morgan from 'morgan';
+import * as morgan from 'morgan';
+import RedisMock from 'redis-mock';
 
 const firstRedisNode: { host: string; port: number } = {
     host: process.env["REDIS_HOST"] || 'localhost',
     port: parseInt(process.env["REDIS_PORT"] || "6379"),
 };
 
+const provideRedis = () => {
+    if (process.env.NODE_ENV === 'production') {
+        return new CreateRedis({
+            sentinels: [
+                firstRedisNode,
+            ],
+            sentinelPassword: process.env["REDIS_PASSWORD"],
+            name: "mymaster",
+        });
+    }
+    return RedisMock;
+}
+
 // Starts the server after the database.
 createConnection().then(async () => {
     const app = express();
 
-    const redis = new CreateRedis({
-        sentinels: [
-            firstRedisNode,
-        ],
-        sentinelPassword: process.env["REDIS_PASSWORD"],
-        name: "mymaster",
-    });
+    const redis = provideRedis();
 
     app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
     app.use(bodyParser.json());
