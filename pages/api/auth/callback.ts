@@ -76,7 +76,7 @@ const handler: NextApiHandler = async (
           case 'FLOW_VALIDATED':
           {
             const data = await AdminAPI.acceptLoginRequest(loginChallenge, {
-              subject: userData.id,
+              subject: userData.uuid,
             }).then(validateHydraResponse);
             res.redirect(data.redirect_to);
             return;

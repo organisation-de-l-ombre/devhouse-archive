@@ -69,7 +69,7 @@ async function handler(
                 // If the user was created, we login the user within hydra.
                 const user = await result.json();
                 const data = await AdminAPI.acceptLoginRequest(register.loginChallenge, {
-                    subject: user.id,
+                    subject: user.uuid,
                 }).then(validateHydraResponse);
                 res.redirect(data.redirect_to);
                 return;
