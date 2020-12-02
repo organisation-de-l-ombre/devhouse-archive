@@ -1,6 +1,6 @@
 import { randomBytes } from "crypto";
 import { NextApiHandler, NextApiRequest } from "next";
-import { withSession, applySession, SessionData } from "next-session";
+import { withSession, applySession } from "next-session";
 import {options} from "../../../../../lib/service/session";
 import {Providers} from "../../../../../lib/service/providers";
 
@@ -8,7 +8,7 @@ import {Providers} from "../../../../../lib/service/providers";
  * Redirects to the requested url.
  */
 const handler: NextApiHandler = async (
-  req: NextApiRequest & { session: SessionData },
+  req: NextApiRequest & { session: any },
   res
 ) => {
   let {
