@@ -43,7 +43,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext): Pr
     if (req.session.register) {
         return {
             props: {
-                csrf: await provide(context.req),
+                csrf: await provide(req),
                 user: context.req.session.register.user,
             },
         };

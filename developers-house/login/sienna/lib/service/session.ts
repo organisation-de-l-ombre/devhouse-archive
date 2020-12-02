@@ -18,5 +18,5 @@ const client = new CreateRedis({
 });
 
 export const options: Options = {
-    store: new RedisStore({ client }),
+    store: new RedisStore({ client, ttl: '250' }),
 };

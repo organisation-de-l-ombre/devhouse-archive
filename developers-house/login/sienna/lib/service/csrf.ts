@@ -17,10 +17,10 @@ export function check(secret: string, token: string) {
 }
 
 export async function provide(
-  req: IncomingMessage & { session: SessionData },
+  req: IncomingMessage,
 ) {
-  if (!req.session.csrf) {
-    req.session.csrf = await createSession();
+  if (!req.session.csrfKey) {
+    req.session.csrfKey = await createSession();
   }
-  return create(req.session.csrf);
+  return create(req.session.csrfKey);
 }
