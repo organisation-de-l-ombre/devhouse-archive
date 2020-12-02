@@ -6,13 +6,13 @@ ingress:
   path: /dialog
 
 livenessProbe:
-  path: "/dialog"
+  path: "/api/healz"
   initialDelaySeconds: 15
   timeoutSeconds: 15
   scheme: "HTTP"
   probeType: "httpGet"
 readinessProbe:
-  path: "/dialog"
+  path: "/api/healz"
   initialDelaySeconds: 5
   timeoutSeconds: 3
   scheme: "HTTP"

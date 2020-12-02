@@ -1,14 +1,9 @@
 import { GetServerSidePropsContext } from "next";
-import { ReactElement } from "react";
+import React, { ReactElement } from "react";
 import { Button, ButtonContainer } from "../components/button";
-import { AdminAPI, validateHydraResponse } from "../service/hydra";
+import {AdminAPI, validateHydraResponse} from "../lib/service/hydra";
 
-const platforms = [
-  "Discord",
-  "Google",
-  "Instagram",
-  "GitHub",
-];
+const platforms = ["Discord", "Google", "Instagram", "GitHub"];
 
 export default function Home({
   client: { challenge, name },
@@ -60,9 +55,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         },
       },
     };
-  } else {
-    return {
-      notFound: true,
-    };
   }
+  return {
+    notFound: true,
+  };
 }
