@@ -12,7 +12,7 @@ async function handler(
   res: NextApiResponse
 ) {
   const {
-    session: { csrfKey, scopes },
+    session: { csrfKey, consent: { scopes }, },
     body: { validate, challenge, _csrf },
   } = req;
 
@@ -20,7 +20,7 @@ async function handler(
   if (_csrf && validate && challenge && csrfKey && check(csrfKey, _csrf) && scopes) {
     // If the user accepted.
     if (validate === "accept") {
-      const data = await AdminAPI.acceptConsentRequest(req.body["challenge"], {
+      const data = await AdminAPI.acceptConsentRequest(challenge, {
         grant_scope: scopes,
       }).then(validateHydraResponse);
       res.redirect(data.redirect_to);
