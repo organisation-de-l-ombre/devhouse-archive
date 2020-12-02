@@ -8,7 +8,7 @@ import {Providers} from "../../../../../lib/service/providers";
  * Redirects to the requested url.
  */
 const handler: NextApiHandler = async (
-  req: NextApiRequest & { session: any },
+  req: NextApiRequest,
   res
 ) => {
   let {
@@ -20,6 +20,7 @@ const handler: NextApiHandler = async (
   }
 
   if (Array.isArray(provider)) provider = provider[0];
+  if (Array.isArray(challenge)) challenge = challenge[0];
 
   if (Providers.has(provider)) {
     // Generate the state for the oauth flow.
@@ -30,12 +31,11 @@ const handler: NextApiHandler = async (
     req.session.login = {
       state,
       provider,
-      challenge,
+      loginChallenge: challenge,
     };
     // Gets the given provider.
     const instance = Providers.get(provider);
     res.redirect(instance.getRedirectUri(state, req.headers.host));
-
     return;
   }
 

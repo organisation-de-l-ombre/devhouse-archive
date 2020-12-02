@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { SessionData, withSession } from "next-session";
+import { withSession } from "next-session";
 import {AdminAPI, validateHydraResponse} from "../../../lib/service/hydra";
 import {check} from "../../../lib/service/csrf";
 import {options} from "../../../lib/service/session";
@@ -8,7 +8,7 @@ import {options} from "../../../lib/service/session";
  * Get the list of enabled features.
  */
 async function handler(
-  req: NextApiRequest & { session: SessionData },
+  req: NextApiRequest,
   res: NextApiResponse
 ) {
   const {

@@ -9,14 +9,14 @@ import {options} from "../../../lib/service/session";
  * Redirects to the requested url.
  */
 const handler: NextApiHandler = async (
-  req: NextApiRequest & { session: any },
+  req: NextApiRequest,
   res
 ) => {
   if (!req.session.login) throw new Error("Invalid session.");
   // Unpack all the data.
   let {
     session: {
-      login: { state: sessionState, provider, challenge },
+      login: { state: sessionState, provider, loginChallenge },
       destroy,
     },
     query: { code, state },
@@ -25,7 +25,7 @@ const handler: NextApiHandler = async (
   // Fix for the typescript.
   if (Array.isArray(code)) code = code[0];
   // We need all of theses arguments.
-  if (state && provider && code && challenge && sessionState) {
+  if (state && provider && code && loginChallenge && sessionState) {
     // We check if the oauth state matches.
     if (state === sessionState) {
       // Gets the provider instance.
@@ -68,31 +68,28 @@ const handler: NextApiHandler = async (
           {
             await applySession(req, res, options);
             req.session.register = {
-              challenge,
+              loginChallenge,
               user,
             };
             res.redirect(`/dialog/register`);
-            break;
+            return;
           }
           case 'FLOW_VALIDATED':
           {
-            const data = await AdminAPI.acceptLoginRequest(challenge, {
+            const data = await AdminAPI.acceptLoginRequest(loginChallenge, {
               subject: userData.id,
             }).then(validateHydraResponse);
             res.redirect(data.redirect_to);
-            break;
+            return;
           }
           case '2FA_REQUIRED_VERIFY':
           {
             // TODO: 2FA redirect & session.
-            break;
+            return;
           }
-          default:
-            throw new Error('Unknown account status.');
         }
-      } else {
-        throw new Error("Scarlet call failed.");
       }
+      throw new Error("Scarlet call failed.");
     }
     throw new Error("Invalid request state.");
   }
