@@ -17,5 +17,7 @@ COPY . /usr/src/app
 RUN yarn build
 EXPOSE 3000
 
+ENV SCARLET_ENDPOINT=http://review-typescript-ucveg6-auto-deploy:5000
+
 # Running the app
 CMD yarn start

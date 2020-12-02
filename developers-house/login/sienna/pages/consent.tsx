@@ -1,11 +1,10 @@
 import { GetServerSidePropsContext } from "next";
 import React, { ReactElement } from "react";
 import { Button, ButtonContainer } from "../components/button";
-import { AdminAPI, validateHydraResponse } from "../service/hydra";
-
-import { provide } from "../service/csrf";
 import { applySession } from "next-session";
-import { options } from '../service/session';
+import {AdminAPI, validateHydraResponse} from "../lib/service/hydra";
+import {options} from "../lib/service/session";
+import {provide} from "../lib/service/csrf";
 
 export default function Consent({
   client: { challenge, name },

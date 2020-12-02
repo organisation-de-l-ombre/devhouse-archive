@@ -1,6 +1,6 @@
 import Tokens from "csrf";
-import { IncomingMessage, ServerResponse } from "http";
-import { applySession, SessionData } from "next-session";
+import { IncomingMessage } from "http";
+import { SessionData } from "next-session";
 
 const tokenProvider = new Tokens({});
 

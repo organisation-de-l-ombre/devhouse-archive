@@ -1,8 +1,8 @@
 import { randomBytes } from "crypto";
 import { NextApiHandler, NextApiRequest } from "next";
 import { withSession, applySession, SessionData } from "next-session";
-import { Providers } from "../../../../../service/providers";
-import { options } from '../../../../../service/session';
+import {options} from "../../../../../lib/service/session";
+import {Providers} from "../../../../../lib/service/providers";
 
 /*
  * Redirects to the requested url.
@@ -16,39 +16,30 @@ const handler: NextApiHandler = async (
   } = req;
 
   if (!provider || !challenge) {
-    res.statusCode = 400;
-    res.statusMessage = "Invalid code in request.";
-    res.json({
-      code: res.statusCode,
-      message: res.statusMessage,
-    });
-    return;
+    throw new Error("Missing challenge or provider.");
   }
 
   if (Array.isArray(provider)) provider = provider[0];
 
   if (Providers.has(provider)) {
+    // Generate the state for the oauth flow.
     const state = randomBytes(255).toString("base64");
     // Save the session.
     await applySession(req, res, options);
-
+    // Apply the changes to the session.
     req.session.login = {
       state,
       provider,
       challenge,
     };
-
+    // Gets the given provider.
     const instance = Providers.get(provider);
     res.redirect(instance.getRedirectUri(state, req.headers.host));
+
     return;
   }
 
-  res.statusCode = 400;
-  res.statusMessage = "Failed to get the provider.";
-  res.json({
-    code: res.statusCode,
-    message: res.statusMessage,
-  });
+  throw new Error("Failed to get the provider.");
 };
 
 export default withSession(handler, options);
