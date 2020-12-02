@@ -4,7 +4,6 @@ import {GeneralUser, Providers} from "../../../lib/service/providers";
 import {AdminAPI, validateHydraResponse} from "../../../lib/service/hydra";
 import {options} from "../../../lib/service/session";
 
-
 /*
  * Redirects to the requested url.
  */
@@ -66,7 +65,7 @@ const handler: NextApiHandler = async (
         switch (status) {
           case 'NO_USER':
           {
-            await applySession(req, res, options);
+            await applySession(req as any, res, options);
             req.session.register = {
               loginChallenge,
               user,
