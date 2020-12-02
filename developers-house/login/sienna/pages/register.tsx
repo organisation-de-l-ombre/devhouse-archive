@@ -34,16 +34,13 @@ export default function Register({ user, csrf }: Props): ReactElement {
 export async function getServerSideProps(context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<Props>> {
     // Unpack the object.
     const {
-        req: {
-            session,
-        },
         req,
         res,
     } = context;
     // Starts the session in order to be able to access the state of the register request (register to create an account).
     await applySession(req as any, res, options);
     // Check if a registering session exists.
-    if (session.register) {
+    if (req.session.register) {
         return {
             props: {
                 csrf: await provide(context.req),

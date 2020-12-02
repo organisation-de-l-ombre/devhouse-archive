@@ -76,7 +76,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext): Pr
     // Load the session.
     await applySession(req as any, res, options);
     // Save the scopes in the session.
-    context.req.session.consent = {
+    req.session.consent = {
       scopes: requested_scope
     };
     // Return the scopes for the request.
