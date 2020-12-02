@@ -71,7 +71,7 @@ const handler: NextApiHandler = async (
               challenge,
               user,
             };
-            res.redirect(`${host}/dialog/register`);
+            res.redirect(`/dialog/register`);
             break;
           }
           case 'FLOW_VALIDATED':
