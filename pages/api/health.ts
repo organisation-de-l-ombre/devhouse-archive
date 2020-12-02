@@ -1,12 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 /*
- * Get the list of enabled features.
+ * Just checks if the service is alive.
  */
 export default (req: NextApiRequest, res: NextApiResponse) => {
   res.statusCode = 200;
-  res.send({
-    'status': 'OK',
-  });
   res.end();
 };

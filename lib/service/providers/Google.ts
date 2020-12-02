@@ -43,7 +43,8 @@ export default class GoogleProvider implements Provider {
         return {
             id: user.id,
             username: user.name,
-            provider: 'google'
+            provider: 'google',
+            avatarURL: user.picture,
         };
     }
 

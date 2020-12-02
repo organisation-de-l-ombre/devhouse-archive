@@ -51,6 +51,7 @@ export default class DiscordProvider implements Provider {
       id: user.id,
       username: user.username,
       provider: "discord",
+      avatarURL: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`,
     };
   }
 

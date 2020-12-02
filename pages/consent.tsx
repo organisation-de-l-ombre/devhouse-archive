@@ -1,37 +1,43 @@
-import { GetServerSidePropsContext } from "next";
+import {GetServerSidePropsContext, GetServerSidePropsResult} from "next";
 import React, { ReactElement } from "react";
 import { Button, ButtonContainer } from "../components/button";
-import { AdminAPI, validateHydraResponse } from "../service/hydra";
-
-import { provide } from "../service/csrf";
 import { applySession } from "next-session";
-import { options } from '../service/session';
+import {AdminAPI, validateHydraResponse} from "../lib/service/hydra";
+import {options} from "../lib/service/session";
+import {provide} from "../lib/service/csrf";
 
-export default function Consent({
-  client: { challenge, name },
-  csrf,
-  requested_scope,
-}: {
+type Props = {
   csrf: string;
-  client: { challenge: string; name: string };
-  requested_scope: string[];
-}): ReactElement {
+  client: { name: string };
+  consentChallenge: string;
+  scopes: string[];
+};
+
+export default function Consent(props: Props): ReactElement {
+
+  const {
+    csrf,
+      client,
+      consentChallenge,
+      scopes,
+  } = props;
+
   return (
     <div>
       <h2>Consent page</h2>
       <p>
-        The application {name} needs some kind of access to your account and
+        The application {client.name} needs some kind of access to your account and
         needs your consent, if you do not trust this application, feel free to
         reject the consent request. This application requires the following
         permissions.
       </p>
 
       <ul>
-        {requested_scope.map((val) => (
+        {scopes.map((val) => (
           <li key={val}>{val}</li>
         ))}
       </ul>
-      <form method="POST" action="/dialog/api/consent/validate">
+      <form method="POST" action={"/dialog/api/consent/validate"}>
         <ButtonContainer horizontal>
           <Button name="validate" value="accept">
             Accept
@@ -39,7 +45,7 @@ export default function Consent({
           <Button name="validate" value="reject">
             Reject
           </Button>
-          <input type="hidden" value={challenge} name="challenge" />
+          <input type="hidden" value={consentChallenge} name="challenge" />
           <input type="hidden" value={csrf} name="_csrf" />
         </ButtonContainer>
       </form>
@@ -47,40 +53,46 @@ export default function Consent({
   );
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  // Fetch the request.
-  if (context.query.consent_challenge) {
-    const {
-      client: { client_name },
-      subject,
-      requested_scope,
-      request_url,
-    } = await AdminAPI.getConsentRequest(
-      context.query.consent_challenge as string
-    ).then(validateHydraResponse);
-    // Load the session.
-    await applySession(context.req as any, context.res, options);
-    (context.req as any).session.scopes = requested_scope;
-    const colorScheme = new URL(request_url).searchParams.get('cs');
+export async function getServerSideProps(context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<Props>> {
+  // Consent.
+  const {
+    query,
+      req,
+      res,
+  } = context;
 
+  let consentChallenge = query.consent_challenge;
+  if (Array.isArray(consentChallenge)) {
+    consentChallenge =  consentChallenge[0];
+  }
+
+  if (consentChallenge) {
+
+    const {
+      client: { client_name, client_id },
+      requested_scope,
+    } = await AdminAPI.getConsentRequest(consentChallenge).then(validateHydraResponse);
+
+    // Load the session.
+    await applySession(req as any, res, options);
+    // Save the scopes in the session.
+    req.session.consent = {
+      scopes: requested_scope
+    };
+    // Return the scopes for the request.
     return {
       props: {
         client: {
-          name: client_name || 'Unknown application',
-          challenge: context.query.consent_challenge,
+          name: client_name || client_id,
         },
-        subject,
-        requested_scope,
-        csrf: await provide(context.req as any),
-        htmlClass: colorScheme === 'dark' ? 'dark' : 'light',
+        csrf: await provide(req),
+        consentChallenge: consentChallenge,
+        scopes: requested_scope,
       },
     };
-  } else {
-    return {
-      notFound: true,
-      props: {
-        htmlClass: 'dark',
-      }
-    };
+
   }
+  return {
+    notFound: true,
+  };
 }

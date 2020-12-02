@@ -36,10 +36,12 @@ export default class InstagramProvider implements Provider {
         if (!resp.ok || !user.id || !user.username) {
             throw ('Unable to get the user from instagram.');
         }
+
         return {
             id: user.id,
             username: user.username,
-            provider: 'instagram'
+            provider: 'instagram',
+            avatarURL: '',
         };
     }
 
