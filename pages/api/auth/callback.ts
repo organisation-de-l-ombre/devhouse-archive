@@ -54,6 +54,7 @@ const handler: NextApiHandler = async (
 
       const result = await fetch(`${process.env.SCARLET_ENDPOINT}/api/users/login`, {
         body: JSON.stringify(requestBody),
+        method: 'POST',
         headers: {
           "Content-Type": "application/json",
         },
