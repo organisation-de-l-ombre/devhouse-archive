@@ -60,8 +60,9 @@ const handler: NextApiHandler = async (
         },
       });
 
-      if (result.status === 200) {
+      if (result.ok) {
         const { status, user: userData } = await result.json();
+
         switch (status) {
           case 'NO_USER':
           {
@@ -86,7 +87,7 @@ const handler: NextApiHandler = async (
             break;
           }
           default:
-            throw new Error('Scarlet call failed.');
+            throw new Error('Unknown account status.');
         }
       } else {
         throw new Error("Scarlet call failed.");
