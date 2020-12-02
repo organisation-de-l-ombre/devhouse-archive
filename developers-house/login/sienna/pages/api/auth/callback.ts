@@ -1,5 +1,5 @@
 import { NextApiHandler, NextApiRequest } from "next";
-import { withSession } from "next-session";
+import {applySession, withSession} from "next-session";
 import {GeneralUser, Providers} from "../../../lib/service/providers";
 import {AdminAPI, validateHydraResponse} from "../../../lib/service/hydra";
 import {options} from "../../../lib/service/session";
@@ -66,6 +66,7 @@ const handler: NextApiHandler = async (
         switch (status) {
           case 'NO_USER':
           {
+            await applySession(req, res, options);
             req.session.register = {
               challenge,
               user,
