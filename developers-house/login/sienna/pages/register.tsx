@@ -41,7 +41,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext): Pr
         res,
     } = context;
     // Starts the session in order to be able to access the state of the register request (register to create an account).
-    await applySession(req, res, options);
+    await applySession(req as any, res, options);
     // Check if a registering session exists.
     if (session.register) {
         return {

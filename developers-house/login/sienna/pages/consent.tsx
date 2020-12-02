@@ -74,7 +74,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext): Pr
     } = await AdminAPI.getConsentRequest(consentChallenge).then(validateHydraResponse);
 
     // Load the session.
-    await applySession(req, res, options);
+    await applySession(req as any, res, options);
     // Save the scopes in the session.
     context.req.session.consent = {
       scopes: requested_scope
