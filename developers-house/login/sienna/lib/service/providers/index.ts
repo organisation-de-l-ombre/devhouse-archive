@@ -2,13 +2,14 @@
  * The list of oauth proviers.
  */
 
-import InstagramProvider from "./Instagram";
+
 
 export const Providers = new Map<string, Provider>();
 
 import DiscordProvider from "./Discord";
 import GitHubProvider from "./GitHub";
 import GoogleProvider from "./Google";
+import InstagramProvider from "./Instagram";
 
 export type ConstructorType = {
   client_id: string;
@@ -44,6 +45,7 @@ export type GeneralUser = {
   id: string;
   username: string;
   provider: string;
+  avatarURL: string;
 };
 
 export interface Provider {
