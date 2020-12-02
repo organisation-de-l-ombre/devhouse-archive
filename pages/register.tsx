@@ -16,7 +16,7 @@ export default function Register({ user, csrf }: Props): ReactElement {
         <div>
             <h2>Hello!</h2>
             <p>
-                Hello, { user }! Welcome to <b>Developer's House</b>! As a new member, you need to accept our <a href="">terms of service</a> in order to continue.
+                Hello, { user.username }! Welcome to <b>Developer's House</b>! As a new member, you need to accept our <a href="">terms of service</a> in order to continue.
             </p>
 
             <form method="POST" action={"/dialog/api/register/validate"}>
