@@ -12,12 +12,12 @@ async function handler(
   res: NextApiResponse
 ) {
   const {
-    session: { csrf, scopes },
+    session: { csrfKey, scopes },
     body: { validate, challenge, _csrf },
   } = req;
 
   // Validate the csrf token and the request.
-  if (csrf && validate && challenge && csrf && check(csrf, _csrf) && scopes) {
+  if (_csrf && validate && challenge && csrfKey && check(csrfKey, _csrf) && scopes) {
     // If the user accepted.
     if (validate === "accept") {
       const data = await AdminAPI.acceptConsentRequest(req.body["challenge"], {
