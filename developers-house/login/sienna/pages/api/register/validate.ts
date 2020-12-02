@@ -40,12 +40,12 @@ async function handler(
     res: NextApiResponse
 ) {
     const {
-        session: { csrf, register },
+        session: { csrfKey, register },
         body: { validate, _csrf },
     } = req;
 
     // Validate the csrf token and the request.
-    if (csrf && validate && csrf && check(csrf, _csrf) && register) {
+    if (_csrf && validate && csrfKey && check(csrfKey, _csrf) && register) {
         // If the user accepted.
         if (validate === "accept") {
             // TODO: Push avatar to s3
