@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "echo 1"
+    "test": "echo 0"
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.12.1",
