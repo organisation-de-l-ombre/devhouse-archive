@@ -26,7 +26,7 @@ const handler: NextApiHandler = async (
     // Generate the state for the oauth flow.
     const state = randomBytes(255).toString("base64");
     // Save the session.
-    await applySession(req, res, options);
+    await applySession(req as any, res, options);
     // Apply the changes to the session.
     req.session.login = {
       state,
