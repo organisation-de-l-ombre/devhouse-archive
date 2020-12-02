@@ -41,11 +41,11 @@ async function handler(
 ) {
     const {
         session: { csrf, register },
-        body: { validate, challenge, _csrf },
+        body: { validate, _csrf },
     } = req;
 
     // Validate the csrf token and the request.
-    if (csrf && validate && challenge && csrf && check(csrf, _csrf) && register) {
+    if (csrf && validate && csrf && check(csrf, _csrf) && register) {
         // If the user accepted.
         if (validate === "accept") {
             // TODO: Push avatar to s3
@@ -68,7 +68,7 @@ async function handler(
             if (result.ok) {
                 // If the user was created, we login the user within hydra.
                 const user = await result.json();
-                const data = await AdminAPI.acceptLoginRequest(challenge, {
+                const data = await AdminAPI.acceptLoginRequest(register.loginChallenge, {
                     subject: user.id,
                 }).then(validateHydraResponse);
                 res.redirect(data.redirect_to);
