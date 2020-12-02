@@ -77,16 +77,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext): Pr
           name: client_name || client_id,
         },
         htmlClass: colorScheme === 'dark' ? 'dark' : 'light',
-      },
-    };
-  } else {
-    return {
-      notFound: true,
         platforms: Array.from(Providers.keys()),
         loginChallenge: loginChallenge,
-      }
+      },
     };
-
   }
   return {
     notFound: true,
