@@ -1,7 +1,8 @@
 import { AdminApi } from "@oryd/hydra-client";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
+import buildAxios from "./axios";
 
-const requester = axios.create({
+const requester = buildAxios({
   headers: {
     "X-Forwarded-Proto": "https",
   },

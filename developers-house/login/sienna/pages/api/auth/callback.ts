@@ -1,72 +1,98 @@
-import { randomBytes } from "crypto";
 import { NextApiHandler, NextApiRequest } from "next";
-import { withSession, SessionData } from "next-session";
-import { AdminAPI, validateHydraResponse } from "../../../service/hydra";
-import { GeneralUser, Providers } from "../../../service/providers";
-import { options } from '../../../service/session';
+import {applySession, withSession} from "next-session";
+import {GeneralUser, Providers} from "../../../lib/service/providers";
+import {AdminAPI, validateHydraResponse} from "../../../lib/service/hydra";
+import {options} from "../../../lib/service/session";
 
 /*
  * Redirects to the requested url.
  */
 const handler: NextApiHandler = async (
-  req: NextApiRequest & { session: SessionData },
+  req: NextApiRequest,
   res
 ) => {
-  try {
-    if (!req.session.login) throw new Error("Invalid session.");
-
-    let {
-      session: {
-        login: { state: sessionState, provider, challenge },
-        destroy,
-      },
-      query: { code, state },
-      headers: { host },
-    } = req;
-
-    if (Array.isArray(code)) code = code[0];
-
-    if (state && provider && code && challenge && sessionState) {
-      if (state === sessionState) {
-        const instance = Providers.get(provider);
-        // Excange the token.
-        const user: GeneralUser | undefined = await instance
-          .exchangeCode(code, host)
-          .then(instance.getUserData)
-          .catch(() => {
-            // Error
-            return undefined;
-          });
-        destroy();
-        if (!user) {
-          throw new Error("Failed to get user from provider.");
-        }
-
-        // TODO: Call the scarlet backend.
-
-        const data = await AdminAPI.acceptLoginRequest(challenge, {
-          subject: randomBytes(25).toString("base64"),
-          acr: 'betaNoAuth=true',
-          context: {
-
-          },
-        }).then(validateHydraResponse);
-
-        res.redirect(data.redirect_to);
-      } else {
-        throw new Error("Invalid request state.");
+  if (!req.session.login) throw new Error("Invalid session.");
+  // Unpack all the data.
+  let {
+    session: {
+      login: { state: sessionState, provider, loginChallenge },
+      destroy,
+    },
+    query: { code, state },
+    headers: { host },
+  } = req;
+  // Fix for the typescript.
+  if (Array.isArray(code)) code = code[0];
+  // We need all of theses arguments.
+  if (state && provider && code && loginChallenge && sessionState) {
+    // We check if the oauth state matches.
+    if (state === sessionState) {
+      // Gets the provider instance.
+      const instance = Providers.get(provider);
+      // Exchange the token.
+      const user: GeneralUser | undefined = await instance
+        .exchangeCode(code, host)
+        .then(instance.getUserData)
+        .catch(() => {
+          // Error
+          return undefined;
+        });
+      // Destroy the session.
+      await destroy();
+      // If there is no user.
+      if (!user) {
+        throw new Error("Failed to get user from provider.");
       }
-    } else {
-      throw new Error("Invalid arguments for the request.");
+
+      // Note: This calls the scarlet service who handles the database.
+
+      const requestBody = {
+        platform: provider,
+        platformId: user.id,
+      };
+
+      const result = await fetch(`${process.env.SCARLET_ENDPOINT}/api/users/login`, {
+        body: JSON.stringify(requestBody),
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (result.ok) {
+        const { status, user: userData } = await result.json();
+
+        switch (status) {
+          case 'NO_USER':
+          {
+            await applySession(req as any, res, options);
+            req.session.register = {
+              loginChallenge,
+              user,
+            };
+            res.redirect(`/dialog/register`);
+            return;
+          }
+          case 'FLOW_VALIDATED':
+          {
+            const data = await AdminAPI.acceptLoginRequest(loginChallenge, {
+              subject: userData.uuid,
+            }).then(validateHydraResponse);
+            res.redirect(data.redirect_to);
+            return;
+          }
+          case '2FA_REQUIRED_VERIFY':
+          {
+            // TODO: 2FA redirect & session.
+            return;
+          }
+        }
+      }
+      throw new Error("Scarlet call failed.");
     }
-  } catch (error) {
-    res.statusCode = 400;
-    res.statusMessage = error.message ?? "Invalid request or invalid session.";
-    res.json({
-      code: res.statusCode,
-      message: res.statusMessage,
-    });
+    throw new Error("Invalid request state.");
   }
+  throw new Error("Invalid arguments for the request.");
 };
 
 export default withSession(handler, options);

@@ -47,7 +47,8 @@ export default class GitHubProvider implements Provider {
         return {
             id: user.id,
             username: user.login.toString(),
-            provider: 'github'
+            provider: 'github',
+            avatarURL: user.avatar_url,
         };
     }
 
