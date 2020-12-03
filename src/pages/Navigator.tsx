@@ -39,7 +39,7 @@ const Navigator = ({location}: RouteComponentProps) => {
             <TransitionGroup>
                 <CSSTransition classNames={'slide'} key={location.pathname} timeout={300}>
                     <ErrorBoundary FallbackComponent={ErrorPage}>
-                        <Analytics id="G-G9QKMF6D6K" debug>
+                        <Analytics id="G-G9QKMF6D6K">
                             <Switch>
                                 <Route path="/" exact>
                                     <HomePage/>
