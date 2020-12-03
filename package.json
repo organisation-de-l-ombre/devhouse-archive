@@ -24,7 +24,8 @@
     "redux-state-sync": "^3.1.2",
     "redux-thunk": "^2.3.0",
     "style-loader": "0.23.1",
-    "styled-components": "^5.1.1"
+    "styled-components": "^5.1.1",
+    "react-router-ga": "^1.2.3"
   },
   "devDependencies": {
     "@babel/core": "7.9.0",
