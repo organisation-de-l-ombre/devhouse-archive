@@ -9,6 +9,6 @@ RUN yarn compile
 FROM node:14
 WORKDIR /usr/bin/app
 COPY --from=build /build/dist .
-COPY --from=build /build/node_modules .
+COPY --from=build /build/node_modules node_modules
 COPY --from=build /build/package.json .
-RUN yarn start
+CMD node index
