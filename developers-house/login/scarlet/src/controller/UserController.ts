@@ -137,7 +137,7 @@ export class UserController {
             next(new RequestError('No such user.', 404));
         }
 
-        return user;
+        response.json(user);
     }
 
     /*
