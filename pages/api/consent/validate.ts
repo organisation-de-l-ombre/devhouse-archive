@@ -23,8 +23,6 @@ async function handler(
       // we fetch the user from
       const data = await AdminAPI.acceptConsentRequest(challenge, {
         grant_scope: scopes,
-        remember: true,
-        remember_for: 60 * 60 * 24 * 7,
         grant_access_token_audience: audiences,
         session: {
           id_token: {
