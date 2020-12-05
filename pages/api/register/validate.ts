@@ -50,10 +50,10 @@ async function handler(
         if (validate === "accept") {
             // TODO: Push avatar to s3
 
-            const { json, ok } = await fetch(`${process.env.ELLIE_ENDPOINT}/avatar-link?link=${encodeURIComponent(register.user.avatarURL)}`);
+            const resp = await fetch(`${process.env.ELLIE_ENDPOINT}/avatar-link?link=${encodeURIComponent(register.user.avatarURL)}`);
 
-            if (ok) {
-                const { link } = await json();
+            if (resp.ok) {
+                const { link } = await resp.json();
                 const creationData: UserCreateRequest = {
                     avatar: link,
                     platform: register.user.provider,
