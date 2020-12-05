@@ -5,7 +5,7 @@ export const S3client = new S3({
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     },
-    endpoint: process.env.BUCKET_HOST + ':' + process.env.BUCKET_PORT,
+    endpoint: 'http://' + process.env.BUCKET_HOST + ':' + process.env.BUCKET_PORT,
     s3ForcePathStyle: true,
 });
 
