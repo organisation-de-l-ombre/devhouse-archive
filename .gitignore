@@ -1,5 +1,4 @@
 package-*
-yarn.lock
 dist/
 .idea/
 .code/
