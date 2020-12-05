@@ -43,9 +43,9 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - configMapRef:
-                name: ceph-bucket
+                name: bucket-{{ template "trackableappname" . }}
             - secretRef:
-                name: ceph-bucket
+                name: bucket-{{ template "trackableappname" . }}
             - secretRef:
                 name: {{ .Values.application.secretName }}
           env:

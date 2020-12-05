@@ -1,6 +1,7 @@
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
 metadata:
-  name: {{ template "trackableappname" . }}
+  name: bucket-{{ template "trackableappname" . }}
 spec:
-  generateBucketName: {{ template "trackableappname" . }}
+  generateBucketName: ellie-{{ template "trackableappname" . }}
+  storageClassName: rook-ceph-bucket
