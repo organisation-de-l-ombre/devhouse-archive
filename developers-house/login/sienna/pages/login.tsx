@@ -10,6 +10,7 @@ type Props = {
     name: string;
   };
   loginChallenge: string;
+  htmlClass: string;
 };
 
 export default function Login(props: Props): ReactElement {
@@ -63,20 +64,23 @@ export async function getServerSideProps(context: GetServerSidePropsContext): Pr
 
     const {
       client: { client_name, client_id },
+      request_url,
     } = await AdminAPI.getLoginRequest(
       context.query.login_challenge as string
     ).then(validateHydraResponse);
+
+    const colorScheme = new URL(request_url).searchParams.get('cs');
 
     return {
       props: {
         client: {
           name: client_name || client_id,
         },
+        htmlClass: colorScheme === 'dark' ? 'dark' : 'light',
         platforms: Array.from(Providers.keys()),
         loginChallenge: loginChallenge,
-      }
+      },
     };
-
   }
   return {
     notFound: true,

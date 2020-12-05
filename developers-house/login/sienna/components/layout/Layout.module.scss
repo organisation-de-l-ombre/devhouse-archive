@@ -15,7 +15,7 @@
 }
 
 .content {
-  background-color: var(--primary);
+  background-color: var(--background-primary);
   padding: var(--card-internal-header);
   padding-top: 5%;
   display: flex;
@@ -31,8 +31,8 @@
 }
 
 .footer {
-  background-color: var(--secondary);
-  color: white;
+  background-color: var(--primary);
+  color: var(--text-color-button);
   padding: 1% 4%;
   box-shadow: black 0 3px 10px;
 
@@ -41,14 +41,15 @@
 
     a {
       text-decoration: none;
-      color: lightgrey;
+      color: var(--text-color-button);
     }
   }
 }
 
 .header {
-  background-color: var(--secondary);
+  background-color: var(--primary);
   padding: var(--card-internal-header);
+  color: var(--text-color-button);
   vertical-align: middle;
   display: flex;
   flex-direction: row;
@@ -56,7 +57,6 @@
   z-index: 10;
   box-shadow: black 0 -3px 10px;
   min-height: 50px;
-  color: white;
 
   h1 {
     padding: 0;
@@ -68,7 +68,6 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  background-color: var(--primary);
 }
 
 .app {
@@ -77,5 +76,6 @@
   width: 100%;
   justify-content: center;
   align-items: center;
+  background-color: var(--background);
   animation: enter 500ms ease-out;
 }
