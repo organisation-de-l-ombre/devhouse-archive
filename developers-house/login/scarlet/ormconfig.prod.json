@@ -1,0 +1,24 @@
+{
+   "type": "postgres",
+   "host": "global-cluster.postgres",
+   "port": 5432,
+   "username": "scarlet_owner_user",
+   "password": "32nBj54YnDcKkc6RPyBrGWaXVjkcklk5403ZJznkXtCDjgYcJZdBu2wzwf8tJKxh",
+   "database": "scarlet",
+   "synchronize": true,
+   "logging": false,
+   "entities": [
+      "entity/**/*.js"
+   ],
+   "migrations": [
+      "migration/**/*.js"
+   ],
+   "subscribers": [
+      "subscriber/**/*.js"
+   ],
+   "cli": {
+      "entitiesDir": "entity",
+      "migrationsDir": "migration",
+      "subscribersDir": "subscriber"
+   }
+}
