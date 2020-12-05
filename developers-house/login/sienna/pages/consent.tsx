@@ -75,7 +75,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext): Pr
         requested_access_token_audience,
     } = await AdminAPI.getConsentRequest(consentChallenge).then(validateHydraResponse);
 
-    const user = await fetch(`http://review-typescript-ucveg6-auto-deploy.scarlet-22198115-review-typescript-ucveg6:5000/api/users/${subject}`)
+    const user = await fetch(`${process.env.SCARLET_ENDPOINT}/api/users/${subject}`)
         .then (x => x.json());
 
     // Load the session.
