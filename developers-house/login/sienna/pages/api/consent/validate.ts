@@ -27,7 +27,11 @@ async function handler(
         remember_for: 60 * 60 * 24 * 7,
         grant_access_token_audience: audiences,
         session: {
-          id_token: user,
+          id_token: {
+            ...user,
+            ban: undefined,
+            uuid: undefined,
+          },
         },
       }).then(validateHydraResponse);
       res.redirect(data.redirect_to);
