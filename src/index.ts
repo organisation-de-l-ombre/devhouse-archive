@@ -9,10 +9,10 @@
  * Developer: Matthieu
  */
 
-import { createServer, IncomingMessage, OutgoingMessage, Server } from 'http';
-import { routes } from "./endpoints/router";
+import * as http from 'http';
+import {createServer, IncomingMessage, OutgoingMessage, Server} from 'http';
+import {routes} from "./endpoints/router";
 import morgan from 'morgan';
-import * as http from "http";
 
 const logger = morgan('combined');
 
@@ -24,7 +24,11 @@ const requestProcess = (request: IncomingMessage, response: OutgoingMessage) => 
         logger(request, response, () => {
             const url = request.url.split('?')[0];
             if (Object.keys(routes).includes(url)) {
-                routes[url](request, response);
+                try {
+                    routes[url](request, response);
+                } catch (e) {
+                    response.end();
+                }
             } else {
                 response.end();
             }

@@ -4,13 +4,11 @@
 
 import {Endpoint} from '../router';
 import Sharp from 'sharp';
-import Simplex from 'simplex-noise';
 
 const dimensionsW = (h: number) => h * 3;
 
 const randomIntBetween = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1) + min);
 
-const simplex = new Simplex();
 let index = 0;
 
 export const generateCaptcha: Endpoint = async (request, response) => {
@@ -20,7 +18,7 @@ export const generateCaptcha: Endpoint = async (request, response) => {
     const data = url.get('text');
     if (!data) return;
 
-    const height = 120;
+    const height = parseInt(url.get('size') || '120');
 
     /*
      * Step one, generate a noise image texture.
@@ -42,41 +40,20 @@ export const generateCaptcha: Endpoint = async (request, response) => {
     for (let i = 0; i < height; i++) {
         // For each column
         for (let j = 0; j < dimensionsW(height); j++) {
-            let invert = simplex.noise3D(i / 25, j / 25, index) * 60;
-            let grey2 = simplex.noise3D(i / 25, j / 25, index) *  60;
-            let grey3 = simplex.noise3D(i / 25, j / 25, index) *  60;
-
-            if (invert > 0.5) {
-                grey2 = 255 - grey2;
-            } else {
-                grey3 = 255 - grey3;
-            }
+            const valueB = randomIntBetween(0, 255);
+            const valueR = randomIntBetween(0, 255);
+            const valueG = randomIntBetween(0, 255);
 
             textureRaw.set([
-                0,
-                grey2,
-                grey3,
-                invert * 3,
+                valueR,
+                valueG,
+                valueB,
+                255,
             ], lastPixelOffset);
             lastPixelOffset += 4;
         }
     }
     index += 2;
-
-
-    /*
-     * Second text, we generate the text.
-     */
-    const text = await Sharp(Buffer.from(`
-    <svg xmlns="http://www.w3.org/2000/svg" width="${dimensionsW(height)}" height="${height}">
-        <text fill="black" rotate="${randomIntBetween(0, 10)}" x="${dimensionsW(height) / 4 + randomIntBetween(-10, 10)}" y="${height / 2 + (height / 1.5) / 2 + randomIntBetween(-10, 10)}" font-size="${height / 1.5 + randomIntBetween(2, 3)}">
-            ${data}
-        </text>
-    </svg>    
-    `))
-        .resize(dimensionsW(height), height)
-        .png()
-        .toBuffer();
 
     // The image builder.
     const sharp = Sharp({
@@ -104,10 +81,6 @@ export const generateCaptcha: Endpoint = async (request, response) => {
                 left: 0,
                 blend: "over",
             },
-            {
-                input: text,
-                blend: "overlay",
-            }
         ])
         .png();
 
