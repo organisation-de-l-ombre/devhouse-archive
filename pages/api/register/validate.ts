@@ -70,6 +70,9 @@ async function handler(
                 const user = await result.json();
                 const data = await AdminAPI.acceptLoginRequest(register.loginChallenge, {
                     subject: user.uuid,
+                    acr: register.user.provider,
+                    remember: true,
+                    remember_for: Number(3600),
                 }).then(validateHydraResponse);
                 res.redirect(data.redirect_to);
                 return;

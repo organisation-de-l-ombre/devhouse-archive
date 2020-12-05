@@ -12,16 +12,23 @@ async function handler(
   res: NextApiResponse
 ) {
   const {
-    session: { csrfKey, consent: { scopes }, },
+    session: { csrfKey, consent: { scopes, audiences, user }, },
     body: { validate, challenge, _csrf },
   } = req;
 
   // Validate the csrf token and the request.
-  if (_csrf && validate && challenge && csrfKey && check(csrfKey, _csrf) && scopes) {
+  if (_csrf && validate && audiences && challenge && csrfKey && check(csrfKey, _csrf) && scopes) {
     // If the user accepted.
     if (validate === "accept") {
+      // we fetch the user from
       const data = await AdminAPI.acceptConsentRequest(challenge, {
         grant_scope: scopes,
+        remember: true,
+        remember_for: 60 * 60 * 24 * 7,
+        grant_access_token_audience: audiences,
+        session: {
+          id_token: user,
+        },
       }).then(validateHydraResponse);
       res.redirect(data.redirect_to);
       return;
