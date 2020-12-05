@@ -70,14 +70,21 @@ export async function getServerSideProps(context: GetServerSidePropsContext): Pr
 
     const {
       client: { client_name, client_id },
+        subject,
       requested_scope,
+        requested_access_token_audience,
     } = await AdminAPI.getConsentRequest(consentChallenge).then(validateHydraResponse);
+
+    const user = await fetch(`${process.env.SCARLET_ENDPOINT}/api/users/${subject}`)
+        .then (x => x.json());
 
     // Load the session.
     await applySession(req as any, res, options);
     // Save the scopes in the session.
     req.session.consent = {
-      scopes: requested_scope
+      user: user,
+      scopes: requested_scope,
+      audiences: requested_access_token_audience,
     };
     // Return the scopes for the request.
     return {

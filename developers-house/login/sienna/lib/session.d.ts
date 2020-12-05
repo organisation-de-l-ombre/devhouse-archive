@@ -14,6 +14,8 @@ interface RegisterSession {
 
 interface ConsentSession {
     scopes: string[];
+    audiences: string[];
+    user: object;
 }
 
 export default interface Session extends SessionData {
