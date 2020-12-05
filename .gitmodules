@@ -1,3 +1,0 @@
-[submodule "protocol"]
-	path = protocol
-	url = https://gitlab.com/developers-house/dev/login-group/scarlet-protocol.git
