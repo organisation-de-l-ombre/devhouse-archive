@@ -35,7 +35,8 @@ export const avatarLink: Endpoint = async (request, response) => {
                             console.log(err);
                         }
                         response.write(JSON.stringify({
-                            link: result.Location,
+                            link: result.Bucket + '/' + result.Key,
+                            etag: result.ETag,
                         }));
                         response.end();
                     });
