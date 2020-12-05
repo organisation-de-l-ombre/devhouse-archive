@@ -50,32 +50,37 @@ async function handler(
         if (validate === "accept") {
             // TODO: Push avatar to s3
 
-            const creationData: UserCreateRequest = {
-                avatar: '4b728e694e44589d7c98cb7bec92059e',
-                platform: register.user.provider,
-                platformId: register.user.id,
-                username: register.user.username,
-            };
+            const { json, ok } = await fetch(`${process.env.ELLIE_ENDPOINT}/avatar-link?link=${encodeURIComponent(register.user.avatarURL)}`);
 
-            const result = await fetch(`${process.env.SCARLET_ENDPOINT}/api/users/create`, {
-                body: JSON.stringify(creationData),
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+            if (ok) {
+                const { link } = await json();
+                const creationData: UserCreateRequest = {
+                    avatar: link,
+                    platform: register.user.provider,
+                    platformId: register.user.id,
+                    username: register.user.username,
+                };
 
-            if (result.ok) {
-                // If the user was created, we login the user within hydra.
-                const user = await result.json();
-                const data = await AdminAPI.acceptLoginRequest(register.loginChallenge, {
-                    subject: user.uuid,
-                    acr: register.user.provider,
-                    remember: true,
-                    remember_for: Number(3600),
-                }).then(validateHydraResponse);
-                res.redirect(data.redirect_to);
-                return;
+                const result = await fetch(`${process.env.SCARLET_ENDPOINT}/api/users/create`, {
+                    body: JSON.stringify(creationData),
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+
+                if (result.ok) {
+                    // If the user was created, we login the user within hydra.
+                    const user = await result.json();
+                    const data = await AdminAPI.acceptLoginRequest(register.loginChallenge, {
+                        subject: user.uuid,
+                        acr: register.user.provider,
+                        remember: true,
+                        remember_for: Number(3600),
+                    }).then(validateHydraResponse);
+                    res.redirect(data.redirect_to);
+                    return;
+                }
             }
             throw new Error("Failed to create the user.");
         }
