@@ -4,13 +4,13 @@
 
 import React, {ReactElement, useEffect} from 'react';
 
-export const Callback = (): ReactElement => {
+const Callback = (): ReactElement => {
     useEffect(() => {
         const hash = window.location.hash.substring(1);
         const params: {
             [key: string]: string;
         } = {};
-        hash.split('&').map(hk => {
+        hash.split('&').forEach(hk => {
             let temp = hk.split('=');
             params[temp[0]] = temp[1]
         });
@@ -29,3 +29,5 @@ export const Callback = (): ReactElement => {
 
     return <></>;
 };
+
+export default Callback;

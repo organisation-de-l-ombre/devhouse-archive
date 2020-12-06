@@ -1,20 +1,14 @@
-import React, {Component, FC, useCallback} from 'react';
+import React, {FC, useCallback} from 'react';
 import {Route, Switch, withRouter, useHistory} from 'react-router-dom';
-import AboutPage from "pages/About/About";
-import HomePage from "pages/Home/Home";
-import MembersPage from "pages/Members/Members";
-import NotFound from "pages/NotFound/NotFound";
-import ProjectsPage from "pages/Projects/Projects";
 import 'transitions.css';
 import {CSSTransition, TransitionGroup} from "react-transition-group";
 import {RouteComponentProps, RouteProps} from "react-router";
 import styled from "styled-components";
 import {ErrorBoundary} from "react-error-boundary";
-import ErrorPage from "./ErrorPage";
-import {Callback} from "./Settings/Callback";
-import {Settings} from "./Settings/Settings";
 import {useDispatch, useSelector} from "react-redux";
 import {pushNotification} from "../state/modules/notifications";
+import SuspenseLoader from "../components/SuspenseLoader";
+import NotFound from './NotFound/NotFound';
 
 const Wrapper = styled.div`
     .slide-enter {
@@ -36,6 +30,18 @@ const Wrapper = styled.div`
     }
 `;
 
+
+
+const AboutPage = React.lazy(() => import('./About/About')),
+    HomePage = React.lazy(() => import('./Home/Home')),
+    MembersPage = React.lazy(() => import('./Members/Members')),
+    ProjectsPage = React.lazy(() => import('./Projects/Projects')),
+    ErrorPage = React.lazy(() => import('./ErrorPage')),
+    Callback = React.lazy(() => import('./Settings/Callback')),
+    Settings = React.lazy(() => import('./Settings/Settings'));
+
+
+
 const PrivateRoute: FC<{ component: FC<any> } & RouteProps> = ({ component: Component, ...rest }) => {
     const auth = useSelector((s) => s.user.loggedIn);
     const dispatch = useDispatch();
@@ -56,6 +62,7 @@ const PrivateRoute: FC<{ component: FC<any> } & RouteProps> = ({ component: Comp
     }} />
 };
 
+
 const Navigator = ({location}: RouteComponentProps) => {
     return (
         <Wrapper>
@@ -63,25 +70,27 @@ const Navigator = ({location}: RouteComponentProps) => {
                 <CSSTransition classNames={'slide'} key={location.pathname} timeout={300}>
                     <ErrorBoundary FallbackComponent={ErrorPage}>
                         <Switch>
-                            <Route path="/" exact>
-                                <HomePage/>
-                            </Route>
-                            <Route path="/about" exact>
-                                <AboutPage/>
-                            </Route>
-                            <Route path="/projects" exact>
-                                <ProjectsPage/>
-                            </Route>
-                            <Route path="/members" exact>
-                                <MembersPage/>
-                            </Route>
-                            <Route path="/callback" exact>
-                                <Callback/>
-                            </Route>
-                            <PrivateRoute path="/settings" component={Settings} exact />
-                            <Route path="*">
-                                <NotFound/>
-                            </Route>
+                            <SuspenseLoader>
+                                <Route path="/" exact>
+                                    <HomePage/>
+                                </Route>
+                                <Route path="/about" exact>
+                                    <AboutPage/>
+                                </Route>
+                                <Route path="/projects" exact>
+                                    <ProjectsPage/>
+                                </Route>
+                                <Route path="/members" exact>
+                                    <MembersPage/>
+                                </Route>
+                                <Route path="/callback" exact>
+                                    <Callback/>
+                                </Route>
+                                <PrivateRoute path="/settings" component={Settings} exact />
+                                <Route path="*">
+                                    <NotFound/>
+                                </Route>
+                            </SuspenseLoader>
                         </Switch>
                     </ErrorBoundary>
                 </CSSTransition>

@@ -8,11 +8,11 @@ import Button from "../../components/ui/Button";
 import {useDispatch} from "react-redux";
 import {logoutUser} from "../../state/modules/user/actions";
 
-export const Settings = (): ReactElement => {
+const Settings = (): ReactElement => {
     const dispatch = useDispatch();
     const logout = useCallback(() => {
         dispatch(logoutUser());
-    }, []);
+    }, [dispatch]);
 
     return <TitleBox>
         We are working on this feature! <br/>
@@ -21,3 +21,5 @@ export const Settings = (): ReactElement => {
         </Button>
     </TitleBox>;
 };
+
+export default Settings;

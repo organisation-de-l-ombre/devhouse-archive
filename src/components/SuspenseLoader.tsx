@@ -21,7 +21,7 @@ export const Loader = () => {
         return () => {
             clearInterval(timeout.current);
         };
-    }, [])
+    }, [changeMessage])
 
     return <div className={'loader'}>
         <div className={'centered'}>
