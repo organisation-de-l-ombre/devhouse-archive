@@ -49,5 +49,5 @@ sentry_release:
   image: getsentry/sentry-cli
   script:
     - VERSION=$(sentry-cli releases propose-version)
-    - sentry-cli releases new -p PROJECT $VERSION
+    - sentry-cli releases new -p website $VERSION
     - sentry-cli releases set-commits --auto $VERSION
