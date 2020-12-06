@@ -13,7 +13,7 @@ import {pushNotification} from "state/modules/notifications";
 import {Menu} from "./components/navbar";
 import {BrowserRouter} from "react-router-dom";
 import {Loader} from "./components/SuspenseLoader";
-
+import ReactGA from 'react-ga';
 const {store, persistor} = createState();
 
 const ThemeProvider = React.lazy(() => import('components/ThemeProvider'))

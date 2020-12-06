@@ -43,3 +43,11 @@ build:
     - node_build
   dependencies:
     - node_build
+  
+sentry_release:
+  stage: .post
+  image: getsentry/sentry-cli
+  script:
+    - VERSION=$(sentry-cli releases propose-version)
+    - sentry-cli releases new -p PROJECT $VERSION
+    - sentry-cli releases set-commits --auto $VERSION
