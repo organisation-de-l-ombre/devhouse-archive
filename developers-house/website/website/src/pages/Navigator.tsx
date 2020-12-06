@@ -11,6 +11,7 @@ import {RouteComponentProps} from "react-router";
 import styled from "styled-components";
 import {ErrorBoundary} from "react-error-boundary";
 import ErrorPage from "./ErrorPage";
+import Analytics from 'react-router-ga';
 
 const Wrapper = styled.div`
     .slide-enter {
@@ -38,23 +39,25 @@ const Navigator = ({location}: RouteComponentProps) => {
             <TransitionGroup>
                 <CSSTransition classNames={'slide'} key={location.pathname} timeout={300}>
                     <ErrorBoundary FallbackComponent={ErrorPage}>
-                        <Switch>
-                            <Route path="/" exact>
-                                <HomePage/>
-                            </Route>
-                            <Route path="/about" exact>
-                                <AboutPage/>
-                            </Route>
-                            <Route path="/projects" exact>
-                                <ProjectsPage/>
-                            </Route>
-                            <Route path="/members" exact>
-                                <MembersPage/>
-                            </Route>
-                            <Route path="*">
-                                <NotFound/>
-                            </Route>
-                        </Switch>
+                        <Analytics id="G-G9QKMF6D6K">
+                            <Switch>
+                                <Route path="/" exact>
+                                    <HomePage/>
+                                </Route>
+                                <Route path="/about" exact>
+                                    <AboutPage/>
+                                </Route>
+                                <Route path="/projects" exact>
+                                    <ProjectsPage/>
+                                </Route>
+                                <Route path="/members" exact>
+                                    <MembersPage/>
+                                </Route>
+                                <Route path="*">
+                                    <NotFound/>
+                                </Route>
+                            </Switch>
+                        </Analytics>
                     </ErrorBoundary>
                 </CSSTransition>
             </TransitionGroup>
