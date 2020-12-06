@@ -1,8 +1,7 @@
 import React, {FC, useCallback} from 'react';
-import {Route, Switch, withRouter, useHistory} from 'react-router-dom';
+import {Route, Switch, useHistory, withRouter} from 'react-router-dom';
 import 'transitions.css';
-import {CSSTransition, TransitionGroup} from "react-transition-group";
-import {RouteComponentProps, RouteProps} from "react-router";
+import {RouteProps} from "react-router";
 import styled from "styled-components";
 import {ErrorBoundary} from "react-error-boundary";
 import {useDispatch, useSelector} from "react-redux";
@@ -31,7 +30,6 @@ const Wrapper = styled.div`
 `;
 
 
-
 const AboutPage = React.lazy(() => import('./About/About')),
     HomePage = React.lazy(() => import('./Home/Home')),
     MembersPage = React.lazy(() => import('./Members/Members')),
@@ -41,8 +39,7 @@ const AboutPage = React.lazy(() => import('./About/About')),
     Settings = React.lazy(() => import('./Settings/Settings'));
 
 
-
-const PrivateRoute: FC<{ component: FC<any> } & RouteProps> = ({ component: Component, ...rest }) => {
+const PrivateRoute: FC<{ component: FC<any> } & RouteProps> = ({component: Component, ...rest}) => {
     const auth = useSelector((s) => s.user.loggedIn);
     const dispatch = useDispatch();
     const displayNotification = useCallback(() => {
@@ -59,42 +56,38 @@ const PrivateRoute: FC<{ component: FC<any> } & RouteProps> = ({ component: Comp
             return <></>;
         }
         return <Component {...props} />;
-    }} />
+    }}/>
 };
 
 
-const Navigator = ({location}: RouteComponentProps) => {
+const Navigator = () => {
     return (
         <Wrapper>
-            <TransitionGroup>
-                <CSSTransition classNames={'slide'} key={location.pathname} timeout={300}>
-                    <ErrorBoundary FallbackComponent={ErrorPage}>
-                        <Switch>
-                            <SuspenseLoader>
-                                <Route path="/" exact>
-                                    <HomePage/>
-                                </Route>
-                                <Route path="/about" exact>
-                                    <AboutPage/>
-                                </Route>
-                                <Route path="/projects" exact>
-                                    <ProjectsPage/>
-                                </Route>
-                                <Route path="/members" exact>
-                                    <MembersPage/>
-                                </Route>
-                                <Route path="/callback" exact>
-                                    <Callback/>
-                                </Route>
-                                <PrivateRoute path="/settings" component={Settings} exact />
-                                <Route path="*">
-                                    <NotFound/>
-                                </Route>
-                            </SuspenseLoader>
-                        </Switch>
-                    </ErrorBoundary>
-                </CSSTransition>
-            </TransitionGroup>
+            <ErrorBoundary FallbackComponent={ErrorPage}>
+                <Switch>
+                    <SuspenseLoader>
+                        <Route path="/" exact>
+                            <HomePage/>
+                        </Route>
+                        <Route path="/about" exact>
+                            <AboutPage/>
+                        </Route>
+                        <Route path="/projects" exact>
+                            <ProjectsPage/>
+                        </Route>
+                        <Route path="/members" exact>
+                            <MembersPage/>
+                        </Route>
+                        <Route path="/callback" exact>
+                            <Callback/>
+                        </Route>
+                        <PrivateRoute path="/settings" component={Settings} exact/>
+                    </SuspenseLoader>
+                    <Route path="*" exact>
+                        <NotFound/>
+                    </Route>
+                </Switch>
+            </ErrorBoundary>
         </Wrapper>);
 }
 
