@@ -64,7 +64,10 @@ const Navigator = () => {
     return (
         <Wrapper>
             <ErrorBoundary FallbackComponent={ErrorPage}>
+                <div style={{ height: '100%', width: '100%' }}>
+
                 <Switch>
+
                     <SuspenseLoader>
                         <Route path="/" exact>
                             <HomePage/>
@@ -87,6 +90,7 @@ const Navigator = () => {
                         <NotFound/>
                     </Route>
                 </Switch>
+            </div>
             </ErrorBoundary>
         </Wrapper>);
 }
