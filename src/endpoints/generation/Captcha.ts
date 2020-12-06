@@ -2,8 +2,8 @@
  * Generate a captcha with a given string.
  */
 
-import {Endpoint} from '../router';
 import Sharp from 'sharp';
+import {Endpoint} from '../router';
 
 const dimensionsW = (h: number) => h * 3;
 
@@ -13,7 +13,7 @@ let index = 0;
 
 export const generateCaptcha: Endpoint = async (request, response) => {
 
-    const url = new URLSearchParams(request.url.split('?')[1]);
+    const url = new URLSearchParams((request.url as string).split('?')[1]);
 
     const data = url.get('text');
     if (!data) return;

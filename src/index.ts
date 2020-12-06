@@ -1,5 +1,5 @@
 /*
- * Entrypoint of the image generator.
+ * Entry point of the image generator.
  * ~ Ellie ~
  * A QR-Code and Captcha image generator
  * that helps generate stuff for the oauth flow.
@@ -11,8 +11,8 @@
 
 import * as http from 'http';
 import {createServer, IncomingMessage, OutgoingMessage, Server} from 'http';
-import {routes} from "./endpoints/router";
 import morgan from 'morgan';
+import {routes} from "./endpoints/router";
 
 const logger = morgan('combined');
 
@@ -22,7 +22,7 @@ const logger = morgan('combined');
 const requestProcess = (request: IncomingMessage, response: OutgoingMessage) => {
     if (response instanceof http.ServerResponse) {
         logger(request, response, () => {
-            const url = request.url.split('?')[0];
+            const url = (request.url as string).split('?')[0];
             if (Object.keys(routes).includes(url)) {
                 try {
                     routes[url](request, response);
@@ -57,4 +57,4 @@ startServer()
     })
     .catch((error) => {
         console.log('[~ Ellie ~] Failed to start. : ', error);
-    });
+		});
