@@ -1,3 +1,4 @@
+# syntax = docker/dockerfile:experimental
 FROM node as build
 WORKDIR /build
 COPY package.json .
