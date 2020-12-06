@@ -19,7 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fix deployment of help chart" />
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fix the error page">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Navigator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Navigator.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -28,7 +31,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="monorepo-build" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -49,7 +52,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="yarn" />
-    <property name="ts.external.directory.path" value="C:\Users\Matthieu\Desktop\Developement\website-repo\react-application\node_modules\typescript\lib" />
+    <property name="ts.external.directory.path" value="C:\Users\Matthieu\Desktop\Developement\website-repo\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -83,6 +86,9 @@
       <workItem from="1606163868363" duration="614000" />
       <workItem from="1606223366595" duration="594000" />
       <workItem from="1606295542741" duration="7262000" />
+      <workItem from="1606361943914" duration="11000" />
+      <workItem from="1606817660554" duration="14000" />
+      <workItem from="1607235772483" duration="12979000" />
     </task>
     <task id="LOCAL-00001" summary="new style and ux/ui improvements">
       <created>1602854984402</created>
@@ -203,7 +209,28 @@
       <option name="project" value="LOCAL" />
       <updated>1606302757625</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Navigation changes &amp; login implementation">
+      <created>1607247265499</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1607247265500</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Fix warnings">
+      <created>1607249011626</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1607249011626</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Fix the error page">
+      <created>1607251358640</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1607251358640</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -238,9 +265,20 @@
     <MESSAGE value="Fix paths" />
     <MESSAGE value="Fix the gitlab ci for helm and postgres" />
     <MESSAGE value="Fix deployment of help chart" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix deployment of help chart" />
+    <MESSAGE value="Navigation changes &amp; login implementation" />
+    <MESSAGE value="Fix warnings" />
+    <MESSAGE value="Fix the error page" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix the error page" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607236205403">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1607236205403" />
+    <state x="242" y="239" key="#com.intellij.ide.util.MemberChooser" timestamp="1607246444299">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="242" y="239" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1607246444299" />
     <state x="690" y="307" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1605801418805">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
@@ -249,9 +287,10 @@
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
     <state x="666" y="481" width="598" height="158" key="GitCloneDialog/0.40.1920.1040@0.40.1920.1040" timestamp="1606147743113" />
-    <state x="552" y="293" key="Vcs.Push.Dialog.v2" timestamp="1606302758646">
-      <screen x="0" y="40" width="1920" height="1040" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1607251360587">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1607251360587" />
     <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
     <state x="777" y="474" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606297428811">
       <screen x="0" y="40" width="1920" height="1040" />
@@ -261,9 +300,17 @@
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
     <state x="719" y="273" key="git4idea.branch.GitSmartOperationDialog/0.40.1920.1040@0.40.1920.1040" timestamp="1606295619091" />
+    <state x="114" y="244" key="run.anything.popup" timestamp="1607240354370">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="114" y="244" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1607240354370" />
     <state x="752" y="418" key="scopes" timestamp="1605804413848">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
     <state x="752" y="418" key="scopes/0.40.1920.1040@0.40.1920.1040" timestamp="1605804413848" />
+    <state x="121" y="230" width="672" height="678" key="search.everywhere.popup" timestamp="1607239581082">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="121" y="230" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1607239581082" />
   </component>
 </project>

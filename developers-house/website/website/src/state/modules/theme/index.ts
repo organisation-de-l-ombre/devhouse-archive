@@ -19,7 +19,7 @@ type ResetTheme = {
 type PayloadTypes = UpdateTheme | ResetTheme;
 
 export const defaultState: ThemeState = {
-    theme: 'dark',
+    theme: 'light',
 };
 
 export default function reducer(

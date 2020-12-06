@@ -7,6 +7,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {updateTheme} from 'state/modules/theme';
 import {loginUser} from "../../state/modules/user/actions";
 import {NavigationContainer} from './Menu/MenuContainer';
+import {DrawerContent} from "./Menu/DrawerContent";
+import styles from "./Menu/navigation.module.scss";
+import UserAvatarStatus from "../ui/UserAvatarStatus";
 
 export function Menu(): ReactElement {
     const [open, setOpen] = useState<boolean>(false);
@@ -19,41 +22,60 @@ export function Menu(): ReactElement {
         if (open)
             setOpen(false);
         return true;
-    }
+    };
+
+    const userState = useSelector((s) => s.user);
 
     return (
         <NavigationContainer open={open} onClick={globalClick}>
-            <OnlyMobiles>
+            <OnlyMobiles className={styles.primed}>
                 <NavigationItem onClick={switchOpen}>
-                    Developer's House
-                    <OnlyMobiles style={{float: 'right', verticalAlign: 'middle'}}>
+                    <h3>
+                        Developer's House
+                    </h3>
                         <GiHamburgerMenu
                             style={{transform: `rotate(${open ? '90' : '0'}deg)`, scale: 2, transition: 'all 250ms'}}/>
-                    </OnlyMobiles>
                 </NavigationItem>
             </OnlyMobiles>
-            <NavLink to={'/'} exact>
-                <NavigationItem onClick={switchOpenClick}>
-                    Home
-                </NavigationItem>
-            </NavLink>
-            <NavLink to={'/members'}>
-                <NavigationItem onClick={switchOpenClick}>
-                    Members
-                </NavigationItem>
-            </NavLink>
-            <NavLink to={'/about'}>
+            <DrawerContent>
+                <NavLink to={'/'} exact>
+                    <NavigationItem onClick={switchOpenClick}>
+                        Home
+                    </NavigationItem>
+                </NavLink>
+                <NavLink to={'/members'}>
+                    <NavigationItem onClick={switchOpenClick}>
+                        Members
+                    </NavigationItem>
+                </NavLink>
+                <NavLink to={'/about'}>
 
-                <NavigationItem onClick={switchOpenClick}>
-                    About
+                    <NavigationItem onClick={switchOpenClick}>
+                        About
+                    </NavigationItem>
+                </NavLink>
+                <NavigationItem onClick={() => switchOpenClick && dispatch(updateTheme(dark ? 'dark' : 'light'))}>
+                    Switch to {dark ? 'dark' : 'light'} theme
                 </NavigationItem>
-            </NavLink>
-            <NavigationItem onClick={() => switchOpenClick && dispatch(updateTheme(dark ? 'dark' : 'light'))}>
-                Switch to {dark ? 'dark' : 'light'} theme
-            </NavigationItem>
-            <NavigationItem onClick={() => dispatch(loginUser())}>
-                Login
-            </NavigationItem>
+                {
+                    !userState.loggedIn &&
+                    <NavigationItem className={styles.bottom} onClick={() => dispatch(loginUser())}>
+                        Login
+                    </NavigationItem>
+                }
+                {
+                    userState.loggedIn && (
+                        <NavLink to={"/settings"}>
+                            <NavigationItem style={{ padding: '0.8em', }}>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <UserAvatarStatus style={{ paddingRight: '1em', width: '2em', height: '2em', display: 'inline' }} animate statusColor="gray" avatar={`https://s3.developershouse.xyz/${userState.user?.avatar}`} />
+                                    { userState.user?.username }
+                                </div>
+                            </NavigationItem>
+                        </NavLink>
+                    )
+                }
+            </DrawerContent>
         </NavigationContainer>
     );
 }
