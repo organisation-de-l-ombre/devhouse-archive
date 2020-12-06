@@ -14,6 +14,7 @@
     "test": "exit 0"
   },
   "dependencies": {
+    "@sentry/node": "^5.28.0",
     "aws-sdk": "^2.804.0",
     "memory-streams": "^0.1.3",
     "morgan": "^1.10.0",

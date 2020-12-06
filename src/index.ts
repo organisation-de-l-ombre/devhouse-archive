@@ -7,12 +7,20 @@
  * ~ Information ~
  * Maintainer: Matthieu
  * Developer: Matthieu
- */
+*/
 
+import * as Sentry from "@sentry/node";
 import * as http from 'http';
 import {createServer, IncomingMessage, OutgoingMessage, Server} from 'http';
 import morgan from 'morgan';
 import {routes} from "./endpoints/router";
+
+Sentry.init({
+  dsn: process.env["SENTRY_DSN"] ?? "Invalid Sentry DSN",
+	release: process.env["CI_COMMIT_SHORT_SHA"] ?? "No Commit Short SHA",
+  tracesSampleRate: 1.0,
+});
+
 
 const logger = morgan('combined');
 
