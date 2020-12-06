@@ -9,7 +9,6 @@ import {loginUser} from "../../state/modules/user/actions";
 import {NavigationContainer} from './Menu/MenuContainer';
 import {DrawerContent} from "./Menu/DrawerContent";
 import styles from "./Menu/navigation.module.scss";
-import Button from "../ui/Button";
 import UserAvatarStatus from "../ui/UserAvatarStatus";
 
 export function Menu(): ReactElement {

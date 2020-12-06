@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {useState} from "react";
-import styled from "styled-components";
-import {SimplifiedHTMLProps} from "./Button";
 
 function UserAvatarStatus(props: {
     statusColor: string;

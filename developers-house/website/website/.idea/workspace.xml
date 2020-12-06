@@ -19,30 +19,15 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fix deployment of help chart">
-      <change afterPath="$PROJECT_DIR$/src/components/navbar/Menu/DrawerContent.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Settings/Callback.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Settings/Settings.tsx" afterDir="false" />
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Navigation changes &amp; login implementation">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Root.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Root.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/SuspenseLoader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SuspenseLoader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ThemeProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ThemeProvider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/loader.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/loader.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/navbar/Menu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navbar/Menu.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/navbar/Menu/navigation.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navbar/Menu/navigation.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/themes.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/themes.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/ui/UserAvatarStatus.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/UserAvatarStatus.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/button.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/button.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/card.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/card.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Members/MemberDisplay.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Members/MemberDisplay.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Navigator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Navigator.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/state/modules/theme/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/state/modules/theme/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/state/modules/user/actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/state/modules/user/actions.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/state/modules/user/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/state/modules/user/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/state/redux.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/state/redux.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transitions.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/transitions.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilities/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilities/account.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Settings/Callback.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Settings/Callback.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Settings/Settings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Settings/Settings.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +94,7 @@
       <workItem from="1606295542741" duration="7262000" />
       <workItem from="1606361943914" duration="11000" />
       <workItem from="1606817660554" duration="14000" />
-      <workItem from="1607235772483" duration="10042000" />
+      <workItem from="1607235772483" duration="11784000" />
     </task>
     <task id="LOCAL-00001" summary="new style and ux/ui improvements">
       <created>1602854984402</created>
@@ -230,7 +215,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606302757625</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Navigation changes &amp; login implementation">
+      <created>1607247265499</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1607247265500</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -265,7 +257,8 @@
     <MESSAGE value="Fix paths" />
     <MESSAGE value="Fix the gitlab ci for helm and postgres" />
     <MESSAGE value="Fix deployment of help chart" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix deployment of help chart" />
+    <MESSAGE value="Navigation changes &amp; login implementation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Navigation changes &amp; login implementation" />
   </component>
   <component name="WindowStateProjectService">
     <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607236205403">
@@ -284,9 +277,10 @@
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
     <state x="666" y="481" width="598" height="158" key="GitCloneDialog/0.40.1920.1040@0.40.1920.1040" timestamp="1606147743113" />
-    <state x="552" y="293" key="Vcs.Push.Dialog.v2" timestamp="1606302758646">
-      <screen x="0" y="40" width="1920" height="1040" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1607247269721">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1607247269721" />
     <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
     <state x="777" y="474" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606297428811">
       <screen x="0" y="40" width="1920" height="1040" />
