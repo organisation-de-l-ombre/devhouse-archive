@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 .light {
   --foreground-primary: black;
   --foreground-secondary: black;
@@ -32,4 +34,8 @@
   --background-hover-primary: #2b2b2b;
   --background-hover-secondary: rgb(33, 33, 33);
   --background-hover-tertiary: rgb(215, 215, 215);
+}
+
+a {
+  color: var(--foreground-primary);
 }

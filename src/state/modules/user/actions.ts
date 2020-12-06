@@ -31,7 +31,7 @@ function getTokenWithPopup(): Promise<string> {
 
     localStorage.setItem('state-oauth', state);
 
-    const clientId: string = process.env.REACT_APP_CLIENT_ID || 'b956f378-9b6c-49d8-9e52-a9fd708266d5';
+    const clientId: string = process.env.REACT_APP_CLIENT_ID || 'fa681cbb-195b-471b-a7f4-4b6d80cb8d74';
     const redirect = `${document.location.protocol}//${document.location.host}/callback`;
     const apiAudience = 'website';
 
@@ -107,7 +107,7 @@ export function loginUser(): ThunkAction<void, DefaultRootState, PayloadTypes | 
                     type: 'NOTIFICATION_PUSH',
                     notification: {
                         text: `Welcome ${user.username}`,
-                        time: 10000,
+                        time: 2000,
                         level: 'info'
                     }
                 });

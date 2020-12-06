@@ -1,13 +1,34 @@
-import React, {PropsWithChildren, Suspense} from 'react';
+import React, {PropsWithChildren, Suspense, useCallback, useEffect, useRef, useState} from 'react';
 import ReactLoaders from 'react-loaders';
 import 'loaders.css/src/animations/line-scale.scss';
-import styles from './loader.module.scss';
+import './loader.scss';
+
+const messages = [
+    'Cooking some cookies 🍪',
+    'Ouhh the website ~',
+    'This seems slow...',
+];
 
 export const Loader = () => {
-    return <div className={styles.loader}>
-        <div>
-            <ReactLoaders type="line-scale" active/>
-            <p>Loading the website :P</p>
+    const [msg, setMsg] = useState<null | string>(null);
+    const changeMessage = useCallback(() => {
+        setMsg(messages[Math.floor(Math.random() * messages.length)]);
+    }, []);
+    const timeout = useRef<number>();
+
+    useEffect(() => {
+        timeout.current = setInterval(changeMessage, 5000);
+        return () => {
+            clearInterval(timeout.current);
+        };
+    }, [])
+
+    return <div className={'loader'}>
+        <div className={'centered'}>
+            <ReactLoaders innerClassName={'color'} type="line-scale" active/>
+            {
+                msg && <p>{ msg }</p>
+            }
         </div>
     </div>;
 };
@@ -15,7 +36,7 @@ export const Loader = () => {
 export default function SuspenseLoader({children}: PropsWithChildren<{}>) {
     return (
         <Suspense fallback={<Loader/>}>
-            {children}
+            { children }
         </Suspense>
     );
 }

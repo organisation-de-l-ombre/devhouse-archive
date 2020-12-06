@@ -51,24 +51,6 @@ register({
     }
 });
 
-((window as any)._debug) = () => {
-    store.dispatch(pushNotification({
-        level: "information",
-        text:
-            "A new update is available for the website. Would you like to load this new update ?",
-        time: -1,
-        buttons: [
-            {
-                text: "Yes",
-                click: (): boolean => {
-                    return true;
-                }
-            }
-        ]
-    }))
-}
-
-
 export default function Root(): ReactElement {
     return (
         <ErrorBoundary FallbackComponent={ErrorPage}>
