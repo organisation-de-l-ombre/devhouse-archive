@@ -1,0 +1,10 @@
+include:
+  - template: Auto-DevOps.gitlab-ci.yml
+
+sentry_release:
+  stage: .post
+  image: getsentry/sentry-cli
+  script:
+    - VERSION=$(sentry-cli releases propose-version)
+    - sentry-cli releases new -p scarlet $VERSION
+    - sentry-cli releases set-commits --auto $VERSION

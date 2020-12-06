@@ -1,13 +1,19 @@
-import "reflect-metadata";
-import {createConnection} from "typeorm";
-import * as express from "express";
+import * as Sentry from "@sentry/node";
 import * as bodyParser from "body-parser";
+import * as express from "express";
 import {ErrorRequestHandler, NextFunction, Request, Response} from "express";
-import {Routes} from "./routes";
-import {RequestError} from "./utils/RequestError";
 import CreateRedis from "ioredis";
 import * as morgan from 'morgan';
 import RedisMock from 'redis-mock';
+import "reflect-metadata";
+import {createConnection} from "typeorm";
+import {Routes} from "./routes";
+import {RequestError} from "./utils/RequestError";
+
+Sentry.init({
+	tracesSampleRate: 1.0,
+	dsn: process.env["SENTRY_DSN"] ?? "Invalid Sentry DSN",
+})
 
 const firstRedisNode: { host: string; port: number } = {
     host: process.env["REDIS_HOST"] || 'localhost',
