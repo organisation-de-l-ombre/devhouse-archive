@@ -12,7 +12,7 @@ type User = {
 };
 
 const fetchUser = async (): Promise<User> => {
-    const {data} = await axios.get<User>('https://api.developershouse.xyz/account/@me');
+    const {data} = await axios.get<User>('https://auth-server.developershouse.xyz/userinfo');
     return data;
 };
 

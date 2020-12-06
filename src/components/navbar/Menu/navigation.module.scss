@@ -1,16 +1,17 @@
 .active {
 }
 
+.primed {
+}
+
 .item {
   display: inline-block;
   padding: 1rem;
   cursor: pointer;
-
   &:hover, &.active {
     background-color: var(--background-primary);
   }
 }
-
 
 .onlyMobiles {
   display: none;
@@ -26,21 +27,58 @@
   display: flex;
   flex-flow: row;
   box-shadow: var(--background-hover-primary) 0 0 10px;
+
   @media screen and (max-width: 640px) {
     flex-flow: column wrap;
+    .drawer {
+      display: none;
+    }
     .onlyMobiles {
       display: block;
     }
-    * {
-      display: none;
-      flex: 1;
+    .drawer {
+      align-items: unset;
+      height: calc(94vh);
+      flex-flow: column;
+      .item, a {
+        max-height: 10%;
+        display: block;
+        flex: 0;
+      }
     }
-    :first-child {
-      display: inline-block;
+    .bottom {
+      margin-top: auto;
+    }
+    .primed {
+      box-shadow: var(--background-hover-secondary) 0 0 7px;
+      .item {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        svg {
+          align-self: flex-end;
+        }
+        h3 {
+          padding: 0;
+          margin: 0;
+          font-size: large;
+        }
+      }
     }
   }
 }
 
-.open * {
+.open {
+  position: fixed;
   display: inline-block;
+  .drawer {
+    display: flex;
+  }
+}
+
+.drawer {
+  align-items: center;
+  align-content: center;
+  display: flex;
 }
