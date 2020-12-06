@@ -13,6 +13,7 @@ import {RequestError} from "./utils/RequestError";
 Sentry.init({
 	tracesSampleRate: 1.0,
 	dsn: process.env["SENTRY_DSN"] ?? "Invalid Sentry DSN",
+	release: process.env["CI_COMMIT_SHORT_SHA"] ?? "No Commit Short SHA"
 })
 
 const firstRedisNode: { host: string; port: number } = {
