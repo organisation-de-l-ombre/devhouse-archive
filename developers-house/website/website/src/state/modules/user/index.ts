@@ -22,7 +22,7 @@ export type User = {
     id: string;
     accounts?: LinkedAccount[];
     badges?: Badge[];
-    profilePicture?: string;
+    avatar?: string;
     publicAccount?: boolean;
     username: string;
 };

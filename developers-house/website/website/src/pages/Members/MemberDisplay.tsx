@@ -30,21 +30,25 @@ const Emote = styled.img`
     transform: translateY(8px);
 `;
 
+const Image = styled.div`
+  min-width: 7rem;
+  height: 7rem;
+`;
+
 function MemberDisplay(props: ComponentProps<'section'> & { member: CachedUser }): ReactElement {
     return (
         <Card className={props.className}>
             <CardPadding>
                 <CardHeader>
-                    {
-                        // Displays the user's avatar
-                        (
+                        <Image>
+
                             <UserAvatarStatus
                                 animate={props.member.presence?.status !== "offline"}
                                 statusColor={statusToColor(props.member.presence?.status || 'offline')}
                                 avatar={getAvatar(props.member)}
                             />
-                        )
-                    }
+
+                        </Image>
                     <div>
                         <h2>
                             {props.member.username} <sub>#{props.member.discriminator}</sub>

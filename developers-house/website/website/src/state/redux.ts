@@ -56,9 +56,10 @@ export function createState(): { store: Store, persistor: Persistor } {
     initStateWithPrevTab(store);
 
     axios.interceptors.request.use((request): AxiosRequestConfig => {
-        request.headers['Authorization'] = store.getState().user.token;
+        request.headers['Authorization'] = `Bearer ${store.getState().user.token}`;
         return request;
     });
+
     let persistor = persistStore(store);
 
     return {
