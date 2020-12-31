@@ -16,7 +16,7 @@ const NotificationComponent = (props: { notification: Notification, destroy: Fun
         if (notification.time !== -1) {
             setTimer(setTimeout(() => {
                 destroy();
-            }, notification.time));
+            }, notification.time) as unknown as number);
             return () => (timer && clearTimeout(timer)) || undefined;
         }
     }, [notification.time, destroy, timer]);

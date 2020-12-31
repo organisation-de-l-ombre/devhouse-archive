@@ -17,7 +17,7 @@ export const Loader = () => {
     const timeout = useRef<number>();
 
     useEffect(() => {
-        timeout.current = setInterval(changeMessage, 5000);
+        timeout.current = setInterval(changeMessage, 5000) as unknown as number;
         return () => {
             clearInterval(timeout.current);
         };
