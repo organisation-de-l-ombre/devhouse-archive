@@ -1,13 +1,13 @@
-import React, {FC, useCallback} from 'react';
-import {Route, Switch, useHistory, withRouter} from 'react-router-dom';
-import 'transitions.css';
-import {RouteProps} from "react-router";
+import React, { FC, useCallback } from "react";
+import { Route, Switch, useHistory, withRouter } from "react-router-dom";
+import "transitions.css";
+import { RouteProps } from "react-router";
 import styled from "styled-components";
-import {ErrorBoundary} from "react-error-boundary";
-import {useDispatch, useSelector} from "react-redux";
-import {pushNotification} from "../state/modules/notifications";
+import { ErrorBoundary } from "react-error-boundary";
+import { useDispatch, useSelector } from "react-redux";
+import { pushNotification } from "../state/modules/notifications";
 import SuspenseLoader from "../components/SuspenseLoader";
-import NotFound from './NotFound/NotFound';
+import NotFound from "./NotFound/NotFound";
 
 const Wrapper = styled.div`
     .slide-enter {
@@ -29,70 +29,77 @@ const Wrapper = styled.div`
     }
 `;
 
+const AboutPage = React.lazy(() => import("./About/About")),
+  HomePage = React.lazy(() => import("./Home/Home")),
+  MembersPage = React.lazy(() => import("./Members/Members")),
+  ProjectsPage = React.lazy(() => import("./Projects/Projects")),
+  ErrorPage = React.lazy(() => import("./ErrorPage")),
+  Callback = React.lazy(() => import("./Settings/Callback")),
+  Settings = React.lazy(() => import("./Settings/Settings"));
 
-const AboutPage = React.lazy(() => import('./About/About')),
-    HomePage = React.lazy(() => import('./Home/Home')),
-    MembersPage = React.lazy(() => import('./Members/Members')),
-    ProjectsPage = React.lazy(() => import('./Projects/Projects')),
-    ErrorPage = React.lazy(() => import('./ErrorPage')),
-    Callback = React.lazy(() => import('./Settings/Callback')),
-    Settings = React.lazy(() => import('./Settings/Settings'));
-
-
-const PrivateRoute: FC<{ component: FC<any> } & RouteProps> = ({component: Component, ...rest}) => {
-    const auth = useSelector((s) => s.user.loggedIn);
-    const dispatch = useDispatch();
-    const displayNotification = useCallback(() => {
-        dispatch(pushNotification({
-            level: "warning", text: "You need to be logged in to view this page.", time: 3000
-
-        }));
-    }, [dispatch]);
-    const history = useHistory();
-    return <Route {...rest} render={(props) => {
+const PrivateRoute: FC<{ component: FC<any> } & RouteProps> = ({
+  component: Component,
+  ...rest
+}) => {
+  const auth = useSelector((s) => s.user.loggedIn);
+  const dispatch = useDispatch();
+  const displayNotification = useCallback(() => {
+    dispatch(
+      pushNotification({
+        level: "warning",
+        text: "You need to be logged in to view this page.",
+        time: 3000
+      })
+    );
+  }, [dispatch]);
+  const history = useHistory();
+  return (
+    <Route
+      {...rest}
+      render={(properties) => {
         if (!auth) {
-            history.push("/");
-            displayNotification();
-            return <></>;
+          history.push("/");
+          displayNotification();
+          return <></>;
         }
-        return <Component {...props} />;
-    }}/>
+        return <Component {...properties} />;
+      }}
+    />
+  );
 };
 
-
 const Navigator = () => {
-    return (
-        <Wrapper>
-            <ErrorBoundary FallbackComponent={ErrorPage}>
-                <div style={{ height: '100%', width: '100%' }}>
-
-                <Switch>
-
-                    <SuspenseLoader>
-                        <Route path="/" exact>
-                            <HomePage/>
-                        </Route>
-                        <Route path="/about" exact>
-                            <AboutPage/>
-                        </Route>
-                        <Route path="/projects" exact>
-                            <ProjectsPage/>
-                        </Route>
-                        <Route path="/members" exact>
-                            <MembersPage/>
-                        </Route>
-                        <Route path="/callback" exact>
-                            <Callback/>
-                        </Route>
-                        <PrivateRoute path="/settings" component={Settings} exact/>
-                    </SuspenseLoader>
-                    <Route path="*" exact>
-                        <NotFound/>
-                    </Route>
-                </Switch>
-            </div>
-            </ErrorBoundary>
-        </Wrapper>);
-}
+  return (
+    <Wrapper>
+      <ErrorBoundary FallbackComponent={ErrorPage}>
+        <div style={{ height: "100%", width: "100%" }}>
+          <Switch>
+            <SuspenseLoader>
+              <Route path="/" exact>
+                <HomePage />
+              </Route>
+              <Route path="/about" exact>
+                <AboutPage />
+              </Route>
+              <Route path="/projects" exact>
+                <ProjectsPage />
+              </Route>
+              <Route path="/members" exact>
+                <MembersPage />
+              </Route>
+              <Route path="/callback" exact>
+                <Callback />
+              </Route>
+              <PrivateRoute path="/settings" component={Settings} exact />
+            </SuspenseLoader>
+            <Route path="*" exact>
+              <NotFound />
+            </Route>
+          </Switch>
+        </div>
+      </ErrorBoundary>
+    </Wrapper>
+  );
+};
 
 export default withRouter(Navigator);

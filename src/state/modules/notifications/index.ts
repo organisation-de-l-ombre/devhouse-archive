@@ -1,94 +1,106 @@
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
-const NotificationRemove = 'NOTIFICATION_REMOVE';
-export const NotificationPush = 'NOTIFICATION_PUSH';
-const NotificationReadAll = 'NOTIFICATION_READ_ALL';
-const NotificationSetDisabled = 'NOTIFICATION_SET_DISABLED';
+const NotificationRemove = "NOTIFICATION_REMOVE";
+export const NotificationPush = "NOTIFICATION_PUSH";
+const NotificationReadAll = "NOTIFICATION_READ_ALL";
+const NotificationSetDisabled = "NOTIFICATION_SET_DISABLED";
 
 export type Notification = {
-    level: 'warning' | 'error' | 'information';
-    text: string;
-    icon?: string;
-    buttons?: { click: () => boolean; text: string }[];
-    time: number;
-    id?: string;
+  level: "warning" | "error" | "information";
+  text: string;
+  icon?: string;
+  buttons?: { click: () => boolean; text: string }[];
+  time: number;
+  id?: string;
 };
 
 export interface NotificationsState {
-    notifications: Notification[];
-    enable: boolean;
+  notifications: Notification[];
+  enable: boolean;
 }
 
 type NotificationRemove = {
-    type: typeof NotificationRemove;
-    id: string;
+  type: typeof NotificationRemove;
+  id: string;
 };
 
 type NotificationPush = {
-    type: typeof NotificationPush;
-    notification: Notification;
+  type: typeof NotificationPush;
+  notification: Notification;
 };
 
 type NotificationReadAll = {
-    type: typeof NotificationReadAll;
+  type: typeof NotificationReadAll;
 };
 
 type NotificationSetDisabled = {
-    type: typeof NotificationSetDisabled;
-    disabled: boolean;
+  type: typeof NotificationSetDisabled;
+  disabled: boolean;
 };
 
 export type NotificationPayloadType =
-    | NotificationRemove
-    | NotificationPush
-    | NotificationReadAll
-    | NotificationSetDisabled;
+  | NotificationRemove
+  | NotificationPush
+  | NotificationReadAll
+  | NotificationSetDisabled;
 
 export const defaultState: NotificationsState = {
-    notifications: [],
-    enable: true
+  notifications: [],
+  enable: true
 };
 
+/**
+ * @param state
+ * @param payload
+ */
 export default function reducer(
-    state: NotificationsState = defaultState,
-    payload: NotificationPayloadType
+  state: NotificationsState = defaultState,
+  payload: NotificationPayloadType
 ): NotificationsState {
-    switch (payload.type) {
-        case NotificationRemove:
-            const index = state.notifications.findIndex((a) => a.id === payload.id);
-            state.notifications = state.notifications.filter((_, i) => i !== index);
-            break;
-        case NotificationPush:
-            if (state.enable) {
-                state.notifications = [
-                    {
-                        ...payload.notification,
-                        id: uuidv4()
-                    },
-                    ...state.notifications,
-                ];
-            }
-            break;
-        case NotificationReadAll:
-            state.notifications = [];
-            break;
-        case NotificationSetDisabled:
-            state.enable = !payload.disabled;
-            break;
-    }
-    return state;
+  switch (payload.type) {
+    case NotificationRemove:
+      const index = state.notifications.findIndex((a) => a.id === payload.id);
+      state.notifications = state.notifications.filter(
+        (_, index_) => index_ !== index
+      );
+      break;
+    case NotificationPush:
+      if (state.enable) {
+        state.notifications = [
+          {
+            ...payload.notification,
+            id: uuidv4()
+          },
+          ...state.notifications
+        ];
+      }
+      break;
+    case NotificationReadAll:
+      state.notifications = [];
+      break;
+    case NotificationSetDisabled:
+      state.enable = !payload.disabled;
+      break;
+  }
+  return state;
 }
 
+/**
+ * @param id
+ */
 export function removeNotification(id: string): NotificationRemove {
-    return {
-        type: NotificationRemove,
-        id: id
-    };
-};
+  return {
+    type: NotificationRemove,
+    id: id
+  };
+}
 
+/**
+ * @param notification
+ */
 export function pushNotification(notification: Notification): NotificationPush {
-    return {
-        type: NotificationPush,
-        notification: notification
-    };
+  return {
+    type: NotificationPush,
+    notification: notification
+  };
 }

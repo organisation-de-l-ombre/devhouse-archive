@@ -1,12 +1,12 @@
-import React, {ComponentProps, ReactElement} from "react";
-import {Card, CardPadding} from "components/ui/Card";
+import React, { ComponentProps, ReactElement } from "react";
+import { Card, CardPadding } from "components/ui/Card";
 import UserAvatarStatus from "components/ui/UserAvatarStatus";
-import {getAvatar, statusToColor} from "../../utilities";
-import {CachedUser} from "./Members";
+import { getAvatar, statusToColor } from "../../utilities";
+import { CachedUser } from "./Members";
 import styled from "styled-components";
 import ButtonGroup from "components/ui/ButtonGroup";
-import {Button} from "components/ui/Button";
-import {AiFillGithub} from "react-icons/all";
+import { Button } from "components/ui/Button";
+import { AiFillGithub } from "react-icons/all";
 
 const CardHeader = styled.div`
     display: grid;
@@ -21,7 +21,7 @@ const CardHeader = styled.div`
 `;
 
 const RoleLabel = styled.p`
-    color: ${(props) => props.color};
+    color: ${(properties) => properties.color};
 `;
 
 const Emote = styled.img`
@@ -35,63 +35,66 @@ const Image = styled.div`
   height: 7rem;
 `;
 
-function MemberDisplay(props: ComponentProps<'section'> & { member: CachedUser }): ReactElement {
-    return (
-        <Card className={props.className}>
-            <CardPadding>
-                <CardHeader>
-                        <Image>
+/**
+ * @param props
+ * @param properties
+ */
+function MemberDisplay(
+  properties: ComponentProps<"section"> & { member: CachedUser }
+): ReactElement {
+  return (
+    <Card className={properties.className}>
+      <CardPadding>
+        <CardHeader>
+          <Image>
+            <UserAvatarStatus
+              animate={properties.member.presence?.status !== "offline"}
+              statusColor={statusToColor(
+                properties.member.presence?.status || "offline"
+              )}
+              avatar={getAvatar(properties.member)}
+            />
+          </Image>
+          <div>
+            <h2>
+              {properties.member.username}{" "}
+              <sub>#{properties.member.discriminator}</sub>
+            </h2>
+            <RoleLabel color={properties.member.hoistRole.color}>
+              {properties.member.hoistRole.name}
+            </RoleLabel>
+            <div>
+              {properties.member.presence?.presenceText && (
+                <p>
+                  {properties.member.presence?.emote &&
+                    (properties.member.presence.emote.startsWith("http") ? (
+                      <Emote src={properties.member.presence.emote} />
+                    ) : (
+                      properties.member.presence.emote
+                    ))}
+                  {"   " + properties.member.presence?.presenceText}
+                </p>
+              )}
+            </div>
+          </div>
 
-                            <UserAvatarStatus
-                                animate={props.member.presence?.status !== "offline"}
-                                statusColor={statusToColor(props.member.presence?.status || 'offline')}
-                                avatar={getAvatar(props.member)}
-                            />
+          <ButtonGroup style={{ gridColumn: "1 / 3" }}>
+            <Button>
+              <AiFillGithub size={20} />
+            </Button>
+            <Button>
+              <AiFillGithub size={20} />
+            </Button>
+            <Button>
+              <AiFillGithub size={20} />
+            </Button>
+          </ButtonGroup>
+        </CardHeader>
 
-                        </Image>
-                    <div>
-                        <h2>
-                            {props.member.username} <sub>#{props.member.discriminator}</sub>
-                        </h2>
-                        <RoleLabel color={props.member.hoistRole.color}>
-                            {props.member.hoistRole.name}
-                        </RoleLabel>
-                        <div>
-                            {
-                                props.member.presence?.presenceText && <p>
-                                    {
-                                        props.member.presence?.emote && (
-                                            props.member.presence.emote.startsWith('http') ?
-                                                <Emote src={props.member.presence.emote}/> : props.member.presence.emote
-                                        )
-                                    }
-                                    {'   ' + props.member.presence?.presenceText}
-                                </p>
-                            }
-                        </div>
-
-
-                    </div>
-
-                    <ButtonGroup style={{gridColumn: '1 / 3'}}>
-                        <Button>
-                            <AiFillGithub size={20}/>
-                        </Button>
-                        <Button>
-                            <AiFillGithub size={20}/>
-                        </Button>
-                        <Button>
-                            <AiFillGithub size={20}/>
-                        </Button>
-                    </ButtonGroup>
-                </CardHeader>
-
-                <CardPadding>
-                    {'No description for now.'}
-                </CardPadding>
-            </CardPadding>
-        </Card>
-    );
+        <CardPadding>{"No description for now."}</CardPadding>
+      </CardPadding>
+    </Card>
+  );
 }
 
 export default MemberDisplay;

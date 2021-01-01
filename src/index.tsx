@@ -4,20 +4,20 @@
  * error reporting & performance monitoring.
  */
 
-import React, {ReactElement} from "react";
+import React, { ReactElement } from "react";
 import ReactDOM from "react-dom";
 import SuspenseLoader from "./components/SuspenseLoader";
-import './transitions.css';
+import "./transitions.css";
 
-const Root = React.lazy(() => import('Root'));
+const Root = React.lazy(() => import("Root"));
 
 const MainComponent = (): ReactElement => (
-    <SuspenseLoader>
-        <Root/>
-    </SuspenseLoader>
+  <SuspenseLoader>
+    <Root />
+  </SuspenseLoader>
 );
 
 /*
  * We mount the react application in the root element of the page.
  */
-ReactDOM.render(<MainComponent/>, document.getElementById("root"));
+ReactDOM.render(<MainComponent />, document.querySelector("#root"));
