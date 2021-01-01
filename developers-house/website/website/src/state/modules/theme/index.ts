@@ -1,57 +1,67 @@
 const UpdateTheme = "THEME_UPDATED";
 const ResetTheme = "THEME_RESET";
 
-type Themes = 'light' | 'dark';
+type Themes = "light" | "dark";
 
 export interface ThemeState {
-    theme: Themes;
+  theme: Themes;
 }
 
 type UpdateTheme = {
-    type: typeof UpdateTheme;
-    newTheme: Themes;
+  type: typeof UpdateTheme;
+  newTheme: Themes;
 };
 
 type ResetTheme = {
-    type: typeof ResetTheme;
+  type: typeof ResetTheme;
 };
 
 type PayloadTypes = UpdateTheme | ResetTheme;
 
 export const defaultState: ThemeState = {
-    theme: 'light',
+  theme: "light"
 };
 
+/**
+ * @param state
+ * @param payload
+ */
 export default function reducer(
-    state: ThemeState = defaultState,
-    payload: PayloadTypes
+  state: ThemeState = defaultState,
+  payload: PayloadTypes
 ): ThemeState {
-    switch (payload.type) {
-        case ResetTheme:
-            state = {
-                ...state,
-                theme: defaultState.theme
-            };
-            break;
-        case UpdateTheme:
-            state = {
-                ...state,
-                theme: payload.newTheme
-            };
-            break;
-    }
-    return state;
+  switch (payload.type) {
+    case ResetTheme:
+      state = {
+        ...state,
+        theme: defaultState.theme
+      };
+      break;
+    case UpdateTheme:
+      state = {
+        ...state,
+        theme: payload.newTheme
+      };
+      break;
+  }
+  return state;
 }
 
+/**
+ * @param newTheme
+ */
 export function updateTheme(newTheme: Themes): UpdateTheme {
-    return {
-        type: UpdateTheme,
-        newTheme,
-    };
-};
+  return {
+    type: UpdateTheme,
+    newTheme
+  };
+}
 
+/**
+ *
+ */
 export function resetTheme(): ResetTheme {
-    return {
-        type: ResetTheme,
-    };
+  return {
+    type: ResetTheme
+  };
 }

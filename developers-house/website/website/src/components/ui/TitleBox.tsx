@@ -1,12 +1,10 @@
-import React from 'react';
-import {SimplifiedHTMLProps} from './Button';
-import styles from './title.module.scss';
+import React from "react";
+import { SimplifiedHTMLProps as SimplifiedHTMLProperties } from "./Button";
+import styles from "./title.module.scss";
 
-const TitleBox:
-    React.FC<SimplifiedHTMLProps<HTMLDivElement>> =
-    ({className, ...props}) =>
-        <div className={[className, styles.title].join(' ')} {...props} />;
+const TitleBox: React.FC<SimplifiedHTMLProperties<HTMLDivElement>> = ({
+  className,
+  ...properties
+}) => <div className={[className, styles.title].join(" ")} {...properties} />;
 
-export {
-    TitleBox
-};
+export { TitleBox };
