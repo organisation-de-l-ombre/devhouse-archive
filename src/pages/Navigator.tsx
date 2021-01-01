@@ -51,7 +51,7 @@ const PrivateRoute: FC<{ component: FC<any> } & RouteProps> = ({component: Compo
     const history = useHistory();
     return <Route {...rest} render={(props) => {
         if (!auth) {
-            history.goBack();
+            history.push("/");
             displayNotification();
             return <></>;
         }
