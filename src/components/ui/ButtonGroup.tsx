@@ -1,16 +1,16 @@
-import React from "react";
-import { SimplifiedHTMLProps as SimplifiedHTMLProperties } from "./Button";
-import styles from "./button.module.scss";
+import React from 'react';
+import {SimplifiedHTMLProps} from "./Button";
+import styles from './button.module.scss';
 
-type ButtonGroupProperties = {
-  borderRadius?: string;
-  buttonPadding?: string;
-  direction?: string;
+type ButtonGroupProps = {
+    borderRadius?: string;
+    buttonPadding?: string;
+    direction?: string;
 };
 
-const ButtonGroup: React.FC<SimplifiedHTMLProperties<HTMLImageElement>> = ({
-  className,
-  ...properties
-}) => <div className={[className, styles.group].join(" ")} {...properties} />;
+const ButtonGroup:
+    React.FC<SimplifiedHTMLProps<HTMLImageElement>> =
+    ({className, ...props}) =>
+        <div className={[className, styles.group].join(' ')} {...props} />;
 
 export default ButtonGroup;

@@ -4,25 +4,28 @@
  */
 
 type StatusPageStatus = {
-  page: {
-    id: string;
-    name: string;
-    url: string;
-    updated_at: string;
-  };
-  status: {
-    indicator: string;
-    description: string;
-  };
+    page: {
+        id: string;
+        name: string;
+        url: string;
+        updated_at: string;
+    };
+    status: {
+        indicator: string;
+        description: string;
+    };
 };
 
 type ServicesStatistics = {
-  members: number;
-  discord: number;
-  projects: number;
+    members: number;
+    discord: number;
+    projects: number;
 
-  users: number;
-  requests: number;
+    users: number;
+    requests: number;
 };
 
-export type { StatusPageStatus, ServicesStatistics };
+export type {
+    StatusPageStatus,
+    ServicesStatistics
+};

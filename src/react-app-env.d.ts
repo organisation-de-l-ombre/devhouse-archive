@@ -3,64 +3,62 @@
 /// <reference types="react-dom" />
 
 declare namespace NodeJS {
-  interface ProcessEnvironment {
-    readonly NODE_ENV: "development" | "production" | "test";
-    readonly PUBLIC_URL: string;
-  }
+    interface ProcessEnv {
+        readonly NODE_ENV: 'development' | 'production' | 'test';
+        readonly PUBLIC_URL: string;
+    }
 }
 
-declare module "*.bmp" {
-  const source: string;
-  export default source;
+declare module '*.bmp' {
+    const src: string;
+    export default src;
 }
 
-declare module "*.gif" {
-  const source: string;
-  export default source;
+declare module '*.gif' {
+    const src: string;
+    export default src;
 }
 
-declare module "*.jpg" {
-  const source: string;
-  export default source;
+declare module '*.jpg' {
+    const src: string;
+    export default src;
 }
 
-declare module "*.jpeg" {
-  const source: string;
-  export default source;
+declare module '*.jpeg' {
+    const src: string;
+    export default src;
 }
 
-declare module "*.png" {
-  const source: string;
-  export default source;
+declare module '*.png' {
+    const src: string;
+    export default src;
 }
 
-declare module "*.webp" {
-  const source: string;
-  export default source;
+declare module '*.webp' {
+    const src: string;
+    export default src;
 }
 
-declare module "*.svg" {
-  import * as React from "react";
+declare module '*.svg' {
+    import * as React from 'react';
 
-  export const ReactComponent: React.FunctionComponent<
-    React.SVGProps<SVGSVGElement> & { title?: string }
-  >;
+    export const ReactComponent: React.FunctionComponent<React.SVGProps<SVGSVGElement> & { title?: string }>;
 
-  const source: string;
-  export default source;
+    const src: string;
+    export default src;
 }
 
-declare module "*.module.css" {
-  const classes: { readonly [key: string]: string };
-  export default classes;
+declare module '*.module.css' {
+    const classes: { readonly [key: string]: string };
+    export default classes;
 }
 
-declare module "*.module.scss" {
-  const classes: { readonly [key: string]: string };
-  export default classes;
+declare module '*.module.scss' {
+    const classes: { readonly [key: string]: string };
+    export default classes;
 }
 
-declare module "*.module.sass" {
-  const classes: { readonly [key: string]: string };
-  export default classes;
+declare module '*.module.sass' {
+    const classes: { readonly [key: string]: string };
+    export default classes;
 }
