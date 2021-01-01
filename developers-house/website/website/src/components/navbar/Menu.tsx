@@ -29,7 +29,7 @@ export function Menu(): ReactElement {
     return (
         <NavigationContainer open={open} onClick={globalClick}>
             <OnlyMobiles className={styles.primed}>
-                <NavigationItem onClick={switchOpen}>
+                <NavigationItem onClick={switchOpen} className={styles['items-transition']}>
                     <h3>
                         Developer's House
                     </h3>
@@ -38,39 +38,36 @@ export function Menu(): ReactElement {
                 </NavigationItem>
             </OnlyMobiles>
             <DrawerContent>
-                <NavLink to={'/'} exact>
+                <NavLink to={'/'} exact className={styles['items-transition']} activeClassName={styles.active}>
                     <NavigationItem onClick={switchOpenClick}>
                         Home
                     </NavigationItem>
                 </NavLink>
-                <NavLink to={'/members'}>
+                <NavLink to={'/members'} className={styles['items-transition']} activeClassName={styles.active}>
                     <NavigationItem onClick={switchOpenClick}>
                         Members
                     </NavigationItem>
                 </NavLink>
-                <NavLink to={'/about'}>
-
+                <NavLink to={'/about'} className={styles['items-transition']} activeClassName={styles.active}>
                     <NavigationItem onClick={switchOpenClick}>
                         About
                     </NavigationItem>
                 </NavLink>
-                <NavigationItem onClick={() => switchOpenClick && dispatch(updateTheme(dark ? 'dark' : 'light'))}>
+                <NavigationItem onClick={() => switchOpenClick && dispatch(updateTheme(dark ? 'dark' : 'light'))} className={styles['items-transition']}>
                     Switch to {dark ? 'dark' : 'light'} theme
                 </NavigationItem>
                 {
                     !userState.loggedIn &&
-                    <NavigationItem className={styles.bottom} onClick={() => dispatch(loginUser())}>
+                    <NavigationItem className={styles['items-transition']} onClick={() => dispatch(loginUser())}>
                         Login
                     </NavigationItem>
                 }
                 {
                     userState.loggedIn && (
-                        <NavLink to={"/settings"}>
-                            <NavigationItem style={{ padding: '0.8em', }}>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <UserAvatarStatus style={{ paddingRight: '1em', width: '2em', height: '2em', display: 'inline' }} animate statusColor="gray" avatar={`https://s3.developershouse.xyz/${userState.user?.avatar}`} />
-                                    { userState.user?.username }
-                                </div>
+                        <NavLink to={"/settings"} className={styles['items-transition']}>
+                            <NavigationItem style={{ display: 'flex', alignItems: 'center', padding: '.6rem 1rem' }}>
+                                <UserAvatarStatus style={{ paddingRight: '1rem', width: '2rem', display: 'flex' }} animate statusColor="gray" avatar={`https://s3.developershouse.xyz/${userState.user?.avatar}`} />
+                                { userState.user?.username }
                             </NavigationItem>
                         </NavLink>
                     )

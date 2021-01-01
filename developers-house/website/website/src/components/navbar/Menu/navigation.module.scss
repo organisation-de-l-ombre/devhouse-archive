@@ -1,16 +1,13 @@
-.active {
-}
+.items-transition { transition: .5s; }
 
-.primed {
+.items-transition:hover, .active {
+  transition: .5s;
+  background-color: var(--menu-item-hover-background);
 }
 
 .item {
-  display: inline-block;
   padding: 1rem;
   cursor: pointer;
-  &:hover, &.active {
-    background-color: var(--background-primary);
-  }
 }
 
 .onlyMobiles {

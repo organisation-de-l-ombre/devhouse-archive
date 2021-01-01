@@ -31,7 +31,7 @@ function getTokenWithPopup(): Promise<string> {
 
     localStorage.setItem('state-oauth', state);
 
-    const clientId: string = process.env.REACT_APP_CLIENT_ID || 'fa681cbb-195b-471b-a7f4-4b6d80cb8d74';
+    const clientId: string = process.env.REACT_APP_CLIENT_ID || 'b63ae62c-830d-46a9-abff-ccdf2ca6fb52';
     const redirect = `${document.location.protocol}//${document.location.host}/callback`;
     const apiAudience = 'website';
 
