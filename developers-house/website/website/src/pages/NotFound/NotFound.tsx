@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, {ReactElement} from "react";
 import Button from "components/ui/Button";
 import styled from "styled-components";
 
@@ -20,19 +20,18 @@ const NotFoundContent = styled.div`
   }
 `;
 
-/**
- *
- */
 export default function NotFound(): ReactElement {
-  return (
-    <NotFoundBase>
-      <NotFoundContent>
-        <h1>404</h1>
-        <hr />
-        <h2>Not found - This page doesn't exists</h2>
-        <p>We couldn't find this page on this application.</p>
-        <Button>Return home</Button>
-      </NotFoundContent>
-    </NotFoundBase>
-  );
+    return (
+        <NotFoundBase>
+            <NotFoundContent>
+                <h1>404</h1>
+                <hr/>
+                <h2>Not found - This page doesn't exists</h2>
+                <p>We couldn't find this page on this application.</p>
+                <Button>
+                    Return home
+                </Button>
+            </NotFoundContent>
+        </NotFoundBase>
+    );
 }

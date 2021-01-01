@@ -3,107 +3,100 @@ export const UserTokenReceived = "USER_TOKEN_RECEIVED";
 export const UserFetched = "USER_FETCHED";
 export const UserLogout = "USER_LOGOUT";
 
+
 type LinkedAccount = {
-  id: string;
-  user: User;
-  providerColumn: string;
-  providerName: string;
+    id: string;
+    user: User;
+    providerColumn: string;
+    providerName: string;
 };
 
 type Badge = {
-  id: string;
-  icon: string;
-  name: string;
-  rarity: number;
+    id: string;
+    icon: string;
+    name: string;
+    rarity: number;
 };
 
 export type User = {
-  id: string;
-  accounts?: LinkedAccount[];
-  badges?: Badge[];
-  avatar?: string;
-  publicAccount?: boolean;
-  username: string;
+    id: string;
+    accounts?: LinkedAccount[];
+    badges?: Badge[];
+    avatar?: string;
+    publicAccount?: boolean;
+    username: string;
 };
 
 export interface UserState {
-  user?: User;
-  token?: string;
-  loggedIn: boolean;
+    user?: User;
+    token?: string;
+    loggedIn: boolean;
 }
 
 interface UserInit {
-  type: typeof UserInit;
+    type: typeof UserInit;
 }
 
 interface UserTokenReceived {
-  type: typeof UserTokenReceived;
-  token: string;
+    type: typeof UserTokenReceived;
+    token: string;
 }
 
 interface UserFetched {
-  type: typeof UserFetched;
-  user: User;
+    type: typeof UserFetched;
+    user: User;
 }
 
 interface UserLogout {
-  type: typeof UserLogout;
+    type: typeof UserLogout;
 }
 
-export type PayloadTypes =
-  | UserInit
-  | UserTokenReceived
-  | UserFetched
-  | UserLogout;
+export type PayloadTypes = UserInit | UserTokenReceived | UserFetched | UserLogout;
 
 export const defaultState: UserState = {
-  loggedIn: false
+    loggedIn: false
 };
 
-/**
- * @param state
- * @param payload
- */
 export default function reducer(
-  state: UserState = defaultState,
-  payload: PayloadTypes
+    state: UserState = defaultState,
+    payload: PayloadTypes
 ): UserState {
-  switch (payload.type) {
-    case UserInit: {
-      state = {
-        ...state,
-        loggedIn: false,
-        token: undefined,
-        user: undefined
-      };
-      break;
+    switch (payload.type) {
+        case UserInit: {
+            state = {
+                ...state,
+                loggedIn: false,
+                token: undefined,
+                user: undefined
+            };
+            break;
+        }
+        case UserTokenReceived: {
+            state = {
+                ...state,
+                token: payload.token
+            };
+            break;
+        }
+        case UserFetched: {
+            state = {
+                ...state,
+                user: payload.user,
+                loggedIn: true
+            };
+            break;
+        }
+        case UserLogout: {
+            state = {
+                ...state,
+                user: undefined,
+                token: undefined,
+                loggedIn: false
+            };
+            break;
+        }
+        default:
+            break;
     }
-    case UserTokenReceived: {
-      state = {
-        ...state,
-        token: payload.token
-      };
-      break;
-    }
-    case UserFetched: {
-      state = {
-        ...state,
-        user: payload.user,
-        loggedIn: true
-      };
-      break;
-    }
-    case UserLogout: {
-      state = {
-        ...state,
-        user: undefined,
-        token: undefined,
-        loggedIn: false
-      };
-      break;
-    }
-    default:
-      break;
-  }
-  return state;
+    return state;
 }
