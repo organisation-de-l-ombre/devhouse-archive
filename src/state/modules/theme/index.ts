@@ -1,57 +1,59 @@
 const UpdateTheme = "THEME_UPDATED";
 const ResetTheme = "THEME_RESET";
 
-type Themes = 'light' | 'dark';
+type Themes = "light" | "dark";
 
 export interface ThemeState {
-    theme: Themes;
+  theme: Themes;
 }
 
-type UpdateTheme = {
-    type: typeof UpdateTheme;
-    newTheme: Themes;
+type TUpdateTheme = {
+  type: typeof UpdateTheme;
+  newTheme: Themes;
 };
 
-type ResetTheme = {
-    type: typeof ResetTheme;
+type TResetTheme = {
+  type: typeof ResetTheme;
 };
 
-type PayloadTypes = UpdateTheme | ResetTheme;
+type PayloadTypes = TUpdateTheme | TResetTheme;
 
 export const defaultState: ThemeState = {
-    theme: 'light',
+  theme: "light",
 };
 
 export default function reducer(
-    state: ThemeState = defaultState,
-    payload: PayloadTypes
+  state: ThemeState = defaultState,
+  payload: PayloadTypes
 ): ThemeState {
-    switch (payload.type) {
-        case ResetTheme:
-            state = {
-                ...state,
-                theme: defaultState.theme
-            };
-            break;
-        case UpdateTheme:
-            state = {
-                ...state,
-                theme: payload.newTheme
-            };
-            break;
-    }
-    return state;
+  switch (payload.type) {
+    case ResetTheme:
+      state = {
+        ...state,
+        theme: defaultState.theme,
+      };
+      break;
+    case UpdateTheme:
+      state = {
+        ...state,
+        theme: payload.newTheme,
+      };
+      break;
+    default:
+      throw new Error("Undefined action for this reducder.");
+  }
+  return state;
 }
 
-export function updateTheme(newTheme: Themes): UpdateTheme {
-    return {
-        type: UpdateTheme,
-        newTheme,
-    };
-};
+export function updateTheme(newTheme: Themes): TUpdateTheme {
+  return {
+    type: UpdateTheme,
+    newTheme,
+  };
+}
 
-export function resetTheme(): ResetTheme {
-    return {
-        type: ResetTheme,
-    };
+export function resetTheme(): TResetTheme {
+  return {
+    type: ResetTheme,
+  };
 }

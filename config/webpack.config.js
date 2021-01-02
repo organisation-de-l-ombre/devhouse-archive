@@ -25,6 +25,7 @@ const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const postcssNormalize = require('postcss-normalize');
 
@@ -56,6 +57,8 @@ module.exports = function (webpackEnv) {
     const isEnvProduction = webpackEnv === 'production';
     // Source maps are resource heavy and can cause out of memory issue for large source files.
     const shouldUseSourceMap = isEnvDevelopment;
+
+    const bundleAnalyzer = process.argv.some((s) => s === '--bundle');
 
     // Variable used for enabling profiling in Production
     // passed into alias object. Uses a flag if passed into the build command
@@ -511,6 +514,7 @@ module.exports = function (webpackEnv) {
             ],
         },
         plugins: [
+            bundleAnalyzer && new BundleAnalyzerPlugin(),
             // Generates an `index.html` file with the <script> injected.
             new HtmlWebpackPlugin(
                 Object.assign(
