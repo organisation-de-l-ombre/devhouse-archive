@@ -1,4 +1,4 @@
-FROM nginx:stable-alpine
+FROM nginx:stable
 RUN apt update
 RUN apt install fcgiwrap -y
 COPY ./cgi-bin /cgi-bin
