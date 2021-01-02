@@ -1,12 +1,19 @@
-import React, {ReactElement} from "react";
-import {FaDiscord} from "react-icons/fa";
-import {RiPencilRuler2Line} from "react-icons/ri";
+/* eslint-disable */
+import React, { ReactElement } from "react";
+import { FaDiscord } from "react-icons/fa";
+import { RiPencilRuler2Line } from "react-icons/ri";
 
-import Button, {ButtonImage} from "components/ui/Button";
+import Button, { ButtonImage } from "components/ui/Button";
 import ButtonGroup from "components/ui/ButtonGroup";
-import styled, {CSSObject} from "styled-components";
-import {Card, CardFlexContainer, CardHeader, CardPadding, CardSection} from "components/ui/Card";
-import {TitleBox} from "components/ui/TitleBox";
+import styled, { CSSObject } from "styled-components";
+import {
+  Card,
+  CardFlexContainer,
+  CardHeader,
+  CardPadding,
+  CardSection,
+} from "components/ui/Card";
+import { TitleBox } from "components/ui/TitleBox";
 
 const HomeHeader = styled.div`
   display: flex;
@@ -32,76 +39,68 @@ const HomeHeaderContent = styled(TitleBox)`
 `;
 
 export default function HomePage(): ReactElement {
-    return (
-        <>
-            <HomeHeader>
-                <HomeHeaderContent>
-                    <HeaderContentTitle>Developer's House</HeaderContentTitle>
-                    <HeaderContentTitle as="h2">
-                        Some nice projects around the Discord ecosystem.
-                    </HeaderContentTitle>
-                    <ButtonGroup>
-                        <Button>
-                            <ButtonImage>
-                                <FaDiscord/>
-                            </ButtonImage>
-                            Discord server
-                        </Button>
-                        <Button>
-                            <ButtonImage>
-                                <RiPencilRuler2Line/>
-                            </ButtonImage>
-                            View projects
-                        </Button>
-                    </ButtonGroup>
+  return (
+    <>
+      <HomeHeader>
+        <HomeHeaderContent>
+          <HeaderContentTitle>Developer&rsquo;s House</HeaderContentTitle>
+          <HeaderContentTitle as="h2">
+            Some nice projects around the Discord ecosystem.
+          </HeaderContentTitle>
+          <ButtonGroup>
+            <Button>
+              <ButtonImage>
+                <FaDiscord />
+              </ButtonImage>
+              Discord server
+            </Button>
+            <Button>
+              <ButtonImage>
+                <RiPencilRuler2Line />
+              </ButtonImage>
+              View projects
+            </Button>
+          </ButtonGroup>
+        </HomeHeaderContent>
+      </HomeHeader>
+      <CardFlexContainer>
+        <Card>
+          <CardPadding>
+            <CardHeader>
+              <h2>Secure systems</h2>
+            </CardHeader>
 
-                </HomeHeaderContent>
-            </HomeHeader>
-            <CardFlexContainer>
-                <Card>
-                    <CardPadding>
-                        <CardHeader>
-                            <h2>Secure systems</h2>
-                        </CardHeader>
+            <CardSection />
+          </CardPadding>
+        </Card>
+        <Card>
+          <CardPadding>
+            <CardHeader>
+              <h2>Secure systems</h2>
+            </CardHeader>
 
-                        <CardSection>
+            <CardSection />
+          </CardPadding>
+        </Card>
+        <Card>
+          <CardPadding>
+            <CardHeader>
+              <h2>Secure systems</h2>
+            </CardHeader>
 
-                        </CardSection>
-                    </CardPadding>
-                </Card>
-                <Card>
-                    <CardPadding>
-                        <CardHeader>
-                            <h2>Secure systems</h2>
-                        </CardHeader>
+            <CardSection />
+          </CardPadding>
+        </Card>
+        <Card>
+          <CardPadding>
+            <CardHeader>
+              <h2>Secure systems</h2>
+            </CardHeader>
 
-                        <CardSection>
-
-                        </CardSection>
-                    </CardPadding>
-                </Card>
-                <Card>
-                    <CardPadding>
-                        <CardHeader>
-                            <h2>Secure systems</h2>
-                        </CardHeader>
-
-                        <CardSection>
-
-                        </CardSection>
-                    </CardPadding>
-                </Card>
-                <Card>
-                    <CardPadding>
-                        <CardHeader>
-                            <h2>Secure systems</h2>
-                        </CardHeader>
-
-                        <CardSection>
-                        </CardSection>
-                    </CardPadding>
-                </Card>
-            </CardFlexContainer>
-        </>
-    );
+            <CardSection />
+          </CardPadding>
+        </Card>
+      </CardFlexContainer>
+    </>
+  );
 }
