@@ -1,0 +1,25 @@
+apiVersion: hydra.ory.sh/v1alpha1
+kind: OAuth2Client
+metadata:
+  name: Website {{ template "trackableappname" . }}
+spec:
+  grantTypes:
+    - implicit
+  responseTypes:
+    - token
+  scope: "account:all"
+  secretName: oauth-client-{{ template "trackableappname" . }}
+  # these are optional
+  redirectUris:
+  {{- if .Values.service.commonName }}
+    - https://{{ template "fhostname" .Values.service.commonName }}/callback
+  {{- end }}
+    - https://{{ template "fhostname" .Values.service.url }}/callback
+  {{- if .Values.service.additionalHosts }}
+  {{- range $host := .Values.service.additionalHosts }}
+    - https://{{ template "fhostname" $host }}/callback
+  {{- end -}}
+  {{- end }}
+  audience:
+    - website
+  tokenEndpointAuthMethod: none

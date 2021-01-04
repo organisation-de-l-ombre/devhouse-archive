@@ -48,11 +48,14 @@ spec:
       - name: {{ .Chart.Name }}
         image: {{ template "imagename" . }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        {{- if .Values.application.secretName }}
+
         envFrom:
-        - secretRef:
-            name: {{ .Values.application.secretName }}
-        {{- end }}
+          - secretRef:
+              name: oauth-client-{{ template "trackableappname" . }}
+{{- if .Values.application.secretName }}
+          - secretRef:
+              name: {{ .Values.application.secretName }}
+{{- end }}
         env:
 {{- if .Values.postgresql.managed }}
         - name: POSTGRES_USER
