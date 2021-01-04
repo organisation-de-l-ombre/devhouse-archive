@@ -3,12 +3,6 @@ import { FaDiscord } from "react-icons/fa";
 import { RiPencilRuler2Line } from "react-icons/ri";
 import Button, { ButtonImage } from "components/ui/Button";
 import ButtonGroup from "components/ui/ButtonGroup";
-import {
-  Card,
-  CardFlexContainer,
-  CardPadding,
-  CardSection,
-} from "components/ui/Card";
 import { TitleBox } from "components/ui/TitleBox";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
