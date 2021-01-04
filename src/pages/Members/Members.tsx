@@ -7,6 +7,7 @@ import React, {
 import { TitleBox } from "components/ui/TitleBox";
 import { TypeWriter } from "components/TypeWriter";
 import { Button } from "../../components/ui/Button";
+import { Loader } from "../../components/SuspenseLoader";
 
 const MembersDisplay = React.lazy(() => import("./MembersDisplay"));
 
@@ -77,7 +78,7 @@ export default class MembersPage extends PureComponent<
     const { error, users, isLoading } = this.state;
 
     if (isLoading) {
-      return <TitleBox>Loading users.</TitleBox>;
+      return <Loader />;
     }
 
     if (error) {

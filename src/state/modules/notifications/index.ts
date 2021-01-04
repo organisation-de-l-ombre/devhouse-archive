@@ -79,7 +79,7 @@ export default function reducer(
       state.enable = !payload.disabled;
       break;
     default:
-      throw new Error("Invalid action for this reducer.");
+      return state;
   }
   return state;
 }

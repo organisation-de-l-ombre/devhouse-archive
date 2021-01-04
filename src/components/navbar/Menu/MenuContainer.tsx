@@ -12,7 +12,11 @@ export const NavigationContainer: React.FC<
   > & { open: boolean }
 > = ({ className, open, ...props }) => (
   <div
-    className={[className, styles.container, open ? styles.open : ""].join(" ")}
+    className={[
+      styles.container,
+      open ? styles.open : "",
+      className ?? "",
+    ].join(" ")}
     {...props}
   />
 );

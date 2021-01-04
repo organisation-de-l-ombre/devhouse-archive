@@ -5,6 +5,7 @@ function UserAvatarStatus({
   statusColor,
   avatar,
   animate,
+  ...props
 }: {
   statusColor: string;
   avatar: string;
@@ -18,6 +19,7 @@ function UserAvatarStatus({
       version="1.1"
       height="100%"
       width="100%"
+      {...props}
     >
       <defs>
         <mask id={`user-avatar-mask${id}`} x="0" y="0" width="150" height="150">
