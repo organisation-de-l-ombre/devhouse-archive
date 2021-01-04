@@ -57,7 +57,7 @@ async function getTokenWithPopup(): Promise<string> {
   if (!clientId) throw new Error("Failed to get the client id.");
 
   const redirect = `${document.location.protocol}//${document.location.host}/callback`;
-  const apiAudience = "website";
+  const apiAudience = "abdera";
 
   const scopes = ["account.*"].join(" ");
 
