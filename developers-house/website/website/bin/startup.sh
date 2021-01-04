@@ -1,3 +1,4 @@
 #!/bin/bash
 
-echo $client_id > /usr/share/nginx/html/.oauth
+echo "{\"id\":\"$client_id\"}" > /usr/share/nginx/html/.oauth.json
+echo "Printed to system."
