@@ -1,40 +1,55 @@
-upstream _fcgiwrap { server unix:/var/run/fcgiwrap.socket; }
+worker_processes  1;
 
-server {
-    listen       80;
-    expires 24h;
+events {
+    worker_connections  1024;
+}
 
-    add_header X-Frame-Options "SAMEORIGIN";
-    add_header X-XSS-Protection "1; mode=block";
+http {
+    server_tokens off;
+    include /etc/nginx/mime.types;
+    default_type  application/octet-stream;
 
-
-    location / {
-        limit_except GET { deny all; }
-        root   /usr/share/nginx/html;
-        index  index.html;
-        try_files $uri $uri/ /index.html;
+    map $sent_http_content_type $expires {
+        default                    max;
+        text/html                  epoch;
+        text/css                   max;
+        application/javascript     max;
+        ~image/                    max;
     }
 
-    location /service-worker.js {
-        limit_except GET { deny all; }
-        expires off;
-        root   /usr/share/nginx/html;
+    sendfile        on;
+    keepalive_timeout  10;
+
+    server {
+        listen       80;
+        expires $expires;
+
+        add_header X-Frame-Options "SAMEORIGIN";
+        add_header X-XSS-Protection "1; mode=block";
+
+
+        location / {
+            limit_except GET { deny all; }
+            root   /usr/share/nginx/html;
+            index  index.html;
+            try_files $uri $uri/ /index.html;
+        }
+
+        location /service-worker.js {
+            limit_except GET { deny all; }
+            expires off;
+            root   /usr/share/nginx/html;
+        }
+
+        location /cgi-bin/oauth-credentials {
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME /cgi-bin/oauth-credentials.sh;
+            fastcgi_pass unix:/var/run/fcgiwrap.socket;
+        }
+
+        client_body_buffer_size 1K;
+        client_header_buffer_size 1k;
+        client_max_body_size 1k;
+        large_client_header_buffers 2 1k;
     }
-
-    location /cgi-bin/ {
-        alias /cgi-bin;
-        return 404;
-
-        location ~ \.pl$ {
-		    fastcgi_pass  _fcgiwrap;
-		    include  /etc/nginx/fastcgi_params;
-		    fastcgi_param path /usr/local/bin:/usr/local/perl/perls/perl-5.24.1/bin;
-            fastcgi_param SCRIPT_FILENAME /$fastcgi_script_name;
-		}
-    }
-
-    client_body_buffer_size 1K;
-    client_header_buffer_size 1k;
-    client_max_body_size 1k;
-    large_client_header_buffers 2 1k;
 }
