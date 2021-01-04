@@ -17,7 +17,9 @@ const messages = [
   "This seems slow...",
 ];
 
-export const Loader: React.FC<DetailedHTMLProps<any, HTMLDivElement>> = () => {
+export const Loader: React.FC<
+  DetailedHTMLProps<Record<string, never>, HTMLDivElement>
+> = () => {
   const [msg, setMsg] = useState<null | string>(null);
   const changeMessage = useCallback(() => {
     setMsg(messages[Math.floor(Math.random() * messages.length)]);

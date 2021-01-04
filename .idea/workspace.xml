@@ -19,13 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Add a link to the projects">
-      <change afterPath="$PROJECT_DIR$/chart/templates/client.yaml" afterDir="false" />
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Add oauth client">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/_helpers.tpl" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/_helpers.tpl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/deployment.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/SuspenseLoader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SuspenseLoader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/navbar/Menu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navbar/Menu.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +95,7 @@
       <workItem from="1606817660554" duration="14000" />
       <workItem from="1607235772483" duration="12979000" />
       <workItem from="1609527163693" duration="14000" />
-      <workItem from="1609737695979" duration="11438000" />
+      <workItem from="1609737695979" duration="11968000" />
     </task>
     <task id="LOCAL-00001" summary="new style and ux/ui improvements">
       <created>1602854984402</created>
@@ -290,7 +286,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609748921640</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Add oauth client">
+      <created>1609749820813</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1609749820813</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -309,7 +312,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="new style and ux/ui improvements" />
     <MESSAGE value="Edit members.tsx to call the api" />
     <MESSAGE value="Members display fix" />
     <MESSAGE value="Fix import in functions.ts" />
@@ -334,7 +336,8 @@
     <MESSAGE value="New navbar improvements" />
     <MESSAGE value="Fixes in the navigation and in the notifications" />
     <MESSAGE value="Add a link to the projects" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add a link to the projects" />
+    <MESSAGE value="Add oauth client" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add oauth client" />
   </component>
   <component name="WindowStateProjectService">
     <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607236205403">
@@ -357,10 +360,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="168" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1609742123843" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1609748922739">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1609749824880">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609748922739" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609749824880" />
     <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
     <state x="777" y="474" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606297428811">
       <screen x="0" y="40" width="1920" height="1040" />
