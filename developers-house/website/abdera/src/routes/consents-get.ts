@@ -27,9 +27,9 @@ const getConsents: RouteOptions = {
             hydra,
         } = req;
 
-        const { active, aud, sub } = await hydra.introspectOAuth2Token(token, 'website:all').then(validateHydraResponse);
+        const { active, aud, sub } = await hydra.introspectOAuth2Token(token, 'account:all').then(validateHydraResponse);
 
-        if (!active || !aud.includes('account:all')) {
+        if (!active || !aud.includes('website')) {
             throw new Error('Invalidate token.');
         }
 
@@ -46,7 +46,7 @@ const getConsents: RouteOptions = {
         });
         
     },
-    url: "/users/consents/:user",
+    url: "/users/consents",
 };
 
 export default getConsents;

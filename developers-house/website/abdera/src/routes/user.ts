@@ -29,9 +29,9 @@ const user: RouteOptions = {
             },
         } = req;
 
-        const { active, aud, sub } = await introspectOAuth2Token(token, 'website:all').then(validateHydraResponse);
+        const { active, aud, sub } = await introspectOAuth2Token(token, 'account:all').then(validateHydraResponse);
 
-        if (!active || !aud.includes('account:all')) {
+        if (!active || !aud.includes('website')) {
             throw new Error('Invalidate token.');
         }
 
