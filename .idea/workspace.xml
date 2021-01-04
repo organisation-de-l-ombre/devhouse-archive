@@ -19,8 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Remove unused text">
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fix the build">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/templates/client.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/client.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/state/modules/user/actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/state/modules/user/actions.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +97,8 @@
       <workItem from="1607235772483" duration="12979000" />
       <workItem from="1609527163693" duration="14000" />
       <workItem from="1609737695979" duration="12293000" />
-      <workItem from="1609751333552" duration="15345000" />
+      <workItem from="1609751333552" duration="15954000" />
+      <workItem from="1609785493355" duration="373000" />
     </task>
     <task id="LOCAL-00001" summary="new style and ux/ui improvements">
       <created>1602854984402</created>
@@ -377,7 +380,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609769766228</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="Fix the build">
+      <created>1609770128409</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1609770128409</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -396,7 +406,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fix &amp; prettier" />
     <MESSAGE value="Fix paths" />
     <MESSAGE value="Fix the gitlab ci for helm and postgres" />
     <MESSAGE value="Fix deployment of help chart" />
@@ -421,7 +430,8 @@
     <MESSAGE value="Fix the size of the avatar picture" />
     <MESSAGE value="Add the avatar to the account page" />
     <MESSAGE value="Remove unused text" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove unused text" />
+    <MESSAGE value="Fix the build" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix the build" />
   </component>
   <component name="WindowStateProjectService">
     <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607236205403">
@@ -444,10 +454,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="168" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1609742123843" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1609769767449">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1609770130004">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609769767449" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609770130004" />
     <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
     <state x="777" y="474" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606297428811">
       <screen x="0" y="40" width="1920" height="1040" />
