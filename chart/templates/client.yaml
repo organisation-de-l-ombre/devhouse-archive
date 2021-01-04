@@ -3,7 +3,7 @@ kind: OAuth2Client
 metadata:
   name: website-{{ template "trackableappname" . }}
 spec:
-  name: Website ({{ template "trackableappname" . }})
+  clientName: Website ({{ template "trackableappname" . }})
   grantTypes:
     - implicit
   responseTypes:
