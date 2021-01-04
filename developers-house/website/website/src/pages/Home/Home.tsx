@@ -1,55 +1,44 @@
-/* eslint-disable */
 import React, { ReactElement } from "react";
 import { FaDiscord } from "react-icons/fa";
 import { RiPencilRuler2Line } from "react-icons/ri";
-
 import Button, { ButtonImage } from "components/ui/Button";
 import ButtonGroup from "components/ui/ButtonGroup";
-import styled, { CSSObject } from "styled-components";
 import {
   Card,
   CardFlexContainer,
-  CardHeader,
   CardPadding,
   CardSection,
 } from "components/ui/Card";
 import { TitleBox } from "components/ui/TitleBox";
-import {NavLink} from "react-router-dom";
-
-const HomeHeader = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: url(${(props): CSSObject => require(`assets/${props.theme.name}/header-waves.svg`)});
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-`;
-
-const HeaderContentTitle = styled.h2`
-  margin-bottom: 1.5rem;
-`;
-
-const HomeHeaderContent = styled(TitleBox)`
-  margin-top: 4rem;
-  margin-bottom: 12rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-`;
+import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { BsPeople } from "react-icons/all";
+import styles from "./Home.module.scss";
 
 export default function HomePage(): ReactElement {
+  const theme = useSelector((s) => s.theme.theme);
+  // eslint-disable-next-line import/no-dynamic-require,global-require,@typescript-eslint/no-var-requires
+  const imageURL = require(`../../assets/${theme}/header-waves.svg`);
   return (
     <>
-      <HomeHeader>
-        <HomeHeaderContent>
-          <HeaderContentTitle>Developer&rsquo;s House</HeaderContentTitle>
-          <HeaderContentTitle as="h2">
-            Some nice projects around the Discord ecosystem.
-          </HeaderContentTitle>
+      <div
+        className={styles.homeHeader}
+        style={{
+          backgroundImage: `url(${imageURL})`,
+        }}
+      >
+        <TitleBox className={styles.headerContent}>
+          <h1 className={styles.headerTitle}>Developer&rsquo;s House</h1>
+          <p className={styles.headerSubtext}>
+            We are a small team of developers who seek to learn with a team of
+            people, our goal is to learn how to work as a team.
+          </p>
           <ButtonGroup>
-            <a target="_blank" href="https://discord.gg/r8RC2TjnFd">
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href="https://discord.gg/r8RC2TjnFd"
+            >
               <Button>
                 <ButtonImage>
                   <FaDiscord />
@@ -65,44 +54,24 @@ export default function HomePage(): ReactElement {
                 View projects
               </Button>
             </NavLink>
+            <NavLink to="/members">
+              <Button>
+                <ButtonImage>
+                  <BsPeople />
+                </ButtonImage>
+                View members
+              </Button>
+            </NavLink>
           </ButtonGroup>
-        </HomeHeaderContent>
-      </HomeHeader>
+        </TitleBox>
+      </div>
       <CardFlexContainer>
         <Card>
           <CardPadding>
-            <CardHeader>
-              <h2>Secure systems</h2>
-            </CardHeader>
-
-            <CardSection />
-          </CardPadding>
-        </Card>
-        <Card>
-          <CardPadding>
-            <CardHeader>
-              <h2>Secure systems</h2>
-            </CardHeader>
-
-            <CardSection />
-          </CardPadding>
-        </Card>
-        <Card>
-          <CardPadding>
-            <CardHeader>
-              <h2>Secure systems</h2>
-            </CardHeader>
-
-            <CardSection />
-          </CardPadding>
-        </Card>
-        <Card>
-          <CardPadding>
-            <CardHeader>
-              <h2>Secure systems</h2>
-            </CardHeader>
-
-            <CardSection />
+            <h3>Open to everyone</h3>
+            <CardSection>
+              <p>Our team is open to everyone</p>
+            </CardSection>
           </CardPadding>
         </Card>
       </CardFlexContainer>
