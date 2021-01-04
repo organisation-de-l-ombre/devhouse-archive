@@ -35,8 +35,15 @@
   flex-flow: row wrap;
   border-radius: 5px;
   overflow: hidden;
+  a {
+    min-width: fit-content;
+    flex: 1;
+    display: flex;
+    border-radius: 0;
+  }
 
-  .button {
+  .button, a .button {
+    width: 100%;
     flex: 1;
     position: relative;
     justify-content: center;
