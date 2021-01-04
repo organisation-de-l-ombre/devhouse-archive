@@ -41,8 +41,11 @@
       .item, a {
         margin-left: 0 !important;
         max-height: 10%;
-        display: block;
+        display: inline-flex;
         flex: 0;
+        svg {
+          margin-right: 10px;
+        }
       }
     }
     .bottom {

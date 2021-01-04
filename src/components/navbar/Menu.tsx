@@ -104,20 +104,25 @@ export function Menu(): ReactElement {
           </NavLink>
         ) : (
           <NavigationItem
-            style={{ marginLeft: "auto" }}
+            style={{
+              marginLeft: "auto",
+            }}
             className={styles["items-transition"]}
             onClick={() => dispatch(loginUser())}
           >
             <FaUser />
+            <OnlyMobiles>Login</OnlyMobiles>
           </NavigationItem>
         )}
         <NavigationItem
-          onClick={() =>
-            switchOpenClick() && dispatch(updateTheme(dark ? "dark" : "light"))
-          }
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch(updateTheme(dark ? "dark" : "light"));
+          }}
           className={styles["items-transition"]}
         >
           {dark ? <BsMoon /> : <FaSun />}
+          <OnlyMobiles>Turn on the {dark ? "light" : "dark"} theme</OnlyMobiles>
         </NavigationItem>
       </DrawerContent>
     </NavigationContainer>

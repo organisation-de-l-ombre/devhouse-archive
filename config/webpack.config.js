@@ -649,13 +649,6 @@ module.exports = function (webpackEnv) {
                         options: {
                             cacheName: 'discord-avatar-cache'
                         }
-                    },
-                    {
-                        urlPattern: /^https:\/\/developers-house-dev-website-group-abdera\.matthieu-dev\.xyz/,
-                        handler: 'StaleWhileRevalidate',
-                        options: {
-                            cacheName: 'api-responses',
-                        },
                     }
                 ]
             }),
