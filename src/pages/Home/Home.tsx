@@ -48,12 +48,14 @@ export default function HomePage(): ReactElement {
             Some nice projects around the Discord ecosystem.
           </HeaderContentTitle>
           <ButtonGroup>
-            <Button>
-              <ButtonImage>
-                <FaDiscord />
-              </ButtonImage>
-              Discord server
-            </Button>
+            <a target="_blank" href="https://discord.gg/r8RC2TjnFd">
+              <Button>
+                <ButtonImage>
+                  <FaDiscord />
+                </ButtonImage>
+                Discord server
+              </Button>
+            </a>
             <Button>
               <ButtonImage>
                 <RiPencilRuler2Line />

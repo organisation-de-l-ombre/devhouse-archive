@@ -1,4 +1,4 @@
-* {
+div, p, span, body {
     transition: background 500ms;
 }
 
@@ -20,4 +20,8 @@ button {
     outline: none;
     border: none;
     cursor: pointer;
+}
+
+#root {
+    height: 100vh;
 }

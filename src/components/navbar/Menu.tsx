@@ -3,7 +3,15 @@ import { NavLink } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTheme } from "state/modules/theme";
-import { BiMoon, BiSun, BsMoon, BsSun, FaSun } from "react-icons/all";
+import {
+  BiMoon,
+  BiSun,
+  BiUser,
+  BsMoon,
+  BsSun,
+  FaSun,
+  FaUser,
+} from "react-icons/all";
 import { OnlyMobiles } from "./Menu/OnlyMobiles";
 import { NavigationItem } from "./Menu/MenuItem";
 import { loginUser } from "../../state/modules/user/actions";
@@ -80,20 +88,18 @@ export function Menu(): ReactElement {
         >
           <NavigationItem>Contact</NavigationItem>
         </NavLink>
-        <div style={{ marginLeft: "auto", display: "inline-flex" }}>
-          {userState.loggedIn ? (
-            <NavLink to="/settings" className={styles["items-transition"]}>
-              <NavigationItem
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  padding: ".6rem 1rem",
-                }}
-              >
+        {userState.loggedIn ? (
+          <NavLink
+            to="/settings"
+            className={styles["items-transition"]}
+            style={{ marginLeft: "auto" }}
+          >
+            <NavigationItem style={{ padding: "auto" }}>
+              <div style={{ display: "flex", alignItems: "center" }}>
                 <UserAvatarStatus
                   style={{
-                    paddingRight: "1rem",
-                    width: "2rem",
+                    paddingRight: "0.45rem",
+                    width: "1.25rem",
                     display: "flex",
                   }}
                   animate
@@ -101,29 +107,26 @@ export function Menu(): ReactElement {
                   avatar={`https://s3.developershouse.xyz/${userState.user?.avatar}`}
                 />
                 {userState.user?.username}
-              </NavigationItem>
-            </NavLink>
-          ) : (
-            <NavigationItem
-              className={styles["items-transition"]}
-              onClick={() => dispatch(loginUser())}
-            >
-              Login
+              </div>
             </NavigationItem>
-          )}
+          </NavLink>
+        ) : (
           <NavigationItem
-            style={{
-              marginLeft: "auto",
-            }}
-            onClick={() =>
-              switchOpenClick() &&
-              dispatch(updateTheme(dark ? "dark" : "light"))
-            }
+            style={{ marginLeft: "auto" }}
             className={styles["items-transition"]}
+            onClick={() => dispatch(loginUser())}
           >
-            {dark ? <BsMoon /> : <FaSun />}
+            <FaUser />
           </NavigationItem>
-        </div>
+        )}
+        <NavigationItem
+          onClick={() =>
+            switchOpenClick() && dispatch(updateTheme(dark ? "dark" : "light"))
+          }
+          className={styles["items-transition"]}
+        >
+          {dark ? <BsMoon /> : <FaSun />}
+        </NavigationItem>
       </DrawerContent>
     </NavigationContainer>
   );
