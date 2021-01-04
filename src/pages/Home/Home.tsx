@@ -65,16 +65,6 @@ export default function HomePage(): ReactElement {
           </ButtonGroup>
         </TitleBox>
       </div>
-      <CardFlexContainer>
-        <Card>
-          <CardPadding>
-            <h3>Open to everyone</h3>
-            <CardSection>
-              <p>Our team is open to everyone</p>
-            </CardSection>
-          </CardPadding>
-        </Card>
-      </CardFlexContainer>
     </>
   );
 }
