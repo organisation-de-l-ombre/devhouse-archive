@@ -19,7 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fix the startup script">
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Add the env getter">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/state/modules/user/actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/state/modules/user/actions.ts" afterDir="false" />
     </list>
@@ -96,7 +96,7 @@
       <workItem from="1607235772483" duration="12979000" />
       <workItem from="1609527163693" duration="14000" />
       <workItem from="1609737695979" duration="12293000" />
-      <workItem from="1609751333552" duration="1411000" />
+      <workItem from="1609751333552" duration="2674000" />
     </task>
     <task id="LOCAL-00001" summary="new style and ux/ui improvements">
       <created>1602854984402</created>
@@ -315,7 +315,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609752537308</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Add the env getter">
+      <created>1609753054909</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1609753054909</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -334,7 +341,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Bad design: Fix 1: Redesign the cards, basic restructure." />
     <MESSAGE value="Fix test error: Unused groupBy." />
     <MESSAGE value="Re-fix design" />
     <MESSAGE value="New layout" />
@@ -359,7 +365,8 @@
     <MESSAGE value="Fix the react build warning" />
     <MESSAGE value="Fix the chart" />
     <MESSAGE value="Fix the startup script" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix the startup script" />
+    <MESSAGE value="Add the env getter" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add the env getter" />
   </component>
   <component name="WindowStateProjectService">
     <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607236205403">
@@ -382,10 +389,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="168" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1609742123843" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1609752538290">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1609753056286">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609752538290" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609753056286" />
     <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
     <state x="777" y="474" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606297428811">
       <screen x="0" y="40" width="1920" height="1040" />

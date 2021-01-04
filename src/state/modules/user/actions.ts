@@ -1,6 +1,5 @@
 import { ThunkAction } from "redux-thunk";
 import { Action } from "redux";
-import * as process from "process";
 import { fetchUser } from "utilities";
 import { DefaultRootState } from "react-redux";
 import { NotificationPayloadType } from "../notifications";
@@ -32,10 +31,10 @@ async function fetchClientId() {
   clientIdPromise = null;
 }
 
-if (process.env.NODE_ENV === "production") {
-  clientIdPromise = fetchClientId();
-} else {
+if (process.env.NODE_ENV === "development") {
   clientId = "b63ae62c-830d-46a9-abff-ccdf2ca6fb52";
+} else {
+  clientIdPromise = fetchClientId();
 }
 
 async function getTokenWithPopup(): Promise<string> {
