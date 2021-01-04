@@ -14,6 +14,7 @@ import {
   CardSection,
 } from "components/ui/Card";
 import { TitleBox } from "components/ui/TitleBox";
+import {NavLink} from "react-router-dom";
 
 const HomeHeader = styled.div`
   display: flex;
@@ -56,12 +57,14 @@ export default function HomePage(): ReactElement {
                 Discord server
               </Button>
             </a>
-            <Button>
-              <ButtonImage>
-                <RiPencilRuler2Line />
-              </ButtonImage>
-              View projects
-            </Button>
+            <NavLink to="/projects">
+              <Button>
+                <ButtonImage>
+                  <RiPencilRuler2Line />
+                </ButtonImage>
+                View projects
+              </Button>
+            </NavLink>
           </ButtonGroup>
         </HomeHeaderContent>
       </HomeHeader>

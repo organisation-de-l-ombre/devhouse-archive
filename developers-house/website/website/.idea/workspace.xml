@@ -19,18 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="New navbar improvements">
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fixes in the navigation and in the notifications">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SuspenseLoader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SuspenseLoader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/loader.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/loader.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/navbar/Menu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navbar/Menu.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/navbar/Menu/navigation.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navbar/Menu/navigation.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/notifications/animations.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/notifications/animations.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/button.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/button.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Home/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home/Home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Navigator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Navigator.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/NotFound/NotFound.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/NotFound/NotFound.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transitions.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/transitions.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +95,7 @@
       <workItem from="1606817660554" duration="14000" />
       <workItem from="1607235772483" duration="12979000" />
       <workItem from="1609527163693" duration="14000" />
-      <workItem from="1609737695979" duration="10438000" />
+      <workItem from="1609737695979" duration="10553000" />
     </task>
     <task id="LOCAL-00001" summary="new style and ux/ui improvements">
       <created>1602854984402</created>
@@ -281,7 +272,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609744998593</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Fixes in the navigation and in the notifications">
+      <created>1609748817362</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1609748817362</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -323,7 +321,8 @@
     <MESSAGE value="Add startup.sh" />
     <MESSAGE value="Made startup script executable" />
     <MESSAGE value="New navbar improvements" />
-    <option name="LAST_COMMIT_MESSAGE" value="New navbar improvements" />
+    <MESSAGE value="Fixes in the navigation and in the notifications" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixes in the navigation and in the notifications" />
   </component>
   <component name="WindowStateProjectService">
     <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607236205403">
@@ -346,10 +345,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="168" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1609742123843" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1609744999858">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1609748819363">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609744999858" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609748819363" />
     <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
     <state x="777" y="474" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606297428811">
       <screen x="0" y="40" width="1920" height="1040" />
