@@ -19,10 +19,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Add the account manager">
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Add text for the left navigation items on the mobile menu">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/config/webpack.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/navbar/Menu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navbar/Menu.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/navbar/Menu/navigation.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navbar/Menu/navigation.module.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -98,7 +96,7 @@
       <workItem from="1607235772483" duration="12979000" />
       <workItem from="1609527163693" duration="14000" />
       <workItem from="1609737695979" duration="12293000" />
-      <workItem from="1609751333552" duration="9516000" />
+      <workItem from="1609751333552" duration="10211000" />
     </task>
     <task id="LOCAL-00001" summary="new style and ux/ui improvements">
       <created>1602854984402</created>
@@ -345,7 +343,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609759736566</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="Add text for the left navigation items on the mobile menu">
+      <created>1609761806586</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1609761806586</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -364,7 +369,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Remove unused import" />
     <MESSAGE value="Use css modules instead of styled-components." />
     <MESSAGE value="Migrate to css modules 1 / 2" />
     <MESSAGE value="Adding values and removing the old chart" />
@@ -389,7 +393,8 @@
     <MESSAGE value="Fix the request" />
     <MESSAGE value="Fix the client name" />
     <MESSAGE value="Add the account manager" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add the account manager" />
+    <MESSAGE value="Add text for the left navigation items on the mobile menu" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add text for the left navigation items on the mobile menu" />
   </component>
   <component name="WindowStateProjectService">
     <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607236205403">
@@ -412,10 +417,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="168" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1609742123843" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1609759738147">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1609761808272">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609759738147" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609761808272" />
     <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
     <state x="777" y="474" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606297428811">
       <screen x="0" y="40" width="1920" height="1040" />
