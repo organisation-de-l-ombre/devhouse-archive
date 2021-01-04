@@ -7,6 +7,7 @@ import {AdminApi} from '@oryd/hydra-client';
 import Fastify, {FastifyInstance} from "fastify";
 import CreateRedis, {Redis} from "ioredis";
 import {AdminAPI} from './hydra';
+import getConsents from './routes/consents-get';
 import route from "./routes/staff";
 import user from './routes/user';
 
@@ -49,6 +50,8 @@ export default class Server {
 
         this.server.route(route);
         this.server.route(user);
+        this.server.route(getConsents);
+
 
         this.server.get('/', (_, res) => {
             res.send({code: 'OK',});
