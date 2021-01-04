@@ -17,6 +17,7 @@ import {
 import {
   Client,
   useAuthorizedApps,
+  useAuthorizedAppsAllDelete,
   useAuthorizedAppsDeleteMutation,
 } from "../../../hooks/useAuthorizedApps";
 
@@ -47,9 +48,10 @@ const AuthorizationsCard: React.FC<{
 };
 
 const Authorizations = (): ReactElement => {
-  const { data, error, refetch, isFetching } = useAuthorizedApps();
+  const { data, error, refetch, isLoading } = useAuthorizedApps();
+  const deleteAll = useAuthorizedAppsAllDelete();
 
-  if (isFetching) {
+  if (isLoading) {
     return (
       <TitleBox>
         <Loader />
@@ -73,8 +75,8 @@ const Authorizations = (): ReactElement => {
         </p>
         <Button onClick={() => refetch()}>
           Refresh <BiRefresh />
-        </Button>{" "}
-        <Button onClick={() => refetch()}>
+        </Button>
+        <Button onClick={() => deleteAll()}>
           Revoke all <BiTrash />
         </Button>
         <br />

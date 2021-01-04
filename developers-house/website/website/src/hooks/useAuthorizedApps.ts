@@ -54,6 +54,19 @@ const deleteAuthorizedApp = async (client_id: string) => {
   return data.deleteAuthorizedClients;
 };
 
+const deleteAllAuthorizedApp = async () => {
+  const data = await GlobalGraphQLClient.request<{
+    deleteAuthorizedClients: number;
+  }>(
+    `
+mutation {
+  deleteAllAuthorizedClients
+}
+`
+  );
+  return data.deleteAuthorizedClients;
+};
+
 export const useAuthorizedApps = (): QueryObserverResult<Client[], unknown> => {
   return useQuery("authorized_apps", requestAuthorizedApps);
 };
@@ -86,6 +99,26 @@ export const useAuthorizedAppsDeleteMutation = (
   return {
     remove: mutate,
   };
+};
+
+export const useAuthorizedAppsAllDelete = (): UseMutateFunction => {
+  const client = useQueryClient();
+  const { mutate } = useMutation<number>(
+    "delete_all_authorized_apps",
+    () => deleteAllAuthorizedApp(),
+    {
+      async onMutate() {
+        await client.cancelQueries("authorized_apps");
+        client.setQueryData<Client[]>("authorized_apps", () => {
+          return [];
+        });
+      },
+      onError(err, variables, previousValue) {
+        client.setQueryData("authorized_apps", previousValue);
+      },
+    }
+  );
+  return mutate;
 };
 
 export default useAuthorizedApps;
