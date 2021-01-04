@@ -8,7 +8,7 @@ spec:
     - implicit
   responseTypes:
     - token
-  scope: "account:all"
+  scope: "account.*"
   secretName: oauth-client-{{ template "trackableappname" . }}
   # these are optional
   redirectUris:

@@ -59,7 +59,7 @@ async function getTokenWithPopup(): Promise<string> {
   const redirect = `${document.location.protocol}//${document.location.host}/callback`;
   const apiAudience = "website";
 
-  const scopes = ["account:all"].join(" ");
+  const scopes = ["account.*"].join(" ");
 
   const popupWindow = window.open(
     `http://auth-server.developershouse.xyz/oauth2/auth?response_type=token&client_id=${encodeURIComponent(
