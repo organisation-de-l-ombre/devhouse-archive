@@ -7,4 +7,6 @@ import styles from "./navigation.module.scss";
 
 export const DrawerContent: React.FC<
   React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
-> = ({ className }) => <div className={[className, styles.drawer].join(" ")} />;
+> = ({ className, ...props }) => (
+  <div className={[className, styles.drawer].join(" ")} {...props} />
+);

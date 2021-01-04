@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTheme } from "state/modules/theme";
+import { BiMoon, BiSun, BsMoon, BsSun, FaSun } from "react-icons/all";
 import { OnlyMobiles } from "./Menu/OnlyMobiles";
 import { NavigationItem } from "./Menu/MenuItem";
 import { loginUser } from "../../state/modules/user/actions";
@@ -42,21 +43,28 @@ export function Menu(): ReactElement {
           />
         </NavigationItem>
       </OnlyMobiles>
-      <DrawerContent>
+      <DrawerContent onClick={switchOpenClick}>
         <NavLink
           to="/"
           exact
           className={styles["items-transition"]}
           activeClassName={styles.active}
         >
-          <NavigationItem onClick={switchOpenClick}>Home</NavigationItem>
+          <NavigationItem>Home</NavigationItem>
+        </NavLink>
+        <NavLink
+          to="/projects"
+          className={styles["items-transition"]}
+          activeClassName={styles.active}
+        >
+          <NavigationItem>Projects</NavigationItem>
         </NavLink>
         <NavLink
           to="/members"
           className={styles["items-transition"]}
           activeClassName={styles.active}
         >
-          <NavigationItem onClick={switchOpenClick}>Members</NavigationItem>
+          <NavigationItem>Members</NavigationItem>
         </NavLink>
         <NavLink
           to="/about"
@@ -65,41 +73,57 @@ export function Menu(): ReactElement {
         >
           <NavigationItem onClick={switchOpenClick}>About</NavigationItem>
         </NavLink>
-        <NavigationItem
-          onClick={() =>
-            switchOpenClick() && dispatch(updateTheme(dark ? "dark" : "light"))
-          }
+        <NavLink
+          to="/contact"
           className={styles["items-transition"]}
+          activeClassName={styles.active}
         >
-          Switch to {dark ? "dark" : "light"} theme
-        </NavigationItem>
-        {!userState.loggedIn && (
-          <NavigationItem
-            className={styles["items-transition"]}
-            onClick={() => dispatch(loginUser())}
-          >
-            Login
-          </NavigationItem>
-        )}
-        {userState.loggedIn && (
-          <NavLink to="/settings" className={styles["items-transition"]}>
+          <NavigationItem>Contact</NavigationItem>
+        </NavLink>
+        <div style={{ marginLeft: "auto", display: "inline-flex" }}>
+          {userState.loggedIn ? (
+            <NavLink to="/settings" className={styles["items-transition"]}>
+              <NavigationItem
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  padding: ".6rem 1rem",
+                }}
+              >
+                <UserAvatarStatus
+                  style={{
+                    paddingRight: "1rem",
+                    width: "2rem",
+                    display: "flex",
+                  }}
+                  animate
+                  statusColor="gray"
+                  avatar={`https://s3.developershouse.xyz/${userState.user?.avatar}`}
+                />
+                {userState.user?.username}
+              </NavigationItem>
+            </NavLink>
+          ) : (
             <NavigationItem
-              style={{
-                display: "flex",
-                alignItems: "center",
-                padding: ".6rem 1rem",
-              }}
+              className={styles["items-transition"]}
+              onClick={() => dispatch(loginUser())}
             >
-              <UserAvatarStatus
-                style={{ paddingRight: "1rem", width: "2rem", display: "flex" }}
-                animate
-                statusColor="gray"
-                avatar={`https://s3.developershouse.xyz/${userState.user?.avatar}`}
-              />
-              {userState.user?.username}
+              Login
             </NavigationItem>
-          </NavLink>
-        )}
+          )}
+          <NavigationItem
+            style={{
+              marginLeft: "auto",
+            }}
+            onClick={() =>
+              switchOpenClick() &&
+              dispatch(updateTheme(dark ? "dark" : "light"))
+            }
+            className={styles["items-transition"]}
+          >
+            {dark ? <BsMoon /> : <FaSun />}
+          </NavigationItem>
+        </div>
       </DrawerContent>
     </NavigationContainer>
   );

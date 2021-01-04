@@ -24,8 +24,8 @@ function makeId(length: number): string {
 }
 
 function getTokenWithPopup(): Promise<string> {
-  const h = window.innerHeight / 1.5;
-  const w = window.innerWidth / 2;
+  const h = 600;
+  const w = 450;
 
   const y = window.top.outerHeight / 2 + window.top.screenY - h / 2;
   const x = window.top.outerWidth / 2 + window.top.screenX - w / 2;

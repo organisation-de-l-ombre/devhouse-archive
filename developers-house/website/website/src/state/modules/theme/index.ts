@@ -40,7 +40,7 @@ export default function reducer(
       };
       break;
     default:
-      throw new Error("Undefined action for this reducder.");
+      return state;
   }
   return state;
 }
