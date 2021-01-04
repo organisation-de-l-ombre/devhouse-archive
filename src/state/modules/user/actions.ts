@@ -23,7 +23,22 @@ function makeId(length: number): string {
   return result;
 }
 
-function getTokenWithPopup(): Promise<string> {
+let clientIdPromise: Promise<void> | null = null;
+let clientId: string | null = null;
+
+async function fetchClientId() {
+  const { id } = await fetch("/.oauth.json").then((r) => r.json());
+  clientId = id;
+  clientIdPromise = null;
+}
+
+if (process.env.NODE_ENV === "production") {
+  clientIdPromise = fetchClientId();
+} else {
+  clientId = "b63ae62c-830d-46a9-abff-ccdf2ca6fb52";
+}
+
+async function getTokenWithPopup(): Promise<string> {
   const h = 600;
   const w = 450;
 
@@ -36,8 +51,12 @@ function getTokenWithPopup(): Promise<string> {
 
   localStorage.setItem("state-oauth", state);
 
-  const clientId: string =
-    process.env.REACT_APP_CLIENT_ID || "b63ae62c-830d-46a9-abff-ccdf2ca6fb52";
+  if (!clientId) {
+    await clientIdPromise;
+  }
+
+  if (!clientId) throw new Error("Failed to get the client id.");
+
   const redirect = `${document.location.protocol}//${document.location.host}/callback`;
   const apiAudience = "website";
 
@@ -55,7 +74,8 @@ function getTokenWithPopup(): Promise<string> {
     options
   );
 
-  return new Promise<string>((resolve, reject): void => {
+  // eslint-disable-next-line no-return-await
+  return await new Promise<string>((resolve, reject): void => {
     if (popupWindow === null) {
       return reject(new Error("The window failed to open."));
     }
