@@ -1,0 +1,26 @@
+.homeHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.headerTitle {
+  margin-bottom: 1.5rem;
+}
+
+.headerContent {
+  margin-top: 4rem;
+  margin-bottom: 12rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.headerSubtext {
+  max-width: 58vw;
+  margin-bottom: 2rem;
+}
