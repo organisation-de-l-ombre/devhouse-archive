@@ -13,11 +13,13 @@
     justify-content: center;
   }
 }
+
 .color {
   div {
-    background-color: black;
+    background-color: var(--foreground-primary);
   }
 }
+
 
 #root {
   height: 100vh;

@@ -1,4 +1,5 @@
 import React, {
+  DetailedHTMLProps,
   PropsWithChildren,
   Suspense,
   useCallback,
@@ -8,7 +9,7 @@ import React, {
 } from "react";
 import ReactLoaders from "react-loaders";
 import "loaders.css/src/animations/line-scale.scss";
-import "./loader.scss";
+import styles from "./loader.module.scss";
 
 const messages = [
   "Cooking some cookies 🍪",
@@ -16,7 +17,9 @@ const messages = [
   "This seems slow...",
 ];
 
-export const Loader: React.FC = () => {
+export const Loader: React.FC<DetailedHTMLProps<any, HTMLDivElement>> = (
+  props
+) => {
   const [msg, setMsg] = useState<null | string>(null);
   const changeMessage = useCallback(() => {
     setMsg(messages[Math.floor(Math.random() * messages.length)]);
@@ -31,9 +34,9 @@ export const Loader: React.FC = () => {
   }, [changeMessage]);
 
   return (
-    <div className="loader">
-      <div className="centered">
-        <ReactLoaders innerClassName="color" type="line-scale" active />
+    <div className={styles.loader}>
+      <div className={styles.centered}>
+        <ReactLoaders innerClassName={styles.color} type="line-scale" active />
         {msg && <p>{msg}</p>}
       </div>
     </div>

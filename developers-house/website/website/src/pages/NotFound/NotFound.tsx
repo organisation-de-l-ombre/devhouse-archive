@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react";
 import Button from "components/ui/Button";
 import styled from "styled-components";
+import { useHistory } from "react-router";
 
 const NotFoundBase = styled.div`
   display: grid;
@@ -21,6 +22,7 @@ const NotFoundContent = styled.div`
 `;
 
 export default function NotFound(): ReactElement {
+  const nav = useHistory();
   return (
     <NotFoundBase>
       <NotFoundContent>
@@ -28,7 +30,7 @@ export default function NotFound(): ReactElement {
         <hr />
         <h2>Not found - This page doesn&#39;t exists</h2>
         <p>We couldn&#39;t find this page on this application.</p>
-        <Button>Return home</Button>
+        <Button onClick={() => nav.push("/")}>Return home</Button>
       </NotFoundContent>
     </NotFoundBase>
   );

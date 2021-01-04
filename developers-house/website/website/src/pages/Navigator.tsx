@@ -73,31 +73,29 @@ const Navigator = () => {
   return (
     <Wrapper>
       <ErrorBoundary FallbackComponent={ErrorPage}>
-        <div style={{ height: "100%", width: "100%" }}>
+        <SuspenseLoader>
           <Switch>
-            <SuspenseLoader>
-              <Route path="/" exact>
-                <HomePage />
-              </Route>
-              <Route path="/about" exact>
-                <AboutPage />
-              </Route>
-              <Route path="/projects" exact>
-                <ProjectsPage />
-              </Route>
-              <Route path="/members" exact>
-                <MembersPage />
-              </Route>
-              <Route path="/callback" exact>
-                <Callback />
-              </Route>
-              <PrivateRoute path="/settings" component={Settings} exact />
-            </SuspenseLoader>
+            <Route path="/" exact>
+              <HomePage />
+            </Route>
+            <Route path="/about" exact>
+              <AboutPage />
+            </Route>
+            <Route path="/projects" exact>
+              <ProjectsPage />
+            </Route>
+            <Route path="/members" exact>
+              <MembersPage />
+            </Route>
+            <Route path="/callback" exact>
+              <Callback />
+            </Route>
+            <PrivateRoute path="/settings" component={Settings} exact />
             <Route path="*" exact>
               <NotFound />
             </Route>
           </Switch>
-        </div>
+        </SuspenseLoader>
       </ErrorBoundary>
     </Wrapper>
   );
