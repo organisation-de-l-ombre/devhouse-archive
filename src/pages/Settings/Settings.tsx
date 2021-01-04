@@ -2,23 +2,46 @@
  * The Error page displayed to the user when the website crashes.
  */
 
-import React, { ReactElement, useCallback } from "react";
-import { useDispatch } from "react-redux";
+import React, { ReactElement } from "react";
+import { Route, Switch, useRouteMatch } from "react-router";
+import { NavLink } from "react-router-dom";
 import { TitleBox } from "../../components/ui/TitleBox";
 import { Button } from "../../components/ui/Button";
-import { logoutUser } from "../../state/modules/user/actions";
+import ButtonGroup from "../../components/ui/ButtonGroup";
+import Authorizations from "./sections/Authorizations";
+import Account from "./sections/Account";
+import Support from "./sections/Support";
 
 const Settings = (): ReactElement => {
-  const dispatch = useDispatch();
-  const logout = useCallback(() => {
-    dispatch(logoutUser());
-  }, [dispatch]);
+  const match = useRouteMatch();
 
   return (
-    <TitleBox>
-      We are working on this feature! <br />
-      <Button onClick={logout}>Logout</Button>
-    </TitleBox>
+    <div>
+      <TitleBox>
+        <h1>Account manager</h1>
+        <ButtonGroup>
+          <NavLink to={`${match.url}`}>
+            <Button>Account</Button>
+          </NavLink>
+          <NavLink to={`${match.url}/authorizations`}>
+            <Button>Manage authorizations</Button>
+          </NavLink>
+          <NavLink to={`${match.url}/support`}>
+            <Button>Support</Button>
+          </NavLink>
+        </ButtonGroup>
+      </TitleBox>
+
+      <Switch>
+        <Route exact path={`${match.path}`} component={Account} />
+        <Route
+          exact
+          path={`${match.path}/authorizations`}
+          component={Authorizations}
+        />
+        <Route exact path={`${match.path}/support`} component={Support} />
+      </Switch>
+    </div>
   );
 };
 

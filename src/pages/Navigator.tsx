@@ -90,7 +90,7 @@ const Navigator = () => {
             <Route path="/callback" exact>
               <Callback />
             </Route>
-            <PrivateRoute path="/settings" component={Settings} exact />
+            <PrivateRoute path="/settings" component={Settings} />
             <Route path="*" exact>
               <NotFound />
             </Route>
