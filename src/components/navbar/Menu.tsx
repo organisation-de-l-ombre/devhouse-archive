@@ -3,15 +3,7 @@ import { NavLink } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTheme } from "state/modules/theme";
-import {
-  BiMoon,
-  BiSun,
-  BiUser,
-  BsMoon,
-  BsSun,
-  FaSun,
-  FaUser,
-} from "react-icons/all";
+import { BsMoon, FaSun, FaUser } from "react-icons/all";
 import { OnlyMobiles } from "./Menu/OnlyMobiles";
 import { NavigationItem } from "./Menu/MenuItem";
 import { loginUser } from "../../state/modules/user/actions";

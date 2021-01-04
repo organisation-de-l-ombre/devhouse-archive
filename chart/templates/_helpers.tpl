@@ -40,6 +40,10 @@ Get a hostname from URL
 {{- . | trimPrefix "http://" |  trimPrefix "https://" | trimSuffix "/" | trim | quote -}}
 {{- end -}}
 
+{{- define "fhostname" -}}
+{{- . | trimPrefix "http://" |  trimPrefix "https://" | trimSuffix "/" | trim -}}
+{{- end -}}
+
 {{/*
 Get SecRule's arguments with unescaped single&double quotes
 */}}
