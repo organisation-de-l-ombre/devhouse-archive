@@ -77,6 +77,8 @@ const handler: NextApiHandler = async (
           {
             const data = await AdminAPI.acceptLoginRequest(loginChallenge, {
               subject: userData.uuid,
+              remember: true,
+              remember_for: 3600 * 24,
             }).then(validateHydraResponse);
             res.redirect(data.redirect_to);
             return;
