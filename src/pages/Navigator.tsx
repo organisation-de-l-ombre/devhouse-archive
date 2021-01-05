@@ -1,34 +1,20 @@
 import React, { FC, useCallback } from "react";
-import { Route, Switch, useHistory, withRouter } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  useHistory,
+  useLocation,
+  withRouter,
+} from "react-router-dom";
 import "transitions.css";
 import { RouteProps } from "react-router";
-import styled from "styled-components";
 import { ErrorBoundary } from "react-error-boundary";
 import { useDispatch, useSelector } from "react-redux";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { pushNotification } from "../state/modules/notifications";
 import SuspenseLoader from "../components/SuspenseLoader";
 import NotFound from "./NotFound/NotFound";
-
-const Wrapper = styled.div`
-  .slide-enter {
-    opacity: 0;
-  }
-  .slide-enter-active {
-    opacity: 1;
-    transition: opacity 300ms ease-in-out;
-  }
-  .slide-exit {
-    opacity: 0;
-  }
-  .slide-exit-active {
-    opacity: 0;
-    transition: opacity 300ms 300ms ease-in-out;
-  }
-  .ignore-overflow {
-    overflow: hidden;
-  }
-  flex: 1;
-`;
+import styles from "./navigator.module.scss";
 
 const AboutPage = React.lazy(() => import("./About/About"));
 const HomePage = React.lazy(() => import("./Home/Home"));
@@ -70,34 +56,37 @@ const PrivateRoute: FC<{ component: FC<unknown> } & RouteProps> = ({
 };
 
 const Navigator = () => {
+  const route = useLocation();
   return (
-    <Wrapper>
-      <ErrorBoundary FallbackComponent={ErrorPage}>
-        <SuspenseLoader>
-          <Switch>
-            <Route path="/" exact>
-              <HomePage />
-            </Route>
-            <Route path="/about" exact>
-              <AboutPage />
-            </Route>
-            <Route path="/projects" exact>
-              <ProjectsPage />
-            </Route>
-            <Route path="/members" exact>
-              <MembersPage />
-            </Route>
-            <Route path="/callback" exact>
-              <Callback />
-            </Route>
-            <PrivateRoute path="/settings" component={Settings} />
-            <Route path="*" exact>
-              <NotFound />
-            </Route>
-          </Switch>
-        </SuspenseLoader>
-      </ErrorBoundary>
-    </Wrapper>
+    <ErrorBoundary FallbackComponent={ErrorPage}>
+      <SuspenseLoader>
+        <TransitionGroup className={styles.wrapper}>
+          <CSSTransition key={route.key} classNames="slide" timeout={300}>
+            <Switch>
+              <Route path="/" exact>
+                <HomePage />
+              </Route>
+              <Route path="/about" exact>
+                <AboutPage />
+              </Route>
+              <Route path="/projects" exact>
+                <ProjectsPage />
+              </Route>
+              <Route path="/members" exact>
+                <MembersPage />
+              </Route>
+              <Route path="/callback" exact>
+                <Callback />
+              </Route>
+              <PrivateRoute path="/settings" component={Settings} />
+              <Route path="*" exact>
+                <NotFound />
+              </Route>
+            </Switch>
+          </CSSTransition>
+        </TransitionGroup>
+      </SuspenseLoader>
+    </ErrorBoundary>
   );
 };
 

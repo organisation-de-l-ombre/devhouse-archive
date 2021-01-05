@@ -2,9 +2,6 @@ import React, { ComponentProps, ReactElement } from "react";
 import { Card, CardPadding } from "components/ui/Card";
 import UserAvatarStatus from "components/ui/UserAvatarStatus";
 import styled from "styled-components";
-import ButtonGroup from "components/ui/ButtonGroup";
-import { Button } from "components/ui/Button";
-import { AiFillGithub } from "react-icons/all";
 import { CachedUser } from "./Members";
 import { getAvatar, statusToColor } from "../../utilities";
 
@@ -76,20 +73,8 @@ function MemberDisplay({
               )}
             </div>
           </div>
-
-          <ButtonGroup style={{ gridColumn: "1 / 3" }}>
-            <Button>
-              <AiFillGithub size={20} />
-            </Button>
-            <Button>
-              <AiFillGithub size={20} />
-            </Button>
-            <Button>
-              <AiFillGithub size={20} />
-            </Button>
-          </ButtonGroup>
         </CardHeader>
-
+        <hr />
         <CardPadding>No description for now.</CardPadding>
       </CardPadding>
     </Card>

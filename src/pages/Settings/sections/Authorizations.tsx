@@ -83,12 +83,15 @@ const Authorizations = (): ReactElement => {
         </ButtonGroup>
       </CardPadding>
       <CardFlexContainer>
-        {data?.map((client) => {
+        {data?.map((client, i) => {
           return (
-            <AuthorizationsCard
-              client={client}
-              key={client.grantedAt.toString()}
-            />
+            <>
+              <AuthorizationsCard
+                client={client}
+                key={client.grantedAt.toString()}
+              />
+              {i !== data?.length - 1 && <hr style={{ flex: 1 }} />}
+            </>
           );
         })}
       </CardFlexContainer>
