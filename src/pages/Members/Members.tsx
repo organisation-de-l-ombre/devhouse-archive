@@ -1,37 +1,14 @@
-import React, {
-  PropsWithRef,
-  PureComponent,
-  ReactElement,
-  Suspense,
-} from "react";
+import React, { PropsWithRef, PureComponent, ReactElement } from "react";
 import { TitleBox } from "components/ui/TitleBox";
 import { TypeWriter } from "components/TypeWriter";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { Button } from "../../components/ui/Button";
+import { CardFlexContainer } from "../../components/ui/Card";
+import MemberDisplay from "./MemberDisplay";
+import { CachedUser } from "./types";
+import "../transitions.css";
+import styles from "./member.module.scss";
 import { Loader } from "../../components/SuspenseLoader";
-
-const MembersDisplay = React.lazy(() => import("./MembersDisplay"));
-
-export interface CachedUser {
-  username: string;
-  nickname?: string;
-  presence?: {
-    emote?: string;
-    status: "online" | "dnd" | "offline" | "idle" | "invisible";
-    presenceText?: string;
-  };
-  hoistRole: {
-    position: number;
-    color: string;
-    name: string;
-  };
-  connexions: {
-    name: string;
-    link: string;
-  }[];
-  avatar?: string;
-  discriminator: string;
-  id: string;
-}
 
 export default class MembersPage extends PureComponent<
   unknown,
@@ -77,9 +54,7 @@ export default class MembersPage extends PureComponent<
   render(): ReactElement {
     const { error, users, isLoading } = this.state;
 
-    if (isLoading) {
-      return <Loader />;
-    }
+    if (isLoading) return <Loader />;
 
     if (error) {
       return (
@@ -91,7 +66,7 @@ export default class MembersPage extends PureComponent<
     }
 
     return (
-      <Suspense fallback="">
+      <div>
         <TitleBox>
           <h1>Our members</h1>
           <h2>
@@ -104,8 +79,24 @@ export default class MembersPage extends PureComponent<
           <Button onClick={this.load}>Refresh</Button>
         </TitleBox>
 
-        <MembersDisplay users={users} />
-      </Suspense>
+        <CardFlexContainer>
+          <TransitionGroup className={styles.wrapper}>
+            {users
+              .sort((x, y) => y.hoistRole.position - x.hoistRole.position)
+              .map((member) => {
+                return (
+                  <CSSTransition
+                    classNames="fade"
+                    timeout={500}
+                    key={member.id}
+                  >
+                    <MemberDisplay member={member} />
+                  </CSSTransition>
+                );
+              })}
+          </TransitionGroup>
+        </CardFlexContainer>
+      </div>
     );
   }
 }

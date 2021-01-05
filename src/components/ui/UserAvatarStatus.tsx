@@ -13,14 +13,7 @@ function UserAvatarStatus({
 } & React.SVGProps<SVGSVGElement>): ReactElement {
   const [id] = useState(Math.random());
   return (
-    <svg
-      className={className}
-      viewBox="0 0 19 19"
-      version="1.1"
-      height="100%"
-      width="100%"
-      {...props}
-    >
+    <svg className={className} viewBox="0 0 19 19" version="1.1" {...props}>
       <defs>
         <mask id={`user-avatar-mask${id}`} x="0" y="0" width="150" height="150">
           <rect x="0" y="0" width="128px" height="128px" fill="black" />

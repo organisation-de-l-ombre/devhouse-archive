@@ -8,6 +8,7 @@ import { TitleBox } from "../../../components/ui/TitleBox";
 import { Button } from "../../../components/ui/Button";
 import { Loader } from "../../../components/SuspenseLoader";
 import {
+  Card,
   CardFlexContainer,
   CardHeader,
   CardPadding,
@@ -29,19 +30,21 @@ const AuthorizationsCard: React.FC<{
   const date = new Date(client.grantedAt);
   const dateString = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
   return (
-    <CardPadding>
-      <CardHeader>
-        <b>{client.client_name || client.client_id}</b>
-      </CardHeader>
-      <CardSection>
-        The permission was accorded on {dateString} for the audiences{" "}
-        <code>{client.audiences.join(" ")}</code> with the authorizations{" "}
-        <code>{client.scopes.join(" ")}</code>
-      </CardSection>
-      <CardSection>
-        <Button onClick={() => remove()}>Revoke</Button>
-      </CardSection>
-    </CardPadding>
+    <Card>
+      <CardPadding>
+        <CardHeader>
+          <b>{client.client_name || client.client_id}</b>
+        </CardHeader>
+        <CardSection>
+          The permission was accorded on {dateString} for the audiences{" "}
+          <code>{client.audiences.join(" ")}</code> with the authorizations{" "}
+          <code>{client.scopes.join(" ")}</code>
+        </CardSection>
+        <CardSection>
+          <Button onClick={() => remove()}>Revoke</Button>
+        </CardSection>
+      </CardPadding>
+    </Card>
   );
 };
 
