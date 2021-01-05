@@ -2,10 +2,10 @@
  * The Error page displayed to the user when the website crashes.
  */
 
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { Route, Switch, useRouteMatch } from "react-router";
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { TitleBox } from "../../components/ui/TitleBox";
 import { Button } from "../../components/ui/Button";
 import ButtonGroup from "../../components/ui/ButtonGroup";
@@ -16,11 +16,16 @@ import styles from "./settings.module.scss";
 import NotFound from "../NotFound/NotFound";
 import UserAvatarStatus from "../../components/ui/UserAvatarStatus";
 import { OnlyMobiles } from "../../components/navbar/Menu/OnlyMobiles";
+import { logoutUser } from "../../state/modules/user/actions";
 
 const Settings = (): ReactElement => {
   const match = useRouteMatch();
   const user = useSelector((x) => x.user.user);
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+  const logout = useCallback(() => {
+    dispatch(logoutUser());
+  }, [dispatch]);
 
   useEffect(() => {
     setOpen(false);
@@ -42,6 +47,7 @@ const Settings = (): ReactElement => {
               <OnlyMobiles>
                 <Button onClick={() => setOpen(!open)}>Close</Button>
               </OnlyMobiles>
+              <Button onClick={logout}>Logout</Button>
               <NavLink to={`${match.path}`}>
                 <Button>Account</Button>
               </NavLink>

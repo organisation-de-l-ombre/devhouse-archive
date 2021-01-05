@@ -1,0 +1,20 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}
+
+.label {
+  display: flex;
+  flex-flow: column nowrap;
+  margin-top: 1rem;
+  span {
+    margin-bottom: 0.5rem;
+  }
+  input {
+    margin-bottom: 0.5rem;
+  }
+  p {
+    color: #EE0011;
+  }
+}

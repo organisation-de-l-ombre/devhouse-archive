@@ -3,13 +3,7 @@
  */
 
 import axios from "axios";
-
-type User = {
-  publicAccount: boolean;
-  username: string;
-  id: string;
-  profilePicture: string;
-};
+import { User } from "../state/modules/user";
 
 const fetchUser = async (): Promise<User> => {
   const { data } = await axios.get<User>(

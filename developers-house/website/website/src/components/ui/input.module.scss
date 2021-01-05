@@ -1,0 +1,21 @@
+.input {
+  border: none;
+  background-color: red;
+  &[type="text"] {
+    background-color: var(--background-primary);
+    color: var(--foreground-primary);
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: solid transparent 1px;
+    &:focus {
+      outline: none;
+      border: solid var(--foreground-primary) 1px;
+    }
+    &:checked {
+      background-color: var(--background-hover-primary);
+      color: var(--foreground-hover-primary);
+
+    }
+  }
+
+}
