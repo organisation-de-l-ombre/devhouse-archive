@@ -35,6 +35,8 @@
   flex-flow: row wrap;
   border-radius: 5px;
   overflow: hidden;
+  box-shadow: var(--background-hover-secondary) 0 0 3px;
+
   a {
     min-width: fit-content;
     flex: 1;

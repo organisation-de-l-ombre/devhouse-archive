@@ -8,7 +8,6 @@ import { TitleBox } from "../../../components/ui/TitleBox";
 import { Button } from "../../../components/ui/Button";
 import { Loader } from "../../../components/SuspenseLoader";
 import {
-  Card,
   CardFlexContainer,
   CardHeader,
   CardPadding,
@@ -20,6 +19,7 @@ import {
   useAuthorizedAppsAllDelete,
   useAuthorizedAppsDeleteMutation,
 } from "../../../hooks/useAuthorizedApps";
+import ButtonGroup from "../../../components/ui/ButtonGroup";
 
 const AuthorizationsCard: React.FC<{
   client: Client;
@@ -29,21 +29,19 @@ const AuthorizationsCard: React.FC<{
   const date = new Date(client.grantedAt);
   const dateString = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
   return (
-    <Card>
-      <CardPadding>
-        <CardHeader>
-          <b>{client.client_name || client.client_id}</b>
-        </CardHeader>
-        <CardSection>
-          The permission was accorded on {dateString} for the audiences{" "}
-          <code>{client.audiences.join(" ")}</code> with the authorizations{" "}
-          <code>{client.scopes.join(" ")}</code>
-        </CardSection>
-        <CardSection>
-          <Button onClick={() => remove()}>Revoke</Button>
-        </CardSection>
-      </CardPadding>
-    </Card>
+    <CardPadding>
+      <CardHeader>
+        <b>{client.client_name || client.client_id}</b>
+      </CardHeader>
+      <CardSection>
+        The permission was accorded on {dateString} for the audiences{" "}
+        <code>{client.audiences.join(" ")}</code> with the authorizations{" "}
+        <code>{client.scopes.join(" ")}</code>
+      </CardSection>
+      <CardSection>
+        <Button onClick={() => remove()}>Revoke</Button>
+      </CardSection>
+    </CardPadding>
   );
 };
 
@@ -67,33 +65,33 @@ const Authorizations = (): ReactElement => {
   }
   return (
     <>
-      <TitleBox>
-        <h3>Authorizations manager</h3>
-        <p>
-          This is the list of the authorized applications in your account (
-          {data?.length})
-        </p>
-        <Button onClick={() => refetch()}>
-          Refresh <BiRefresh />
-        </Button>
-        <Button onClick={() => deleteAll()}>
-          Revoke all <BiTrash />
-        </Button>
-        <br />
-        <br />
-      </TitleBox>
       <CardPadding>
-        <CardFlexContainer>
-          {data?.map((client) => {
-            return (
-              <AuthorizationsCard
-                client={client}
-                key={client.grantedAt.toString()}
-              />
-            );
-          })}
-        </CardFlexContainer>
+        <TitleBox>
+          <h3>Authorizations manager</h3>
+          <p>
+            This is the list of the authorized applications in your account (
+            {data?.length})
+          </p>
+        </TitleBox>
+        <ButtonGroup>
+          <Button onClick={() => refetch()}>
+            Refresh <BiRefresh />
+          </Button>
+          <Button onClick={() => deleteAll()}>
+            Revoke all <BiTrash />
+          </Button>
+        </ButtonGroup>
       </CardPadding>
+      <CardFlexContainer>
+        {data?.map((client) => {
+          return (
+            <AuthorizationsCard
+              client={client}
+              key={client.grantedAt.toString()}
+            />
+          );
+        })}
+      </CardFlexContainer>
     </>
   );
 };
