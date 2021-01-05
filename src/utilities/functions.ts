@@ -1,5 +1,5 @@
 import { ServerResponse } from "utilities/types";
-import { CachedUser } from "../pages/Members/Members";
+import { CachedUser } from "../pages/Members/types";
 
 export function groupBy<T, TR>(
   array: T[],

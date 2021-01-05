@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "axios": "^0.19.2",
+    "graphql": "^15.4.0",
+    "graphql-request": "^3.4.0",
     "loaders.css": "^0.1.2",
     "localforage": "^1.9.0",
     "react": "^16.13.1",

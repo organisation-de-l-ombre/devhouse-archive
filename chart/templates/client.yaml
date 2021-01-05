@@ -22,5 +22,5 @@ spec:
   {{- end -}}
   {{- end }}
   audience:
-    - website
+    - abdera
   tokenEndpointAuthMethod: none

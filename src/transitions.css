@@ -1,5 +1,5 @@
-div, p, span, body {
-    transition: background 500ms;
+div, p, span, body, button {
+    transition: background 250ms;
 }
 
 body {

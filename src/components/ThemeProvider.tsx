@@ -115,7 +115,10 @@ const ThemeProvider = ({
 }: PropsWithChildren<unknown>): ReactElement => {
   const currentTheme = useSelector((state) => state.theme.theme);
   return (
-    <div style={{ height: "100%" }} className={styles[currentTheme]}>
+    <div
+      style={{ height: "100%", display: "flex", flexDirection: "column" }}
+      className={styles[currentTheme]}
+    >
       <Theme theme={themes[currentTheme]}>
         <GlobalTheme />
         {children}

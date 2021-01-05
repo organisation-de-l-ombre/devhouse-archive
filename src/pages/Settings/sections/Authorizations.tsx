@@ -3,9 +3,7 @@
  */
 
 import React, { ReactElement } from "react";
-import { useQuery } from "react-query";
-import axios from "axios";
-import { BiRefresh, BiTrash } from "react-icons/all";
+import { AiOutlineLoading, BiRefresh, BiTrash } from "react-icons/all";
 import { TitleBox } from "../../../components/ui/TitleBox";
 import { Button } from "../../../components/ui/Button";
 import { Loader } from "../../../components/SuspenseLoader";
@@ -16,44 +14,34 @@ import {
   CardPadding,
   CardSection,
 } from "../../../components/ui/Card";
-
-type Authorization = {
-  name: string;
-  id: string;
-  at: string;
-  scopes: string[];
-  audience: string[];
-};
-
-const fetchAuthorizations = async (): Promise<Authorization[]> => {
-  const { data } = await axios.get(
-    "https://developers-house-dev-website-group-abdera.matthieu-dev.xyz/users/consents"
-  );
-  return data;
-};
+import {
+  Client,
+  useAuthorizedApps,
+  useAuthorizedAppsAllDelete,
+  useAuthorizedAppsDeleteMutation,
+} from "../../../hooks/useAuthorizedApps";
+import ButtonGroup from "../../../components/ui/ButtonGroup";
 
 const AuthorizationsCard: React.FC<{
-  client: Authorization;
-  refetch: () => unknown;
-}> = ({ client, refetch }) => {
-  const remove = () => {
-    refetch();
-  };
-  const date = new Date(client.at);
+  client: Client;
+}> = ({ client }) => {
+  const { remove } = useAuthorizedAppsDeleteMutation(client.client_id);
+
+  const date = new Date(client.grantedAt);
   const dateString = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
   return (
     <Card>
       <CardPadding>
         <CardHeader>
-          <b>{client.name || client.id}</b>
+          <b>{client.client_name || client.client_id}</b>
         </CardHeader>
         <CardSection>
           The permission was accorded on {dateString} for the audiences{" "}
-          <code>{client.audience.join(" ")}</code> with the authorizations{" "}
+          <code>{client.audiences.join(" ")}</code> with the authorizations{" "}
           <code>{client.scopes.join(" ")}</code>
         </CardSection>
         <CardSection>
-          <Button onClick={remove}>Revoke</Button>
+          <Button onClick={() => remove()}>Revoke</Button>
         </CardSection>
       </CardPadding>
     </Card>
@@ -61,12 +49,10 @@ const AuthorizationsCard: React.FC<{
 };
 
 const Authorizations = (): ReactElement => {
-  const { data, error, refetch, isFetching } = useQuery(
-    "user-auth",
-    fetchAuthorizations
-  );
+  const { data, error, refetch, isLoading, isFetching } = useAuthorizedApps();
+  const deleteAll = useAuthorizedAppsAllDelete();
 
-  if (isFetching) {
+  if (isLoading) {
     return (
       <TitleBox>
         <Loader />
@@ -82,34 +68,31 @@ const Authorizations = (): ReactElement => {
   }
   return (
     <>
-      <TitleBox>
-        <h3>Authorizations manager</h3>
-        <p>
-          This is the list of the authorized applications in your account (
-          {data?.length})
-        </p>
-        <Button onClick={() => refetch()}>
-          Refresh <BiRefresh />
-        </Button>{" "}
-        <Button onClick={() => refetch()}>
-          Revoke all <BiTrash />
-        </Button>
-        <br />
-        <br />
-      </TitleBox>
       <CardPadding>
-        <CardFlexContainer>
-          {data?.map((client) => {
-            return (
-              <AuthorizationsCard
-                client={client}
-                key={client.at}
-                refetch={refetch}
-              />
-            );
-          })}
-        </CardFlexContainer>
+        <TitleBox>
+          <h3>
+            Authorizations manager{" "}
+            {isFetching && <AiOutlineLoading className="rotate" />}
+          </h3>
+          <p>
+            This is the list of the authorized applications in your account (
+            {data?.length})
+          </p>
+        </TitleBox>
+        <ButtonGroup>
+          <Button onClick={() => !isFetching && refetch()}>
+            Refresh <BiRefresh />
+          </Button>
+          <Button onClick={() => deleteAll()}>
+            Revoke all <BiTrash />
+          </Button>
+        </ButtonGroup>
       </CardPadding>
+      <CardFlexContainer>
+        {data?.map((client) => {
+          return <AuthorizationsCard client={client} key={client.grantedAt} />;
+        })}
+      </CardFlexContainer>
     </>
   );
 };

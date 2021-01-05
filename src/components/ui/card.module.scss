@@ -1,13 +1,10 @@
 .card {
   background-color: var(--background-secondary);
-  border-radius: 7px;
+  border-radius: 5px;
   overflow: hidden;
   flex: 1;
   flex-direction: column;
-  box-shadow: var(--background-hover-secondary) 0 0 7px;
-  .padding {
-    padding: 1.5rem;
-  }
+  box-shadow: var(--background-hover-secondary) 0 0 3px;
   .header {
     vertical-align: center;
     display: inline-flex;
@@ -22,11 +19,14 @@
   }
 }
 
+.padding {
+  padding: 1rem;
+}
+
 .container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
   margin: 0.5rem;
   .card {
     margin: 5px;
