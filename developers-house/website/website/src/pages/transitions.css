@@ -5,11 +5,11 @@
 
 .fade-enter.fade-enter-active {
     opacity: 1;
-    transition: opacity 250ms ease-in;
+    transition: opacity 500ms ease-in;
 }
-.fade-exit {
-    opacity: 0;
-    display: none;
+.fade-exit-active {
+    transform: scale(0);
+    display: none !important;
 }
 
 @keyframes Spin {
@@ -22,5 +22,5 @@
 }
 
 .rotate {
-    animation: Spin 300ms infinite;
+    animation: Spin 500ms infinite;
 }

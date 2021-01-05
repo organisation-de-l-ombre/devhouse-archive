@@ -1,0 +1,30 @@
+.wrapper {
+  display: flex;
+  flex-flow: row wrap;
+  padding: 1vw;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr auto;
+  grid-gap: 10px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  div h2,
+  p {
+    word-break: break-word;
+  }
+}
+
+.svgContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.emote {
+  height: 32px;
+  display: inline-block;
+  transform: translateY(8px);
+}
