@@ -5,7 +5,7 @@ import { useHistory } from "react-router";
 
 const NotFoundBase = styled.div`
   display: grid;
-  height: 100vh;
+  height: 100%;
 `;
 
 const NotFoundContent = styled.div`
