@@ -649,6 +649,13 @@ module.exports = function (webpackEnv) {
                         options: {
                             cacheName: 'discord-avatar-cache'
                         }
+                    },
+                    {
+                        urlPattern: /^https:\/\/s3\.developershouse\.xyz/,
+                        handler: 'StaleWhileRevalidate',
+                        options: {
+                            cacheName: "dh-cdn"
+                        }
                     }
                 ]
             }),

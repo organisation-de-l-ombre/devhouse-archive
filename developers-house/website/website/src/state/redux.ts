@@ -17,6 +17,7 @@ import { DefaultRootState } from "react-redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { PersistConfig } from "redux-persist/es/types";
 import { modules } from "./modules";
+import { GlobalGraphQLClient } from "../constants";
 
 const persistConfig: PersistConfig<DefaultRootState> = {
   key: "root",
@@ -67,6 +68,13 @@ export function createState(): { store: Store; persistor: Persistor } {
     defaultState as DefaultRootState,
     callCompose
   );
+
+  store.subscribe(() => {
+    GlobalGraphQLClient.setHeader(
+      "Authorization",
+      `Bearer ${store.getState().user.token}`
+    );
+  });
 
   initStateWithPrevTab(store);
 

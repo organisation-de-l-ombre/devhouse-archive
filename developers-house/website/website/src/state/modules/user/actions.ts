@@ -25,6 +25,10 @@ function makeId(length: number): string {
 let clientIdPromise: Promise<void> | null = null;
 let clientId: string | null = null;
 
+export function getClientId(): string | null {
+  return clientId;
+}
+
 async function fetchClientId() {
   const { id } = await fetch("/.oauth.json").then((r) => r.json());
   clientId = id;
@@ -57,7 +61,7 @@ async function getTokenWithPopup(): Promise<string> {
   if (!clientId) throw new Error("Failed to get the client id.");
 
   const redirect = `${document.location.protocol}//${document.location.host}/callback`;
-  const apiAudience = "website";
+  const apiAudience = "abdera";
 
   const scopes = ["account.*"].join(" ");
 

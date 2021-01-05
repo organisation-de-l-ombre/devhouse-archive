@@ -15,6 +15,16 @@
   display: none;
 }
 
+@media screen and (max-width: 700px) {
+  .onlyMobiles {
+    display: block;
+  }
+  .exceptMobile {
+    display: none !important;
+  }
+}
+
+
 .container {
   top: 0;
   width: 100%;
@@ -25,7 +35,7 @@
   flex-flow: row;
   box-shadow: var(--background-hover-primary) 0 0 10px;
 
-  @media screen and (max-width: 640px) {
+  @media screen and (max-width: 700px) {
     flex-flow: column wrap;
     .drawer {
       display: none;

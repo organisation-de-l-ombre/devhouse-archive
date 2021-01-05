@@ -6,7 +6,6 @@
   background-color: var(--background-primary);
 
   color: var(--foreground-primary);
-  transition: background-color 0.5s;
 
   &:hover {
     background-color: var(--background-hover-primary);
@@ -35,6 +34,8 @@
   flex-flow: row wrap;
   border-radius: 5px;
   overflow: hidden;
+  box-shadow: var(--background-hover-secondary) 0 0 3px;
+
   a {
     min-width: fit-content;
     flex: 1;

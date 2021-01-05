@@ -1,0 +1,59 @@
+.header {
+  height: unset;
+  flex: 1;
+}
+
+.leftNav {
+  flex: 1;
+  flex-wrap: nowrap;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+.masterNav {
+  display: flex;
+  flex: 1;
+  height: 100%;
+}
+
+.full {
+  margin: 1rem 0 1rem 1rem;
+  max-width: 25vw;
+  flex: 1;
+  display: flex;
+}
+
+.content {
+  flex: 1;
+  height: 100%;
+}
+
+.card {
+  width: 20rem;
+  border-radius: 0;
+  left: -100%;
+  transition: left 500ms;
+  z-index: 3;
+  background-color: var(--background-secondary);
+}
+
+@media screen and (max-width: 700px) {
+  .card {
+    min-width: 100%;
+    height: 100%;
+    position: fixed;
+  }
+}
+
+.open {
+  left: 0;
+  transition: left 500ms, opacity 500ms;
+  opacity: 1;
+}
+
+.list {
+  display: flex;
+  flex-flow: column nowrap;
+  margin-top: 5%;
+}
