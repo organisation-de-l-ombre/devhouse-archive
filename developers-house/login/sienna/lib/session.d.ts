@@ -13,9 +13,14 @@ interface RegisterSession {
 }
 
 interface ConsentSession {
+    consentChallenge: string;
     scopes: string[];
     audiences: string[];
     user: object;
+}
+
+interface LogoutSession {
+    logoutChallenge: string;
 }
 
 export default interface Session extends SessionData {
@@ -23,6 +28,7 @@ export default interface Session extends SessionData {
     login?: LoginSession;
     register?: RegisterSession;
     consent?: ConsentSession;
+    logout?: LogoutSession;
 }
 
 declare module 'http' {
