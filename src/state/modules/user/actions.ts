@@ -25,7 +25,7 @@ function makeId(length: number): string {
 let clientIdPromise: Promise<void> | null = null;
 let clientId: string | null = null;
 
-export function getClientId() {
+export function getClientId(): string | null {
   return clientId;
 }
 
