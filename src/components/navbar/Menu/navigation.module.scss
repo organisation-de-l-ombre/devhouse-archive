@@ -15,18 +15,26 @@
   display: none;
 }
 
+@media screen and (max-width: 700px) {
+  .onlyMobiles {
+    display: block;
+  }
+  .exceptMobile {
+    display: none !important;
+  }
+}
+
 .container {
   top: 0;
   width: 100%;
   z-index: 4;
-  position: absolute;
   background-color: var(--background-primary);
   vertical-align: middle;
   display: flex;
   flex-flow: row;
   box-shadow: var(--background-hover-primary) 0 0 10px;
 
-  @media screen and (max-width: 640px) {
+  @media screen and (max-width: 700px) {
     flex-flow: column wrap;
     .drawer {
       display: none;

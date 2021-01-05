@@ -1,0 +1,35 @@
+.header {
+  min-height: unset;
+  flex: 1;
+}
+
+.leftNav {
+  margin: 0.5rem;
+  flex: 1;
+}
+
+.masterNav {
+  display: flex;
+  flex: 1;
+  height: 100%;
+}
+
+.full {
+  margin: 1rem;
+  max-width: 30vw;
+  flex: 1;
+  display: flex;
+  .leftNav {
+    flex-wrap: nowrap;
+    flex-direction: column;
+  }
+}
+
+.content {
+  flex: 1;
+  height: 100%;
+}
+
+.card {
+  height: auto;
+}

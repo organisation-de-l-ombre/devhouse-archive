@@ -27,7 +27,7 @@ const Wrapper = styled.div`
   .ignore-overflow {
     overflow: hidden;
   }
-  height: 100%;
+  flex: 1;
 `;
 
 const AboutPage = React.lazy(() => import("./About/About"));
