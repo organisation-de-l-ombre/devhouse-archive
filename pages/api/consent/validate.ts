@@ -31,6 +31,8 @@ async function handler(
             uuid: undefined,
           },
         },
+        remember_for: 3600 * 24,
+        remember: true,
       }).then(validateHydraResponse);
       res.redirect(data.redirect_to);
       return;
