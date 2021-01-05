@@ -2,7 +2,7 @@
  * The Error page displayed to the user when the website crashes.
  */
 
-import React, { FC, ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { Route, Switch, useRouteMatch } from "react-router";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -15,10 +15,7 @@ import Support from "./sections/Support";
 import styles from "./settings.module.scss";
 import NotFound from "../NotFound/NotFound";
 import UserAvatarStatus from "../../components/ui/UserAvatarStatus";
-import {
-  ExceptMobile,
-  OnlyMobiles,
-} from "../../components/navbar/Menu/OnlyMobiles";
+import { OnlyMobiles } from "../../components/navbar/Menu/OnlyMobiles";
 
 const Settings = (): ReactElement => {
   const match = useRouteMatch();

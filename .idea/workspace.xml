@@ -19,24 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fix the build">
-      <change afterPath="$PROJECT_DIR$/src/pages/Members/member.module.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Members/types.ts" afterDir="false" />
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fix the transitions &amp; new navigation for the user panel">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/navbar/Menu/navigation.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navbar/Menu/navigation.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/UserAvatarStatus.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/UserAvatarStatus.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/button.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/button.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Members/MemberDisplay.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Members/MemberDisplay.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Members/Members.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Members/Members.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Members/MembersDisplay.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Navigator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Navigator.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Settings/Settings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Settings/Settings.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Settings/sections/Account.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Settings/sections/Account.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Settings/sections/Authorizations.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Settings/sections/Authorizations.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Settings/settings.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Settings/settings.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/transitions.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/transitions.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transitions.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/transitions.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilities/functions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilities/functions.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,14 +100,7 @@
       <workItem from="1609785493355" duration="7509000" />
       <workItem from="1609797623237" duration="1660000" />
       <workItem from="1609832693498" duration="103000" />
-      <workItem from="1609841410064" duration="21953000" />
-    </task>
-    <task id="LOCAL-00005" summary="Bad design: Fix 1: Redesign the cards, basic restructure.">
-      <created>1605015098717</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1605015098717</updated>
+      <workItem from="1609841410064" duration="22267000" />
     </task>
     <task id="LOCAL-00006" summary="Fix test error: Unused groupBy.">
       <created>1605016830501</created>
@@ -460,7 +438,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609857863451</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="Fix the transitions &amp; new navigation for the user panel">
+      <created>1609873291830</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1609873291830</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -479,7 +464,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fixes in the navigation and in the notifications" />
     <MESSAGE value="Add a link to the projects" />
     <MESSAGE value="Add oauth client" />
     <MESSAGE value="Fix the react build warning" />
@@ -504,7 +488,8 @@
     <MESSAGE value="Add caching for s3" />
     <MESSAGE value="Add logout" />
     <MESSAGE value="Fix the build" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix the build" />
+    <MESSAGE value="Fix the transitions &amp; new navigation for the user panel" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix the transitions &amp; new navigation for the user panel" />
   </component>
   <component name="WindowStateProjectService">
     <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607236205403">
@@ -527,10 +512,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="168" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1609742123843" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1609857864485">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1609873298914">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609857864485" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609873298914" />
     <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
     <state x="777" y="474" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606297428811">
       <screen x="0" y="40" width="1920" height="1040" />
