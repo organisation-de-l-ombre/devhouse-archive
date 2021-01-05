@@ -5,27 +5,13 @@ export const UserTokenReceived = "USER_TOKEN_RECEIVED";
 export const UserFetched = "USER_FETCHED";
 export const UserLogout = "USER_LOGOUT";
 
-type LinkedAccount = {
-  id: string;
-  user: User;
-  providerColumn: string;
-  providerName: string;
-};
-
-type Badge = {
-  id: string;
-  icon: string;
-  name: string;
-  rarity: number;
-};
-
 export type User = {
-  id: string;
-  accounts?: LinkedAccount[];
-  badges?: Badge[];
-  avatar?: string;
-  publicAccount?: boolean;
+  avatar: string;
   username: string;
+  dataCollection: boolean;
+  sub: string;
+  private: boolean;
+  premium: boolean;
 };
 
 export interface UserState {
