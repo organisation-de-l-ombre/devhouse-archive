@@ -19,8 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fix the build">
-      <change beforePath="$PROJECT_DIR$/config/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/config/webpack.config.js" afterDir="false" />
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Add caching for s3">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useAuthorizedApps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useAuthorizedApps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/state/modules/user/actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/state/modules/user/actions.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,14 +101,7 @@
       <workItem from="1609785493355" duration="7509000" />
       <workItem from="1609797623237" duration="1660000" />
       <workItem from="1609832693498" duration="103000" />
-      <workItem from="1609841410064" duration="8868000" />
-    </task>
-    <task id="LOCAL-00002" summary="Edit members.tsx to call the api">
-      <created>1604850114018</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1604850114018</updated>
+      <workItem from="1609841410064" duration="11637000" />
     </task>
     <task id="LOCAL-00003" summary="Members display fix">
       <created>1604923839405</created>
@@ -444,7 +439,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609849997885</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="Add caching for s3">
+      <created>1609850335263</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1609850335263</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -463,7 +465,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Made startup script executable" />
     <MESSAGE value="New navbar improvements" />
     <MESSAGE value="Fixes in the navigation and in the notifications" />
     <MESSAGE value="Add a link to the projects" />
@@ -488,17 +489,18 @@
     <MESSAGE value="Some fixes in the ui" />
     <MESSAGE value="Fix with the auth &amp; animation system" />
     <MESSAGE value="Fix the build" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix the build" />
+    <MESSAGE value="Add caching for s3" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add caching for s3" />
   </component>
   <component name="WindowStateProjectService">
     <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607236205403">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1607236205403" />
-    <state x="242" y="239" key="#com.intellij.ide.util.MemberChooser" timestamp="1607246444299">
+    <state x="242" y="239" key="#com.intellij.ide.util.MemberChooser" timestamp="1609854826911">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="242" y="239" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1607246444299" />
+    <state x="242" y="239" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1609854826911" />
     <state x="690" y="307" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1605801418805">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
@@ -511,10 +513,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="168" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1609742123843" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1609849998985">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1609850342428">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609849998985" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609850342428" />
     <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
     <state x="777" y="474" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606297428811">
       <screen x="0" y="40" width="1920" height="1040" />

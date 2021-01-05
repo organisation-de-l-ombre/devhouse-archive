@@ -9,7 +9,11 @@ import {
   useQueryClient,
 } from "react-query";
 import { gql } from "graphql-request";
+import { useDispatch } from "react-redux";
+import { useCallback } from "react";
 import { GlobalGraphQLClient } from "../constants";
+import { getClientId, logoutUser } from "../state/modules/user/actions";
+import { pushNotification } from "../state/modules/notifications";
 
 const authorizedApps = gql`
   query {
@@ -29,6 +33,20 @@ export type Client = {
   grantedAt: string;
   audiences: string[];
   scopes: string[];
+};
+
+const useCriticalError = () => {
+  const dispatch = useDispatch();
+  return useCallback(() => {
+    dispatch(
+      pushNotification({
+        level: "error",
+        text: "You got logged out. Your session expired.",
+        time: 5000,
+      })
+    );
+    dispatch(logoutUser());
+  }, [dispatch]);
 };
 
 const requestAuthorizedApps = async () => {
@@ -68,7 +86,10 @@ mutation {
 };
 
 export const useAuthorizedApps = (): QueryObserverResult<Client[], unknown> => {
-  return useQuery("authorized_apps", requestAuthorizedApps);
+  const criticalError = useCriticalError();
+  return useQuery("authorized_apps", requestAuthorizedApps, {
+    onError: criticalError,
+  });
 };
 
 export const useAuthorizedAppsDeleteMutation = (
@@ -77,6 +98,7 @@ export const useAuthorizedAppsDeleteMutation = (
   remove: UseMutateFunction<number>;
 } => {
   const client = useQueryClient();
+  const criticalError = useCriticalError();
   const { mutate } = useMutation<number>(
     "delete_authorized_apps",
     () => deleteAuthorizedApp(authorizedApp),
@@ -90,8 +112,14 @@ export const useAuthorizedAppsDeleteMutation = (
           return [];
         });
       },
+      onSuccess() {
+        if (getClientId() === authorizedApp) {
+          criticalError();
+        }
+      },
       onError(err, variables, previousValue) {
         client.setQueryData("authorized_apps", previousValue);
+        criticalError();
       },
     }
   );
@@ -102,6 +130,7 @@ export const useAuthorizedAppsDeleteMutation = (
 };
 
 export const useAuthorizedAppsAllDelete = (): UseMutateFunction => {
+  const criticalError = useCriticalError();
   const client = useQueryClient();
   const { mutate } = useMutation<number>(
     "delete_all_authorized_apps",
@@ -115,6 +144,10 @@ export const useAuthorizedAppsAllDelete = (): UseMutateFunction => {
       },
       onError(err, variables, previousValue) {
         client.setQueryData("authorized_apps", previousValue);
+        criticalError();
+      },
+      onSuccess() {
+        criticalError();
       },
     }
   );
