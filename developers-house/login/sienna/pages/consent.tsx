@@ -73,10 +73,32 @@ export async function getServerSideProps(context: GetServerSidePropsContext): Pr
         subject,
       requested_scope,
         requested_access_token_audience,
+        skip
     } = await AdminAPI.getConsentRequest(consentChallenge).then(validateHydraResponse);
 
     const user = await fetch(`${process.env.SCARLET_ENDPOINT}/api/users/${subject}`)
         .then (x => x.json());
+    if (skip) {
+
+      const data = await AdminAPI.acceptConsentRequest(consentChallenge, {
+        grant_scope: requested_scope,
+        grant_access_token_audience: requested_access_token_audience,
+        session: {
+          id_token: {
+            ...user,
+            ban: undefined,
+            uuid: undefined,
+          },
+        },
+      }).then(validateHydraResponse);
+
+      return {
+        redirect: {
+          permanent: false,
+          destination: data.redirect_to,
+        },
+      };
+    }
 
     // Load the session.
     await applySession(req as any, res, options);

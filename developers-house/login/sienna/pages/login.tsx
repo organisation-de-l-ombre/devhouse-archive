@@ -65,9 +65,24 @@ export async function getServerSideProps(context: GetServerSidePropsContext): Pr
     const {
       client: { client_name, client_id },
       request_url,
+        skip,
+        subject
     } = await AdminAPI.getLoginRequest(
       context.query.login_challenge as string
     ).then(validateHydraResponse);
+
+    if (skip) {
+      const data = await AdminAPI.acceptLoginRequest(loginChallenge, {
+        subject,
+      }).then(validateHydraResponse);
+
+      return {
+        redirect: {
+          destination: data.redirect_to,
+          permanent: false,
+        },
+      };
+    }
 
     const colorScheme = new URL(request_url).searchParams.get('cs');
 
