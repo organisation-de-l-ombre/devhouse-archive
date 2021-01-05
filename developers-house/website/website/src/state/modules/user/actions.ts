@@ -25,6 +25,10 @@ function makeId(length: number): string {
 let clientIdPromise: Promise<void> | null = null;
 let clientId: string | null = null;
 
+export function getClientId() {
+  return clientId;
+}
+
 async function fetchClientId() {
   const { id } = await fetch("/.oauth.json").then((r) => r.json());
   clientId = id;
