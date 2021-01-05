@@ -19,9 +19,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fix with the auth &amp; animation system">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Navigator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Navigator.tsx" afterDir="false" />
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fix the build">
+      <change beforePath="$PROJECT_DIR$/config/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/config/webpack.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,14 +99,7 @@
       <workItem from="1609785493355" duration="7509000" />
       <workItem from="1609797623237" duration="1660000" />
       <workItem from="1609832693498" duration="103000" />
-      <workItem from="1609841410064" duration="8539000" />
-    </task>
-    <task id="LOCAL-00001" summary="new style and ux/ui improvements">
-      <created>1602854984402</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1602854984402</updated>
+      <workItem from="1609841410064" duration="8868000" />
     </task>
     <task id="LOCAL-00002" summary="Edit members.tsx to call the api">
       <created>1604850114018</created>
@@ -445,7 +437,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609849535215</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="Fix the build">
+      <created>1609849997884</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1609849997885</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -480,7 +479,6 @@
     <MESSAGE value="Fix the size of the avatar picture" />
     <MESSAGE value="Add the avatar to the account page" />
     <MESSAGE value="Remove unused text" />
-    <MESSAGE value="Fix the build" />
     <MESSAGE value="Change the scopes" />
     <MESSAGE value="Change the client name" />
     <MESSAGE value="Add basic management with graphql" />
@@ -489,7 +487,8 @@
     <MESSAGE value="New navigation for the user space" />
     <MESSAGE value="Some fixes in the ui" />
     <MESSAGE value="Fix with the auth &amp; animation system" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix with the auth &amp; animation system" />
+    <MESSAGE value="Fix the build" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix the build" />
   </component>
   <component name="WindowStateProjectService">
     <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607236205403">
@@ -512,10 +511,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="168" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1609742123843" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1609849539067">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1609849998985">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609849539067" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609849998985" />
     <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
     <state x="777" y="474" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606297428811">
       <screen x="0" y="40" width="1920" height="1040" />
