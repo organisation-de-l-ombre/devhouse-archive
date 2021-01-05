@@ -8,6 +8,7 @@ WORKDIR /usr/src/app
 
 # Installing dependencies
 COPY package*.json /usr/src/app/
+COPY .snyk .snyk
 RUN yarn
 
 # Copying source files
