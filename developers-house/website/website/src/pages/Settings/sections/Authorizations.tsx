@@ -3,7 +3,7 @@
  */
 
 import React, { ReactElement } from "react";
-import { BiRefresh, BiTrash } from "react-icons/all";
+import { AiOutlineLoading, BiRefresh, BiTrash } from "react-icons/all";
 import { TitleBox } from "../../../components/ui/TitleBox";
 import { Button } from "../../../components/ui/Button";
 import { Loader } from "../../../components/SuspenseLoader";
@@ -46,7 +46,7 @@ const AuthorizationsCard: React.FC<{
 };
 
 const Authorizations = (): ReactElement => {
-  const { data, error, refetch, isLoading } = useAuthorizedApps();
+  const { data, error, refetch, isLoading, isFetching } = useAuthorizedApps();
   const deleteAll = useAuthorizedAppsAllDelete();
 
   if (isLoading) {
@@ -67,14 +67,17 @@ const Authorizations = (): ReactElement => {
     <>
       <CardPadding>
         <TitleBox>
-          <h3>Authorizations manager</h3>
+          <h3>
+            Authorizations manager{" "}
+            {isFetching && <AiOutlineLoading className="rotate" />}
+          </h3>
           <p>
             This is the list of the authorized applications in your account (
             {data?.length})
           </p>
         </TitleBox>
         <ButtonGroup>
-          <Button onClick={() => refetch()}>
+          <Button onClick={() => !isFetching && refetch()}>
             Refresh <BiRefresh />
           </Button>
           <Button onClick={() => deleteAll()}>
@@ -83,16 +86,8 @@ const Authorizations = (): ReactElement => {
         </ButtonGroup>
       </CardPadding>
       <CardFlexContainer>
-        {data?.map((client, i) => {
-          return (
-            <>
-              <AuthorizationsCard
-                client={client}
-                key={client.grantedAt.toString()}
-              />
-              {i !== data?.length - 1 && <hr style={{ flex: 1 }} />}
-            </>
-          );
+        {data?.map((client) => {
+          return <AuthorizationsCard client={client} key={client.grantedAt} />;
         })}
       </CardFlexContainer>
     </>

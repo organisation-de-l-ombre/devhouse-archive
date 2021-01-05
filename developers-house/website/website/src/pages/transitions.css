@@ -1,14 +1,26 @@
-.slide-enter {
+.fade-enter {
     opacity: 0;
+    z-index: 1;
 }
-.slide-enter-active {
+
+.fade-enter.fade-enter-active {
     opacity: 1;
-    transition: opacity 300ms ease-in-out;
+    transition: opacity 250ms ease-in;
 }
-.slide-exit {
+.fade-exit {
     opacity: 0;
+    display: none;
 }
-.slide-exit-active {
-    opacity: 0;
-    transition: opacity 300ms 300ms ease-in-out;
+
+@keyframes Spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.rotate {
+    animation: Spin 300ms infinite;
 }

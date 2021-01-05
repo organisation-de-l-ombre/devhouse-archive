@@ -19,15 +19,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="New navigation for the user space">
-      <change afterPath="$PROJECT_DIR$/src/pages/navigator.module.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/transitions.css" afterDir="false" />
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Some fixes in the ui">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/card.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/card.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Members/MemberDisplay.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Members/MemberDisplay.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/Button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/Button.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Navigator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Navigator.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/NotFound/NotFound.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/NotFound/NotFound.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Settings/sections/Authorizations.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Settings/sections/Authorizations.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Settings/settings.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Settings/settings.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/transitions.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/transitions.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +104,7 @@
       <workItem from="1609785493355" duration="7509000" />
       <workItem from="1609797623237" duration="1660000" />
       <workItem from="1609832693498" duration="103000" />
-      <workItem from="1609841410064" duration="4019000" />
+      <workItem from="1609841410064" duration="8069000" />
     </task>
     <task id="LOCAL-00001" summary="new style and ux/ui improvements">
       <created>1602854984402</created>
@@ -437,7 +435,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609844554034</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="Some fixes in the ui">
+      <created>1609845456742</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1609845456742</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -456,7 +461,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add fcgiwrap" />
     <MESSAGE value="Add startup.sh" />
     <MESSAGE value="Made startup script executable" />
     <MESSAGE value="New navbar improvements" />
@@ -481,7 +485,8 @@
     <MESSAGE value="Change the token audience" />
     <MESSAGE value="Add the mutations" />
     <MESSAGE value="New navigation for the user space" />
-    <option name="LAST_COMMIT_MESSAGE" value="New navigation for the user space" />
+    <MESSAGE value="Some fixes in the ui" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some fixes in the ui" />
   </component>
   <component name="WindowStateProjectService">
     <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607236205403">
@@ -504,10 +509,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="168" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1609742123843" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1609844556064">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1609845457838">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609844556064" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609845457838" />
     <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
     <state x="777" y="474" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606297428811">
       <screen x="0" y="40" width="1920" height="1040" />

@@ -6,11 +6,12 @@ export type SimplifiedHTMLProperties<T> = React.DetailedHTMLProps<
   T
 > & { variant?: string };
 
-const Button: React.FC<SimplifiedHTMLProperties<HTMLButtonElement>> = ({
-  className,
-  variant,
-  ...props
-}) => (
+const Button: React.FC<
+  React.DetailedHTMLProps<
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > & { variant?: string }
+> = ({ className, variant, ...props }) => (
   <button
     className={[className, styles.button, styles[`button__${variant}`]].join(
       " "
