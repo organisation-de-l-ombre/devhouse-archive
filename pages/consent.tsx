@@ -107,6 +107,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext): Pr
       user: user,
       scopes: requested_scope,
       audiences: requested_access_token_audience,
+      consentChallenge,
     };
     // Return the scopes for the request.
     return {
