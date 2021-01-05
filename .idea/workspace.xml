@@ -19,17 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-<<<<<<< HEAD
     <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Change the scopes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/navbar/Menu/navigation.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navbar/Menu/navigation.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Projects/Projects.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Projects/Projects.tsx" afterDir="false" />
-=======
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fix the transitions &amp; new navigation for the user panel">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Settings/Settings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Settings/Settings.tsx" afterDir="false" />
->>>>>>> dee4603c8cd3082bdbb858e90b38003ee3fdffc6
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,13 +58,30 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="settings.editor.selected.configurable" value="terminal" />
-    <property name="ts.external.directory.path" value="C:\Users\Matthieu\Desktop\Developement\website-repo\node_modules\typescript\lib" />
+    <property name="ts.external.directory.path" value="C:\Users\Kylian\Desktop\Dossier Dev\Developers House\website\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Matthieu\Desktop\Developement\website-repo\src\components" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.start" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -106,7 +115,6 @@
       <workItem from="1609527163693" duration="14000" />
       <workItem from="1609737695979" duration="12293000" />
       <workItem from="1609751333552" duration="15954000" />
-<<<<<<< HEAD
       <workItem from="1609785493355" duration="474000" />
       <workItem from="1609876210896" duration="131000" />
       <workItem from="1609876358893" duration="74000" />
@@ -145,12 +153,6 @@
       <option name="presentableId" value="LOCAL-00005" />
       <option name="project" value="LOCAL" />
       <updated>1605015098717</updated>
-=======
-      <workItem from="1609785493355" duration="7509000" />
-      <workItem from="1609797623237" duration="1660000" />
-      <workItem from="1609832693498" duration="103000" />
-      <workItem from="1609841410064" duration="22267000" />
->>>>>>> dee4603c8cd3082bdbb858e90b38003ee3fdffc6
     </task>
     <task id="LOCAL-00006" summary="Fix test error: Unused groupBy.">
       <created>1605016830501</created>
@@ -411,91 +413,7 @@
       <option name="project" value="LOCAL" />
       <updated>1609785880146</updated>
     </task>
-    <task id="LOCAL-00043" summary="Change the client name">
-      <created>1609785982112</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1609785982112</updated>
-    </task>
-    <task id="LOCAL-00044" summary="Add basic management with graphql">
-      <created>1609796701092</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1609796701092</updated>
-    </task>
-    <task id="LOCAL-00045" summary="Change the token audience">
-      <created>1609797664521</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1609797664521</updated>
-    </task>
-    <task id="LOCAL-00046" summary="Add the mutations">
-      <created>1609798651926</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1609798651926</updated>
-    </task>
-    <task id="LOCAL-00047" summary="New navigation for the user space">
-      <created>1609844554034</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1609844554034</updated>
-    </task>
-    <task id="LOCAL-00048" summary="Some fixes in the ui">
-      <created>1609845456742</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1609845456742</updated>
-    </task>
-    <task id="LOCAL-00049" summary="Fix with the auth &amp; animation system">
-      <created>1609849535215</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1609849535215</updated>
-    </task>
-    <task id="LOCAL-00050" summary="Fix the build">
-      <created>1609849997884</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1609849997885</updated>
-    </task>
-    <task id="LOCAL-00051" summary="Add caching for s3">
-      <created>1609850335263</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1609850335263</updated>
-    </task>
-    <task id="LOCAL-00052" summary="Add logout">
-      <created>1609855587316</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1609855587316</updated>
-    </task>
-    <task id="LOCAL-00053" summary="Fix the build">
-      <created>1609857863451</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1609857863451</updated>
-    </task>
-    <task id="LOCAL-00054" summary="Fix the transitions &amp; new navigation for the user panel">
-      <created>1609873291830</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1609873291830</updated>
-    </task>
-    <option name="localTasksCounter" value="55" />
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -514,6 +432,16 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="Fix the gitlab ci for helm and postgres" />
+    <MESSAGE value="Fix deployment of help chart" />
+    <MESSAGE value="Navigation changes &amp; login implementation" />
+    <MESSAGE value="Fix warnings" />
+    <MESSAGE value="Fix the error page" />
+    <MESSAGE value="Add fcgiwrap" />
+    <MESSAGE value="Add startup.sh" />
+    <MESSAGE value="Made startup script executable" />
+    <MESSAGE value="New navbar improvements" />
+    <MESSAGE value="Fixes in the navigation and in the notifications" />
     <MESSAGE value="Add a link to the projects" />
     <MESSAGE value="Add oauth client" />
     <MESSAGE value="Fix the react build warning" />
@@ -527,71 +455,12 @@
     <MESSAGE value="Fix the size of the avatar picture" />
     <MESSAGE value="Add the avatar to the account page" />
     <MESSAGE value="Remove unused text" />
-    <MESSAGE value="Change the scopes" />
-    <MESSAGE value="Change the client name" />
-    <MESSAGE value="Add basic management with graphql" />
-    <MESSAGE value="Change the token audience" />
-    <MESSAGE value="Add the mutations" />
-    <MESSAGE value="New navigation for the user space" />
-    <MESSAGE value="Some fixes in the ui" />
-    <MESSAGE value="Fix with the auth &amp; animation system" />
-    <MESSAGE value="Add caching for s3" />
-    <MESSAGE value="Add logout" />
     <MESSAGE value="Fix the build" />
-    <MESSAGE value="Fix the transitions &amp; new navigation for the user panel" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix the transitions &amp; new navigation for the user panel" />
+    <MESSAGE value="Change the scopes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Change the scopes" />
   </component>
-<<<<<<< HEAD
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
     <select />
-=======
-  <component name="WindowStateProjectService">
-    <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607236205403">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1607236205403" />
-    <state x="242" y="239" key="#com.intellij.ide.util.MemberChooser" timestamp="1609854826911">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="242" y="239" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1609854826911" />
-    <state x="690" y="307" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1605801418805">
-      <screen x="0" y="40" width="1920" height="1040" />
-    </state>
-    <state x="690" y="307" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.40.1920.1040@0.40.1920.1040" timestamp="1605801418805" />
-    <state x="666" y="481" width="598" height="158" key="GitCloneDialog" timestamp="1606147743113">
-      <screen x="0" y="40" width="1920" height="1040" />
-    </state>
-    <state x="666" y="481" width="598" height="158" key="GitCloneDialog/0.40.1920.1040@0.40.1920.1040" timestamp="1606147743113" />
-    <state x="0" y="168" key="SettingsEditor" timestamp="1609742123843">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="0" y="168" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1609742123843" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1609873298914">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609873298914" />
-    <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
-    <state x="777" y="474" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606297428811">
-      <screen x="0" y="40" width="1920" height="1040" />
-    </state>
-    <state x="777" y="474" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606297428811" />
-    <state x="719" y="273" key="git4idea.branch.GitSmartOperationDialog" timestamp="1606295619091">
-      <screen x="0" y="40" width="1920" height="1040" />
-    </state>
-    <state x="719" y="273" key="git4idea.branch.GitSmartOperationDialog/0.40.1920.1040@0.40.1920.1040" timestamp="1606295619091" />
-    <state x="114" y="244" key="run.anything.popup" timestamp="1607240354370">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="114" y="244" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1607240354370" />
-    <state x="752" y="418" key="scopes" timestamp="1605804413848">
-      <screen x="0" y="40" width="1920" height="1040" />
-    </state>
-    <state x="752" y="418" key="scopes/0.40.1920.1040@0.40.1920.1040" timestamp="1605804413848" />
-    <state x="121" y="230" width="672" height="678" key="search.everywhere.popup" timestamp="1607239581082">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="121" y="230" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1607239581082" />
->>>>>>> dee4603c8cd3082bdbb858e90b38003ee3fdffc6
   </component>
 </project>

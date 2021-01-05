@@ -1,0 +1,26 @@
+.top-text-margin { margin: 1rem; }
+
+.projects-container {
+    margin: 2rem;
+    flex-direction: column;
+    align-content: center;
+}
+
+.card-container {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    max-width: 60rem;
+    text-align: center;
+}
+
+.text { margin: 2rem 0 .5rem 0; }
+
+.members-global-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.h3-margin { margin-bottom: 1rem; }
+
+.members-container { margin: 1rem; }
