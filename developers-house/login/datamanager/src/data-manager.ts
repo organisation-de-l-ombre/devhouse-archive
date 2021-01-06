@@ -64,6 +64,7 @@ export class DataManager {
                     Key: `${data.uuid}/${data.user}/${this.serviceName}.json`,
                     ContentType: "application/json",
                     Body: returned,
+                    ContentLength: returned.length,
                 }, (err, data) => {
                     if (err) {
                         rej(err);
