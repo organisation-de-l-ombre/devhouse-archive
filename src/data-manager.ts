@@ -58,18 +58,27 @@ export class DataManager {
             }));
             exchange.send(msg, 'takeout.callback.' + data.uuid);
             const returned = await this.functions.provide(data.user);
-            S3client.putObject({
-                Bucket: "takeouts",
-                Key: `${data.uuid}/${data.user}/${this.serviceName}.json`,
-                ContentType: "application/json",
-                Body: returned,
-            });
-            msg = new RabbitMQ.Message(JSON.stringify({
-                uuid: data.uuid,
-                status: 'finished',
-                name: this.serviceName,
-            }));
-            exchange.send(msg, 'takeout.callback.' + data.uuid);
+            await new Promise((acc, rej) => {
+                S3client.putObject({
+                    Bucket: "takeouts",
+                    Key: `${data.uuid}/${data.user}/${this.serviceName}.json`,
+                    ContentType: "application/json",
+                    Body: returned,
+                }, (err, data) => {
+                    if (err) {
+                        rej(err);
+                        return;
+                    }
+                    acc(data);
+                });
+            }).then((object) => {
+                msg = new RabbitMQ.Message(JSON.stringify({
+                    uuid: data.uuid,
+                    status: 'finished',
+                    name: this.serviceName,
+                }));
+                exchange.send(msg, 'takeout.callback.' + data.uuid);
+            }).catch(console.log);
         }
     }
 }
