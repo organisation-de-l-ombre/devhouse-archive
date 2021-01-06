@@ -17,6 +17,7 @@ import (
 	"go.developers-house.xyz/login-group/cryir/server"
 	"log"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -204,15 +205,25 @@ func (s *ImplementedApiService) statusUpdate() {
 					continue
 				}
 
-				f, err := zipper.Create(fmt.Sprintf("takeout/%s", *file.Key))
+				f, err := zipper.Create(fmt.Sprintf("takeout/%s", strings.Replace(*file.Key, prefix, "", 1)))
 				if logIfError(err, "Failed to push the file to the zip.") {
 					continue
 				}
 
 				_, err = f.Write(fs.Bytes())
 				if logIfError(err, "Failed to write to the zip") {
-
+					continue
 				}
+			}
+
+			deleter := s3manager.NewBatchDeleteWithClient(&s.s3)
+			err = deleter.Delete(ctx, s3manager.NewDeleteListIterator(&s.s3, &s3.ListObjectsInput{
+				Prefix: &prefix,
+				Bucket: aws.String("takeouts"),
+			}))
+
+			if logIfError(err, "Failed to delete the files") {
+				return
 			}
 
 			err = zipper.Close()
@@ -229,6 +240,12 @@ func (s *ImplementedApiService) statusUpdate() {
 			if logIfError(err, "Failed to upload the file") {
 				return
 			}
+			req, _ := s.s3.GetObjectRequest(&s3.GetObjectInput{
+				Bucket: aws.String("takeouts-final"),
+				Key:    aws.String(request.UUID + ".zip"),
+			})
+			url, err := req.Presign(7 * 24 * 60 * time.Minute)
+			s.redis.Set(requestContext, fmt.Sprintf("cryir:takeout-result:%s:%s", request.User, request.UUID), url, 7*24*60*time.Minute)
 		} else {
 			/* 4. We save the new state in redis. */
 			err = s.redis.Set(requestContext, fmt.Sprintf("cryir:takeout:%s", incomingServiceStatus.Uuid), string(bytes), time.Hour).Err()
@@ -306,4 +323,16 @@ func (s *ImplementedApiService) RequestsRequestGet(request string) (interface{},
 	}
 
 	return data, nil
+}
+
+func (s *ImplementedApiService) RequestGetUserLinks(userId string) (interface{}, error) {
+	requestContext, _ := context.WithTimeout(ctx, time.Millisecond*500)
+	keys := s.redis.Keys(requestContext, "cryir:takeout-result:"+userId+":*")
+	array := make([]string, len(keys.Val()))
+	i := 0
+	for _, val := range keys.Val() {
+		array[i] = s.redis.Get(requestContext, val).Val()
+		i++
+	}
+	return array, nil
 }

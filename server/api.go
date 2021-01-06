@@ -19,6 +19,7 @@ import (
 type DefaultApiRouter interface {
 	RequestsPost(http.ResponseWriter, *http.Request)
 	RequestsRequestGet(http.ResponseWriter, *http.Request)
+	RequestGetUserLinks(http.ResponseWriter, *http.Request)
 }
 
 // DefaultApiServicer defines the api actions for the DefaultApi service
@@ -28,4 +29,5 @@ type DefaultApiRouter interface {
 type DefaultApiServicer interface {
 	RequestsPost(string) (interface{}, error)
 	RequestsRequestGet(string) (interface{}, error)
+	RequestGetUserLinks(string) (interface{}, error)
 }
