@@ -1,1 +1,1 @@
-export * from './data-manager';
+export * as DataManager from './data-manager';
