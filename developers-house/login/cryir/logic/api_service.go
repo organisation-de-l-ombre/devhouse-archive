@@ -97,6 +97,7 @@ func NewImplementedApiService(amqp *amqp.Channel, redis *redis.Client) server.De
 	sess := session.Must(session.NewSession())
 	cl := s3.New(sess, &aws.Config{
 		S3ForcePathStyle: aws.Bool(true),
+		Region:           aws.String("us-east-1"),
 		Endpoint:         aws.String(fmt.Sprintf("http://%s:%s", os.Getenv("TAKEOUT_BUCKET_HOST"), os.Getenv("TAKEOUT_BUCKET_PORT"))),
 	})
 	inst := ImplementedApiService{
