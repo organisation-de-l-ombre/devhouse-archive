@@ -3,3 +3,7 @@ include:
 
 variables:
   AUTO_DEVOPS_BUILD_IMAGE_EXTRA_ARGS: "--build-arg CI_JOB_TOKEN"
+
+test:
+  before_script:
+    - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}">>.npmrc
