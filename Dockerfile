@@ -1,7 +1,10 @@
 FROM node as build
+ARG CI_JOB_TOKEN
+
 WORKDIR /build
 COPY package.json .
 COPY .npmrc .
+RUN echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}">.npmrc
 RUN npm i
 COPY . .
 RUN npm run build
