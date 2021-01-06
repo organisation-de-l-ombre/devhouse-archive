@@ -1,10 +1,5 @@
 include:
   - template: Auto-DevOps.gitlab-ci.yml
 
-build:
-  before_script:
-    - npm ci --cache .npm --prefer-offline
-    - |
-      {
-        echo "${CI_API_V4_URL#https?}/packages/npm/:_authToken=\${CI_JOB_TOKEN}"
-      } | tee --append .npmrc
+variables:
+  AUTO_DEVOPS_BUILD_IMAGE_EXTRA_ARGS: "--build-arg CI_JOB_TOKEN"
