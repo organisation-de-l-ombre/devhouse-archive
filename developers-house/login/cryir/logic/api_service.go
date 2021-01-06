@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
@@ -95,7 +96,12 @@ func NewImplementedApiService(amqp *amqp.Channel, redis *redis.Client) server.De
 		os.Exit(1)
 	}
 	sess := session.Must(session.NewSession())
+
 	cl := s3.New(sess, &aws.Config{
+		Credentials: credentials.NewStaticCredentialsFromCreds(credentials.Value{
+			AccessKeyID:     os.Getenv("TAKEOUT_AWS_ACCESS_KEY_ID"),
+			SecretAccessKey: os.Getenv("TAKEOUT_AWS_SECRET_ACCESS_KEY"),
+		}),
 		S3ForcePathStyle: aws.Bool(true),
 		Region:           aws.String("us-east-1"),
 		Endpoint:         aws.String(fmt.Sprintf("http://%s:%s", os.Getenv("TAKEOUT_BUCKET_HOST"), os.Getenv("TAKEOUT_BUCKET_PORT"))),
