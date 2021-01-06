@@ -18,7 +18,7 @@ export default class DataManager {
         exchange: string;
     } = {
         amqp: process.env.RABBITMQ_HOST as string,
-        exchange: 'takeout_request_created_topic'
+        exchange: 'takeout_request'
     }) {}
 
     public async start () {
@@ -36,7 +36,7 @@ export default class DataManager {
         } = JSON.parse(message.getContent());
         // Uuid is the id of the bucket and userId is the id of the user.
         // We check if data is available.
-        const exchange = this.connection?.declareExchange('takeout-callback', 'topic');
+        const exchange = this.connection?.declareExchange('takeout_callback', 'topic');
         if (exchange && await this.functions.checkIfDataAvailable(data.userId)) {
             // Status.
             let msg = new RabbitMQ.Message(JSON.stringify({
