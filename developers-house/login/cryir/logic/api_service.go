@@ -327,7 +327,7 @@ func (s *ImplementedApiService) RequestsRequestGet(request string) (interface{},
 
 func (s *ImplementedApiService) RequestGetUserLinks(userId string) (interface{}, error) {
 	requestContext, _ := context.WithTimeout(ctx, time.Millisecond*500)
-	keys := s.redis.Keys(requestContext, "cryir:takeout-result:"+userId+":*")
+	keys := s.redis.Keys(requestContext, fmt.Sprintf("cryir:takeout-result:%s:*", userId))
 	array := make([]string, len(keys.Val()))
 	i := 0
 	for _, val := range keys.Val() {
