@@ -59,7 +59,7 @@ export class DataManager {
             exchange.send(msg, 'takeout.callback.' + data.uuid);
             const returned = await this.functions.provide(data.user);
             await new Promise((acc, rej) => {
-                S3client.putObject({
+                S3client.upload({
                     Bucket: "takeouts",
                     Key: `${data.uuid}/${data.user}/${this.serviceName}.json`,
                     ContentType: "application/json",
