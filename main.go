@@ -27,7 +27,7 @@ func main() {
 
 	client := redis.NewFailoverClient(&redis.FailoverOptions{
 		SentinelAddrs: []string{
-			os.Getenv("REDIS_HOST"),
+			os.Getenv("REDIS_HOST") + ":" + os.Getenv("REDIS_PORT"),
 		},
 		SentinelPassword: os.Getenv("REDIS_PASSWORD"), // no password set
 		DB:               0,                           // use default DB
