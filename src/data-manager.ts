@@ -26,19 +26,19 @@ export class DataManager {
         this.queue = this.connection.declareQueue(this.serviceName);
         await this.queue.activateConsumer(this.onMessage.bind(this));
         this.exchange = this.connection.declareExchange(this.options.exchange);
-        await this.queue.bind(this.exchange);
+        await this.queue.bind(this.exchange, 'cryir.takeout_request.create');
     }
 
     private async onMessage(message: RabbitMQ.Message) {
         const data: {
-            userId: string;
+            user: string;
             uuid: string;
         } = JSON.parse(message.content.toString());
         console.log(message.content.toString());
         // Uuid is the id of the bucket and userId is the id of the user.
         // We check if data is available.
         const exchange = this.connection?.declareExchange('takeout_callback', 'topic');
-        if (exchange && await this.functions.checkIfDataAvailable(data.userId)) {
+        if (exchange && await this.functions.checkIfDataAvailable(data.user)) {
             // Status.
             let msg = new RabbitMQ.Message(JSON.stringify({
                 uuid: data.uuid,
@@ -47,7 +47,7 @@ export class DataManager {
             }));
             exchange.send(msg, 'takeout.callback.' + data.uuid);
             // TODO: Upload to s3.
-            const returned = await this.functions.provide(data.userId);
+            const returned = await this.functions.provide(data.user);
             msg = new RabbitMQ.Message(JSON.stringify({
                 uuid: data.uuid,
                 status: 'finished',
