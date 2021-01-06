@@ -1,2 +1,8 @@
 include:
   - template: Auto-DevOps.gitlab-ci.yml
+
+test:
+  image: golang
+  script:
+    - go get -d -v ./...
+    - go test
