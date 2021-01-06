@@ -105,7 +105,7 @@ func NewImplementedApiService(amqp *amqp.Channel, redis *redis.Client) server.De
 		}),
 		S3ForcePathStyle: aws.Bool(true),
 		Region:           aws.String("us-east-1"),
-		Endpoint:         aws.String("https://s3.developershouse.xyz:443"),
+		Endpoint:         aws.String(fmt.Sprintf("http://%s:%s", os.Getenv("TAKEOUT_BUCKET_HOST"), os.Getenv("TAKEOUT_BUCKET_PORT"))),
 	})
 	inst := ImplementedApiService{
 		amqp:    amqp,
@@ -240,7 +240,19 @@ func (s *ImplementedApiService) statusUpdate() {
 			if logIfError(err, "Failed to upload the file") {
 				return
 			}
-			req, _ := s.s3.GetObjectRequest(&s3.GetObjectInput{
+			sess := session.Must(session.NewSession())
+
+			sign := s3.New(sess, &aws.Config{
+				Credentials: credentials.NewStaticCredentialsFromCreds(credentials.Value{
+					AccessKeyID:     os.Getenv("TAKEOUT_AWS_ACCESS_KEY_ID"),
+					SecretAccessKey: os.Getenv("TAKEOUT_AWS_SECRET_ACCESS_KEY"),
+				}),
+				S3ForcePathStyle: aws.Bool(true),
+				Region:           aws.String("us-east-1"),
+				Endpoint:         aws.String("https://s3.developershouse.xyz"),
+			})
+
+			req, _ := sign.GetObjectRequest(&s3.GetObjectInput{
 				Bucket: aws.String("takeouts-final"),
 				Key:    aws.String(request.UUID + ".zip"),
 			})
