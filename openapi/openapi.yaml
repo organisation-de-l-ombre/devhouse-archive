@@ -1,0 +1,64 @@
+openapi: 3.0.0
+info:
+  description: User data aggregator.
+  title: Cryir
+  version: v1
+servers:
+  - url: /
+paths:
+  /requests:
+    post:
+      responses:
+        "200":
+          content:
+            type:
+              schema:
+                $ref: '#/components/schemas/Request'
+          description: The data request was created.
+        "400":
+          description: Bad request.
+      summary: Creates a data request.
+  /requests/{request}:
+    get:
+      parameters:
+        - explode: false
+          in: path
+          name: request
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        "200":
+          content:
+            type:
+              schema:
+                $ref: '#/components/schemas/Request'
+          description: The data request exists and was returned.
+      summary: Gets the status of a request
+  /requests/{request}/finalizers:
+    post:
+      parameters:
+        - explode: false
+          in: path
+          name: request
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        "200":
+          description: The finalizer was registered.
+        "404":
+          description: The request doesn't exist.
+      summary: Register a finalizer for a request.
+components:
+  schemas:
+    Request:
+      properties:
+        status:
+          type: string
+        doneServices:
+          items:
+            type: string
+          type: array
