@@ -9,6 +9,7 @@ import { CachedUser } from "./types";
 import "../transitions.css";
 import styles from "./member.module.scss";
 import { Loader } from "../../components/SuspenseLoader";
+import globalStyles from "../../styles/Global.module.scss";
 
 export default class MembersPage extends PureComponent<
   unknown,
@@ -90,7 +91,10 @@ export default class MembersPage extends PureComponent<
                     timeout={500}
                     key={member.id}
                   >
-                    <MemberDisplay member={member} />
+                    <MemberDisplay
+                      className={globalStyles["card-margin"]}
+                      member={member}
+                    />
                   </CSSTransition>
                 );
               })}

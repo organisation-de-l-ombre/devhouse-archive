@@ -1,12 +1,12 @@
 import { Card, CardFlexContainer, CardPadding } from "components/ui/Card";
 import React, { ReactElement } from "react";
 import Text from "components/ui/Text";
-import ScrollAnimation from "react-animate-on-scroll";
 import ButtonGroup from "components/ui/ButtonGroup";
 import Button from "components/ui/Button";
 import projects from "./projects.temp.json";
 import { TitleBox } from "../../components/ui/TitleBox";
 import styles from "./Projects.module.scss";
+import "animate.css";
 
 export default function ProjectsPage(): ReactElement {
   return (
@@ -24,44 +24,42 @@ export default function ProjectsPage(): ReactElement {
           .sort((a, b) => a.name.localeCompare(b.name))
           .map((project) => {
             return (
-              <ScrollAnimation animateIn="fadeIn" animateOnce>
-                <Card className={styles["card-container"]}>
-                  <CardPadding>
-                    <h2>{project.name}</h2>
-                    <hr />
-                    <Text className={styles.text}>{project.description}</Text>
+              <Card className={styles["card-container"]}>
+                <CardPadding>
+                  <h2>{project.name}</h2>
+                  <hr />
+                  <Text className={styles.text}>{project.description}</Text>
 
-                    <div className={styles["members-global-container"]}>
-                      <div className={styles["members-container"]}>
-                        <h3 className={styles["h3-margin"]}>
-                          Project manager
-                          {project.managers.length > 1 ? "s" : ""}
-                        </h3>
-                        <ButtonGroup>
-                          {project.managers
-                            .sort((a, b) => a.localeCompare(b))
-                            .map((member) => {
-                              return <Button>{member}</Button>;
-                            })}
-                        </ButtonGroup>
-                      </div>
-                      <div className={styles["members-container"]}>
-                        <h3 className={styles["h3-margin"]}>
-                          Project member
-                          {project.members.length > 1 ? "s" : ""}
-                        </h3>
-                        <ButtonGroup>
-                          {project.members
-                            .sort((a, b) => a.localeCompare(b))
-                            .map((member) => {
-                              return <Button>{member}</Button>;
-                            })}
-                        </ButtonGroup>
-                      </div>
+                  <div className={styles["members-global-container"]}>
+                    <div className={styles["members-container"]}>
+                      <h3 className={styles["h3-margin"]}>
+                        Project manager
+                        {project.managers.length > 1 ? "s" : ""}
+                      </h3>
+                      <ButtonGroup>
+                        {project.managers
+                          .sort((a, b) => a.localeCompare(b))
+                          .map((member) => {
+                            return <Button>{member}</Button>;
+                          })}
+                      </ButtonGroup>
                     </div>
-                  </CardPadding>
-                </Card>
-              </ScrollAnimation>
+                    <div className={styles["members-container"]}>
+                      <h3 className={styles["h3-margin"]}>
+                        Project member
+                        {project.members.length > 1 ? "s" : ""}
+                      </h3>
+                      <ButtonGroup>
+                        {project.members
+                          .sort((a, b) => a.localeCompare(b))
+                          .map((member) => {
+                            return <Button>{member}</Button>;
+                          })}
+                      </ButtonGroup>
+                    </div>
+                  </div>
+                </CardPadding>
+              </Card>
             );
           })}
       </CardFlexContainer>

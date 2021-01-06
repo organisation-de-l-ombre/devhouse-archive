@@ -21,6 +21,7 @@ import {
   useAuthorizedAppsDeleteMutation,
 } from "../../../hooks/useAuthorizedApps";
 import ButtonGroup from "../../../components/ui/ButtonGroup";
+import globalStyles from "../../../styles/Global.module.scss";
 
 const AuthorizationsCard: React.FC<{
   client: Client;
@@ -30,7 +31,7 @@ const AuthorizationsCard: React.FC<{
   const date = new Date(client.grantedAt);
   const dateString = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
   return (
-    <Card>
+    <Card className={globalStyles["card-margin"]}>
       <CardPadding>
         <CardHeader>
           <b>{client.client_name || client.client_id}</b>
