@@ -230,12 +230,14 @@ func (s *ImplementedApiService) statusUpdate() {
 			if logIfError(err, "Failed to close the zipper") {
 				return
 			}
-
+			expire := time.Now()
+			expire.Add(time.Hour * 24 * 7)
 			uploader := s3manager.NewUploaderWithClient(&s.s3)
 			_, err = uploader.Upload(&s3manager.UploadInput{
-				Body:   &zipfs,
-				Bucket: aws.String("takeouts-final"),
-				Key:    aws.String(request.UUID + ".zip"),
+				Body:    &zipfs,
+				Bucket:  aws.String("takeouts-final"),
+				Key:     aws.String(request.UUID + ".zip"),
+				Expires: &expire,
 			})
 			if logIfError(err, "Failed to upload the file") {
 				return
