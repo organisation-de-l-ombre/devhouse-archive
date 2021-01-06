@@ -42,6 +42,7 @@ export default class DataManager {
             let msg = new RabbitMQ.Message(JSON.stringify({
                 uuid: data.uuid,
                 status: 'found',
+                name: this.serviceName,
             }));
             exchange.send(msg, 'takeout.callback.' + data.uuid);
             // TODO: Upload to s3.
@@ -49,6 +50,7 @@ export default class DataManager {
             msg = new RabbitMQ.Message(JSON.stringify({
                 uuid: data.uuid,
                 status: 'finished',
+                name: this.serviceName,
             }));
             exchange.send(msg, 'takeout.callback.' + data.uuid);
         }
