@@ -52,7 +52,7 @@ func (c *DefaultApiController) Routes() Routes {
 		{
 			"RequestGetUserLinks",
 			strings.ToUpper("Get"),
-			"/requests/{userId}",
+			"/requests/user/{userId}",
 			c.RequestGetUserLinks,
 		},
 	}
