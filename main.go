@@ -10,15 +10,30 @@
 package main
 
 import (
+	redis "github.com/go-redis/redis/v8"
+	"github.com/streadway/amqp"
+	"go.developers-house.xyz/login-group/cryir/logic"
 	"go.developers-house.xyz/login-group/cryir/server"
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
 	log.Printf("Server started")
 
-	DefaultApiService := server.NewDefaultApiService()
+	conn, _ := amqp.Dial(os.Getenv("RABBITMQ_HOST"))
+	ch, _ := conn.Channel()
+
+	client := redis.NewFailoverClient(&redis.FailoverOptions{
+		SentinelAddrs: []string{
+			os.Getenv("REDIS_HOST"),
+		},
+		SentinelPassword: os.Getenv("REDIS_PASSWORD"), // no password set
+		DB:               0,                           // use default DB
+	})
+
+	DefaultApiService := logic.NewImplementedApiService(ch, client)
 	DefaultApiController := server.NewDefaultApiController(DefaultApiService)
 
 	router := server.NewRouter(DefaultApiController)

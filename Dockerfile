@@ -1,6 +1,7 @@
-FROM golang AS build
+FROM golang:1.10 AS build
 WORKDIR /go/src
-COPY . .
+COPY server ./server
+COPY main.go .
 
 ENV CGO_ENABLED=0
 RUN go get -d -v ./...

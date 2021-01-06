@@ -13,4 +13,6 @@ type Request struct {
 	Status string `json:"status,omitempty"`
 
 	DoneServices []string `json:"doneServices,omitempty"`
+
+	Url string `json:"url,omitempty"`
 }

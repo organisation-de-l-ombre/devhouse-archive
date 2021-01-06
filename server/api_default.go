@@ -36,6 +36,12 @@ func (c *DefaultApiController) Routes() Routes {
 			c.RequestsPost,
 		},
 		{
+			"RequestsRequestFinalizersPatch",
+			strings.ToUpper("Patch"),
+			"/requests/{request}/finalizers",
+			c.RequestsRequestFinalizersPatch,
+		},
+		{
 			"RequestsRequestFinalizersPost",
 			strings.ToUpper("Post"),
 			"/requests/{request}/finalizers",
@@ -47,12 +53,37 @@ func (c *DefaultApiController) Routes() Routes {
 			"/requests/{request}",
 			c.RequestsRequestGet,
 		},
+		{
+			"Healz",
+			"GET",
+			"/_healz",
+			func(writer http.ResponseWriter, request *http.Request) {
+				writer.Write([]byte("OK"))
+			},
+		},
 	}
 }
 
 // RequestsPost - Creates a data request.
 func (c *DefaultApiController) RequestsPost(w http.ResponseWriter, r *http.Request) {
-	result, err := c.service.RequestsPost()
+	query := r.URL.Query()
+	userId := query.Get("userId")
+	result, err := c.service.RequestsPost(userId)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+
+	EncodeJSONResponse(result, nil, w)
+}
+
+// RequestsRequestFinalizersPatch - Updates the status of a finalizer
+func (c *DefaultApiController) RequestsRequestFinalizersPatch(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	query := r.URL.Query()
+	request := params["request"]
+	finished := query.Get("finished")
+	result, err := c.service.RequestsRequestFinalizersPatch(request, finished == "true")
 	if err != nil {
 		w.WriteHeader(500)
 		return

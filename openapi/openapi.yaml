@@ -8,6 +8,12 @@ servers:
 paths:
   /requests:
     post:
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           content:
@@ -52,9 +58,31 @@ paths:
         "404":
           description: The request doesn't exist.
       summary: Register a finalizer for a request.
+    patch:
+      parameters:
+        - explode: false
+          in: path
+          name: request
+          required: true
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: query
+          name: finished
+          schema:
+            type: boolean
+          style: simple
+      responses:
+        "200":
+          description: The finalizer status was updated.
+        "404":
+          description: The request doesn't exist.
+      summary: Updates the status of a finalizer
 components:
   schemas:
     Request:
+      type: object
       properties:
         status:
           type: string
@@ -62,3 +90,6 @@ components:
           items:
             type: string
           type: array
+        url:
+          oneOf:
+            - type: string
