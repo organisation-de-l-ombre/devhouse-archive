@@ -49,6 +49,12 @@ func (c *DefaultApiController) Routes() Routes {
 				writer.Write([]byte("OK"))
 			},
 		},
+		{
+			"RequestGetUserLinks",
+			strings.ToUpper("Get"),
+			"/requests/{userId}",
+			c.RequestGetUserLinks,
+		},
 	}
 }
 
@@ -70,6 +76,19 @@ func (c *DefaultApiController) RequestsRequestGet(w http.ResponseWriter, r *http
 	params := mux.Vars(r)
 	request := params["request"]
 	result, err := c.service.RequestsRequestGet(request)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+
+	EncodeJSONResponse(result, nil, w)
+}
+
+// RequestsRequestGet - Gets the status of a request
+func (c *DefaultApiController) RequestGetUserLinks(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	request := params["request"]
+	result, err := c.service.RequestGetUserLinks(request)
 	if err != nil {
 		w.WriteHeader(500)
 		return
