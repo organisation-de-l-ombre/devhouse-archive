@@ -10,7 +10,7 @@ import { loginUser } from "../../state/modules/user/actions";
 import { NavigationContainer } from "./Menu/MenuContainer";
 import { DrawerContent } from "./Menu/DrawerContent";
 import styles from "./Menu/navigation.module.scss";
-import UserAvatarStatus from "../ui/UserAvatarStatus";
+import UserAvatarStatus from "../ui/UserAvatarStatus/UserAvatarStatus";
 
 export function Menu(): ReactElement {
   const [open, setOpen] = useState<boolean>(false);

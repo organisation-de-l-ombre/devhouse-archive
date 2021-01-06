@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./card.module.scss";
-import { SimplifiedHTMLProperties } from "./Button";
+import { SimplifiedHTMLProperties } from "../Button/Button";
 
 export const Card: React.FC<SimplifiedHTMLProperties<HTMLImageElement>> = ({
   className,

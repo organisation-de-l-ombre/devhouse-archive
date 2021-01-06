@@ -8,13 +8,11 @@
   display: flex;
   flex-flow: column nowrap;
   margin-top: 1rem;
-  span {
-    margin-bottom: 0.5rem;
-  }
+
+  span { margin-bottom: 0.5rem; }
+
   input {
-    margin-bottom: 0.5rem;
-  }
-  p {
-    color: #EE0011;
-  }
+    margin-bottom: 0.5rem; }
+
+  p { color: #EE0011; }
 }

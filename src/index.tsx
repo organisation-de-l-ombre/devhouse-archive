@@ -7,7 +7,7 @@
 import React, { ReactElement } from "react";
 import ReactDOM from "react-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-import SuspenseLoader from "./components/SuspenseLoader";
+import SuspenseLoader from "./components/SuspenseLoader/SuspenseLoader";
 import "./transitions.css";
 
 const Root = React.lazy(() => import("Root"));

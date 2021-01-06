@@ -4,23 +4,23 @@
 
 import React, { ReactElement } from "react";
 import { AiOutlineLoading, BiRefresh, BiTrash } from "react-icons/all";
-import { TitleBox } from "../../../components/ui/TitleBox";
-import { Button } from "../../../components/ui/Button";
-import { Loader } from "../../../components/SuspenseLoader";
+import { TitleBox } from "../../../components/ui/TitleBox/TitleBox";
+import { Button } from "../../../components/ui/Button/Button";
+import { Loader } from "../../../components/SuspenseLoader/SuspenseLoader";
 import {
   Card,
   CardFlexContainer,
   CardHeader,
   CardPadding,
   CardSection,
-} from "../../../components/ui/Card";
+} from "../../../components/ui/Card/Card";
 import {
   Client,
   useAuthorizedApps,
   useAuthorizedAppsAllDelete,
   useAuthorizedAppsDeleteMutation,
 } from "../../../hooks/useAuthorizedApps";
-import ButtonGroup from "../../../components/ui/ButtonGroup";
+import ButtonGroup from "../../../components/ui/Button/ButtonGroup";
 import globalStyles from "../../../styles/Global.module.scss";
 
 const AuthorizationsCard: React.FC<{

@@ -1,6 +1,6 @@
-export * as Button from "./Button";
-export * as ButtonGroup from "./ButtonGroup";
-export * as Card from "./Card";
-export * as TitleBox from "./TitleBox";
-export * as UserAvatarWithStatus from "./UserAvatarStatus";
-export * as Text from "./Text";
+export * as Button from "./Button/Button";
+export * as ButtonGroup from "./Button/ButtonGroup";
+export * as Card from "./Card/Card";
+export * as TitleBox from "./TitleBox/TitleBox";
+export * as UserAvatarWithStatus from "./UserAvatarStatus/UserAvatarStatus";
+export * as Text from "./Text/Text";

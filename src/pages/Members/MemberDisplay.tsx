@@ -1,6 +1,6 @@
 import React, { ComponentProps, ReactElement } from "react";
-import { Card, CardPadding } from "components/ui/Card";
-import UserAvatarStatus from "components/ui/UserAvatarStatus";
+import { Card, CardPadding } from "components/ui/Card/Card";
+import UserAvatarStatus from "components/ui/UserAvatarStatus/UserAvatarStatus";
 import { getAvatar, statusToColor } from "../../utilities";
 import { CachedUser } from "./types";
 import styles from "./member.module.scss";

@@ -12,7 +12,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { useDispatch, useSelector } from "react-redux";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { pushNotification } from "../state/modules/notifications";
-import SuspenseLoader from "../components/SuspenseLoader";
+import SuspenseLoader from "../components/SuspenseLoader/SuspenseLoader";
 import NotFound from "./NotFound/NotFound";
 import styles from "./navigator.module.scss";
 import MembersPage from "./Members/Members";

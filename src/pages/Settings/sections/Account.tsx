@@ -5,15 +5,15 @@
 import React, { FC, ReactElement } from "react";
 import { Formik } from "formik";
 import { useSelector } from "react-redux";
-import Button from "components/ui/Button";
-import { TitleBox } from "../../../components/ui/TitleBox";
+import Button from "components/ui/Button/Button";
+import { TitleBox } from "../../../components/ui/TitleBox/TitleBox";
 import {
   Card,
   CardHeader,
   CardPadding,
   CardSection,
-} from "../../../components/ui/Card";
-import { Input } from "../../../components/ui/Input";
+} from "../../../components/ui/Card/Card";
+import { Input } from "../../../components/ui/Input/Input";
 import styles from "./account.module.scss";
 
 type Form = { username: string; dataCollection: boolean };

@@ -1,6 +1,4 @@
-div, p, span, body, button {
-    transition: background 250ms;
-}
+div, p, span, body, button { transition: background 250ms; }
 
 body {
     font-family: 'Roboto', sans-serif;
@@ -22,9 +20,7 @@ button {
     cursor: pointer;
 }
 
-#root {
-    height: 100vh;
-}
+#root { height: 100vh; }
 
 h1,h2,h3 {
     padding: 0;
