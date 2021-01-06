@@ -2,6 +2,7 @@ package logic
 
 import (
 	"archive/zip"
+	bytes2 "bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -14,7 +15,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/streadway/amqp"
 	"go.developers-house.xyz/login-group/cryir/server"
-	"io"
 	"log"
 	"os"
 	"time"
@@ -188,14 +188,11 @@ func (s *ImplementedApiService) statusUpdate() {
 			if logIfError(err, "Failed to list the files.") {
 				s.redis.Del(requestContext, fmt.Sprintf("cryir:takeout:%s", incomingServiceStatus.Uuid))
 			}
-			zipfs, err := os.Create(fmt.Sprintf("/tmp/%s.zip", request.UUID))
-			zipper := zip.NewWriter(zipfs)
+			zipfs := bytes2.Buffer{}
+			zipper := zip.NewWriter(&zipfs)
 
 			for _, file := range list.Contents {
-				fs, err := os.Create(fmt.Sprintf("/tmp/%s/%s", request.UUID, *file.Key))
-				if err != nil {
-					continue
-				}
+				fs := aws.NewWriteAtBuffer([]byte{})
 
 				downloader := s3manager.NewDownloaderWithClient(&s.s3)
 				_, err = downloader.Download(fs, &s3.GetObjectInput{
@@ -203,26 +200,35 @@ func (s *ImplementedApiService) statusUpdate() {
 					Bucket: aws.String("takeouts"),
 				})
 
-				if err != nil {
+				if logIfError(err, "Failed to download the file") {
 					continue
 				}
+
 				f, err := zipper.Create(fmt.Sprintf("takeout/%s", *file.Key))
-				if err != nil {
+				if logIfError(err, "Failed to push the file to the zip.") {
 					continue
 				}
-				io.Copy(f, fs)
-				fs.Close()
-				os.Remove(fmt.Sprintf("/tmp/%s/%s", request.UUID, *file.Key))
+
+				_, err = f.Write(fs.Bytes())
+				if logIfError(err, "Failed to write to the zip") {
+
+				}
 			}
-			zipper.Close()
-			fs, err := os.Open(fmt.Sprintf("/tmp/%s.zip", request.UUID))
+
+			err = zipper.Close()
+			if logIfError(err, "Failed to close the zipper") {
+				return
+			}
+
 			uploader := s3manager.NewUploaderWithClient(&s.s3)
-			uploader.Upload(&s3manager.UploadInput{
-				Body:   fs,
+			_, err = uploader.Upload(&s3manager.UploadInput{
+				Body:   &zipfs,
 				Bucket: aws.String("takeouts-final"),
 				Key:    aws.String(request.UUID + ".zip"),
 			})
-			os.Remove(fmt.Sprintf("/tmp/%s.zip", request.UUID))
+			if logIfError(err, "Failed to upload the file") {
+				return
+			}
 		} else {
 			/* 4. We save the new state in redis. */
 			err = s.redis.Set(requestContext, fmt.Sprintf("cryir:takeout:%s", incomingServiceStatus.Uuid), string(bytes), time.Hour).Err()
