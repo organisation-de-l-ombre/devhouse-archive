@@ -34,6 +34,7 @@ createConnection().then(async (conn) => {
 
     const manager = new DataManager({
         async checkIfDataAvailable(userId) {
+            console.log('checkIfDataAvailable for', userId);
             const repo = conn.getRepository(User);
             const user = await repo.findOne({
                 where: {
@@ -43,6 +44,7 @@ createConnection().then(async (conn) => {
             return user !== undefined;
         },
         async provide(userId) {
+            console.log('Provided for', userId);
             const repo = conn.getRepository(User);
             const user = await repo.findOne({
                 where: {
