@@ -33,7 +33,8 @@ export class DataManager {
         const data: {
             userId: string;
             uuid: string;
-        } = JSON.parse(message.getContent());
+        } = JSON.parse(message.content.toString());
+        console.log(message.content.toString());
         // Uuid is the id of the bucket and userId is the id of the user.
         // We check if data is available.
         const exchange = this.connection?.declareExchange('takeout_callback', 'topic');
