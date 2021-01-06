@@ -187,7 +187,7 @@ func (s *ImplementedApiService) RequestsPost(userId string) (interface{}, error)
 	// - Broadcast the event.
 
 	err = s.amqp.Publish(
-		"takeout_request_created_topic",
+		"takeout_request",
 		"cryir.takeout_request.create",
 		false,
 		false,
