@@ -29,8 +29,8 @@ func main() {
 		SentinelAddrs: []string{
 			os.Getenv("REDIS_HOST") + ":" + os.Getenv("REDIS_PORT"),
 		},
-		SentinelPassword: os.Getenv("REDIS_PASSWORD"), // no password set
-		DB:               0,                           // use default DB
+		SentinelPassword: os.Getenv("REDIS_PASSWORD"),
+		MasterName:       "mymaster",
 	})
 
 	DefaultApiService := logic.NewImplementedApiService(ch, client)
