@@ -18,6 +18,7 @@ import (
 // pass the data to a DefaultApiServicer to perform the required actions, then write the service results to the http response.
 type DefaultApiRouter interface {
 	RequestsPost(http.ResponseWriter, *http.Request)
+	RequestsRequestFinalizersPatch(http.ResponseWriter, *http.Request)
 	RequestsRequestFinalizersPost(http.ResponseWriter, *http.Request)
 	RequestsRequestGet(http.ResponseWriter, *http.Request)
 }
@@ -27,7 +28,8 @@ type DefaultApiRouter interface {
 // while the service implementation can ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
 type DefaultApiServicer interface {
-	RequestsPost() (interface{}, error)
+	RequestsPost(string) (interface{}, error)
+	RequestsRequestFinalizersPatch(string, bool) (interface{}, error)
 	RequestsRequestFinalizersPost(string) (interface{}, error)
 	RequestsRequestGet(string) (interface{}, error)
 }

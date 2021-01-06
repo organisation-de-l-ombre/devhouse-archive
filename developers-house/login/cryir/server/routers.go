@@ -12,10 +12,7 @@ package server
 import (
 	"encoding/json"
 	"github.com/gorilla/mux"
-	"io/ioutil"
 	"net/http"
-	"os"
-	"strconv"
 )
 
 // A Route defines the parameters for an api endpoint
@@ -64,33 +61,4 @@ func EncodeJSONResponse(i interface{}, status *int, w http.ResponseWriter) error
 	}
 
 	return json.NewEncoder(w).Encode(i)
-}
-
-// ReadFormFileToTempFile reads file data from a request form and writes it to a temporary file
-func ReadFormFileToTempFile(r *http.Request, key string) (*os.File, error) {
-	r.ParseForm()
-	formFile, _, err := r.FormFile(key)
-	if err != nil {
-		return nil, err
-	}
-
-	defer formFile.Close()
-	file, err := ioutil.TempFile("tmp", key)
-	if err != nil {
-		return nil, err
-	}
-
-	defer file.Close()
-	fileBytes, err := ioutil.ReadAll(formFile)
-	if err != nil {
-		return nil, err
-	}
-
-	file.Write(fileBytes)
-	return file, nil
-}
-
-// parseIntParameter parses a sting parameter to an int64
-func parseIntParameter(param string) (int64, error) {
-	return strconv.ParseInt(param, 10, 64)
 }
