@@ -3,7 +3,6 @@ package logic
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"github.com/go-redis/redis/v8"
 	"github.com/google/uuid"
@@ -207,7 +206,23 @@ func (s *ImplementedApiService) RequestsPost(userId string) (interface{}, error)
 
 // RequestsRequestGet - Gets the status of a request
 func (s *ImplementedApiService) RequestsRequestGet(request string) (interface{}, error) {
-	// TODO - update RequestsRequestGet with the required logic for this service method.
-	// Add api_default_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-	return nil, errors.New("service method 'RequestsRequestGet' not implemented")
+	/* 2. We get the state of the takeout in redis */
+	requestContext, _ := context.WithTimeout(ctx, time.Millisecond*500)
+	data := s.redis.Get(requestContext, fmt.Sprintf("cryir:takeout:%s", request))
+	if logIfError(data.Err(), "Failed to load the state of the takeout in redis.") {
+		return nil, data.Err()
+	}
+	/* 2.5. We unmarshal the takeout request state */
+	ent := TakeoutRequest{}
+	// We get the bytes first
+	bytes, err := data.Bytes()
+	if logIfError(err, "Failed to read the body from the state.") {
+		return err, nil
+	}
+	err = json.Unmarshal(bytes, &ent)
+	if logIfError(err, "Failed to unmarshal the text from redis.") {
+		return err, nil
+	}
+
+	return data, nil
 }
