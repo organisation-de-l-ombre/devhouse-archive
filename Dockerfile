@@ -1,9 +1,10 @@
 FROM node as build
 WORKDIR /build
 COPY package.json .
-RUN yarn
+COPY .npmrc .
+RUN npm i
 COPY . .
-RUN yarn build
+RUN npm run build
 RUN cp ormconfig.prod.json build/ormconfig.json
 
 FROM node
