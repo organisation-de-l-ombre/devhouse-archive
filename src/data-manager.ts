@@ -8,7 +8,7 @@ export type Functions = {
 /**
  * @description A DataManager class that communicates with the DataManager service.
  */
-export default class DataManager {
+export class DataManager {
     private connection?: RabbitMQ.Connection;
     private queue?: RabbitMQ.Queue;
     private exchange?: RabbitMQ.Exchange;
