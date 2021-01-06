@@ -173,6 +173,7 @@ func (s *ImplementedApiService) statusUpdate() {
 			prefix := fmt.Sprintf("")
 			list, err := s.s3.ListObjects(&s3.ListObjectsInput{
 				Prefix: &prefix,
+				Bucket: aws.String("takeouts"),
 			})
 			if logIfError(err, "Failed to list the files.") {
 				s.redis.Del(requestContext, fmt.Sprintf("cryir:takeout:%s", incomingServiceStatus.Uuid))
