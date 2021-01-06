@@ -1,13 +1,19 @@
 package logic
 
 import (
+	"archive/zip"
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/s3"
+	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/go-redis/redis/v8"
 	"github.com/google/uuid"
 	"github.com/streadway/amqp"
 	"go.developers-house.xyz/login-group/cryir/server"
+	"io"
 	"log"
 	"os"
 	"time"
@@ -29,6 +35,8 @@ func logIfError(err error, msg string) bool {
 type ImplementedApiService struct {
 	redis     *redis.Client
 	amqp      *amqp.Channel
+	s3        s3.S3
+	session   session.Session
 	callbacks <-chan amqp.Delivery
 }
 
@@ -86,10 +94,16 @@ func NewImplementedApiService(amqp *amqp.Channel, redis *redis.Client) server.De
 	if logIfError(err, "Failed to declare an exchange for the rabbitmq channel.") {
 		os.Exit(1)
 	}
-
+	sess := session.Must(session.NewSession())
+	cl := s3.New(sess, &aws.Config{
+		S3ForcePathStyle: aws.Bool(true),
+		Endpoint:         aws.String(fmt.Sprintf("http://%s:%s", os.Getenv("TAKEOUT_BUCKET_HOST"), os.Getenv("TAKEOUT_BUCKET_PORT"))),
+	})
 	inst := ImplementedApiService{
-		amqp:  amqp,
-		redis: redis,
+		amqp:    amqp,
+		redis:   redis,
+		s3:      *cl,
+		session: *sess,
 	}
 	cha, err := amqp.Consume(queue.Name, "cryir", true, true, true, true, nil)
 	inst.callbacks = cha
@@ -138,12 +152,15 @@ func (s *ImplementedApiService) statusUpdate() {
 
 		/* 3. We edit or add the service to the list with his status. */
 		found := false
+		finished := true
 		for _, service := range request.Services {
 			// If the service exists, we edit it.
 			if service.Name == incomingServiceStatus.Name {
 				found = true
 				service.Status = incomingServiceStatus.Status
-				break
+			}
+			if service.Status != "finished" {
+				finished = false
 			}
 		}
 		// If the service doesn't exists, we register it.
@@ -151,9 +168,55 @@ func (s *ImplementedApiService) statusUpdate() {
 			request.Services = append(request.Services, incomingServiceStatus)
 		}
 
-		/* 4. We save the new state in redis. */
-		err = s.redis.Set(requestContext, fmt.Sprintf("cryir:takeout:%s", incomingServiceStatus.Uuid), string(bytes), time.Hour).Err()
-		logIfError(err, "Failed to save the state in redis.")
+		if finished {
+			prefix := fmt.Sprintf("")
+			list, err := s.s3.ListObjects(&s3.ListObjectsInput{
+				Prefix: &prefix,
+			})
+			if logIfError(err, "Failed to list the files.") {
+				s.redis.Del(requestContext, fmt.Sprintf("cryir:takeout:%s", incomingServiceStatus.Uuid))
+			}
+			zipfs, err := os.Create(fmt.Sprintf("/tmp/%s.zip", request.UUID))
+			zipper := zip.NewWriter(zipfs)
+
+			for _, file := range list.Contents {
+				fs, err := os.Create(fmt.Sprintf("/tmp/%s/%s", request.UUID, *file.Key))
+				if err != nil {
+					continue
+				}
+
+				downloader := s3manager.NewDownloaderWithClient(&s.s3)
+				_, err = downloader.Download(fs, &s3.GetObjectInput{
+					Key:    file.Key,
+					Bucket: aws.String("takeouts"),
+				})
+
+				if err != nil {
+					continue
+				}
+				f, err := zipper.Create(fmt.Sprintf("takeout/%s", *file.Key))
+				if err != nil {
+					continue
+				}
+				io.Copy(f, fs)
+				fs.Close()
+				os.Remove(fmt.Sprintf("/tmp/%s/%s", request.UUID, *file.Key))
+			}
+			zipper.Close()
+			fs, err := os.Open(fmt.Sprintf("/tmp/%s.zip", request.UUID))
+			uploader := s3manager.NewUploaderWithClient(&s.s3)
+			uploader.Upload(&s3manager.UploadInput{
+				Body:   fs,
+				Bucket: aws.String("takeouts-final"),
+				Key:    aws.String(request.UUID + ".zip"),
+			})
+			os.Remove(fmt.Sprintf("/tmp/%s.zip", request.UUID))
+		} else {
+			/* 4. We save the new state in redis. */
+			err = s.redis.Set(requestContext, fmt.Sprintf("cryir:takeout:%s", incomingServiceStatus.Uuid), string(bytes), time.Hour).Err()
+			logIfError(err, "Failed to save the state in redis.")
+		}
+
 	}
 }
 

@@ -3,6 +3,7 @@ module go.developers-house.xyz/login-group/cryir
 go 1.13
 
 require (
+	github.com/aws/aws-sdk-go v1.36.22
 	github.com/go-redis/redis/v8 v8.4.4
 	github.com/google/uuid v1.1.4
 	github.com/gorilla/mux v1.7.3
