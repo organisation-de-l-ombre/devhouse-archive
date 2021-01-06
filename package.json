@@ -12,5 +12,8 @@
   "scripts": {
     "build": "tsc",
     "prepare": "npm run build"
+  },
+  "dependencies": {
+    "amqp-ts": "^1.8.0"
   }
 }
