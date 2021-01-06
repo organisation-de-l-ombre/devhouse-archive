@@ -8,6 +8,8 @@ import {RequestError} from "./utils/RequestError";
 import CreateRedis from "ioredis";
 import * as morgan from 'morgan';
 import RedisMock from 'redis-mock';
+import { DataManager } from '@developers-house/lib-datamanager';
+import {User} from "./entity/User";
 
 const firstRedisNode: { host: string; port: number } = {
     host: process.env["REDIS_HOST"] || 'localhost',
@@ -28,7 +30,30 @@ const provideRedis = () => {
 }
 
 // Starts the server after the database.
-createConnection().then(async () => {
+createConnection().then(async (conn) => {
+
+    const manager = new DataManager({
+        async checkIfDataAvailable(userId) {
+            const repo = conn.getRepository(User);
+            const user = await repo.findOne({
+                where: {
+                    uuid: userId,
+                }
+            });
+            return user !== undefined;
+        },
+        async provide(userId) {
+            const repo = conn.getRepository(User);
+            const user = await repo.findOne({
+                where: {
+                    uuid: userId,
+                }
+            });
+            return Buffer.from(JSON.stringify(user, null, '\t'), 'utf-8');
+        },
+    }, 'scarlet');
+    await manager.start();
+
     const app = express();
 
     const redis = provideRedis();
