@@ -1,10 +1,10 @@
 {
   "name": "@developers-house/lib-datamanager",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "lib/index.js",
-  "files": [
-    "lib"
-  ],
+  "directories": {
+    "lib": "lib"
+  },
   "types": "lib/index.d.ts",
   "repository": "https://gitlab.com/developers-house/dev/lib-datamanager.git",
   "author": "Matthieu <matthieu974fr.pignolet@gmail.com>",
