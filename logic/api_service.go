@@ -153,15 +153,11 @@ func (s *ImplementedApiService) statusUpdate() {
 
 		/* 3. We edit or add the service to the list with his status. */
 		found := false
-		finished := true
 		for _, service := range request.Services {
 			// If the service exists, we edit it.
 			if service.Name == incomingServiceStatus.Name {
 				found = true
 				service.Status = incomingServiceStatus.Status
-			}
-			if service.Status != "finished" {
-				finished = false
 			}
 		}
 		// If the service doesn't exists, we register it.
@@ -169,8 +165,16 @@ func (s *ImplementedApiService) statusUpdate() {
 			request.Services = append(request.Services, incomingServiceStatus)
 		}
 
+		finished := true
+
+		for _, service := range request.Services {
+			if service.Status != "finished" {
+				finished = false
+			}
+		}
+
 		if finished {
-			prefix := fmt.Sprintf("")
+			prefix := fmt.Sprintf("%s/%s", request.UUID, request.User)
 			list, err := s.s3.ListObjects(&s3.ListObjectsInput{
 				Prefix: &prefix,
 				Bucket: aws.String("takeouts"),
