@@ -87,7 +87,7 @@ func (c *DefaultApiController) RequestsRequestGet(w http.ResponseWriter, r *http
 // RequestsRequestGet - Gets the status of a request
 func (c *DefaultApiController) RequestGetUserLinks(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	request := params["request"]
+	request := params["userId"]
 	result, err := c.service.RequestGetUserLinks(request)
 	if err != nil {
 		w.WriteHeader(500)
