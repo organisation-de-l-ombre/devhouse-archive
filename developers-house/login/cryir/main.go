@@ -10,10 +10,9 @@
 package main
 
 import (
+	"go.developers-house.xyz/login-group/cryir/server"
 	"log"
 	"net/http"
-
-	server "go.developers-house.xyz/login-group/cryir/server"
 )
 
 func main() {
