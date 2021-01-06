@@ -1,10 +1,10 @@
-import { Card, CardFlexContainer, CardPadding } from "components/ui/Card";
+import { Card, CardFlexContainer, CardPadding } from "components/ui/Card/Card";
 import React, { ReactElement } from "react";
-import Text from "components/ui/Text";
-import ButtonGroup from "components/ui/ButtonGroup";
-import Button from "components/ui/Button";
+import Text from "components/ui/Text/Text";
+import ButtonGroup from "components/ui/Button/ButtonGroup";
+import Button from "components/ui/Button/Button";
 import projects from "./projects.temp.json";
-import { TitleBox } from "../../components/ui/TitleBox";
+import { TitleBox } from "../../components/ui/TitleBox/TitleBox";
 import styles from "./Projects.module.scss";
 import "animate.css";
 

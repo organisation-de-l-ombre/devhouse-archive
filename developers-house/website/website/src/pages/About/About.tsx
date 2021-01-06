@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { TitleBox } from "components/ui/TitleBox";
+import { TitleBox } from "components/ui/TitleBox/TitleBox";
 
 export default function AboutPage(): ReactElement {
   return (

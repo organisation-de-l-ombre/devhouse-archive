@@ -6,6 +6,7 @@
   align-items: center;
   flex-direction: column;
   text-align: center;
+
   .centered {
     display: flex;
     flex-flow: column;
@@ -15,12 +16,8 @@
 }
 
 .color {
-  div {
-    background-color: var(--foreground-primary);
-  }
+  div { background-color: var(--foreground-primary); }
 }
 
 
-#root {
-  height: 100vh;
-}
+#root { height: 100vh; }

@@ -5,12 +5,14 @@
   flex: 1;
   flex-direction: column;
   box-shadow: var(--background-hover-secondary) 0 0 3px;
+
   .header {
     vertical-align: center;
     display: inline-flex;
     flex-wrap: wrap;
     width: 100%;
   }
+
   .section {
     flex: 1;
     padding-top: 1rem;
@@ -19,19 +21,17 @@
   }
 }
 
-.padding {
-  padding: 1rem;
-}
+.padding { padding: 1rem; }
 
 .container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   margin: 0.5rem;
+
   .card {
     flex: 1 32%;
-    @media screen and (max-width: 1000px) {
-      flex: 1 100%;
-    }
+
+    @media screen and (max-width: 1000px) { flex: 1 100%; }
   }
 }

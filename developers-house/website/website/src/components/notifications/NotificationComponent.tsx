@@ -3,8 +3,8 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { Notification } from "state/modules/notifications";
 import { CSSTransition } from "react-transition-group";
 import { FaWindowClose } from "react-icons/fa";
-import { Button } from "../ui/Button";
-import ButtonGroup from "../ui/ButtonGroup";
+import { Button } from "../ui/Button/Button";
+import ButtonGroup from "../ui/Button/ButtonGroup";
 import styles from "./notifications.module.scss";
 
 type Merde = undefined | (() => void);

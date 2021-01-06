@@ -7,12 +7,8 @@
 
   color: var(--foreground-primary);
 
-  &:hover {
-    background-color: var(--background-hover-primary);
-  }
-  &:disabled {
-    background-color: var(--background-hover-secondary);
-  }
+  &:hover { background-color: var(--background-hover-primary); }
+  &:disabled { background-color: var(--background-hover-secondary); }
 
   .image {
     display: inline;
@@ -27,9 +23,7 @@
   }
 }
 
-.button__no_radius {
-  border-radius: 0;
-}
+.button__no_radius { border-radius: 0; }
 
 
 .group {

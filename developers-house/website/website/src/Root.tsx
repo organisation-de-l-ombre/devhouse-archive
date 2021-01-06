@@ -12,14 +12,14 @@ import { register } from "utilities";
 import { pushNotification } from "state/modules/notifications";
 import { BrowserRouter } from "react-router-dom";
 import { Menu } from "./components/navbar";
-import { Loader } from "./components/SuspenseLoader";
+import { Loader } from "./components/SuspenseLoader/SuspenseLoader";
 
 const { store, persistor } = createState();
 
-const ThemeProvider = React.lazy(() => import("components/ThemeProvider"));
+const ThemeProvider = React.lazy(() => import("components/ThemeProvider/ThemeProvider"));
 const Navigator = React.lazy(() => import("pages/Navigator"));
 const NotificationArea = React.lazy(
-  () => import("components/notifications/NotificationsArea")
+  () => import("components/Notifications/NotificationsArea")
 );
 const ErrorPage = React.lazy(() => import("pages/ErrorPage"));
 

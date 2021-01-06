@@ -1,5 +1,5 @@
 import React from "react";
-import { SimplifiedHTMLProperties } from "./Button";
+import { SimplifiedHTMLProperties } from "../Button/Button";
 import styles from "./title.module.scss";
 
 const TitleBox: React.FC<SimplifiedHTMLProperties<HTMLDivElement>> = ({

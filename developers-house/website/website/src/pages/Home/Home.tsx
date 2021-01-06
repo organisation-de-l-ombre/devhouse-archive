@@ -1,9 +1,9 @@
 import React, { ReactElement } from "react";
 import { FaDiscord } from "react-icons/fa";
 import { RiPencilRuler2Line } from "react-icons/ri";
-import Button, { ButtonImage } from "components/ui/Button";
-import ButtonGroup from "components/ui/ButtonGroup";
-import { TitleBox } from "components/ui/TitleBox";
+import Button, { ButtonImage } from "components/ui/Button/Button";
+import ButtonGroup from "components/ui/Button/ButtonGroup";
+import { TitleBox } from "components/ui/TitleBox/TitleBox";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { BsPeople } from "react-icons/all";

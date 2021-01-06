@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import Button from "components/ui/Button";
+import Button from "components/ui/Button/Button";
 import styled from "styled-components";
 import { useHistory } from "react-router";
 

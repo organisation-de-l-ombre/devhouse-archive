@@ -1,14 +1,14 @@
 import React, { PropsWithRef, PureComponent, ReactElement } from "react";
-import { TitleBox } from "components/ui/TitleBox";
-import { TypeWriter } from "components/TypeWriter";
+import { TitleBox } from "components/ui/TitleBox/TitleBox";
+import { TypeWriter } from "components/TypeWriter/TypeWriter";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { Button } from "../../components/ui/Button";
-import { CardFlexContainer } from "../../components/ui/Card";
+import { Button } from "../../components/ui/Button/Button";
+import { CardFlexContainer } from "../../components/ui/Card/Card";
 import MemberDisplay from "./MemberDisplay";
 import { CachedUser } from "./types";
 import "../transitions.css";
 import styles from "./member.module.scss";
-import { Loader } from "../../components/SuspenseLoader";
+import { Loader } from "../../components/SuspenseLoader/SuspenseLoader";
 import globalStyles from "../../styles/Global.module.scss";
 
 export default class MembersPage extends PureComponent<
