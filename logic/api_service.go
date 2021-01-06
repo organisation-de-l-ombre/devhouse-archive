@@ -205,7 +205,7 @@ func (s *ImplementedApiService) statusUpdate() {
 					continue
 				}
 
-				f, err := zipper.Create(fmt.Sprintf("takeout/%s", strings.Replace(*file.Key, prefix, "", 1)))
+				f, err := zipper.Create(fmt.Sprintf("takeout%s", strings.Replace(*file.Key, prefix, "", 1)))
 				if logIfError(err, "Failed to push the file to the zip.") {
 					continue
 				}
