@@ -43,7 +43,7 @@ func NewImplementedApiService(amqp *amqp.Channel, redis *redis.Client) server.De
 
 	err := amqp.ExchangeDeclare(
 		"takeout_request",
-		"topic",
+		"direct",
 		true,
 		false,
 		false,
