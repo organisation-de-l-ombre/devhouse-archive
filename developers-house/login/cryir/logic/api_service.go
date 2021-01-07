@@ -356,7 +356,7 @@ func (s *ImplementedApiService) RequestsRequestGet(request string) (interface{},
 		return err, nil
 	}
 	ent.Expire = ttl.Seconds()
-	return data, nil
+	return ent, nil
 }
 
 func (s *ImplementedApiService) RequestGetUserLinks(userId string) (interface{}, error) {
