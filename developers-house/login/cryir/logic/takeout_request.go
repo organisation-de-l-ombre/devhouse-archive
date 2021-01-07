@@ -6,14 +6,11 @@ type ServiceStatus struct {
 	Uuid   string `json:"uuid"`
 }
 
-type TakeoutRequest struct {
+type Takeout struct {
 	UUID     string          `json:"uuid"`
+	Link     string          `json:"link"`
+	Expire   float64         `json:"expire"`
 	User     string          `json:"user"`
 	Services []ServiceStatus `json:"services,omitempty"`
-}
-
-type Takeout struct {
-	UUID   string  `json:"uuid"`
-	Link   string  `json:"link"`
-	Expire float64 `json:"expire"`
+	Status   string          `json:"status"`
 }

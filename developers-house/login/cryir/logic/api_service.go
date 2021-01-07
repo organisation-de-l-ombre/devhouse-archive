@@ -146,7 +146,7 @@ func (s *ImplementedApiService) statusUpdate() {
 			continue
 		}
 		/* 2.5. We unmarshal the takeout request state */
-		request := TakeoutRequest{}
+		request := Takeout{}
 		// We get the bytes first
 		bytes, err := data.Bytes()
 		if logIfError(err, "Failed to read the body from the state.") {
@@ -243,7 +243,6 @@ func (s *ImplementedApiService) statusUpdate() {
 				return
 			}
 			sess := session.Must(session.NewSession())
-
 			sign := s3.New(sess, &aws.Config{
 				Credentials: credentials.NewStaticCredentialsFromCreds(credentials.Value{
 					AccessKeyID:     os.Getenv("TAKEOUT_AWS_ACCESS_KEY_ID"),
@@ -258,13 +257,20 @@ func (s *ImplementedApiService) statusUpdate() {
 				Bucket: aws.String("takeouts-final"),
 				Key:    aws.String(request.UUID + ".zip"),
 			})
+
 			url, err := req.Presign(7 * 24 * 60 * time.Minute)
-			s.redis.SAdd(requestContext, fmt.Sprintf("cryir:takeout-result:%s", request.User), request.UUID)
-			s.redis.Set(requestContext, fmt.Sprintf("cryir:takeout-result:val-%s", request.UUID), url, 7*24*60*time.Minute)
-			s.redis.Del(requestContext, fmt.Sprintf("cryir:takeout:%s", request.UUID))
+			request.Link = url
+			request.Status = "finished"
+
+			val, err := json.Marshal(request)
+			if logIfError(err, "Failed to save the request state") {
+				return
+			}
+
+			s.redis.Set(requestContext, fmt.Sprintf("cryir:takeout:%s", request.UUID), val, 7*24*60*time.Minute)
 		} else {
 			val, err := json.Marshal(request)
-			if err != nil {
+			if logIfError(err, "Failed to save the request update state.") {
 				return
 			}
 			/* 4. We save the new state in redis. */
@@ -285,10 +291,13 @@ func (s *ImplementedApiService) RequestsPost(userId string) (interface{}, error)
 	requestUUID := uuid.New().String()
 
 	// - Save the status to the redis cache.
-	requestState := TakeoutRequest{
+	requestState := Takeout{
 		UUID:     requestUUID,
 		User:     userId,
 		Services: make([]ServiceStatus, 0),
+		Expire:   nil,
+		Link:     nil,
+		Status:   "pending",
 	}
 
 	bytes, err := json.Marshal(requestState)
@@ -301,6 +310,7 @@ func (s *ImplementedApiService) RequestsPost(userId string) (interface{}, error)
 	if logIfError(err, "Failed to save the state in redis.") {
 		return nil, err
 	}
+	s.redis.SAdd(requestContext, fmt.Sprintf("cryir:takeout-result:%s", userId), requestUUID)
 
 	// - Broadcast the event.
 
@@ -330,8 +340,12 @@ func (s *ImplementedApiService) RequestsRequestGet(request string) (interface{},
 	if logIfError(data.Err(), "Failed to load the state of the takeout in redis.") {
 		return nil, data.Err()
 	}
+	ttl, err := s.redis.TTL(requestContext, fmt.Sprintf("cryir:takeout:%s", request)).Result()
+	if logIfError(data.Err(), "Failed to get the TTL") {
+		return nil, data.Err()
+	}
 	/* 2.5. We unmarshal the takeout request state */
-	ent := TakeoutRequest{}
+	ent := Takeout{}
 	// We get the bytes first
 	bytes, err := data.Bytes()
 	if logIfError(err, "Failed to read the body from the state.") {
@@ -341,7 +355,7 @@ func (s *ImplementedApiService) RequestsRequestGet(request string) (interface{},
 	if logIfError(err, "Failed to unmarshal the text from redis.") {
 		return err, nil
 	}
-
+	ent.Expire = ttl.Seconds()
 	return data, nil
 }
 
@@ -351,20 +365,21 @@ func (s *ImplementedApiService) RequestGetUserLinks(userId string) (interface{},
 	array := make([]Takeout, len(keys.Val()))
 	i := 0
 	for _, val := range keys.Val() {
-		link, err := s.redis.Get(requestContext, fmt.Sprintf("cryir:takeout-result:val-%s", val)).Result()
+		link, err := s.redis.Get(requestContext, fmt.Sprintf("cryir:takeout:%s", val)).Bytes()
 		if err != nil {
 			s.redis.SRem(requestContext, val)
 			continue
 		}
-		expireIn, err := s.redis.TTL(requestContext, fmt.Sprintf("cryir:takeout-result:val-%s", val)).Result()
+		expireIn, err := s.redis.TTL(requestContext, fmt.Sprintf("cryir:takeout:%s", val)).Result()
 		if err != nil {
 			continue
 		}
-		array[i] = Takeout{
-			UUID:   val,
-			Link:   link,
-			Expire: expireIn.Seconds(),
+		array[i] = Takeout{}
+		err = json.Unmarshal(link, &array[i])
+		if err != nil {
+			continue
 		}
+		array[i].Expire = expireIn.Seconds()
 		i++
 	}
 	return array, nil
