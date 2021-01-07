@@ -259,7 +259,8 @@ func (s *ImplementedApiService) statusUpdate() {
 				Key:    aws.String(request.UUID + ".zip"),
 			})
 			url, err := req.Presign(7 * 24 * 60 * time.Minute)
-			s.redis.Set(requestContext, fmt.Sprintf("cryir:takeout-result:%s:%s", request.User, request.UUID), url, 7*24*60*time.Minute)
+			s.redis.SAdd(requestContext, fmt.Sprintf("cryir:takeout-result:%s", request.User), request.UUID)
+			s.redis.Set(requestContext, fmt.Sprintf("cryir:takeout-result:%s", request.UUID), url, 7*24*60*time.Minute)
 		} else {
 			/* 4. We save the new state in redis. */
 			err = s.redis.Set(requestContext, fmt.Sprintf("cryir:takeout:%s", incomingServiceStatus.Uuid), string(bytes), time.Hour).Err()
@@ -341,11 +342,16 @@ func (s *ImplementedApiService) RequestsRequestGet(request string) (interface{},
 
 func (s *ImplementedApiService) RequestGetUserLinks(userId string) (interface{}, error) {
 	requestContext, _ := context.WithTimeout(ctx, time.Millisecond*500)
-	keys := s.redis.Keys(requestContext, fmt.Sprintf("cryir:takeout-result:%s:*", userId))
+	keys := s.redis.SMembers(requestContext, fmt.Sprintf("cryir:takeout-result:%s", userId))
 	array := make([]string, len(keys.Val()))
 	i := 0
 	for _, val := range keys.Val() {
-		array[i] = s.redis.Get(requestContext, val).Val()
+		link, err := s.redis.Get(requestContext, val).Result()
+		if err != nil {
+			s.redis.SRem(requestContext, val)
+			continue
+		}
+		array[i] = link
 		i++
 	}
 	return array, nil
