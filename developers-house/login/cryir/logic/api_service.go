@@ -25,7 +25,7 @@ var ctx = context.Background()
 
 func logIfError(err error, msg string) bool {
 	if err != nil {
-		log.Fatalf("%s: %s", msg, err)
+		log.Printf("[ERROR] %s: %s", msg, err)
 		return true
 	}
 	return false
@@ -160,11 +160,11 @@ func (s *ImplementedApiService) statusUpdate() {
 
 		/* 3. We edit or add the service to the list with his status. */
 		found := false
-		for _, service := range request.Services {
+		for i, service := range request.Services {
 			// If the service exists, we edit it.
 			if service.Name == incomingServiceStatus.Name {
 				found = true
-				service.Status = incomingServiceStatus.Status
+				request.Services[i].Status = incomingServiceStatus.Status
 			}
 		}
 		// If the service doesn't exists, we register it.
