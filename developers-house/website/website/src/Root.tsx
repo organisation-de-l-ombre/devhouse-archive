@@ -16,10 +16,12 @@ import { Loader } from "./components/SuspenseLoader/SuspenseLoader";
 
 const { store, persistor } = createState();
 
-const ThemeProvider = React.lazy(() => import("components/ThemeProvider/ThemeProvider"));
+const ThemeProvider = React.lazy(
+  () => import("components/ThemeProvider/ThemeProvider")
+);
 const Navigator = React.lazy(() => import("pages/Navigator"));
 const NotificationArea = React.lazy(
-  () => import("components/Notifications/NotificationsArea")
+  () => import("components/notifications/NotificationsArea")
 );
 const ErrorPage = React.lazy(() => import("pages/ErrorPage"));
 

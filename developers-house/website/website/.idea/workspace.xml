@@ -19,17 +19,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fix the eslint warnings">
-      <change afterPath="$PROJECT_DIR$/src/components/ui/Input.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/ui/input.module.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Settings/sections/account.module.scss" afterDir="false" />
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Adding the user edit form">
+      <change afterPath="$PROJECT_DIR$/src/hooks/useTakeouts.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/button.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/button.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Settings/Settings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Settings/Settings.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Root.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Root.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Settings/sections/Account.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Settings/sections/Account.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/state/modules/user/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/state/modules/user/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilities/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilities/account.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Settings/sections/Authorizations.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Settings/sections/Authorizations.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Settings/sections/account.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Settings/sections/account.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/transitions.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/transitions.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,6 +106,9 @@
       <workItem from="1609797623237" duration="1660000" />
       <workItem from="1609832693498" duration="103000" />
       <workItem from="1609841410064" duration="31123000" />
+      <workItem from="1609926419663" duration="606000" />
+      <workItem from="1609938379818" duration="105000" />
+      <workItem from="1610025496738" duration="4096000" />
     </task>
     <task id="LOCAL-00007" summary="Re-fix design">
       <created>1605074466867</created>
@@ -512,18 +512,38 @@
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
     <state x="690" y="307" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.40.1920.1040@0.40.1920.1040" timestamp="1605801418805" />
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1609938432262">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1609938432262" />
     <state x="666" y="481" width="598" height="158" key="GitCloneDialog" timestamp="1606147743113">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
     <state x="666" y="481" width="598" height="158" key="GitCloneDialog/0.40.1920.1040@0.40.1920.1040" timestamp="1606147743113" />
+    <state width="1877" height="281" key="GridCell.Tab.0.bottom" timestamp="1610026706268">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1610026706268" />
+    <state width="1877" height="281" key="GridCell.Tab.0.center" timestamp="1610026706268">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="281" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1610026706268" />
+    <state width="1877" height="281" key="GridCell.Tab.0.left" timestamp="1610026706268">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="281" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1610026706268" />
+    <state width="1877" height="281" key="GridCell.Tab.0.right" timestamp="1610026706268">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="281" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1610026706268" />
     <state x="0" y="168" key="SettingsEditor" timestamp="1609742123843">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="168" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1609742123843" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1609873518710">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1609883866663">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609873518710" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609883866663" />
     <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
     <state x="777" y="474" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606297428811">
       <screen x="0" y="40" width="1920" height="1040" />
