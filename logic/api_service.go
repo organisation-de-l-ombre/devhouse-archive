@@ -295,8 +295,8 @@ func (s *ImplementedApiService) RequestsPost(userId string) (interface{}, error)
 		UUID:     requestUUID,
 		User:     userId,
 		Services: make([]ServiceStatus, 0),
-		Expire:   nil,
-		Link:     nil,
+		Expire:   time.Hour.Seconds(),
+		Link:     "",
 		Status:   "pending",
 	}
 
