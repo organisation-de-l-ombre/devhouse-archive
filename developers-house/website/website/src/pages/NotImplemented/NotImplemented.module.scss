@@ -1,0 +1,29 @@
+.content-container {
+  margin: 2rem;
+  max-width: 50rem;
+}
+
+.picture-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  img {
+    height: 15rem;
+    width: 15rem;
+  }
+}
+
+.text {
+  margin: .5rem;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.content {
+  margin: 1rem 2rem;
+  font-size: 1.5rem;
+  line-height: 1.5;
+  text-align: center;
+}

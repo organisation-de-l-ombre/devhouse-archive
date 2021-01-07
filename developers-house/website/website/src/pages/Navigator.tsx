@@ -15,7 +15,6 @@ import { pushNotification } from "../state/modules/notifications";
 import SuspenseLoader from "../components/SuspenseLoader/SuspenseLoader";
 import NotFound from "./NotFound/NotFound";
 import styles from "./navigator.module.scss";
-import MembersPage from "./Members/Members";
 
 const AboutPage = React.lazy(() => import("./About/About"));
 const HomePage = React.lazy(() => import("./Home/Home"));
@@ -23,6 +22,10 @@ const ProjectsPage = React.lazy(() => import("./Projects/Projects"));
 const ErrorPage = React.lazy(() => import("./ErrorPage"));
 const Callback = React.lazy(() => import("./Settings/Callback"));
 const Settings = React.lazy(() => import("./Settings/Settings"));
+const MembersPage = React.lazy(() => import("./Members/Members"));
+const NotImplemented = React.lazy(
+  () => import("./NotImplemented/NotImplemented")
+);
 
 const PrivateRoute: FC<{ component: FC<unknown> } & RouteProps> = ({
   component: Component,
@@ -74,6 +77,7 @@ const Navigator = () => {
               <Route path="/projects" exact component={ProjectsPage} />
               <Route path="/callback" exact component={Callback} />
               <PrivateRoute path="/settings" component={Settings} />
+              <Route path="/contact" component={NotImplemented} />
               <Route path="*" exact component={NotFound} />
             </Switch>
           </SuspenseLoader>

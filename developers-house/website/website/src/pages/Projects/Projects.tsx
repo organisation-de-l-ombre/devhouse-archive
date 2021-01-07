@@ -6,7 +6,6 @@ import Button from "components/ui/Button/Button";
 import projects from "./projects.temp.json";
 import { TitleBox } from "../../components/ui/TitleBox/TitleBox";
 import styles from "./Projects.module.scss";
-import "animate.css";
 
 export default function ProjectsPage(): ReactElement {
   return (
@@ -24,7 +23,7 @@ export default function ProjectsPage(): ReactElement {
           .sort((a, b) => a.name.localeCompare(b.name))
           .map((project) => {
             return (
-              <Card className={styles["card-container"]}>
+              <Card className={styles["card-container"]} key={project.name}>
                 <CardPadding>
                   <h2>{project.name}</h2>
                   <hr />

@@ -41,12 +41,6 @@ http {
             root   /usr/share/nginx/html;
         }
 
-        location /cgi-bin/oauth-credentials {
-            include fastcgi_params;
-            fastcgi_param SCRIPT_FILENAME /cgi-bin/oauth-credentials.sh;
-            fastcgi_pass unix:/var/run/fcgiwrap.socket;
-        }
-
         client_body_buffer_size 1K;
         client_header_buffer_size 1k;
         client_max_body_size 1k;
