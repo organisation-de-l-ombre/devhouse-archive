@@ -42,43 +42,33 @@ paths:
                 $ref: '#/components/schemas/Request'
           description: The data request exists and was returned.
       summary: Gets the status of a request
-  /requests/{request}/finalizers:
-    post:
+  /requests/user/{userId}:
+    get:
       parameters:
         - explode: false
           in: path
-          name: request
+          name: userId
           required: true
           schema:
             type: string
           style: simple
       responses:
         "200":
-          description: The finalizer was registered.
-        "404":
-          description: The request doesn't exist.
-      summary: Register a finalizer for a request.
-    patch:
-      parameters:
-        - explode: false
-          in: path
-          name: request
-          required: true
-          schema:
-            type: string
-          style: simple
-        - explode: false
-          in: query
-          name: finished
-          schema:
-            type: boolean
-          style: simple
-      responses:
-        "200":
-          description: The finalizer status was updated.
-        "404":
-          description: The request doesn't exist.
-      summary: Updates the status of a finalizer
+          content:
+            type:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    uuid:
+                      type: string
+                    link:
+                      type: string
+                    expire:
+                      type: number
+          description: The data request exists and was returned.
+      summary: Gets the status of a request
 components:
   schemas:
     Request:
