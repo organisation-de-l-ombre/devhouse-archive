@@ -51,7 +51,12 @@ createConnection().then(async (conn) => {
                     uuid: userId,
                 }
             });
-            return Buffer.from(JSON.stringify(user, null, '\t'), 'utf-8');
+            return [
+                {
+                    name: 'profile.json',
+                    data: Buffer.from(JSON.stringify(user), 'utf-8')
+                }
+            ];
         },
     }, 'scarlet');
     await manager.start();
