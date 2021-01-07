@@ -1,1 +1,13 @@
 .card-margin { margin: .5rem; }
+
+.container-full {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.picture-rounded {
+  user-select: none;
+  border-radius: 50%;
+}

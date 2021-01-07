@@ -21,7 +21,7 @@ const ThemeProvider = React.lazy(
 );
 const Navigator = React.lazy(() => import("pages/Navigator"));
 const NotificationArea = React.lazy(
-  () => import("components/notifications/NotificationsArea")
+  () => import("components/Notifications/NotificationsArea")
 );
 const ErrorPage = React.lazy(() => import("pages/ErrorPage"));
 
