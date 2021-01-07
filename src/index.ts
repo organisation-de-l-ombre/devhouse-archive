@@ -10,6 +10,7 @@ import * as morgan from 'morgan';
 import RedisMock from 'redis-mock';
 import { DataManager } from '@developers-house/lib-datamanager';
 import {User} from "./entity/User";
+import {Link} from "./entity/Link";
 
 const firstRedisNode: { host: string; port: number } = {
     host: process.env["REDIS_HOST"] || 'localhost',
@@ -34,7 +35,6 @@ createConnection().then(async (conn) => {
 
     const manager = new DataManager({
         async checkIfDataAvailable(userId) {
-            console.log('checkIfDataAvailable for', userId);
             const repo = conn.getRepository(User);
             const user = await repo.findOne({
                 where: {
@@ -44,18 +44,23 @@ createConnection().then(async (conn) => {
             return user !== undefined;
         },
         async provide(userId) {
-            console.log('Provided for', userId);
             const repo = conn.getRepository(User);
             const user = await repo.findOne({
                 where: {
                     uuid: userId,
-                }
+                },
             });
+            const links = await user.links;
+
             return [
                 {
                     name: 'profile.json',
-                    data: Buffer.from(JSON.stringify(user), 'utf-8')
-                }
+                    data: Buffer.from(JSON.stringify(user), 'utf-8'),
+                },
+                {
+                    name: 'linked-accounts.json',
+                    data: Buffer.from(JSON.stringify(links), 'utf-8'),
+                },
             ];
         },
     }, 'scarlet');
