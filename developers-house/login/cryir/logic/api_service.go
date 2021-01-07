@@ -260,10 +260,15 @@ func (s *ImplementedApiService) statusUpdate() {
 			})
 			url, err := req.Presign(7 * 24 * 60 * time.Minute)
 			s.redis.SAdd(requestContext, fmt.Sprintf("cryir:takeout-result:%s", request.User), request.UUID)
-			s.redis.Set(requestContext, fmt.Sprintf("cryir:takeout-result:%s", request.UUID), url, 7*24*60*time.Minute)
+			s.redis.Set(requestContext, fmt.Sprintf("cryir:takeout-result:val-%s", request.UUID), url, 7*24*60*time.Minute)
+			s.redis.Del(requestContext, fmt.Sprintf("cryir:takeout:%s", request.UUID))
 		} else {
+			val, err := json.Marshal(request)
+			if err != nil {
+				return
+			}
 			/* 4. We save the new state in redis. */
-			err = s.redis.Set(requestContext, fmt.Sprintf("cryir:takeout:%s", incomingServiceStatus.Uuid), string(bytes), time.Hour).Err()
+			err = s.redis.Set(requestContext, fmt.Sprintf("cryir:takeout:%s", incomingServiceStatus.Uuid), val, time.Hour).Err()
 			logIfError(err, "Failed to save the state in redis.")
 		}
 
@@ -343,15 +348,23 @@ func (s *ImplementedApiService) RequestsRequestGet(request string) (interface{},
 func (s *ImplementedApiService) RequestGetUserLinks(userId string) (interface{}, error) {
 	requestContext, _ := context.WithTimeout(ctx, time.Millisecond*500)
 	keys := s.redis.SMembers(requestContext, fmt.Sprintf("cryir:takeout-result:%s", userId))
-	array := make([]string, len(keys.Val()))
+	array := make([]Takeout, len(keys.Val()))
 	i := 0
 	for _, val := range keys.Val() {
-		link, err := s.redis.Get(requestContext, val).Result()
+		link, err := s.redis.Get(requestContext, fmt.Sprintf("cryir:takeout-result:val-%s", val)).Result()
 		if err != nil {
 			s.redis.SRem(requestContext, val)
 			continue
 		}
-		array[i] = link
+		expireIn, err := s.redis.TTL(requestContext, fmt.Sprintf("cryir:takeout-result:val-%s", val)).Result()
+		if err != nil {
+			continue
+		}
+		array[i] = Takeout{
+			UUID:   val,
+			Link:   link,
+			Expire: expireIn.Seconds(),
+		}
 		i++
 	}
 	return array, nil
