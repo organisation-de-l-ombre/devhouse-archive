@@ -3,7 +3,7 @@ import S3 from 'aws-sdk/clients/s3';
 
 export type Functions = {
     checkIfDataAvailable: (userId: string) => Promise<boolean> | boolean;
-    provide: (userId: string) => Promise<Buffer> | Buffer;
+    provide: (userId: string) => Promise<({ name: string; data: Buffer })[]>;
 };
 
 const S3client = new S3({
@@ -58,27 +58,24 @@ export class DataManager {
             }));
             exchange.send(msg, 'takeout.callback.' + data.uuid);
             const returned = await this.functions.provide(data.user);
-            await new Promise((acc, rej) => {
+            const promises = returned.map((file) => (
                 S3client.upload({
                     Bucket: "takeouts",
-                    Key: `${data.uuid}/${data.user}/${this.serviceName}.json`,
+                    Key: `${data.uuid}/${data.user}/${this.serviceName}/${file.name}.json`,
                     ContentType: "application/json",
-                    Body: returned,
-                    ContentLength: returned.length,
-                }, (err, data) => {
-                    if (err) {
-                        rej(err);
-                        return;
-                    }
-                    acc(data);
-                });
-            }).then((object) => {
+                    Body: file.data,
+                    ContentLength: file.data.length,
+                }).promise()
+            ));
+            Promise.all(promises).then(() => {
                 msg = new RabbitMQ.Message(JSON.stringify({
                     uuid: data.uuid,
                     status: 'finished',
                     name: this.serviceName,
                 }));
                 exchange.send(msg, 'takeout.callback.' + data.uuid);
+                // Avoid the message requeue.
+                message.ack();
             }).catch(console.log);
         }
     }
