@@ -19,7 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Add takeout system" />
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fix the compilation errors">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Settings/settings.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Settings/settings.module.scss" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -100,14 +103,7 @@
       <workItem from="1609841410064" duration="31123000" />
       <workItem from="1609926419663" duration="606000" />
       <workItem from="1609938379818" duration="105000" />
-      <workItem from="1610025496738" duration="4442000" />
-    </task>
-    <task id="LOCAL-00008" summary="New layout">
-      <created>1605077449772</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1605077449772</updated>
+      <workItem from="1610025496738" duration="5339000" />
     </task>
     <task id="LOCAL-00009" summary="Remove unused import">
       <created>1605077960024</created>
@@ -445,7 +441,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610030039668</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="Fix the compilation errors">
+      <created>1610030385934</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1610030385934</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -464,7 +467,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fix the react build warning" />
     <MESSAGE value="Fix the chart" />
     <MESSAGE value="Fix the startup script" />
     <MESSAGE value="Add the env getter" />
@@ -489,7 +491,8 @@
     <MESSAGE value="Fix the transitions &amp; new navigation for the user panel" />
     <MESSAGE value="Fix the eslint warnings" />
     <MESSAGE value="Add takeout system" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add takeout system" />
+    <MESSAGE value="Fix the compilation errors" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix the compilation errors" />
   </component>
   <component name="WindowStateProjectService">
     <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607236205403">
@@ -532,10 +535,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="168" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1609742123843" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1610030041937">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1610030387068">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1610030041937" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1610030387068" />
     <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
     <state x="777" y="474" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606297428811">
       <screen x="0" y="40" width="1920" height="1040" />
