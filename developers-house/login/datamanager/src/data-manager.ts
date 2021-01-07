@@ -61,8 +61,7 @@ export class DataManager {
             const promises = returned.map((file) => (
                 S3client.upload({
                     Bucket: "takeouts",
-                    Key: `${data.uuid}/${data.user}/${this.serviceName}/${file.name}.json`,
-                    ContentType: "application/json",
+                    Key: `${data.uuid}/${data.user}/${this.serviceName}/${file.name}`,
                     Body: file.data,
                     ContentLength: file.data.length,
                 }).promise()
