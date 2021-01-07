@@ -2,7 +2,6 @@
  * @author Matthieu
  */
 import {
-  MutationObserverResult,
   QueryObserverResult,
   UseMutateFunction,
   useMutation,
