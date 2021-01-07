@@ -11,6 +11,6 @@ type Takeout struct {
 	Link     string          `json:"link"`
 	Expire   float64         `json:"expire"`
 	User     string          `json:"user"`
-	Services []ServiceStatus `json:"services,omitempty"`
+	Services []ServiceStatus `json:"services"`
 	Status   string          `json:"status"`
 }
