@@ -178,7 +178,7 @@ const Takeouts: FC = () => {
               </CardSection>
               <CardSection>
                 {dat.link && (
-                  <a href={dat.link} rel="noopener noreferrer" target="_blank">
+                  <a href={dat.link} rel="noopener noreferrer">
                     <Button>Download</Button>
                   </a>
                 )}
