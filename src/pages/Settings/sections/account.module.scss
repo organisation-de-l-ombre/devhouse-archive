@@ -16,3 +16,19 @@
 
   p { color: #EE0011; }
 }
+
+
+.indicator {
+  padding: 0.2rem;
+  border-radius: 3px;
+  display: inline-block;
+  width: fit-content;
+  margin: 0.3rem;
+  color: white;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}

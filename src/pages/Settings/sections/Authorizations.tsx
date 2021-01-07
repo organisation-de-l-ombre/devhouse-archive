@@ -38,8 +38,8 @@ const AuthorizationsCard: React.FC<{
         </CardHeader>
         <CardSection>
           The permission was accorded on {dateString} for the audiences{" "}
-          <code>{client.audiences.join(" ")}</code> with the authorizations{" "}
-          <code>{client.scopes.join(" ")}</code>
+          <code>{(client.audiences || []).join(" ")}</code> with the
+          authorizations <code>{(client.scopes || []).join(" ")}</code>
         </CardSection>
         <CardSection>
           <Button onClick={() => remove()}>Revoke</Button>
