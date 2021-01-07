@@ -30,6 +30,13 @@ const provideRedis = () => {
     return RedisMock;
 }
 
+const typeOrmClearer = (key: string, value: object) => {
+    if (key.startsWith("_")) {
+        return undefined;
+    }
+    return value;
+};
+
 // Starts the server after the database.
 createConnection().then(async (conn) => {
 
@@ -55,11 +62,11 @@ createConnection().then(async (conn) => {
             return [
                 {
                     name: 'profile.json',
-                    data: Buffer.from(JSON.stringify(user), 'utf-8'),
+                    data: Buffer.from(JSON.stringify(user, typeOrmClearer), 'utf-8'),
                 },
                 {
                     name: 'linked-accounts.json',
-                    data: Buffer.from(JSON.stringify(links), 'utf-8'),
+                    data: Buffer.from(JSON.stringify(links,typeOrmClearer), 'utf-8'),
                 },
             ];
         },
