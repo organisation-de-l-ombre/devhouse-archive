@@ -11,9 +11,7 @@ document.body.appendChild(app);
 
 ReactDOM.render(
   <React.StrictMode>
-    <React.Suspense fallback={<></>}>
-      <App />
-    </React.Suspense>
+    <App />
   </React.StrictMode>,
   app
 );
