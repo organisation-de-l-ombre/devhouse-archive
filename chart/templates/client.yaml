@@ -1,0 +1,26 @@
+apiVersion: hydra.ory.sh/v1alpha1
+kind: OAuth2Client
+metadata:
+  name: international-media-referencing-{{ template "trackableappname" . }}
+spec:
+  clientName: International Media Referencing ({{ template "trackableappname" . }})
+  grantTypes:
+    - implicit
+  responseTypes:
+    - token
+  scope: "imr.*"
+  secretName: oauth-client-{{ template "trackableappname" . }}
+  # these are optional
+  redirectUris:
+  {{- if .Values.service.commonName }}
+    - https://{{ template "fhostname" .Values.service.commonName }}/callback
+  {{- end }}
+    - https://{{ template "fhostname" .Values.service.url }}/callback
+  {{- if .Values.service.additionalHosts }}
+  {{- range $host := .Values.service.additionalHosts }}
+    - https://{{ template "fhostname" $host }}/callback
+  {{- end -}}
+  {{- end }}
+  audience:
+    - imr
+  tokenEndpointAuthMethod: none

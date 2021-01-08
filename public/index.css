@@ -1,0 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif;
+}
+
+noscript {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(45, 45, 45);
+}
+
+noscript > div {
+    margin: 2rem;
+    padding: 1rem;
+    max-width: 50rem;
+    background-color: rgb(143, 143, 143);
+    border-radius: 5px;
+}
+
+noscript > div > hr {
+    margin: 1rem 0;
+    border-color: black;
+}
+
+noscript > div > p { font-size: 1.2rem; }
