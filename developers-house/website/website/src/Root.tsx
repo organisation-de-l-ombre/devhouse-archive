@@ -13,7 +13,12 @@ import { pushNotification } from "state/modules/notifications";
 import { BrowserRouter } from "react-router-dom";
 import { Menu } from "./components/navbar";
 import { Loader } from "./components/SuspenseLoader/SuspenseLoader";
+import { Logger } from "./utilities/logger";
 
+const logger = new Logger("Root");
+// eslint-disable-next-line no-console
+console.clear();
+logger.info("~ Loading Developer's House frontend.");
 const { store, persistor } = createState();
 
 const ThemeProvider = React.lazy(
@@ -21,12 +26,13 @@ const ThemeProvider = React.lazy(
 );
 const Navigator = React.lazy(() => import("pages/Navigator"));
 const NotificationArea = React.lazy(
-  () => import("components/Notifications/NotificationsArea")
+  () => import("components/notifications/NotificationsArea")
 );
 const ErrorPage = React.lazy(() => import("pages/ErrorPage"));
 
 register({
   onUpdate(registration) {
+    logger.info("Update callback triggered.");
     store.dispatch(
       pushNotification({
         level: "information",
@@ -47,6 +53,7 @@ register({
     );
   },
   onSuccess() {
+    logger.info("service worker installed.");
     store.dispatch(
       pushNotification({
         level: "information",

@@ -36,7 +36,7 @@ async function fetchClientId() {
 }
 
 if (process.env.NODE_ENV === "development") {
-  clientId = "b63ae62c-830d-46a9-abff-ccdf2ca6fb52";
+  clientId = "4f48003e-3e66-40c4-b2b7-a0516dc40d4a";
 } else {
   clientIdPromise = fetchClientId();
 }
@@ -63,7 +63,7 @@ async function getTokenWithPopup(): Promise<string> {
   const redirect = `${document.location.protocol}//${document.location.host}/callback`;
   const apiAudience = "abdera";
 
-  const scopes = ["account.*"].join(" ");
+  const scopes = ["account.* websocket.*"].join(" ");
 
   const popupWindow = window.open(
     `http://auth-server.developershouse.xyz/oauth2/auth?response_type=token&client_id=${encodeURIComponent(

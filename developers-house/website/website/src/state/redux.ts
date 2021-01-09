@@ -18,6 +18,9 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { PersistConfig } from "redux-persist/es/types";
 import { modules } from "./modules";
 import { GlobalGraphQLClient } from "../constants";
+import { Logger } from "../utilities/logger";
+
+const logger = new Logger("Redux");
 
 const persistConfig: PersistConfig<DefaultRootState> = {
   key: "root",
@@ -29,6 +32,7 @@ const buildDefaults = (): {
   defaultState: Partial<DefaultRootState>;
   reducers: { [T: string]: (...args: unknown[]) => unknown };
 } => {
+  logger.info("Building defaults");
   // eslint-disable-next-line
   const reducers: { [T: string]: (...args: any[]) => unknown } = {};
   const state: DefaultRootState = {} as DefaultRootState;
@@ -47,6 +51,7 @@ const buildDefaults = (): {
 };
 
 export function createState(): { store: Store; persistor: Persistor } {
+  logger.info("Bootstrapping redux");
   const { defaultState, reducers } = buildDefaults();
 
   let callCompose = applyMiddleware(
@@ -59,6 +64,7 @@ export function createState(): { store: Store; persistor: Persistor } {
   );
 
   if (env.NODE_ENV !== "production") {
+    logger.info("Enabling redux devtools");
     callCompose = composeWithDevTools(callCompose);
   }
 
@@ -70,6 +76,7 @@ export function createState(): { store: Store; persistor: Persistor } {
   );
 
   store.subscribe(() => {
+    logger.info("Authorization updated");
     GlobalGraphQLClient.setHeader(
       "Authorization",
       `Bearer ${store.getState().user.token}`
@@ -80,6 +87,7 @@ export function createState(): { store: Store; persistor: Persistor } {
 
   axios.interceptors.request.use(
     (request): AxiosRequestConfig => {
+      logger.info("");
       request.headers.Authorization = `Bearer ${store.getState().user.token}`;
       return request;
     }

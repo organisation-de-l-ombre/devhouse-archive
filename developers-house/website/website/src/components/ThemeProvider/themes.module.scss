@@ -18,6 +18,9 @@
   --background-hover-tertiary: rgb(215, 215, 215);
 
   --menu-item-hover-background: rgb(148, 148, 148);
+
+  color: var(--foreground-primary);
+  background: var(--background-primary);
 }
 
 .dark {
@@ -40,4 +43,37 @@
   --menu-item-hover-background: rgb(78, 78, 78);
 }
 
+.thanos {
+  --foreground-primary: #1B2B42;
+  --foreground-secondary: #B4A24C;
+  --foreground-tertiary: #D9C63C;
+
+  --foreground-hover-primary: rgb(220, 220, 220);
+  --foreground-hover-secondary: rgb(220, 220, 220);
+  --foreground-hover-tertiary: rgb(220, 220, 220);
+
+  --background-primary: #306493;
+  --background-secondary: #6F3C89;
+  --background-tertiary: #306493;
+
+  --background-hover-primary: #2b2b2b;
+  --background-hover-secondary: rgb(33, 33, 33);
+  --background-hover-tertiary: rgb(215, 215, 215);
+
+  --menu-item-hover-background: #306493;
+}
+
+
+
 a { color: var(--foreground-primary); }
+
+.themeContainer {
+  color: var(--foreground-primary);
+  background: var(--background-primary);
+}
+
+.wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
