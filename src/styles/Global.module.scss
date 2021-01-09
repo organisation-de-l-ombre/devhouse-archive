@@ -11,3 +11,17 @@
   user-select: none;
   border-radius: 50%;
 }
+
+.onlyMobiles {
+  display: none;
+}
+
+@media screen and (max-width: 700px) {
+  .onlyMobiles {
+    display: block;
+  }
+
+  .exceptMobile {
+    display: none !important;
+  }
+}
