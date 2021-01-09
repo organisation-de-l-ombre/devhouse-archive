@@ -8,7 +8,7 @@ spec:
     - implicit
   responseTypes:
     - token
-  scope: "account.*"
+  scope: "account.* websocket.*"
   secretName: oauth-client-{{ template "trackableappname" . }}
   # these are optional
   redirectUris:
