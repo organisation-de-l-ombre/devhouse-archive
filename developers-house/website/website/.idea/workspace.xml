@@ -19,29 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Remove the target to download in the same tab">
-      <change afterPath="$PROJECT_DIR$/developer-client.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utilities/logger.ts" afterDir="false" />
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Some changes :)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Root.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Root.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ThemeProvider/ThemeProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ThemeProvider/ThemeProvider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ThemeProvider/themes.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ThemeProvider/themes.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Settings/sections/Account.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Settings/sections/Account.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/navigator.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/navigator.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/state/modules/user/actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/state/modules/user/actions.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/state/redux.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/state/redux.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilities/functions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilities/functions.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilities/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilities/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilities/members.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilities/projects.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilities/statistics.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilities/types/Projects.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilities/types/Response.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilities/types/Statistics.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilities/types/User.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilities/types/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilities/utils.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/templates/client.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/client.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,13 +108,6 @@
       <workItem from="1610135716654" duration="1914000" />
       <workItem from="1610139973172" duration="3392000" />
       <workItem from="1610206189866" duration="2747000" />
-    </task>
-    <task id="LOCAL-00011" summary="Migrate to css modules 1 / 2">
-      <created>1605805883185</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1605805883185</updated>
     </task>
     <task id="LOCAL-00012" summary="Adding values and removing the old chart">
       <created>1606296383546</created>
@@ -472,7 +445,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610044384179</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="Some changes :)">
+      <created>1610209447206</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1610209447206</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -491,7 +471,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add the env getter" />
     <MESSAGE value="Fix the request" />
     <MESSAGE value="Fix the client name" />
     <MESSAGE value="Add the account manager" />
@@ -516,7 +495,8 @@
     <MESSAGE value="Fix the compilation errors" />
     <MESSAGE value="Fix the css on scroll" />
     <MESSAGE value="Remove the target to download in the same tab" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove the target to download in the same tab" />
+    <MESSAGE value="Some changes :)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some changes :)" />
   </component>
   <component name="WindowStateProjectService">
     <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607236205403">
@@ -564,10 +544,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="168" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1610209137228" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1610044385639">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1610209448724">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1610044385639" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1610209448724" />
     <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1610209052761">
       <screen x="0" y="0" width="1920" height="1040" />
