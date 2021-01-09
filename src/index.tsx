@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 import App from "./pages/App";
 import reportWebVitals from "./reportWebVitals";
+import "./index.css";
 
 const app = document.createElement("div");
 
-app.className = "app";
+app.id = "app";
 document.body.appendChild(app);
 
 ReactDOM.render(

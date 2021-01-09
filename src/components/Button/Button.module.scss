@@ -1,0 +1,15 @@
+.button-styles {
+  padding: 1rem;
+  background-color: var(--primary-background-color);
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: .5s;
+
+  &:hover {
+    background-color: var(--primary-background-color-hover);
+    transition: .5s;
+  }
+}

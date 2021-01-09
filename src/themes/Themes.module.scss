@@ -1,0 +1,17 @@
+.light {
+  --website-background-color: rgb(225, 225, 225);
+
+  --primary-background-color: rgb(200, 200, 200);
+  --primary-background-color-hover: rgb(135, 135, 135);
+
+  --font-color: black;
+}
+
+.dark {
+  --website-background-color: rgb(35, 35, 35);
+
+  --primary-background-color: rgb(60, 60, 60);
+  --primary-background-color-hover: rgb(125, 125, 125);
+
+  --font-color: white;
+}
