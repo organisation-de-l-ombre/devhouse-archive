@@ -19,24 +19,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Add the websocket scope">
-      <change afterPath="$PROJECT_DIR$/src/pages/error-page.module.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/styles/index.ts" afterDir="false" />
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fixes in the css and dom cleanup">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ThemeProvider/themes.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ThemeProvider/themes.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/navbar/Menu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navbar/Menu.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/navbar/Menu/MenuItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navbar/Menu/MenuItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/navbar/Menu/OnlyMobiles.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/navbar/Menu/navigation.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navbar/Menu/navigation.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/Button/Button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/Button/Button.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/ui/Button/button.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/Button/button.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/ErrorPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ErrorPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Settings/Settings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Settings/Settings.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Projects/Projects.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Projects/Projects.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Settings/sections/Account.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Settings/sections/Account.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Settings/settings.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Settings/settings.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/Global.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Global.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transitions.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/transitions.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,14 +110,7 @@
       <workItem from="1610135716654" duration="1914000" />
       <workItem from="1610139973172" duration="3392000" />
       <workItem from="1610206189866" duration="2747000" />
-      <workItem from="1610221368048" duration="1412000" />
-    </task>
-    <task id="LOCAL-00013" summary="Fix &amp; prettier">
-      <created>1606297967538</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1606297967538</updated>
+      <workItem from="1610221368048" duration="1732000" />
     </task>
     <task id="LOCAL-00014" summary="Fix paths">
       <created>1606298509860</created>
@@ -468,7 +448,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610212647106</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="Fixes in the css and dom cleanup">
+      <created>1610222830551</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1610222830552</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -487,7 +474,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fix the client name" />
     <MESSAGE value="Add the account manager" />
     <MESSAGE value="Add text for the left navigation items on the mobile menu" />
     <MESSAGE value="Fix the size of the avatar picture" />
@@ -512,7 +498,8 @@
     <MESSAGE value="Remove the target to download in the same tab" />
     <MESSAGE value="Some changes :)" />
     <MESSAGE value="Add the websocket scope" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add the websocket scope" />
+    <MESSAGE value="Fixes in the css and dom cleanup" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixes in the css and dom cleanup" />
   </component>
   <component name="WindowStateProjectService">
     <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607236205403">
@@ -560,10 +547,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="168" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1610209137228" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1610212648313">
+    <state x="312" y="265" key="Vcs.Push.Dialog.v2" timestamp="1610222838235">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1610212648313" />
+    <state x="312" y="265" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1610222838235" />
     <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1610209052761">
       <screen x="0" y="0" width="1920" height="1040" />
