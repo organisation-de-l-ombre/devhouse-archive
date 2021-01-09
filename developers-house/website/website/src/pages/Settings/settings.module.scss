@@ -36,6 +36,9 @@
   left: -100%;
   transition: left 500ms;
   z-index: 3;
+  justify-items: center;
+  display: flex;
+  box-shadow: var(--background-hover-secondary) 0 0 5px;
   background-color: var(--background-secondary);
 }
 
@@ -57,4 +60,15 @@
   display: flex;
   flex-flow: column nowrap;
   margin-top: 5%;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+
+.leftNavHeader {
+  padding-top: 1.8rem;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  display: flex;
 }

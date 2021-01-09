@@ -4,13 +4,13 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTheme } from "state/modules/theme";
 import { BsMoon, FaSun, FaUser } from "react-icons/all";
-import { OnlyMobiles } from "./Menu/OnlyMobiles";
 import { NavigationItem } from "./Menu/MenuItem";
 import { loginUser } from "../../state/modules/user/actions";
 import { NavigationContainer } from "./Menu/MenuContainer";
 import { DrawerContent } from "./Menu/DrawerContent";
 import styles from "./Menu/navigation.module.scss";
 import UserAvatarStatus from "../ui/UserAvatarStatus/UserAvatarStatus";
+import globalStyles from "../../styles/Global.module.scss";
 
 export function Menu(): ReactElement {
   const [open, setOpen] = useState<boolean>(false);
@@ -28,7 +28,7 @@ export function Menu(): ReactElement {
 
   return (
     <NavigationContainer open={open} onClick={globalClick}>
-      <OnlyMobiles className={styles.primed}>
+      <div className={`${styles.primed} ${globalStyles.onlyMobiles}`}>
         <NavigationItem
           onClick={switchOpen}
           className={styles["items-transition"]}
@@ -42,7 +42,7 @@ export function Menu(): ReactElement {
             }}
           />
         </NavigationItem>
-      </OnlyMobiles>
+      </div>
       <DrawerContent onClick={switchOpenClick}>
         <NavLink
           to="/"
@@ -111,7 +111,7 @@ export function Menu(): ReactElement {
             onClick={() => dispatch(loginUser())}
           >
             <FaUser />
-            <OnlyMobiles>Login</OnlyMobiles>
+            <span className={globalStyles.onlyMobiles}>Login</span>
           </NavigationItem>
         )}
         <NavigationItem
@@ -122,7 +122,9 @@ export function Menu(): ReactElement {
           className={styles["items-transition"]}
         >
           {dark ? <BsMoon /> : <FaSun />}
-          <OnlyMobiles>Turn on the {dark ? "light" : "dark"} theme</OnlyMobiles>
+          <div className={globalStyles.onlyMobiles}>
+            Turn on the {dark ? "light" : "dark"} theme
+          </div>
         </NavigationItem>
       </DrawerContent>
     </NavigationContainer>

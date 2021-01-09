@@ -6,7 +6,8 @@ import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { Route, Switch, useRouteMatch } from "react-router";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { TitleBox } from "../../components/ui/TitleBox/TitleBox";
+import { GlobalStyles } from "styles";
+import { AiFillLock } from "react-icons/all";
 import { Button } from "../../components/ui/Button/Button";
 import ButtonGroup from "../../components/ui/Button/ButtonGroup";
 import Authorizations from "./sections/Authorizations";
@@ -15,7 +16,6 @@ import Support from "./sections/Support";
 import styles from "./settings.module.scss";
 import NotFound from "../NotFound/NotFound";
 import UserAvatarStatus from "../../components/ui/UserAvatarStatus/UserAvatarStatus";
-import { OnlyMobiles } from "../../components/navbar/Menu/OnlyMobiles";
 import { logoutUser } from "../../state/modules/user/actions";
 
 const Settings = (): ReactElement => {
@@ -35,7 +35,7 @@ const Settings = (): ReactElement => {
     <div className={styles.masterNav}>
       <div className={`${styles.card} ${open ? styles.open : ""}`}>
         <div className={styles.leftNav}>
-          <TitleBox className={styles.header}>
+          <div className={styles.leftNavHeader}>
             <UserAvatarStatus
               width="7rem"
               statusColor="grey"
@@ -43,34 +43,43 @@ const Settings = (): ReactElement => {
               animate
             />
             <h3>{user?.username}</h3>
-            <ButtonGroup className={styles.list}>
-              <OnlyMobiles>
-                <Button onClick={() => setOpen(!open)}>Close</Button>
-              </OnlyMobiles>
-              <Button onClick={logout}>Logout</Button>
-              <NavLink to={`${match.path}`}>
-                <Button>Account</Button>
-              </NavLink>
-              <NavLink to={`${match.path}/authorizations`}>
-                <Button>Manage authorizations</Button>
-              </NavLink>
-              <NavLink to={`${match.path}/linked-accounts`}>
-                <Button>Linked accounts</Button>
-              </NavLink>
-              <NavLink to={`${match.path}/privacy-settings`}>
-                <Button>Privacy settings</Button>
-              </NavLink>
-              <NavLink to={`${match.path}/support`}>
-                <Button>Support</Button>
-              </NavLink>
-            </ButtonGroup>
-          </TitleBox>
+          </div>
+          <ButtonGroup className={styles.list}>
+            <Button
+              className={GlobalStyles.onlyMobiles}
+              onClick={() => setOpen(!open)}
+            >
+              Close
+            </Button>
+            <NavLink to={`${match.path}`}>
+              <Button>Account</Button>
+            </NavLink>
+            <NavLink to={`${match.path}/authorizations`}>
+              <Button>Manage authorizations</Button>
+            </NavLink>
+            <NavLink to={`${match.path}/linked-accounts`}>
+              <Button>Linked accounts</Button>
+            </NavLink>
+            <NavLink to={`${match.path}/privacy-settings`}>
+              <Button>Privacy settings</Button>
+            </NavLink>
+            <NavLink to={`${match.path}/support`}>
+              <Button>Support</Button>
+            </NavLink>
+            <Button onClick={logout}>
+              <AiFillLock />
+              Logout
+            </Button>
+          </ButtonGroup>
         </div>
       </div>
       <div className={styles.content}>
-        <OnlyMobiles>
-          <Button onClick={() => setOpen(!open)}>Open nav</Button>
-        </OnlyMobiles>
+        <Button
+          className={GlobalStyles.onlyMobiles}
+          onClick={() => setOpen(!open)}
+        >
+          Open nav
+        </Button>
         <Switch>
           <Route exact path={`${match.path}`} component={Account} />
           <Route

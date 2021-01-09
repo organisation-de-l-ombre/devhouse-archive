@@ -10,8 +10,8 @@ body {
 }
 
 a {
+    color: var(--foreground-primary);
     text-decoration: none;
-    color: white;
 }
 
 button {

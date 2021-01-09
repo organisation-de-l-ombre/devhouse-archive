@@ -3,13 +3,13 @@
  */
 
 import React, { ReactElement } from "react";
-import styled from "styled-components";
 import { FallbackProps } from "react-error-boundary";
+import styles from "./error-page.module.scss";
 
-const ErrorPageStructure = (props: unknown & FallbackProps): ReactElement => {
+const ErrorPage = (props: unknown & FallbackProps): ReactElement => {
   const { resetErrorBoundary } = props;
   return (
-    <div id="error-container" {...props}>
+    <div id="error-container" className={styles.errorPage}>
       <div id="error-window">
         <h1>Oops... The page just crashed...</h1>
         <p>
@@ -24,15 +24,5 @@ const ErrorPageStructure = (props: unknown & FallbackProps): ReactElement => {
     </div>
   );
 };
-
-const ErrorPage = styled(ErrorPageStructure)`
-  display: flex;
-  justify-content: center;
-  vertical-align: middle;
-  height: 100vh;
-  align-items: center;
-  background-color: #141414;
-  color: white;
-`;
 
 export default ErrorPage;

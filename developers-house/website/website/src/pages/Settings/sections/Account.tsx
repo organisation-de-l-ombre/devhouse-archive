@@ -165,9 +165,7 @@ const Takeouts: FC = () => {
           return (
             <>
               <hr />
-              <CardHeader>
-                <h4>{dat.uuid}</h4>
-              </CardHeader>
+              <h4>{dat.uuid}</h4>
               <CardSection>
                 Status: {dat.status} <br />
                 Expires in {dat.expire} seconds. <br />
@@ -177,7 +175,7 @@ const Takeouts: FC = () => {
                     <Indicator
                       key={service.name}
                       color={
-                        service.status === "finished" ? "#5dcb17" : "#c1be10"
+                        service.status === "finished" ? "#6dab49" : "#9b9946"
                       }
                     >
                       {service.name}
@@ -185,13 +183,11 @@ const Takeouts: FC = () => {
                   );
                 })}
               </CardSection>
-              <CardSection>
-                {dat.link && (
-                  <a href={dat.link} rel="noopener noreferrer">
-                    <Button>Download</Button>
-                  </a>
-                )}
-              </CardSection>
+              {dat.link && (
+                <a href={dat.link} rel="noopener noreferrer">
+                  <Button>Download</Button>
+                </a>
+              )}
             </>
           );
         })}
