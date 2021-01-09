@@ -367,7 +367,7 @@ func (s *ImplementedApiService) RequestGetUserLinks(userId string) (interface{},
 	for _, val := range keys.Val() {
 		link, err := s.redis.Get(requestContext, fmt.Sprintf("cryir:takeout:%s", val)).Bytes()
 		if err != nil {
-			s.redis.SRem(requestContext, val)
+			s.redis.SRem(requestContext, fmt.Sprintf("cryir:takeout-result:%s", userId), val)
 			continue
 		}
 		expireIn, err := s.redis.TTL(requestContext, fmt.Sprintf("cryir:takeout:%s", val)).Result()
