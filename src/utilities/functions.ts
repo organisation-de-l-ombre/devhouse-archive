@@ -1,4 +1,3 @@
-import { ServerResponse } from "utilities/types";
 import { CachedUser } from "../pages/Members/types";
 
 export function groupBy<T, TR>(
@@ -35,13 +34,4 @@ export function getAvatar(member: CachedUser): string {
     : `https://cdn.discordapp.com/embed/avatars/${
         parseInt(member.id, 10) % 5
       }.png`;
-}
-
-export function returnOrThrow<T>(
-  response: ServerResponse<T>
-): ServerResponse<T> {
-  if (response.code === 200) {
-    return response;
-  }
-  throw new Error(`Failed to load the members ${response.message}`);
 }

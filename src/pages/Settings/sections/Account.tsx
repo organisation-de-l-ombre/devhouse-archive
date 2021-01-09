@@ -100,9 +100,17 @@ const AccountUpdateForm: FC = () => {
   );
 };
 
-const Indicator: FC<{ color: string }> = ({ color, children }) => {
+const Indicator: FC<{ color: string; key: string }> = ({
+  key,
+  color,
+  children,
+}) => {
   return (
-    <div className={styles.indicator} style={{ backgroundColor: color }}>
+    <div
+      className={styles.indicator}
+      key={key}
+      style={{ backgroundColor: color }}
+    >
       {children}
     </div>
   );
@@ -167,6 +175,7 @@ const Takeouts: FC = () => {
                 {dat.services.map((service) => {
                   return (
                     <Indicator
+                      key={service.name}
                       color={
                         service.status === "finished" ? "#5dcb17" : "#c1be10"
                       }

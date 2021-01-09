@@ -2,13 +2,9 @@
  * Synchronize the theme to the styled-components variable.
  */
 
-import React, { PropsWithChildren, ReactElement } from "react";
+import React, { PropsWithChildren, ReactElement, useEffect } from "react";
 import { useSelector } from "react-redux";
-import {
-  createGlobalStyle,
-  DefaultTheme,
-  ThemeProvider as Theme,
-} from "styled-components";
+import { DefaultTheme, ThemeProvider as Theme } from "styled-components";
 import styles from "./themes.module.scss";
 
 declare module "styled-components" {
@@ -101,29 +97,52 @@ const themes: { [K: string]: DefaultTheme } = {
       },
     },
   },
-};
+  thanos: {
+    name: "thanos",
+    foreground: {
+      // The three base colors
+      primary: "#1B2B42",
+      secondary: "#B4A24C",
+      tertiary: "#D9C63C",
+      page: "#1B2B42",
+      hover: {
+        primary: "rgb(220, 220, 220)",
+        secondary: "rgb(220, 220, 220)",
+        tertiary: "",
+      },
+    },
+    background: {
+      // The three base background colors.
+      primary: "#306493",
+      secondary: "#6F3C89",
+      tertiary: "#306493",
 
-const GlobalTheme = createGlobalStyle`
-  body {
-    color: ${(props): string => props.theme.foreground.page};
-    background: ${(props): string => props.theme.background.page};
-  }
-`;
+      page: "#A788A8",
+
+      hover: {
+        primary: "#424242",
+        secondary: "#404040",
+        tertiary: "",
+      },
+    },
+  },
+};
 
 const ThemeProvider = ({
   children,
 }: PropsWithChildren<unknown>): ReactElement => {
   const currentTheme = useSelector((state) => state.theme.theme);
+
+  useEffect(() => {
+    const elem = document.querySelector("#root");
+    if (elem)
+      elem.className = `${styles[currentTheme]} ${styles.themeContainer}`;
+  }, [currentTheme]);
+
   return (
-    <div
-      style={{ height: "100%", display: "flex", flexDirection: "column" }}
-      className={styles[currentTheme]}
-    >
-      <Theme theme={themes[currentTheme]}>
-        <GlobalTheme />
-        {children}
-      </Theme>
-    </div>
+    <Theme theme={themes[currentTheme]}>
+      <div className={styles.wrapper}>{children}</div>
+    </Theme>
   );
 };
 
