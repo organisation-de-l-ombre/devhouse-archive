@@ -100,17 +100,9 @@ const AccountUpdateForm: FC = () => {
   );
 };
 
-const Indicator: FC<{ color: string; key: string }> = ({
-  key,
-  color,
-  children,
-}) => {
+const Indicator: FC<{ color: string; key: string }> = ({ color, children }) => {
   return (
-    <div
-      className={styles.indicator}
-      key={key}
-      style={{ backgroundColor: color }}
-    >
+    <div className={styles.indicator} style={{ backgroundColor: color }}>
       {children}
     </div>
   );
@@ -163,7 +155,7 @@ const Takeouts: FC = () => {
 
         {data.map((dat) => {
           return (
-            <>
+            <div key={dat.uuid}>
               <hr />
               <h4>{dat.uuid}</h4>
               <CardSection>
@@ -173,7 +165,7 @@ const Takeouts: FC = () => {
                 {dat.services.map((service) => {
                   return (
                     <Indicator
-                      key={service.name}
+                      key={`${service.name}${dat.uuid}`}
                       color={
                         service.status === "finished" ? "#6dab49" : "#9b9946"
                       }
@@ -188,7 +180,7 @@ const Takeouts: FC = () => {
                   <Button>Download</Button>
                 </a>
               )}
-            </>
+            </div>
           );
         })}
         {data.length === 0 && (

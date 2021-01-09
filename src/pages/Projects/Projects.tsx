@@ -39,7 +39,7 @@ export default function ProjectsPage(): ReactElement {
                         {project.managers
                           .sort((a, b) => a.localeCompare(b))
                           .map((member) => {
-                            return <Button>{member}</Button>;
+                            return <Button key={member}>{member}</Button>;
                           })}
                       </ButtonGroup>
                     </div>
@@ -52,7 +52,7 @@ export default function ProjectsPage(): ReactElement {
                         {project.members
                           .sort((a, b) => a.localeCompare(b))
                           .map((member) => {
-                            return <Button>{member}</Button>;
+                            return <Button key={member}>{member}</Button>;
                           })}
                       </ButtonGroup>
                     </div>
