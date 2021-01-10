@@ -1,4 +1,4 @@
-div, p, span, body, button { transition: background 250ms; }
+div, p, span, body, button, input { transition: background 250ms; }
 
 body {
     font-family: 'Roboto', sans-serif;

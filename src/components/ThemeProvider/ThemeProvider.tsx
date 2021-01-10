@@ -136,14 +136,10 @@ const ThemeProvider = ({
   useEffect(() => {
     const elem = document.querySelector("#root");
     if (elem)
-      elem.className = `${styles[currentTheme]} ${styles.themeContainer}`;
+      elem.className = `${styles[currentTheme]} ${styles.themeContainer} ${styles.wrapper}`;
   }, [currentTheme]);
 
-  return (
-    <Theme theme={themes[currentTheme]}>
-      <div className={styles.wrapper}>{children}</div>
-    </Theme>
-  );
+  return <Theme theme={themes[currentTheme]}>{children}</Theme>;
 };
 
 export default ThemeProvider;
