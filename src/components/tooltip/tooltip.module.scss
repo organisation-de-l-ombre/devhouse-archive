@@ -17,6 +17,7 @@ $triangle-base: 15px;
       width: 100%;
       transform: scale(1.75);
       height: 100%;
+      z-index: -1;
     }
     .padding {
       display: block;
