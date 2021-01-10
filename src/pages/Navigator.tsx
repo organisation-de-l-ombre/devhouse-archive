@@ -64,8 +64,8 @@ const Navigator = () => {
   const route = useLocation();
   return (
     <ErrorBoundary FallbackComponent={ErrorPage}>
-      <TransitionGroup className={styles.wrapper}>
-        <div className={styles.content}>
+      <div className={styles.wrapper}>
+        <TransitionGroup className={styles.content}>
           <CSSTransition
             key={route.pathname.split("/")[1]}
             classNames="fade"
@@ -84,9 +84,9 @@ const Navigator = () => {
               </Switch>
             </SuspenseLoader>
           </CSSTransition>
-        </div>
+        </TransitionGroup>
         <Footer />
-      </TransitionGroup>
+      </div>
     </ErrorBoundary>
   );
 };

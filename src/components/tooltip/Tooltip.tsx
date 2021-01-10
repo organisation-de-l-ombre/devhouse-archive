@@ -8,7 +8,7 @@ const Tooltip: FC<{
     <div className={styles.tooltipContainer}>
       <span className={styles.tooltip}>
         <span className={styles.hoverFix} />
-        {tooltip}
+        <span className={styles.padding}>{tooltip}</span>
       </span>
       {children}
     </div>
