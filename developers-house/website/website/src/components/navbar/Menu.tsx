@@ -29,10 +29,7 @@ export function Menu(): ReactElement {
   return (
     <NavigationContainer open={open} onClick={globalClick}>
       <div className={`${styles.primed} ${globalStyles.onlyMobiles}`}>
-        <NavigationItem
-          onClick={switchOpen}
-          className={styles["items-transition"]}
-        >
+        <NavigationItem onClick={switchOpen}>
           <h3>Developer&rsquo;s House</h3>
           <GiHamburgerMenu
             style={{
@@ -44,48 +41,23 @@ export function Menu(): ReactElement {
         </NavigationItem>
       </div>
       <DrawerContent onClick={switchOpenClick}>
-        <NavLink
-          to="/"
-          exact
-          className={styles["items-transition"]}
-          activeClassName={styles.active}
-        >
+        <NavLink to="/" exact activeClassName={styles.active}>
           <NavigationItem>Home</NavigationItem>
         </NavLink>
-        <NavLink
-          to="/projects"
-          className={styles["items-transition"]}
-          activeClassName={styles.active}
-        >
+        <NavLink to="/projects" activeClassName={styles.active}>
           <NavigationItem>Projects</NavigationItem>
         </NavLink>
-        <NavLink
-          to="/members"
-          className={styles["items-transition"]}
-          activeClassName={styles.active}
-        >
+        <NavLink to="/members" activeClassName={styles.active}>
           <NavigationItem>Members</NavigationItem>
         </NavLink>
-        <NavLink
-          to="/about"
-          className={styles["items-transition"]}
-          activeClassName={styles.active}
-        >
+        <NavLink to="/about" activeClassName={styles.active}>
           <NavigationItem onClick={switchOpenClick}>About</NavigationItem>
         </NavLink>
-        <NavLink
-          to="/contact"
-          className={styles["items-transition"]}
-          activeClassName={styles.active}
-        >
+        <NavLink to="/contact" activeClassName={styles.active}>
           <NavigationItem>Contact</NavigationItem>
         </NavLink>
         {userState.loggedIn ? (
-          <NavLink
-            to="/settings"
-            className={styles["items-transition"]}
-            style={{ marginLeft: "auto" }}
-          >
+          <NavLink to="/settings" style={{ marginLeft: "auto" }}>
             <NavigationItem style={{ padding: "auto" }}>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <UserAvatarStatus
@@ -107,7 +79,6 @@ export function Menu(): ReactElement {
             style={{
               marginLeft: "auto",
             }}
-            className={styles["items-transition"]}
             onClick={() => dispatch(loginUser())}
           >
             <FaUser />
@@ -119,7 +90,6 @@ export function Menu(): ReactElement {
             e.stopPropagation();
             dispatch(updateTheme(dark ? "dark" : "light"));
           }}
-          className={styles["items-transition"]}
         >
           {dark ? <BsMoon /> : <FaSun />}
           <div className={globalStyles.onlyMobiles}>

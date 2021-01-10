@@ -10,7 +10,7 @@ const rippleEvent = (event: React.MouseEvent): boolean => {
   const button: HTMLDivElement = event.currentTarget as HTMLDivElement;
   const circle = document.createElement("span");
   const diameter = Math.max(button.clientWidth, button.clientHeight);
-  const radius = diameter / 3;
+  const radius = diameter / 2;
 
   // eslint-disable-next-line no-multi-assign
   circle.style.width = circle.style.height = `${diameter}px`;
@@ -46,10 +46,17 @@ const Button: React.FC<
   React.DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
-  >
-> = ({ className, onClick, ...props }) => (
+  > & {
+    large?: boolean;
+  }
+> = ({ className, large, onClick, ...props }) => (
   <button
-    className={[className, styles.relative, styles.button].join(" ")}
+    className={[
+      className,
+      styles.relative,
+      styles.button,
+      large && styles.large,
+    ].join(" ")}
     onClick={(e) => rippleEvent(e) && onClick && onClick(e)}
     type="button"
     {...props}

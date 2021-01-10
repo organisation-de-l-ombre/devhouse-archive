@@ -33,13 +33,14 @@
 .card {
   width: 20rem;
   border-radius: 0;
-  left: -100%;
-  transition: left 500ms;
+  right: calc(100%);
   z-index: 3;
   justify-items: center;
   display: flex;
   box-shadow: var(--background-hover-secondary) 0 0 5px;
   background-color: var(--background-secondary);
+
+  transition: right ease-out 500ms, opacity 500ms;
 }
 
 @media screen and (max-width: 700px) {
@@ -51,8 +52,7 @@
 }
 
 .open {
-  left: 0;
-  transition: left 500ms, opacity 500ms;
+  right: 0;
   opacity: 1;
 }
 

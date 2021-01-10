@@ -4,27 +4,29 @@
   align-items: center;
   border-radius: 5px;
   overflow: hidden;
-  background-color: var(--background-secondary);
+  background-color: var(--background-hover-primary);
   color: var(--foreground-primary);
 
   &:hover { background-color: var(--background-hover-primary); }
   &:disabled { background-color: var(--background-hover-secondary); }
+
+  &.large {
+    padding: .25rem .25rem .25rem .25rem;
+    .image {
+      font-size: 2rem;
+    }
+  }
 
   .image {
     display: inline;
     margin: 0 0.25rem;
 
     svg {
-      height: 32px;
-      width: 32px;
       vertical-align: middle;
       display: inline-block;
     }
   }
 }
-
-.button__no_radius { border-radius: 0; }
-
 
 .group {
   display: flex;

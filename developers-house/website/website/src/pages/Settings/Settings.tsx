@@ -8,7 +8,7 @@ import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { GlobalStyles } from "styles";
 import { AiFillLock } from "react-icons/all";
-import { Button } from "../../components/ui/Button/Button";
+import { Button, ButtonImage } from "../../components/ui/Button/Button";
 import ButtonGroup from "../../components/ui/Button/ButtonGroup";
 import Authorizations from "./sections/Authorizations";
 import Account from "./sections/Account";
@@ -67,7 +67,9 @@ const Settings = (): ReactElement => {
               <Button>Support</Button>
             </NavLink>
             <Button onClick={logout}>
-              <AiFillLock />
+              <ButtonImage>
+                <AiFillLock />
+              </ButtonImage>
               Logout
             </Button>
           </ButtonGroup>

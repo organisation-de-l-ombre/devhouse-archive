@@ -24,3 +24,7 @@
 .rotate {
     animation: Spin 500ms infinite;
 }
+
+p {
+    word-break: break-word;
+}

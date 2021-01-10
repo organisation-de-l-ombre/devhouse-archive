@@ -11,8 +11,8 @@
 }
 
 .headerContent {
-  margin-top: 4rem;
-  margin-bottom: 12rem;
+  padding-top: 4rem;
+  padding-bottom: 12rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -23,4 +23,40 @@
 .headerSubtext {
   max-width: 58vw;
   margin-bottom: 2rem;
+}
+
+.points {
+  padding: 1rem 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 10px;
+  div {
+    p {
+      word-break: break-word;
+    }
+    max-width: content-box;
+    flex: 1 37%;
+    padding: 1.75rem;
+  }
+}
+
+.sectionLast {
+  position: relative;
+  padding: 3rem 0 3rem 0;
+  z-index: 1;
+  .background {
+    padding: 1rem;
+    transform: rotate(-3deg) translateX(-1%);
+    position: absolute;
+    width: 100%;
+    background-color: var(--background-secondary);
+    box-shadow: var(--background-hover-secondary) 0 0 10px;
+    .content {
+      display: block;
+      margin: 3% 3% 0;
+      transform: rotate(3deg);
+    }
+  }
 }

@@ -11,7 +11,7 @@ export const NavigationContainer: React.FC<
     HTMLDivElement
   > & { open: boolean }
 > = ({ className, open, ...props }) => (
-  <div
+  <nav
     className={[
       styles.container,
       open ? styles.open : "",
