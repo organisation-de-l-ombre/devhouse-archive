@@ -19,7 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Remove the eslint warnings">
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fix the columns of the home page">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Home/Home.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home/Home.module.scss" afterDir="false" />
     </list>
@@ -108,14 +108,7 @@
       <workItem from="1610135716654" duration="1914000" />
       <workItem from="1610139973172" duration="3392000" />
       <workItem from="1610206189866" duration="2747000" />
-      <workItem from="1610221368048" duration="13918000" />
-    </task>
-    <task id="LOCAL-00022" summary="Add startup.sh">
-      <created>1609739458078</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1609739458078</updated>
+      <workItem from="1610221368048" duration="13958000" />
     </task>
     <task id="LOCAL-00023" summary="Add startup.sh">
       <created>1609740228036</created>
@@ -453,7 +446,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610271599965</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="Fix the columns of the home page">
+      <created>1610272049426</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1610272049427</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -472,7 +472,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Change the token audience" />
     <MESSAGE value="Add the mutations" />
     <MESSAGE value="New navigation for the user space" />
     <MESSAGE value="Some fixes in the ui" />
@@ -497,7 +496,8 @@
     <MESSAGE value="Small fixes in the ui" />
     <MESSAGE value="Fixes in the homa page loading &amp; in the tooltip css" />
     <MESSAGE value="Remove the eslint warnings" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove the eslint warnings" />
+    <MESSAGE value="Fix the columns of the home page" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix the columns of the home page" />
   </component>
   <component name="WindowStateProjectService">
     <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607236205403">
@@ -545,10 +545,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="168" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1610209137228" />
-    <state x="312" y="265" key="Vcs.Push.Dialog.v2" timestamp="1610271601862">
+    <state x="312" y="265" key="Vcs.Push.Dialog.v2" timestamp="1610272050646">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="312" y="265" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1610271601862" />
+    <state x="312" y="265" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1610272050646" />
     <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1610209052761">
       <screen x="0" y="0" width="1920" height="1040" />
