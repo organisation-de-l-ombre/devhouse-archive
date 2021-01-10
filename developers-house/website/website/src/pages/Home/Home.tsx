@@ -1,4 +1,4 @@
-import React, { ReactElement, useMemo } from "react";
+import React, { ReactElement, useCallback, useMemo } from "react";
 import { FaDiscord } from "react-icons/fa";
 import { RiPencilRuler2Line } from "react-icons/ri";
 import Button, { ButtonImage } from "components/ui/Button/Button";
@@ -9,6 +9,9 @@ import { useSelector } from "react-redux";
 import { BsPeople } from "react-icons/all";
 import styles from "./Home.module.scss";
 
+const shareAvailable = !!navigator.share;
+const protocolAvailable = !!navigator.registerProtocolHandler;
+
 export default function HomePage(): ReactElement {
   const theme = useSelector((s) => s.theme.theme);
   const imageURL = useMemo(
@@ -16,6 +19,19 @@ export default function HomePage(): ReactElement {
     () => require(`../../assets/${theme}/header-waves.svg`),
     [theme]
   );
+  const share = useCallback(() => {
+    navigator.share({
+      title: "Developer's House",
+      text: "Discover Developer's House today!",
+      url: document.location.toString(),
+    });
+  }, []);
+
+  const protocol = useCallback(() => {
+    const url = `${document.location.toString()}?url=%s`;
+    navigator.registerProtocolHandler("web+devhouse", url, "Developer's House");
+  }, []);
+
   return (
     <div>
       <TitleBox
@@ -136,6 +152,10 @@ export default function HomePage(): ReactElement {
         >
           <Button>Join our discord server</Button>
         </a>
+        {shareAvailable && <Button onClick={share}>Share the project</Button>}
+        {protocolAvailable && (
+          <Button onClick={protocol}>Add the protocol</Button>
+        )}
       </section>
     </div>
   );
