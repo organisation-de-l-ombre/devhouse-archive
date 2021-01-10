@@ -19,12 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Adding tooltip component">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/tooltip/Tooltip.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/tooltip/Tooltip.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/tooltip/tooltip.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/tooltip/tooltip.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Navigator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Navigator.tsx" afterDir="false" />
-    </list>
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fix on the tooltip hoverbox" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -110,14 +105,7 @@
       <workItem from="1610135716654" duration="1914000" />
       <workItem from="1610139973172" duration="3392000" />
       <workItem from="1610206189866" duration="2747000" />
-      <workItem from="1610221368048" duration="11323000" />
-    </task>
-    <task id="LOCAL-00017" summary="Fix deployment of help chart">
-      <created>1606302757625</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1606302757625</updated>
+      <workItem from="1610221368048" duration="11463000" />
     </task>
     <task id="LOCAL-00018" summary="Navigation changes &amp; login implementation">
       <created>1607247265499</created>
@@ -455,7 +443,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610268592810</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="Fix on the tooltip hoverbox">
+      <created>1610269105119</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1610269105119</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -474,7 +469,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add the avatar to the account page" />
     <MESSAGE value="Remove unused text" />
     <MESSAGE value="Change the scopes" />
     <MESSAGE value="Change the client name" />
@@ -499,7 +493,8 @@
     <MESSAGE value="Fix keys warnings" />
     <MESSAGE value="First part of the home page" />
     <MESSAGE value="Adding tooltip component" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding tooltip component" />
+    <MESSAGE value="Fix on the tooltip hoverbox" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix on the tooltip hoverbox" />
   </component>
   <component name="WindowStateProjectService">
     <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607236205403">
@@ -547,10 +542,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="168" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1610209137228" />
-    <state x="312" y="265" key="Vcs.Push.Dialog.v2" timestamp="1610268594364">
+    <state x="312" y="265" key="Vcs.Push.Dialog.v2" timestamp="1610269111331">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="312" y="265" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1610268594364" />
+    <state x="312" y="265" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1610269111331" />
     <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1610209052761">
       <screen x="0" y="0" width="1920" height="1040" />
