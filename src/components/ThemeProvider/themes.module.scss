@@ -18,7 +18,7 @@
   --menu-item-hover-background: rgb(148, 148, 148);
 
   color: var(--foreground-primary);
-  background: var(--background-primary);
+  background: rgb(215, 215, 215);
 }
 
 .dark {
@@ -39,6 +39,8 @@
   --background-hover-tertiary: rgb(215, 215, 215);
 
   --menu-item-hover-background: rgb(78, 78, 78);
+
+  background: rgb(40, 40, 40);
 }
 
 .thanos {
@@ -67,7 +69,6 @@ a { color: var(--foreground-primary); }
 
 .themeContainer {
   color: var(--foreground-primary);
-  background: var(--background-primary);
 }
 
 .wrapper {
