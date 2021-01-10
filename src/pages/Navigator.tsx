@@ -15,7 +15,6 @@ import { pushNotification } from "../state/modules/notifications";
 import SuspenseLoader from "../components/SuspenseLoader/SuspenseLoader";
 import NotFound from "./NotFound/NotFound";
 import styles from "./navigator.module.scss";
-import Footer from "../components/footer/Footer";
 
 const AboutPage = React.lazy(() => import("./About/About"));
 const HomePage = React.lazy(() => import("./Home/Home"));
