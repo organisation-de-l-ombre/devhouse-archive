@@ -8,7 +8,6 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { BsPeople } from "react-icons/all";
 import styles from "./Home.module.scss";
-import { Card, CardPadding } from "../../components/ui/Card/Card";
 
 export default function HomePage(): ReactElement {
   const theme = useSelector((s) => s.theme.theme);
