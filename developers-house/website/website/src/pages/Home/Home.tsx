@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useMemo } from "react";
 import { FaDiscord } from "react-icons/fa";
 import { RiPencilRuler2Line } from "react-icons/ri";
 import Button, { ButtonImage } from "components/ui/Button/Button";
@@ -11,8 +11,11 @@ import styles from "./Home.module.scss";
 
 export default function HomePage(): ReactElement {
   const theme = useSelector((s) => s.theme.theme);
-  // eslint-disable-next-line import/no-dynamic-require,global-require,@typescript-eslint/no-var-requires
-  const imageURL = require(`../../assets/${theme}/header-waves.svg`);
+  const imageURL = useMemo(
+    // eslint-disable-next-line import/no-dynamic-require,global-require
+    () => require(`../../assets/${theme}/header-waves.svg`),
+    [theme]
+  );
   return (
     <div>
       <TitleBox

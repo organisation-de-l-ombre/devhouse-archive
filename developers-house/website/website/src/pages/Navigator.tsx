@@ -85,7 +85,6 @@ const Navigator = () => {
             </SuspenseLoader>
           </CSSTransition>
         </TransitionGroup>
-        <Footer />
       </div>
     </ErrorBoundary>
   );
