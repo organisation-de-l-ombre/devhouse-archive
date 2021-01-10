@@ -10,7 +10,7 @@ import React, {
   Suspense,
   FC,
 } from "react";
-import { Route, Switch, useHistory, useRouteMatch } from "react-router";
+import { Route, Switch, useRouteMatch } from "react-router";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { GlobalStyles } from "styles";
