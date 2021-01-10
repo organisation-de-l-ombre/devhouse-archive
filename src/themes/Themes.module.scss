@@ -4,7 +4,10 @@
   --primary-background-color: rgb(200, 200, 200);
   --primary-background-color-hover: rgb(135, 135, 135);
 
+  --secondary-background-color: rgb(175, 175, 175);
+
   --font-color: black;
+  --font-color-hover: rgb(229, 160, 13);
 }
 
 .dark {
@@ -13,5 +16,8 @@
   --primary-background-color: rgb(60, 60, 60);
   --primary-background-color-hover: rgb(125, 125, 125);
 
+  --secondary-background-color: rgb(100, 100, 100);
+
   --font-color: white;
+  --font-color-hover: rgb(229, 160, 13);
 }

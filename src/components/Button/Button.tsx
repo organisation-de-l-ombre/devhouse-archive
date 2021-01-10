@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Button.module.scss";
 
-export const Button: React.FC<
+const Button: React.FC<
   React.DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
@@ -18,3 +18,5 @@ export const Button: React.FC<
     </button>
   );
 };
+
+export default Button;

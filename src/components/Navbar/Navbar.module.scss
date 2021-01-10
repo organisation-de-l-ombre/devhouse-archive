@@ -3,6 +3,7 @@
   justify-content: space-between;
   align-items: center;
   background-color: var(--primary-background-color);
+  box-shadow: 0 0 1rem black;
 
   .mobile-menu { display: none; }
 
@@ -11,7 +12,6 @@
 
     a {
       padding: 1rem;
-      font-size: 1rem;
       text-align: center;
       text-decoration: none;
       transition: .5s;
@@ -31,13 +31,30 @@
 
   .end { display: flex; }
 
-  .theme {
+  .buttons {
+    display: flex;
+    align-items: center;
     border-radius: 0;
 
-    span { display: none; }
+    svg {
+      width: 1rem;
+      transform: scale(1.5);
+    }
+
+    .avatar {
+      border-radius: 50%;
+      transform: scale(1.75);
+    }
+
+    span { margin-left: 1rem; }
+
+    .theme-switcher-span { display: none; }
   }
 
   @media screen and (max-width: 640px) {
+    width: 100%;
+    position: fixed;
+
     .mobile-menu {
       width: 100%;
       display: flex;
@@ -65,13 +82,10 @@
 
       a { text-align: left; }
 
-      .theme {
+      .buttons {
         text-align: left;
 
-        span {
-          margin: 1rem;
-          display: unset;
-        }
+        .theme-switcher-span { display: unset; }
       }
     }
   }

@@ -1,38 +1,89 @@
-import { FaMoon, FaSun, MdLocalMovies } from "react-icons/all";
-import { NavLink } from "react-router-dom";
+import { FaMoon, FaSun, FaUser, MdLocalMovies } from "react-icons/all";
+import { useHistory, NavLink } from "react-router-dom";
 import React from "react";
+import { useTranslation, Trans } from "react-i18next";
+import { createUser } from "../../account/UserActions";
 import styles from "./Navbar.module.scss";
-import { Button } from "../Button/Button";
-import { ThemeContext } from "../../themes/ThemeContext";
+import Button from "../Button/Button";
+import ThemeContext from "../../themes/ThemeContext";
+import UserContext from "../../account/UserContext";
+import Image from "../Image/Image";
 
-export const Navbar = (): React.ReactElement => {
+const Navbar = (): React.ReactElement => {
+  const { loggedIn } = React.useContext(UserContext);
+  const history = useHistory();
+  const manageUser = React.useCallback(async (): Promise<void> => {
+    switch (loggedIn) {
+      case true:
+        history.push("/account");
+        break;
+
+      case false:
+        await createUser();
+        break;
+
+      default:
+        break;
+    }
+  }, [history, loggedIn]);
   const [open, setOpen] = React.useState(false);
   const { changeTheme, theme } = React.useContext(ThemeContext);
+  const { t } = useTranslation("translation");
+  const { user } = React.useContext(UserContext);
 
   return (
     <nav className={`${styles.navbar}${open ? ` ${styles.open}` : ""}`}>
       <Button className={styles["mobile-menu"]} onClick={() => setOpen(!open)}>
         <MdLocalMovies />
-        <h1>International Media Referencing</h1>
+        <h1>
+          <Trans t={t} i18nKey="components.navbar.mobileMenu" />
+        </h1>
       </Button>
 
       <div className={styles.start}>
         <NavLink to="/" exact activeClassName={styles.active}>
-          Home
+          <Trans t={t} i18nKey="components.navbar.items.home" />
         </NavLink>
         <NavLink to="/movies" activeClassName={styles.active}>
-          Movies
+          <Trans t={t} i18nKey="components.navbar.items.movies" />
         </NavLink>
         <NavLink to="/series" activeClassName={styles.active}>
-          Series
+          <Trans t={t} i18nKey="components.navbar.items.series" />
         </NavLink>
       </div>
       <div className={styles.end}>
-        <Button className={styles.theme} onClick={changeTheme}>
+        <Button className={styles.buttons} onClick={manageUser}>
+          {loggedIn ? (
+            <>
+              {user ? (
+                <Image
+                  className={styles.avatar}
+                  src={`https://s3.developershouse.xyz/${user.avatar}`}
+                />
+              ) : (
+                <FaUser />
+              )}
+              <span>
+                <Trans t={t} i18nKey="components.navbar.items.manageAccount" />
+              </span>
+            </>
+          ) : (
+            <Trans t={t} i18nKey="components.navbar.items.login" />
+          )}
+        </Button>
+        <Button className={styles.buttons} onClick={changeTheme}>
           {theme === "light" ? <FaMoon /> : <FaSun />}
-          <span>Switch to {theme === "light" ? "dark" : "light"} theme</span>
+          <span className={styles["theme-switcher-span"]}>
+            {theme === "light" ? (
+              <Trans t={t} i18nKey="components.navbar.items.darkTheme" />
+            ) : (
+              <Trans t={t} i18nKey="components.navbar.items.darkTheme" />
+            )}
+          </span>
         </Button>
       </div>
     </nav>
   );
 };
+
+export default Navbar;

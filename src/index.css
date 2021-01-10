@@ -1,5 +1,21 @@
 * { color: var(--font-color); }
 
+a, button, p, span {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+a { text-decoration: none; }
+
+h1 {
+    font-size: 2.25rem;
+}
+
+hr {
+    margin: 1rem 0;
+    border-color: var(--font-color);
+}
+
 #app {
     min-height: 100vh;
     display: flex;
