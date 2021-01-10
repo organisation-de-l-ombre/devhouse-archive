@@ -4,6 +4,7 @@ import UserAvatarStatus from "components/ui/UserAvatarStatus/UserAvatarStatus";
 import { getAvatar, statusToColor } from "../../utilities";
 import { CachedUser } from "./types";
 import styles from "./member.module.scss";
+import Tooltip from "../../components/tooltip/Tooltip";
 
 function MemberDisplay({
   className,
@@ -28,9 +29,9 @@ function MemberDisplay({
             />
           </div>
           <div>
-            <h2>
-              {username} <sub>#{discriminator}</sub>
-            </h2>
+            <Tooltip tooltip={`${username}#${discriminator}`}>
+              <h2>{username}</h2>
+            </Tooltip>
             <p style={{ color }}>{name}</p>
             <div>
               {presence?.presenceText && (
