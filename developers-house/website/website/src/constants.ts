@@ -18,8 +18,6 @@ const doSearch = (hash: string) => {
 };
 
 doSearch(window.location.hash.substring(1) || "");
-// eslint-disable-next-line prefer-destructuring
-console.log(window.location.href);
 doSearch(window.location.href.split("?")[1] || "");
 
 export const RequestParams = params;
