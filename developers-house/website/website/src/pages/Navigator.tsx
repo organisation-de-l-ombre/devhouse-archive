@@ -15,6 +15,7 @@ import { pushNotification } from "../state/modules/notifications";
 import SuspenseLoader from "../components/SuspenseLoader/SuspenseLoader";
 import NotFound from "./NotFound/NotFound";
 import styles from "./navigator.module.scss";
+import Footer from "../components/footer/Footer";
 
 const AboutPage = React.lazy(() => import("./About/About"));
 const HomePage = React.lazy(() => import("./Home/Home"));
@@ -64,24 +65,27 @@ const Navigator = () => {
   return (
     <ErrorBoundary FallbackComponent={ErrorPage}>
       <TransitionGroup className={styles.wrapper}>
-        <CSSTransition
-          key={route.pathname.split("/")[1]}
-          classNames="fade"
-          timeout={500}
-        >
-          <SuspenseLoader key={route.pathname}>
-            <Switch location={route}>
-              <Route path="/members" exact component={MembersPage} />
-              <Route path="/" exact component={HomePage} />
-              <Route path="/about" exact component={AboutPage} />
-              <Route path="/projects" exact component={ProjectsPage} />
-              <Route path="/callback" exact component={Callback} />
-              <PrivateRoute path="/settings" component={Settings} />
-              <Route path="/contact" component={NotImplemented} />
-              <Route path="*" exact component={NotFound} />
-            </Switch>
-          </SuspenseLoader>
-        </CSSTransition>
+        <div className={styles.content}>
+          <CSSTransition
+            key={route.pathname.split("/")[1]}
+            classNames="fade"
+            timeout={500}
+          >
+            <SuspenseLoader key={route.pathname}>
+              <Switch location={route}>
+                <Route path="/members" exact component={MembersPage} />
+                <Route path="/" exact component={HomePage} />
+                <Route path="/about" exact component={AboutPage} />
+                <Route path="/projects" exact component={ProjectsPage} />
+                <Route path="/callback" exact component={Callback} />
+                <PrivateRoute path="/settings" component={Settings} />
+                <Route path="/contact" component={NotImplemented} />
+                <Route path="*" exact component={NotFound} />
+              </Switch>
+            </SuspenseLoader>
+          </CSSTransition>
+        </div>
+        <Footer />
       </TransitionGroup>
     </ErrorBoundary>
   );

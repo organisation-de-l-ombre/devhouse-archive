@@ -8,6 +8,7 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { BsPeople } from "react-icons/all";
 import styles from "./Home.module.scss";
+import { Card, CardPadding } from "../../components/ui/Card/Card";
 
 export default function HomePage(): ReactElement {
   const theme = useSelector((s) => s.theme.theme);
@@ -109,18 +110,30 @@ export default function HomePage(): ReactElement {
         </div>
       </section>
 
-      <section className={styles.sectionLast}>
-        <span className={styles.background}>
-          <div className={styles.content}>
-            <h2>Join us today!</h2>
-            <p>
-              In order to enter our team, you must complete the following
-              application form; We do not have any requirements except a basic
-              understanding of how a computer works. See you soon!
-            </p>
-            <Button>Fill the application form</Button>
-          </div>
-        </span>
+      <span className={styles.background}>
+        <div className={styles.content}>
+          <h2>Join us today!</h2>
+          <p>
+            In order to enter our team, you must complete the following
+            application form; We do not have any requirements except a basic
+            understanding of how a computer works. See you soon!
+          </p>
+          <Button>Fill the application form</Button>
+        </div>
+      </span>
+      <section className={styles.contact}>
+        <h2>Stay in contact with the project.</h2>
+        <p>
+          You can stay in the contact and chat with us by joining our public
+          discord server!
+        </p>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://discord.gg/r8RC2TjnFd"
+        >
+          <Button>Join our discord server</Button>
+        </a>
       </section>
     </div>
   );

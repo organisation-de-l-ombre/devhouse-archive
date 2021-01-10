@@ -19,22 +19,18 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fix keys warnings">
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="First part of the home page">
+      <change afterPath="$PROJECT_DIR$/src/components/footer/Footer.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/footer/footer.module.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/tooltip/Tooltip.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/tooltip/tooltip.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ThemeProvider/ThemeProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ThemeProvider/ThemeProvider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/navbar/Menu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navbar/Menu.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/navbar/Menu/MenuContainer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navbar/Menu/MenuContainer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/navbar/Menu/navigation.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navbar/Menu/navigation.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/notifications/NotificationsArea.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/notifications/NotificationsArea.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/Button/Button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/Button/Button.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/Button/button.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/Button/button.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/UserAvatarStatus/UserAvatarStatus.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/UserAvatarStatus/UserAvatarStatus.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/Card/card.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/Card/card.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Home/Home.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home/Home.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Home/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home/Home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Settings/Settings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Settings/Settings.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Settings/settings.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Settings/settings.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/transitions.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/transitions.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transitions.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/transitions.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Members/MemberDisplay.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Members/MemberDisplay.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Navigator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Navigator.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/navigator.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/navigator.module.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,14 +117,7 @@
       <workItem from="1610135716654" duration="1914000" />
       <workItem from="1610139973172" duration="3392000" />
       <workItem from="1610206189866" duration="2747000" />
-      <workItem from="1610221368048" duration="7692000" />
-    </task>
-    <task id="LOCAL-00015" summary="Fix paths">
-      <created>1606298549709</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1606298549709</updated>
+      <workItem from="1610221368048" duration="10809000" />
     </task>
     <task id="LOCAL-00016" summary="Fix the gitlab ci for helm and postgres">
       <created>1606302125701</created>
@@ -466,7 +455,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610223223600</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="First part of the home page">
+      <created>1610265479657</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1610265479658</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -485,7 +481,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add text for the left navigation items on the mobile menu" />
     <MESSAGE value="Fix the size of the avatar picture" />
     <MESSAGE value="Add the avatar to the account page" />
     <MESSAGE value="Remove unused text" />
@@ -510,7 +505,8 @@
     <MESSAGE value="Add the websocket scope" />
     <MESSAGE value="Fixes in the css and dom cleanup" />
     <MESSAGE value="Fix keys warnings" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix keys warnings" />
+    <MESSAGE value="First part of the home page" />
+    <option name="LAST_COMMIT_MESSAGE" value="First part of the home page" />
   </component>
   <component name="WindowStateProjectService">
     <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607236205403">
@@ -558,10 +554,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="168" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1610209137228" />
-    <state x="312" y="265" key="Vcs.Push.Dialog.v2" timestamp="1610223227395">
+    <state x="312" y="265" key="Vcs.Push.Dialog.v2" timestamp="1610265481001">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="312" y="265" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1610223227395" />
+    <state x="312" y="265" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1610265481001" />
     <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1610209052761">
       <screen x="0" y="0" width="1920" height="1040" />
