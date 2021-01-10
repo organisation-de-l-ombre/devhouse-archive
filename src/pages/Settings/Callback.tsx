@@ -3,26 +3,17 @@
  */
 
 import React, { ReactElement, useEffect } from "react";
+import { RequestParams } from "../../constants";
 
 const Callback = (): ReactElement => {
   useEffect(() => {
-    const hash = window.location.hash.substring(1);
-    const params: {
-      [key: string]: string;
-    } = {};
-    hash.split("&").forEach((hk) => {
-      const temp = hk.split("=");
-      const [name, value] = temp;
-      params[name] = value;
-    });
-
-    if (params.access_token && params.state) {
-      if (localStorage.getItem("state-oauth") === params.state) {
+    if (RequestParams.access_token && RequestParams.state) {
+      if (localStorage.getItem("state-oauth") === RequestParams.state) {
         localStorage.removeItem("state-oauth");
         const channel = new BroadcastChannel("callback");
         channel.postMessage({
-          token: params.access_token,
-          state: params.state,
+          token: RequestParams.access_token,
+          state: RequestParams.state,
         });
       }
     }

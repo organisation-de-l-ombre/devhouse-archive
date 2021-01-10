@@ -19,9 +19,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fix the columns of the home page">
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fix the columns">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Home/Home.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home/Home.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Home/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home/Home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Settings/Callback.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Settings/Callback.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,14 +111,7 @@
       <workItem from="1610135716654" duration="1914000" />
       <workItem from="1610139973172" duration="3392000" />
       <workItem from="1610206189866" duration="2747000" />
-      <workItem from="1610221368048" duration="13958000" />
-    </task>
-    <task id="LOCAL-00023" summary="Add startup.sh">
-      <created>1609740228036</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1609740228036</updated>
+      <workItem from="1610221368048" duration="18876000" />
     </task>
     <task id="LOCAL-00024" summary="Made startup script executable">
       <created>1609741044313</created>
@@ -453,7 +449,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610272049427</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="Fix the columns">
+      <created>1610272075895</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1610272075895</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -472,7 +475,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add the mutations" />
     <MESSAGE value="New navigation for the user space" />
     <MESSAGE value="Some fixes in the ui" />
     <MESSAGE value="Fix with the auth &amp; animation system" />
@@ -497,7 +499,8 @@
     <MESSAGE value="Fixes in the homa page loading &amp; in the tooltip css" />
     <MESSAGE value="Remove the eslint warnings" />
     <MESSAGE value="Fix the columns of the home page" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix the columns of the home page" />
+    <MESSAGE value="Fix the columns" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix the columns" />
   </component>
   <component name="WindowStateProjectService">
     <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607236205403">
@@ -545,10 +548,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="168" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1610209137228" />
-    <state x="312" y="265" key="Vcs.Push.Dialog.v2" timestamp="1610272050646">
+    <state x="312" y="265" key="Vcs.Push.Dialog.v2" timestamp="1610272104809">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="312" y="265" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1610272050646" />
+    <state x="312" y="265" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1610272104809" />
     <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1610209052761">
       <screen x="0" y="0" width="1920" height="1040" />
