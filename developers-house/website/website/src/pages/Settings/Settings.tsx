@@ -34,7 +34,7 @@ const Content: FC<{ switchOpen: () => void; path: string }> = ({
     dispatch(logoutUser());
   }, [dispatch]);
   return (
-    <ButtonGroup className={styles.list}>
+    <ButtonGroup className={styles.list} full>
       <Button className={GlobalStyles.onlyMobiles} onClick={switchOpen}>
         Close
       </Button>
