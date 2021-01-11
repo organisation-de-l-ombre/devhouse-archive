@@ -65,6 +65,7 @@ export function Menu(): ReactElement {
                     paddingRight: "0.45rem",
                     width: "1.25rem",
                     display: "flex",
+                    transform: "scale(1.5)",
                   }}
                   animate
                   statusColor="gray"
