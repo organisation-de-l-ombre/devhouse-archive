@@ -3,13 +3,32 @@
   align-items: center;
 }
 
+.flex { display: flex; }
+
 .column { flex-direction: column; }
 
 .animation-opacity {
-  animation: animate .5s;
+  animation: animate-opacity .5s;
 
-  @keyframes animate {
+  @keyframes animate-opacity {
     from { opacity: 0; }
     to { opacity: 1; }
+  }
+}
+
+.primary-padding { padding: 1rem; }
+
+.secondary-padding { padding: 2rem; }
+
+.primary-margin { margin: 1rem; }
+
+.secondary-margin { margin: 2rem; }
+
+.rotate-infinite-animation {
+  animation: animate-rotate-infinite 1s infinite;
+
+  @keyframes animate-rotate-infinite {
+    from { transform: rotate(0); }
+    to { transform: rotate(360deg); }
   }
 }

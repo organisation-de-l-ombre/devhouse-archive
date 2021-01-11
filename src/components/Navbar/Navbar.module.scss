@@ -1,4 +1,5 @@
 .navbar {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -57,7 +58,6 @@
   }
 
   @media screen and (max-width: 640px) {
-    width: 100%;
     position: fixed;
 
     .mobile-menu {

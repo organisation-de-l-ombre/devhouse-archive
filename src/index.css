@@ -5,6 +5,8 @@ a, button, p, span {
     font-weight: bold;
 }
 
+a, button { text-align: center; }
+
 a { text-decoration: none; }
 
 h1 {
