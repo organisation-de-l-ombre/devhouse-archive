@@ -3,7 +3,6 @@ import { FaDiscord } from "react-icons/fa";
 import { RiPencilRuler2Line } from "react-icons/ri";
 import Button, { ButtonImage } from "components/ui/Button/Button";
 import ButtonGroup from "components/ui/Button/ButtonGroup";
-import { TitleBox } from "components/ui/TitleBox/TitleBox";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { BsPeople } from "react-icons/all";
@@ -34,7 +33,7 @@ export default function HomePage(): ReactElement {
 
   return (
     <div>
-      <TitleBox
+      <div
         style={{
           backgroundImage: `url(${imageURL})`,
         }}
@@ -45,7 +44,7 @@ export default function HomePage(): ReactElement {
           We are a small team of developers who seek to learn with a team of
           people, our goal is to learn how to work as a team.
         </p>
-        <ButtonGroup>
+        <ButtonGroup full>
           <a
             target="_blank"
             rel="noreferrer"
@@ -75,7 +74,7 @@ export default function HomePage(): ReactElement {
             </Button>
           </NavLink>
         </ButtonGroup>
-      </TitleBox>
+      </div>
       <section className={styles.points}>
         <div>
           <h3>Who are we ?</h3>
@@ -136,26 +135,45 @@ export default function HomePage(): ReactElement {
             application form; We do not have any requirements except a basic
             understanding of how a computer works. See you soon!
           </p>
-          <Button>Fill the application form</Button>
+          <NavLink to="/join">
+            <Button>Fill the application form</Button>
+          </NavLink>
         </div>
       </span>
       <section className={styles.contact}>
-        <h2>Stay in contact with the project.</h2>
+        <h2>Stay in contact with the project!</h2>
         <p>
           You can stay in the contact and chat with us by joining our public
           discord server!
         </p>
-        <a
-          target="_blank"
-          rel="noreferrer"
-          href="https://discord.gg/r8RC2TjnFd"
-        >
-          <Button>Join our discord server</Button>
-        </a>
-        {shareAvailable && <Button onClick={share}>Share the project</Button>}
-        {protocolAvailable && (
-          <Button onClick={protocol}>Add the protocol</Button>
-        )}
+        <ButtonGroup>
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://discord.gg/r8RC2TjnFd"
+          >
+            <Button>Join our discord server</Button>
+          </a>
+          {shareAvailable && <Button onClick={share}>Share the project</Button>}
+          {protocolAvailable && (
+            <Button onClick={protocol}>Add the protocol</Button>
+          )}
+        </ButtonGroup>
+      </section>
+      <section className={styles.contact}>
+        <h2>Contact information</h2>
+        <p>
+          If you need any information about this website or the organization
+          behind it, feel free to contact us, we will respond as soon as we can!
+        </p>
+        <ButtonGroup>
+          <a href="mailto:matthieu@developershouse.xyz">
+            <Button>By email</Button>
+          </a>
+          <NavLink to="/contact">
+            <Button>Contact us</Button>
+          </NavLink>
+        </ButtonGroup>
       </section>
     </div>
   );

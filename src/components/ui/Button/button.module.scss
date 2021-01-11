@@ -34,21 +34,24 @@
   border-radius: 5px;
   overflow: hidden;
   box-shadow: var(--background-hover-secondary) 0 0 3px;
-
+  max-width: fit-content;
   a {
     min-width: fit-content;
-    flex: 1;
     display: flex;
     border-radius: 0;
-  }
-
-  .button, a .button {
-    width: 100%;
     flex: 1;
+    .button {
+      width: 100%;
+    }
+  }
+  .button, a .button {
     position: relative;
     justify-content: center;
     border-radius: 0;
     padding: 1.1em;
+  }
+  &.full {
+    max-width: unset;
   }
 }
 
