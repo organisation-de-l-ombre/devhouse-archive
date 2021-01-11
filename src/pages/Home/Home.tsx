@@ -77,7 +77,7 @@ export default function HomePage(): ReactElement {
       </div>
       <section className={styles.points}>
         <div>
-          <h3>Who are we ?</h3>
+          <h2>Who are we ?</h2>
           <p>
             We are a group of students who are passioned about technology and
             software engineering who aims to build projects together; As a team
@@ -89,7 +89,7 @@ export default function HomePage(): ReactElement {
           </NavLink>
         </div>
         <div>
-          <h3>What projects do we have ?</h3>
+          <h2>What projects do we have ?</h2>
           <p>
             Our team regroups many projects including many platforms such as
             android, ios and the web. Our projects ideas come from the
@@ -103,7 +103,7 @@ export default function HomePage(): ReactElement {
         </div>
 
         <div>
-          <h3>What technologies do we use ?</h3>
+          <h2>What technologies do we use ?</h2>
           <p>
             Our current technological stack is based around
             JavaScript/TypeScript, GoLang, Docker and Kubernetes. We use a lot
@@ -114,7 +114,7 @@ export default function HomePage(): ReactElement {
         </div>
 
         <div>
-          <h3>Who is part of the project ?</h3>
+          <h2>Who is part of the project ?</h2>
           <p>
             Anyone can take part of the project as long as you have some basic
             understanding of programming and computer science in general. We do

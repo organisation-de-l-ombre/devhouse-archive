@@ -19,13 +19,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Add protocol handler :)">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/Button/ButtonGroup.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/Button/ButtonGroup.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/Button/button.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/Button/button.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Home/Home.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home/Home.module.scss" afterDir="false" />
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fix some design flaws in the ButtonGroup style and in the Home page">
       <change beforePath="$PROJECT_DIR$/src/pages/Home/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home/Home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Settings/Settings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Settings/Settings.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,13 +108,6 @@
       <workItem from="1610139973172" duration="3392000" />
       <workItem from="1610206189866" duration="2747000" />
       <workItem from="1610221368048" duration="18993000" />
-    </task>
-    <task id="LOCAL-00025" summary="New navbar improvements">
-      <created>1609744998593</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1609744998593</updated>
     </task>
     <task id="LOCAL-00026" summary="Fixes in the navigation and in the notifications">
       <created>1609748817362</created>
@@ -457,7 +445,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610279370805</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="Fix some design flaws in the ButtonGroup style and in the Home page">
+      <created>1610366087494</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1610366087504</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -476,7 +471,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Some fixes in the ui" />
     <MESSAGE value="Fix with the auth &amp; animation system" />
     <MESSAGE value="Add caching for s3" />
     <MESSAGE value="Add logout" />
@@ -501,7 +495,8 @@
     <MESSAGE value="Fix the columns of the home page" />
     <MESSAGE value="Fix the columns" />
     <MESSAGE value="Add protocol handler :)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add protocol handler :)" />
+    <MESSAGE value="Fix some design flaws in the ButtonGroup style and in the Home page" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix some design flaws in the ButtonGroup style and in the Home page" />
   </component>
   <component name="WindowStateProjectService">
     <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607236205403">
@@ -549,10 +544,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="168" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1610209137228" />
-    <state x="312" y="265" key="Vcs.Push.Dialog.v2" timestamp="1610279375210">
+    <state x="312" y="265" key="Vcs.Push.Dialog.v2" timestamp="1610366091951">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="312" y="265" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1610279375210" />
+    <state x="312" y="265" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1610366091951" />
     <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1610209052761">
       <screen x="0" y="0" width="1920" height="1040" />
