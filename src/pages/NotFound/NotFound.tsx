@@ -16,7 +16,7 @@ const NotFound = (): React.ReactElement => {
       className={`${flexContainerStyles.container} ${globalStyles["alignment-full-center"]}`}
     >
       <Card
-        className={`${styles.width} ${cardStyles.container} ${globalStyles.column}`}
+        className={`${styles.width} ${globalStyles["animation-opacity"]} ${cardStyles.container} ${globalStyles.column}`}
       >
         <h1>
           <Trans t={t} i18nKey="pages.notFound.title" />

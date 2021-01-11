@@ -8,7 +8,7 @@
   transition: .5s;
 
   &:hover {
-    background-color: var(--primary-background-color-hover);
+    color: var(--font-color-hover);
     transition: .5s;
   }
 }

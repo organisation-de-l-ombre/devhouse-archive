@@ -7,7 +7,9 @@ import Navbar from "../components/Navbar/Navbar";
 import ThemeProvider from "../providers/ThemeProvider/ThemeProvider";
 import UserProvider from "../providers/UserProvider/UserProvider";
 
+// const Suspense = React.lazy(() => import("../components/Suspense/Suspense"));
 const Home = React.lazy(() => import("./Home/Home"));
+const Account = React.lazy(() => import("./Account/Account"));
 const Callback = React.lazy(() => import("./Callback/Callback"));
 const NotFound = React.lazy(() => import("./NotFound/NotFound"));
 
@@ -23,6 +25,7 @@ export default function App(): React.ReactElement {
 
                 <Switch>
                   <Route path="/" exact component={Home} />
+                  <Route path="/account" component={Account} />
                   <Route path="/callback" component={Callback} />
                   <Route path="/movies" />
                   <Route path="/series" />
