@@ -36,6 +36,11 @@
     align-items: center;
     border-radius: 0;
 
+    &:hover {
+      color: var(--font-color);
+      background-color: var(--primary-background-color-hover);
+    }
+
     svg {
       width: 1rem;
       transform: scale(1.5);

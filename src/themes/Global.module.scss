@@ -4,3 +4,12 @@
 }
 
 .column { flex-direction: column; }
+
+.animation-opacity {
+  animation: animate .5s;
+
+  @keyframes animate {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
