@@ -10,8 +10,8 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import SuspenseLoader from "./components/SuspenseLoader/SuspenseLoader";
 import "./transitions.css";
 import { RequestParams } from "./constants";
+import Root from "./Root";
 
-const Root = React.lazy(() => import("Root"));
 const queryClient = new QueryClient();
 
 if (RequestParams.url) {

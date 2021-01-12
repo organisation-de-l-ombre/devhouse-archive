@@ -1,0 +1,11 @@
+{
+  "menu": {
+    "navbar": {
+      "home": "Home",
+      "projects": "Projects",
+      "members": "Members",
+      "contact": "Contact",
+      "about": "About"
+    }
+  }
+}

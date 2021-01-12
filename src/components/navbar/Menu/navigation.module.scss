@@ -9,6 +9,15 @@ a:hover, .active {
   cursor: pointer;
 }
 
+@keyframes show {
+  from {
+    height: 0;
+  }
+  to {
+    height: content-box;
+  }
+}
+
 .container {
   top: 0;
   width: 100%;
@@ -26,10 +35,12 @@ a:hover, .active {
     .onlyMobiles { display: block; }
 
     .drawer {
+      overflow: hidden;
       align-items: unset;
       height: 94vh;
       flex-flow: column;
-
+      animation: show 250ms;
+      z-index: -545;
       .item, a {
         margin-left: 0 !important;
         display: inline-flex;
@@ -65,7 +76,9 @@ a:hover, .active {
   position: fixed;
   display: inline-block;
 
-  .drawer { display: flex; }
+  .drawer {
+    display: flex;
+  }
 }
 
 .drawer {

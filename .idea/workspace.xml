@@ -19,9 +19,19 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fix the title hierarchy">
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Fix the warning">
+      <change afterPath="$PROJECT_DIR$/public/locales/en/layout.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/locales/fr/layout.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utilities/i18n.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Root.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Root.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/navbar/Menu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navbar/Menu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/navbar/Menu/navigation.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navbar/Menu/navigation.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/tooltip/Tooltip.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/tooltip/Tooltip.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/tooltip/tooltip.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/tooltip/tooltip.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Home/Home.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home/Home.module.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +41,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="monorepo-build" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -45,7 +55,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/locales" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -57,11 +67,15 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
-    <property name="ts.external.directory.path" value="C:\WebstormProjects\website\node_modules\typescript\lib" />
+    <property name="ts.external.directory.path" value="C:\Users\Matthieu\Desktop\Developement\website-repo\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Matthieu\Desktop\Developement\website-repo\public\locales" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Matthieu\Desktop\Developement\website-repo\public" />
       <recent name="C:\Users\Matthieu\Desktop\Developement\website-repo\src\components" />
     </key>
   </component>
@@ -108,7 +122,15 @@
       <workItem from="1610135716654" duration="1914000" />
       <workItem from="1610139973172" duration="3392000" />
       <workItem from="1610206189866" duration="2747000" />
-      <workItem from="1610221368048" duration="18993000" />
+      <workItem from="1610221368048" duration="26603000" />
+      <workItem from="1610458850424" duration="1458000" />
+    </task>
+    <task id="LOCAL-00026" summary="Fixes in the navigation and in the notifications">
+      <created>1609748817362</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1609748817362</updated>
     </task>
     <task id="LOCAL-00027" summary="Add a link to the projects">
       <created>1609748921640</created>
@@ -439,21 +461,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610279370805</updated>
     </task>
-    <task id="LOCAL-00074" summary="Fix some design flaws in the ButtonGroup style and in the Home page">
-      <created>1610366087494</created>
+    <task id="LOCAL-00074" summary="Fix the warning">
+      <created>1610279484566</created>
       <option name="number" value="00074" />
       <option name="presentableId" value="LOCAL-00074" />
       <option name="project" value="LOCAL" />
-      <updated>1610366087504</updated>
+      <updated>1610279484566</updated>
     </task>
-    <task id="LOCAL-00075" summary="Fix the title hierarchy">
-      <created>1610366565070</created>
-      <option name="number" value="00075" />
-      <option name="presentableId" value="LOCAL-00075" />
-      <option name="project" value="LOCAL" />
-      <updated>1610366565073</updated>
-    </task>
-    <option name="localTasksCounter" value="76" />
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -472,6 +487,8 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="Some fixes in the ui" />
+    <MESSAGE value="Fix with the auth &amp; animation system" />
     <MESSAGE value="Add caching for s3" />
     <MESSAGE value="Add logout" />
     <MESSAGE value="Fix the build" />
@@ -488,16 +505,14 @@
     <MESSAGE value="First part of the home page" />
     <MESSAGE value="Adding tooltip component" />
     <MESSAGE value="Fix on the tooltip hoverbox" />
-    <MESSAGE value="Fix the warning" />
     <MESSAGE value="Small fixes in the ui" />
     <MESSAGE value="Fixes in the homa page loading &amp; in the tooltip css" />
     <MESSAGE value="Remove the eslint warnings" />
     <MESSAGE value="Fix the columns of the home page" />
     <MESSAGE value="Fix the columns" />
     <MESSAGE value="Add protocol handler :)" />
-    <MESSAGE value="Fix some design flaws in the ButtonGroup style and in the Home page" />
-    <MESSAGE value="Fix the title hierarchy" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix the title hierarchy" />
+    <MESSAGE value="Fix the warning" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix the warning" />
   </component>
   <component name="WindowStateProjectService">
     <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607236205403">
@@ -545,10 +560,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="168" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1610209137228" />
-    <state x="312" y="265" key="Vcs.Push.Dialog.v2" timestamp="1610366573575">
+    <state x="312" y="265" key="Vcs.Push.Dialog.v2" timestamp="1610279486221">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="312" y="265" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1610366573575" />
+    <state x="312" y="265" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1610279486221" />
     <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1610209052761">
       <screen x="0" y="0" width="1920" height="1040" />

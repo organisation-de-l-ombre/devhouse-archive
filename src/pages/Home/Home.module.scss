@@ -26,7 +26,7 @@
 }
 
 .points {
-  padding: 1rem 1rem 3rem;
+  padding: 1rem 1rem 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -47,7 +47,7 @@
 
 .background {
   padding: 1rem;
-  transform: rotate(-1deg) translateX(-1%);
+  transform: rotate(-0.8deg) translateX(-1%);
   display: block;
   width: 100%;
   background-color: var(--background-secondary);
@@ -55,8 +55,8 @@
 
   .content {
     display: block;
-    margin: 2% 2% 0;
-    transform: rotate(1deg);
+    margin: 3% 3% 0;
+    transform: rotate(0.8deg);
   }
 
   margin-bottom: 3%;
