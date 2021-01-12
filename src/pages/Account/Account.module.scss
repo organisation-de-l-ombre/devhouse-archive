@@ -1,0 +1,29 @@
+.menu {
+  max-width: 15rem;
+  position: sticky;
+  background-color: var(--primary-background-color);
+
+  svg {
+    margin: -3rem 0;
+    transform: scale(.5);
+  }
+
+  h2 {
+    margin: 1rem;
+    text-align: center;
+  }
+
+  button {
+    border-radius: 0;
+    background-color: var(--secondary-background-color);
+
+    &:hover {
+      color: var(--font-color);
+      background-color: var(--secondary-background-color-hover);
+      transition: .5s;
+    }
+  }
+}
+
+.content {
+}
