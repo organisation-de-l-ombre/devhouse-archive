@@ -3,6 +3,7 @@
  * It loads the state and Suspense the service worker &
  * the App component.
  */
+import "./utilities/i18n";
 import React, { ReactElement } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Provider } from "react-redux";
@@ -11,6 +12,8 @@ import { PersistGate } from "redux-persist/integration/react";
 import { register } from "utilities";
 import { pushNotification } from "state/modules/notifications";
 import { BrowserRouter } from "react-router-dom";
+import { I18nextProvider } from "react-i18next";
+import i18next from "i18next";
 import { Menu } from "./components/navbar";
 import { Loader } from "./components/SuspenseLoader/SuspenseLoader";
 import { Logger } from "./utilities/logger";
@@ -70,13 +73,15 @@ export default function Root(): ReactElement {
     <ErrorBoundary FallbackComponent={ErrorPage}>
       <Provider store={store}>
         <PersistGate loading={<Loader />} persistor={persistor}>
-          <ThemeProvider>
-            <NotificationArea />
-            <BrowserRouter>
-              <Menu />
-              <Navigator />
-            </BrowserRouter>
-          </ThemeProvider>
+          <I18nextProvider i18n={i18next}>
+            <ThemeProvider>
+              <NotificationArea />
+              <BrowserRouter>
+                <Menu />
+                <Navigator />
+              </BrowserRouter>
+            </ThemeProvider>
+          </I18nextProvider>
         </PersistGate>
       </Provider>
     </ErrorBoundary>

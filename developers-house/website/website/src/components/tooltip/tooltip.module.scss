@@ -4,14 +4,14 @@ $triangle-base: 15px;
 .tooltipContainer {
   position: relative;
   .tooltip {
-    transform: translateY(calc(-100% - 5px));
     position: absolute;
     display: none;
     background-color: var(--background-hover-primary);
-    border: transparent 100px;
     border-radius: 5px;
     opacity: 0;
     transition: opacity 500ms;
+
+    overflow: hidden;
     .hoverFix {
       position: absolute;
       width: 100%;
@@ -20,20 +20,16 @@ $triangle-base: 15px;
       z-index: -1;
     }
     .padding {
+      width: fit-content;
       display: block;
       padding: 0.75rem;
     }
-    .padding:before {
-      content: '';
-      display : inline-block;
-      position: absolute;
-      transform: translateY(calc(500% + 6px)) translateX(calc(50%));
-      height : 0;
-      width : 0;
-      border-top : 5px solid var(--background-hover-primary);
-      border-right : 5px solid transparent;
-      border-left : 5px solid transparent;
-    }
+  }
+  .bottom {
+    transform: translateY(calc(100%)) translateX(-50%);
+  }
+  .top {
+    transform: translateY(calc(-100%));
   }
   &:hover, .tooltip:hover {
     .tooltip {

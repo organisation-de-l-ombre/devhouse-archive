@@ -4,6 +4,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTheme } from "state/modules/theme";
 import { BsMoon, FaSun, FaUser } from "react-icons/all";
+import { Trans, useTranslation } from "react-i18next";
 import { NavigationItem } from "./Menu/MenuItem";
 import { loginUser } from "../../state/modules/user/actions";
 import { NavigationContainer } from "./Menu/MenuContainer";
@@ -11,6 +12,7 @@ import { DrawerContent } from "./Menu/DrawerContent";
 import styles from "./Menu/navigation.module.scss";
 import UserAvatarStatus from "../ui/UserAvatarStatus/UserAvatarStatus";
 import globalStyles from "../../styles/Global.module.scss";
+import Tooltip from "../tooltip/Tooltip";
 
 export function Menu(): ReactElement {
   const [open, setOpen] = useState<boolean>(false);
@@ -25,7 +27,7 @@ export function Menu(): ReactElement {
   };
 
   const userState = useSelector((s) => s.user);
-
+  const { t } = useTranslation("layout");
   return (
     <NavigationContainer open={open} onClick={globalClick}>
       <div className={`${styles.primed} ${globalStyles.onlyMobiles}`}>
@@ -42,16 +44,24 @@ export function Menu(): ReactElement {
       </div>
       <DrawerContent onClick={switchOpenClick}>
         <NavLink to="/" exact activeClassName={styles.active}>
-          <NavigationItem>Home</NavigationItem>
+          <NavigationItem>
+            <Trans t={t} i18nKey="menu.home" />
+          </NavigationItem>
         </NavLink>
         <NavLink to="/projects" activeClassName={styles.active}>
-          <NavigationItem>Projects</NavigationItem>
+          <NavigationItem>
+            <Trans t={t} i18nKey="menu.projects" />
+          </NavigationItem>
         </NavLink>
         <NavLink to="/members" activeClassName={styles.active}>
-          <NavigationItem>Members</NavigationItem>
+          <NavigationItem>
+            <Trans t={t} i18nKey="menu.members" />
+          </NavigationItem>
         </NavLink>
         <NavLink to="/about" activeClassName={styles.active}>
-          <NavigationItem onClick={switchOpenClick}>About</NavigationItem>
+          <NavigationItem onClick={switchOpenClick}>
+            <Trans t={t} i18nKey="menu.about" />
+          </NavigationItem>
         </NavLink>
         <NavLink to="/contact" activeClassName={styles.active}>
           <NavigationItem>Contact</NavigationItem>
@@ -76,27 +86,32 @@ export function Menu(): ReactElement {
             </NavigationItem>
           </NavLink>
         ) : (
-          <NavigationItem
+          <Tooltip
             style={{
               marginLeft: "auto",
             }}
-            onClick={() => dispatch(loginUser())}
+            direction="bottom"
+            tooltip={t("menu.login.tooltip")}
           >
-            <FaUser />
-            <span className={globalStyles.onlyMobiles}>Login</span>
-          </NavigationItem>
+            <NavigationItem onClick={() => dispatch(loginUser())}>
+              <FaUser />
+              <span className={globalStyles.onlyMobiles}>Login</span>
+            </NavigationItem>
+          </Tooltip>
         )}
-        <NavigationItem
-          onClick={(e) => {
-            e.stopPropagation();
-            dispatch(updateTheme(dark ? "dark" : "light"));
-          }}
-        >
-          {dark ? <BsMoon /> : <FaSun />}
-          <div className={globalStyles.onlyMobiles}>
-            Turn on the {dark ? "light" : "dark"} theme
-          </div>
-        </NavigationItem>
+        <Tooltip direction="bottom" tooltip={t("menu.theme.tooltip")}>
+          <NavigationItem
+            onClick={(e) => {
+              e.stopPropagation();
+              dispatch(updateTheme(dark ? "dark" : "light"));
+            }}
+          >
+            {dark ? <BsMoon /> : <FaSun />}
+            <div className={globalStyles.onlyMobiles}>
+              Turn on the {dark ? "light" : "dark"} theme
+            </div>
+          </NavigationItem>
+        </Tooltip>
       </DrawerContent>
     </NavigationContainer>
   );
