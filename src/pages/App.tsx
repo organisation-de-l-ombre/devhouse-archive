@@ -10,7 +10,7 @@ import UserProvider from "../providers/UserProvider/UserProvider";
 const Home = React.lazy(() => import("./Home/Home"));
 const Account = React.lazy(() => import("./Account/Account"));
 const Callback = React.lazy(() => import("./Callback/Callback"));
-const NotFound = React.lazy(() => import("./NotFound/NotFound"));
+const NotFound = React.lazy(() => import("../components/NotFound/NotFound"));
 
 export default function App(): React.ReactElement {
   return (
@@ -23,10 +23,10 @@ export default function App(): React.ReactElement {
 
               <Switch>
                 <Route path="/" exact component={Home} />
-                <Route path="/account" component={Account} />
-                <Route path="/callback" component={Callback} />
-                <Route path="/movies" />
-                <Route path="/series" />
+                <Route path="/account" exact component={Account} />
+                <Route path="/callback" exact component={Callback} />
+                <Route path="/movies" exact />
+                <Route path="/series" exact />
                 <Route path="*" component={NotFound} />
               </Switch>
             </BrowserRouter>

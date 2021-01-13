@@ -4,22 +4,25 @@
   background-color: var(--primary-background-color);
 
   svg {
-    margin: -3rem 0;
+    margin: -2rem 0;
     transform: scale(.5);
   }
 
   h2 {
-    margin: 1rem;
+    margin-bottom: 2rem;
     text-align: center;
   }
 
-  button {
+  a, button {
+    border-left: .2rem solid transparent;
     border-radius: 0;
-    background-color: var(--secondary-background-color);
+    background-color: transparent;
+    text-align: left;
 
-    &:hover {
-      color: var(--font-color);
-      background-color: var(--secondary-background-color-hover);
+    &:hover, &.active {
+      border-left: .2rem solid orange;
+      color: var(--font-color-hover);
+      background-color: var(--primary-background-color-hover);
       transition: .5s;
     }
   }

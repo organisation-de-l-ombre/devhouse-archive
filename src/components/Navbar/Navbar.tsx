@@ -2,7 +2,7 @@ import { FaMoon, FaSun, FaUser, MdLocalMovies } from "react-icons/all";
 import { useHistory, NavLink } from "react-router-dom";
 import React from "react";
 import { useTranslation, Trans } from "react-i18next";
-import { createUser } from "../../account/UserActions";
+import { createUser, getAvatar } from "../../account/UserActions";
 import globalStyles from "../../themes/Global.module.scss";
 import styles from "./Navbar.module.scss";
 import Button from "../Button/Button";
@@ -45,10 +45,10 @@ const Navbar = (): React.ReactElement => {
         <NavLink to="/" exact activeClassName={styles.active}>
           <Trans t={t} i18nKey="components.navbar.items.home" />
         </NavLink>
-        <NavLink to="/movies" activeClassName={styles.active}>
+        <NavLink to="/movies" exact activeClassName={styles.active}>
           <Trans t={t} i18nKey="components.navbar.items.movies" />
         </NavLink>
-        <NavLink to="/series" activeClassName={styles.active}>
+        <NavLink to="/series" exact activeClassName={styles.active}>
           <Trans t={t} i18nKey="components.navbar.items.series" />
         </NavLink>
       </div>
@@ -59,7 +59,7 @@ const Navbar = (): React.ReactElement => {
               {user ? (
                 <Image
                   className={`${styles.avatar} ${globalStyles["rounded-picture"]}`}
-                  src={`https://s3.developershouse.xyz/${user.avatar}`}
+                  src={getAvatar(user.avatar)}
                 />
               ) : (
                 <FaUser />

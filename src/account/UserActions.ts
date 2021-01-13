@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === "development") {
   clientIDPromise = fetchClientID();
 }
 
-export const createUser = async (): Promise<void> => {
+const createUser = async (): Promise<void> => {
   const state = randomBytes(32).toString("hex");
 
   localStorage.setItem("state-oauth", state);
@@ -41,3 +41,7 @@ export const createUser = async (): Promise<void> => {
     audience
   )}`;
 };
+const getAvatar = (path: string): string =>
+  `https://s3.developershouse.xyz/${path}`;
+
+export { createUser, getAvatar };
