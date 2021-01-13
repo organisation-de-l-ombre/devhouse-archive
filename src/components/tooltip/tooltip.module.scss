@@ -26,10 +26,10 @@ $triangle-base: 15px;
     }
   }
   .bottom {
-    transform: translateY(calc(100%)) translateX(-50%);
+    transform: translateY(calc(100px)) translateX(-50%);
   }
   .top {
-    transform: translateY(calc(-100%));
+    transform: translateY(calc(-50px));
   }
   &:hover, .tooltip:hover {
     .tooltip {
