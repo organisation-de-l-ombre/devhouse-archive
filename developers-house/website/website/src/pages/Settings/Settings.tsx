@@ -79,6 +79,8 @@ const Settings = (): ReactElement => {
   return (
     <div className={styles.masterNav}>
       <div className={`${styles.card} ${open ? styles.open : ""}`}>
+        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events */}
+        <span className={styles.backdrop} onClick={switchOpen} />
         <div className={styles.leftNav}>
           <div className={styles.leftNavHeader}>
             <UserAvatarStatus

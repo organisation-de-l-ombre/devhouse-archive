@@ -33,26 +33,27 @@
 .card {
   width: 20rem;
   border-radius: 0;
-  right: calc(100%);
+  left: calc(-100%);
   z-index: 3;
   justify-items: center;
   display: flex;
   box-shadow: var(--background-hover-secondary) 0 0 5px;
   background-color: var(--background-secondary);
-
-  transition: right ease-out 500ms, opacity 500ms;
+  transition: left ease-out 500ms, opacity 500ms;
 }
 
 @media screen and (max-width: 700px) {
   .card {
-    min-width: 100%;
     height: 100%;
     position: fixed;
   }
 }
 
 .open {
-  right: 0;
+  left: 0;
+  .backdrop {
+    opacity: 1;
+  }
 }
 
 .list {
@@ -70,4 +71,14 @@
   align-items: center;
   flex-direction: column;
   display: flex;
+}
+
+.backdrop {
+  height: 100%;
+  width: calc(300vw);
+  position: absolute;
+  left: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transition: opacity 500ms 150ms;
 }
