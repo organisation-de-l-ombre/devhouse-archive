@@ -11,10 +11,10 @@ const Suspense = (): React.ReactElement => {
       className={`${flexContainerStyles.container} ${globalStyles.column} ${globalStyles["alignment-full-center"]}`}
     >
       <div
-        className={`${globalStyles["secondary-margin"]} ${globalStyles.flex} ${globalStyles.column} ${globalStyles["alignment-full-center"]}`}
+        className={styles.suspense}
       >
         <AiOutlineLoading
-          className={`${styles["svg-styles"]} ${globalStyles["rotate-infinite-animation"]}`}
+          className={globalStyles["rotate-infinite-animation"]}
         />
         <h2>Loading the ressource you requested...</h2>
       </div>

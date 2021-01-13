@@ -1,5 +1,5 @@
 import React from "react";
-import globalStyles from "../../themes/Global.module.scss";
+import styles from "./ButtonsGroup.module.scss";
 
 const ButtonsGroup: React.FC<
   React.DetailedHTMLProps<
@@ -8,10 +8,7 @@ const ButtonsGroup: React.FC<
   >
 > = ({ children, ...props }) => {
   return (
-    <div
-      className={`${globalStyles.flex} ${globalStyles["border-radius"]}`}
-      {...props}
-    >
+    <div className={styles["buttons-group"]} {...props}>
       {children}
     </div>
   );

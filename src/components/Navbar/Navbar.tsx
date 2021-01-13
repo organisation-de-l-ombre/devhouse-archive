@@ -3,7 +3,6 @@ import { useHistory, NavLink } from "react-router-dom";
 import React from "react";
 import { useTranslation, Trans } from "react-i18next";
 import { createUser, getAvatar } from "../../account/UserActions";
-import globalStyles from "../../themes/Global.module.scss";
 import styles from "./Navbar.module.scss";
 import Button from "../Button/Button";
 import ThemeContext from "../../themes/ThemeContext";
@@ -58,7 +57,7 @@ const Navbar = (): React.ReactElement => {
             <>
               {user ? (
                 <Image
-                  className={`${styles.avatar} ${globalStyles["rounded-picture"]}`}
+                  className={styles.avatar}
                   src={getAvatar(user.avatar)}
                 />
               ) : (

@@ -16,6 +16,7 @@ import Suspense from "../../components/Suspense/Suspense";
 import NotFound from "../../components/NotFound/NotFound";
 
 import AccountModule from "./modules/Account/Account";
+import Button from "../../components/Button/Button";
 
 const Account = (): React.ReactElement => {
   const userDefault: User = {
@@ -32,11 +33,14 @@ const Account = (): React.ReactElement => {
   const { user: userFetched } = React.useContext(UserContext);
   const user: User = userFetched !== null ? userFetched : userDefault;
   const baseURL = useRouteMatch().path;
+  const [open, setOpen] = React.useState(false);
 
   return (
     <FlexContainer>
       <FlexContainer
-        className={`${flexContainerStyles.container} ${globalStyles.column} ${styles.menu}`}
+        className={`${flexContainerStyles.container} ${styles.menu}${
+          open ? ` ${styles.opened}` : ""
+        }`}
       >
         <Image
           className={globalStyles["rounded-picture"]}
@@ -44,6 +48,7 @@ const Account = (): React.ReactElement => {
         />
         <h2>{user.username}</h2>
         <ButtonsGroup className={`${globalStyles.flex} ${globalStyles.column}`}>
+          <Button onClick={() => setOpen(false)}>Close navigation</Button>
           <NavLink
             to={baseURL}
             exact
@@ -62,12 +67,24 @@ const Account = (): React.ReactElement => {
           </NavLink>
         </ButtonsGroup>
       </FlexContainer>
-      <React.Suspense fallback={<Suspense />}>
-        <Switch>
-          <Route path={baseURL} component={AccountModule} />
-          <Route path="*" component={NotFound} />
-        </Switch>
-      </React.Suspense>
+      <FlexContainer
+        className={`${flexContainerStyles.container} ${styles.content}`}
+      >
+        <div className={styles["mobile-navigation"]}>
+          <p>
+            To access to internal page navigation and to manage your account,
+            use the button bellow.
+          </p>
+          <Button onClick={() => setOpen(true)}>Open navigation</Button>
+        </div>
+
+        <React.Suspense fallback={<Suspense />}>
+          <Switch>
+            <Route path={baseURL} exact component={AccountModule} />
+            <Route path="*" exact component={NotFound} />
+          </Switch>
+        </React.Suspense>
+      </FlexContainer>
     </FlexContainer>
   );
 };

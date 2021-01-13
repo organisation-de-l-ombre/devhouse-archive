@@ -1,5 +1,6 @@
 .menu {
   max-width: 15rem;
+  flex-direction: column;
   position: sticky;
   background-color: var(--primary-background-color);
 
@@ -22,11 +23,47 @@
     &:hover, &.active {
       border-left: .2rem solid orange;
       color: var(--font-color-hover);
-      background-color: var(--primary-background-color-hover);
       transition: .5s;
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    height: 100%;
+    display: none;
+
+    &.opened {
+      display: flex;
+      position: fixed;
+      animation: open-menu .5s;
+
+      @keyframes open-menu {
+        from { transform: translateX(-100%); }
+        to { transform: translateX(0); }
+      }
     }
   }
 }
 
 .content {
+  padding: 2rem;
+  flex-direction: column;
+
+  .mobile-navigation { display: none; }
+
+  @media screen and (max-width: 700px) {
+    display: flex;
+    flex-direction: column;
+
+    .mobile-navigation {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      p { text-align: center; }
+
+      button { margin: 1rem; }
+    }
+  }
 }
