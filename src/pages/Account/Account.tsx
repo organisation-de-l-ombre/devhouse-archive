@@ -2,7 +2,12 @@ import React from "react";
 import { randomBytes } from "crypto";
 import { Route, Switch, useRouteMatch } from "react-router";
 import { NavLink } from "react-router-dom";
-import { BsBoxArrowLeft } from "react-icons/bs";
+import {
+  BsBoxArrowLeft,
+  FaUser,
+  GoVerified,
+  IoIosLogOut,
+} from "react-icons/all";
 import { User } from "../../account/Types";
 import FlexContainer from "../../components/FlexContainer/FlexContainer";
 import UserContext from "../../account/UserContext";
@@ -62,7 +67,8 @@ const Account = (): React.ReactElement => {
             className={buttonStyles["button-styles"]}
             activeClassName={styles.active}
           >
-            Account
+            <FaUser />
+            <span>Account</span>
           </NavLink>
           <NavLink
             to={`${baseURL}/authorizations`}
@@ -70,8 +76,13 @@ const Account = (): React.ReactElement => {
             className={buttonStyles["button-styles"]}
             activeClassName={styles.active}
           >
-            Authorizations
+            <GoVerified />
+            <span>Authorizations</span>
           </NavLink>
+          <Button>
+            <IoIosLogOut />
+            <span>Logout</span>
+          </Button>
         </ButtonsGroup>
       </FlexContainer>
       <FlexContainer
@@ -83,6 +94,7 @@ const Account = (): React.ReactElement => {
             use the button bellow.
           </p>
           <Button onClick={() => setOpen(true)}>Open navigation</Button>
+          <hr />
         </div>
 
         <React.Suspense fallback={<Suspense />}>

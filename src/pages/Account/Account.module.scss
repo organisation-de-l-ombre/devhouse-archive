@@ -17,15 +17,32 @@
   .close-navigation { display: none; }
 
   a, button {
+    display: flex;
+    align-items: center;
     border-left: .2rem solid transparent;
     border-radius: 0;
     background-color: transparent;
     text-align: left;
 
+    svg {
+      transition: .5s;
+      transform: scale(1.5);
+    }
+
+    span {
+      transition: .5s;
+      margin-left: 1rem;
+    }
+
     &:hover, &.active {
       border-left: .2rem solid orange;
-      color: var(--font-color-hover);
       transition: .5s;
+
+      svg, span {
+        transition: .5s;
+        fill: var(--font-color-hover);
+        color: var(--font-color-hover);
+      }
     }
   }
 
@@ -40,33 +57,7 @@
       display: flex;
       left: 0;
 
-      .close-navigation {
-        display: flex;
-        align-items: center;
-        border-left: none;
-
-        svg {
-          transition: .5s;
-          transform: scale(1.5);
-        }
-
-        span {
-          transition: .5s;
-          margin-left: 1rem;
-        }
-
-        &:hover {
-          svg {
-            transition: .5s;
-            fill: var(--font-color-hover);
-          }
-
-          span {
-            transition: .5s;
-            color: var(--font-color-hover);
-          }
-        }
-      }
+      .close-navigation { display: flex; }
     }
   }
 }
@@ -90,7 +81,12 @@
 
       p { text-align: center; }
 
-      button { margin: 1rem; }
+      button { margin-top: 1rem; }
+
+      hr {
+        margin: 2rem 0;
+        width: 100%;
+      }
     }
   }
 }

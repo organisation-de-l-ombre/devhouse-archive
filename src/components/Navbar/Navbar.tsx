@@ -74,7 +74,7 @@ const Navbar = (): React.ReactElement => {
             {theme === "light" ? (
               <Trans t={t} i18nKey="components.navbar.items.darkTheme" />
             ) : (
-              <Trans t={t} i18nKey="components.navbar.items.darkTheme" />
+              <Trans t={t} i18nKey="components.navbar.items.lightTheme" />
             )}
           </span>
         </Button>
