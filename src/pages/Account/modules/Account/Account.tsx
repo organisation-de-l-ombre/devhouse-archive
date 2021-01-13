@@ -1,10 +1,13 @@
 import React from "react";
+/*
 import { randomBytes } from "crypto";
 import { User } from "../../../../account/Types";
 import UserContext from "../../../../account/UserContext";
+*/
 import FlexContainer from "../../../../components/FlexContainer/FlexContainer";
 
 const Account = (): React.ReactElement => {
+  /*
   const userDefault: User = {
     avatar: "test",
     dataCollection: true,
@@ -16,8 +19,9 @@ const Account = (): React.ReactElement => {
     token: randomBytes(32).toString("hex"),
     username: "Kylian",
   };
-  const { user: userFetched } = React.useContext(UserContext);
-  const user: User = userFetched !== null ? userFetched : userDefault;
+  */
+  // const { user: userFetched } = React.useContext(UserContext);
+  // Unused: const user: User = userFetched !== null ? userFetched : userDefault;
 
   return (
     <FlexContainer>
