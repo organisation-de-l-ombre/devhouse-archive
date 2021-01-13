@@ -43,3 +43,6 @@ build:
     - node_build
   dependencies:
     - node_build
+
+test:
+  allow_failure: true
