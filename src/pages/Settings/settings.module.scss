@@ -7,8 +7,9 @@
   flex: 1;
   flex-wrap: nowrap;
   display: flex;
-  width: 100%;
   flex-direction: column;
+  position: fixed;
+  width: 20rem;
 }
 
 .masterNav {
@@ -46,13 +47,17 @@
   .card {
     height: 100%;
     position: fixed;
+    .backdrop {
+      display: block;
+      pointer-events: none;
+    }
   }
-}
-
-.open {
-  left: 0;
-  .backdrop {
-    opacity: 1;
+  .open {
+    left: 0;
+    .backdrop {
+      pointer-events: visible;
+      opacity: 1;
+    }
   }
 }
 
@@ -80,5 +85,6 @@
   left: 100%;
   background-color: rgba(0, 0, 0, 0.6);
   opacity: 0;
-  transition: opacity 500ms 150ms;
+  display: none;
+  transition: opacity 500ms 150ms, display 0ms 500ms;
 }
