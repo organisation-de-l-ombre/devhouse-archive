@@ -8,7 +8,7 @@ spec:
     - implicit
   responseTypes:
     - token
-  scope: "imr.*"
+  scope: "imr.* account.info"
   secretName: oauth-client-{{ template "trackableappname" . }}
   # these are optional
   redirectUris:
