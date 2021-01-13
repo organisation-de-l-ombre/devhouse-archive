@@ -2,6 +2,7 @@ import React from "react";
 import { randomBytes } from "crypto";
 import { Route, Switch, useRouteMatch } from "react-router";
 import { NavLink } from "react-router-dom";
+import { BsBoxArrowLeft } from "react-icons/bs";
 import { User } from "../../account/Types";
 import FlexContainer from "../../components/FlexContainer/FlexContainer";
 import UserContext from "../../account/UserContext";
@@ -42,13 +43,19 @@ const Account = (): React.ReactElement => {
           open ? ` ${styles.opened}` : ""
         }`}
       >
+        <Button
+          className={styles["close-navigation"]}
+          onClick={() => setOpen(false)}
+        >
+          <BsBoxArrowLeft />
+          <span>Close navigation</span>
+        </Button>
         <Image
           className={globalStyles["rounded-picture"]}
           src={getAvatar(user.avatar)}
         />
         <h2>{user.username}</h2>
         <ButtonsGroup className={`${globalStyles.flex} ${globalStyles.column}`}>
-          <Button onClick={() => setOpen(false)}>Close navigation</Button>
           <NavLink
             to={baseURL}
             exact

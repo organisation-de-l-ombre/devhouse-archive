@@ -14,6 +14,8 @@
     text-align: center;
   }
 
+  .close-navigation { display: none; }
+
   a, button {
     border-left: .2rem solid transparent;
     border-radius: 0;
@@ -28,17 +30,42 @@
   }
 
   @media screen and (max-width: 700px) {
-    height: 100%;
-    display: none;
+    position: absolute;
+    top: 3.5rem;
+    bottom: 0;
+    left: -100%;
+    transition: left .5s;
 
     &.opened {
       display: flex;
-      position: fixed;
-      animation: open-menu .5s;
+      left: 0;
 
-      @keyframes open-menu {
-        from { transform: translateX(-100%); }
-        to { transform: translateX(0); }
+      .close-navigation {
+        display: flex;
+        align-items: center;
+        border-left: none;
+
+        svg {
+          transition: .5s;
+          transform: scale(1.5);
+        }
+
+        span {
+          transition: .5s;
+          margin-left: 1rem;
+        }
+
+        &:hover {
+          svg {
+            transition: .5s;
+            fill: var(--font-color-hover);
+          }
+
+          span {
+            transition: .5s;
+            color: var(--font-color-hover);
+          }
+        }
       }
     }
   }

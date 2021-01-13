@@ -56,10 +56,7 @@ const Navbar = (): React.ReactElement => {
           {loggedIn ? (
             <>
               {user ? (
-                <Image
-                  className={styles.avatar}
-                  src={getAvatar(user.avatar)}
-                />
+                <Image className={styles.avatar} src={getAvatar(user.avatar)} />
               ) : (
                 <FaUser />
               )}

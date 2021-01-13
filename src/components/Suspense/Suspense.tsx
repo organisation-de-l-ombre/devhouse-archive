@@ -10,9 +10,7 @@ const Suspense = (): React.ReactElement => {
     <FlexContainer
       className={`${flexContainerStyles.container} ${globalStyles.column} ${globalStyles["alignment-full-center"]}`}
     >
-      <div
-        className={styles.suspense}
-      >
+      <div className={styles.suspense}>
         <AiOutlineLoading
           className={globalStyles["rotate-infinite-animation"]}
         />
