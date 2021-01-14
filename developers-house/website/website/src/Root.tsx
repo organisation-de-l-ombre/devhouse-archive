@@ -3,7 +3,6 @@
  * It loads the state and Suspense the service worker &
  * the App component.
  */
-import "./utilities/i18n";
 import React, { ReactElement } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Provider } from "react-redux";
@@ -14,6 +13,8 @@ import { pushNotification } from "state/modules/notifications";
 import { BrowserRouter } from "react-router-dom";
 import { I18nextProvider } from "react-i18next";
 import i18next from "i18next";
+import ThemeProvider from "components/ThemeProvider/ThemeProvider";
+import Navigator from "pages/Navigator";
 import { Menu } from "./components/navbar";
 import { Loader } from "./components/SuspenseLoader/SuspenseLoader";
 import { Logger } from "./utilities/logger";
@@ -24,10 +25,6 @@ console.clear();
 logger.info("~ Loading Developer's House frontend.");
 const { store, persistor } = createState();
 
-const ThemeProvider = React.lazy(
-  () => import("components/ThemeProvider/ThemeProvider")
-);
-const Navigator = React.lazy(() => import("pages/Navigator"));
 const NotificationArea = React.lazy(
   () => import("components/notifications/NotificationsArea")
 );
