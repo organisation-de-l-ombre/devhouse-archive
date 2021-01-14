@@ -19,7 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Add css lazyloading">
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Add profile">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
@@ -119,14 +119,7 @@
       <workItem from="1610545772108" duration="1671000" />
       <workItem from="1610610023129" duration="4253000" />
       <workItem from="1610616109959" duration="657000" />
-      <workItem from="1610617619504" duration="3495000" />
-    </task>
-    <task id="LOCAL-00036" summary="Add text for the left navigation items on the mobile menu">
-      <created>1609761806586</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1609761806586</updated>
+      <workItem from="1610617619504" duration="4719000" />
     </task>
     <task id="LOCAL-00037" summary="Fix the size of the avatar picture">
       <created>1609763104750</created>
@@ -464,7 +457,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610621999746</updated>
     </task>
-    <option name="localTasksCounter" value="85" />
+    <task id="LOCAL-00085" summary="Add profile">
+      <created>1610624051355</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1610624051357</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -483,7 +483,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Some changes :)" />
     <MESSAGE value="Add the websocket scope" />
     <MESSAGE value="Fixes in the css and dom cleanup" />
     <MESSAGE value="Fix keys warnings" />
@@ -508,7 +507,8 @@
     <MESSAGE value="Add preload" />
     <MESSAGE value="Fix the layout.json en file" />
     <MESSAGE value="Add css lazyloading" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add css lazyloading" />
+    <MESSAGE value="Add profile" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add profile" />
   </component>
   <component name="WindowStateProjectService">
     <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607236205403">
@@ -560,10 +560,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="168" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1610209137228" />
-    <state x="312" y="265" key="Vcs.Push.Dialog.v2" timestamp="1610622002268">
+    <state x="312" y="265" key="Vcs.Push.Dialog.v2" timestamp="1610624053064">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="312" y="265" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610622002268" />
+    <state x="312" y="265" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610624053064" />
     <state x="2232" y="265" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1610547273580" />
     <state x="312" y="265" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1610366573575" />
     <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />
