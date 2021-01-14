@@ -1,0 +1,16 @@
+.not-found {
+  display: grid;
+  height: 100%;
+  .container {
+    margin: auto;
+    padding: 1rem;
+
+    h1 {
+      font-size: 350%;
+    }
+
+    hr {
+      margin-right: 15%;
+    }
+  }
+}

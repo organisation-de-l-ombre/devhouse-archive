@@ -9,7 +9,11 @@
       "tooltip": "Se connecter"
     },
     "theme": {
-      "tooltip": "Changer de thème"
+      "tooltip": "Changer de thème",
+      "text": {
+        "dark": "Passer au thème foncé",
+        "light": "Passer au thème clair"
+      }
     }
   }
 }

@@ -6,7 +6,7 @@ import React, {
   useEffect,
   useRef,
 } from "react";
-import styled, { keyframes } from "styled-components";
+import styles from "./typewriter.module.scss";
 
 const wait = (time: number): Promise<void> => {
   return new Promise<void>((e) => {
@@ -43,7 +43,7 @@ const updateText = (
   };
 };
 
-const TypeWriterStructure = ({
+const TypeWriter = ({
   children,
   characterDisplayInterval,
   ended,
@@ -69,27 +69,7 @@ const TypeWriterStructure = ({
     }
   }, [characterDisplayInterval, children, ended]);
 
-  return <p ref={ref} />;
+  return <p ref={ref} className={styles.typeWriter} />;
 };
-
-const CursorEffect = keyframes`
-  50% { opacity: 0; }
-`;
-
-const TypeWriter = styled(TypeWriterStructure)`
-  :after {
-    content: "";
-    width: 2px;
-    height: 25px;
-    background-color: ${(props): string => props.theme.foreground.page};
-    left: 0;
-    display: inline-block;
-    transform: translateX(5px) translateY(3px);
-    top: 10px;
-    opacity: 1;
-    animation: ${CursorEffect} 1s linear infinite;
-    animation-timing-function: steps(1, end);
-  }
-`;
 
 export { TypeWriter };
