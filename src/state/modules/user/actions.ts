@@ -134,7 +134,7 @@ export function loginUser(): ThunkAction<
           token,
         });
 
-        const user: User = await fetchUser();
+        const user: User = await fetchUser(token);
 
         dispatch({
           type: UserFetched,

@@ -4,7 +4,6 @@
 
 import { applyMiddleware, combineReducers, createStore, Store } from "redux";
 import reduxThunk from "redux-thunk";
-import axios, { AxiosRequestConfig } from "axios";
 import {
   createStateSyncMiddleware,
   initStateWithPrevTab,
@@ -12,19 +11,18 @@ import {
 import { Persistor, persistReducer, persistStore } from "redux-persist";
 
 import { env } from "process";
-import localforage from "localforage";
 import { DefaultRootState } from "react-redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { PersistConfig } from "redux-persist/es/types";
+import localForage from "localforage";
 import { modules } from "./modules";
 import { GlobalGraphQLClient } from "../constants";
 import { Logger } from "../utilities/logger";
 
 const logger = new Logger("Redux");
-
 const persistConfig: PersistConfig<DefaultRootState> = {
   key: "root",
-  storage: localforage,
+  storage: localForage,
   blacklist: ["notifications"],
 };
 
@@ -84,14 +82,6 @@ export function createState(): { store: Store; persistor: Persistor } {
   });
 
   initStateWithPrevTab(store);
-
-  axios.interceptors.request.use(
-    (request): AxiosRequestConfig => {
-      logger.info("");
-      request.headers.Authorization = `Bearer ${store.getState().user.token}`;
-      return request;
-    }
-  );
 
   const persistor = persistStore(store);
 

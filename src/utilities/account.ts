@@ -2,14 +2,14 @@
  * This file represents all the calls to the api.
  */
 
-import axios from "axios";
 import { User } from "../state/modules/user";
 
-const fetchUser = async (): Promise<User> => {
-  const { data } = await axios.get<User>(
-    "https://auth-server.developershouse.xyz/userinfo"
-  );
-  return data;
+const fetchUser = (token: string): Promise<User> => {
+  return fetch("https://auth-server.developershouse.xyz/userinfo", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((x) => x.json());
 };
 
 export { fetchUser };
