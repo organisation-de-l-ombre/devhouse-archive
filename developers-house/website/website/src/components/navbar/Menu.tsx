@@ -108,7 +108,10 @@ export function Menu(): ReactElement {
           >
             {dark ? <BsMoon /> : <FaSun />}
             <div className={globalStyles.onlyMobiles}>
-              Turn on the {dark ? "light" : "dark"} theme
+              <Trans
+                t={t}
+                i18nKey={`menu.theme.text.${!dark ? "light" : "dark"}`}
+              />
             </div>
           </NavigationItem>
         </Tooltip>

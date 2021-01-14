@@ -1,5 +1,6 @@
 import React, { FC, ReactNode } from "react";
 import styles from "./tooltip.module.scss";
+import { GlobalStyles } from "../../styles";
 
 const Tooltip: FC<
   {
@@ -12,7 +13,13 @@ const Tooltip: FC<
 > = ({ direction, tooltip, children, ...props }) => {
   return (
     <div className={styles.tooltipContainer} {...props}>
-      <span className={[styles.tooltip, styles[direction || "top"]].join(" ")}>
+      <span
+        className={[
+          styles.tooltip,
+          styles[direction || "top"],
+          GlobalStyles.exceptMobile,
+        ].join(" ")}
+      >
         <span className={styles.hoverFix} />
         <span className={styles.padding}>{tooltip}</span>
       </span>

@@ -1,0 +1,19 @@
+@keyframes animate-opacity {
+  50% { opacity: 0; }
+}
+
+.typeWriter {
+  :after {
+    content: "";
+    width: 2px;
+    height: 25px;
+    background-color: white;
+    left: 0;
+    display: inline-block;
+    transform: translateX(5px) translateY(3px);
+    top: 10px;
+    opacity: 1;
+    animation: animate-opacity 1s linear infinite;
+    animation-timing-function: steps(1, end);
+  }
+}
