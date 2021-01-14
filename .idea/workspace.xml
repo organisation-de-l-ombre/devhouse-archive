@@ -19,14 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Remove styles components entirely">
+    <list default="true" id="2871aa91-62da-4d32-b13f-79a8b8b955f9" name="Default Changelist" comment="Huge improvements">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Root.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Root.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/state/modules/user/actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/state/modules/user/actions.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/state/redux.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/state/redux.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilities/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilities/account.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/tooltip/tooltip.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/tooltip/tooltip.module.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +46,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/build/locales/fr" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -66,6 +62,11 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\WebstormProjects\website\build\locales\fr" />
+      <recent name="C:\WebstormProjects\website\build\locales\dev" />
+      <recent name="C:\WebstormProjects\website\build\locales" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Matthieu\Desktop\Developement\website-repo\src\components" />
     </key>
@@ -117,14 +118,8 @@
       <workItem from="1610535378843" duration="849000" />
       <workItem from="1610536251350" duration="231000" />
       <workItem from="1610545772108" duration="1671000" />
-      <workItem from="1610610023129" duration="3881000" />
-    </task>
-    <task id="LOCAL-00031" summary="Fix the startup script">
-      <created>1609752537308</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1609752537308</updated>
+      <workItem from="1610610023129" duration="4253000" />
+      <workItem from="1610616109959" duration="608000" />
     </task>
     <task id="LOCAL-00032" summary="Add the env getter">
       <created>1609753054909</created>
@@ -462,7 +457,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610611873084</updated>
     </task>
-    <option name="localTasksCounter" value="80" />
+    <task id="LOCAL-00080" summary="Huge improvements">
+      <created>1610614215625</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1610614215625</updated>
+    </task>
+    <option name="localTasksCounter" value="81" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -481,7 +483,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fix the eslint warnings" />
     <MESSAGE value="Add takeout system" />
     <MESSAGE value="Fix the compilation errors" />
     <MESSAGE value="Fix the css on scroll" />
@@ -506,7 +507,8 @@
     <MESSAGE value="Ass open / close system for the drawer" />
     <MESSAGE value="ui improvements for the drawer (click fix)" />
     <MESSAGE value="Remove styles components entirely" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove styles components entirely" />
+    <MESSAGE value="Huge improvements" />
+    <option name="LAST_COMMIT_MESSAGE" value="Huge improvements" />
   </component>
   <component name="WindowStateProjectService">
     <state x="395" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607236205403">
@@ -558,10 +560,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="168" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1610209137228" />
-    <state x="312" y="265" key="Vcs.Push.Dialog.v2" timestamp="1610611878243">
+    <state x="312" y="265" key="Vcs.Push.Dialog.v2" timestamp="1610614219345">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="312" y="265" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610611878243" />
+    <state x="312" y="265" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610614219345" />
     <state x="2232" y="265" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1610547273580" />
     <state x="312" y="265" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1610366573575" />
     <state x="552" y="293" key="Vcs.Push.Dialog.v2/0.40.1920.1040@0.40.1920.1040" timestamp="1606302758646" />

@@ -18,6 +18,7 @@ import Navigator from "pages/Navigator";
 import { Menu } from "./components/navbar";
 import { Loader } from "./components/SuspenseLoader/SuspenseLoader";
 import { Logger } from "./utilities/logger";
+import NotificationsArea from "./components/notifications/NotificationsArea";
 
 const logger = new Logger("Root");
 // eslint-disable-next-line no-console
@@ -25,9 +26,6 @@ console.clear();
 logger.info("~ Loading Developer's House frontend.");
 const { store, persistor } = createState();
 
-const NotificationArea = React.lazy(
-  () => import("components/notifications/NotificationsArea")
-);
 const ErrorPage = React.lazy(() => import("pages/ErrorPage"));
 
 register({
@@ -72,7 +70,7 @@ export default function Root(): ReactElement {
         <PersistGate loading={<Loader />} persistor={persistor}>
           <I18nextProvider i18n={i18next}>
             <ThemeProvider>
-              <NotificationArea />
+              <NotificationsArea />
               <BrowserRouter>
                 <Menu />
                 <Navigator />
