@@ -6,6 +6,13 @@
       "members": "Members",
       "contact": "Contact",
       "about": "About"
+    },
+    "theme": {
+      "tooltip": "Change the theme",
+      "text": {
+        "dark": "Switch to the dark theme",
+        "light": "Switch to the light theme"
+      }
     }
   }
 }
