@@ -119,7 +119,7 @@
     "format": "prettier --write src/**/*.ts{,x}",
     "lint": "tsc --noEmit && eslint src/**/*.ts{,x} --fix",
     "start": "node scripts/start ",
-    "build": "node scripts/build --profile",
+    "build": "node scripts/build",
     "test": "node scripts/test"
   },
   "browserslist": {
