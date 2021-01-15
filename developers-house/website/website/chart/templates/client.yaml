@@ -5,9 +5,9 @@ metadata:
 spec:
   clientName: Website ({{ template "trackableappname" . }})
   grantTypes:
-    - implicit
+    - authorization_code
   responseTypes:
-    - token
+    - code
   scope: "account.* websocket.*"
   secretName: oauth-client-{{ template "trackableappname" . }}
   # these are optional
