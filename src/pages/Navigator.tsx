@@ -65,7 +65,7 @@ const Navigator = () => {
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).gtag("event", "page_view", {
-      page_title: route.key,
+      page_title: route.pathname,
       page_location: route.hash,
       page_path: route.pathname,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
