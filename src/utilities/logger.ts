@@ -6,6 +6,7 @@ export class Logger {
   }
 
   private internalLog(level: string[], ...args: string[]): void {
+    if (process.env.NODE_ENV === "test") return;
     // eslint-disable-next-line no-console
     console.log(
       `%c[${this.name}]%c[${level[0]}] %c${args.join(" ")}`,
