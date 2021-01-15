@@ -3,7 +3,7 @@ import React from "react";
 import styles from "./card.module.scss";
 import { SimplifiedHTMLProperties } from "../Button/Button";
 
-export const Card: React.FC<SimplifiedHTMLProperties<HTMLImageElement>> = ({
+export const Card: React.FC<SimplifiedHTMLProperties<HTMLDivElement>> = ({
   className,
   ...props
 }) => <div className={[className, styles.card].join(" ")} {...props} />;
