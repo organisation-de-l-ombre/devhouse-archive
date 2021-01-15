@@ -87,9 +87,7 @@ export function Menu(): ReactElement {
           </NavLink>
         ) : (
           <Tooltip
-            style={{
-              marginLeft: "auto",
-            }}
+            className={styles.right}
             direction="bottom"
             tooltip={t("menu.login.tooltip")}
           >

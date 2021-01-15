@@ -1,39 +1,38 @@
-
 $triangle-base: 15px;
-
 .tooltipContainer {
-  position: relative;
-  .tooltip {
-    position: absolute;
-    background-color: var(--background-hover-primary);
-    border-radius: 5px;
-    opacity: 0;
-    transition: opacity 500ms;
-
-    overflow: hidden;
-    .hoverFix {
-      position: absolute;
-      width: 100%;
-      transform: scale(1.75);
-      height: 100%;
-      z-index: -1;
-    }
-    .padding {
-      width: fit-content;
-      display: block;
-      padding: 0.75rem;
-    }
-  }
-  .bottom {
-    transform: translateY(calc(50px)) translateX(-50%);
-  }
-  .top {
-    transform: translateY(calc(-50px));
-  }
-  &:hover, .tooltip:hover {
+    position: relative;
     .tooltip {
-      opacity: .99;
-      transition: opacity 500ms;
+        position: absolute;
+        background-color: var(--background-secondary);
+        box-shadow: var(--background-hover-secondary) 0 0 7px;
+        border-radius: 5px;
+        opacity: 0;
+        transition: opacity 500ms;
+        overflow: hidden;
+        .hoverFix {
+            position: absolute;
+            width: 100%;
+            transform: scale(1.75);
+            height: 100%;
+            z-index: -1;
+        }
+        .padding {
+            width: fit-content;
+            display: block;
+            padding: 0.75rem;
+        }
     }
-  }
+    .bottom {
+        transform: translateY(calc(50px)) translateX(-50%);
+    }
+    .top {
+        transform: translateY(calc(-50px));
+    }
+    &:hover,
+    .tooltip:hover {
+        .tooltip {
+            opacity: .99;
+            transition: opacity 500ms;
+        }
+    }
 }
