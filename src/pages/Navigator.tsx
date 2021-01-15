@@ -61,6 +61,18 @@ const PrivateRoute: FC<{ component: FC<unknown> } & RouteProps> = ({
 
 const Navigator = () => {
   const route = useLocation();
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).gtag("event", "page_view", {
+      page_title: route.key,
+      page_location: route.hash,
+      page_path: route.pathname,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      send_to: (window as any).GA_TAG,
+    });
+  }, [route]);
+
   return (
     <ErrorBoundary FallbackComponent={ErrorPage}>
       <div className={styles.wrapper}>
