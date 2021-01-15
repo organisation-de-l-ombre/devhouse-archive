@@ -6,11 +6,14 @@ import React from "react";
 import styles from "./navigation.module.scss";
 
 export const NavigationContainer: React.FC<
-  React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+  React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLDivElement>,
+    HTMLDivElement
+  > & {
     open: boolean;
   }
 > = ({ className, open, ...props }) => (
-  <nav
+  <div
     className={[
       styles.container,
       open ? styles.open : "",
