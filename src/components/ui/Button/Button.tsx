@@ -63,7 +63,7 @@ const Button: React.FC<
   />
 );
 
-const ButtonImage: React.FC<SimplifiedHTMLProperties<HTMLImageElement>> = ({
+const ButtonImage: React.FC<SimplifiedHTMLProperties<HTMLDivElement>> = ({
   className,
   ...props
 }) => <div className={[className, styles.image].join(" ")} {...props} />;
