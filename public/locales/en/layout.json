@@ -1,18 +1,16 @@
 {
-  "menu": {
-    "navbar": {
-      "home": "Home",
-      "projects": "Projects",
-      "members": "Members",
-      "contact": "Contact",
-      "about": "About"
-    },
-    "theme": {
-      "tooltip": "Change the theme",
-      "text": {
-        "dark": "Switch to the dark theme",
-        "light": "Switch to the light theme"
-      }
+    "menu": {
+        "home": "Home",
+        "projects": "Projects",
+        "members": "Members",
+        "contact": "Contact",
+        "about": "About",
+        "theme": {
+            "tooltip": "Change the theme",
+            "text": {
+                "dark": "Switch to the dark theme",
+                "light": "Switch to the light theme"
+            }
+        }
     }
-  }
 }

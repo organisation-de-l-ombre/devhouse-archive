@@ -44,7 +44,7 @@ export default function HomePage(): ReactElement {
           We are a small team of developers who seek to learn with a team of
           people, our goal is to learn how to work as a team.
         </p>
-        <ButtonGroup full>
+        <ButtonGroup full className={styles.margin}>
           <a
             target="_blank"
             rel="noreferrer"
