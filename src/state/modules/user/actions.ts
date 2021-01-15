@@ -3,8 +3,6 @@ import { ThunkAction } from "redux-thunk";
 import { Action } from "redux";
 import { fetchUser } from "utilities";
 import { DefaultRootState } from "react-redux";
-import { sha256 } from "js-sha256";
-import { encode } from "js-base64";
 import { NotificationPayloadType } from "../notifications";
 import {
   PayloadTypes,
