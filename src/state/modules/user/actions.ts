@@ -1,7 +1,10 @@
+/* eslint-disable prettier/prettier */
 import { ThunkAction } from "redux-thunk";
 import { Action } from "redux";
 import { fetchUser } from "utilities";
 import { DefaultRootState } from "react-redux";
+import { sha256 } from "js-sha256";
+import { encode } from "js-base64";
 import { NotificationPayloadType } from "../notifications";
 import {
   PayloadTypes,
@@ -35,6 +38,26 @@ async function fetchClientId() {
   clientIdPromise = null;
 }
 
+function urlEncodeFormData(fd: string[][]) {
+  let s = "";
+  fd.forEach((pair) => {
+    if (typeof pair[1] === "string") {
+      s += `${
+        (s ? "&" : "") + encodeURIComponent(pair[0])
+      }=${pair[1]}`;
+    }
+  });
+  return s;
+}
+
+async function generateCodeChallenge(codeVerifier: string) {
+  const digest = await crypto.subtle.digest("SHA-256",
+    new TextEncoder().encode(codeVerifier));
+
+  return btoa(String.fromCharCode(...new Uint8Array(digest)))
+    .replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
+}
+
 if (process.env.NODE_ENV === "development") {
   clientId = "4f48003e-3e66-40c4-b2b7-a0516dc40d4a";
 } else {
@@ -52,7 +75,8 @@ async function getTokenWithPopup(): Promise<string> {
 
   const state = makeId(32);
 
-  localStorage.setItem("state-oauth", state);
+  const codeVerifier = makeId(43);
+  const codeChallenge = await generateCodeChallenge(codeVerifier);
 
   if (!clientId) {
     await clientIdPromise;
@@ -64,15 +88,16 @@ async function getTokenWithPopup(): Promise<string> {
   const apiAudience = "abdera";
 
   const scopes = ["account.* websocket.*"].join(" ");
+  const url = `http://auth-server.developershouse.xyz/oauth2/auth?response_type=code&client_id=${encodeURIComponent(
+    clientId
+  )}&scope=${encodeURIComponent(scopes)}&redirect_uri=${encodeURIComponent(
+    redirect
+  )}&state=${encodeURIComponent(state)}&audience=${encodeURIComponent(
+    apiAudience
+  )}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
 
   const popupWindow = window.open(
-    `http://auth-server.developershouse.xyz/oauth2/auth?response_type=token&client_id=${encodeURIComponent(
-      clientId
-    )}&scope=${encodeURIComponent(scopes)}&redirect_uri=${encodeURIComponent(
-      redirect
-    )}&state=${encodeURIComponent(state)}&audience=${encodeURIComponent(
-      apiAudience
-    )}`,
+    url,
     "Login",
     options
   );
@@ -86,9 +111,26 @@ async function getTokenWithPopup(): Promise<string> {
     const channel = new BroadcastChannel("callback");
 
     const listener = ({ data }: MessageEvent): void => {
-      if (data.token && data.state) {
+      if (data.code && data.state) {
         if (data.state === state) {
-          resolve(data.token);
+          const formEncoder = urlEncodeFormData([
+            ["client_id", encodeURIComponent(clientId || "")],
+            ["grant_type", encodeURIComponent("authorization_code")],
+            ["code", encodeURIComponent(data.code)],
+            ["redirect_uri", encodeURIComponent(redirect)],
+            ["code_verifier", codeVerifier],
+          ]);
+          fetch("https://auth-server.developershouse.xyz/oauth2/token", {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            method: "POST",
+            body: formEncoder,
+          })
+            .then((resp) => resp.json())
+            .then((response) => {
+              resolve(response.access_token);
+            });
         } else {
           reject(new Error("Invalid state!"));
         }
