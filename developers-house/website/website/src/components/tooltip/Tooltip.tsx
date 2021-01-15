@@ -10,9 +10,9 @@ const Tooltip: FC<
     React.HTMLAttributes<HTMLDivElement>,
     HTMLDivElement
   >
-> = ({ direction, tooltip, children, ...props }) => {
+> = ({ direction, className, tooltip, children, ...props }) => {
   return (
-    <div className={styles.tooltipContainer} {...props}>
+    <div className={[styles.tooltipContainer, className].join(" ")} {...props}>
       <span
         className={[
           styles.tooltip,

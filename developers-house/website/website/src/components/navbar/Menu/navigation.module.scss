@@ -10,13 +10,8 @@ a:hover,
     cursor: pointer;
 }
 
-@keyframes show {
-    from {
-        height: 0;
-    }
-    to {
-        height: content-box;
-    }
+.right {
+    margin-left: auto;
 }
 
 .container {
@@ -52,6 +47,9 @@ a:hover,
                 svg {
                     margin-right: 10px;
                 }
+            }
+            .right {
+                margin: 0;
             }
         }
         .bottom {

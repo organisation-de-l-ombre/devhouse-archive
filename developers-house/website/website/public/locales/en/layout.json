@@ -11,6 +11,9 @@
                 "dark": "Switch to the dark theme",
                 "light": "Switch to the light theme"
             }
+        },
+        "login": {
+            "tooltip": "Login to your account"
         }
     }
 }
