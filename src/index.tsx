@@ -1,3 +1,6 @@
+// Please keep @sentry's import before the react import
+import { init } from "@sentry/react";
+import { Integrations } from "@sentry/tracing";
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./pages/App";
@@ -5,6 +8,15 @@ import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import "./languages/i18n";
 import Suspense from "./components/Suspense/Suspense";
+
+init({
+  autoSessionTracking: true,
+  dsn:
+    "https://392ce00de8f64a408fcbf26155ba2e21@o487534.ingest.sentry.io/5595403",
+  integrations: [new Integrations.BrowserTracing()],
+  tracesSampleRate: 1,
+  release: process.env.CI_COMMIT_SHORT_SHA ?? "No Commit Short SHA",
+});
 
 const app = document.createElement("div");
 
