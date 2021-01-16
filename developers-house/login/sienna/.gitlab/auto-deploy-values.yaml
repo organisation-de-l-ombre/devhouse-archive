@@ -2,12 +2,18 @@ service:
   externalPort: 3000
   internalPort: 3000
 
+podAnnotations:
+  linkerd.io/inject: enabled
+
 ingress:
   path: /dialog
   annotations:
     cert-manager.io/issuer: prod-issuer
     cert-manager.io/issuer-kind: OriginIssuer
     cert-manager.io/issuer-group: cert-manager.k8s.cloudflare.com
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
+      grpc_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
 
 livenessProbe:
   path: "/dialog/api/health"
