@@ -28,8 +28,8 @@ const createUser = async (): Promise<void> => {
     throw new Error("Failed to get the client ID.");
   }
 
-  const scopes = ["account.info"];
-  const audience = "imr";
+  const scopes = ["account.info", "account.authorized.*"];
+  const audience = "imr abdera";
 
   document.location.href = `http://auth-server.developershouse.xyz/oauth2/auth?response_type=token&client_id=${encodeURIComponent(
     clientID

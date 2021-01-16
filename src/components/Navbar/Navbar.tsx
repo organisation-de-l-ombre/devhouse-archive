@@ -2,34 +2,28 @@ import { FaMoon, FaSun, FaUser, MdLocalMovies } from "react-icons/all";
 import { useHistory, NavLink } from "react-router-dom";
 import React from "react";
 import { useTranslation, Trans } from "react-i18next";
-import { createUser, getAvatar } from "../../account/UserActions";
+import { useSelector } from "react-redux";
 import styles from "./Navbar.module.scss";
 import Button from "../Button/Button";
 import ThemeContext from "../../themes/ThemeContext";
-import UserContext from "../../account/UserContext";
 import Image from "../Image/Image";
+import { User } from "../../store/user/Types";
+import { createUser, getAvatar } from "../../store/user/Login";
+import { GlobalState } from "../../store/Types";
 
 const Navbar = (): React.ReactElement => {
-  const { loggedIn } = React.useContext(UserContext);
   const history = useHistory();
-  const manageUser = React.useCallback(async (): Promise<void> => {
-    switch (loggedIn) {
-      case true:
-        history.push("/account");
-        break;
-
-      case false:
-        await createUser();
-        break;
-
-      default:
-        break;
-    }
-  }, [history, loggedIn]);
   const [open, setOpen] = React.useState(false);
   const { changeTheme, theme } = React.useContext(ThemeContext);
   const { t } = useTranslation("translation");
-  const { user } = React.useContext(UserContext);
+  const user: User = useSelector((state: GlobalState): User => state.user.user);
+  const manageUser = async (): Promise<void> => {
+    if (user) {
+      history.push("/account");
+    } else {
+      await createUser();
+    }
+  };
 
   return (
     <nav className={`${styles.navbar}${open ? ` ${styles.open}` : ""}`}>
@@ -53,7 +47,7 @@ const Navbar = (): React.ReactElement => {
       </div>
       <div className={styles.end}>
         <Button className={styles.buttons} onClick={manageUser}>
-          {loggedIn ? (
+          {user ? (
             <>
               {user ? (
                 <Image className={styles.avatar} src={getAvatar(user.avatar)} />

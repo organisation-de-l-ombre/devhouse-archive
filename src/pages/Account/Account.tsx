@@ -8,21 +8,22 @@ import {
   GoVerified,
   IoIosLogOut,
 } from "react-icons/all";
-import { User } from "../../account/Types";
+import { useDispatch, useSelector } from "react-redux";
 import FlexContainer from "../../components/FlexContainer/FlexContainer";
-import UserContext from "../../account/UserContext";
 import buttonStyles from "../../components/Button/Button.module.scss";
 import flexContainerStyles from "../../components/FlexContainer/FlexContainer.module.scss";
 import globalStyles from "../../themes/Global.module.scss";
 import styles from "./Account.module.scss";
 import Image from "../../components/Image/Image";
 import ButtonsGroup from "../../components/ButtonsGroup/ButtonsGroup";
-import { getAvatar } from "../../account/UserActions";
 import Suspense from "../../components/Suspense/Suspense";
 import NotFound from "../../components/NotFound/NotFound";
-
 import AccountModule from "./modules/Account/Account";
 import Button from "../../components/Button/Button";
+import { User } from "../../store/user/Types";
+import { GlobalState } from "../../store/Types";
+import { getAvatar } from "../../store/user/Login";
+import { deleteUser } from "../../store/user/Actions";
 
 const Account = (): React.ReactElement => {
   const userDefault: User = {
@@ -34,10 +35,13 @@ const Account = (): React.ReactElement => {
     sid: "123456789",
     sub: "123456789",
     token: randomBytes(32).toString("hex"),
-    username: "Kylian",
+    username: "Test ttt",
   };
-  const { user: userFetched } = React.useContext(UserContext);
-  const user: User = userFetched !== null ? userFetched : userDefault;
+  const userFetched: User = useSelector(
+    (state: GlobalState): User => state.user.user
+  );
+  const user: User = userFetched || userDefault;
+  const dispatch = useDispatch();
   const baseURL = useRouteMatch().path;
   const [open, setOpen] = React.useState(false);
 
@@ -56,10 +60,10 @@ const Account = (): React.ReactElement => {
           <span>Close navigation</span>
         </Button>
         <Image
-          className={globalStyles["rounded-picture"]}
+          className={`${globalStyles["rounded-picture"]}`}
           src={getAvatar(user.avatar)}
         />
-        <h2>{user.username}</h2>
+        <h2 className={styles.avatar}>{user.username}</h2>
         <ButtonsGroup className={`${globalStyles.flex} ${globalStyles.column}`}>
           <NavLink
             to={baseURL}
@@ -79,7 +83,7 @@ const Account = (): React.ReactElement => {
             <GoVerified />
             <span>Authorizations</span>
           </NavLink>
-          <Button>
+          <Button onClick={() => dispatch(deleteUser())}>
             <IoIosLogOut />
             <span>Logout</span>
           </Button>
@@ -100,7 +104,7 @@ const Account = (): React.ReactElement => {
         <React.Suspense fallback={<Suspense />}>
           <Switch>
             <Route path={baseURL} exact component={AccountModule} />
-            <Route path="*" exact component={NotFound} />
+            <Route path="*" component={NotFound} />
           </Switch>
         </React.Suspense>
       </FlexContainer>
