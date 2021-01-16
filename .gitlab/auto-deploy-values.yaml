@@ -9,6 +9,10 @@ service:
   internalPort: 19008
 ingress:
   enabled: false
+  annotations:
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
+      grpc_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
 prometheus:
   metrics: false
 livenessProbe:
@@ -31,3 +35,6 @@ resources:
   requests:
 #    cpu: 100m
 #    memory: 128Mi
+
+podAnnotations:
+  linkerd.io/inject: enabled
