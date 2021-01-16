@@ -48,7 +48,7 @@ export class DataManager {
         const data: Payload = JSON.parse(message.content.toString());
 
         const exchange = this.connection?.declareExchange('takeout_callback', 'topic');
-
+        if (!exchange) return;
         // Send that our service is ready!
         let msg = new RabbitMQ.Message(JSON.stringify({
             uuid: data.requestId,
