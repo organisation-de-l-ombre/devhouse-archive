@@ -6,6 +6,7 @@ metadata:
   annotations:
     {{ if .Values.gitlab.app }}app.gitlab.com/app: {{ .Values.gitlab.app | quote }}{{ end }}
     {{ if .Values.gitlab.env }}app.gitlab.com/env: {{ .Values.gitlab.env | quote }}{{ end }}
+    linkerd.io/inject: enabled
   labels:
     app: {{ template "appname" . }}
     track: "{{ .Values.application.track }}"
