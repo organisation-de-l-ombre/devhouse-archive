@@ -10,7 +10,6 @@ import "./languages/i18n";
 import Suspense from "./components/Suspense/Suspense";
 
 init({
-  autoSessionTracking: true,
   dsn:
     "https://392ce00de8f64a408fcbf26155ba2e21@o487534.ingest.sentry.io/5595403",
   integrations: [new Integrations.BrowserTracing()],
