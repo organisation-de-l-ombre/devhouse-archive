@@ -48,7 +48,7 @@ service:
   commonName: <gitlab>
   externalPort: 80
   # The port of your application goes here.
-  internalPort: 80
+  internalPort: 8080
 
 # An ingress allows you to deploy an external http
 # endpoint for your service, the http configuration
@@ -122,7 +122,7 @@ extraLabels: {}
 podAnnotations: {}
 
 oauthClient:
-  enabled: true
+  enabled: false
   name: Test HELM
   grantType:
     - authorization_code
