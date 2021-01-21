@@ -1,120 +1,107 @@
-{{- if not .Values.application.initializeCommand -}}
-apiVersion: {{ default "extensions/v1beta1" .Values.deploymentApiVersion }}
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "trackableappname" . }}
+  name: {{ include "..fullname" . }}
   annotations:
-    {{ if .Values.gitlab.app }}app.gitlab.com/app: {{ .Values.gitlab.app | quote }}{{ end }}
-    {{ if .Values.gitlab.env }}app.gitlab.com/env: {{ .Values.gitlab.env | quote }}{{ end }}
+    app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
+    app.gitlab.com/env: {{ .Values.gitlab.env | quote }}
   labels:
-    app: {{ template "appname" . }}
-    track: "{{ .Values.application.track }}"
-    tier: "{{ .Values.application.tier }}"
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{- include "..labels" . | nindent 4 }}
 spec:
-{{- if or .Values.enableSelector (eq (default "extensions/v1beta1" .Values.deploymentApiVersion) "apps/v1") }}
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
   selector:
     matchLabels:
-      app: {{ template "appname" . }}
-      track: "{{ .Values.application.track }}"
-      tier: "{{ .Values.application.tier }}"
-      release: {{ .Release.Name }}
-{{- end }}
-  replicas: {{ .Values.replicaCount }}
-{{- if .Values.strategyType }}
-  strategy:
-    type: {{ .Values.strategyType | quote }}
-{{- end }}
+      {{- include "..selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
+        linkerd.io/inject: enabled
+        app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
+        app.gitlab.com/env: {{ .Values.gitlab.env | quote }}
         checksum/application-secrets: "{{ .Values.application.secretChecksum }}"
-        {{ if .Values.gitlab.app }}app.gitlab.com/app: {{ .Values.gitlab.app | quote }}{{ end }}
-        {{ if .Values.gitlab.env }}app.gitlab.com/env: {{ .Values.gitlab.env | quote }}{{ end }}
-{{- if .Values.podAnnotations }}
-{{ toYaml .Values.podAnnotations | indent 8 }}
-{{- end }}
+        {{- with .Values.podAnnotations }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
       labels:
-        app: {{ template "appname" . }}
-        track: "{{ .Values.application.track }}"
-        tier: "{{ .Values.application.tier }}"
-        release: {{ .Release.Name }}
+        {{- include "..selectorLabels" . | nindent 8 }}
     spec:
+      {{- with .Values.image.secrets }}
       imagePullSecrets:
-{{ toYaml .Values.image.secrets | indent 10 }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "..serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-      - name: {{ .Chart.Name }}
-        image: {{ template "imagename" . }}
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-
-        envFrom:
-          - secretRef:
-              name: oauth-client-{{ template "trackableappname" . }}
-{{- if .Values.application.secretName }}
-          - secretRef:
-              name: {{ .Values.application.secretName }}
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.application.secretName }}
+          envFrom:
+          {{- else if .Values.oauthClient.enabled }}
+          envFrom:
+          {{- else if .Values.storageBucket.enabled }}
+          envFrom:
+          {{- else if .Values.application.secretName }}
+            - secretRef:
+                name: {{ .Values.application.secretName }}
+          {{- end }}
+          {{- if .Values.oauthClient.enabled }}
+            - secretRef:
+                name: oauth-client-{{ include "..fullname" . }}
+          {{- end }}
+          {{- if .Values.storageBucket.enabled }}
+            - secretRef:
+                name: bucket-{{ include "..fullname" . }}
+            - configMapRef:
+                name: bucket-{{ include "..fullname" . }}
+          {{- end }}
+          ports:
+            - name: {{ .Values.service.name }}
+              containerPort: {{ .Values.service.internalPort }}
+          livenessProbe:
+{{- if eq .Values.health.livenessProbe.probeType "httpGet" }}
+            httpGet:
+              path: {{ .Values.health.livenessProbe.path }}
+              scheme: {{ .Values.health.livenessProbe.scheme }}
+              port: {{ .Values.service.internalPort }}
+{{- else if eq .Values.health.livenessProbe.probeType "tcpSocket" }}
+            tcpSocket:
+              port: {{ .Values.service.internalPort }}
+{{- else if eq .Values.health.livenessProbe.probeType "exec" }}
+            exec:
+              command:
+                {{ toYaml .Values.health.livenessProbe.command | indent 16 }}
 {{- end }}
-        env:
-{{- if .Values.postgresql.managed }}
-        - name: POSTGRES_USER
-          valueFrom:
-            secretKeyRef:
-              name: app-postgres
-              key: username
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: app-postgres
-              key: password
-        - name: POSTGRES_HOST
-          valueFrom:
-            secretKeyRef:
-              name: app-postgres
-              key: privateIP
+          readinessProbe:
+{{- if eq .Values.health.readinessProbe.probeType "httpGet" }}
+            httpGet:
+              path: {{ .Values.health.readinessProbe.path }}
+              scheme: {{ .Values.health.readinessProbe.scheme }}
+              port: {{ .Values.service.internalPort }}
+{{- else if eq .Values.health.readinessProbe.probeType "tcpSocket" }}
+            tcpSocket:
+              port: {{ .Values.service.internalPort }}
+{{- else if eq .Values.health.readinessProbe.probeType "exec" }}
+            exec:
+              command:
+                {{ toYaml .Values.health.readinessProbe.command | indent 16 }}
 {{- end }}
-        - name: DATABASE_URL
-          value: {{ .Values.application.database_url | quote }}
-        - name: GITLAB_ENVIRONMENT_NAME
-          value: {{ .Values.gitlab.envName | quote }}
-        - name: GITLAB_ENVIRONMENT_URL
-          value: {{ .Values.gitlab.envURL | quote }}
-        ports:
-        - name: "{{ .Values.service.name }}"
-          containerPort: {{ .Values.service.internalPort }}
-        livenessProbe:
-{{- if eq .Values.livenessProbe.probeType "httpGet" }}
-          httpGet:
-            path: {{ .Values.livenessProbe.path }}
-            scheme: {{ .Values.livenessProbe.scheme }}
-            port: {{ .Values.service.internalPort }}
-{{- else if eq .Values.livenessProbe.probeType "tcpSocket" }}
-          tcpSocket:
-            port: {{ .Values.service.internalPort }}
-{{- else if eq .Values.livenessProbe.probeType "exec" }}
-          exec:
-            command:
-{{ toYaml .Values.livenessProbe.command | indent 14 }}
-{{- end }}
-          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
-        readinessProbe:
-{{- if eq .Values.readinessProbe.probeType "httpGet" }}
-          httpGet:
-            path: {{ .Values.readinessProbe.path }}
-            scheme: {{ .Values.readinessProbe.scheme }}
-            port: {{ .Values.service.internalPort }}
-{{- else if eq .Values.readinessProbe.probeType "tcpSocket" }}
-          tcpSocket:
-            port: {{ .Values.service.internalPort }}
-{{- else if eq .Values.readinessProbe.probeType "exec" }}
-          exec:
-            command:
-{{ toYaml .Values.readinessProbe.command | indent 14 }}
-{{- end }}
-          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
-        resources:
-{{ toYaml .Values.resources | indent 12 }}
-{{- end -}}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

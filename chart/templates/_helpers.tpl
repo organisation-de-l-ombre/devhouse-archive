@@ -1,37 +1,68 @@
-{{/* vim: set filetype=mustache: */}}
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "name" -}}
-{{- default .Chart.Name .Values.nameOverride | trunc 24 | trimSuffix "-" -}}
-{{- end -}}
+{{- define "..name" -}}
+{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
+{{- end }}
 
 {{/*
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+If release name contains chart name it will be used as a full name.
 */}}
-{{- define "fullname" -}}
-{{- $name := default .Chart.Name .Values.nameOverride -}}
-{{- printf "%s-%s" .Release.Name $name | trimSuffix "-app" | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
+{{- define "..fullname" -}}
+{{- if .Values.fullnameOverride }}
+{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- $name := default .Chart.Name .Values.nameOverride }}
+{{- if contains $name .Release.Name }}
+{{- .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+{{- end }}
 
-{{- define "appname" -}}
-{{- $releaseName := default .Release.Name .Values.releaseOverride -}}
-{{- printf "%s" $releaseName | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
+{{/*
+Create chart name and version as used by the chart label.
+*/}}
+{{- define "..chart" -}}
+{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+{{- end }}
 
-{{- define "imagename" -}}
-{{- if eq .Values.image.tag "" -}}
-{{- .Values.image.repository -}}
-{{- else -}}
-{{- printf "%s:%s" .Values.image.repository .Values.image.tag -}}
-{{- end -}}
-{{- end -}}
+{{/*
+Common labels
+*/}}
+{{- define "..labels" -}}
+helm.sh/chart: {{ include "..chart" . }}
+{{ include "..selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
 
-{{- define "trackableappname" -}}
-{{- $trackableName := printf "%s-%s" (include "appname" .) .Values.application.track -}}
-{{- $trackableName | trimSuffix "-stable" | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
+{{/*
+Selector labels
+*/}}
+{{- define "..selectorLabels" -}}
+app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
+app.kubernetes.io/name: {{ include "..name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+tier: "{{ .Values.application.tier }}"
+track: "{{ .Values.application.track }}"
+{{- end }}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "..serviceAccountName" -}}
+{{- if .Values.serviceAccount.create }}
+{{- default (include "..fullname" .) .Values.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}
 
 {{/*
 Get a hostname from URL
@@ -40,15 +71,9 @@ Get a hostname from URL
 {{- . | trimPrefix "http://" |  trimPrefix "https://" | trimSuffix "/" | trim | quote -}}
 {{- end -}}
 
-{{- define "fhostname" -}}
-{{- . | trimPrefix "http://" |  trimPrefix "https://" | trimSuffix "/" | trim -}}
-{{- end -}}
-
 {{/*
-Get SecRule's arguments with unescaped single&double quotes
+Get a hostname from URL without quotes
 */}}
-{{- define "secrule" -}}
-{{- $operator := .operator | quote | replace "\"" "\\\"" | replace "'" "\\'" -}}
-{{- $action := .action | quote | replace "\"" "\\\"" | replace "'" "\\'" -}}
-{{- printf "SecRule %s %s %s" .variable $operator $action -}}
+{{- define "noquote-hostname" -}}
+{{- . | trimPrefix "http://" |  trimPrefix "https://" | trimSuffix "/" | trim -}}
 {{- end -}}
