@@ -1,14 +1,7 @@
-import React, { useContext } from "react";
-import styles from "./Home.module.scss";
-import ThemeContext from "../../themes/ThemeContext";
-import Button from "../../components/Button/Button";
+import React from "react";
 
-export default function Home(): React.ReactElement {
-  const { changeTheme } = useContext(ThemeContext);
+const Home = (): React.ReactElement => {
+  return <></>;
+};
 
-  return (
-    <div className={styles.home}>
-      <Button onClick={changeTheme}>Change theme</Button>
-    </div>
-  );
-}
+export default Home;

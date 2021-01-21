@@ -1,6 +1,6 @@
 * { color: var(--font-color); }
 
-a, button, p, span {
+a, button, p, span, li {
     font-size: 1.25rem;
     font-weight: bold;
 }

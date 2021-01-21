@@ -42,5 +42,8 @@ module.exports = {
                 endOfLine: 'auto',
             },
         ],
+        'global-require': 'off',
+        'import/no-dynamic-require': 'off',
+        'no-alert': 'off'
     },
 };

@@ -35,7 +35,7 @@
     }
 
     &:hover, &.active {
-      border-left: .2rem solid orange;
+      border-left: .2rem solid var(--font-color-hover);
       transition: .5s;
 
       svg, span {

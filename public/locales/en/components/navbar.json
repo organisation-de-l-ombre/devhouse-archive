@@ -1,0 +1,26 @@
+{
+  "mobileMenu": "International Media Referencing",
+  "items": {
+    "home": "Home",
+    "movies": "Movies",
+    "series": "Series",
+    "login": "Login",
+    "manageAccount": "Manage account",
+    "changeLanguage": "Change language",
+    "lightTheme": "Switch to light theme",
+    "darkTheme": "Switch to dark theme"
+  },
+  "modal": {
+    "title": "Language preferences",
+    "description": "Please choose the language in which you want to display the website:",
+    "select": {
+      "default": "Select language",
+      "languages": {
+        "en": "English",
+        "fr": "French"
+      }
+    },
+    "saveLanguage": "Save language",
+    "invalidLanguage": "This language is not valid, please select a different language as the current."
+  }
+}

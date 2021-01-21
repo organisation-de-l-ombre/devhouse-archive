@@ -1,9 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+@font-face {
+    font-family: "roboto";
+    src: url("fonts/roboto.woff2") format("woff2");
+}
 
 * {
     margin: 0;
     padding: 0;
-    font-family: "Roboto", sans-serif;
+    font-family: "roboto", sans-serif;
 }
 
 noscript {

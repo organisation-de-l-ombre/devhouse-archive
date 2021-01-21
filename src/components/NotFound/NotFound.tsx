@@ -9,7 +9,7 @@ import styles from "./NotFound.module.scss";
 import FlexContainer from "../FlexContainer/FlexContainer";
 
 const NotFound = (): React.ReactElement => {
-  const { t } = useTranslation("translation");
+  const { t } = useTranslation("components\\notFound");
 
   return (
     <FlexContainer
@@ -19,18 +19,18 @@ const NotFound = (): React.ReactElement => {
         className={`${styles.card} ${cardStyles.container} ${globalStyles["animation-opacity"]}`}
       >
         <h1>
-          <Trans t={t} i18nKey="pages.notFound.title" />
+          <Trans t={t} i18nKey="title" />
         </h1>
         <hr />
         <p>
-          <Trans t={t} i18nKey="pages.notFound.description" />
+          <Trans t={t} i18nKey="description" />
         </p>
         <div className={styles["buttons-container"]}>
           <NavLink to="/">
-            <Trans t={t} i18nKey="pages.notFound.homePage" />
+            <Trans t={t} i18nKey="homePage" />
           </NavLink>
           <NavLink to="/support">
-            <Trans t={t} i18nKey="pages.notFound.supportPage" />
+            <Trans t={t} i18nKey="supportPage" />
           </NavLink>
         </div>
       </Card>

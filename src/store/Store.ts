@@ -1,13 +1,44 @@
-import { compose, combineReducers, createStore, applyMiddleware } from "redux";
+import { applyMiddleware, combineReducers, createStore } from "redux";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "localforage";
 import reduxThunk from "redux-thunk";
-import UserReducer from "./user/Reducer";
+import { composeWithDevTools } from "redux-devtools-extension";
+import {
+  createStateSyncMiddleware,
+  initMessageListener,
+  initStateWithPrevTab,
+} from "redux-state-sync";
+import LanguageReducer, { languageState } from "./language/Reducer";
+import ThemeReducer, { themeState } from "./theme/Reducer";
+import UserReducer, { userState } from "./user/Reducer";
+import { GlobalState } from "./Types";
 
-const composeEnhancers =
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const reducer = combineReducers({ user: UserReducer });
+const reducer = combineReducers({
+  language: LanguageReducer,
+  theme: ThemeReducer,
+  user: UserReducer,
+});
+const persistConfiguration = { key: "root", storage };
+const syncConfiguration = {
+  blacklist: ["persist/PERSIST", "persist/REHYDRATE"],
+};
+const middlewares = [reduxThunk, createStateSyncMiddleware(syncConfiguration)];
+let callCompose = applyMiddleware(...middlewares);
 
-export default createStore(
-  reducer,
-  composeEnhancers(applyMiddleware(reduxThunk))
-);
+if (process.env.NODE_ENV !== "production") {
+  callCompose = composeWithDevTools(callCompose);
+}
+
+const persistedReducer = persistReducer(persistConfiguration, reducer);
+const globalState: GlobalState = {
+  language: languageState,
+  theme: themeState,
+  user: userState,
+};
+const store = createStore(persistedReducer, globalState, callCompose);
+const persistor = persistStore(store as never);
+
+initMessageListener(store as never);
+initStateWithPrevTab(store as never);
+
+export { store, persistor };

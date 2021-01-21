@@ -1,0 +1,32 @@
+import {
+  LANGUAGE_UPDATED,
+  LanguagePayload,
+  LanguageState,
+  supportedLanguages,
+} from "./Types";
+
+const detectLanguage = (): string => {
+  const language = navigator.language.split("-")[0];
+
+  if (!supportedLanguages.some((lang) => lang === language)) {
+    return "en";
+  }
+
+  return language;
+};
+const languageState: LanguageState = { language: detectLanguage() };
+const languageReducer = (
+  state: LanguageState = languageState,
+  { type, payload: language }: LanguagePayload
+): LanguageState => {
+  switch (type) {
+    case LANGUAGE_UPDATED:
+      return { ...state, language };
+
+    default:
+      return state;
+  }
+};
+
+export default languageReducer;
+export { languageState };
