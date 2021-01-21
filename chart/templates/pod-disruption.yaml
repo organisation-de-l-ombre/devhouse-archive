@@ -7,6 +7,9 @@ metadata:
   name: {{ include "..fullname" . }}
   labels:
     {{- include "..labels" . | nindent 4 }}
+  annotations:
+    app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
+    app.gitlab.com/env: {{ .Values.gitlab.env | quote }}
 spec:
 {{- if .Values.podDisruption.minAvailable }}
   minAvailable: {{ .Values.podDisruption.minAvailable }}
