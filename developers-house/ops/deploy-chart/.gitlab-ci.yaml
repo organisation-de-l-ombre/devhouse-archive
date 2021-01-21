@@ -1,0 +1,6 @@
+include:
+  - template: Auto-DevOps.gitlab-ci.yml
+
+variables:
+  DOCKER_BUILDKIT: '1'
+  HELM_UPGRADE_VALUES_FILE: 'deploy.yaml'
