@@ -6,8 +6,6 @@ metadata:
     app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
     app.gitlab.com/env: {{ .Values.gitlab.env | quote }}
   labels:
-    track: {{ .Values.application.track | quote }}
-    tier: {{ .Values.application.tier | quote }}
     {{- include "..labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
@@ -19,6 +17,7 @@ spec:
   template:
     metadata:
       annotations:
+        linkerd.io/inject: enabled
         app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
         app.gitlab.com/env: {{ .Values.gitlab.env | quote }}
         checksum/application-secrets: "{{ .Values.application.secretChecksum }}"
@@ -44,9 +43,12 @@ spec:
           {{- if .Values.application.secretName }}
           envFrom:
           {{- end}}
-          {{- if .Values.oauthClient.enabled }}
+          {{- else if .Values.oauthClient.enabled }}
           envFrom:
           {{- end}}
+          {{- else if .Values.storageBucket.enabled }}
+          envFrom:
+          {{ - end }}
           {{- if .Values.application.secretName }}
             - secretRef:
                 name: {{ .Values.application.secretName }}
@@ -54,6 +56,12 @@ spec:
           {{- if .Values.oauthClient.enabled }}
             - secretRef:
                 name: oauth-client-{{ include "..fullname" . }}
+          {{- end }}
+          {{- if .Values.storageBucket.enabled }}
+            - secretRef:
+                name: ceph-bucket
+            - configMapRef:
+                name: ceph-bucket
           {{- end }}
           ports:
             - name: {{ .Values.service.name }}
