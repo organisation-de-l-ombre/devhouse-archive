@@ -4,6 +4,7 @@ include:
 variables:
   DOCKER_BUILDKIT: '1'
   MIGRATE_HELM_2TO3: "true"
+  HELM_UPGRADE_VALUES_FILE: 'deploy.yaml'
 
 stages:
   - build
