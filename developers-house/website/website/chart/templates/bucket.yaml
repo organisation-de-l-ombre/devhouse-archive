@@ -1,0 +1,14 @@
+{{- if .Values.storageBucket.enabled }}
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: bucket-{{ include "..fullname" . }}
+  labels:
+    {{- include "..labels" . | nindent 4 }}
+  annotations:
+    app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
+    app.gitlab.com/env: {{ .Values.gitlab.env | quote }}
+spec:
+  generateBucketName: {{ .Values.storageBucket.namePrefix }}
+  storageClassName: rook-ceph-bucket
+{{- end}}

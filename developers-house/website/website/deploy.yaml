@@ -22,10 +22,10 @@ autoscaling:
 resources:
   limits:
     cpu: 100m
-    memory: 128Mi
+    memory: 50Mi
   requests:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 10m
+    memory: 25Mi
 
 # Other details of the deployment.
 podSecurityContext: {}
@@ -46,9 +46,9 @@ service:
   url: <gitlab>
   additionalHosts: []
   commonName: <gitlab>
-  externalPort: 5000
+  externalPort: 80
   # The port of your application goes here.
-  internalPort: 5000
+  internalPort: 80
 
 # An ingress allows you to deploy an external http
 # endpoint for your service, the http configuration
@@ -94,7 +94,7 @@ podDisruption:
 # https://kubernetes.io/docs/concepts/services-networking/network-policies/
 # You should preferably only allow acces of the services you need.
 networkPolicy:
-  enabled: false
+  enabled: true
   spec:
     podSelector:
       matchLabels: {}
@@ -104,7 +104,7 @@ networkPolicy:
           matchLabels: {}
       - namespaceSelector:
           matchLabels:
-            app.gitlab.com/managed_by: gitlab
+            role: ingress
 
 # The service account of the contaier.
 # Allow access to the kubernetes apis here.
@@ -122,8 +122,8 @@ extraLabels: {}
 podAnnotations: {}
 
 oauthClient:
-  enabled: false
-  name: Test HELM
+  enabled: true
+  name: Website
   grantType:
     - authorization_code
     # - implicit
@@ -133,44 +133,8 @@ oauthClient:
   scope: "account.* websocket.*"
   audiences:
    - abdera
-   - imr
-   - kuizz
   tokenEndpointAuthMethod: none
 
 storageBucket:
   enabled: false
-  namePrefix: <name>
-
-###########################
-# This session contains gitlab specific metadata.
-# if you are editing this file in a project,
-# you can remove this section as you should
-# not edit it. - Matthieu
-###########################
-
-# Gitlab project meta.
-gitlab:
-  app: <app>
-  env: <env>
-  envName: <envName>
-  envURL: <envURL>
-
-# Gitlab deployment meta.
-application:
-  track: stable
-  tier: web
-  migrateCommand:
-  initializeCommand:
-  secretName:
-  secretChecksum:
-
-# Overrides the name of the release.
-releaseOverride: <releaseOverride>
-# Data specific to the docker image to
-# the current version of the deployment.
-image:
-  repository: gitlab.example.com/group/project
-  tag: stable
-  pullPolicy: IfNotPresent
-  secrets:
-    - name: gitlab-registry
+  namePrefix: test-helm
