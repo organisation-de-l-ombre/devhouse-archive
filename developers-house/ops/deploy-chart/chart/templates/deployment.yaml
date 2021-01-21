@@ -56,9 +56,9 @@ spec:
           {{- end }}
           {{- if .Values.storageBucket.enabled }}
             - secretRef:
-                name: ceph-bucket
+                name: bucket-{{ include "..fullname" . }}
             - configMapRef:
-                name: ceph-bucket
+                name: bucket-{{ include "..fullname" . }}
           {{- end }}
           ports:
             - name: {{ .Values.service.name }}
