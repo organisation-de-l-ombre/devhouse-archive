@@ -136,7 +136,10 @@ oauthClient:
    - imr
    - kuizz
   tokenEndpointAuthMethod: none
-  
+
+storageBucket:
+  enabled: false
+  namePrefix: <name>
 
 ###########################
 # This session contains gitlab specific metadata.
