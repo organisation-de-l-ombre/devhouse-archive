@@ -1,7 +1,5 @@
 User-agent: *
 Disallow: /settings
-Disallow: /locales
 Disallow: /icons
 Disallow: /settings
 Disallow: /workbox-*
-Disallow: /static
