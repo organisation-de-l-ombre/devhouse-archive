@@ -9,14 +9,14 @@ include:
 variables:
   # If this variable is not present, the migration jobs will not show up
   MIGRATE_HELM_2TO3: "true"
+  HELM_UPGRADE_VALUES_FILE: 'deploy.yaml'
+  TEST_DISABLED: 'true'
+  PERFORMANCE_DISABLED: 'true'
+  CODE_QUALITY_DISABLED: 'true'
+  SECRET_DETECTION_DISABLED: 'true'
+  SAST_DISABLED: 'true'
 
 .auto-deploy:
   image: registry.gitlab.com/gitlab-org/cluster-integration/auto-deploy-image:v2.0.0-beta.1
   variables:
-    HELM_UPGRADE_VALUES_FILE: 'deploy.yaml'
-    TEST_DISABLED: 'true'
-    PERFORMANCE_DISABLED: 'true'
-    CODE_QUALITY_DISABLED: 'true'
-    SECRET_DETECTION_DISABLED: 'true'
-    SAST_DISABLED: 'true'
     AUTO_DEVOPS_FORCE_DEPLOY_V2: 1
