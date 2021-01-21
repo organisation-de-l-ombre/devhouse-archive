@@ -4,3 +4,8 @@ include:
 variables:
   DOCKER_BUILDKIT: '1'
   HELM_UPGRADE_VALUES_FILE: 'deploy.yaml'
+  TEST_DISABLED: 'true'
+  PERFORMANCE_DISABLED: 'true'
+  CODE_QUALITY_DISABLED: 'true'
+  SECRET_DETECTION_DISABLED: 'true'
+  SAST_DISABLED: 'true'
