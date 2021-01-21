@@ -2,7 +2,7 @@
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
 metadata:
-  name: {{ include "..fullname" . }}
+  name: bucket-{{ include "..fullname" . }}
   labels:
     {{- include "..labels" . | nindent 4 }}
   annotations:
