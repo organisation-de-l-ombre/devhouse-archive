@@ -1,2 +1,5 @@
-FROM nginx:alpine
-COPY src /usr/share/nginx/html
+FROM chartmuseum/chartmuseum
+ENV STORAGE=local
+ENV STORAGE_LOCAL_ROOTDIR=/charts
+
+COPY . /charts
