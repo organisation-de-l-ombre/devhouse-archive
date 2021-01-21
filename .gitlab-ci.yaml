@@ -1,6 +1,3 @@
-include:
-  - template: Auto-DevOps.gitlab-ci.yml
-
 variables:
   DOCKER_BUILDKIT: '1'
   HELM_UPGRADE_VALUES_FILE: 'deploy.yaml'
@@ -9,3 +6,6 @@ variables:
   CODE_QUALITY_DISABLED: 'true'
   SECRET_DETECTION_DISABLED: 'true'
   SAST_DISABLED: 'true'
+  
+include:
+  - template: Auto-DevOps.gitlab-ci.yml
