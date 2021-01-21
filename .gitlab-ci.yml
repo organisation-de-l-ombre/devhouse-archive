@@ -3,6 +3,7 @@ include:
 
 variables:
   DOCKER_BUILDKIT: '1'
+  MIGRATE_HELM_2TO3: "true"
 
 stages:
   - build
@@ -51,3 +52,8 @@ sentry_release:
     - VERSION=$(sentry-cli releases propose-version)
     - sentry-cli releases new -p website $VERSION
     - sentry-cli releases set-commits --auto $VERSION
+
+.auto-deploy:
+  image: registry.gitlab.com/gitlab-org/cluster-integration/auto-deploy-image/v2-3-1:latest
+  variables:
+    AUTO_DEVOPS_FORCE_DEPLOY_V2: 1

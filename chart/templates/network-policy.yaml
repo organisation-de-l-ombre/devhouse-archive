@@ -2,12 +2,12 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: {{ template "fullname" . }}
+  name: {{ include "..fullname" . }}
   labels:
-    app: {{ template "appname" . }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{- include "..labels" . | nindent 4 }}
+  annotations:
+    app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
+    app.gitlab.com/env: {{ .Values.gitlab.env | quote }}
 spec:
 {{ toYaml .Values.networkPolicy.spec | indent 2 }}
 {{- end -}}
