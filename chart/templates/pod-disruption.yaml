@@ -1,0 +1,20 @@
+# A PodDisruptionBudget defines a policy that forces the scheduler
+# to schedule the pod with priority for very important services.
+{{- if .Values.podDisruption.enabled }}
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "..fullname" . }}
+  labels:
+    {{- include "..labels" . | nindent 4 }}
+spec:
+{{- if .Values.podDisruption.minAvailable }}
+  minAvailable: {{ .Values.podDisruption.minAvailable }}
+{{- end }}
+{{- if .Values.podDisruption.maxUnavailable }}
+  maxUnavailable: {{ .Values.podDisruption.maxUnavailable }}
+{{- end }}
+  selector:
+    matchLabels:
+      {{- include "..labels" . | nindent 6 }}
+{{- end }}
