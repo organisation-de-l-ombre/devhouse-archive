@@ -5,6 +5,9 @@ metadata:
   name: {{ include "..fullname" . }}
   labels:
     {{- include "..labels" . | nindent 4 }}
+  annotations:
+    app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
+    app.gitlab.com/env: {{ .Values.gitlab.env | quote }}
 spec:
   generateBucketName: {{ .Values.storageBucket.namePrefix }}
   storageClassName: rook-ceph-bucket
