@@ -77,25 +77,21 @@ export default function HomePage(): ReactElement {
       </div>
       <section className={styles.points}>
         <div>
-          <h2>Who are we ?</h2>
+          <h2>Who we are</h2>
           <p>
-            We are a group of students who are passioned about technology and
-            software engineering who aims to build projects together; As a team
-            in order to learn how to use tools to work efficiently and as a
-            team.
+            Developer&rsquo;s House is a team of students who loves tech and
+            software engineering and aims to build projects together! We work together,
+            prioritizing group development...
           </p>
           <NavLink to="/about">
             <Button>More about us</Button>
           </NavLink>
         </div>
         <div>
-          <h2>What projects do we have ?</h2>
+          <h2>Our projects</h2>
           <p>
-            Our team regroups many projects including many platforms such as
-            android, ios and the web. Our projects ideas come from the
-            team&rsquo;s members who want to include their projects in the team.
-            The project, even if it&rsquo;s a Developer&rsquo;s House project
-            stay in the total control of it&rsquo;s owner.
+            We works on different projects to diversifying our programming skills and
+            deploys cool stuff in production.
           </p>
           <NavLink to="/projects">
             <Button>More projects.</Button>
@@ -105,21 +101,18 @@ export default function HomePage(): ReactElement {
         <div>
           <h2>What technologies do we use ?</h2>
           <p>
-            Our current technological stack is based around
-            JavaScript/TypeScript, GoLang, Docker and Kubernetes. We use a lot
-            of open-source technologies and aim to contribute to the open-source
-            world in the future. We use GitLab as a source code management
-            service.
+            At DevHouse, we mainly use JavaScript, Typescript, Golang, Docker and Kubernetes.
+            Our mainly goal is to teach to our developers by creating projects, which means 
+            we are not limited to Typescript, Golang...
+            We are also planning to contribute to Open Source!  
           </p>
         </div>
 
         <div>
           <h2>Who is part of the project ?</h2>
           <p>
-            Anyone can take part of the project as long as you have some basic
-            understanding of programming and computer science in general. We do
-            not search someone who know everything and brag about it, we search
-            people that want to contribute and help others to learn.
+            Anyone can be part of Developer&rsquo;s House since you have the basics of
+            programming science and you want to learn!
           </p>
           <NavLink to="/members">
             <Button>View the project&rsquo;s members</Button>
