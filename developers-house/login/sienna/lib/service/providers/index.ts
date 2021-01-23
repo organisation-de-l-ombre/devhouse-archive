@@ -39,7 +39,6 @@ const addProvider = (name: string, provider: Constructeable) => {
 addProvider("discord", DiscordProvider);
 addProvider("google", GoogleProvider);
 addProvider("github", GitHubProvider);
-addProvider("instagram", InstagramProvider);
 
 export type GeneralUser = {
   id: string;
