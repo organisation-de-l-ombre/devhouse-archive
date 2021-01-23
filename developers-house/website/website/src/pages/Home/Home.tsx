@@ -80,8 +80,8 @@ export default function HomePage(): ReactElement {
           <h2>Who we are</h2>
           <p>
             Developer&rsquo;s House is a team of students who loves tech and
-            software engineering and aims to build projects together! We work together,
-            prioritizing group development...
+            software engineering and aims to build projects together! We work
+            together, prioritizing group development...
           </p>
           <NavLink to="/about">
             <Button>More about us</Button>
@@ -90,8 +90,8 @@ export default function HomePage(): ReactElement {
         <div>
           <h2>Our projects</h2>
           <p>
-            We works on different projects to diversifying our programming skills and
-            deploys cool stuff in production.
+            We works on different projects to diversifying our programming
+            skills and deploys cool stuff in production.
           </p>
           <NavLink to="/projects">
             <Button>More projects.</Button>
@@ -101,18 +101,18 @@ export default function HomePage(): ReactElement {
         <div>
           <h2>What technologies do we use ?</h2>
           <p>
-            At DevHouse, we mainly use JavaScript, Typescript, Golang, Docker and Kubernetes.
-            Our mainly goal is to teach to our developers by creating projects, which means 
-            we are not limited to Typescript, Golang...
-            We are also planning to contribute to Open Source!  
+            At DevHouse, we mainly use JavaScript, Typescript, Golang, Docker
+            and Kubernetes. Our mainly goal is to teach to our developers by
+            creating projects, which means we are not limited to Typescript,
+            Golang... We are also planning to contribute to Open Source!
           </p>
         </div>
 
         <div>
           <h2>Who is part of the project ?</h2>
           <p>
-            Anyone can be part of Developer&rsquo;s House since you have the basics of
-            programming science and you want to learn!
+            Anyone can be part of Developer&rsquo;s House since you have the
+            basics of programming science and you want to learn!
           </p>
           <NavLink to="/members">
             <Button>View the project&rsquo;s members</Button>
