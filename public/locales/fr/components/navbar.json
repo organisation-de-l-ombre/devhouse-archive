@@ -17,7 +17,8 @@
       "default": "Sélectionnez une langue",
       "languages": {
         "en": "Anglais",
-        "fr": "Français"
+        "fr": "Français",
+        "de": "Allemand"
       }
     },
     "saveLanguage": "Enregistrer la langue",

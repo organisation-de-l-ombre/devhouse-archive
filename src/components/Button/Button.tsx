@@ -7,11 +7,12 @@ const Button: React.FC<
     HTMLButtonElement
   >
 > = ({ children, className, ...props }) => {
-  // eslint-disable-next-line react/button-has-type
   return (
     <button
       type="button"
-      className={`${styles["button-styles"]} ${className}`}
+      className={`${styles["button-styles"]}${
+        className ? ` ${className}` : ""
+      }`}
       {...props}
     >
       {children}

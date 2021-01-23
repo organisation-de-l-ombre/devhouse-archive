@@ -4,81 +4,80 @@
   justify-content: center;
   align-items: center;
 
-  button {
-    flex: 1;
+  .select-language {
     margin: .5rem 1rem;
-    background-color: var(--secondary-background-color);
-    transition: .5s;
+    position: relative;
 
-    &:hover {
-      color: var(--font-color);
-      background-color: var(--secondary-background-color-hover);
-      transition: .5s;
-    }
-  }
-}
-
-.select-language {
-  margin: .5rem 1rem;
-  position: relative;
-
-  div {
-    padding: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--secondary-background-color);
-    transition: .5s;
-    cursor: pointer;
-    border-radius: 5px;
-
-    svg {
-      margin-left: 2rem;
-      transform: scale(1.5);
-    }
-
-    &:hover {
-      color: var(--font-color);
-      background-color: var(--secondary-background-color-hover);
-      transition: .5s;
-    }
-  }
-
-  ul { display: none; }
-
-  &:hover {
     div {
-      border-radius: 5px 5px 0 0;
-    }
-
-    ul {
-      width: 100%;
-      position: absolute;
+      padding: 1rem;
       display: flex;
-      flex-direction: column;
-      list-style: none;
+      justify-content: center;
+      align-items: center;
       background-color: var(--secondary-background-color);
-      border-radius: 0 0 5px 5px;
-      overflow: hidden;
+      transition: .5s;
+      cursor: pointer;
+      border-radius: 5px;
 
-      li {
-        padding: 1rem;
-        cursor: pointer;
-        transition: .5s;
-        display: flex;
+      span { transition: .5s; }
 
-        img {
-          margin-right: 1rem;
-          height: 1.5rem;
+      svg {
+        margin-left: 2rem;
+        transform: scale(1.5);
+      }
+
+      &:hover {
+        color: var(--font-color);
+        transition: all .5s;
+
+        span {
+          color: var(--font-color-hover);
+          transition: .5s;
         }
 
-        &:hover {
+        svg {
+          fill: var(--font-color-hover);
           transition: .5s;
-          background-color: var(--secondary-background-color-hover);
+        }
+      }
+    }
+
+    &:hover {
+      div { border-radius: 5px 5px 0 0; }
+
+      ul {
+        width: 100%;
+        position: absolute;
+        flex-direction: column;
+        list-style: none;
+        background-color: var(--secondary-background-color);
+        border-radius: 0 0 5px 5px;
+        overflow: hidden;
+
+        li {
+          padding: 1rem;
+          cursor: pointer;
+          transition: .5s;
+          display: flex;
+
+          img {
+            margin-right: 1rem;
+            height: 1.5rem;
+          }
+
+          span { transition: .5s; }
+
+          &:hover {
+            span {
+              color: var(--font-color-hover);
+              transition: .5s;
+            }
+          }
         }
       }
     }
   }
+
+  button { background-color: var(--secondary-background-color); }
 }
 
 .navbar {
@@ -90,9 +89,7 @@
   background-color: var(--primary-background-color);
   box-shadow: 0 0 1rem black;
 
-  .mobile-menu {
-    display: none;
-  }
+  .mobile-menu { display: none; }
 
   .start {
     display: flex;
@@ -111,9 +108,7 @@
     }
   }
 
-  .end {
-    display: flex;
-  }
+  .end { display: flex; }
 
   .buttons {
     display: flex;
@@ -135,13 +130,9 @@
       transform: scale(1.75);
     }
 
-    span {
-      margin-left: 1rem;
-    }
+    span { margin-left: 1rem; }
 
-    .switcher-span {
-      display: none;
-    }
+    .switcher-span { display: none; }
   }
 
   @media screen and (max-width: 700px) {
@@ -157,9 +148,7 @@
         transition: .5s;
       }
 
-      svg {
-        transform: scale(2);
-      }
+      svg { transform: scale(2); }
 
       h1 {
         margin-left: 1rem;
@@ -167,9 +156,7 @@
       }
     }
 
-    .start, .end {
-      display: none;
-    }
+    .start, .end { display: none; }
 
     &.open {
       position: fixed;
@@ -181,16 +168,12 @@
         flex-direction: column;
       }
 
-      a {
-        text-align: left;
-      }
+      a { text-align: left; }
 
       .buttons {
         text-align: left;
 
-        .switcher-span {
-          display: unset;
-        }
+        .switcher-span { display: unset; }
       }
     }
   }

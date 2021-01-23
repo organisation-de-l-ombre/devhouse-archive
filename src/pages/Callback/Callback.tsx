@@ -1,10 +1,9 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import requestParameters from "./QueriesSelector";
-import { createUser } from "../../store/user/Actions";
+import useUser from "../../hooks/User";
 
 const Callback = (): React.ReactElement => {
-  const dispatch = useDispatch();
+  const { saveUser } = useUser();
 
   React.useEffect(() => {
     if (requestParameters.access_token && requestParameters.state) {
@@ -21,9 +20,7 @@ const Callback = (): React.ReactElement => {
         })
           .then((response) => response.json())
           .then((response) => {
-            dispatch(
-              createUser({ ...response, token: requestParameters.access_token })
-            );
+            saveUser({ ...response, token: requestParameters.access_token });
 
             document.location.href = `${document.location.protocol}//${
               document.location.host
@@ -31,7 +28,7 @@ const Callback = (): React.ReactElement => {
           });
       }
     }
-  }, [dispatch]);
+  }, [saveUser]);
 
   return <></>;
 };

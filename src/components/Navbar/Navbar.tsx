@@ -6,50 +6,26 @@ import {
   MdLocalMovies,
   TiArrowSortedDown,
 } from "react-icons/all";
-import { useHistory, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import React from "react";
-import { useTranslation, Trans } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
+import { Trans, useTranslation } from "react-i18next";
 import globalStyles from "../../themes/Global.module.scss";
 import styles from "./Navbar.module.scss";
 import Button from "../Button/Button";
 import Image from "../Image/Image";
-import { User } from "../../store/user/Types";
-import { createUser, getAvatar } from "../../store/user/Login";
-import { GlobalState } from "../../store/Types";
-import { Theme } from "../../store/theme/Types";
-import changeLanguage from "../../store/language/Actions";
-import changeTheme from "../../store/theme/Actions";
-import { Language, supportedLanguages } from "../../store/language/Types";
+import { getAvatar } from "../../store/user/Login";
+import { supportedLanguages } from "../../store/language/Types";
 import Modal from "../Modal/Modal";
-import i18n from "../../languages/i18n";
+import useLanguage from "../../hooks/Language";
+import useTheme from "../../hooks/Theme";
+import useUser from "../../hooks/User";
 
-const useLanguage = () => {
-  const dispatch = useDispatch();
-  const language: Language = useSelector(
-    (state: GlobalState): Language => state.language.language
-  );
-  const [languageState, setLanguageState] = React.useState<string>("default");
-  const [windowOpen, setWindowOpen] = React.useState(false);
-  const validate = (): void => {
-    if (languageState === "default" || languageState === language) {
-      alert(i18n.t("components\\navbar:modal.invalidLanguage"));
-      return;
-    }
+const manageLanguagesSelection = (display: "flex" | "none"): void => {
+  const languagesList = document.getElementById("languages-list");
 
-    dispatch(changeLanguage(languageState));
-    setLanguageState("default");
-    setWindowOpen(!windowOpen);
-  };
-
-  return {
-    language,
-    languageState,
-    setLanguageState,
-    windowOpen,
-    setWindowOpen,
-    validate,
-  };
+  if (languagesList) {
+    languagesList.style.display = display;
+  }
 };
 const DisplaySVG: React.FC<
   React.ImgHTMLAttributes<HTMLImageElement> & { alt: string; lang: string }
@@ -62,21 +38,8 @@ const DisplaySVG: React.FC<
   return <img src={image} alt={alt} {...props} />;
 };
 const Navbar = (): React.ReactElement => {
-  const history = useHistory();
   const [open, setOpen] = React.useState<boolean>(false);
-  const theme: Theme = useSelector(
-    (state: GlobalState): Theme => state.theme.theme
-  );
-  const dispatch = useDispatch();
   const { t } = useTranslation("components\\navbar");
-  const user: User = useSelector((state: GlobalState): User => state.user.user);
-  const manageUser = async (): Promise<void> => {
-    if (user) {
-      history.push("/account");
-    } else {
-      await createUser();
-    }
-  };
   const {
     language,
     windowOpen,
@@ -84,6 +47,8 @@ const Navbar = (): React.ReactElement => {
     setLanguageState,
     validate,
   } = useLanguage();
+  const { user, manageUser } = useUser();
+  const { theme, switchTheme } = useTheme();
 
   return (
     <>
@@ -98,19 +63,31 @@ const Navbar = (): React.ReactElement => {
           <Trans t={t} i18nKey="modal.description" />
         </p>
         <div className={styles["form-container"]}>
-          <div className={styles["select-language"]}>
+          <div
+            className={styles["select-language"]}
+            onMouseEnter={() => manageLanguagesSelection("flex")}
+            onMouseLeave={() => manageLanguagesSelection("none")}
+          >
             <div>
               <span className={globalStyles["text-align-center"]}>
                 <Trans t={t} i18nKey="modal.select.default" />
               </span>
               <TiArrowSortedDown />
             </div>
-            <ul>
-              {supportedLanguages.map((lang) => {
+            <ul id="languages-list" style={{ display: "none" }}>
+              {supportedLanguages.sort().map((lang) => {
                 return (
-                  <li key={lang} onClick={() => setLanguageState(lang)}>
+                  <li
+                    key={lang}
+                    onClick={() => {
+                      setLanguageState(lang);
+                      manageLanguagesSelection("none");
+                    }}
+                  >
                     <DisplaySVG lang={lang} alt={`lang-${lang}`} />
-                    <Trans t={t} i18nKey={`modal.select.languages.${lang}`} />
+                    <span>
+                      <Trans t={t} i18nKey={`modal.select.languages.${lang}`} />
+                    </span>
                   </li>
                 );
               })}
@@ -178,12 +155,7 @@ const Navbar = (): React.ReactElement => {
               <Trans t={t} i18nKey="items.changeLanguage" />
             </span>
           </Button>
-          <Button
-            className={styles.buttons}
-            onClick={() =>
-              dispatch(changeTheme(theme === "light" ? "dark" : "light"))
-            }
-          >
+          <Button className={styles.buttons} onClick={() => switchTheme()}>
             {theme === "light" ? <FaMoon /> : <FaSun />}
             <span className={styles["switcher-span"]}>
               {theme === "light" ? (

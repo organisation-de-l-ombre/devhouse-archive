@@ -9,9 +9,7 @@
   transition: opacity 300ms, transform 300ms;
 }
 
-.modal-transitions-exit {
-  opacity: 1;
-}
+.modal-transitions-exit { opacity: 1; }
 
 .modal-transitions-exit-active {
   opacity: 0;

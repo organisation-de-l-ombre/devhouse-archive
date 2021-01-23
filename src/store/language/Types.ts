@@ -9,7 +9,7 @@ interface LanguageState {
 }
 
 const LANGUAGE_UPDATED = "LANGUAGE_UPDATED";
-const supportedLanguages = ["en", "fr"];
+const supportedLanguages = ["en", "fr", "de"];
 
 export {
   Language,

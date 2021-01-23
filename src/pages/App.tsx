@@ -1,13 +1,11 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import React from "react";
 import { I18nextProvider } from "react-i18next";
-import { useSelector } from "react-redux";
 import i18n from "../languages/i18n";
 import Navbar from "../components/Navbar/Navbar";
-import { GlobalState } from "../store/Types";
-import { Theme } from "../store/theme/Types";
 import themes from "../themes/Themes.module.scss";
-import { Language } from "../store/language/Types";
+import useTheme from "../hooks/Theme";
+import useLanguage from "../hooks/Language";
 
 const Home = React.lazy(() => import("./Home/Home"));
 const Account = React.lazy(() => import("./Account/Account"));
@@ -15,10 +13,8 @@ const Callback = React.lazy(() => import("./Callback/Callback"));
 const NotFound = React.lazy(() => import("../components/NotFound/NotFound"));
 
 export default function App(): React.ReactElement {
-  const theme = useSelector((state: GlobalState): Theme => state.theme.theme);
-  const language = useSelector(
-    (state: GlobalState): Language => state.language.language
-  );
+  const { theme } = useTheme();
+  const { language } = useLanguage();
 
   React.useEffect(() => {
     const app = document.querySelector("#app");

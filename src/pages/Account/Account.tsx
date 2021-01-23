@@ -8,7 +8,6 @@ import {
   GoVerified,
   IoIosLogOut,
 } from "react-icons/all";
-import { useDispatch, useSelector } from "react-redux";
 import FlexContainer from "../../components/FlexContainer/FlexContainer";
 import buttonStyles from "../../components/Button/Button.module.scss";
 import flexContainerStyles from "../../components/FlexContainer/FlexContainer.module.scss";
@@ -21,9 +20,8 @@ import NotFound from "../../components/NotFound/NotFound";
 import AccountModule from "./modules/Account/Account";
 import Button from "../../components/Button/Button";
 import { User } from "../../store/user/Types";
-import { GlobalState } from "../../store/Types";
 import { getAvatar } from "../../store/user/Login";
-import { deleteUser } from "../../store/user/Actions";
+import useUser from "../../hooks/User";
 
 const Account = (): React.ReactElement => {
   const userDefault: User = {
@@ -37,11 +35,8 @@ const Account = (): React.ReactElement => {
     token: randomBytes(32).toString("hex"),
     username: "Test ttt",
   };
-  const userFetched: User = useSelector(
-    (state: GlobalState): User => state.user.user
-  );
+  const { user: userFetched, deleteUser } = useUser();
   const user: User = userFetched || userDefault;
-  const dispatch = useDispatch();
   const baseURL = useRouteMatch().path;
   const [open, setOpen] = React.useState(false);
 
@@ -83,7 +78,7 @@ const Account = (): React.ReactElement => {
             <GoVerified />
             <span>Authorizations</span>
           </NavLink>
-          <Button onClick={() => dispatch(deleteUser())}>
+          <Button onClick={() => deleteUser()}>
             <IoIosLogOut />
             <span>Logout</span>
           </Button>
