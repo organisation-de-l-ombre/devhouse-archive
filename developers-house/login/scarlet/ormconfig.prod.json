@@ -1,6 +1,6 @@
 {
    "type": "postgres",
-   "host": "global-cluster.postgres",
+   "host": "global-postgres-cluster.postgres",
    "port": 5432,
    "username": "scarlet",
    "password": "ZO9LZX0fiH5zO6rMkGQumLdszBm3lTS0aE6WmpKsgqu9UEZ14TS9q1zosPheNMjg",
