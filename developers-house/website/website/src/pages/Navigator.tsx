@@ -91,6 +91,7 @@ const Navigator = () => {
                 <Route path="/callback" exact component={Callback} />
                 <PrivateRoute path="/settings" component={Settings} />
                 <Route path="/contact" component={NotImplemented} />
+                <Route path="/join" component={NotImplemented} />
                 <Route path="*" exact component={NotFound} />
               </Switch>
             </SuspenseLoader>
