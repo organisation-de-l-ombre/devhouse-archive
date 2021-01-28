@@ -2,7 +2,6 @@
 # https://github.com/GoogleContainerTools/kaniko
 build:
     stage: build
-    services: []
     image:
         name: gcr.io/kaniko-project/executor:debug
         entrypoint: [""]

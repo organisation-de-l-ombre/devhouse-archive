@@ -1,0 +1,11 @@
+# Base file for the Developer's House jobs.
+
+image: alpine:latest
+
+variables:
+  # matthieu-dev.xyz is the main domain name for developer's house deployments.
+  # developershouse.xyz must be explicitly specified in the configuration.
+  KUBE_INGRESS_BASE_DOMAIN: matthieu-dev.xyz
+
+include:
+  - template: kaniko.gitlab-ci.yml
