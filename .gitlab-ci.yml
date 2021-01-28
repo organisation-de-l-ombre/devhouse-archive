@@ -2,7 +2,7 @@ variables:
   DOCKER_BUILDKIT: '1'
 
 include:
-  - project: 'developers-house/dev'
+  - project: 'developers-house/dev/gitlab-ci-collection'
     ref: master
     file: 'kaniko.gitlab-ci.yml'
 variables:
