@@ -6,7 +6,8 @@ a:hover,
 
 .item {
     display: block;
-    padding: 1rem;
+    --padding: 1.15rem;
+    padding: var(--padding) 1rem var(--padding) 1rem;
     cursor: pointer;
 }
 

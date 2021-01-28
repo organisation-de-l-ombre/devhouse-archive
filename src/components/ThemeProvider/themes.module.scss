@@ -7,18 +7,18 @@
   --foreground-hover-secondary: rgb(35, 35, 35);
   --foreground-hover-tertiary: rgb(35, 35, 35);
 
-  --background-primary: #cecece;
-  --background-secondary: #dedede;
+  --background-primary: #f4f4f4;
+  --background-secondary: #f7f7f7;
   --background-tertiary: "";
 
   --background-hover-primary: #9f9f9f;
   --background-hover-secondary: rgb(148, 148, 148);
   --background-hover-tertiary: rgb(215, 215, 215);
 
-  --menu-item-hover-background: rgb(148, 148, 148);
+  --menu-item-hover-background: #e2e2e2;
 
   color: var(--foreground-primary);
-  background: rgb(215, 215, 215);
+  background: #FAFAFA;
 }
 
 .dark {
