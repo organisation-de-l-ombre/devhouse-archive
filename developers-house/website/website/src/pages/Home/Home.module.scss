@@ -43,16 +43,14 @@
 }
 
 .background {
-    padding: 1rem;
-    transform: rotate(-0.8deg) translateX(-1%);
+    padding: 1.5rem;
+    margin: 1rem;
     display: block;
-    width: 100%;
+    border-radius: 5px;
     background-color: var(--background-secondary);
-    box-shadow: var(--background-hover-secondary) 0 0 10px;
     .content {
         display: block;
-        margin: 3% 3% 0;
-        transform: rotate(0.8deg);
+        word-break: break-all;
     }
     margin-bottom: 3%;
 }
