@@ -1,9 +1,8 @@
 variables:
   DOCKER_BUILDKIT: '1'
 
-  
 include:
-  - template: Auto-DevOps.gitlab-ci.yml
+  remote: https://gitlab.com/developers-house/dev/gitlab-ci-collection/-/raw/master/kaniko.gitlab-ci.yml
 
 variables:
   HELM_UPGRADE_VALUES_FILE: 'deploy.yaml'
