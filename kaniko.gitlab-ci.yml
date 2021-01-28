@@ -3,6 +3,7 @@ include:
 
 build:
     stage: build
+    services: []
     image:
         name: gcr.io/kaniko-project/executor:debug
         entrypoint: [""]
