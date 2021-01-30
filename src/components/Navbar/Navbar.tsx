@@ -110,18 +110,39 @@ const Navbar = (): React.ReactElement => {
         </Button>
 
         <div className={styles.start}>
-          <NavLink to="/" exact activeClassName={styles.active}>
+          <NavLink
+            to="/"
+            exact
+            activeClassName={styles.active}
+            onClick={() => setOpen(!open)}
+          >
             <Trans t={t} i18nKey="items.home" />
           </NavLink>
-          <NavLink to="/movies" exact activeClassName={styles.active}>
+          <NavLink
+            to="/movies"
+            exact
+            activeClassName={styles.active}
+            onClick={() => setOpen(!open)}
+          >
             <Trans t={t} i18nKey="items.movies" />
           </NavLink>
-          <NavLink to="/series" exact activeClassName={styles.active}>
+          <NavLink
+            to="/series"
+            exact
+            activeClassName={styles.active}
+            onClick={() => setOpen(!open)}
+          >
             <Trans t={t} i18nKey="items.series" />
           </NavLink>
         </div>
         <div className={styles.end}>
-          <Button className={styles.buttons} onClick={manageUser}>
+          <Button
+            className={styles.buttons}
+            onClick={() => {
+              manageUser();
+              setOpen(!open);
+            }}
+          >
             {user ? (
               <>
                 {user ? (
@@ -155,7 +176,13 @@ const Navbar = (): React.ReactElement => {
               <Trans t={t} i18nKey="items.changeLanguage" />
             </span>
           </Button>
-          <Button className={styles.buttons} onClick={() => switchTheme()}>
+          <Button
+            className={styles.buttons}
+            onClick={() => {
+              switchTheme();
+              setOpen(!open);
+            }}
+          >
             {theme === "light" ? <FaMoon /> : <FaSun />}
             <span className={styles["switcher-span"]}>
               {theme === "light" ? (

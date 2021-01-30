@@ -14,7 +14,9 @@ const Suspense = (): React.ReactElement => {
         <AiOutlineLoading
           className={globalStyles["rotate-infinite-animation"]}
         />
-        <h2>Loading the ressource you requested...</h2>
+        <h2 className={globalStyles["text-align-center"]}>
+          Loading the ressource you requested...
+        </h2>
       </div>
     </FlexContainer>
   );

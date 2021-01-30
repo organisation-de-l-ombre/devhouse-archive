@@ -11,5 +11,8 @@ const search = (hash: string) => {
 };
 
 search(window.location.hash.substring(1) || "");
+search(window.location.search.substring(1) || "");
+
+console.log(requestParameters);
 
 export default requestParameters;
