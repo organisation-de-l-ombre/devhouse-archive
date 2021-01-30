@@ -66,7 +66,7 @@ const Callback = (): React.ReactElement => {
 
             document.location.href = `${document.location.protocol}//${
               document.location.host
-            }${redirection || "/"}`;
+            }${redirectionPath || "/"}`;
           });
       }
     }
