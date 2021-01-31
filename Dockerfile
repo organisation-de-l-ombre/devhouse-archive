@@ -1,4 +1,4 @@
-FROM node:lts as build
+FROM node:lts-alpine as build
 WORKDIR /build
 COPY package.json .
 COPY yarn.lock .
