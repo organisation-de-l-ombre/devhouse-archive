@@ -15,9 +15,9 @@ export const NavigationContainer: React.FC<
 > = ({ className, open, ...props }) => (
   <div
     className={[
+      className ?? "",
       styles.container,
       open ? styles.open : "",
-      className ?? "",
     ].join(" ")}
     {...props}
   />

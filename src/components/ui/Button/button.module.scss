@@ -6,6 +6,8 @@
   overflow: hidden;
   background-color: var(--background-primary);
   color: var(--foreground-primary);
+  
+  box-shadow: var(--shadow) 0 0 3px;
 
   &:hover { background-color: var(--background-hover-primary); }
   &:disabled { background-color: var(--background-hover-secondary); }
@@ -33,7 +35,7 @@
   flex-flow: row wrap;
   border-radius: 5px;
   overflow: hidden;
-  box-shadow: var(--background-hover-secondary) 0 0 3px;
+  box-shadow: var(--shadow) 0 0 3px;
   max-width: fit-content;
   a {
     min-width: fit-content;

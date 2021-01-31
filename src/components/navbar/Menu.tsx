@@ -1,4 +1,5 @@
-import React, { ReactElement, useState } from "react";
+/* eslint-disable prettier/prettier */
+import React, { ReactElement, useState, useCallback, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,6 +7,7 @@ import { updateTheme } from "state/modules/theme";
 import { FaSun, FaUser } from "react-icons/fa";
 import { BsMoon } from "react-icons/bs";
 import { Trans, useTranslation } from "react-i18next";
+import { CgClose } from "react-icons/cg";
 import { NavigationItem } from "./Menu/MenuItem";
 import { loginUser } from "../../state/modules/user/actions";
 import { NavigationContainer } from "./Menu/MenuContainer";
@@ -15,32 +17,51 @@ import UserAvatarStatus from "../ui/UserAvatarStatus/UserAvatarStatus";
 import globalStyles from "../../styles/Global.module.scss";
 import Tooltip from "../tooltip/Tooltip";
 
+
 export function Menu(): ReactElement {
   const [open, setOpen] = useState<boolean>(false);
   const switchOpen = (): void => setOpen(!open);
   const dispatch = useDispatch();
   const dark = useSelector((e) => e.theme.theme === "light");
-  const globalClick = () => open && setOpen(false);
+
+  const [transparent, setTransparent] = useState(false);
+  const element = useRef<HTMLDivElement>(null);
 
   const switchOpenClick = () => {
     if (open) setOpen(false);
     return true;
   };
 
+  const listener = useCallback(() => {
+
+      if (element.current) {
+            const scroll = window.scrollY > element.current.offsetHeight;
+            setTransparent(!scroll);
+      }
+  }, [element]);
+
+  useEffect(() => {
+      document.addEventListener('scroll', listener);
+      return () => document.removeEventListener('scroll', listener);
+  }, [listener])
+
   const userState = useSelector((s) => s.user);
   const { t } = useTranslation("layout");
   return (
-    <NavigationContainer open={open} onClick={globalClick}>
-      <div className={`${styles.primed} ${globalStyles.onlyMobiles}`}>
+    <NavigationContainer open={open} className={transparent ? styles.transparent : ''}>
+      <div ref={element} className={`${styles.primed} ${globalStyles.onlyMobiles}`}>
         <NavigationItem onClick={switchOpen}>
           <h3>Developer&rsquo;s House</h3>
+          { open ? <CgClose style={{
+              scale: 2,
+              transition: "all 250ms",
+            }} /> : 
           <GiHamburgerMenu
             style={{
-              transform: `rotate(${open ? "90" : "0"}deg)`,
               scale: 2,
               transition: "all 250ms",
             }}
-          />
+          />}
         </NavigationItem>
       </div>
       <DrawerContent onClick={switchOpenClick}>
