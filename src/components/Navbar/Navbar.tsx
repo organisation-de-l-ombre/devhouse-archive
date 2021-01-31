@@ -137,7 +137,7 @@ const Navbar = (): React.ReactElement => {
         </div>
         <div className={styles.end}>
           <Button
-            className={styles.buttons}
+            className={styles.user}
             onClick={() => {
               manageUser();
               setOpen(!open);

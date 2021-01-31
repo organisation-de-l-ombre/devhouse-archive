@@ -5,10 +5,10 @@ metadata:
 spec:
   clientName: International Media Referencing ({{ template "trackableappname" . }})
   grantTypes:
-    - implicit
+    - authorization_code
   responseTypes:
-    - token
-  scope: "imr.* account.info"
+    - code
+  scope: "imr.* account.info account.authorized.*"
   secretName: oauth-client-{{ template "trackableappname" . }}
   # these are optional
   redirectUris:
@@ -22,5 +22,6 @@ spec:
   {{- end -}}
   {{- end }}
   audience:
+    - abdera
     - imr
   tokenEndpointAuthMethod: none
