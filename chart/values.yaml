@@ -1,0 +1,176 @@
+# The number of replicas of the application.
+# ignored if the autoscaling is enabled.
+replicaCount: 1
+
+# The autoscaling section defined how
+# the service should be scaled depending
+# on metrics such as memory percentage
+# or cpu percentage of the containers.
+# you must fill the ressources section for
+# this to work.
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+# The limits of the container, if
+# the container starts to use more
+# memory than expected, if will be
+# killed with an error "OOMKilled".
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+# Other details of the deployment.
+podSecurityContext: {}
+securityContext: {}
+nodeSelector: {}
+affinity: {}
+tolerations: {}
+
+# A service allow your application
+# to be accesser in the cluster
+# or outside.
+# https://kubernetes.io/docs/concepts/services-networking/service/
+service:
+  enabled: true
+  annotations: {}
+  name: web
+  type: ClusterIP
+  url: <gitlab>
+  additionalHosts: []
+  commonName: <gitlab>
+  externalPort: 5000
+  # The port of your application goes here.
+  internalPort: 5000
+
+# An ingress allows you to deploy an external http
+# endpoint for your service, the http configuration
+# is already handled for you.
+# https://kubernetes.io/docs/concepts/services-networking/ingress/
+ingress:
+  enabled: true
+  path: "/"
+  annotations: {}
+
+# How the health of the container should be checked.
+# https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+health:
+  # Check if the container if alive.
+  # if not, the container will be restarted.
+  livenessProbe:
+    path: "/"
+    initialDelaySeconds: 15
+    timeoutSeconds: 15
+    scheme: "HTTP"
+    probeType: "httpGet"
+    command: []
+  # Check if the container is ready to be available.
+  # The container will not be available if this check
+  # is not passing.
+  readinessProbe:
+    path: "/"
+    initialDelaySeconds: 5
+    timeoutSeconds: 3
+    scheme: "HTTP"
+    probeType: "httpGet"
+    command: []
+
+# Defines the schedule requirements and priority for
+# scheduling the pods in the cluster. You can 
+# put maxUnavailable OR minAvailable.
+podDisruption:
+  enabled: true
+  # minAvailable: 1
+  maxUnavailable: 1
+
+# Defines where the container is awwloed to connect.
+# https://kubernetes.io/docs/concepts/services-networking/network-policies/
+# You should preferably only allow acces of the services you need.
+networkPolicy:
+  enabled: false
+  spec:
+    podSelector:
+      matchLabels: {}
+    ingress:
+    - from:
+      - podSelector:
+          matchLabels: {}
+      - namespaceSelector:
+          matchLabels:
+            app.gitlab.com/managed_by: gitlab
+
+# The service account of the contaier.
+# Allow access to the kubernetes apis here.
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# Annotations attached to the container.
+extraLabels: {}
+podAnnotations: {}
+
+oauthClient:
+  enabled: false
+  name: Test HELM
+  grantType:
+    - authorization_code
+    # - implicit
+  responseTypes:
+    - code
+    # - token
+  scope: "account.* websocket.*"
+  audiences:
+   - abdera
+   - imr
+   - kuizz
+  tokenEndpointAuthMethod: none
+
+storageBucket:
+  enabled: false
+  namePrefix: <name>
+
+###########################
+# This session contains gitlab specific metadata.
+# if you are editing this file in a project,
+# you can remove this section as you should
+# not edit it. - Matthieu
+###########################
+
+# Gitlab project meta.
+gitlab:
+  app: <app>
+  env: <env>
+  envName: <envName>
+  envURL: <envURL>
+
+# Gitlab deployment meta.
+application:
+  track: stable
+  tier: web
+  migrateCommand:
+  initializeCommand:
+  secretName:
+  secretChecksum:
+
+# Overrides the name of the release.
+releaseOverride: <releaseOverride>
+# Data specific to the docker image to
+# the current version of the deployment.
+image:
+  repository: gitlab.example.com/group/project
+  tag: stable
+  pullPolicy: IfNotPresent
+  secrets:
+    - name: gitlab-registry
