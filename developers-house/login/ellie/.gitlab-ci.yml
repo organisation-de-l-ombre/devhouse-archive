@@ -1,5 +1,9 @@
 include:
   - template: Auto-DevOps.gitlab-ci.yml
+  - project: 'developers-house/dev/gitlab-ci-collection'
+    ref: master
+    file: 'kaniko.gitlab-ci.yml'
+
 
 sentry_release:
   stage: .post
@@ -7,3 +11,8 @@ sentry_release:
   script:
     - sentry-cli releases new -p ellie $CI_COMMIT_SHORT_SHA
     - sentry-cli releases set-commits --auto $CI_COMMIT_SHORT_SHA
+
+.auto-deploy:
+  image: registry.gitlab.com/gitlab-org/cluster-integration/auto-deploy-image/v2-3-1:latest
+  variables:
+    AUTO_DEVOPS_FORCE_DEPLOY_V2: 1
