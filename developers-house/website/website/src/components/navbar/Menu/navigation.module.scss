@@ -49,8 +49,8 @@ a:hover,
             .drawer {
                 pointer-events: visible;
                 .backdrop {
-                    background-color: rgba(0, 0, 0, 0.6);
                     flex: 1;
+                    opacity: .6;
                 }
                 .content {
                     width: 66%;
@@ -90,6 +90,11 @@ a:hover,
                 .right {
                     margin: 0;
                 }
+            }
+            .backdrop {
+                transition: opacity 300ms;
+                background-color: black;
+                opacity: 0;
             }
         }
         .bottom {

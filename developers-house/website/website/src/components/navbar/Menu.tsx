@@ -1,5 +1,4 @@
-/* eslint-disable prettier/prettier */
-import React, { ReactElement, useState, useCallback, useEffect, useRef } from "react";
+import React, { ReactElement, useState, useCallback, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,7 +16,6 @@ import UserAvatarStatus from "../ui/UserAvatarStatus/UserAvatarStatus";
 import globalStyles from "../../styles/Global.module.scss";
 import Tooltip from "../tooltip/Tooltip";
 
-
 export function Menu(): ReactElement {
   const [open, setOpen] = useState<boolean>(false);
   const switchOpen = (): void => setOpen(!open);
@@ -25,7 +23,6 @@ export function Menu(): ReactElement {
   const dark = useSelector((e) => e.theme.theme === "light");
 
   const [transparent, setTransparent] = useState(false);
-  const element = useRef<HTMLDivElement>(null);
 
   const switchOpenClick = () => {
     if (open) setOpen(false);
@@ -33,35 +30,40 @@ export function Menu(): ReactElement {
   };
 
   const listener = useCallback(() => {
-
-      if (element.current) {
-            const scroll = window.scrollY > element.current.offsetHeight;
-            setTransparent(!scroll);
-      }
-  }, [element]);
+    const scroll = window.scrollY > 0;
+    setTransparent(!scroll);
+  }, []);
 
   useEffect(() => {
-      document.addEventListener('scroll', listener);
-      return () => document.removeEventListener('scroll', listener);
-  }, [listener])
+    document.addEventListener("scroll", listener);
+    return () => document.removeEventListener("scroll", listener);
+  }, [listener]);
 
   const userState = useSelector((s) => s.user);
   const { t } = useTranslation("layout");
   return (
-    <NavigationContainer open={open} className={transparent ? styles.transparent : ''}>
-      <div ref={element} className={`${styles.primed} ${globalStyles.onlyMobiles}`}>
+    <NavigationContainer
+      open={open}
+      className={transparent ? styles.transparent : ""}
+    >
+      <div className={`${styles.primed} ${globalStyles.onlyMobiles}`}>
         <NavigationItem onClick={switchOpen}>
           <h3>Developer&rsquo;s House</h3>
-          { open ? <CgClose style={{
-              scale: 2,
-              transition: "all 250ms",
-            }} /> : 
-          <GiHamburgerMenu
-            style={{
-              scale: 2,
-              transition: "all 250ms",
-            }}
-          />}
+          {open ? (
+            <CgClose
+              style={{
+                scale: 2,
+                transition: "all 250ms",
+              }}
+            />
+          ) : (
+            <GiHamburgerMenu
+              style={{
+                scale: 2,
+                transition: "all 250ms",
+              }}
+            />
+          )}
         </NavigationItem>
       </div>
       <DrawerContent onClick={switchOpenClick}>
