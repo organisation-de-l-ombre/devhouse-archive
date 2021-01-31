@@ -1,10 +1,10 @@
-import React, { ReactElement, useCallback, useMemo } from "react";
+/* eslint-disable prettier/prettier */
+import React, { ReactElement, useCallback } from "react";
 import { FaDiscord } from "react-icons/fa";
 import { RiPencilRuler2Line } from "react-icons/ri";
 import Button, { ButtonImage } from "components/ui/Button/Button";
 import ButtonGroup from "components/ui/Button/ButtonGroup";
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { BsPeople } from "react-icons/all";
 import styles from "./Home.module.scss";
 
@@ -12,12 +12,6 @@ const shareAvailable = !!navigator.share;
 const protocolAvailable = !!navigator.registerProtocolHandler;
 
 export default function HomePage(): ReactElement {
-  const theme = useSelector((s) => s.theme.theme);
-  const imageURL = useMemo(
-    // eslint-disable-next-line import/no-dynamic-require,global-require
-    () => require(`../../assets/${theme}/header-waves.svg`),
-    [theme]
-  );
   const share = useCallback(() => {
     navigator.share({
       title: "Developer's House",
@@ -34,9 +28,6 @@ export default function HomePage(): ReactElement {
   return (
     <div>
       <div
-        style={{
-          backgroundImage: `url(${imageURL})`,
-        }}
         className={`${styles.headerContent} ${styles.homeHeader}`}
       >
         <h1 className={styles.headerTitle}>Developer&rsquo;s House</h1>

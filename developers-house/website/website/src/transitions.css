@@ -3,7 +3,6 @@ div, p, span, body, button, input { transition: background 250ms; }
 body {
     font-family: 'Roboto', sans-serif;
     color: black;
-    background: #cecece;
     text-decoration: none;
     padding: 0;
     margin: 0;
@@ -20,7 +19,7 @@ button {
     cursor: pointer;
 }
 
-#root { height: 100vh; }
+#root { min-height: 100vh; }
 
 h1,h2,h3,h4,h5 {
     padding: 0;

@@ -8,7 +8,7 @@
   --foreground-hover-tertiary: rgb(35, 35, 35);
 
   --background-primary: #f4f4f4;
-  --background-secondary: #f7f7f7;
+  --background-secondary: #ebebeb;
   --background-tertiary: "";
 
   --background-hover-primary: #9f9f9f;
@@ -19,6 +19,8 @@
 
   color: var(--foreground-primary);
   background: #FAFAFA;
+
+  --shadow: transparent;
 }
 
 .dark {
