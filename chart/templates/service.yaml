@@ -1,29 +1,20 @@
-{{ if and (.Values.service.enabled) (eq .Values.application.track "stable") }}
+{{- if .Values.service.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "fullname" . }}
+  name: {{ include "..fullname" . }}
+  labels:
+    {{- include "..labels" . | nindent 4 }}
   annotations:
-  {{ if .Values.service.annotations }}
-  {{ toYaml .Values.service.annotations | indent 4 }}
-  {{ end }}
-  {{ if .Values.prometheus.metrics }}
-prometheus.io/scrape: "true"
-prometheus.io/port: "{{ .Values.service.internalPort }}"
-  {{ end }}
-labels:
-  app: {{ template "appname" . }}
-  chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-  release: {{ .Release.Name }}
-  heritage: {{ .Release.Service }}
+    app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
+    app.gitlab.com/env: {{ .Values.gitlab.env | quote }}
 spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.externalPort }}
       targetPort: {{ .Values.service.internalPort }}
       protocol: TCP
-      name: {{ .Values.service.name }}
+      name: http
   selector:
-    app: {{ template "appname" . }}
-    tier: "{{ .Values.application.tier }}"
-{{ end }}
+    {{- include "..selectorLabels" . | nindent 4 }}
+{{- end }}
