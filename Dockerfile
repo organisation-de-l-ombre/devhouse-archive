@@ -1,4 +1,4 @@
-FROM node as build
+FROM node:lts as build
 ARG CI_JOB_TOKEN
 
 WORKDIR /build
@@ -10,7 +10,7 @@ COPY . .
 RUN npm run build
 RUN cp ormconfig.prod.json build/ormconfig.json
 
-FROM node
+FROM node:lts-alpine
 WORKDIR /scarlet
 COPY --from=build /build/node_modules ./node_modules
 COPY --from=build /build/build .
