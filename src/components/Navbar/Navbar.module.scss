@@ -102,7 +102,7 @@
       cursor: pointer;
 
       &:hover, &.active {
-        background-color: var(--primary-background-color-hover);
+        color: var(--font-color-hover);
         transition: .5s;
       }
     }
@@ -110,24 +110,39 @@
 
   .end { display: flex; }
 
+  .user {
+      display: flex;
+      align-items: center;
+      border-radius: 0;
+
+      .avatar {
+        border-radius: 50%;
+        transform: scale(1.75);
+      }
+
+      span {
+        margin-left: 1rem;
+        transition: .5s;
+      }
+
+      &:hover {
+        span {
+          transition: .5s;
+          color: var(--font-color-hover);
+        }
+      }
+  }
+
   .buttons {
     display: flex;
     align-items: center;
     border-radius: 0;
 
-    &:hover {
-      color: var(--font-color);
-      background-color: var(--primary-background-color-hover);
-    }
+    &:hover { background-color: var(--primary-background-color); }
 
     svg, img {
       width: 1rem;
       transform: scale(1.5);
-    }
-
-    .avatar {
-      border-radius: 50%;
-      transform: scale(1.75);
     }
 
     span { margin-left: 1rem; }
