@@ -1,0 +1,33 @@
+{{- if .Values.oauthClient.enabled }}
+apiVersion: hydra.ory.sh/v1alpha1
+kind: OAuth2Client
+metadata:
+  name: {{ include "..fullname" . }}
+  labels:
+    {{- include "..labels" . | nindent 4 }}
+  annotations:
+    app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
+    app.gitlab.com/env: {{ .Values.gitlab.env | quote }}
+spec:
+  clientName: {{ .Values.oauthClient.name }} ({{ include "..fullname" . }})
+  grantTypes:
+    - authorization_code
+  responseTypes:
+    - code
+  scope: "account.* websocket.*"
+  secretName: oauth-client-{{ include "..fullname" . }}
+  # these are optional
+  redirectUris:
+  {{- if .Values.service.commonName }}
+    - https://{{ template "noquote-hostname" .Values.service.commonName }}/callback
+  {{- end }}
+    - https://{{ template "noquote-hostname" .Values.service.url }}/callback
+  {{- if .Values.service.additionalHosts }}
+  {{- range $host := .Values.service.additionalHosts }}
+    - https://{{ template "noquote-hostname" $host }}/callback
+  {{- end -}}
+  {{- end }}
+  audience:
+    - abdera
+  tokenEndpointAuthMethod: none
+{{- end}}
