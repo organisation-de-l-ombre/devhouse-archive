@@ -138,6 +138,6 @@ oauthClient:
   tokenEndpointAuthMethod: none
 
 storageBucket:
-  enabled: false
-  namePrefix: <name>
+  enabled: true
+  namePrefix: ellie
 
