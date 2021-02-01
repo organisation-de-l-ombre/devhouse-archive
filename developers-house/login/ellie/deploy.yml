@@ -94,7 +94,7 @@ podDisruption:
 # https://kubernetes.io/docs/concepts/services-networking/network-policies/
 # You should preferably only allow acces of the services you need.
 networkPolicy:
-  enabled: true
+  enabled: false
   spec:
     podSelector:
       matchLabels: {}
