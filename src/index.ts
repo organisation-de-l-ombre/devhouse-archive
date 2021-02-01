@@ -50,7 +50,7 @@ const requestProcess = (request: IncomingMessage, response: OutgoingMessage) => 
 const startServer = (): Promise<Server> => {
     return new Promise<Server>((resolve) => {
         const server = createServer(requestProcess);
-        server.listen(19008, '0.0.0.0', () => {
+        server.listen(5000, '0.0.0.0', () => {
             resolve(server);
         });
     });
