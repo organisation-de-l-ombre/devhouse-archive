@@ -1,0 +1,10 @@
+{
+  "title": "Préférences de notifications",
+  "description": "Afin de vous offir une meilleure expérience au sein du site web, nous vous invitons à choisir si vous souhaitez recevoir des notifications ou non. Veuillez choisir une option ci dessous :",
+  "options": {
+    "default": "Choisissez votre préférence",
+    "yes": "Recevoir les notifications",
+    "no": "Ne pas recevoir les notifications"
+  },
+  "savePreference": "Enregistrer mon choix"
+}

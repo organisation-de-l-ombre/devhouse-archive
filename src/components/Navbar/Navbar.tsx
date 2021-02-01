@@ -1,15 +1,10 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */
-import {
-  FaMoon,
-  FaSun,
-  FaUser,
-  MdLocalMovies,
-  TiArrowSortedDown,
-} from "react-icons/all";
+import { FaMoon, FaSun, FaUser, MdLocalMovies, FaBell } from "react-icons/all";
 import { NavLink } from "react-router-dom";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import globalStyles from "../../themes/Global.module.scss";
+import modalStyles from "../Modal/Modal.module.scss";
 import styles from "./Navbar.module.scss";
 import Button from "../Button/Button";
 import Image from "../Image/Image";
@@ -19,13 +14,18 @@ import Modal from "../Modal/Modal";
 import useLanguage from "../../hooks/Language";
 import useTheme from "../../hooks/Theme";
 import useUser from "../../hooks/User";
+import SelectList, { manageSelection } from "../SelectList/SelectList";
+import NotificationsModal from "../Notifications/NotificationsModal";
 
-const manageLanguagesSelection = (display: "flex" | "none"): void => {
-  const languagesList = document.getElementById("languages-list");
+const useNavbar = () => {
+  const [open, setOpen] = React.useState<boolean>(false);
+  const manageNavbar = () => {
+    if (window.matchMedia("(max-width: 700px)").matches) {
+      setOpen(!open);
+    }
+  };
 
-  if (languagesList) {
-    languagesList.style.display = display;
-  }
+  return { open, manageNavbar };
 };
 const DisplaySVG: React.FC<
   React.ImgHTMLAttributes<HTMLImageElement> & { alt: string; lang: string }
@@ -38,71 +38,67 @@ const DisplaySVG: React.FC<
   return <img src={image} alt={alt} {...props} />;
 };
 const Navbar = (): React.ReactElement => {
-  const [open, setOpen] = React.useState<boolean>(false);
+  const { open, manageNavbar } = useNavbar();
   const { t } = useTranslation("components\\navbar");
+  const { user, manageUser } = useUser();
   const {
     language,
-    windowOpen,
-    setWindowOpen,
+    languageWindowOpen,
+    setLanguageWindowOpen,
     setLanguageState,
-    validate,
+    validateLanguage,
   } = useLanguage();
-  const { user, manageUser } = useUser();
+  const [
+    notificationsWindowOpen,
+    setNotificationsWindowOpen,
+  ] = React.useState<boolean>(false);
   const { theme, switchTheme } = useTheme();
 
   return (
     <>
       <Modal
         windowTitle={<Trans t={t} i18nKey="modal.title" />}
-        open={windowOpen}
-        setOpen={setWindowOpen}
+        open={languageWindowOpen}
+        setOpen={setLanguageWindowOpen}
       >
         <p
           className={`${globalStyles["primary-margin"]} ${globalStyles["text-align-center"]}`}
         >
           <Trans t={t} i18nKey="modal.description" />
         </p>
-        <div className={styles["form-container"]}>
-          <div
-            className={styles["select-language"]}
-            onMouseEnter={() => manageLanguagesSelection("flex")}
-            onMouseLeave={() => manageLanguagesSelection("none")}
+        <div className={modalStyles["buttons-container"]}>
+          <SelectList
+            defaultTitle={<Trans t={t} i18nKey="modal.select.default" />}
+            id="select-language"
           >
-            <div>
-              <span className={globalStyles["text-align-center"]}>
-                <Trans t={t} i18nKey="modal.select.default" />
-              </span>
-              <TiArrowSortedDown />
-            </div>
-            <ul id="languages-list" style={{ display: "none" }}>
-              {supportedLanguages.sort().map((lang) => {
-                return (
-                  <li
-                    key={lang}
-                    onClick={() => {
-                      setLanguageState(lang);
-                      manageLanguagesSelection("none");
-                    }}
-                  >
-                    <DisplaySVG lang={lang} alt={`lang-${lang}`} />
-                    <span>
-                      <Trans t={t} i18nKey={`modal.select.languages.${lang}`} />
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-          <Button onClick={() => validate()}>
+            {supportedLanguages.sort().map((lang) => {
+              return (
+                <li
+                  key={lang}
+                  onClick={() => {
+                    setLanguageState(lang);
+                    manageSelection("select-language", "none");
+                  }}
+                >
+                  <DisplaySVG lang={lang} alt={`lang-${lang}`} />
+                  <span>
+                    <Trans t={t} i18nKey={`modal.select.languages.${lang}`} />
+                  </span>
+                </li>
+              );
+            })}
+          </SelectList>
+          <Button onClick={validateLanguage}>
             <Trans t={t} i18nKey="modal.saveLanguage" />
           </Button>
         </div>
       </Modal>
+      <NotificationsModal
+        open={notificationsWindowOpen}
+        setOpen={setNotificationsWindowOpen}
+      />
       <nav className={`${styles.navbar}${open ? ` ${styles.open}` : ""}`}>
-        <Button
-          className={styles["mobile-menu"]}
-          onClick={() => setOpen(!open)}
-        >
+        <Button className={styles["mobile-menu"]} onClick={manageNavbar}>
           <MdLocalMovies />
           <h1>
             <Trans t={t} i18nKey="mobileMenu" />
@@ -114,7 +110,7 @@ const Navbar = (): React.ReactElement => {
             to="/"
             exact
             activeClassName={styles.active}
-            onClick={() => setOpen(!open)}
+            onClick={manageNavbar}
           >
             <Trans t={t} i18nKey="items.home" />
           </NavLink>
@@ -122,7 +118,7 @@ const Navbar = (): React.ReactElement => {
             to="/movies"
             exact
             activeClassName={styles.active}
-            onClick={() => setOpen(!open)}
+            onClick={manageNavbar}
           >
             <Trans t={t} i18nKey="items.movies" />
           </NavLink>
@@ -130,17 +126,17 @@ const Navbar = (): React.ReactElement => {
             to="/series"
             exact
             activeClassName={styles.active}
-            onClick={() => setOpen(!open)}
+            onClick={manageNavbar}
           >
             <Trans t={t} i18nKey="items.series" />
           </NavLink>
         </div>
         <div className={styles.end}>
           <Button
-            className={styles.user}
+            className={`${styles.buttons} ${styles.user}`}
             onClick={() => {
               manageUser();
-              setOpen(!open);
+              manageNavbar();
             }}
           >
             {user ? (
@@ -162,13 +158,13 @@ const Navbar = (): React.ReactElement => {
             )}
           </Button>
           <Button
-            className={`${styles.buttons} ${styles["langs-container"]}`}
+            className={styles.buttons}
             onClick={() => {
               if (open) {
-                setOpen(!open);
+                manageNavbar();
               }
 
-              setWindowOpen(!windowOpen);
+              setLanguageWindowOpen(!languageWindowOpen);
             }}
           >
             <DisplaySVG lang={language} alt={`lang-${language}`} />
@@ -179,8 +175,23 @@ const Navbar = (): React.ReactElement => {
           <Button
             className={styles.buttons}
             onClick={() => {
+              if (open) {
+                manageNavbar();
+              }
+
+              setNotificationsWindowOpen(!notificationsWindowOpen);
+            }}
+          >
+            <FaBell />
+            <span className={styles["switcher-span"]}>
+              <Trans t={t} i18nKey="items.notifications" />
+            </span>
+          </Button>
+          <Button
+            className={styles.buttons}
+            onClick={() => {
               switchTheme();
-              setOpen(!open);
+              manageNavbar();
             }}
           >
             {theme === "light" ? <FaMoon /> : <FaSun />}

@@ -1,0 +1,81 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */
+import React from "react";
+import { useTranslation, Trans } from "react-i18next";
+import Modal from "../Modal/Modal";
+import modalStyles from "../Modal/Modal.module.scss";
+import globalStyles from "../../themes/Global.module.scss";
+import SelectList, { manageSelection } from "../SelectList/SelectList";
+import useNotifications from "../../hooks/Notifications";
+import Button from "../Button/Button";
+
+const NotificationsModal: React.FC<
+  React.DetailedHTMLProps<
+    React.AllHTMLAttributes<HTMLDivElement>,
+    HTMLDivElement
+  > & {
+    open: boolean;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  }
+> = ({ open, setOpen }) => {
+  const { t } = useTranslation("components\\notifications\\notificationsModal");
+  const {
+    notifications,
+    setNotificationsPreferencesState,
+    registerChoice,
+    validateNotifications,
+  } = useNotifications();
+
+  return (
+    <Modal
+      windowTitle={<Trans t={t} i18nKey="title" />}
+      open={open}
+      setOpen={setOpen}
+    >
+      <p
+        className={`${globalStyles["primary-margin"]} ${globalStyles["text-align-center"]}`}
+      >
+        <Trans t={t} i18nKey="description" />
+      </p>
+      <div className={modalStyles["buttons-container"]}>
+        <SelectList
+          defaultTitle={<Trans t={t} i18nKey="options.default" />}
+          id="select-notifications-choice"
+        >
+          <li
+            onClick={() => {
+              setNotificationsPreferencesState(true);
+              manageSelection("select-notifications-choice", "none");
+            }}
+          >
+            <span>
+              <Trans t={t} i18nKey="options.yes" />
+            </span>
+          </li>
+          <li
+            onClick={() => {
+              setNotificationsPreferencesState(false);
+              manageSelection("select-notifications-choice", "none");
+            }}
+          >
+            <span>
+              <Trans t={t} i18nKey="options.no" />
+            </span>
+          </li>
+        </SelectList>
+        <Button
+          onClick={() => {
+            if (notifications && notifications.firstUse) {
+              registerChoice();
+            }
+
+            validateNotifications(setOpen);
+          }}
+        >
+          <Trans t={t} i18nKey="savePreference" />
+        </Button>
+      </div>
+    </Modal>
+  );
+};
+
+export default NotificationsModal;

@@ -9,17 +9,17 @@ const useLanguage = (): {
   language: string;
   languageState: string;
   setLanguageState: React.Dispatch<React.SetStateAction<string>>;
-  windowOpen: boolean;
-  setWindowOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  validate: () => void;
+  languageWindowOpen: boolean;
+  setLanguageWindowOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  validateLanguage: () => void;
 } => {
   const dispatch = useDispatch();
   const language: Language = useSelector(
     (state: GlobalState): Language => state.language.language
   );
   const [languageState, setLanguageState] = React.useState<string>("default");
-  const [windowOpen, setWindowOpen] = React.useState(false);
-  const validate = (): void => {
+  const [languageWindowOpen, setLanguageWindowOpen] = React.useState(false);
+  const validateLanguage = (): void => {
     if (languageState === "default" || languageState === language) {
       alert(i18n.t("components\\navbar:modal.invalidLanguage"));
       return;
@@ -27,16 +27,16 @@ const useLanguage = (): {
 
     dispatch(changeLanguage(languageState));
     setLanguageState("default");
-    setWindowOpen(!windowOpen);
+    setLanguageWindowOpen(!languageWindowOpen);
   };
 
   return {
     language,
     languageState,
     setLanguageState,
-    windowOpen,
-    setWindowOpen,
-    validate,
+    languageWindowOpen,
+    setLanguageWindowOpen,
+    validateLanguage,
   };
 };
 

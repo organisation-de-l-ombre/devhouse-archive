@@ -1,13 +1,10 @@
 import React from "react";
 import { useTranslation, Trans } from "react-i18next";
-import {
-  FaDiscord,
-  FaInstagram,
-  FaTwitter,
-  BiCameraMovie,
-} from "react-icons/all";
+import { FaDiscord, FaInstagram, FaTwitter } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import styles from "./Footer.module.scss";
+import Image from "../Image/Image";
+import IMRLogo from "../../assets/pictures/imr/imr-full.png";
 
 const Footer = (): React.ReactElement => {
   const { t } = useTranslation("components\\footer");
@@ -15,7 +12,7 @@ const Footer = (): React.ReactElement => {
   return (
     <footer className={styles.footer}>
       <div className={styles.left}>
-        <BiCameraMovie className={styles["website-icon"]} />
+        <Image src={IMRLogo} className={styles.logo} />
         <h3>
           <Trans t={t} i18nKey="left.imr" />
         </h3>

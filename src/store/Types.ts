@@ -3,9 +3,11 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { User } from "./user/Types";
 import { Theme } from "./theme/Types";
 import { Language } from "./language/Types";
+import { Notifications } from "./notifications/Types";
 
 interface GlobalState {
   language: { language: Language };
+  notifications: Notifications;
   theme: { theme: Theme };
   user: { user: User };
 }

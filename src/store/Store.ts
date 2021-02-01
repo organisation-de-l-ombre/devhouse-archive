@@ -9,12 +9,16 @@ import {
   initStateWithPrevTab,
 } from "redux-state-sync";
 import LanguageReducer, { languageState } from "./language/Reducer";
+import NotificationsReducer, {
+  notificationsState,
+} from "./notifications/Reducer";
 import ThemeReducer, { themeState } from "./theme/Reducer";
 import UserReducer, { userState } from "./user/Reducer";
 import { GlobalState } from "./Types";
 
 const reducer = combineReducers({
   language: LanguageReducer,
+  notifications: NotificationsReducer,
   theme: ThemeReducer,
   user: UserReducer,
 });
@@ -32,6 +36,7 @@ if (process.env.NODE_ENV !== "production") {
 const persistedReducer = persistReducer(persistConfiguration, reducer);
 const globalState: GlobalState = {
   language: languageState,
+  notifications: notificationsState,
   theme: themeState,
   user: userState,
 };
