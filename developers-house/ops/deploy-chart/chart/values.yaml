@@ -141,6 +141,11 @@ storageBucket:
   enabled: false
   namePrefix: <name>
 
+# Enable the jaeger tracing agent sidecar
+tracing:
+  enabled: false
+  image: jaegertracing/jaeger-agent:latest
+
 ###########################
 # This session contains gitlab specific metadata.
 # if you are editing this file in a project,
