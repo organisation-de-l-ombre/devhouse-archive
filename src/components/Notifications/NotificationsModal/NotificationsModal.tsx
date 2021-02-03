@@ -1,12 +1,17 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */
 import React from "react";
 import { useTranslation, Trans } from "react-i18next";
-import Modal from "../Modal/Modal";
-import modalStyles from "../Modal/Modal.module.scss";
-import globalStyles from "../../themes/Global.module.scss";
-import SelectList, { manageSelection } from "../SelectList/SelectList";
-import useNotifications from "../../hooks/Notifications";
-import Button from "../Button/Button";
+import { FcCheckmark } from "react-icons/fc";
+import Modal from "../../Modal/Modal";
+import modalStyles from "../../Modal/Modal.module.scss";
+import globalStyles from "../../../themes/Global.module.scss";
+import SelectList, { manageSelection } from "../../SelectList/SelectList";
+import {
+  useNotificationsPreferences,
+  useNotificationsState,
+} from "../../../hooks/Notifications";
+import Button from "../../Button/Button";
+import styles from "./NotificationModal.module.scss";
 
 const NotificationsModal: React.FC<
   React.DetailedHTMLProps<
@@ -19,11 +24,11 @@ const NotificationsModal: React.FC<
 > = ({ open, setOpen }) => {
   const { t } = useTranslation("components\\notifications\\notificationsModal");
   const {
-    notifications,
     setNotificationsPreferencesState,
     registerChoice,
     validateNotifications,
-  } = useNotifications();
+  } = useNotificationsPreferences();
+  const notifications = useNotificationsState();
 
   return (
     <Modal
@@ -38,6 +43,7 @@ const NotificationsModal: React.FC<
       </p>
       <div className={modalStyles["buttons-container"]}>
         <SelectList
+          className={styles.items}
           defaultTitle={<Trans t={t} i18nKey="options.default" />}
           id="select-notifications-choice"
         >
@@ -50,6 +56,7 @@ const NotificationsModal: React.FC<
             <span>
               <Trans t={t} i18nKey="options.yes" />
             </span>
+            {notifications.allowNotifications ? <FcCheckmark /> : <></>}
           </li>
           <li
             onClick={() => {
@@ -60,6 +67,7 @@ const NotificationsModal: React.FC<
             <span>
               <Trans t={t} i18nKey="options.no" />
             </span>
+            {notifications.allowNotifications ? <></> : <FcCheckmark />}
           </li>
         </SelectList>
         <Button

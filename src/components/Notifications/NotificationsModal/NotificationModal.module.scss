@@ -1,0 +1,11 @@
+.items {
+  ul {
+    li {
+      justify-content: space-between;
+
+      svg {
+        transform: scale(1.5);
+      }
+    }
+  }
+}

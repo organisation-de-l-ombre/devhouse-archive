@@ -7,8 +7,9 @@ import i18n from "../languages/i18n";
 import themes from "../themes/Themes.module.scss";
 import useTheme from "../hooks/Theme";
 import useLanguage from "../hooks/Language";
-import useNotifications from "../hooks/Notifications";
-import NotificationsModal from "../components/Notifications/NotificationsModal";
+import { useNotificationsState } from "../hooks/Notifications";
+import NotificationsModal from "../components/Notifications/NotificationsModal/NotificationsModal";
+import NotificationsGroup from "../components/Notifications/NotificationsGroup/NotificationsGroup";
 
 const Navbar = React.lazy(() => import("../components/Navbar/Navbar"));
 const Home = React.lazy(() => import("./Home/Home"));
@@ -20,12 +21,11 @@ const Footer = React.lazy(() => import("../components/Footer/Footer"));
 const App = (): React.ReactElement => {
   const { theme } = useTheme();
   const { language } = useLanguage();
-  const { notifications } = useNotifications();
-  const firstUse = notifications ? notifications.firstUse : true;
+  const notifications = useNotificationsState();
   const [
     notificationsWindowOpen,
     setNotificationsWindowOpen,
-  ] = React.useState<boolean>(firstUse);
+  ] = React.useState<boolean>(notifications.firstUse);
 
   React.useEffect(() => {
     const app = document.querySelector("#app");
@@ -41,6 +41,12 @@ const App = (): React.ReactElement => {
   return (
     <ApolloProvider client={ApolloClient}>
       <I18nextProvider i18n={i18n}>
+        {notifications.allowNotifications &&
+        notifications.notifications.length ? (
+          <NotificationsGroup />
+        ) : (
+          <></>
+        )}
         <BrowserRouter>
           <NotificationsModal
             open={notificationsWindowOpen}

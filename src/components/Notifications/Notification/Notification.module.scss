@@ -1,0 +1,30 @@
+.notification {
+  padding: 1rem;
+  width: calc(100% - 2rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  div {
+    display: flex;
+    align-items: center;
+
+    svg {
+      margin-right: 1rem;
+      transform: scale(1.5);
+    }
+  }
+
+  button {
+    background-color: transparent;
+
+    svg { transition: .5s; }
+
+    &:hover {
+      svg {
+        fill: var(--font-color-hover);
+        transition: .5s;
+      }
+    }
+  }
+}

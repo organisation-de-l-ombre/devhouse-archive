@@ -3,18 +3,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { GlobalState } from "../store/Types";
 import i18n from "../languages/i18n";
 import {
-  updateNotificationsPermissions,
+  clearNotifications,
+  pushNotifications,
+  removeNotification,
   setFirstUse,
+  updateNotificationsPermissions,
 } from "../store/notifications/Actions";
-import { NotificationsState } from "../store/notifications/Types";
+import {
+  NotificationObject,
+  NotificationsState,
+} from "../store/notifications/Types";
 
-const useNotifications = (): {
-  setNotificationsPreferencesState: (
-    value:
-      | ((prevState: string | boolean) => string | boolean)
-      | string
-      | boolean
-  ) => void;
+const useNotificationsState = (): NotificationsState => {
+  return useSelector(
+    (state: GlobalState): NotificationsState => state.notifications
+  );
+};
+const useNotificationsPreferences = (): {
+  setNotificationsPreferencesState: React.Dispatch<
+    React.SetStateAction<boolean>
+  >;
   notifications: NotificationsState;
   validateNotifications: (
     setNotificationsWindowOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -23,12 +31,8 @@ const useNotifications = (): {
   registerChoice: () => void;
 } => {
   const dispatch = useDispatch();
-  const notifications = useSelector(
-    (state: GlobalState): NotificationsState => state.notifications
-  );
-  const notificationsPreferences = notifications
-    ? notifications.allowNotifications
-    : false;
+  const notifications = useNotificationsState();
+  const notificationsPreferences = notifications.allowNotifications;
   const [
     notificationsPereferencesState,
     setNotificationsPreferencesState,
@@ -38,7 +42,8 @@ const useNotifications = (): {
   ) => {
     if (
       notificationsPereferencesState === "default" ||
-      notificationsPereferencesState === notificationsPreferences
+      (notificationsPereferencesState === notificationsPreferences &&
+        !notifications.firstUse)
     ) {
       alert(
         i18n.t(
@@ -49,11 +54,7 @@ const useNotifications = (): {
     }
 
     dispatch(
-      updateNotificationsPermissions(
-        Object.assign(notifications, {
-          allowNotifications: notificationsPereferencesState,
-        })
-      )
+      updateNotificationsPermissions(notificationsPereferencesState as boolean)
     );
     setNotificationsPreferencesState("default");
     setNotificationsWindowOpen(false);
@@ -63,12 +64,35 @@ const useNotifications = (): {
   };
 
   return {
-    notifications,
     notificationsPereferencesState,
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     setNotificationsPreferencesState,
     validateNotifications,
     registerChoice,
   };
 };
+const useNotificationsManager = (): {
+  addNotifications: (notifications: NotificationObject[]) => void;
+  deleteNotification: (id: string) => void;
+  deleteAllNotifications: () => void;
+} => {
+  const dispatch = useDispatch();
+  const addNotifications = (notifications: NotificationObject[]): void => {
+    dispatch(pushNotifications(notifications));
+  };
+  const deleteNotification = (id: string): void => {
+    dispatch(removeNotification(id));
+  };
+  const deleteAllNotifications = (): void => {
+    dispatch(clearNotifications());
+  };
 
-export default useNotifications;
+  return { addNotifications, deleteNotification, deleteAllNotifications };
+};
+
+export {
+  useNotificationsState,
+  useNotificationsPreferences,
+  useNotificationsManager,
+};

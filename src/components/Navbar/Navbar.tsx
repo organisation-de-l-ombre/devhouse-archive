@@ -15,7 +15,7 @@ import useLanguage from "../../hooks/Language";
 import useTheme from "../../hooks/Theme";
 import useUser from "../../hooks/User";
 import SelectList, { manageSelection } from "../SelectList/SelectList";
-import NotificationsModal from "../Notifications/NotificationsModal";
+import NotificationsModal from "../Notifications/NotificationsModal/NotificationsModal";
 
 const useNavbar = () => {
   const [open, setOpen] = React.useState<boolean>(false);
