@@ -9,7 +9,7 @@ import styles from "./Projects.module.scss";
 
 export default function ProjectsPage(): ReactElement {
   return (
-    <div>
+    <div className={styles.main}>
       <TitleBox>
         <h1>About our projects</h1>
         <Text className={styles["top-text-margin"]}>
