@@ -2,22 +2,26 @@ import {
   NOTIFICATION_DELETE,
   NOTIFICATIONS_DELETE_ALL,
   NOTIFICATIONS_PUSH,
-  NotificationsPayload,
-  NotificationsState,
+  NotificationsConfigState,
   UPDATE_NOTIFICATIONS_PERMISSIONS,
   USER_FIRST_USE,
   NotificationObject,
+  NotificationsManagerState,
+  NotificationsConfigPayload,
+  NotificationsManagerPayload,
 } from "./Types";
 
-const notificationsState: NotificationsState = {
+const notificationsConfigState: NotificationsConfigState = {
   firstUse: true,
   allowNotifications: false,
+};
+const notificationsManagerState: NotificationsManagerState = {
   notifications: [],
 };
-const notificationsReducer = (
-  state: NotificationsState = notificationsState,
-  payload: NotificationsPayload
-): NotificationsState => {
+const notificationsConfigReducer = (
+  state: NotificationsConfigState = notificationsConfigState,
+  payload: NotificationsConfigPayload
+): NotificationsConfigState => {
   switch (payload.type) {
     case USER_FIRST_USE:
       return { ...state, firstUse: false };
@@ -25,20 +29,29 @@ const notificationsReducer = (
     case UPDATE_NOTIFICATIONS_PERMISSIONS:
       return { ...state, allowNotifications: payload.allowNotifications };
 
-    case NOTIFICATIONS_PUSH:
-      return {
-        ...state,
-        notifications: [...state.notifications, ...payload.notifications],
-      };
+    default:
+      return state;
+  }
+};
+const notificationsManagerReducer = (
+  state: NotificationsManagerState = notificationsManagerState,
+  payload: NotificationsManagerPayload
+): NotificationsManagerState => {
+  switch (payload.type) {
+    case NOTIFICATIONS_PUSH: {
+      state.notifications = [...state.notifications, ...payload.notifications];
 
-    case NOTIFICATION_DELETE:
-      return {
-        ...state,
-        notifications: state.notifications.filter(
-          (notification: NotificationObject): boolean =>
-            notification.id !== payload.id
-        ),
-      };
+      return state;
+    }
+
+    case NOTIFICATION_DELETE: {
+      state.notifications = state.notifications.filter(
+        (notification: NotificationObject): boolean =>
+          notification.id !== payload.id
+      );
+
+      return state;
+    }
 
     case NOTIFICATIONS_DELETE_ALL:
       return { ...state, notifications: [] };
@@ -48,5 +61,9 @@ const notificationsReducer = (
   }
 };
 
-export default notificationsReducer;
-export { notificationsState };
+export {
+  notificationsConfigState,
+  notificationsManagerState,
+  notificationsConfigReducer,
+  notificationsManagerReducer,
+};

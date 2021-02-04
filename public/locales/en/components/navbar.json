@@ -11,6 +11,16 @@
     "lightTheme": "Switch to light theme",
     "darkTheme": "Switch to dark theme"
   },
+  "notifications": {
+    "user": {
+      "login": "You are now logged as {{username}}",
+      "logout": "You have been logged out."
+    },
+    "themeChanged": {
+      "light": "The website has been switched to light mode.",
+      "dark": "The website has been switched to dark mode."
+    }
+  },
   "modal": {
     "title": "Language preferences",
     "description": "Please choose the language in which you want to display the website:",
@@ -23,6 +33,7 @@
       }
     },
     "saveLanguage": "Save language",
-    "invalidLanguage": "This language is not valid, please select a different language as the current."
+    "invalidLanguage": "This language is not valid, please select a different language as the current.",
+    "languageChanged": "Language has been set to English."
   }
 }

@@ -11,19 +11,29 @@ import {
 } from "../store/notifications/Actions";
 import {
   NotificationObject,
-  NotificationsState,
+  NotificationsConfigState,
+  NotificationsManagerState,
 } from "../store/notifications/Types";
 
-const useNotificationsState = (): NotificationsState => {
-  return useSelector(
-    (state: GlobalState): NotificationsState => state.notifications
+const useNotificationsState = (): {
+  config: NotificationsConfigState;
+  manager: NotificationsManagerState;
+} => {
+  const config = useSelector(
+    (state: GlobalState): NotificationsConfigState => state.notificationsConfig
   );
+  const manager = useSelector(
+    (state: GlobalState): NotificationsManagerState =>
+      state.notificationsManager
+  );
+
+  return { config, manager };
 };
 const useNotificationsPreferences = (): {
   setNotificationsPreferencesState: React.Dispatch<
     React.SetStateAction<boolean>
   >;
-  notifications: NotificationsState;
+  notifications: NotificationsManagerState;
   validateNotifications: (
     setNotificationsWindowOpen: React.Dispatch<React.SetStateAction<boolean>>
   ) => void;
@@ -31,8 +41,8 @@ const useNotificationsPreferences = (): {
   registerChoice: () => void;
 } => {
   const dispatch = useDispatch();
-  const notifications = useNotificationsState();
-  const notificationsPreferences = notifications.allowNotifications;
+  const { config } = useNotificationsState();
+  const notificationsPreferences = config.allowNotifications;
   const [
     notificationsPereferencesState,
     setNotificationsPreferencesState,
@@ -43,7 +53,7 @@ const useNotificationsPreferences = (): {
     if (
       notificationsPereferencesState === "default" ||
       (notificationsPereferencesState === notificationsPreferences &&
-        !notifications.firstUse)
+        !config.firstUse)
     ) {
       alert(
         i18n.t(

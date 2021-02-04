@@ -1,7 +1,11 @@
 import React from "react";
 import localForage from "localforage";
+import { useHistory } from "react-router";
+import generateNotificationID from "../../utilities/generateNotificationID";
 import requestParameters from "./QueriesSelector";
 import useUser from "../../hooks/User";
+import { useNotificationsManager } from "../../hooks/Notifications";
+import i18n from "../../languages/i18n";
 
 const getLocalForage = async () => {
   return Promise.all([
@@ -22,6 +26,8 @@ const urlEncodeFormData = (fd: string[][]) => {
 };
 const Callback = (): React.ReactElement => {
   const { saveUser } = useUser();
+  const history = useHistory();
+  const { addNotifications } = useNotificationsManager();
   const doLogin = React.useCallback(async () => {
     const [state, redirection, clientID, codeVerifier] = await getLocalForage();
 
@@ -63,14 +69,22 @@ const Callback = (): React.ReactElement => {
           .then((response) => response.json())
           .then((response) => {
             saveUser({ ...response, token });
+            addNotifications([
+              {
+                id: generateNotificationID(),
+                type: "info",
+                time: 5000,
+                body: i18n.t("components\\navbar:notifications.user.login", {
+                  username: response.username,
+                }),
+              },
+            ]);
 
-            document.location.href = `${document.location.protocol}//${
-              document.location.host
-            }${redirectionPath || "/"}`;
+            history.push((redirectionPath as string) || "");
           });
       }
     }
-  }, [saveUser]);
+  }, [addNotifications, history, saveUser]);
 
   React.useEffect(() => {
     doLogin();

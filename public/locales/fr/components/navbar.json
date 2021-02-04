@@ -11,6 +11,16 @@
     "lightTheme": "Passer au thème clair",
     "darkTheme": "Passer au thème sombre"
   },
+  "notifications": {
+    "user": {
+      "login": "Vous êtes maintenant connecté en tant que {{username}}",
+      "logout": "Vous avez bien été déconnecté."
+    },
+    "themeChanged": {
+      "light": "Le site web est passé en mode clair.",
+      "dark": "Le site web est passé en mode sombre."
+    }
+  },
   "modal": {
     "title": "Préférences de langue",
     "description": "Veuillez choisir la langue dans laquelle vous souhaitez afficher le site web :",
@@ -23,6 +33,7 @@
       }
     },
     "saveLanguage": "Enregistrer la langue",
-    "invalidLanguage": "Cette langue n'est pas valide, veuillez sélectionner une langue différente de celle actuelle."
+    "invalidLanguage": "Cette langue n'est pas valide, veuillez sélectionner une langue différente de celle actuelle.",
+    "languageChanged": "La langue a été définie sur Français."
   }
 }

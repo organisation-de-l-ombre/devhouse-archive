@@ -10,20 +10,23 @@ import { NotificationObject } from "../../../store/notifications/Types";
 import { useNotificationsManager } from "../../../hooks/Notifications";
 import styles from "./Notification.module.scss";
 import Button from "../../Button/Button";
+import "./Animations.scss";
 
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-const RenderNotificationType: any = (
-  notificationType: "info" | "warning" | "error"
-) => {
+const RenderNotificationType: any = ({
+  notificationType,
+}: {
+  notificationType: "info" | "warning" | "error";
+}) => {
   switch (notificationType) {
     case "info":
-      return <BsInfoSquareFill />;
+      return <BsInfoSquareFill fill="#0E92EE" />;
 
     case "warning":
-      return <RiFileWarningFill />;
+      return <RiFileWarningFill fill="#EECA0E" />;
 
     case "error":
-      return <BsXSquareFill />;
+      return <BsXSquareFill fill="#E65555" />;
 
     default:
       return <></>;
@@ -40,28 +43,27 @@ const Notification: React.FC<
     number | null
   >(null);
 
-  React.useEffect(() => {
+  React.useEffect((): void | (() => void) => {
     if (notificationTimer) {
       return;
     }
-    if (notification.time !== 0) {
-      setNotificationTimer(
-        (setTimeout(
-          () => deleteNotification(notification.id),
-          notification.time
-        ) as unknown) as number
-      );
-
-      // eslint-disable-next-line consistent-return
-      return (): void => {
-        if (notificationTimer) {
-          clearTimeout(notificationTimer);
-        }
-      };
-
-      // eslint-disable-next-line consistent-return
-      return undefined;
+    if (notification.time === 0) {
+      return;
     }
+
+    setNotificationTimer(
+      (setTimeout(
+        () => deleteNotification(notification.id),
+        notification.time
+      ) as unknown) as number
+    );
+
+    // eslint-disable-next-line consistent-return
+    return (): void => {
+      if (notificationTimer) {
+        clearTimeout(notificationTimer);
+      }
+    };
   }, [
     notificationTimer,
     notification.time,
@@ -73,7 +75,7 @@ const Notification: React.FC<
     <CSSTransition timeout={500} classNames="notification">
       <div className={styles.notification}>
         <div>
-          <RenderNotificationType />
+          <RenderNotificationType notificationType={notification.type} />
           <p>{notification.body}</p>
         </div>
         <Button

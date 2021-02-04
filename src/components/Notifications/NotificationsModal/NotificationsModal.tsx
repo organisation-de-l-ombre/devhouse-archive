@@ -28,7 +28,7 @@ const NotificationsModal: React.FC<
     registerChoice,
     validateNotifications,
   } = useNotificationsPreferences();
-  const notifications = useNotificationsState();
+  const { config } = useNotificationsState();
 
   return (
     <Modal
@@ -56,7 +56,7 @@ const NotificationsModal: React.FC<
             <span>
               <Trans t={t} i18nKey="options.yes" />
             </span>
-            {notifications.allowNotifications ? <FcCheckmark /> : <></>}
+            {config.allowNotifications ? <FcCheckmark /> : <></>}
           </li>
           <li
             onClick={() => {
@@ -67,12 +67,12 @@ const NotificationsModal: React.FC<
             <span>
               <Trans t={t} i18nKey="options.no" />
             </span>
-            {notifications.allowNotifications ? <></> : <FcCheckmark />}
+            {config.allowNotifications ? <></> : <FcCheckmark />}
           </li>
         </SelectList>
         <Button
           onClick={() => {
-            if (notifications && notifications.firstUse) {
+            if (config && config.firstUse) {
               registerChoice();
             }
 

@@ -3,7 +3,9 @@ import { FaMoon, FaSun, FaUser, MdLocalMovies, FaBell } from "react-icons/all";
 import { NavLink } from "react-router-dom";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
+import generateNotificationID from "../../utilities/generateNotificationID";
 import globalStyles from "../../themes/Global.module.scss";
+import i18n from "../../languages/i18n";
 import modalStyles from "../Modal/Modal.module.scss";
 import styles from "./Navbar.module.scss";
 import Button from "../Button/Button";
@@ -16,6 +18,7 @@ import useTheme from "../../hooks/Theme";
 import useUser from "../../hooks/User";
 import SelectList, { manageSelection } from "../SelectList/SelectList";
 import NotificationsModal from "../Notifications/NotificationsModal/NotificationsModal";
+import { useNotificationsManager } from "../../hooks/Notifications";
 
 const useNavbar = () => {
   const [open, setOpen] = React.useState<boolean>(false);
@@ -53,6 +56,7 @@ const Navbar = (): React.ReactElement => {
     setNotificationsWindowOpen,
   ] = React.useState<boolean>(false);
   const { theme, switchTheme } = useTheme();
+  const { addNotifications } = useNotificationsManager();
 
   return (
     <>
@@ -137,6 +141,19 @@ const Navbar = (): React.ReactElement => {
             onClick={() => {
               manageUser();
               manageNavbar();
+
+              if (user) {
+                addNotifications([
+                  {
+                    id: generateNotificationID(),
+                    type: "info",
+                    time: 5000,
+                    body: i18n.t(
+                      "components\\navbar:notifications.user.logout"
+                    ),
+                  },
+                ]);
+              }
             }}
           >
             {user ? (
@@ -192,6 +209,18 @@ const Navbar = (): React.ReactElement => {
             onClick={() => {
               switchTheme();
               manageNavbar();
+              addNotifications([
+                {
+                  id: generateNotificationID(),
+                  type: "info",
+                  time: 5000,
+                  body: i18n.t(
+                    `components\\navbar:notifications.themeChanged.${
+                      theme === "light" ? "dark" : "light"
+                    }`
+                  ),
+                },
+              ]);
             }}
           >
             {theme === "light" ? <FaMoon /> : <FaSun />}

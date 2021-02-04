@@ -1,10 +1,14 @@
 .notifications-group {
-  width: 25rem;
+  z-index: 4;
+  width: 40rem;
   display: flex;
   flex-direction: column;
-  position: absolute;
+  position: fixed;
   bottom: 1rem;
   right: 1rem;
 
-  @media screen and (max-width: 700px) { left: 1rem; }
+  @media screen and (max-width: 700px) {
+    width: auto;
+    left: 1rem;
+  }
 }
