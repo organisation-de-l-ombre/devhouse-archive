@@ -2,6 +2,7 @@ variables:
   DOCKER_BUILDKIT: '1'
 
 include:
+  - template: Auto-DevOps.gitlab-ci.yml
   - project: 'developers-house/dev/gitlab-ci-collection'
     ref: master
     file: 'kaniko.gitlab-ci.yml'
