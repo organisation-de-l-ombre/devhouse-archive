@@ -1,6 +1,6 @@
 FROM curlimages/curl as build
 WORKDIR /app
-RUN curl -fsSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+RUN curl -fsSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | sh
 COPY chart chart
 RUN helm package chart && \
         mkdir charts && \
