@@ -44,6 +44,7 @@ spec:
           envFrom:
           {{- else if .Values.storageBucket.enabled }}
           envFrom:
+          {{- end }}
           {{- if .Values.application.secretName }}
             - secretRef:
                 name: {{ .Values.application.secretName }}
