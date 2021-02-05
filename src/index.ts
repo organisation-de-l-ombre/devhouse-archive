@@ -71,7 +71,7 @@ createConnection().then(async (conn) => {
             ];
         },
     }, 'scarlet');
-    await manager.start();
+    manager.start();
 
     const app = express();
 
