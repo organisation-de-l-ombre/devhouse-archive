@@ -27,10 +27,8 @@ spec:
       labels:
         {{- include "..selectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.image.secrets }}
       imagePullSecrets:
 {{ toYaml .Values.image.secrets | indent 10 }}
-      {{- end }}
       serviceAccountName: {{ include "..serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
