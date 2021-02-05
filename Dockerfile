@@ -1,6 +1,10 @@
-FROM chartmuseum/chartmuseum
-ENV STORAGE=local
-ENV STORAGE_LOCAL_ROOTDIR=/charts
-ENV DISABLE_API=true
+FROM helm as build
+WORKDIR /app
+COPY chart chart
+RUN helm package chart && \
+        mkdir charts && \
+        mv *.tgz charts/ && \
+        helm repo index charts --url https://developers-house-dev-deploy-chart.matthieu-dev.xyz/
 
-COPY . /charts
+FROM nginx
+COPY --from=build /app/charts /usr/share/nginx/html
