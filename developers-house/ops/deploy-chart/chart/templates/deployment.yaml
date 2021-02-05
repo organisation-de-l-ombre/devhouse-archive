@@ -29,7 +29,7 @@ spec:
     spec:
       {{- with .Values.image.secrets }}
       imagePullSecrets:
-        {{- toYaml .Values.image.secrets | nindent 8 }}
+{{ toYaml .Values.image.secrets | indent 10 }}
       {{- end }}
       serviceAccountName: {{ include "..serviceAccountName" . }}
       securityContext:
