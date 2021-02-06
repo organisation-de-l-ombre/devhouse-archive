@@ -29,5 +29,5 @@ spec:
   {{- end }}
   audience:
     - abdera
-  tokenEndpointAuthMethod: none
+  tokenEndpointAuthMethod: {{ .Values.oauthClient.tokenEndpointAuthMethod }}
 {{- end}}
