@@ -1,11 +1,6 @@
 include:
   - template: Auto-DevOps.gitlab-ci.yml
 
-variables:
-  DOCKER_BUILDKIT: '1'
-  MIGRATE_HELM_2TO3: "true"
-  HELM_UPGRADE_VALUES_FILE: 'deploy.yaml'
-
 stages:
   - build
   - docker
@@ -45,16 +40,3 @@ build:
     - node_build
   dependencies:
     - node_build
-  
-sentry_release:
-  stage: .post
-  image: getsentry/sentry-cli
-  script:
-    - VERSION=$(sentry-cli releases propose-version)
-    - sentry-cli releases new -p website $VERSION
-    - sentry-cli releases set-commits --auto $VERSION
-
-.auto-deploy:
-  image: registry.gitlab.com/gitlab-org/cluster-integration/auto-deploy-image/v2-3-1:latest
-  variables:
-    AUTO_DEVOPS_FORCE_DEPLOY_V2: 1
