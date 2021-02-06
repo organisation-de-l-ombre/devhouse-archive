@@ -7,5 +7,6 @@
     "no": "Do not receive notifications"
   },
   "invalidPreference": "This parameter is invalid, please choose a parameter different as current.",
-  "savePreference": "Save your choice"
+  "savePreference": "Save your choice",
+  "preferencesUpdated": "Your preferences have been updated."
 }

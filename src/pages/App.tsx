@@ -3,14 +3,14 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import React from "react";
 import { I18nextProvider } from "react-i18next";
 import ApolloClient from "../apollo/ApolloClient";
-// import generateNotificationID from "../utilities/generateNotificationID";
+import generateNotificationID from "../utilities/generateNotificationID";
 import i18n from "../languages/i18n";
 import themes from "../themes/Themes.module.scss";
 import useTheme from "../hooks/Theme";
 import useLanguage from "../hooks/Language";
 import {
   useNotificationsState,
-  /* useNotificationsManager, */
+  useNotificationsManager,
 } from "../hooks/Notifications";
 import NotificationsModal from "../components/Notifications/NotificationsModal/NotificationsModal";
 import NotificationsGroup from "../components/Notifications/NotificationsGroup/NotificationsGroup";
@@ -30,7 +30,7 @@ const App = (): React.ReactElement => {
     notificationsWindowOpen,
     setNotificationsWindowOpen,
   ] = React.useState<boolean>(config.firstUse);
-  // const { addNotifications } = useNotificationsManager();
+  const { addNotifications } = useNotificationsManager();
 
   React.useEffect(() => {
     const app = document.querySelector("#app");
@@ -41,15 +41,15 @@ const App = (): React.ReactElement => {
   }, [theme]);
   React.useEffect(() => {
     i18n.changeLanguage(language);
-    /* addNotifications([
+    addNotifications([
       {
         id: generateNotificationID(),
         type: "info",
         time: 5000,
         body: i18n.t("components\\navbar:modal.languageChanged"),
       },
-    ]); */
-  }, [language]);
+    ]);
+  }, [addNotifications, language]);
 
   return (
     <ApolloProvider client={ApolloClient}>

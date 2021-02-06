@@ -44,13 +44,9 @@ const Navbar = (): React.ReactElement => {
   const { open, manageNavbar } = useNavbar();
   const { t } = useTranslation("components\\navbar");
   const { user, manageUser } = useUser();
-  const {
-    language,
-    languageWindowOpen,
-    setLanguageWindowOpen,
-    setLanguageState,
-    validateLanguage,
-  } = useLanguage();
+  const [languageState, setLanguageState] = React.useState<string>("default");
+  const [languageWindowOpen, setLanguageWindowOpen] = React.useState(false);
+  const { language, validateLanguage } = useLanguage();
   const [
     notificationsWindowOpen,
     setNotificationsWindowOpen,
@@ -92,7 +88,16 @@ const Navbar = (): React.ReactElement => {
               );
             })}
           </SelectList>
-          <Button onClick={validateLanguage}>
+          <Button
+            onClick={() => {
+              validateLanguage({
+                languageState,
+                setLanguageState,
+                languageWindowOpen,
+                setLanguageWindowOpen,
+              });
+            }}
+          >
             <Trans t={t} i18nKey="modal.saveLanguage" />
           </Button>
         </div>

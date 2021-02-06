@@ -88,15 +88,21 @@ const useNotificationsManager = (): {
   deleteAllNotifications: () => void;
 } => {
   const dispatch = useDispatch();
-  const addNotifications = (notifications: NotificationObject[]): void => {
-    dispatch(pushNotifications(notifications));
-  };
-  const deleteNotification = (id: string): void => {
-    dispatch(removeNotification(id));
-  };
-  const deleteAllNotifications = (): void => {
+  const addNotifications = React.useCallback(
+    (notifications: NotificationObject[]): void => {
+      dispatch(pushNotifications(notifications));
+    },
+    [dispatch]
+  );
+  const deleteNotification = React.useCallback(
+    (id: string): void => {
+      dispatch(removeNotification(id));
+    },
+    [dispatch]
+  );
+  const deleteAllNotifications = React.useCallback((): void => {
     dispatch(clearNotifications());
-  };
+  }, [dispatch]);
 
   return { addNotifications, deleteNotification, deleteAllNotifications };
 };
