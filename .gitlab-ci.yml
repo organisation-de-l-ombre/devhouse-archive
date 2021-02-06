@@ -5,10 +5,6 @@ include:
     file: 'kaniko.gitlab-ci.yml'
 
 
-variables:
-  DOCKER_BUILDKIT: '1'
-
-
 stages:
   - build
   - docker
@@ -51,11 +47,3 @@ build:
 
 test:
   allow_failure: true
-
-sentry_release:
-  stage: .post
-  image: getsentry/sentry-cli
-  script:
-    - VERSION=$(sentry-cli releases propose-version)
-    - sentry-cli releases new -p international-media-referencing-front $CI_COMMIT_SHORT_SHA
-    - sentry-cli releases set-commits --auto $CI_COMMIT_SHORT_SHA
