@@ -1,26 +1,6 @@
 # The number of replicas of the application.
 # ignored if the autoscaling is enabled.
 replicaCount: 1
-<<<<<<< HEAD
-strategyType:
-image:
-  repository: gitlab.example.com/group/project
-  tag: stable
-  pullPolicy: IfNotPresent
-  secrets:
-    - name: gitlab-registry
-podAnnotations:
-  linkerd.io/inject: enabled
-application:
-  track: stable
-  tier: web
-  migrateCommand:
-  initializeCommand:
-  secretName:
-  secretChecksum:
-hpa:
-  enabled: false
-=======
 
 # The autoscaling section defined how
 # the service should be scaled depending
@@ -30,7 +10,6 @@ hpa:
 # this to work.
 autoscaling:
   enabled: true
->>>>>>> typescript-main
   minReplicas: 1
   maxReplicas: 5
   targetCPUUtilizationPercentage: 80
@@ -76,50 +55,9 @@ service:
 # is already handled for you.
 # https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
-<<<<<<< HEAD
-  enabled: false
-  tls:
-    enabled: true
-    secretName: ""
-  annotations:
-    kubernetes.io/tls-acme: "true"
-    kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
-      grpc_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
-  modSecurity:
-    enabled: false
-    secRuleEngine: "DetectionOnly"
-    # secRules:
-    #   - variable: ""
-    #     operator: ""
-    #     action: ""
-  canary:
-    weight:
-prometheus:
-  metrics: false
-livenessProbe:
-  path: "/_healz"
-  initialDelaySeconds: 15
-  timeoutSeconds: 15
-  scheme: "HTTP"
-  probeType: "httpGet"
-readinessProbe:
-  path: "/_healz"
-  initialDelaySeconds: 5
-  timeoutSeconds: 3
-  scheme: "HTTP"
-  probeType: "httpGet"
-postgresql:
-  managed: false
-  managedClassSelector:
-  #   matchLabels:
-  #     stack: gitlab (This is an example. The labels should match the labels on the CloudSQLInstanceClass)
-=======
   enabled: true
   path: "/"
   annotations: {}
->>>>>>> typescript-main
 
 # How the health of the container should be checked.
 # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
@@ -145,7 +83,7 @@ health:
     command: []
 
 # Defines the schedule requirements and priority for
-# scheduling the pods in the cluster. You can 
+# scheduling the pods in the cluster. You can
 # put maxUnavailable OR minAvailable.
 podDisruption:
   enabled: true
@@ -161,12 +99,12 @@ networkPolicy:
     podSelector:
       matchLabels: {}
     ingress:
-    - from:
-      - podSelector:
-          matchLabels: {}
-      - namespaceSelector:
-          matchLabels:
-            app.gitlab.com/managed_by: gitlab
+      - from:
+          - podSelector:
+              matchLabels: {}
+          - namespaceSelector:
+              matchLabels:
+                app.gitlab.com/managed_by: gitlab
 
 # The service account of the contaier.
 # Allow access to the kubernetes apis here.
@@ -194,9 +132,9 @@ oauthClient:
     # - token
   scope: "account.* websocket.*"
   audiences:
-   - abdera
-   - imr
-   - kuizz
+    - abdera
+    - imr
+    - kuizz
   tokenEndpointAuthMethod: none
 
 storageBucket:
