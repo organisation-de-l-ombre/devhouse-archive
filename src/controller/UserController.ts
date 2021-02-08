@@ -114,7 +114,7 @@ export class UserController {
     /*
      * Patches the user in the database.
      * Status: Todo
-     * TODO: Implement the edit endpoint (low priority)
+     * TODO: Implement the edit endpoint (high priority)
      */
     async edit(request: Request, response: Response, next: NextFunction) {
 
