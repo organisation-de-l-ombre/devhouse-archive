@@ -101,7 +101,7 @@ createConnection().then(async (conn) => {
     });
 
 
-    const errorHandler: ErrorRequestHandler = (error: RequestError, req, res) => {
+    const errorHandler: ErrorRequestHandler = (error: RequestError, req: Request, res: Response, next: NextFunction) => {
         if (error.code) {
             res.json({
                 code: error.code,
