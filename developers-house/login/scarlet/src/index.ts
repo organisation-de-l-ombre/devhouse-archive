@@ -5,6 +5,9 @@ import {ErrorRequestHandler, NextFunction, Request, Response} from "express";
 import CreateRedis from "ioredis";
 import * as morgan from 'morgan';
 import RedisMock from 'redis-mock';
+import { DataManager } from '@developers-house/lib-datamanager';
+import {User} from "./entity/User";
+import {Link} from "./entity/Link";
 import "reflect-metadata";
 import {createConnection} from "typeorm";
 import {Routes} from "./routes";
@@ -34,8 +37,49 @@ const provideRedis = () => {
     return RedisMock;
 }
 
+const typeOrmClearer = (key: string, value: object) => {
+    if (key.startsWith("_")) {
+        return undefined;
+    }
+    return value;
+};
+
 // Starts the server after the database.
-createConnection().then(async () => {
+createConnection().then(async (conn) => {
+
+    const manager = new DataManager({
+        async checkIfDataAvailable(userId) {
+            const repo = conn.getRepository(User);
+            const user = await repo.findOne({
+                where: {
+                    uuid: userId,
+                }
+            });
+            return user !== undefined;
+        },
+        async provide(userId) {
+            const repo = conn.getRepository(User);
+            const user = await repo.findOne({
+                where: {
+                    uuid: userId,
+                },
+            });
+            const links = await user.links;
+
+            return [
+                {
+                    name: 'profile.json',
+                    data: Buffer.from(JSON.stringify(user, typeOrmClearer), 'utf-8'),
+                },
+                {
+                    name: 'linked-accounts.json',
+                    data: Buffer.from(JSON.stringify(links,typeOrmClearer), 'utf-8'),
+                },
+            ];
+        },
+    }, 'scarlet');
+    manager.start();
+
     const app = express();
 
     const redis = provideRedis();
