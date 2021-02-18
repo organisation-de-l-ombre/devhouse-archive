@@ -35,6 +35,7 @@ export function Menu(): ReactElement {
   }, []);
 
   useEffect(() => {
+    listener();
     document.addEventListener("scroll", listener);
     return () => document.removeEventListener("scroll", listener);
   }, [listener]);
