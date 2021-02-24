@@ -37,7 +37,8 @@ export type Client = {
 
 const useCriticalError = () => {
   const dispatch = useDispatch();
-  return useCallback(() => {
+  return useCallback((err) => {
+    console.log(err);
     dispatch(
       pushNotification({
         level: "error",
@@ -119,7 +120,7 @@ export const useAuthorizedAppsDeleteMutation = (
       },
       onError(err, variables, previousValue) {
         client.setQueryData("authorized_apps", previousValue);
-        criticalError();
+        criticalError(err);
       },
     }
   );
@@ -144,7 +145,7 @@ export const useAuthorizedAppsAllDelete = (): UseMutateFunction => {
       },
       onError(err, variables, previousValue) {
         client.setQueryData("authorized_apps", previousValue);
-        criticalError();
+        criticalError(err);
       },
       onSuccess() {
         criticalError();
