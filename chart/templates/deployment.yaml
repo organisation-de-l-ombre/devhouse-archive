@@ -18,6 +18,8 @@ spec:
     metadata:
       annotations:
         linkerd.io/inject: enabled
+        config.linkerd.io/proxy-cpu-request: "10m"
+        config.linkerd.io/proxy-memory-request: "100mi"
         app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
         app.gitlab.com/env: {{ .Values.gitlab.env | quote }}
         checksum/application-secrets: "{{ .Values.application.secretChecksum }}"
