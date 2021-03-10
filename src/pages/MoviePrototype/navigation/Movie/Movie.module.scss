@@ -1,0 +1,19 @@
+.container {
+  padding: 2rem 10rem;
+  width: calc(100% - 20rem);
+  flex-direction: column;
+
+  .summary {
+    max-width: 20rem;
+  }
+
+  @media screen and (max-width: 1250px) {
+    padding: 2rem 4rem;
+    width: calc(100% - 8rem);
+  }
+
+  @media screen and (max-width: 700px) {
+    padding: 2rem;
+    width: calc(100% - 4rem);
+  }
+}

@@ -1,0 +1,10 @@
+.container {
+  margin-top: 4rem;
+  display: flex;
+  flex-direction: column;
+
+  p, span {
+    margin-top: 1.5rem;
+    line-height: 1.5;
+  }
+}

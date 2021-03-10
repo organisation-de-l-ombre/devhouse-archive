@@ -1,0 +1,41 @@
+.summary {
+  padding: 1rem 1rem .75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  border: .150rem solid var(--font-color-hover);
+
+  h2, span {
+    margin-bottom: 1rem;
+  }
+
+  span {
+    cursor: pointer;
+    transition: .5s;
+
+    &:hover {
+      color: var(--font-color-hover);
+      transition: .5s;
+    }
+  }
+
+  .summary-items {
+    display: block;
+    list-style: inside;
+
+    li {
+      margin-bottom: .25rem;
+
+      a {
+        transition: .5s;
+
+        &:hover {
+          color: var(--font-color-hover);
+          transition: .5s;
+        }
+      }
+    }
+
+    &.close { display: none }
+  }
+}

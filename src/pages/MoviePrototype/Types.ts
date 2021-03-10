@@ -13,6 +13,11 @@ interface MovieObject {
   trailers: {
     [key: string]: Array<{ name: string; videoID: string }>;
   };
+  movie: {
+    presentation: string;
+    detailledSummary: string[];
+    reviews: string;
+  };
 }
 interface TrailerObject {
   title: string;
