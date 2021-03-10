@@ -18,7 +18,7 @@ hr {
     border-color: var(--font-color);
 }
 
-p { word-wrap: break-word; }
+p, q { word-wrap: break-word; }
 
 #app {
     max-width: 100%;

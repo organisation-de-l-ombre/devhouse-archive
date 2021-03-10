@@ -1,0 +1,32 @@
+{
+  "title": "Raiponce",
+  "company": "Walt Disney Pictures",
+  "releaseDate": "11-24-2010",
+  "duration": "1h 41",
+  "type": [
+    "Animation",
+    "Familial",
+    "Musical",
+    "Enfants"
+  ],
+  "publicType":  "Tous publics",
+  "headers": {
+    "backgroundImage": "https://cdn.discordapp.com/attachments/662419758695841801/818587141885394945/rXLw50QWqJVkQQ47Ic6M8bqWNU5.png",
+    "moviePoster": "https://cdn.discordapp.com/attachments/662419758695841801/818587371842306148/Affiche_Raiponce.jpg",
+    "synopsis": "Lorsque Flynn Rider, le bandit le plus recherché du royaume, se réfugie dans une mystérieuse tour, il se retrouve pris en otage par Raiponce, une belle et téméraire jeune fille à l’impressionnante chevelure de 20 mètres de long, gardée prisonnière par Mère Gothel. L’étonnante geôlière de Flynn cherche un moyen de sortir de cette tour où elle est enfermée depuis des années. Elle passe alors un accord avec le séduisant brigand… C’est le début d’une aventure délirante bourrée d’action, d’humour et d’émotion, au cours de laquelle l’improbable duo va rencontrer un cheval super‐flic, un caméléon à l’instinct de protection surdéveloppé, et une drôle de bande de malfaiteurs."
+  },
+  "trailers": {
+    "fr": [
+      {
+        "title": "Raiponce - Bande annonce 1",
+        "videoID": "QlEXbRd3wDo",
+        "main": true
+      },
+      {
+        "title": "Raiponce - Bande annonce 2",
+        "videoID": "VYh2Y41uTcA",
+        "main": false
+      }
+    ]
+  }
+}

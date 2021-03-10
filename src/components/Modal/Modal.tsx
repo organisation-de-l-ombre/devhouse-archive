@@ -13,6 +13,7 @@ const Modal: React.FC<
     HTMLDivElement
   > & {
     containerClassName?: string;
+    modalClassName?: string;
     windowTitle: React.ReactNode;
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,6 +21,7 @@ const Modal: React.FC<
 > = ({
   children,
   containerClassName,
+  modalClassName,
   windowTitle,
   open,
   setOpen,
@@ -34,7 +36,9 @@ const Modal: React.FC<
     >
       <div className={styles.background} onClick={() => setOpen(!open)}>
         <div
-          className={styles.modal}
+          className={`${styles.modal}${
+            modalClassName ? ` ${modalClassName}` : ""
+          }`}
           onClick={(event) => event.stopPropagation()}
           {...props}
         >

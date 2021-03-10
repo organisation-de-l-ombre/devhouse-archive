@@ -1,14 +1,14 @@
 import {
   NOTIFICATION_DELETE,
+  NotificationObject,
   NOTIFICATIONS_DELETE_ALL,
   NOTIFICATIONS_PUSH,
+  NotificationsConfigPayload,
   NotificationsConfigState,
+  NotificationsManagerPayload,
+  NotificationsManagerState,
   UPDATE_NOTIFICATIONS_PERMISSIONS,
   USER_FIRST_USE,
-  NotificationObject,
-  NotificationsManagerState,
-  NotificationsConfigPayload,
-  NotificationsManagerPayload,
 } from "./Types";
 
 const notificationsConfigState: NotificationsConfigState = {
@@ -39,7 +39,7 @@ const notificationsManagerReducer = (
 ): NotificationsManagerState => {
   switch (payload.type) {
     case NOTIFICATIONS_PUSH: {
-      state.notifications = [...state.notifications, ...payload.notifications];
+      state.notifications = state.notifications.concat(payload.notifications);
 
       return state;
     }

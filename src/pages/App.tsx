@@ -19,6 +19,9 @@ const Navbar = React.lazy(() => import("../components/Navbar/Navbar"));
 const Home = React.lazy(() => import("./Home/Home"));
 const Account = React.lazy(() => import("./Account/Account"));
 const Callback = React.lazy(() => import("./Callback/Callback"));
+const MoviePrototype = React.lazy(
+  () => import("./MoviePrototype/MoviePrototype")
+);
 const NotFound = React.lazy(() => import("../components/NotFound/NotFound"));
 const Footer = React.lazy(() => import("../components/Footer/Footer"));
 
@@ -72,6 +75,11 @@ const App = (): React.ReactElement => {
             <Route path="/callback" exact component={Callback} />
             <Route path="/movies" exact />
             <Route path="/series" exact />
+            <Route
+              path="/movies/title/tangled"
+              exact
+              component={MoviePrototype}
+            />
             <Route path="*" component={NotFound} />
           </Switch>
 
