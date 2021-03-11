@@ -9,14 +9,16 @@ interface MovieObject {
     backgroundImage: string;
     moviePoster: string;
     synopsis: string;
+    quotation: string;
   };
   trailers: {
     [key: string]: Array<{ name: string; videoID: string }>;
   };
   movie: {
-    presentation: string;
+    presentation: string[];
     detailledSummary: string[];
     reviews: string;
+    references: string[];
   };
 }
 interface TrailerObject {

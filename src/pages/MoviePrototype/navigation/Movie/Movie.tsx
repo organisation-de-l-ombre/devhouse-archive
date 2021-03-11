@@ -15,22 +15,41 @@ const MoviePage = (): React.ReactElement => {
         <Item to="#presentation" name="Présentation" />
         <Item to="#detailled-summary" name="Résumé détaillé" />
         <Item to="#reviews" name="Critiques" />
+        <Item to="#references" name="Références" />
+        <Item to="#universe" name="Univers de Raiponce" />
       </Summary>
-      <DetailledText id="presentation">
-        <h1>Présentation</h1>
-        <p>{movieObject.movie.presentation}</p>
-      </DetailledText>
-      <DetailledText id="detailled-summary">
-        <h1>Résumé détaillé</h1>
-        {movieObject.movie.detailledSummary.map(
-          (description: string): React.ReactElement => {
-            return <p>{description}</p>;
+      <DetailledText
+        id="presentation"
+        title="Présentation"
+        text={movieObject.movie.presentation}
+      />
+      <DetailledText
+        id="detailled-summary"
+        title="Résumé détaillé"
+        text={movieObject.movie.detailledSummary}
+      />
+      <DetailledText
+        id="reviews"
+        title="Critiques"
+        text={movieObject.movie.reviews}
+      />
+      <DetailledText
+        id="references"
+        title="Références"
+        text={movieObject.movie.references}
+      />
+      <DetailledText id="universe">
+        <h1>Univers de Raiponce</h1>
+        {movieObject.movie.universe.map(
+          (element: { title: string; text: string }): React.ReactElement => {
+            return (
+              <DetailledText className={styles["sub-groups"]}>
+                <h2>{element.title}</h2>
+                <p>{element.text}</p>
+              </DetailledText>
+            );
           }
         )}
-      </DetailledText>
-      <DetailledText id="reviews">
-        <h1>Critiques</h1>
-        <p>{movieObject.movie.reviews}</p>
       </DetailledText>
     </FlexContainer>
   );

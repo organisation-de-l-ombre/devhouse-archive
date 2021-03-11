@@ -3,8 +3,10 @@
   width: calc(100% - 20rem);
   flex-direction: column;
 
-  .summary {
-    max-width: 20rem;
+  .summary { max-width: 20rem; }
+
+  .sub-groups {
+    margin-top: 2rem;
   }
 
   @media screen and (max-width: 1250px) {

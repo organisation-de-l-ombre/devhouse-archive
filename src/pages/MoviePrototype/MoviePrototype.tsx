@@ -7,12 +7,21 @@ import MovieInternalNavigation from "./modules/MovieInternalNavigation/MovieInte
 import MovieRouter from "./modules/Router/MovieRouter";
 
 const MoviePrototype = (): React.ReactElement => {
+  const [scroll, setScroll] = React.useState<boolean>(false);
+  const scrollSpy = (): void => {
+    if ((window.scrollY > 525 && !scroll) || (window.scrollY < 525 && scroll)) {
+      setScroll(!scroll);
+    }
+  };
+
+  window.addEventListener("scroll", scrollSpy);
+
   return (
     <FlexContainer
       className={`${flexContainerStyles.container} ${globalStyles.column}`}
     >
       <MovieHeaders />
-      <MovieInternalNavigation />
+      <MovieInternalNavigation scroll={scroll} />
       <MovieRouter />
     </FlexContainer>
   );

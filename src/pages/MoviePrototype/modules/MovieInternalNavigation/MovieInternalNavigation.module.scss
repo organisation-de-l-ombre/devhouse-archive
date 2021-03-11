@@ -27,6 +27,13 @@
       }
     }
   }
+
+  &.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
   
   @media screen and (max-width: 950px) {
     button {
@@ -78,5 +85,7 @@
         }
       }
     }
+
+    &.fixed { position: unset; }
   }
 }

@@ -61,6 +61,13 @@ const MovieHeaders = (): React.ReactElement => {
             <p>
               <q>{movieObject.headers.synopsis}</q>
             </p>
+            {movieObject.headers.quotation ? (
+              <p>
+                <q>{movieObject.headers.quotation}</q>
+              </p>
+            ) : (
+              <></>
+            )}
             <div className={styles.tags}>
               {movieObject.type.map(
                 (type: string): React.ReactElement => {

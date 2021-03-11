@@ -5,11 +5,33 @@ const DetailledText: React.FC<
   React.DetailedHTMLProps<
     React.AllHTMLAttributes<HTMLDivElement>,
     HTMLDivElement
-  >
-> = ({ className, children }) => {
+  > & { title?: string; text?: string | string[] }
+> = ({ className, children, title, text, id }) => {
   return (
-    <div className={`${styles.container}${className ? ` ${className}` : ""}`}>
-      {children}
+    <div
+      id={id}
+      className={`${styles.container}${className ? ` ${className}` : ""}`}
+    >
+      {/* eslint-disable-next-line no-nested-ternary */}
+      {title && text ? (
+        typeof text === "string" ? (
+          <>
+            <h1>{title}</h1>
+            <p>{text}</p>
+          </>
+        ) : (
+          <>
+            <h1>{title}</h1>
+            {text.map(
+              (t: string): React.ReactElement => {
+                return <p>{t}</p>;
+              }
+            )}
+          </>
+        )
+      ) : (
+        children
+      )}
     </div>
   );
 };

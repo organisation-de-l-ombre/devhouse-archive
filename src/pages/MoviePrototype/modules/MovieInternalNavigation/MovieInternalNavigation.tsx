@@ -4,12 +4,21 @@ import { AiOutlineLink } from "react-icons/ai";
 import styles from "./MovieInternalNavigation.module.scss";
 import Button from "../../../../components/Button/Button";
 
-const MovieInternalNavigation = (): React.ReactElement => {
+const MovieInternalNavigation: React.FC<
+  React.DetailedHTMLProps<
+    React.AllHTMLAttributes<HTMLDivElement>,
+    HTMLDivElement
+  > & { scroll: boolean }
+> = ({ scroll }) => {
   const baseURL: string = useRouteMatch().path;
   const [open, setOpen] = React.useState<boolean>(false);
 
   return (
-    <div className={styles["navigation-container"]}>
+    <div
+      className={`${styles["navigation-container"]}${
+        scroll ? ` ${styles.fixed}` : ""
+      }`}
+    >
       <Button onClick={() => setOpen(!open)}>
         <AiOutlineLink />
         <span>Accéder à la navigation</span>

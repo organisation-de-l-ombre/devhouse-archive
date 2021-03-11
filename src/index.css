@@ -1,4 +1,7 @@
-* { color: var(--font-color); }
+* {
+    color: var(--font-color);
+    scroll-behavior: smooth;
+}
 
 a, button, p, span, li {
     font-size: 1.25rem;
