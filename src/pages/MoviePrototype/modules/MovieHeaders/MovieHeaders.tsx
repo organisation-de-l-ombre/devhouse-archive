@@ -13,23 +13,26 @@ const MovieHeaders = (): React.ReactElement => {
   const [trailerWindowOpen, setTrailerWindowOpen] = React.useState<boolean>(
     false
   );
-  const trailer = movieObject.trailers.fr.find(
+  const trailer = movieObject.videos.trailers.find(
     (element: TrailerObject): boolean => element.main
   ) as TrailerObject;
+  const windowWidth = (75 / 100) * window.innerWidth;
+  const windowHeight = (80 / 100) * window.innerHeight;
 
   return (
     <>
       <YouTubePlayer
         title={trailer.title}
         videoID={trailer.videoID}
-        width={1120}
-        height={630}
+        width={windowWidth}
+        height={windowHeight}
         autoPlay
         open={trailerWindowOpen}
         setOpen={setTrailerWindowOpen}
         containerClassName={styles["modal-container-styles"]}
         modalClassName={styles["modal-styles"]}
         autoClose
+        style={{ width: `${windowWidth}px`, height: `${windowHeight}px` }}
       />
       <div className={styles["headers-background"]}>
         <div

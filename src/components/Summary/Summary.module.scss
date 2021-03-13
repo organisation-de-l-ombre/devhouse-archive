@@ -38,4 +38,10 @@
 
     &.close { display: none }
   }
+
+  .sub-summary {
+    ul {
+      margin: .25rem 0 0 2rem;
+    }
+  }
 }

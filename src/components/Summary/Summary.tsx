@@ -38,9 +38,16 @@ const SubSummary: React.FC<
   React.DetailedHTMLProps<
     React.AllHTMLAttributes<HTMLUListElement>,
     HTMLUListElement
-  >
-> = ({ children }) => {
-  return <ul>{children}</ul>;
+  > & { to: string; name: string }
+> = ({ className, to, name, children }) => {
+  return (
+    <li
+      className={`${styles["sub-summary"]}${className ? ` ${className}` : ""}`}
+    >
+      <a href={to}>{name}</a>
+      <ul>{children}</ul>
+    </li>
+  );
 };
 const Item: React.FC<
   React.DetailedHTMLProps<

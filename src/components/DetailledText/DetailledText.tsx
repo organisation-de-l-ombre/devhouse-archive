@@ -6,11 +6,11 @@ const DetailledText: React.FC<
     React.AllHTMLAttributes<HTMLDivElement>,
     HTMLDivElement
   > & { title?: string; text?: string | string[] }
-> = ({ className, children, title, text, id }) => {
+> = ({ className, children, title, text, ...props }) => {
   return (
     <div
-      id={id}
       className={`${styles.container}${className ? ` ${className}` : ""}`}
+      {...props}
     >
       {/* eslint-disable-next-line no-nested-ternary */}
       {title && text ? (

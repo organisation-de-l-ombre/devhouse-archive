@@ -21,10 +21,11 @@ interface MovieObject {
     references: string[];
   };
 }
-interface TrailerObject {
+interface VideoObject {
   title: string;
   videoID: string;
-  main: boolean;
 }
 
-export { MovieObject, TrailerObject };
+type TrailerObject = VideoObject & { main: boolean };
+
+export { MovieObject, VideoObject, TrailerObject };

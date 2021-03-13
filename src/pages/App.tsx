@@ -75,11 +75,7 @@ const App = (): React.ReactElement => {
             <Route path="/callback" exact component={Callback} />
             <Route path="/movies" exact />
             <Route path="/series" exact />
-            <Route
-              path="/movies/title/tangled"
-              exact
-              component={MoviePrototype}
-            />
+            <Route path="/movies/title/tangled" component={MoviePrototype} />
             <Route path="*" component={NotFound} />
           </Switch>
 
