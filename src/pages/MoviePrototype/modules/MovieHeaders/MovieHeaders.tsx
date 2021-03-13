@@ -2,18 +2,23 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { FaPlay, MdMovie } from "react-icons/all";
 import styles from "./MovieHeaders.module.scss";
-import movieObject from "../../prototype.json";
+import containerStyle from "../../Containers.module.scss";
 import FlexContainer from "../../../../components/FlexContainer/FlexContainer";
 import flexContainerStyles from "../../../../components/FlexContainer/FlexContainer.module.scss";
 import Button from "../../../../components/Button/Button";
 import YouTubePlayer from "../../../../components/YouTubePlayer/YouTubePlayer";
-import { TrailerObject } from "../../Types";
+import { MovieObject, TrailerObject } from "../../Types";
 
-const MovieHeaders = (): React.ReactElement => {
+const MovieHeaders: React.FC<
+  React.DetailedHTMLProps<
+    React.AllHTMLAttributes<HTMLDivElement>,
+    HTMLDivElement
+  > & { dataResponse: MovieObject }
+> = ({ dataResponse }) => {
   const [trailerWindowOpen, setTrailerWindowOpen] = React.useState<boolean>(
     false
   );
-  const trailer = movieObject.videos.trailers.find(
+  const trailer = dataResponse.videos.trailers.find(
     (element: TrailerObject): boolean => element.main
   ) as TrailerObject;
   const windowWidth = (75 / 100) * window.innerWidth;
@@ -29,8 +34,8 @@ const MovieHeaders = (): React.ReactElement => {
         autoPlay
         open={trailerWindowOpen}
         setOpen={setTrailerWindowOpen}
-        containerClassName={styles["modal-container-styles"]}
-        modalClassName={styles["modal-styles"]}
+        containerClassName={containerStyle["modal-container-styles"]}
+        modalClassName={containerStyle["modal-styles"]}
         autoClose
         style={{ width: `${windowWidth}px`, height: `${windowHeight}px` }}
       />
@@ -38,41 +43,45 @@ const MovieHeaders = (): React.ReactElement => {
         <div
           className={styles["headers-background-image"]}
           style={{
-            backgroundImage: `url("${movieObject.headers.backgroundImage}")`,
+            backgroundImage: `url("${dataResponse.headers.backgroundImage}")`,
           }}
         />
         <FlexContainer
           className={`${flexContainerStyles.container} ${styles.headers}`}
         >
           <img
-            src={movieObject.headers.moviePoster}
-            alt={movieObject.title}
+            src={dataResponse.headers.moviePoster}
+            alt={dataResponse.title}
             className={styles["movie-poster"]}
             draggable={false}
           />
           <FlexContainer
             className={`${flexContainerStyles.container} ${styles["headers-container"]}`}
           >
-            <h1>{movieObject.title}</h1>
+            <h1>{dataResponse.title}</h1>
             <h3>
-              <i>{movieObject.company}</i>
+              <i>{dataResponse.company}</i>
             </h3>
             <h3>
-              {movieObject.releaseDate.split("-")[2]} • {movieObject.duration} •{" "}
-              {movieObject.publicType}
+              {dataResponse.releaseDate.split("-")[2]} • {dataResponse.duration}{" "}
+              • {dataResponse.publicType}
             </h3>
             <p>
-              <q>{movieObject.headers.synopsis}</q>
+              <q className={containerStyle.quotes}>
+                {dataResponse.headers.synopsis}
+              </q>
             </p>
-            {movieObject.headers.quotation ? (
+            {dataResponse.headers.quotation ? (
               <p>
-                <q>{movieObject.headers.quotation}</q>
+                <q className={containerStyle.quotes}>
+                  {dataResponse.headers.quotation}
+                </q>
               </p>
             ) : (
               <></>
             )}
             <div className={styles.tags}>
-              {movieObject.type.map(
+              {dataResponse.type.map(
                 (type: string): React.ReactElement => {
                   return (
                     <NavLink key={type} to={`/movies/tags/${type}`}>
@@ -82,7 +91,7 @@ const MovieHeaders = (): React.ReactElement => {
                 }
               )}
             </div>
-            <div className={styles["headers-buttons"]}>
+            <div className={containerStyle["headers-buttons"]}>
               <Button>
                 <MdMovie />
                 <span>Voir en streaming</span>

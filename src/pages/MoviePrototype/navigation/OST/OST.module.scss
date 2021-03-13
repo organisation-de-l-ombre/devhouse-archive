@@ -1,0 +1,20 @@
+.container {
+  .headers-buttons-margin { margin-top: 1.5rem; }
+
+  .card-container {
+    background-color: var(--primary-background-color);
+    margin: 2rem 0 0 0;
+    padding: 1.5rem;
+    flex-direction: column;
+
+    h2 { color: var(--font-color-hover); }
+
+    .vo-title {
+      margin-top: .5rem;
+
+      i { color: var(--font-color-hover); }
+    }
+
+    p { margin-top: 1.5rem; }
+  }
+}

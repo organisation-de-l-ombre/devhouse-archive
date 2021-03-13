@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./Movie.module.scss";
+import containerStyle from "../../Containers.module.scss";
 import flexContainerStyles from "../../../../components/FlexContainer/FlexContainer.module.scss";
 import listStyles from "../../../../components/List/List.module.scss";
 import FlexContainer from "../../../../components/FlexContainer/FlexContainer";
@@ -9,15 +10,22 @@ import {
   Summary,
 } from "../../../../components/Summary/Summary";
 import DetailledText from "../../../../components/DetailledText/DetailledText";
-import movieObject from "../../prototype.json";
 import List from "../../../../components/List/List";
+import { MovieObject, UniverseObject } from "../../Types";
 
-const MoviePage = (): React.ReactElement => {
+const MoviePage: React.FC<
+  React.DetailedHTMLProps<
+    React.AllHTMLAttributes<HTMLDivElement>,
+    HTMLDivElement
+  > & { dataResponse: MovieObject }
+> = ({ dataResponse }) => {
+  const { movie } = dataResponse;
+
   return (
     <FlexContainer
-      className={`${flexContainerStyles.container} ${styles.container}`}
+      className={`${flexContainerStyles.container} ${styles.container} ${containerStyle.container}`}
     >
-      <Summary className={styles.summary}>
+      <Summary className={containerStyle.summary}>
         <Item to="#presentation" name="Présentation" />
         <Item to="#detailled-summary" name="Résumé détaillé" />
         <Item to="#reviews" name="Critiques" />
@@ -32,33 +40,29 @@ const MoviePage = (): React.ReactElement => {
       <DetailledText
         id="presentation"
         title="Présentation"
-        text={movieObject.movie.presentation}
+        text={movie.presentation}
       />
       <DetailledText
         id="detailled-summary"
         title="Résumé détaillé"
-        text={movieObject.movie.detailledSummary}
+        text={movie.detailledSummary}
       />
-      <DetailledText
-        id="reviews"
-        title="Critiques"
-        text={movieObject.movie.reviews}
-      />
+      <DetailledText id="reviews" title="Critiques" text={movie.reviews} />
       <DetailledText
         id="references"
         title="Références"
-        text={movieObject.movie.references}
+        text={movie.references}
       />
       <DetailledText id="universe">
         <h1>Univers de Raiponce</h1>
-        {movieObject.movie.universe.map(
-          (element: {
-            title: string;
-            id: string;
-            text: string;
-          }): React.ReactElement => {
+        {movie.universe.map(
+          (element: UniverseObject): React.ReactElement => {
             return (
-              <DetailledText id={element.id} className={styles["sub-groups"]}>
+              <DetailledText
+                key={element.title}
+                id={element.id}
+                className={styles["sub-groups"]}
+              >
                 <h2>{element.title}</h2>
                 <p>{element.text}</p>
               </DetailledText>
@@ -70,7 +74,7 @@ const MoviePage = (): React.ReactElement => {
         <h1>Oscars / Nominations</h1>
         <List
           className={`${listStyles.list} ${styles["list-margin"]}`}
-          items={movieObject.movie.distinctions}
+          items={movie.distinctions}
         />
       </DetailledText>
     </FlexContainer>

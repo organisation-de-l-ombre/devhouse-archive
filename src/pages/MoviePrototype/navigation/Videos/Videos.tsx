@@ -1,13 +1,19 @@
 import React from "react";
 import styles from "./Videos.module.scss";
+import containerStyle from "../../Containers.module.scss";
 import flexContainerStyles from "../../../../components/FlexContainer/FlexContainer.module.scss";
 import FlexContainer from "../../../../components/FlexContainer/FlexContainer";
 import { Item, Summary } from "../../../../components/Summary/Summary";
-import movieObject from "../../prototype.json";
 import YouTubePlayer from "../../../../components/YouTubePlayer/YouTubePlayer";
-import { TrailerObject, VideoObject } from "../../Types";
+import { MovieObject, TrailerObject, VideoObject } from "../../Types";
 
-const Videos = (): React.ReactElement => {
+const Videos: React.FC<
+  React.DetailedHTMLProps<
+    React.AllHTMLAttributes<HTMLDivElement>,
+    HTMLDivElement
+  > & { dataResponse: MovieObject }
+> = ({ dataResponse }) => {
+  const { videos } = dataResponse;
   const [playerOpen, setPlayerOpen] = React.useState<boolean>(false);
   const [video, setvideo] = React.useState<TrailerObject | VideoObject>({
     title: "",
@@ -27,15 +33,15 @@ const Videos = (): React.ReactElement => {
         autoPlay
         open={playerOpen}
         setOpen={setPlayerOpen}
-        containerClassName={styles["modal-container-styles"]}
-        modalClassName={styles["modal-styles"]}
+        containerClassName={containerStyle["modal-container-styles"]}
+        modalClassName={containerStyle["modal-styles"]}
         autoClose
         style={{ width: `${windowWidth}px`, height: `${windowHeight}px` }}
       />
       <FlexContainer
-        className={`${flexContainerStyles.container} ${styles.container}`}
+        className={`${flexContainerStyles.container} ${styles.container} ${containerStyle.container}`}
       >
-        <Summary className={styles.summary}>
+        <Summary className={containerStyle.summary}>
           <Item to="#trailers" name="Bandes annonces" />
           <Item to="#songs" name="Chansons" />
           <Item to="#extracts" name="Extraits" />
@@ -49,7 +55,7 @@ const Videos = (): React.ReactElement => {
             id="trailers"
             className={`${flexContainerStyles.container} ${styles["videos-container"]}`}
           >
-            {movieObject.videos.trailers.map(
+            {videos.trailers.map(
               (trailer: TrailerObject): React.ReactElement => {
                 return (
                   <FlexContainer
@@ -61,10 +67,10 @@ const Videos = (): React.ReactElement => {
                     }}
                   >
                     <img
-                      src={`https://img.youtube.com/vi/${trailer.videoID}/hqdefault.jpg`}
+                      src={`https://img.youtube.com/vi/${trailer.videoID}/mqdefault.jpg`}
                       alt={trailer.title}
                     />
-                    <h2>{trailer.title}</h2>
+                    <h3>{trailer.title}</h3>
                   </FlexContainer>
                 );
               }
@@ -79,7 +85,7 @@ const Videos = (): React.ReactElement => {
             id="songs"
             className={`${flexContainerStyles.container} ${styles["videos-container"]}`}
           >
-            {movieObject.videos.songs.map(
+            {videos.songs.map(
               (song: VideoObject): React.ReactElement => {
                 return (
                   <FlexContainer
@@ -91,10 +97,10 @@ const Videos = (): React.ReactElement => {
                     }}
                   >
                     <img
-                      src={`https://img.youtube.com/vi/${song.videoID}/hqdefault.jpg`}
+                      src={`https://img.youtube.com/vi/${song.videoID}/mqdefault.jpg`}
                       alt={song.title}
                     />
-                    <h2>{song.title}</h2>
+                    <h3>{song.title}</h3>
                   </FlexContainer>
                 );
               }
@@ -109,7 +115,7 @@ const Videos = (): React.ReactElement => {
             id="extracts"
             className={`${flexContainerStyles.container} ${styles["videos-container"]}`}
           >
-            {movieObject.videos.extracts.map(
+            {videos.extracts.map(
               (extract: VideoObject): React.ReactElement => {
                 return (
                   <FlexContainer
@@ -121,10 +127,40 @@ const Videos = (): React.ReactElement => {
                     }}
                   >
                     <img
-                      src={`https://img.youtube.com/vi/${extract.videoID}/hqdefault.jpg`}
+                      src={`https://img.youtube.com/vi/${extract.videoID}/mqdefault.jpg`}
                       alt={extract.title}
                     />
-                    <h2>{extract.title}</h2>
+                    <h3>{extract.title}</h3>
+                  </FlexContainer>
+                );
+              }
+            )}
+          </FlexContainer>
+        </FlexContainer>
+        <FlexContainer
+          className={`${flexContainerStyles.container} ${styles["videos-container-root"]}`}
+        >
+          <h1>Bonus / Extras</h1>
+          <FlexContainer
+            id="extras"
+            className={`${flexContainerStyles.container} ${styles["videos-container"]}`}
+          >
+            {videos.extras.map(
+              (extra: VideoObject): React.ReactElement => {
+                return (
+                  <FlexContainer
+                    key={extra.title}
+                    className={`${flexContainerStyles.container} ${styles["video-container"]}`}
+                    onClick={() => {
+                      setvideo(extra);
+                      setPlayerOpen(!playerOpen);
+                    }}
+                  >
+                    <img
+                      src={`https://img.youtube.com/vi/${extra.videoID}/mqdefault.jpg`}
+                      alt={extra.title}
+                    />
+                    <h3>{extra.title}</h3>
                   </FlexContainer>
                 );
               }

@@ -1,8 +1,7 @@
-import { ApolloProvider } from "@apollo/client";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import React from "react";
 import { I18nextProvider } from "react-i18next";
-import ApolloClient from "../apollo/ApolloClient";
+import { RouteComponentProps } from "react-router/ts4.0";
 import generateNotificationID from "../utilities/generateNotificationID";
 import i18n from "../languages/i18n";
 import themes from "../themes/Themes.module.scss";
@@ -19,9 +18,7 @@ const Navbar = React.lazy(() => import("../components/Navbar/Navbar"));
 const Home = React.lazy(() => import("./Home/Home"));
 const Account = React.lazy(() => import("./Account/Account"));
 const Callback = React.lazy(() => import("./Callback/Callback"));
-const MoviePrototype = React.lazy(
-  () => import("./MoviePrototype/MoviePrototype")
-);
+const MovieRoot = React.lazy(() => import("./MoviePrototype/MovieRoot"));
 const NotFound = React.lazy(() => import("../components/NotFound/NotFound"));
 const Footer = React.lazy(() => import("../components/Footer/Footer"));
 
@@ -55,34 +52,37 @@ const App = (): React.ReactElement => {
   }, [addNotifications, language]);
 
   return (
-    <ApolloProvider client={ApolloClient}>
-      <I18nextProvider i18n={i18n}>
-        {config.allowNotifications && manager.notifications.length ? (
-          <NotificationsGroup />
-        ) : (
-          <></>
-        )}
-        <BrowserRouter>
-          <NotificationsModal
-            open={notificationsWindowOpen}
-            setOpen={setNotificationsWindowOpen}
+    <I18nextProvider i18n={i18n}>
+      {config.allowNotifications && manager.notifications.length ? (
+        <NotificationsGroup />
+      ) : (
+        <></>
+      )}
+      <BrowserRouter>
+        <NotificationsModal
+          open={notificationsWindowOpen}
+          setOpen={setNotificationsWindowOpen}
+        />
+        <Navbar />
+
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/account" component={Account} />
+          <Route path="/callback" exact component={Callback} />
+          <Route path="/movies" exact />
+          <Route path="/series" exact />
+          <Route
+            path="/movies/title/:title"
+            render={(props: RouteComponentProps): React.ReactElement => {
+              return <MovieRoot {...props} />;
+            }}
           />
-          <Navbar />
+          <Route path="*" component={NotFound} />
+        </Switch>
 
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/account" component={Account} />
-            <Route path="/callback" exact component={Callback} />
-            <Route path="/movies" exact />
-            <Route path="/series" exact />
-            <Route path="/movies/title/tangled" component={MoviePrototype} />
-            <Route path="*" component={NotFound} />
-          </Switch>
-
-          <Footer />
-        </BrowserRouter>
-      </I18nextProvider>
-    </ApolloProvider>
+        <Footer />
+      </BrowserRouter>
+    </I18nextProvider>
   );
 };
 

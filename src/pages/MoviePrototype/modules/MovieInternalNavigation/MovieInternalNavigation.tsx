@@ -3,14 +3,18 @@ import { NavLink, useRouteMatch } from "react-router-dom";
 import { AiOutlineLink } from "react-icons/ai";
 import styles from "./MovieInternalNavigation.module.scss";
 import Button from "../../../../components/Button/Button";
+import { MovieObject } from "../../Types";
 
 const MovieInternalNavigation: React.FC<
   React.DetailedHTMLProps<
     React.AllHTMLAttributes<HTMLDivElement>,
     HTMLDivElement
-  > & { scroll: boolean }
-> = ({ scroll }) => {
-  const baseURL: string = useRouteMatch().path;
+  > & { dataResponse: MovieObject; scroll: boolean }
+> = ({ dataResponse, scroll }) => {
+  const baseURL: string = useRouteMatch().path.replace(
+    ":title",
+    dataResponse.internalTitle
+  );
   const [open, setOpen] = React.useState<boolean>(false);
 
   return (
@@ -48,8 +52,8 @@ const MovieInternalNavigation: React.FC<
         <NavLink to={`${baseURL}/videos`} exact activeClassName={styles.active}>
           Vidéos
         </NavLink>
-        <NavLink to={`${baseURL}/songs`} exact activeClassName={styles.active}>
-          Chansons
+        <NavLink to={`${baseURL}/ost`} exact activeClassName={styles.active}>
+          Bande originale
         </NavLink>
         <NavLink
           to={`${baseURL}/technical-specs`}

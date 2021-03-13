@@ -9,6 +9,8 @@
 
   .list-margin { margin-top: 1.5rem; }
 
+  h1, h2 { color: var(--font-color-hover); }
+
   @media screen and (max-width: 1250px) {
     padding: 2rem 4rem;
     width: calc(100% - 8rem);
