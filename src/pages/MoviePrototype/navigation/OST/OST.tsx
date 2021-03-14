@@ -108,38 +108,52 @@ const OST: React.FC<
                     <></>
                   )}
                   <p>Durée: {song.duration}</p>
-                  <p>Timeline dans le film : {song.timecode}</p>
-                  <p>
-                    Personnage{song.characters.length > 1 ? "s" : ""} :{" "}
-                    {song.characters.join(", ")}
-                  </p>
-                  <p>
-                    <q className={containerStyle.quotes}>{song.description}</q>
-                  </p>
-                  <div
-                    className={`${containerStyle["headers-buttons"]} ${styles["headers-buttons-margin"]}`}
-                  >
-                    <Button
-                      onClick={() => {
-                        setVideo({
-                          title: `Raiponce - ${song.title}`,
-                          videoID: song.videoID as string,
-                        });
-                        setPlayerOpen(!playerOpen);
-                      }}
+                  {song.timecode ? (
+                    <p>Timeline dans le film : {song.timecode}</p>
+                  ) : (
+                    <></>
+                  )}
+                  {song.characters ? (
+                    <p>
+                      Personnage{song.characters.length > 1 ? "s" : ""} :{" "}
+                      {song.characters.join(", ")}
+                    </p>
+                  ) : (
+                    <></>
+                  )}
+                  {song.description ? (
+                    <p>
+                      <q className={containerStyle.quotes}>
+                        {song.description}
+                      </q>
+                    </p>
+                  ) : (
+                    <></>
+                  )}
+                  {song.videoID || song.lyrics ? (
+                    <div
+                      className={`${containerStyle["headers-buttons"]} ${styles["headers-buttons-margin"]}`}
                     >
-                      <FaPlay />
-                      <span>Voir la vidéo</span>
-                    </Button>
-                    {song.lyrics ? (
+                      <Button
+                        onClick={() => {
+                          setVideo({
+                            title: `Raiponce - ${song.title}`,
+                            videoID: song.videoID as string,
+                          });
+                          setPlayerOpen(!playerOpen);
+                        }}
+                      >
+                        <FaPlay />
+                        <span>Voir la vidéo</span>
+                      </Button>
                       <Button onClick={() => window.open(song.lyrics)}>
                         <FaMusic />
                         <span>Paroles</span>
                       </Button>
-                    ) : (
-                      <></>
-                    )}
-                  </div>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
                 </Card>
               );
             }
@@ -149,7 +163,7 @@ const OST: React.FC<
           id="music"
           className={`${flexContainerStyles.container} ${globalStyles.column} ${containerStyle["generic-margin-top"]}`}
         >
-          <h1>Chansons</h1>
+          <h1>Musique</h1>
           {dataResponse.ost.music.map(
             (song: MusicInformationObject): React.ReactElement => {
               return (
@@ -185,38 +199,6 @@ const OST: React.FC<
                         {song.description}
                       </q>
                     </p>
-                  ) : (
-                    <></>
-                  )}
-                  {song.videoID || song.lyrics ? (
-                    <div
-                      className={`${containerStyle["headers-buttons"]} ${styles["headers-buttons-margin"]}`}
-                    >
-                      {song.videoID ? (
-                        <Button
-                          onClick={() => {
-                            setVideo({
-                              title: `Raiponce - ${song.title}`,
-                              videoID: song.videoID as string,
-                            });
-                            setPlayerOpen(!playerOpen);
-                          }}
-                        >
-                          <FaPlay />
-                          <span>Voir la vidéo</span>
-                        </Button>
-                      ) : (
-                        <></>
-                      )}
-                      {song.lyrics ? (
-                        <Button onClick={() => window.open(song.lyrics)}>
-                          <FaMusic />
-                          <span>Paroles</span>
-                        </Button>
-                      ) : (
-                        <></>
-                      )}
-                    </div>
                   ) : (
                     <></>
                   )}

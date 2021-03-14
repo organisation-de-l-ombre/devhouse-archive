@@ -312,6 +312,23 @@
         ],
         "videoID": "uf-9J5fooFE",
         "lyrics": "https://genius.com/Emmanuel-dahl-and-maeva-meline-je-veux-y-croire-lyrics"
+      },
+      {
+        "title": "L'incantation de la guérison",
+        "VOTitle": "Healing incantation",
+        "duration": "54s",
+        "characters": ["Raiponce"],
+        "description": "L'incantation de guérison qui permet d'exploiter le pouvoir des cheveux de Raiponce.",
+        "lyrics": "https://genius.com/Maeva-meline-lincantation-de-la-guerison-lyrics"
+      },
+      {
+        "title": "Je voudrais",
+        "VOTitle": "Something that I want",
+        "duration": "2m 43s",
+        "timecode": "1h 31m 20s",
+        "description": "Récit des événements du film, en musique.",
+        "videoID": "RwYmzU-ssr4",
+        "lyrics": "https://genius.com/Sarah-bismuth-je-voudrais-lyrics"
       }
     ],
     "music": [
@@ -384,28 +401,11 @@
         "description": "Flynn vient à la tour pour la secourir de Gothel. En arrivant en haut il se fait poignarder mortellement par la vieille femme qui décide d'enlever de nouveau Raiponce afin de l'emmener en lieu sûr. Raiponce échange sa liberté contre la guérison de Flynn. Ce dernier refuse, et coupe les cheveux de la jeune fille avec la force qu'il lui reste. Ceux-ci deviennent bruns et perdent tout leur pouvoir. Folle de rage car elle vieillit à vue d'oeuil, Gothel se prend les pieds dans les cheveux de Raiponce et tombe de la tour. Elle est réduite en poussières."
       },
       {
-        "title": "L'incantation de la guérison",
-        "VOTitle": "Healing incantation",
-        "duration": "54s",
-        "characters": ["Raiponce"],
-        "description": "L'incantation de guérison qui permet d'exploiter le pouvoir des cheveux de Raiponce.",
-        "lyrics": "https://genius.com/Maeva-meline-lincantation-de-la-guerison-lyrics"
-      },
-      {
         "title": "Le royaume en fête",
         "VOTitle": "Kingdom celebration",
         "duration": "1m 50s",
         "timecode": "1h 29m 35s",
         "description": "Après avoir retrouvé ses parents, le royaume fête de retour de la princesse Raiponce au sein de son royaume."
-      },
-      {
-        "title": "Je voudrais",
-        "VOTitle": "Something that I want",
-        "duration": "2m 43s",
-        "timecode": "1h 31m 20s",
-        "description": "Récit des événements du film, en musique.",
-        "videoID": "RwYmzU-ssr4",
-        "lyrics": "https://genius.com/Sarah-bismuth-je-voudrais-lyrics"
       }
     ]
   }

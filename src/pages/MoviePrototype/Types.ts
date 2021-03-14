@@ -18,10 +18,10 @@ interface SongInformationObject {
   title: string;
   VOTitle?: string;
   duration: string;
-  timecode: string;
-  description: string;
-  characters: string[];
-  videoID: string;
+  timecode?: string;
+  description?: string;
+  characters?: string[];
+  videoID?: string;
   lyrics: string;
 }
 interface MusicInformationObject {
@@ -31,7 +31,6 @@ interface MusicInformationObject {
   timecode?: string;
   description?: string;
   characters?: string[];
-  videoID?: string;
   lyrics?: string;
 }
 
