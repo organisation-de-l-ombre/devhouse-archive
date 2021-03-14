@@ -247,6 +247,7 @@
       {
         "title": "Où est la vraie vie ?",
         "VOTitle": "When will my life begin ?",
+        "duration": "2m 32s",
         "timecode": "5m 50s",
         "description": "Enfermée depuis 18 ans dans sa tour, Raiponce joue avec Pascal son caméléon de compagnie, et réalise diverses activités pour occuper ses journées. Seulement, cette routine devient lassante, et elle s'interroge sur ce à quoi pourrait bien ressembler le monde qu'elle n'a jamais eu l'occasion d'aller découvrir. La jeune fille éprouve également le souhait d'aller voir les lanternes qu'elle voit depuis sa tour s'élever dans le ciel, chaque soir le jour de son anniversaire.",
         "characters": ["Raiponce"],
@@ -256,8 +257,9 @@
       {
         "title": "N'écoute que moi",
         "VOTitle": "Mother knows best",
+        "duration": "3m 10s",
         "timecode": "12m 49",
-        "description": "Ayant demandé à sa \"mère\" si elle pouvait aller voir les lanternes le soir de son anniversaire, Raiponce s'en fait dissuader par Gothel qui ne lui montre qu'une vision pécimiste et cruelle du monde extérieur, et qui la déstabilise en ne l'estimant que très peu.",
+        "description": "Ayant demandé à sa \"mère\" si elle pouvait aller voir les lanternes le soir de son anniversaire, Raiponce s'en fait dissuader par Gothel qui ne lui montre qu'une vision pécimiste et cruelle du monde extérieur, et qui la déstabilise en la dévalorisant.",
         "characters": ["Mère Gothel"],
         "videoID": "1wgUKYDFLUM",
         "lyrics": "https://genius.com/Sophie-delmas-necoute-que-moi-lyrics"
@@ -265,8 +267,9 @@
       {
         "title": "Où est la vraie vie ? (reprise)",
         "VOTitle": "When will my life begin ? ",
+        "duration": "2m 6s",
         "timecode": "30m 15s",
-        "description": "Raiponce, ayant conclu un marché avec Flynn, se fait aider par se dernier afin de sortir de sa tour et d'aller voir les lanternes. Après un moment d'hésitation, elle descend de sa tour et se retrouve enfin dehors. Elle est émerveillée par chaque chose qu'elle touche ou qu'elle aperçoit.",
+        "description": "Raiponce, ayant conclu un marché avec Flynn, se fait aider par ce dernier afin de sortir de sa tour et d'aller voir les lanternes. Après un moment d'hésitation, elle descend de sa tour et se retrouve enfin dehors. Elle est émerveillée par chaque chose qu'elle touche ou qu'elle aperçoit.",
         "characters": ["Raiponce"],
         "videoID": "ouHlVk6qswg",
         "lyrics": "https://genius.com/Maeva-meline-ou-est-la-vraie-vie-lyrics"
@@ -274,6 +277,7 @@
       {
         "title": "J'ai un rêve",
         "VOTitle": "I've got a dream",
+        "duration": "3m 12",
         "timecode": "39m 8s",
         "description": "Lorsqu'il arrive avec Raiponce dans la taverne, Flynn se fait encercler par les brigands. Ces derniers souhaitent dénoncer le voleur recherché activement par la garde royale dans le but de toucher une récompense. Une baguarre éclate, et Raiponce prend la défense de Flynn, arguant qu'elle a besoin de celui-ci pour réaliser son rêve. Chacun d'eux va alors énoncer son rêve le plus cher, en musique.",
         "characters": [
@@ -289,6 +293,7 @@
       {
         "title": "N'écoute que moi (reprise)",
         "VOTitle": "Mother knows best",
+        "duration": "1m 38s",
         "timecode": "56m 55s",
         "description": "A la tombée de la nuit, après avoir retrouvé Raiponce qui a échappé aux gardes avec Flynn, Gothel veut que celle-ci rentre à la tour. la jeune fille refuse catégoriquement d'y retourner, lui rétorquant alors que le monde extérieur n'est pas si dangereux et cruel comme elle le lui avait dit, et qu'elle pense que Flynn l'apprécie. Gothel s'emporte, rend la besace du voleur à Raiponce en prétendant que seule la couronne l'intéresse et qu'il l'abandonnera après l'avoir récupérée. Ensuite, elle disparaît dans l'obscurité.",
         "characters": ["Mère Gothel"],
@@ -298,8 +303,9 @@
       {
         "title": "Je veux y croire",
         "VOTitle": "I see the lights",
+        "duration": "3m 44s",
         "timecode": "1h 7m",
-        "description": "Après avoir avoué à Flynn qu'elle était terrifiée à l'idée que le monde ne soit pas comme elle l'imaginait, elle est aussitôt rassurée par ce dernier. Elle peut enfin assister au spectacle, et voir toutes les lanternes lâchées dans le ciel, depuis le lac. Son rêve est en train de se réaliser. Elle tend alors la besace contenant la couronne à Flynn, lui disant qu'elle avait peur de le lui rendre, mais que maintenant ses craintes sont apaisées. N'étant plus intéressé, il repousse la saccoche, et chacun d'eux comprend alors qu'ils éprouve des sentiments pour l'autre. Flynn prend alors la main de Raiponce et s'apprête à l'embrasser.",
+        "description": "Après avoir avoué à Flynn qu'elle était terrifiée à l'idée que le monde ne soit pas comme elle l'imaginait, elle est aussitôt rassurée par ce dernier. Elle peut enfin assister au spectacle, et voir toutes les lanternes lâchées dans le ciel, depuis le lac. Son rêve est en train de se réaliser. Elle tend alors la besace contenant la couronne à Flynn, lui disant qu'elle avait peur de le lui rendre, mais que maintenant ses craintes sont apaisées. N'étant plus intéressé, il repousse la saccoche. Raiponce et lui comprennent qu'ils s'aiment, il prend alors sa main et s'apprête à l'embrasser.",
         "characters": [
           "Raiponce",
           "Flynn"
@@ -310,82 +316,96 @@
     ],
     "music": [
       {
-        "title": "",
-        "VOTitle": "",
-        "timecode": "",
-        "description": ""
+        "title": "Prologue",
+        "VOTitle": "Prologue",
+        "duration": "4m 30s",
+        "timecode": "50s",
+        "description": "Flynn racontre l'histoire de la jeune Raiponce et de sa naissance. Sa mère étant malade, le roi et la population se mirent à chercher un remède miracle pour guérir la reine et le futur nouveau-né. Ils trouvent alors une fleur aux pétales d'or, qui a le pouvoir de guérir les maladies et les blessures. Cette fleur est gardée par Mère Gothel, vieille femme qui l'exploite pour conserver sa jeune éternellement. La reine fut guérie et donna naissance à Raiponce, une fille aux longs cheveux dorés. Gothel s'introduit une nuit dans le chateau et s'approche de Raiponce, dans le but de renouveller sa jeunesse, le pouvoir de la fleur ayant été conservés par la chevelure du nourisson. Voyant qu'en les coupant, les cheveux perdent leur pouvoir, Gothel enlèvent alors l'enfant, et l'enferme dans une tour isolée, à l'abris des regards.",
+        "characters": [
+          "Flynn",
+          "Raiponce (enfant)",
+          "Mère Gothel",
+          "Les gardes du royaume"
+        ]
       },
       {
-        "title": "",
-        "VOTitle": "",
-        "timecode": "",
-        "description": ""
+        "title": "Le cheval sans cavalier",
+        "VOTitle": "Horse with no rider",
+        "duration": "1m 56s",
+        "timecode": "35m",
+        "description": "Le cheval Maximus recherche activement Flynn, qui a échappé de justesse aux gardes. Entendant du bruit, il se camoufle en croyant qu'il s'agit du voleur qu'il poursuit. Il surgit de derrière les buissons, mais il ne s'agit que de Gothel. Voyant le cheval sans aucun cavalier sur son dos, elle prend peur et retourne à la tour voir si Raiponce s'y trouve."
       },
       {
-        "title": "",
-        "VOTitle": "",
-        "timecode": "",
-        "description": ""
+        "title": "L'évasion",
+        "VOTitle": "Escape route",
+        "duration": "1m 57s",
+        "description": "Raiponce et Flynn s'enfuient par un passage sous-terrain mais sont peu à peu rattrapés par les gardes. Ils tentent alors de s'échapper."
       },
       {
-        "title": "",
-        "VOTitle": "",
-        "timecode": "",
-        "description": ""
+        "title": "Le feu de camps",
+        "VOTitle": "Campfire",
+        "duration": "3m 21s",
+        "timecode": "53m 40s",
+        "description": "Après avoir guérit la main de Flynn avec sa chevelure, Raiponce lui dit que sa \"mère\" ne l'a jamais laissée sortir de sa tour à cause des pouvoirs de ses cheveux. Quand il lui demande si elle compte y retourner, elle ne sait pas exactement quoi répondre. Flynn et elle apprennent progressivement à se connaître, et tombent sous le charme l'un de l'autre."
       },
       {
-        "title": "",
-        "VOTitle": "",
-        "timecode": "",
-        "description": ""
+        "title": "La danse au royaume",
+        "VOTitle": "Kingdom dance",
+        "duration": "2m 20s",
+        "timecode": "1h 1m 50s",
+        "description": "Raiponce et Flynn arrivent enfin au royaume. Elle est toute excitée à l'idée de découvrir de nouvelles choses. Pour une raison de praticité, elle se fait tresser les cheveux par quatre jeunes filles. Lui et elle partagent de bons moments, s'amusent et dansent. Elle s'interroge également sur le portrait de la \"princesse disparue\" qu'elle aperçoit. En fin d'après midi, Raiponce et Eugène s'en vont sur un bâteau."
       },
       {
-        "title": "",
-        "VOTitle": "",
-        "timecode": "",
-        "description": ""
+        "title": "En attendant les lumières",
+        "VOTitle": "Waiting for the lights",
+        "duration": "2m 47s",
+        "timecode": "1h 4m 14s",
+        "description": "Raiponce et Flynn montent sur un bâteau. Il ne ne pas \"vouloir faire les choses à moitié\", puisqu'il s'agit du \"plus beau jour de sa vie\". La jeune ville lui avoue ses craintes, et le voleur s'empresse de la rassurer aussitôt. Le couple royal lancent une lanterne du château, dans l'espoit que cette année enfin, celle-ci parvienne à Raiponce. Toutes les autres lanternes sont alors lâchées par la population, des rues jusqu'au lac. Raiponce est alors en train de réaliser son rêve."
       },
       {
-        "title": "",
-        "VOTitle": "",
-        "timecode": "",
-        "description": ""
+        "title": "Les retrouvailles avec maman",
+        "VOTitle": "Return to mother",
+        "duration": "2m 6s",
+        "timecode": "1h 10m 35s",
+        "description": "Flynn s'apprêtant à embrasser Raiponce, son acte se voit freiné lorsqu'il aperçoit les frères Stabbingtons. Pour éviter les histoires, il décide de leur rendre la couronne volée et de s'en aller, mais les deux frères l'en empêchent. Ils l'attachent sur un bâteau et font croire à Raipince qu'il l'a abandonnée. Elle a à peine le temps de pleurer qu'ils veulent la kidnapper pour se servir du pouvoir de ses cheveux. Elle s'enfuit alors, mais ses cheveux se coincent dans une branche. Gothel vient à sa \"rescousse\". La jeune fille se jette soudainement dans ses bras, effondrée et en larmes."
       },
       {
-        "title": "",
-        "VOTitle": "",
-        "timecode": "",
-        "description": ""
+        "title": "Prise de conscience et évasion",
+        "VOTitle": "Realization and escape",
+        "timecode": "1h 15m 50s",
+        "duration": "5m 50s",
+        "description": "De retour dans sa tour et dans sa chambre, Raiponce réalise qu'elle est en réalité la princesse disparue que tout le monde cherche depuis 18 ans, grâce aux motifs représentant un soleil dissimimulés partout sur les peintures de sa chambre, et grâce à des scènes qu'elle se remémore. Elle change alors radicalement de comportement envers Gothel. Elle refuse ses paroles, ses gestes, et le fait qu'elle continue à se servir du pouvoir magique de ses cheveux. Une violente altercation éclate alors et Gothel menace Raiponce."
       },
       {
-        "title": "",
-        "VOTitle": "",
-        "timecode": "",
-        "description": ""
+        "title": "La larme d'or",
+        "VOTitle": "The tears heals",
+        "duration": "7m 37s",
+        "timecode": "1h 21m 50s",
+        "description": "Flynn vient à la tour pour la secourir de Gothel. En arrivant en haut il se fait poignarder mortellement par la vieille femme qui décide d'enlever de nouveau Raiponce afin de l'emmener en lieu sûr. Raiponce échange sa liberté contre la guérison de Flynn. Ce dernier refuse, et coupe les cheveux de la jeune fille avec la force qu'il lui reste. Ceux-ci deviennent bruns et perdent tout leur pouvoir. Folle de rage car elle vieillit à vue d'oeuil, Gothel se prend les pieds dans les cheveux de Raiponce et tombe de la tour. Elle est réduite en poussières."
       },
       {
-        "title": "",
-        "VOTitle": "",
-        "timecode": "",
-        "description": ""
+        "title": "L'incantation de la guérison",
+        "VOTitle": "Healing incantation",
+        "duration": "54s",
+        "characters": ["Raiponce"],
+        "description": "L'incantation de guérison qui permet d'exploiter le pouvoir des cheveux de Raiponce.",
+        "lyrics": "https://genius.com/Maeva-meline-lincantation-de-la-guerison-lyrics"
       },
       {
-        "title": "",
-        "VOTitle": "",
-        "timecode": "",
-        "description": ""
+        "title": "Le royaume en fête",
+        "VOTitle": "Kingdom celebration",
+        "duration": "1m 50s",
+        "timecode": "1h 29m 35s",
+        "description": "Après avoir retrouvé ses parents, le royaume fête de retour de la princesse Raiponce au sein de son royaume."
       },
       {
-        "title": "",
-        "VOTitle": "",
-        "timecode": "",
-        "description": ""
-      },
-      {
-        "title": "",
-        "VOTitle": "",
-        "timecode": "",
-        "description": ""
+        "title": "Je voudrais",
+        "VOTitle": "Something that I want",
+        "duration": "2m 43s",
+        "timecode": "1h 31m 20s",
+        "description": "Récit des événements du film, en musique.",
+        "videoID": "RwYmzU-ssr4",
+        "lyrics": "https://genius.com/Sarah-bismuth-je-voudrais-lyrics"
       }
     ]
   }

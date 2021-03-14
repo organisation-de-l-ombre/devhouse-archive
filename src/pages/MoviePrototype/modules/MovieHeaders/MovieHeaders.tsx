@@ -5,6 +5,7 @@ import styles from "./MovieHeaders.module.scss";
 import containerStyle from "../../Containers.module.scss";
 import FlexContainer from "../../../../components/FlexContainer/FlexContainer";
 import flexContainerStyles from "../../../../components/FlexContainer/FlexContainer.module.scss";
+import globalStyles from "../../../../themes/Global.module.scss";
 import Button from "../../../../components/Button/Button";
 import YouTubePlayer from "../../../../components/YouTubePlayer/YouTubePlayer";
 import { MovieObject, TrailerObject } from "../../Types";
@@ -21,25 +22,19 @@ const MovieHeaders: React.FC<
   const trailer = dataResponse.videos.trailers.find(
     (element: TrailerObject): boolean => element.main
   ) as TrailerObject;
-  const windowWidth = (75 / 100) * window.innerWidth;
-  const windowHeight = (80 / 100) * window.innerHeight;
-
   return (
     <>
       <YouTubePlayer
         title={trailer.title}
         videoID={trailer.videoID}
-        width={windowWidth}
-        height={windowHeight}
         autoPlay
         open={trailerWindowOpen}
         setOpen={setTrailerWindowOpen}
-        containerClassName={containerStyle["modal-container-styles"]}
-        modalClassName={containerStyle["modal-styles"]}
         autoClose
-        style={{ width: `${windowWidth}px`, height: `${windowHeight}px` }}
       />
-      <div className={styles["headers-background"]}>
+      <div
+        className={`${styles["headers-background"]} ${globalStyles["opacity-display-animation"]}`}
+      >
         <div
           className={styles["headers-background-image"]}
           style={{

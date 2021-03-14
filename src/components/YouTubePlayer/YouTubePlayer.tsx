@@ -1,7 +1,22 @@
 import React from "react";
 import YouTube from "react-youtube";
 import Modal from "../Modal/Modal";
+import styles from "./YouTubePlayer.module.scss";
 
+const getPlayerDimensions = (): { width: number; height: number } => {
+  const windowWidth = window.innerWidth;
+  const windowHeight = window.innerHeight;
+  const width =
+    windowWidth > windowHeight
+      ? (75 / 100) * windowWidth
+      : (80 / 100) * windowWidth;
+  const height =
+    windowWidth > windowHeight
+      ? (80 / 100) * windowHeight
+      : (30 / 100) * windowHeight;
+
+  return { width, height };
+};
 const YouTubePlayer: React.FC<
   React.DetailedHTMLProps<
     React.AllHTMLAttributes<HTMLDivElement>,
@@ -9,34 +24,13 @@ const YouTubePlayer: React.FC<
   > & {
     title: string;
     videoID: string;
-    width?: number;
-    height?: number;
     autoPlay?: boolean;
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    containerClassName?: string;
-    modalClassName?: string;
     autoClose?: boolean;
   }
-> = ({
-  title,
-  videoID,
-  width,
-  height,
-  autoPlay,
-  open,
-  setOpen,
-  containerClassName,
-  modalClassName,
-  autoClose,
-}) => {
-  if (!width) {
-    width = 560;
-  }
-  if (!height) {
-    height = 315;
-  }
-
+> = ({ title, videoID, autoPlay, open, setOpen, autoClose }) => {
+  const { width, height } = getPlayerDimensions();
   const playerOptions = {
     width,
     height,
@@ -52,8 +46,8 @@ const YouTubePlayer: React.FC<
       windowTitle={title}
       open={open}
       setOpen={setOpen}
-      containerClassName={containerClassName}
-      modalClassName={modalClassName}
+      containerClassName={styles["modal-container"]}
+      modalClassName={styles["modal-root"]}
     >
       <YouTube
         videoId={videoID}

@@ -10,6 +10,7 @@ import globalStyles from "../../../../themes/Global.module.scss";
 import FlexContainer from "../../../../components/FlexContainer/FlexContainer";
 import {
   MovieObject,
+  MusicInformationObject,
   SongInformationObject,
   StreamingObject,
   TrailerObject,
@@ -45,23 +46,15 @@ const OST: React.FC<
     videoID: "",
     main: false,
   });
-  const windowWidth = (75 / 100) * window.innerWidth;
-  const windowHeight = (80 / 100) * window.innerHeight;
-
   return (
     <>
       <YouTubePlayer
         title={video.title}
         videoID={video.videoID}
-        width={windowWidth}
-        height={windowHeight}
         autoPlay
         open={playerOpen}
         setOpen={setPlayerOpen}
-        containerClassName={containerStyle["modal-container-styles"]}
-        modalClassName={containerStyle["modal-styles"]}
         autoClose
-        style={{ width: `${windowWidth}px`, height: `${windowHeight}px` }}
       />
       <FlexContainer
         className={`${flexContainerStyles.container} ${styles.container} ${containerStyle.container}`}
@@ -98,7 +91,7 @@ const OST: React.FC<
           id="songs"
           className={`${flexContainerStyles.container} ${globalStyles.column} ${containerStyle["generic-margin-top"]}`}
         >
-          <h1>Chansons</h1>
+          <h1>Musique</h1>
           {dataResponse.ost.songs.map(
             (song: SongInformationObject): React.ReactElement => {
               return (
@@ -107,13 +100,14 @@ const OST: React.FC<
                   className={`${cardStyles.container} ${styles["card-container"]}`}
                 >
                   <h2>{song.title}</h2>
-                  {song.VOTitle.length ? (
+                  {song.VOTitle ? (
                     <h2 className={styles["vo-title"]}>
                       <i>{song.VOTitle}</i>
                     </h2>
                   ) : (
                     <></>
                   )}
+                  <p>Durée: {song.duration}</p>
                   <p>Timeline dans le film : {song.timecode}</p>
                   <p>
                     Personnage{song.characters.length > 1 ? "s" : ""} :{" "}
@@ -129,7 +123,7 @@ const OST: React.FC<
                       onClick={() => {
                         setVideo({
                           title: `Raiponce - ${song.title}`,
-                          videoID: song.videoID,
+                          videoID: song.videoID as string,
                         });
                         setPlayerOpen(!playerOpen);
                       }}
@@ -137,7 +131,7 @@ const OST: React.FC<
                       <FaPlay />
                       <span>Voir la vidéo</span>
                     </Button>
-                    {song.lyrics.length ? (
+                    {song.lyrics ? (
                       <Button onClick={() => window.open(song.lyrics)}>
                         <FaMusic />
                         <span>Paroles</span>
@@ -146,6 +140,86 @@ const OST: React.FC<
                       <></>
                     )}
                   </div>
+                </Card>
+              );
+            }
+          )}
+        </FlexContainer>
+        <FlexContainer
+          id="music"
+          className={`${flexContainerStyles.container} ${globalStyles.column} ${containerStyle["generic-margin-top"]}`}
+        >
+          <h1>Chansons</h1>
+          {dataResponse.ost.music.map(
+            (song: MusicInformationObject): React.ReactElement => {
+              return (
+                <Card
+                  key={song.title}
+                  className={`${cardStyles.container} ${styles["card-container"]}`}
+                >
+                  <h2>{song.title}</h2>
+                  {song.VOTitle ? (
+                    <h2 className={styles["vo-title"]}>
+                      <i>{song.VOTitle}</i>
+                    </h2>
+                  ) : (
+                    <></>
+                  )}
+                  <p>Durée: {song.duration}</p>
+                  {song.timecode ? (
+                    <p>Timeline dans le film : {song.timecode}</p>
+                  ) : (
+                    <></>
+                  )}
+                  {song.characters ? (
+                    <p>
+                      Personnage{song.characters.length > 1 ? "s" : ""} :{" "}
+                      {song.characters.join(", ")}
+                    </p>
+                  ) : (
+                    <></>
+                  )}
+                  {song.description ? (
+                    <p>
+                      <q className={containerStyle.quotes}>
+                        {song.description}
+                      </q>
+                    </p>
+                  ) : (
+                    <></>
+                  )}
+                  {song.videoID || song.lyrics ? (
+                    <div
+                      className={`${containerStyle["headers-buttons"]} ${styles["headers-buttons-margin"]}`}
+                    >
+                      {song.videoID ? (
+                        <Button
+                          onClick={() => {
+                            setVideo({
+                              title: `Raiponce - ${song.title}`,
+                              videoID: song.videoID as string,
+                            });
+                            setPlayerOpen(!playerOpen);
+                          }}
+                        >
+                          <FaPlay />
+                          <span>Voir la vidéo</span>
+                        </Button>
+                      ) : (
+                        <></>
+                      )}
+                      {song.lyrics ? (
+                        <Button onClick={() => window.open(song.lyrics)}>
+                          <FaMusic />
+                          <span>Paroles</span>
+                        </Button>
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                  ) : (
+                    <></>
+                  )}
                 </Card>
               );
             }

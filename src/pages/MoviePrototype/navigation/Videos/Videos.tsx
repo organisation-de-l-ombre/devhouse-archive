@@ -20,23 +20,15 @@ const Videos: React.FC<
     videoID: "",
     main: false,
   });
-  const windowWidth = (75 / 100) * window.innerWidth;
-  const windowHeight = (80 / 100) * window.innerHeight;
-
   return (
     <>
       <YouTubePlayer
         title={video.title}
         videoID={video.videoID}
-        width={windowWidth}
-        height={windowHeight}
         autoPlay
         open={playerOpen}
         setOpen={setPlayerOpen}
-        containerClassName={containerStyle["modal-container-styles"]}
-        modalClassName={containerStyle["modal-styles"]}
         autoClose
-        style={{ width: `${windowWidth}px`, height: `${windowHeight}px` }}
       />
       <FlexContainer
         className={`${flexContainerStyles.container} ${styles.container} ${containerStyle.container}`}

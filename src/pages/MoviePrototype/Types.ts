@@ -16,7 +16,8 @@ interface StreamingObject {
 }
 interface SongInformationObject {
   title: string;
-  VOTitle: string;
+  VOTitle?: string;
+  duration: string;
   timecode: string;
   description: string;
   characters: string[];
@@ -26,8 +27,12 @@ interface SongInformationObject {
 interface MusicInformationObject {
   title: string;
   VOTitle: string;
-  timecode: string;
-  description: string;
+  duration: string;
+  timecode?: string;
+  description?: string;
+  characters?: string[];
+  videoID?: string;
+  lyrics?: string;
 }
 
 interface MovieObject {

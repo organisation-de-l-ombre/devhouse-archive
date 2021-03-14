@@ -39,6 +39,15 @@
   }
 }
 
+.opacity-display-animation {
+  animation: animate-opacity-display .5s;
+
+  @keyframes animate-opacity-display {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
 .rounded-picture { border-radius: 50%; }
 
 .border-radius { border-radius: 5px; }
