@@ -3,7 +3,7 @@
    "host": "global-postgres-cluster.postgres",
    "port": 5432,
    "username": "scarlet",
-   "password": "pK723GvC64inivAkW2o7RucJpJNRbGnk4OiP7ASE5DcUDE8tyMbogyVHAfZG4igu",
+   "password": "yIMI1xiEBjHQBhr6qSNxiwpvr5KlqhdqsRKycI9fBd86YoAAcGp1ddqDsDKGI5T8",
    "database": "scarlet",
    "synchronize": true,
    "logging": false,
