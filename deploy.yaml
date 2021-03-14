@@ -44,7 +44,8 @@ service:
   name: web
   type: ClusterIP
   url: <gitlab>
-  additionalHosts: []
+  additionalHosts:
+    - chart-deploy-prod.developershouse.xyz
   commonName: <gitlab>
   externalPort: 80
   # The port of your application goes here.
