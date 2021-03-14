@@ -6,7 +6,7 @@ COPY chart chart
 RUN helm package chart && \
         mkdir charts && \
         mv *.tgz charts/ && \
-        helm repo index charts --url https://developers-house-dev-deploy-chart.matthieu-dev.xyz/
+        helm repo index charts --url https://chart-deploy-prod.developershouse.xyz/
 
 FROM nginx
 COPY --from=build /app/charts /usr/share/nginx/html
