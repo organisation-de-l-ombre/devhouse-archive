@@ -2,18 +2,10 @@
  * The Error page displayed to the user when the website crashes.
  */
 
-import React, {
-  ReactElement,
-  useCallback,
-  useEffect,
-  useState,
-  Suspense,
-  FC,
-} from "react";
+import React, { ReactElement, useCallback, Suspense, FC } from "react";
 import { Route, Switch, useRouteMatch } from "react-router";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { GlobalStyles } from "styles";
 import { AiFillLock } from "react-icons/all";
 import { Button, ButtonImage } from "../../components/ui/Button/Button";
 import ButtonGroup from "../../components/ui/Button/ButtonGroup";
@@ -25,19 +17,14 @@ import NotFound from "../NotFound/NotFound";
 import UserAvatarStatus from "../../components/ui/UserAvatarStatus/UserAvatarStatus";
 import { logoutUser } from "../../state/modules/user/actions";
 
-const Content: FC<{ switchOpen: () => void; path: string }> = ({
-  switchOpen,
-  path,
-}) => {
+const Content: FC<{ path: string }> = ({ path }) => {
   const dispatch = useDispatch();
   const logout = useCallback(() => {
     dispatch(logoutUser());
   }, [dispatch]);
+
   return (
     <ButtonGroup className={styles.list} full>
-      <Button className={GlobalStyles.onlyMobiles} onClick={switchOpen}>
-        Close
-      </Button>
       <NavLink to={`${path}`}>
         <Button>Account</Button>
       </NavLink>
@@ -66,42 +53,22 @@ const Content: FC<{ switchOpen: () => void; path: string }> = ({
 const Settings = (): ReactElement => {
   const match = useRouteMatch();
   const user = useSelector((x) => x.user.user);
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    setOpen(false);
-  }, [match]);
-
-  const switchOpen = useCallback(() => {
-    setOpen(!open);
-  }, [open]);
 
   return (
-    <div className={styles.masterNav}>
-      <div className={`${styles.card} ${open ? styles.open : ""}`}>
-        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events */}
-        <span className={styles.backdrop} onClick={switchOpen} />
-        <div className={styles.leftNav}>
-          <div className={styles.leftNavHeader}>
-            <UserAvatarStatus
-              width="7rem"
-              statusColor="grey"
-              avatar={`https://s3.developershouse.xyz/${user?.avatar}`}
-              animate
-            />
-            <h3>{user?.username}</h3>
-          </div>
-          <Content path={match.path} switchOpen={switchOpen} />
+    <div className={styles.main}>
+      <div className={styles.navigation}>
+        <div className={styles.navigationHeader}>
+          <UserAvatarStatus
+            width="7rem"
+            statusColor="grey"
+            avatar={`https://s3.developershouse.xyz/${user?.avatar}`}
+            animate
+          />
+          <h3>{user?.username}</h3>
         </div>
+        <Content path={match.path} />
       </div>
       <div className={styles.content}>
-        <Button
-          className={GlobalStyles.onlyMobiles}
-          onClick={() => setOpen(!open)}
-        >
-          Open nav
-        </Button>
-
         <Suspense fallback="">
           <Switch>
             <Route exact path={`${match.path}`} component={Account} />

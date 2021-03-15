@@ -37,17 +37,19 @@ export type Client = {
 
 const useCriticalError = () => {
   const dispatch = useDispatch();
-  return useCallback((err) => {
-    console.log(err);
-    dispatch(
-      pushNotification({
-        level: "error",
-        text: "You got logged out. Your session expired.",
-        time: 5000,
-      })
-    );
-    dispatch(logoutUser());
-  }, [dispatch]);
+  return useCallback(
+    (err?: unknown) => {
+      dispatch(
+        pushNotification({
+          level: "error",
+          text: `You got logged out. ${err || "Session expired"}`,
+          time: 5000,
+        })
+      );
+      dispatch(logoutUser());
+    },
+    [dispatch]
+  );
 };
 
 const requestAuthorizedApps = async () => {

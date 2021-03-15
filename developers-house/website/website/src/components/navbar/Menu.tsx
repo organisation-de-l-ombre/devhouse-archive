@@ -1,5 +1,5 @@
 import React, { ReactElement, useState, useCallback, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTheme } from "state/modules/theme";
@@ -20,9 +20,10 @@ export function Menu(): ReactElement {
   const [open, setOpen] = useState<boolean>(false);
   const switchOpen = (): void => setOpen(!open);
   const dispatch = useDispatch();
+  const page = useLocation();
   const dark = useSelector((e) => e.theme.theme === "light");
 
-  const [transparent, setTransparent] = useState(false);
+  const [transparent, setTransparent] = useState(window.scrollY > 0);
 
   const switchOpenClick = () => {
     if (open) setOpen(false);
@@ -30,15 +31,19 @@ export function Menu(): ReactElement {
   };
 
   const listener = useCallback(() => {
-    const scroll = window.scrollY > 0;
-    setTransparent(!scroll);
-  }, []);
+    if (!page.pathname.includes("settings")) {
+      const scroll = window.scrollY > 0;
+      setTransparent(!scroll);
+    } else {
+      setTransparent(false);
+    }
+  }, [page]);
 
   useEffect(() => {
     listener();
     document.addEventListener("scroll", listener);
     return () => document.removeEventListener("scroll", listener);
-  }, [listener]);
+  }, [listener, page]);
 
   const userState = useSelector((s) => s.user);
   const { t } = useTranslation("layout");
