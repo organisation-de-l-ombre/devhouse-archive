@@ -25,25 +25,28 @@
 }
 
 .points {
-    padding: 1rem 1rem 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     overflow: hidden;
     border-radius: 10px;
-    div {
+    margin: 0.5rem;
+    .point {
         p {
             word-break: break-word;
         }
         max-width: content-box;
         flex: 1 38%;
-        padding: 1.75rem;
+        margin: 0.5rem;
     }
+}
+
+.section {
+    padding: 1rem 1rem 0;
 }
 
 .background {
     padding: 1.5rem;
-    margin: 1rem;
     display: block;
     border-radius: 5px;
     background-color: var(--background-secondary);
@@ -51,7 +54,8 @@
         display: block;
         word-break: break-all;
     }
-    margin-bottom: 3%;
+
+    margin: 1rem 1rem 0;
 }
 
 .contact {
