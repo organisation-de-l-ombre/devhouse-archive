@@ -27,6 +27,6 @@ h1,h2,h3,h4,h5 {
 }
 
 cloudflare-app[app="cf-auth-bar"] {
-    top: unset;
+    top: unset !important;
     bottom: 0;
 }
