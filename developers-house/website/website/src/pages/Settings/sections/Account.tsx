@@ -130,7 +130,9 @@ const Takeouts: FC = () => {
   if (error) {
     return (
       <TitleBox>
-        <p>{JSON.stringify(error)}</p>
+        <p>
+          {error.name}: {error.message} <br /> {error.stack}
+        </p>
       </TitleBox>
     );
   }

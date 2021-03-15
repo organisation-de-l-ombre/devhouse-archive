@@ -35,18 +35,18 @@ export type Client = {
   scopes: string[];
 };
 
-const useCriticalError = () => {
+export const useCriticalError = (): ((err: Error) => Error) => {
   const dispatch = useDispatch();
   return useCallback(
-    (err?: unknown) => {
+    (err?: Error) => {
       dispatch(
         pushNotification({
           level: "error",
-          text: `You got logged out. ${err || "Session expired"}`,
+          text: `Failed to communicate with the server. ${err?.message || ""}`,
           time: 5000,
         })
       );
-      dispatch(logoutUser());
+      return err || Error("Network error.");
     },
     [dispatch]
   );
@@ -88,7 +88,7 @@ mutation {
   return data.deleteAuthorizedClients;
 };
 
-export const useAuthorizedApps = (): QueryObserverResult<Client[], unknown> => {
+export const useAuthorizedApps = (): QueryObserverResult<Client[], Error> => {
   const criticalError = useCriticalError();
   return useQuery("authorized_apps", requestAuthorizedApps, {
     onError: criticalError,
@@ -101,6 +101,7 @@ export const useAuthorizedAppsDeleteMutation = (
   remove: UseMutateFunction<number>;
 } => {
   const client = useQueryClient();
+  const dispatch = useDispatch();
   const criticalError = useCriticalError();
   const { mutate } = useMutation<number>(
     "delete_authorized_apps",
@@ -117,12 +118,14 @@ export const useAuthorizedAppsDeleteMutation = (
       },
       onSuccess() {
         if (getClientId() === authorizedApp) {
-          criticalError();
+          dispatch(logoutUser());
         }
       },
       onError(err, variables, previousValue) {
         client.setQueryData("authorized_apps", previousValue);
-        criticalError(err);
+        if (err) {
+          criticalError(new Error(err as string));
+        }
       },
     }
   );
@@ -134,6 +137,7 @@ export const useAuthorizedAppsDeleteMutation = (
 
 export const useAuthorizedAppsAllDelete = (): UseMutateFunction => {
   const criticalError = useCriticalError();
+  const dispatch = useDispatch();
   const client = useQueryClient();
   const { mutate } = useMutation<number>(
     "delete_all_authorized_apps",
@@ -147,14 +151,14 @@ export const useAuthorizedAppsAllDelete = (): UseMutateFunction => {
       },
       onError(err, variables, previousValue) {
         client.setQueryData("authorized_apps", previousValue);
-        criticalError(err);
+        if (err) {
+          criticalError(new Error(err as string));
+        }
       },
       onSuccess() {
-        criticalError();
+        dispatch(logoutUser());
       },
     }
   );
   return mutate;
 };
-
-export default useAuthorizedApps;
