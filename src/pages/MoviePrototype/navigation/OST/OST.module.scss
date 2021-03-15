@@ -1,5 +1,27 @@
 .container {
-  .headers-buttons-margin { margin-top: 1.5rem; }
+  .headers-margin, p { margin-top: 1rem; }
+
+  .album-container {
+    display: flex;
+    flex-wrap: wrap;
+
+    .album-headers-margin { margin-top: 2rem; }
+
+    img {
+      margin-right: 2rem;
+      height: 256px;
+      pointer-events: none;
+      border-radius: 5px;
+      box-shadow: 0 0 1rem black;
+    }
+
+    .album-headers {
+      display: flex;
+      flex-direction: column;
+
+      .album-headers-margin-top { margin-top: 1.5rem; }
+    }
+  }
 
   .card-container {
     background-color: var(--primary-background-color);
@@ -7,14 +29,10 @@
     padding: 1.5rem;
     flex-direction: column;
 
-    h2 { color: var(--font-color-hover); }
-
     .vo-title {
       margin-top: .5rem;
 
       i { color: var(--font-color-hover); }
     }
-
-    p { margin-top: 1.5rem; }
   }
 }

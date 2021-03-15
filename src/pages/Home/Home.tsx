@@ -8,7 +8,7 @@ import buttonStyles from "../../components/Button/Button.module.scss";
 const Home = (): React.ReactElement => {
   return (
     <FlexContainer
-      className={`${flexContainerStyles.container} ${globalStyles["alignment-full-center"]}`}
+      className={`${flexContainerStyles.container} ${globalStyles["alignment-full-center"]} ${globalStyles["navbar-margin"]}`}
     >
       <NavLink
         to="/movies/title/tangled"

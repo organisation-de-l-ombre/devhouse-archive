@@ -23,6 +23,8 @@ hr {
 
 p, q { word-wrap: break-word; }
 
+p, q, span { font-size: 18px; }
+
 #app {
     max-width: 100%;
     min-height: 100vh;

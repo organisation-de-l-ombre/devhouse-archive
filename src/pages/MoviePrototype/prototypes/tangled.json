@@ -229,6 +229,20 @@
     ]
   },
   "ost": {
+    "album": {
+      "name": "Raiponce OST",
+      "coverURL": "https://cdn.discordapp.com/attachments/662419758695841801/821099553260175390/819LWDi8psL._SL1428_.jpg",
+      "interpreters": [
+        "Maéva Méline",
+        "Emmanuel Dahl",
+        "Sophie Delmas",
+        "Coralie Thuilier",
+        "David Krüger",
+        "Sara",
+        "Grace Potter",
+        "Alan Menken"
+      ]
+    },
     "streaming": [
       {
         "service": "Spotify",
@@ -329,6 +343,12 @@
         "description": "Récit des événements du film, en musique.",
         "videoID": "RwYmzU-ssr4",
         "lyrics": "https://genius.com/Sarah-bismuth-je-voudrais-lyrics"
+      },
+      {
+        "title": "Something that I want",
+        "duration": "2m 43s",
+        "description": "Version originale de \"Je voudrais\".",
+        "lyrics": "https://genius.com/Grace-potter-something-that-i-want-lyrics"
       }
     ],
     "music": [
@@ -337,7 +357,7 @@
         "VOTitle": "Prologue",
         "duration": "4m 30s",
         "timecode": "50s",
-        "description": "Flynn racontre l'histoire de la jeune Raiponce et de sa naissance. Sa mère étant malade, le roi et la population se mirent à chercher un remède miracle pour guérir la reine et le futur nouveau-né. Ils trouvent alors une fleur aux pétales d'or, qui a le pouvoir de guérir les maladies et les blessures. Cette fleur est gardée par Mère Gothel, vieille femme qui l'exploite pour conserver sa jeune éternellement. La reine fut guérie et donna naissance à Raiponce, une fille aux longs cheveux dorés. Gothel s'introduit une nuit dans le chateau et s'approche de Raiponce, dans le but de renouveller sa jeunesse, le pouvoir de la fleur ayant été conservés par la chevelure du nourisson. Voyant qu'en les coupant, les cheveux perdent leur pouvoir, Gothel enlèvent alors l'enfant, et l'enferme dans une tour isolée, à l'abris des regards.",
+        "description": "Flynn racontre l'histoire de la jeune Raiponce et de sa naissance. Sa mère étant malade, le roi et la population se mirent à chercher un remède miracle pour guérir la reine et le futur nouveau-né. Ils trouvent alors une fleur aux pétales d'or, qui a le pouvoir de guérir les maladies et les blessures. Cette fleur est gardée par Mère Gothel, vieille femme qui l'exploite pour conserver sa jeune éternellement. La reine fut guérie et donna naissance à Raiponce, une fille aux longs cheveux dorés. Gothel s'introduit une nuit dans le chateau et s'approche de Raiponce, dans le but de renouveller sa jeunesse, le pouvoir de la fleur ayant été conservé par la chevelure du nourisson. Voyant qu'en les coupant, les cheveux deviennent bruns et perdent leur pouvoir, Gothel enlève alors l'enfant, et l'enferme dans une tour isolée, à l'abris des regards.",
         "characters": [
           "Flynn",
           "Raiponce (enfant)",
@@ -377,14 +397,14 @@
         "VOTitle": "Waiting for the lights",
         "duration": "2m 47s",
         "timecode": "1h 4m 14s",
-        "description": "Raiponce et Flynn montent sur un bâteau. Il ne ne pas \"vouloir faire les choses à moitié\", puisqu'il s'agit du \"plus beau jour de sa vie\". La jeune ville lui avoue ses craintes, et le voleur s'empresse de la rassurer aussitôt. Le couple royal lancent une lanterne du château, dans l'espoit que cette année enfin, celle-ci parvienne à Raiponce. Toutes les autres lanternes sont alors lâchées par la population, des rues jusqu'au lac. Raiponce est alors en train de réaliser son rêve."
+        "description": "Raiponce et Flynn montent sur un bâteau. Il dit ne pas \"vouloir faire les choses à moitié\", puisqu'il s'agit du \"plus beau jour de sa vie\". La jeune fille lui avoue ses craintes, et le voleur s'empresse de la rassurer aussitôt. Le couple royal lance une lanterne du château, dans l'espoir que cette année enfin, celle-ci parvienne à Raiponce. Toutes les autres lanternes sont alors lâchées par la population, des rues jusqu'au lac. Raiponce est alors en train de réaliser son rêve."
       },
       {
         "title": "Les retrouvailles avec maman",
         "VOTitle": "Return to mother",
         "duration": "2m 6s",
         "timecode": "1h 10m 35s",
-        "description": "Flynn s'apprêtant à embrasser Raiponce, son acte se voit freiné lorsqu'il aperçoit les frères Stabbingtons. Pour éviter les histoires, il décide de leur rendre la couronne volée et de s'en aller, mais les deux frères l'en empêchent. Ils l'attachent sur un bâteau et font croire à Raipince qu'il l'a abandonnée. Elle a à peine le temps de pleurer qu'ils veulent la kidnapper pour se servir du pouvoir de ses cheveux. Elle s'enfuit alors, mais ses cheveux se coincent dans une branche. Gothel vient à sa \"rescousse\". La jeune fille se jette soudainement dans ses bras, effondrée et en larmes."
+        "description": "Flynn s'apprêtant à embrasser Raiponce, son acte se voit freiné lorsqu'il aperçoit les frères Stabbingtons au loin, le bord du lac. Pour éviter les histoires, il décide de leur rendre la couronne volée et de s'en aller, mais les deux frères l'en empêchent. Ils l'attachent sur un bâteau et font croire à Raipince qu'il l'a abandonnée. Elle a à peine le temps de pleurer qu'ils veulent la kidnapper pour se servir du pouvoir de ses cheveux. Elle s'enfuit alors, mais ses cheveux se coincent dans une branche. Gothel vient à sa \"rescousse\". La jeune fille se jette soudainement dans ses bras, effondrée et en larmes."
       },
       {
         "title": "Prise de conscience et évasion",

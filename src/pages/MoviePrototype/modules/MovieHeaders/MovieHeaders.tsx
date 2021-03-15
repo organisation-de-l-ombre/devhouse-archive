@@ -75,12 +75,12 @@ const MovieHeaders: React.FC<
             ) : (
               <></>
             )}
-            <div className={styles.tags}>
+            <div className={containerStyle["headers-buttons"]}>
               {dataResponse.type.map(
                 (type: string): React.ReactElement => {
                   return (
                     <NavLink key={type} to={`/movies/tags/${type}`}>
-                      {type}
+                      <span>{type}</span>
                     </NavLink>
                   );
                 }

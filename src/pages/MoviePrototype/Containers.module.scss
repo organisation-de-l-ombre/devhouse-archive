@@ -3,6 +3,8 @@
   width: calc(100% - 20rem);
   flex-direction: column;
 
+  h1, h2 { color: var(--font-color-hover); }
+
   .summary { max-width: 20rem; }
 
   @media screen and (max-width: 1250px) {
@@ -20,12 +22,14 @@
   display: flex;
   flex-wrap: wrap;
 
-  button {
+  a, button {
     margin: 1rem 1rem 0 0;
     padding: .5rem;
+    border-radius: 5px;
     border: .150rem solid var(--font-color-hover);
     display: flex;
     align-items: center;
+    background-color: var(--primary-background-color);
 
     svg {
       margin-right: .5rem;

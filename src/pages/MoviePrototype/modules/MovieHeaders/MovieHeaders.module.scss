@@ -35,25 +35,6 @@
       flex-direction: column;
 
       h3, p { margin-top: 1rem; }
-
-      .tags {
-        display: flex;
-        flex-wrap: wrap;
-
-        a {
-          margin: 1rem 1rem 0 0;
-          padding: .5rem;
-          background-color: var(--primary-background-color);
-          border-radius: 5px;
-          border: .150rem solid var(--font-color-hover);
-          transition: .5s;
-
-          &:hover {
-            color: var(--font-color-hover);
-            transition: .5s;
-          }
-        }
-      }
     }
 
     @media screen and (max-width: 700px) {

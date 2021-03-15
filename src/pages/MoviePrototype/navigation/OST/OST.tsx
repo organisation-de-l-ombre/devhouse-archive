@@ -69,22 +69,37 @@ const OST: React.FC<
           className={`${flexContainerStyles.container} ${globalStyles.column} ${containerStyle["generic-margin-top"]}`}
         >
           <h1>Accès aux bandes originales</h1>
-          <div
-            className={`${containerStyle["headers-buttons"]} ${styles["headers-buttons-margin"]}`}
-          >
-            {dataResponse.ost.streaming.map(
-              (streaming: StreamingObject): React.ReactElement => {
-                return (
-                  <Button
-                    key={streaming.service}
-                    onClick={() => window.open(streaming.album)}
-                  >
-                    <DisplaySVG type={streaming.service} />
-                    <span>Ecouter sur {streaming.service}</span>
-                  </Button>
-                );
-              }
-            )}
+          <div className={styles["album-container"]}>
+            <img
+              src={dataResponse.ost.album.coverURL}
+              alt={dataResponse.ost.album.name}
+              className={styles["album-headers-margin"]}
+            />
+            <div
+              className={`${styles["album-headers"]} ${styles["album-headers-margin"]}`}
+            >
+              <h2>{dataResponse.ost.album.name}</h2>
+              <p className={styles["album-headers-margin-top"]}>
+                {dataResponse.ost.album.interpreters.join(", ")}
+              </p>
+              <div className={containerStyle["headers-buttons"]}>
+                {dataResponse.ost.streaming.map(
+                  (streaming: StreamingObject): React.ReactElement => {
+                    return (
+                      <a
+                        key={streaming.service}
+                        href={streaming.album}
+                        target="blank"
+                        className={styles["album-headers-margin-top"]}
+                      >
+                        <DisplaySVG type={streaming.service} />
+                        <span>Ecouter sur {streaming.service}</span>
+                      </a>
+                    );
+                  }
+                )}
+              </div>
+            </div>
           </div>
         </FlexContainer>
         <FlexContainer
@@ -107,7 +122,7 @@ const OST: React.FC<
                   ) : (
                     <></>
                   )}
-                  <p>Durée: {song.duration}</p>
+                  <p>Durée : {song.duration}</p>
                   {song.timecode ? (
                     <p>Timeline dans le film : {song.timecode}</p>
                   ) : (
@@ -134,22 +149,30 @@ const OST: React.FC<
                     <div
                       className={`${containerStyle["headers-buttons"]} ${styles["headers-buttons-margin"]}`}
                     >
-                      <Button
-                        onClick={() => {
-                          setVideo({
-                            title: `Raiponce - ${song.title}`,
-                            videoID: song.videoID as string,
-                          });
-                          setPlayerOpen(!playerOpen);
-                        }}
-                      >
-                        <FaPlay />
-                        <span>Voir la vidéo</span>
-                      </Button>
-                      <Button onClick={() => window.open(song.lyrics)}>
-                        <FaMusic />
-                        <span>Paroles</span>
-                      </Button>
+                      {song.videoID ? (
+                        <Button
+                          onClick={() => {
+                            setVideo({
+                              title: `Raiponce - ${song.title}`,
+                              videoID: song.videoID as string,
+                            });
+                            setPlayerOpen(!playerOpen);
+                          }}
+                        >
+                          <FaPlay />
+                          <span>Voir la vidéo</span>
+                        </Button>
+                      ) : (
+                        <></>
+                      )}
+                      {song.lyrics ? (
+                        <a href={song.lyrics} target="blank">
+                          <FaMusic />
+                          <span>Paroles</span>
+                        </a>
+                      ) : (
+                        <></>
+                      )}
                     </div>
                   ) : (
                     <></>
@@ -179,7 +202,7 @@ const OST: React.FC<
                   ) : (
                     <></>
                   )}
-                  <p>Durée: {song.duration}</p>
+                  <p>Durée : {song.duration}</p>
                   {song.timecode ? (
                     <p>Timeline dans le film : {song.timecode}</p>
                   ) : (

@@ -63,6 +63,11 @@ interface MovieObject {
     extras: VideoObject[];
   };
   ost: {
+    album: {
+      name: string;
+      coverURL: string;
+      interpreters: string[];
+    };
     streaming: StreamingObject[];
     songs: SongInformationObject[];
     music: MusicInformationObject[];
