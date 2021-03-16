@@ -1,16 +1,16 @@
 import React from "react";
 import styles from "./Movie.module.scss";
 import containerStyle from "../../Containers.module.scss";
-import flexContainerStyles from "../../../../components/FlexContainer/FlexContainer.module.scss";
-import listStyles from "../../../../components/List/List.module.scss";
-import FlexContainer from "../../../../components/FlexContainer/FlexContainer";
+import flexContainerStyles from "../../../../components/ui/FlexContainer/FlexContainer.module.scss";
+import listStyles from "../../../../components/ui/List/List.module.scss";
+import FlexContainer from "../../../../components/ui/FlexContainer/FlexContainer";
 import {
   Item,
   SubSummary,
   Summary,
-} from "../../../../components/Summary/Summary";
-import DetailledText from "../../../../components/DetailledText/DetailledText";
-import List from "../../../../components/List/List";
+} from "../../../../components/ui/Summary/Summary";
+import DetailledText from "../../../../components/ui/DetailledText/DetailledText";
+import List from "../../../../components/ui/List/List";
 import { MovieObject, UniverseObject } from "../../Types";
 
 const MoviePage: React.FC<

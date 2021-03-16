@@ -1,14 +1,15 @@
 import React from "react";
 import { Switch, useRouteMatch, Route } from "react-router";
-import Suspense from "../../../../components/Suspense/Suspense";
+import Suspense from "../../../../components/modules/Suspense/Suspense";
 import Movie from "../../navigation/Movie/Movie";
-import NotFound from "../../../../components/NotFound/NotFound";
+import NotFound from "../../../../components/modules/NotFound/NotFound";
 import Videos from "../../navigation/Videos/Videos";
 import { MovieObject } from "../../Types";
 import OST from "../../navigation/OST/OST";
-import FlexContainer from "../../../../components/FlexContainer/FlexContainer";
-import flexContainerStyles from "../../../../components/FlexContainer/FlexContainer.module.scss";
+import FlexContainer from "../../../../components/ui/FlexContainer/FlexContainer";
+import flexContainerStyles from "../../../../components/ui/FlexContainer/FlexContainer.module.scss";
 import styles from "./MovieRouter.module.scss";
+import Casting from "../../navigation/Casting/Casting";
 
 const MovieRouter: React.FC<{ dataResponse: MovieObject }> = ({
   dataResponse,
@@ -28,6 +29,9 @@ const MovieRouter: React.FC<{ dataResponse: MovieObject }> = ({
       <Switch>
         <Route path={baseURL} exact>
           <Movie dataResponse={dataResponse} />
+        </Route>
+        <Route path={`${baseURL}/casting`} exact>
+          <Casting dataResponse={dataResponse} />
         </Route>
         <Route path={`${baseURL}/videos`} exact>
           <Videos dataResponse={dataResponse} />

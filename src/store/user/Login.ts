@@ -9,7 +9,7 @@ const fetchClientID = async () => {
   clientID = id;
   clientIDPromise = null;
 
-  localForage.setItem("client-id", clientID);
+  await localForage.setItem("client-id", clientID);
 };
 const generateCodeChallenge = async (code: string): Promise<string> => {
   const digest = await crypto.subtle.digest(
@@ -25,11 +25,11 @@ const generateCodeChallenge = async (code: string): Promise<string> => {
     .replace(/\//g, "_");
 };
 
-localForage.getItem("client-id").then((res) => {
+localForage.getItem("client-id").then(async (res) => {
   if (!res) {
     if (process.env.NODE_ENV === "development") {
-      clientID = "8dc341e3-06f1-4b83-9dda-18f139e55dc8";
-      localForage.setItem("client-id", clientID);
+      clientID = "fee7548d-f79f-48ff-b454-d635bcfabca5";
+      await localForage.setItem("client-id", clientID);
     } else {
       clientIDPromise = fetchClientID();
     }
@@ -55,7 +55,8 @@ const manageAuth = async (): Promise<void> => {
   const audience = "imr abdera";
   const codeVerifier = randomBytes(32).toString("hex");
 
-  localForage.setItem("code-verifier", codeVerifier);
+  await localForage.setItem("code-verifier", codeVerifier);
+
   const codeChallenge = await generateCodeChallenge(codeVerifier);
 
   document.location.href = `http://auth-server.developershouse.xyz/oauth2/auth?response_type=code&client_id=${encodeURIComponent(

@@ -1,8 +1,8 @@
 import { AiOutlineLoading } from "react-icons/ai";
 import React from "react";
-import FlexContainer from "../FlexContainer/FlexContainer";
-import flexContainerStyles from "../FlexContainer/FlexContainer.module.scss";
-import globalStyles from "../../themes/Global.module.scss";
+import FlexContainer from "../../ui/FlexContainer/FlexContainer";
+import flexContainerStyles from "../../ui/FlexContainer/FlexContainer.module.scss";
+import globalStyles from "../../../themes/Global.module.scss";
 import styles from "./Suspense.module.scss";
 
 const Suspense = (): React.ReactElement => {

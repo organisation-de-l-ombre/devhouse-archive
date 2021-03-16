@@ -3,22 +3,22 @@ import { FaMoon, FaSun, FaUser, MdLocalMovies, FaBell } from "react-icons/all";
 import { NavLink } from "react-router-dom";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
-import generateNotificationID from "../../utilities/generateNotificationID";
-import globalStyles from "../../themes/Global.module.scss";
-import i18n from "../../languages/i18n";
-import modalStyles from "../Modal/Modal.module.scss";
+import generateNotificationID from "../../../utilities/generateNotificationID";
+import globalStyles from "../../../themes/Global.module.scss";
+import i18n from "../../../languages/i18n";
+import modalStyles from "../../ui/Modal/Modal.module.scss";
 import styles from "./Navbar.module.scss";
-import Button from "../Button/Button";
-import Image from "../Image/Image";
-import { getAvatar } from "../../store/user/Login";
-import { supportedLanguages } from "../../store/language/Types";
-import Modal from "../Modal/Modal";
-import useLanguage from "../../hooks/Language";
-import useTheme from "../../hooks/Theme";
-import useUser from "../../hooks/User";
-import SelectList, { manageSelection } from "../SelectList/SelectList";
-import NotificationsModal from "../Notifications/NotificationsModal/NotificationsModal";
-import { useNotificationsManager } from "../../hooks/Notifications";
+import Button from "../../ui/Button/Button";
+import Image from "../../ui/Image/Image";
+import { getAvatar } from "../../../store/user/Login";
+import { supportedLanguages } from "../../../store/language/Types";
+import Modal from "../../ui/Modal/Modal";
+import useLanguage from "../../../hooks/Language";
+import useTheme from "../../../hooks/Theme";
+import useUser from "../../../hooks/User";
+import SelectList, { manageSelection } from "../../ui/SelectList/SelectList";
+import NotificationsModal from "../../ui/Notifications/NotificationsModal/NotificationsModal";
+import { useNotificationsManager } from "../../../hooks/Notifications";
 
 const useNavbar = () => {
   const [open, setOpen] = React.useState<boolean>(false);
@@ -34,7 +34,7 @@ const DisplaySVG: React.FC<
   React.ImgHTMLAttributes<HTMLImageElement> & { alt: string; lang: string }
 > = ({ alt, lang, ...props }) => {
   const { default: image } = React.useMemo(
-    () => require(`../../assets/pictures/locales/${lang}.svg`),
+    () => require(`../../../assets/pictures/locales/${lang}.svg`),
     [lang]
   );
 

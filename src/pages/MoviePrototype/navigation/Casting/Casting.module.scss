@@ -1,0 +1,25 @@
+.cards-container {
+  flex-wrap: wrap;
+
+  .card-container {
+    margin: 2rem 2rem 0 0;
+    padding: 1.5rem;
+    min-width: 15rem;
+    background-color: var(--primary-background-color);
+    flex: 1;
+    flex-direction: column;
+
+    img {
+      pointer-events: none;
+      width: 80px;
+      height: 80px;
+    }
+
+    div {
+      display: flex;
+      flex-direction: column;
+
+      h2, p { margin-top: 1rem; }
+    }
+  }
+}

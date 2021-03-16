@@ -7,17 +7,17 @@ import {
   GoVerified,
   IoIosLogOut,
 } from "react-icons/all";
-import FlexContainer from "../../components/FlexContainer/FlexContainer";
-import buttonStyles from "../../components/Button/Button.module.scss";
-import flexContainerStyles from "../../components/FlexContainer/FlexContainer.module.scss";
+import FlexContainer from "../../components/ui/FlexContainer/FlexContainer";
+import buttonStyles from "../../components/ui/Button/Button.module.scss";
+import flexContainerStyles from "../../components/ui/FlexContainer/FlexContainer.module.scss";
 import globalStyles from "../../themes/Global.module.scss";
 import styles from "./Account.module.scss";
-import Image from "../../components/Image/Image";
-import ButtonsGroup from "../../components/ButtonsGroup/ButtonsGroup";
-import Suspense from "../../components/Suspense/Suspense";
-import NotFound from "../../components/NotFound/NotFound";
+import Image from "../../components/ui/Image/Image";
+import ButtonsGroup from "../../components/ui/ButtonsGroup/ButtonsGroup";
+import Suspense from "../../components/modules/Suspense/Suspense";
+import NotFound from "../../components/modules/NotFound/NotFound";
 import AccountModule from "./modules/Account/Account";
-import Button from "../../components/Button/Button";
+import Button from "../../components/ui/Button/Button";
 import { getAvatar } from "../../store/user/Login";
 import useUser from "../../hooks/User";
 

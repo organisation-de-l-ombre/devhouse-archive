@@ -9,7 +9,7 @@ import App from "./pages/App";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import "./languages/i18n";
-import Suspense from "./components/Suspense/Suspense";
+import Suspense from "./components/modules/Suspense/Suspense";
 import { store, persistor } from "./store/Store";
 
 init({

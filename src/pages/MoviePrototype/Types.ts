@@ -33,7 +33,16 @@ interface MusicInformationObject {
   characters?: string[];
   lyrics?: string;
 }
-
+interface CharacterObject {
+  imageURL?: string;
+  name: string;
+  role: string;
+}
+interface CastingObject {
+  title: string;
+  id: string;
+  items: CharacterObject[];
+}
 interface MovieObject {
   title: string;
   internalTitle: string;
@@ -56,6 +65,7 @@ interface MovieObject {
     universe: UniverseObject[];
     distinctions: string[];
   };
+  casting: CastingObject[];
   videos: {
     trailers: TrailerObject[];
     songs: VideoObject[];
@@ -82,4 +92,6 @@ export {
   StreamingObject,
   SongInformationObject,
   MusicInformationObject,
+  CharacterObject,
+  CastingObject,
 };

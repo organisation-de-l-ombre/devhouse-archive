@@ -6,8 +6,8 @@ import {
   FaWindowClose,
 } from "react-icons/all";
 import { CSSTransition } from "react-transition-group";
-import { NotificationObject } from "../../../store/notifications/Types";
-import { useNotificationsManager } from "../../../hooks/Notifications";
+import { NotificationObject } from "../../../../store/notifications/Types";
+import { useNotificationsManager } from "../../../../hooks/Notifications";
 import styles from "./Notification.module.scss";
 import Button from "../../Button/Button";
 import "./Animations.scss";

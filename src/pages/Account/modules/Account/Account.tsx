@@ -4,7 +4,7 @@ import { randomBytes } from "crypto";
 import { User } from "../../../../account/Types";
 import UserContext from "../../../../account/UserContext";
 */
-import FlexContainer from "../../../../components/FlexContainer/FlexContainer";
+import FlexContainer from "../../../../components/ui/FlexContainer/FlexContainer";
 
 const Account = (): React.ReactElement => {
   /*

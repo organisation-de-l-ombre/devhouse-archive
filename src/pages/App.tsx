@@ -11,16 +11,18 @@ import {
   useNotificationsState,
   useNotificationsManager,
 } from "../hooks/Notifications";
-import NotificationsModal from "../components/Notifications/NotificationsModal/NotificationsModal";
-import NotificationsGroup from "../components/Notifications/NotificationsGroup/NotificationsGroup";
+import NotificationsModal from "../components/ui/Notifications/NotificationsModal/NotificationsModal";
+import NotificationsGroup from "../components/ui/Notifications/NotificationsGroup/NotificationsGroup";
 
-const Navbar = React.lazy(() => import("../components/Navbar/Navbar"));
+const Navbar = React.lazy(() => import("../components/modules/Navbar/Navbar"));
 const Home = React.lazy(() => import("./Home/Home"));
 const Account = React.lazy(() => import("./Account/Account"));
 const Callback = React.lazy(() => import("./Callback/Callback"));
 const MovieRoot = React.lazy(() => import("./MoviePrototype/MovieRoot"));
-const NotFound = React.lazy(() => import("../components/NotFound/NotFound"));
-const Footer = React.lazy(() => import("../components/Footer/Footer"));
+const NotFound = React.lazy(
+  () => import("../components/modules/NotFound/NotFound")
+);
+const Footer = React.lazy(() => import("../components/modules/Footer/Footer"));
 
 const App = (): React.ReactElement => {
   const { theme } = useTheme();

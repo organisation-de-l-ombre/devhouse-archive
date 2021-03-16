@@ -3,11 +3,11 @@ import { NavLink } from "react-router-dom";
 import { FaPlay, MdMovie } from "react-icons/all";
 import styles from "./MovieHeaders.module.scss";
 import containerStyle from "../../Containers.module.scss";
-import FlexContainer from "../../../../components/FlexContainer/FlexContainer";
-import flexContainerStyles from "../../../../components/FlexContainer/FlexContainer.module.scss";
+import FlexContainer from "../../../../components/ui/FlexContainer/FlexContainer";
+import flexContainerStyles from "../../../../components/ui/FlexContainer/FlexContainer.module.scss";
 import globalStyles from "../../../../themes/Global.module.scss";
-import Button from "../../../../components/Button/Button";
-import YouTubePlayer from "../../../../components/YouTubePlayer/YouTubePlayer";
+import Button from "../../../../components/ui/Button/Button";
+import YouTubePlayer from "../../../../components/ui/YouTubePlayer/YouTubePlayer";
 import { MovieObject, TrailerObject } from "../../Types";
 
 const MovieHeaders: React.FC<

@@ -3,8 +3,8 @@ import { useTranslation, Trans } from "react-i18next";
 import { FaDiscord, FaInstagram, FaTwitter } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import styles from "./Footer.module.scss";
-import Image from "../Image/Image";
-import IMRLogo from "../../assets/pictures/imr/imr-full.png";
+import Image from "../../ui/Image/Image";
+import IMRLogo from "../../../assets/pictures/imr/imr-full.png";
 
 const Footer = (): React.ReactElement => {
   const { t } = useTranslation("components\\footer");

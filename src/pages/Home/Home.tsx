@@ -1,9 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import FlexContainer from "../../components/FlexContainer/FlexContainer";
-import flexContainerStyles from "../../components/FlexContainer/FlexContainer.module.scss";
+import FlexContainer from "../../components/ui/FlexContainer/FlexContainer";
+import flexContainerStyles from "../../components/ui/FlexContainer/FlexContainer.module.scss";
 import globalStyles from "../../themes/Global.module.scss";
-import buttonStyles from "../../components/Button/Button.module.scss";
+import buttonStyles from "../../components/ui/Button/Button.module.scss";
 
 const Home = (): React.ReactElement => {
   return (

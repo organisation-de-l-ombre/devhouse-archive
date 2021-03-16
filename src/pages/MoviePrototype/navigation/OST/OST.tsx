@@ -4,10 +4,10 @@ import { FaMusic } from "react-icons/fa";
 import { FaPlay } from "react-icons/all";
 import styles from "./OST.module.scss";
 import containerStyle from "../../Containers.module.scss";
-import flexContainerStyles from "../../../../components/FlexContainer/FlexContainer.module.scss";
-import cardStyles from "../../../../components/Card/Card.module.scss";
+import flexContainerStyles from "../../../../components/ui/FlexContainer/FlexContainer.module.scss";
+import cardStyles from "../../../../components/ui/Card/Card.module.scss";
 import globalStyles from "../../../../themes/Global.module.scss";
-import FlexContainer from "../../../../components/FlexContainer/FlexContainer";
+import FlexContainer from "../../../../components/ui/FlexContainer/FlexContainer";
 import {
   MovieObject,
   MusicInformationObject,
@@ -16,10 +16,10 @@ import {
   TrailerObject,
   VideoObject,
 } from "../../Types";
-import { Summary, Item } from "../../../../components/Summary/Summary";
-import Button from "../../../../components/Button/Button";
-import Card from "../../../../components/Card/Card";
-import YouTubePlayer from "../../../../components/YouTubePlayer/YouTubePlayer";
+import { Summary, Item } from "../../../../components/ui/Summary/Summary";
+import Button from "../../../../components/ui/Button/Button";
+import Card from "../../../../components/ui/Card/Card";
+import YouTubePlayer from "../../../../components/ui/YouTubePlayer/YouTubePlayer";
 
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 const DisplaySVG = ({ type }: { type: string }): any => {

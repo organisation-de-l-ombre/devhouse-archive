@@ -1,12 +1,12 @@
 import React from "react";
 import { useTranslation, Trans } from "react-i18next";
 import { NavLink } from "react-router-dom";
-import Card from "../Card/Card";
-import cardStyles from "../Card/Card.module.scss";
-import flexContainerStyles from "../FlexContainer/FlexContainer.module.scss";
-import globalStyles from "../../themes/Global.module.scss";
+import Card from "../../ui/Card/Card";
+import cardStyles from "../../ui/Card/Card.module.scss";
+import flexContainerStyles from "../../ui/FlexContainer/FlexContainer.module.scss";
+import globalStyles from "../../../themes/Global.module.scss";
 import styles from "./NotFound.module.scss";
-import FlexContainer from "../FlexContainer/FlexContainer";
+import FlexContainer from "../../ui/FlexContainer/FlexContainer";
 
 const NotFound = (): React.ReactElement => {
   const { t } = useTranslation("components\\notFound");

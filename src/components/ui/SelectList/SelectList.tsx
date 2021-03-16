@@ -1,7 +1,7 @@
 import React from "react";
 import { TiArrowSortedDown } from "react-icons/all";
 import styles from "./SelectList.module.scss";
-import globalStyles from "../../themes/Global.module.scss";
+import globalStyles from "../../../themes/Global.module.scss";
 
 const manageSelection = (id: string, display: "flex" | "none"): void => {
   const item = document.getElementById(id);

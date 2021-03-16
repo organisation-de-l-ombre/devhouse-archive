@@ -1,10 +1,10 @@
 import React from "react";
 import styles from "./Videos.module.scss";
 import containerStyle from "../../Containers.module.scss";
-import flexContainerStyles from "../../../../components/FlexContainer/FlexContainer.module.scss";
-import FlexContainer from "../../../../components/FlexContainer/FlexContainer";
-import { Item, Summary } from "../../../../components/Summary/Summary";
-import YouTubePlayer from "../../../../components/YouTubePlayer/YouTubePlayer";
+import flexContainerStyles from "../../../../components/ui/FlexContainer/FlexContainer.module.scss";
+import FlexContainer from "../../../../components/ui/FlexContainer/FlexContainer";
+import { Item, Summary } from "../../../../components/ui/Summary/Summary";
+import YouTubePlayer from "../../../../components/ui/YouTubePlayer/YouTubePlayer";
 import { MovieObject, TrailerObject, VideoObject } from "../../Types";
 
 const Videos: React.FC<

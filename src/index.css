@@ -25,6 +25,14 @@ p, q { word-wrap: break-word; }
 
 p, q, span { font-size: 18px; }
 
+::-webkit-scrollbar { width: 8px; }
+
+::-webkit-scrollbar-track { background: rgb(140, 140, 140); }
+
+::-webkit-scrollbar-thumb {
+    background-color: rgb(230, 85, 85);
+}
+
 #app {
     max-width: 100%;
     min-height: 100vh;
