@@ -1,6 +1,6 @@
 {
   "title": "Erreur 404",
-  "description": "Il semble que l'URL que vous avez demandée sur le site web n'existe pas... Veuillez revérifier l'URL, ou naviguez juste par l'intermédiaire des liens fournis sur les pages web. Si le problème persiste, rendez-vous sur la page de support.",
-  "supportPage": "Page de support",
-  "homePage": "Retourner à la page d'accueil"
+  "description": "Il semble que l'URL demandée n'est pas accessible. Veuillez la vérifier et réessayez ensuite.",
+  "homePage": "Page d'accueil",
+  "supportPage": "Page de support"
 }

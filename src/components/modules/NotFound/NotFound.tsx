@@ -26,11 +26,11 @@ const NotFound = (): React.ReactElement => {
           <Trans t={t} i18nKey="description" />
         </p>
         <div className={styles["buttons-container"]}>
-          <NavLink to="/">
-            <Trans t={t} i18nKey="homePage" />
-          </NavLink>
           <NavLink to="/support">
             <Trans t={t} i18nKey="supportPage" />
+          </NavLink>
+          <NavLink to="/">
+            <Trans t={t} i18nKey="homePage" />
           </NavLink>
         </div>
       </Card>

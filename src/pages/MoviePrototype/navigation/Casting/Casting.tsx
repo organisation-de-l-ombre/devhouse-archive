@@ -4,7 +4,12 @@ import containerStyle from "../../Containers.module.scss";
 import flexContainerStyles from "../../../../components/ui/FlexContainer/FlexContainer.module.scss";
 import cardStyles from "../../../../components/ui/Card/Card.module.scss";
 import globalStyles from "../../../../themes/Global.module.scss";
-import { CastingObject, CharacterObject, MovieObject } from "../../Types";
+import {
+  CastingObject,
+  CharacterObject,
+  MovieObject,
+  SummaryObject,
+} from "../../Types";
 import FlexContainer from "../../../../components/ui/FlexContainer/FlexContainer";
 import { Item, Summary } from "../../../../components/ui/Summary/Summary";
 import Card from "../../../../components/ui/Card/Card";
@@ -21,14 +26,18 @@ const Casting: React.FC<
       className={`${flexContainerStyles.container} ${containerStyle.container}`}
     >
       <Summary className={containerStyle.summary}>
-        <Item to="#realization" name="Réalisation" />
-        <Item to="#storyline" name="Scénario" />
-        <Item to="#vf_dubbing" name="Doublage (VF)" />
-        <Item to="vo_dubbing" name="Doublage (VO)" />
-        <Item to="#ost" name="Bande originale" />
-        <Item to="#technical-staff" name="Equipe technique" />
+        {dataResponse.casting.summary.map(
+          (item: SummaryObject): React.ReactElement => {
+            switch (item.type) {
+              case "item":
+                return <Item key={item.name} to={item.to} name={item.name} />;
+              default:
+                return <></>;
+            }
+          }
+        )}
       </Summary>
-      {dataResponse.casting.map(
+      {dataResponse.casting.body.map(
         (casting: CastingObject): React.ReactElement => {
           return (
             <FlexContainer

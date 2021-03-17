@@ -1,6 +1,6 @@
 {
   "title": "404 error",
-  "description": "It looks like the URL you requested on the website doesn't exist... Please check again the URL, or just navigate by the way of provided links on website pages. If the issue persists, go on the support page.",
-  "supportPage": "Support page",
-  "homePage": "Go to home"
+  "description": "It seems the URL you requested is not reachable. Please verify it and then try again.",
+  "homePage": "Home page",
+  "supportPage": "Support page"
 }

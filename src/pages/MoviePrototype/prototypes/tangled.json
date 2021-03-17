@@ -80,284 +80,313 @@
       "Oscar de la meilleure chanson originale."
     ]
   },
-  "casting": [
-    {
-      "title": "Réalisation",
-      "id": "realization",
-      "items": [
-        {
-          "name": "Byron Howard",
-          "role": "Réalisateur"
-        },
-        {
-          "name": "Nathan Greno",
-          "role": "Réalisateur"
-        },
-        {
-          "name": "Roy Conli",
-          "role": "Producteur"
-        }
-      ]
-    },
-    {
-      "title": "Scénario",
-      "id": "storyline",
-      "items": [
-        {
-          "name": "Dan Fogelman",
-          "role": "Scénariste"
-        },
-        {
-          "name": "Barbara Tissier",
-          "role": "Dialoguiste"
-        },
-        {
-          "name": "Houria Belhadji",
-          "role": "Adaptatrice"
-        }
-      ]
-    },
-    {
-      "title": "Doublage (version française)",
-      "id": "vf_dubbing",
-      "items": [
-        {
-          "name": "Maéva Méline",
-          "role": "Raiponce"
-        },
-        {
-          "name": "Cassidy Hanson-Smith",
-          "role": "Raiponce (enfant)"
-        },
-        {
-          "name": "Coralie Thuilier",
-          "role": "Raiponce (adolescente)"
-        },
-        {
-          "name": "Romain Duris",
-          "role": "Flynn Rider / Eugène Fitzherbert"
-        },
-        {
-          "name": "Emmanuel Dahl",
-          "role": "Flynn Rider / Eugène Fitzherbert (chant)"
-        },
-        {
-          "name": "Isabelle Adjani",
-          "role": "Mère Gothel"
-        },
-        {
-          "name": "Sophie Delmas",
-          "role": "Mère gothel (chant)"
-        },
-        {
-          "name": "Philippe Dumond",
-          "role": "La main froide"
-        },
-        {
-          "name": "David Krüger",
-          "role": "La main froide (chant)"
-        },
-        {
-          "name": "Pierrre Margot, Serge Biavan",
-          "role": "Les frères Stabbington"
-        },
-        {
-          "name": "Raphaël Cimolino",
-          "role": "Vladimir"
-        },
-        {
-          "name": "Xavier Fagnon",
-          "role": "L'amoureux"
-        },
-        {
-          "name": "Pierre-François Pistorio",
-          "role": "Le satyre"
-        },
-        {
-          "name": "Alexandre Cross",
-          "role": "Le capitaine de la garde"
-        },
-        {
-          "name": "Sarah Bismuth",
-          "role": "Chanteuse du générique de fin"
-        }
-      ]
-    },
-    {
-      "title": "Doublage (version originale)",
-      "id": "vo_dubbing",
-      "items": [
-        {
-          "name": "Mandy Moore",
-          "role": "Raiponce"
-        },
-        {
-          "name": "Delaney Rose Stein",
-          "role": "Raiponce (enfant)"
-        },
-        {
-          "name": "Zachary Levi",
-          "role": "Flynn Rider / Eugène Fitzherbert"
-        },
-        {
-          "name": "Donna Murphy",
-          "role": "Mère Gothel"
-        },
-        {
-          "name": "Brad Garrett",
-          "role": "La main froide"
-        },
-        {
-          "name": "Ron Perlman",
-          "role": "Les frères Stabbington"
-        },
-        {
-          "name": "Richard Kiel",
-          "role": "Vladimir"
-        },
-        {
-          "name": "Jeffrey Tambor",
-          "role": "L'amoureux"
-        },
-        {
-          "name": "Paul Francis Tompkins",
-          "role": "Le satyre"
-        },
-        {
-          "name": "Mike Connor Gainey",
-          "role": "Le capitaine de la garde"
-        },
-        {
-          "name": "Grace Potter",
-          "role": "Chanteuse du générique de fin"
-        }
-      ]
-    },
-    {
-      "title": "Bande originale",
-      "id": "ost",
-      "items": [
-        {
-          "name": "Alan Menken",
-          "role": "Compositeur (musiques instrumentales)"
-        },
-        {
-          "name": "Glenn Slater",
-          "role": "Parolier"
-        },
-        {
-          "name": "Claude Lombard",
-          "role": "Parolier"
-        }
-      ]
-    },
-    {
-      "title": "Equipe technique",
-      "id": "technical-staff",
-      "items": [
-        {
-          "name": "Tim Mertens",
-          "role": "Monteur"
-        },
-        {
-          "name": "David Goetz",
-          "role": "Direction artistique"
-        },
-        {
-          "name": "Dan Cooper",
-          "role": "Assistant de la direction artistique"
-        },
-        {
-          "name": "Mohit Kallianpur",
-          "role": "Développement visuel"
-        },
-        {
-          "name": "Mark Kennedy",
-          "role": "Réalisateur / Concepteur de story-board"
-        },
-        {
-          "name": "John Ripa",
-          "role": "Réalisateur / Concepteur de story-board"
-        },
-        {
-          "name": "Steve Goldberg",
-          "role": "Superviseur des effets visuels"
-        },
-        {
-          "name": "Michael Kaschalk",
-          "role": "Superviseur des effets visuels"
-        },
-        {
-          "name": "Mohit Kallianpur",
-          "role": "Superviseur des effets visuels"
-        },
-        {
-          "name": "Glen Keane",
-          "role": "Directeur de l'animation"
-        },
-        {
-          "name": "John Kars",
-          "role": "Directeur de l'animation"
-        },
-        {
-          "name": "Clay Kaytis",
-          "role": "Directeur de l'animation"
-        },
-        {
-          "name": "Xinmin Zhao",
-          "role": "Superviseur de l'animation des personnages"
-        },
-        {
-          "name": "Robert Neuman",
-          "role": "Superviseur de la stéréoscopie"
-        },
-        {
-          "name": "Jesus Canal",
-          "role": "Superviseur de l'infographie"
-        },
-        {
-          "name": "Kelly Ward",
-          "role": "Création graphique des personnages"
-        },
-        {
-          "name": "Maryann Simmons",
-          "role": "Création graphique des personnages"
-        },
-        {
-          "name": "Andy Milne",
-          "role": "Création graphique des personnages"
-        },
-        {
-          "name": "Lino DiSalvo",
-          "role": "Animateur"
-        },
-        {
-          "name": "Mark Mitchel",
-          "role": "Animateur"
-        },
-        {
-          "name": "Kelly Lewis",
-          "role": "Animatrice"
-        },
-        {
-          "name": "Patrick Osborne",
-          "role": "Animateur"
-        },
-        {
-          "name": "Clair Keane",
-          "role": "Dessinatrice"
-        },
-        {
-          "name": "Mark Hammel",
-          "role": "Superviseur technique"
-        },
-        {
-          "name": "Mohit Kallianpur",
-          "role": "Eclairages"
-        }
-      ]
-    }
-  ],
+  "casting": {
+    "summary": [
+      {
+        "type": "item",
+        "to": "realization",
+        "name": "Réalisation"
+      },
+      {
+        "type": "item",
+        "to": "storyline",
+        "name": "Scénario"
+      },
+      {
+        "type": "item",
+        "to": "vf_dubbing",
+        "name": "Doublage (version française)"
+      },
+      {
+        "type": "item",
+        "to": "vo_dubbing",
+        "name": "Doublage (version originale)"
+      },
+      {
+        "type": "item",
+        "to": "technical-staff",
+        "name": "Equipe technique"
+      }
+    ],
+    "body": [
+      {
+        "title": "Réalisation",
+        "id": "realization",
+        "items": [
+          {
+            "name": "Byron Howard",
+            "role": "Réalisateur"
+          },
+          {
+            "name": "Nathan Greno",
+            "role": "Réalisateur"
+          },
+          {
+            "name": "Roy Conli",
+            "role": "Producteur"
+          }
+        ]
+      },
+      {
+        "title": "Scénario",
+        "id": "storyline",
+        "items": [
+          {
+            "name": "Dan Fogelman",
+            "role": "Scénariste"
+          },
+          {
+            "name": "Barbara Tissier",
+            "role": "Dialoguiste"
+          },
+          {
+            "name": "Houria Belhadji",
+            "role": "Adaptatrice"
+          }
+        ]
+      },
+      {
+        "title": "Doublage (version française)",
+        "id": "vf_dubbing",
+        "items": [
+          {
+            "name": "Maéva Méline",
+            "role": "Raiponce"
+          },
+          {
+            "name": "Cassidy Hanson-Smith",
+            "role": "Raiponce (enfant)"
+          },
+          {
+            "name": "Coralie Thuilier",
+            "role": "Raiponce (adolescente)"
+          },
+          {
+            "name": "Romain Duris",
+            "role": "Flynn Rider / Eugène Fitzherbert"
+          },
+          {
+            "name": "Emmanuel Dahl",
+            "role": "Flynn Rider / Eugène Fitzherbert (chant)"
+          },
+          {
+            "name": "Isabelle Adjani",
+            "role": "Mère Gothel"
+          },
+          {
+            "name": "Sophie Delmas",
+            "role": "Mère gothel (chant)"
+          },
+          {
+            "name": "Philippe Dumond",
+            "role": "La main froide"
+          },
+          {
+            "name": "David Krüger",
+            "role": "La main froide (chant)"
+          },
+          {
+            "name": "Pierrre Margot, Serge Biavan",
+            "role": "Les frères Stabbington"
+          },
+          {
+            "name": "Raphaël Cimolino",
+            "role": "Vladimir"
+          },
+          {
+            "name": "Xavier Fagnon",
+            "role": "L'amoureux"
+          },
+          {
+            "name": "Pierre-François Pistorio",
+            "role": "Le satyre"
+          },
+          {
+            "name": "Alexandre Cross",
+            "role": "Le capitaine de la garde"
+          },
+          {
+            "name": "Sarah Bismuth",
+            "role": "Chanteuse du générique de fin"
+          }
+        ]
+      },
+      {
+        "title": "Doublage (version originale)",
+        "id": "vo_dubbing",
+        "items": [
+          {
+            "name": "Mandy Moore",
+            "role": "Raiponce"
+          },
+          {
+            "name": "Delaney Rose Stein",
+            "role": "Raiponce (enfant)"
+          },
+          {
+            "name": "Zachary Levi",
+            "role": "Flynn Rider / Eugène Fitzherbert"
+          },
+          {
+            "name": "Donna Murphy",
+            "role": "Mère Gothel"
+          },
+          {
+            "name": "Brad Garrett",
+            "role": "La main froide"
+          },
+          {
+            "name": "Ron Perlman",
+            "role": "Les frères Stabbington"
+          },
+          {
+            "name": "Richard Kiel",
+            "role": "Vladimir"
+          },
+          {
+            "name": "Jeffrey Tambor",
+            "role": "L'amoureux"
+          },
+          {
+            "name": "Paul Francis Tompkins",
+            "role": "Le satyre"
+          },
+          {
+            "name": "Mike Connor Gainey",
+            "role": "Le capitaine de la garde"
+          },
+          {
+            "name": "Grace Potter",
+            "role": "Chanteuse du générique de fin"
+          }
+        ]
+      },
+      {
+        "title": "Bande originale",
+        "id": "ost",
+        "items": [
+          {
+            "name": "Alan Menken",
+            "role": "Compositeur (musiques instrumentales)"
+          },
+          {
+            "name": "Glenn Slater",
+            "role": "Parolier"
+          },
+          {
+            "name": "Claude Lombard",
+            "role": "Parolier"
+          }
+        ]
+      },
+      {
+        "title": "Equipe technique",
+        "id": "technical-staff",
+        "items": [
+          {
+            "name": "Tim Mertens",
+            "role": "Monteur"
+          },
+          {
+            "name": "David Goetz",
+            "role": "Direction artistique"
+          },
+          {
+            "name": "Dan Cooper",
+            "role": "Assistant de la direction artistique"
+          },
+          {
+            "name": "Mohit Kallianpur",
+            "role": "Développement visuel"
+          },
+          {
+            "name": "Mark Kennedy",
+            "role": "Réalisateur / Concepteur de story-board"
+          },
+          {
+            "name": "John Ripa",
+            "role": "Réalisateur / Concepteur de story-board"
+          },
+          {
+            "name": "Steve Goldberg",
+            "role": "Superviseur des effets visuels"
+          },
+          {
+            "name": "Michael Kaschalk",
+            "role": "Superviseur des effets visuels"
+          },
+          {
+            "name": "Mohit Kallianpur",
+            "role": "Superviseur des effets visuels"
+          },
+          {
+            "name": "Glen Keane",
+            "role": "Directeur de l'animation"
+          },
+          {
+            "name": "John Kars",
+            "role": "Directeur de l'animation"
+          },
+          {
+            "name": "Clay Kaytis",
+            "role": "Directeur de l'animation"
+          },
+          {
+            "name": "Xinmin Zhao",
+            "role": "Superviseur de l'animation des personnages"
+          },
+          {
+            "name": "Robert Neuman",
+            "role": "Superviseur de la stéréoscopie"
+          },
+          {
+            "name": "Jesus Canal",
+            "role": "Superviseur de l'infographie"
+          },
+          {
+            "name": "Kelly Ward",
+            "role": "Création graphique des personnages"
+          },
+          {
+            "name": "Maryann Simmons",
+            "role": "Création graphique des personnages"
+          },
+          {
+            "name": "Andy Milne",
+            "role": "Création graphique des personnages"
+          },
+          {
+            "name": "Lino DiSalvo",
+            "role": "Animateur"
+          },
+          {
+            "name": "Mark Mitchel",
+            "role": "Animateur"
+          },
+          {
+            "name": "Kelly Lewis",
+            "role": "Animatrice"
+          },
+          {
+            "name": "Patrick Osborne",
+            "role": "Animateur"
+          },
+          {
+            "name": "Clair Keane",
+            "role": "Dessinatrice"
+          },
+          {
+            "name": "Mark Hammel",
+            "role": "Superviseur technique"
+          },
+          {
+            "name": "Mohit Kallianpur",
+            "role": "Eclairages"
+          }
+        ]
+      }
+    ]
+  },
   "videos": {
     "trailers": [
       {

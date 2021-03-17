@@ -16,7 +16,7 @@ import NotificationsGroup from "../components/ui/Notifications/NotificationsGrou
 
 const Navbar = React.lazy(() => import("../components/modules/Navbar/Navbar"));
 const Home = React.lazy(() => import("./Home/Home"));
-const Account = React.lazy(() => import("./Account/Account"));
+const AccountRoot = React.lazy(() => import("./Account/AccountRoot"));
 const Callback = React.lazy(() => import("./Callback/Callback"));
 const MovieRoot = React.lazy(() => import("./MoviePrototype/MovieRoot"));
 const NotFound = React.lazy(
@@ -69,7 +69,7 @@ const App = (): React.ReactElement => {
 
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/account" component={Account} />
+          <Route path="/account" component={AccountRoot} />
           <Route path="/callback" exact component={Callback} />
           <Route path="/movies" exact />
           <Route path="/series" exact />

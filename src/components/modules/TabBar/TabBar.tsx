@@ -7,9 +7,8 @@ const TabBar: React.FC<
   React.DetailedHTMLProps<
     React.AllHTMLAttributes<HTMLDivElement>,
     HTMLDivElement
-  >
-> = ({ className, children }) => {
-  const [open, setOpen] = React.useState<boolean>(false);
+  > & { open: boolean; manageTabBar: () => void }
+> = ({ className, children, open, manageTabBar }) => {
   const [scroll, setScroll] = React.useState<boolean>(false);
   const scrollSpy = (): void => {
     if ((window.scrollY > 525 && !scroll) || (window.scrollY < 525 && scroll)) {
@@ -29,7 +28,7 @@ const TabBar: React.FC<
         className ? ` ${className}` : ""
       }${scroll ? ` ${styles.fixed}` : ""}`}
     >
-      <Button onClick={() => setOpen(!open)}>
+      <Button onClick={manageTabBar}>
         <AiOutlineLink />
         <span>Accéder à la navigation</span>
       </Button>

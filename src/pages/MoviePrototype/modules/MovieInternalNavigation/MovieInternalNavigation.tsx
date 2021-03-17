@@ -3,6 +3,7 @@ import { NavLink, useRouteMatch } from "react-router-dom";
 import { MovieObject } from "../../Types";
 import TabBar from "../../../../components/modules/TabBar/TabBar";
 import tabBarStyles from "../../../../components/modules/TabBar/TabBar.module.scss";
+import useTabBar from "../../../../hooks/TabBar";
 
 const MovieInternalNavigation: React.FC<
   React.DetailedHTMLProps<
@@ -14,16 +15,23 @@ const MovieInternalNavigation: React.FC<
     ":title",
     dataResponse.internalTitle
   );
+  const { open, manageTabBar } = useTabBar();
 
   return (
-    <TabBar>
-      <NavLink to={baseURL} exact activeClassName={tabBarStyles.active}>
+    <TabBar open={open} manageTabBar={manageTabBar}>
+      <NavLink
+        to={baseURL}
+        exact
+        activeClassName={tabBarStyles.active}
+        onClick={manageTabBar}
+      >
         Film
       </NavLink>
       <NavLink
         to={`${baseURL}/casting`}
         exact
         activeClassName={tabBarStyles.active}
+        onClick={manageTabBar}
       >
         Casting
       </NavLink>
@@ -31,6 +39,7 @@ const MovieInternalNavigation: React.FC<
         to={`${baseURL}/characters`}
         exact
         activeClassName={tabBarStyles.active}
+        onClick={manageTabBar}
       >
         Personnages
       </NavLink>
@@ -38,6 +47,7 @@ const MovieInternalNavigation: React.FC<
         to={`${baseURL}/videos`}
         exact
         activeClassName={tabBarStyles.active}
+        onClick={manageTabBar}
       >
         Vidéos
       </NavLink>
@@ -45,6 +55,7 @@ const MovieInternalNavigation: React.FC<
         to={`${baseURL}/ost`}
         exact
         activeClassName={tabBarStyles.active}
+        onClick={manageTabBar}
       >
         Bande originale
       </NavLink>
@@ -52,6 +63,7 @@ const MovieInternalNavigation: React.FC<
         to={`${baseURL}/technical-specs`}
         exact
         activeClassName={tabBarStyles.active}
+        onClick={manageTabBar}
       >
         Fiche technique
       </NavLink>
