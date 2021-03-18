@@ -100,7 +100,7 @@ async function getTokenWithPopup(): Promise<string> {
     options
   );
 
-  // eslint-disable-next-line no-return-await
+  // eslint-disable-next-line @typescript-eslint/return-await
   return await new Promise<string>((resolve, reject): void => {
     if (popupWindow === null) {
       return reject(new Error("The window failed to open."));

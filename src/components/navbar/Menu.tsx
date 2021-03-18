@@ -1,11 +1,12 @@
-import React, { ReactElement, useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { ReactElement, useState, useCallback, useEffect } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTheme } from "state/modules/theme";
 import { FaSun, FaUser } from "react-icons/fa";
 import { BsMoon } from "react-icons/bs";
 import { Trans, useTranslation } from "react-i18next";
+import { CgClose } from "react-icons/cg";
 import { NavigationItem } from "./Menu/MenuItem";
 import { loginUser } from "../../state/modules/user/actions";
 import { NavigationContainer } from "./Menu/MenuContainer";
@@ -19,28 +20,56 @@ export function Menu(): ReactElement {
   const [open, setOpen] = useState<boolean>(false);
   const switchOpen = (): void => setOpen(!open);
   const dispatch = useDispatch();
+  const page = useLocation();
   const dark = useSelector((e) => e.theme.theme === "light");
-  const globalClick = () => open && setOpen(false);
+
+  const [transparent, setTransparent] = useState(window.scrollY > 0);
 
   const switchOpenClick = () => {
     if (open) setOpen(false);
     return true;
   };
 
+  const listener = useCallback(() => {
+    if (!page.pathname.includes("settings")) {
+      const scroll = window.scrollY > 0;
+      setTransparent(!scroll);
+    } else {
+      setTransparent(false);
+    }
+  }, [page]);
+
+  useEffect(() => {
+    listener();
+    document.addEventListener("scroll", listener);
+    return () => document.removeEventListener("scroll", listener);
+  }, [listener, page]);
+
   const userState = useSelector((s) => s.user);
   const { t } = useTranslation("layout");
   return (
-    <NavigationContainer open={open} onClick={globalClick}>
+    <NavigationContainer
+      open={open}
+      className={transparent ? styles.transparent : ""}
+    >
       <div className={`${styles.primed} ${globalStyles.onlyMobiles}`}>
         <NavigationItem onClick={switchOpen}>
           <h3>Developer&rsquo;s House</h3>
-          <GiHamburgerMenu
-            style={{
-              transform: `rotate(${open ? "90" : "0"}deg)`,
-              scale: 2,
-              transition: "all 250ms",
-            }}
-          />
+          {open ? (
+            <CgClose
+              style={{
+                scale: 2,
+                transition: "all 250ms",
+              }}
+            />
+          ) : (
+            <GiHamburgerMenu
+              style={{
+                scale: 2,
+                transition: "all 250ms",
+              }}
+            />
+          )}
         </NavigationItem>
       </div>
       <DrawerContent onClick={switchOpenClick}>
