@@ -12,10 +12,7 @@
     "darkTheme": "Switch to dark theme"
   },
   "notifications": {
-    "user": {
-      "login": "You are now logged as {{username}}",
-      "logout": "You have been logged out."
-    },
+    "userLogout": "You have been logged out successfully.",
     "themeChanged": {
       "light": "The website has been switched to light mode.",
       "dark": "The website has been switched to dark mode."
@@ -28,8 +25,7 @@
       "default": "Select language",
       "languages": {
         "en": "English",
-        "fr": "French",
-        "de": "German"
+        "fr": "French"
       }
     },
     "saveLanguage": "Save language",

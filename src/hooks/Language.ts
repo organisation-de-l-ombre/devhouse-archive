@@ -39,6 +39,7 @@ const useLanguage = (): {
       }
 
       dispatch(changeLanguage(languageState));
+      i18n.changeLanguage(languageState);
       setLanguageState("default");
       setLanguageWindowOpen(!languageWindowOpen);
     },

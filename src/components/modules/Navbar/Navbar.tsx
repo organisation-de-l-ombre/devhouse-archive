@@ -1,26 +1,22 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */
 import { FaMoon, FaSun, FaUser, MdLocalMovies, FaBell } from "react-icons/all";
 import { NavLink } from "react-router-dom";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
 import generateNotificationID from "../../../utilities/generateNotificationID";
-import globalStyles from "../../../themes/Global.module.scss";
 import i18n from "../../../languages/i18n";
-import modalStyles from "../../ui/Modal/Modal.module.scss";
 import styles from "./Navbar.module.scss";
 import Button from "../../ui/Button/Button";
 import Image from "../../ui/Image/Image";
 import { getAvatar } from "../../../store/user/Login";
-import { supportedLanguages } from "../../../store/language/Types";
-import Modal from "../../ui/Modal/Modal";
 import useLanguage from "../../../hooks/Language";
 import useTheme from "../../../hooks/Theme";
 import useUser from "../../../hooks/User";
-import SelectList, { manageSelection } from "../../ui/SelectList/SelectList";
 import NotificationsModal from "../../ui/Notifications/NotificationsModal/NotificationsModal";
-import { useNotificationsManager } from "../../../hooks/Notifications";
+import { pushNotifications } from "../../../store/notifications/Actions";
+import { DisplaySVG, LanguageModal } from "./LanguageModal";
 
-const useNavbar = () => {
+const useNavbar = (): { open: boolean; manageNavbar: () => void } => {
   const [open, setOpen] = React.useState<boolean>(false);
   const manageNavbar = () => {
     if (window.matchMedia("(max-width: 700px)").matches) {
@@ -30,78 +26,27 @@ const useNavbar = () => {
 
   return { open, manageNavbar };
 };
-const DisplaySVG: React.FC<
-  React.ImgHTMLAttributes<HTMLImageElement> & { alt: string; lang: string }
-> = ({ alt, lang, ...props }) => {
-  const { default: image } = React.useMemo(
-    () => require(`../../../assets/pictures/locales/${lang}.svg`),
-    [lang]
-  );
-
-  return <img src={image} alt={alt} {...props} />;
-};
 const Navbar = (): React.ReactElement => {
   const { open, manageNavbar } = useNavbar();
   const { t } = useTranslation("components\\navbar");
   const { user, manageUser } = useUser();
-  const [languageState, setLanguageState] = React.useState<string>("default");
-  const [languageWindowOpen, setLanguageWindowOpen] = React.useState(false);
-  const { language, validateLanguage } = useLanguage();
+  const { language } = useLanguage();
+  const [languageWindowOpen, setLanguageWindowOpen] = React.useState<boolean>(
+    false
+  );
   const [
     notificationsWindowOpen,
     setNotificationsWindowOpen,
   ] = React.useState<boolean>(false);
   const { theme, switchTheme } = useTheme();
-  const { addNotifications } = useNotificationsManager();
+  const dispatch = useDispatch();
 
   return (
     <>
-      <Modal
-        windowTitle={<Trans t={t} i18nKey="modal.title" />}
-        open={languageWindowOpen}
-        setOpen={setLanguageWindowOpen}
-      >
-        <p
-          className={`${globalStyles["primary-margin"]} ${globalStyles["text-align-center"]}`}
-        >
-          <Trans t={t} i18nKey="modal.description" />
-        </p>
-        <div className={modalStyles["buttons-container"]}>
-          <SelectList
-            defaultTitle={<Trans t={t} i18nKey="modal.select.default" />}
-            id="select-language"
-          >
-            {supportedLanguages.sort().map((lang) => {
-              return (
-                <li
-                  key={lang}
-                  onClick={() => {
-                    setLanguageState(lang);
-                    manageSelection("select-language", "none");
-                  }}
-                >
-                  <DisplaySVG lang={lang} alt={`lang-${lang}`} />
-                  <span>
-                    <Trans t={t} i18nKey={`modal.select.languages.${lang}`} />
-                  </span>
-                </li>
-              );
-            })}
-          </SelectList>
-          <Button
-            onClick={() => {
-              validateLanguage({
-                languageState,
-                setLanguageState,
-                languageWindowOpen,
-                setLanguageWindowOpen,
-              });
-            }}
-          >
-            <Trans t={t} i18nKey="modal.saveLanguage" />
-          </Button>
-        </div>
-      </Modal>
+      <LanguageModal
+        languageWindowOpen={languageWindowOpen}
+        setLanguageWindowOpen={setLanguageWindowOpen}
+      />
       <NotificationsModal
         open={notificationsWindowOpen}
         setOpen={setNotificationsWindowOpen}
@@ -146,19 +91,6 @@ const Navbar = (): React.ReactElement => {
             onClick={() => {
               manageUser();
               manageNavbar();
-
-              if (user) {
-                addNotifications([
-                  {
-                    id: generateNotificationID(),
-                    type: "info",
-                    time: 5000,
-                    body: i18n.t(
-                      "components\\navbar:notifications.user.logout"
-                    ),
-                  },
-                ]);
-              }
             }}
           >
             {user ? (
@@ -214,18 +146,20 @@ const Navbar = (): React.ReactElement => {
             onClick={() => {
               switchTheme();
               manageNavbar();
-              addNotifications([
-                {
-                  id: generateNotificationID(),
-                  type: "info",
-                  time: 5000,
-                  body: i18n.t(
-                    `components\\navbar:notifications.themeChanged.${
-                      theme === "light" ? "dark" : "light"
-                    }`
-                  ),
-                },
-              ]);
+              dispatch(
+                pushNotifications([
+                  {
+                    id: generateNotificationID(),
+                    type: "info",
+                    time: 5000,
+                    body: i18n.t(
+                      `components\\navbar:notifications.themeChanged.${
+                        theme === "light" ? "dark" : "light"
+                      }`
+                    ),
+                  },
+                ])
+              );
             }}
           >
             {theme === "light" ? <FaMoon /> : <FaSun />}

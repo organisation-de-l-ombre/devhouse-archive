@@ -5,12 +5,13 @@ import {
   BsXSquareFill,
   FaWindowClose,
 } from "react-icons/all";
+import { useDispatch } from "react-redux";
 import { CSSTransition } from "react-transition-group";
 import { NotificationObject } from "../../../../store/notifications/Types";
-import { useNotificationsManager } from "../../../../hooks/Notifications";
 import styles from "./Notification.module.scss";
 import Button from "../../Button/Button";
 import "./Animations.scss";
+import { removeNotification } from "../../../../store/notifications/Actions";
 
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 const RenderNotificationType: any = ({
@@ -38,7 +39,7 @@ const Notification: React.FC<
     HTMLDivElement
   > & { notification: NotificationObject }
 > = ({ notification }) => {
-  const { deleteNotification } = useNotificationsManager();
+  const dispatch = useDispatch();
   const [notificationTimer, setNotificationTimer] = React.useState<
     number | null
   >(null);
@@ -53,7 +54,7 @@ const Notification: React.FC<
 
     setNotificationTimer(
       (setTimeout(
-        () => deleteNotification(notification.id),
+        () => dispatch(removeNotification(notification.id)),
         notification.time
       ) as unknown) as number
     );
@@ -64,12 +65,7 @@ const Notification: React.FC<
         clearTimeout(notificationTimer);
       }
     };
-  }, [
-    notificationTimer,
-    notification.time,
-    notification.id,
-    deleteNotification,
-  ]);
+  }, [notificationTimer, notification.time, notification.id, dispatch]);
 
   return (
     <CSSTransition timeout={500} classNames="notification">
@@ -80,7 +76,7 @@ const Notification: React.FC<
         </div>
         <Button
           className={styles.close}
-          onClick={() => deleteNotification(notification.id)}
+          onClick={() => dispatch(removeNotification(notification.id))}
         >
           <FaWindowClose />
         </Button>

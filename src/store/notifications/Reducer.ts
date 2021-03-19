@@ -39,19 +39,19 @@ const notificationsManagerReducer = (
 ): NotificationsManagerState => {
   switch (payload.type) {
     case NOTIFICATIONS_PUSH: {
-      state.notifications = state.notifications.concat(payload.notifications);
+      state.notifications = [...payload.notifications, ...state.notifications];
 
       return state;
     }
 
-    case NOTIFICATION_DELETE: {
-      state.notifications = state.notifications.filter(
-        (notification: NotificationObject): boolean =>
-          notification.id !== payload.id
-      );
-
-      return state;
-    }
+    case NOTIFICATION_DELETE:
+      return {
+        ...state,
+        notifications: state.notifications.filter(
+          (notification: NotificationObject): boolean =>
+            notification.id !== payload.id
+        ),
+      };
 
     case NOTIFICATIONS_DELETE_ALL:
       return { ...state, notifications: [] };

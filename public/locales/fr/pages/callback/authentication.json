@@ -1,0 +1,4 @@
+{
+  "success": "Bienvenue {{username}} ! Vous avez été connecté avec succès.",
+  "failed": "Une erreur est survenue durant l'authentification. Veuillez essayer à nouveau."
+}

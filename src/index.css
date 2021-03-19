@@ -4,7 +4,7 @@
 }
 
 a, button, p, span, li {
-    font-size: 1.25rem;
+    font-size: 18px;
     font-weight: bold;
 }
 
@@ -22,8 +22,6 @@ hr {
 }
 
 p, q { word-wrap: break-word; }
-
-p, q, span { font-size: 18px; }
 
 ::-webkit-scrollbar { width: 8px; }
 

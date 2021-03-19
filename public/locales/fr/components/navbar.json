@@ -12,10 +12,7 @@
     "darkTheme": "Passer au thème sombre"
   },
   "notifications": {
-    "user": {
-      "login": "Vous êtes maintenant connecté en tant que {{username}}",
-      "logout": "Vous avez bien été déconnecté."
-    },
+    "userLogout": "Vous avez été déconnecté avec succès.",
     "themeChanged": {
       "light": "Le site web est passé en mode clair.",
       "dark": "Le site web est passé en mode sombre."
@@ -28,8 +25,7 @@
       "default": "Sélectionnez une langue",
       "languages": {
         "en": "Anglais",
-        "fr": "Français",
-        "de": "Allemand"
+        "fr": "Français"
       }
     },
     "saveLanguage": "Enregistrer la langue",

@@ -8,6 +8,7 @@ import MovieInternalNavigation from "./modules/MovieInternalNavigation/MovieInte
 import MovieRouter from "./modules/Router/MovieRouter";
 import NotFound from "../../components/modules/NotFound/NotFound";
 import { MovieObject } from "./Types";
+import BackToTop from "../../components/modules/BackToTop/BackToTop";
 
 const MovieRoot: React.FC<RouteComponentProps> = ({ match }) => {
   const JSONResponse: MovieObject = React.useMemo(
@@ -28,6 +29,7 @@ const MovieRoot: React.FC<RouteComponentProps> = ({ match }) => {
     >
       <MovieHeaders dataResponse={JSONResponse} />
       <MovieInternalNavigation dataResponse={JSONResponse} />
+      <BackToTop />
       <MovieRouter dataResponse={JSONResponse} />
     </FlexContainer>
   );

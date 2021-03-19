@@ -24,7 +24,7 @@ const DetailledText: React.FC<
             <h1>{title}</h1>
             {text.map(
               (t: string): React.ReactElement => {
-                return <p>{t}</p>;
+                return <p key={t}>{t}</p>;
               }
             )}
           </>

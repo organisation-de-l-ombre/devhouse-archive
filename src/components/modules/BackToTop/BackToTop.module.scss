@@ -1,0 +1,24 @@
+.button {
+  z-index: 4;
+  padding: 1rem;
+  width: 20px;
+  height: 20px;
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  border: .2rem solid var(--font-color);
+  border-radius: 50%;
+  background-color: var(--primary-background-color);
+  transition: all .5s;
+
+  svg {
+    transform: scale(1.5);
+    transition: all .5s;
+  }
+
+  &:hover {
+    border: .2rem solid var(--font-color-hover);
+
+    svg { fill: var(--font-color-hover); }
+  }
+}

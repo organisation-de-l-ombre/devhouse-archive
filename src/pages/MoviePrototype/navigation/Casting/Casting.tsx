@@ -53,7 +53,7 @@ const Casting: React.FC<
                   (character: CharacterObject): React.ReactElement => {
                     return (
                       <Card
-                        key={character.name}
+                        key={`${character.name}-${character.role}`}
                         className={`${cardStyles.container} ${styles["card-container"]}`}
                       >
                         <img
