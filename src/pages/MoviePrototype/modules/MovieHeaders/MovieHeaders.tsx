@@ -42,7 +42,7 @@ const MovieHeaders: React.FC<
           }}
         />
         <FlexContainer
-          className={`${flexContainerStyles.container} ${styles.headers}`}
+          className={`${flexContainerStyles.container} ${styles.headers} ${globalStyles["navbar-margin"]}`}
         >
           <img
             src={dataResponse.headers.moviePoster}

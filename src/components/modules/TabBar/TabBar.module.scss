@@ -1,6 +1,8 @@
 .navigation-container {
   z-index: 3;
-  box-shadow: 0 0 1rem black;
+  box-shadow: 0 0 .5rem black;
+  position: sticky;
+  top: 0;
 
   button { display: none; }
 
@@ -31,14 +33,10 @@
     }
   }
 
-  &.fixed {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
-
   @media screen and (max-width: 1000px) {
+    position: unset;
+    top: unset;
+
     button {
       width: 100%;
       display: flex;
@@ -76,19 +74,17 @@
 
         a {
           border-top: none;
-          border-left: .150rem solid transparent;
+          border-left: .2rem solid transparent;
           transition: .5s;
           text-align: left;
 
           &:hover, &.active {
-            border-left: .150rem solid var(--font-color-hover);
+            border-left: .2rem solid var(--font-color-hover);
             color: var(--font-color-hover);
             background-color: var(--secondary-background-color);
           }
         }
       }
     }
-
-    &.fixed { position: unset; }
   }
 }

@@ -1,5 +1,8 @@
 .headers-background {
+  z-index: 5;
   position: relative;
+  display: flex;
+  justify-content: center;
 
   .headers-background-image {
     width: 100%;
@@ -8,14 +11,14 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position-x: center;
-    opacity: .4;
+    opacity: var(--background-opacity);
   }
 
   .headers {
     padding:  0 2rem 2rem 2rem;
     width: calc(100% - 4rem);
+    max-width: 75%;
     position: relative;
-    display: flex;
     flex-wrap: wrap;
 
     .movie-poster {
@@ -24,8 +27,7 @@
       border-radius: 5px;
       pointer-events: none;
       display: flex;
-      justify-self: flex-start;
-      box-shadow: 0 0 1rem black;
+      box-shadow: 0 0 .5rem black;
     }
 
     .headers-container {
@@ -35,10 +37,6 @@
       flex-direction: column;
 
       h3, p { margin-top: 1rem; }
-    }
-
-    @media screen and (max-width: 700px) {
-      margin-top: 3.5rem;
     }
   }
 }

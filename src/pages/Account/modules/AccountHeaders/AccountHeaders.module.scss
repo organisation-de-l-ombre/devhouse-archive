@@ -1,7 +1,6 @@
 .headers {
   width: calc(100% - 4rem);
   padding: 1rem 2rem;
-  display: flex;
   flex-wrap: wrap;
   align-items: center;
   background-color: var(--primary-background-color);
@@ -15,7 +14,7 @@
 
   .headers-text {
     margin: 1rem 0;
-    display: flex;
+    flex: 1 30rem;
     flex-direction: column;
 
     p {margin-top: 1rem; }
