@@ -10,10 +10,8 @@ import {
 } from "redux-state-sync";
 import LanguageReducer, { languageState } from "./language/Reducer";
 import {
-  notificationsConfigState,
-  notificationsManagerState,
-  notificationsConfigReducer as NotificationsConfigReducer,
-  notificationsManagerReducer as NotificationsManagerReducer,
+  notificationsState,
+  NotificationsReducer,
 } from "./notifications/Reducer";
 import ThemeReducer, { themeState } from "./theme/Reducer";
 import UserReducer, { userState } from "./user/Reducer";
@@ -21,15 +19,14 @@ import { GlobalState } from "./Types";
 
 const reducer = combineReducers({
   language: LanguageReducer,
-  notificationsConfig: NotificationsConfigReducer,
-  notificationsManager: NotificationsManagerReducer,
+  notifications: NotificationsReducer,
   theme: ThemeReducer,
   user: UserReducer,
 });
 const persistConfiguration = {
   key: "root",
   storage,
-  blacklist: ["notificationsManager"],
+  blacklist: ["notifications/notifications"],
 };
 const syncConfiguration = {
   blacklist: ["persist/PERSIST", "persist/REHYDRATE"],
@@ -44,8 +41,7 @@ if (process.env.NODE_ENV !== "production") {
 const persistedReducer = persistReducer(persistConfiguration, reducer);
 const globalState: GlobalState = {
   language: languageState,
-  notificationsConfig: notificationsConfigState,
-  notificationsManager: notificationsManagerState,
+  notifications: notificationsState,
   theme: themeState,
   user: userState,
 };

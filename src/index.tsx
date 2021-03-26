@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import React from "react";
 import ReactDOM from "react-dom";
 import { PersistGate } from "redux-persist/integration/react";
-import App from "./pages/App";
+import App from "./application/App";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import "./languages/i18n";

@@ -3,15 +3,11 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { User } from "./user/Types";
 import { Theme } from "./theme/Types";
 import { Language } from "./language/Types";
-import {
-  NotificationsConfig,
-  NotificationsManager,
-} from "./notifications/Types";
+import { NotificationsReducerState } from "./notifications/Types";
 
 interface GlobalState {
   language: { language: Language };
-  notificationsConfig: NotificationsConfig;
-  notificationsManager: NotificationsManager;
+  notifications: NotificationsReducerState;
   theme: { theme: Theme };
   user: { user: User };
 }

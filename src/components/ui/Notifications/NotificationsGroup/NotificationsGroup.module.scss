@@ -1,6 +1,7 @@
 .notifications-group {
   z-index: 6;
-  width: 40rem;
+  width: 60%;
+  max-width: 50rem;
   display: flex;
   flex-direction: column;
   position: fixed;

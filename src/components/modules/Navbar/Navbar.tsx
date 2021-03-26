@@ -2,19 +2,17 @@ import { FaMoon, FaSun, FaUser, MdLocalMovies, FaBell } from "react-icons/all";
 import { NavLink } from "react-router-dom";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
-import generateNotificationID from "../../../utilities/generateNotificationID";
-import i18n from "../../../languages/i18n";
 import styles from "./Navbar.module.scss";
 import Button from "../../ui/Button/Button";
 import Image from "../../ui/Image/Image";
 import { getAvatar } from "../../../store/user/Login";
-import useLanguage from "../../../hooks/Language";
-import useTheme from "../../../hooks/Theme";
-import useUser from "../../../hooks/User";
+import useLanguage from "../../../hooks/Language/Language";
+import useTheme from "../../../hooks/Theme/Theme";
+import useUser from "../../../hooks/User/User";
 import NotificationsModal from "../../ui/Notifications/NotificationsModal/NotificationsModal";
-import { pushNotifications } from "../../../store/notifications/Actions";
 import { DisplaySVG, LanguageModal } from "./LanguageModal";
+import { useNotificationsManager } from "../../../hooks/Notifications/Notifications";
+import generateNotificationID from "../../../utilities/generateNotificationID";
 
 const useNavbar = (): { open: boolean; manageNavbar: () => void } => {
   const [open, setOpen] = React.useState<boolean>(false);
@@ -39,7 +37,21 @@ const Navbar = (): React.ReactElement => {
     setNotificationsWindowOpen,
   ] = React.useState<boolean>(false);
   const { theme, switchTheme } = useTheme();
-  const dispatch = useDispatch();
+  const { addNotifications } = useNotificationsManager();
+  const manageTheme = (): void => {
+    switchTheme();
+    manageNavbar();
+    addNotifications([
+      {
+        id: generateNotificationID(),
+        type: "info",
+        body: t(
+          `notifications.themeChanged.${theme === "light" ? "dark" : "light"}`
+        ),
+        time: 5000,
+      },
+    ]);
+  };
 
   return (
     <>
@@ -141,27 +153,7 @@ const Navbar = (): React.ReactElement => {
               <Trans t={t} i18nKey="items.notifications" />
             </span>
           </Button>
-          <Button
-            className={styles.buttons}
-            onClick={() => {
-              switchTheme();
-              manageNavbar();
-              dispatch(
-                pushNotifications([
-                  {
-                    id: generateNotificationID(),
-                    type: "info",
-                    time: 5000,
-                    body: i18n.t(
-                      `components\\navbar:notifications.themeChanged.${
-                        theme === "light" ? "dark" : "light"
-                      }`
-                    ),
-                  },
-                ])
-              );
-            }}
-          >
+          <Button className={styles.buttons} onClick={manageTheme}>
             {theme === "light" ? <FaMoon /> : <FaSun />}
             <span className={styles["switcher-span"]}>
               {theme === "light" ? (

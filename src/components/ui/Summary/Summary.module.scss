@@ -1,38 +1,31 @@
 .summary {
-  padding: 1rem 1rem .75rem 1rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   border-radius: 5px;
   border: .150rem solid var(--font-color-hover);
 
-  h2, span {
-    margin-bottom: 1rem;
-  }
+  h2 { margin-bottom: 1rem; }
 
   span {
     cursor: pointer;
-    transition: .5s;
+    transition: color .5s;
+    width: fit-content;
 
-    &:hover {
-      color: var(--font-color-hover);
-      transition: .5s;
-    }
+    &:hover { color: var(--font-color-hover); }
   }
 
   .summary-items {
-    display: block;
+    margin-top: 1rem;
     list-style: inside;
 
     li {
       margin-bottom: .25rem;
 
       a {
-        transition: .5s;
+        transition: color .5s;
 
-        &:hover {
-          color: var(--font-color-hover);
-          transition: .5s;
-        }
+        &:hover { color: var(--font-color-hover); }
       }
     }
 

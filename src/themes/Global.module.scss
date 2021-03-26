@@ -5,7 +5,7 @@
 
 .flex { display: flex; }
 
-.column { flex-direction: column; contain: content; }
+.column { flex-direction: column; }
 
 .animation-opacity {
   animation: animate-opacity .5s;

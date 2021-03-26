@@ -6,6 +6,7 @@ metadata:
 spec:
   audience:
     - imr
+    - abdera
   clientName: IMR (DEV)
   grantTypes:
     - implicit
@@ -13,7 +14,7 @@ spec:
   redirectUris:
     - 'http://localhost:3000/callback'
   responseTypes:
-    - token
-  scope: "account.info"
+    - code
+  scope: "account.info account.authorized.*"
   secretName: imr-dev
   tokenEndpointAuthMethod: none

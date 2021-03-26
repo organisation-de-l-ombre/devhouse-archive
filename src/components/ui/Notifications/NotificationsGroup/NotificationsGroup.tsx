@@ -1,23 +1,28 @@
 import React from "react";
-import { GlobalState } from "store/Types";
-import { useSelector } from "react-redux";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import styles from "./NotificationsGroup.module.scss";
-import { NotificationObject } from "../../../../store/notifications/Types";
-import Notification from "../Notification/Notification";
+import { Notification } from "../../../../store/notifications/Types";
+import NotificationComponent from "../Notification/Notification";
+import { useNotificationsState } from "../../../../hooks/Notifications/Notifications";
+import "./Animations.scss";
 
 const NotificationsGroup = (): React.ReactElement => {
-  const notifications = useSelector(
-    (state: GlobalState) => state.notificationsManager.notifications
-  );
+  const { notifications } = useNotificationsState();
 
   return (
-    <div className={styles["notifications-group"]}>
+    <TransitionGroup className={styles["notifications-group"]}>
       {notifications.map(
-        (notification: NotificationObject): React.ReactElement => (
-          <Notification key={notification.id} notification={notification} />
+        (notification: Notification): React.ReactElement => (
+          <CSSTransition
+            key={notification.id}
+            timeout={300}
+            classNames="notification"
+          >
+            <NotificationComponent notification={notification} />
+          </CSSTransition>
         )
       )}
-    </div>
+    </TransitionGroup>
   );
 };
 

@@ -1,45 +1,37 @@
 import {
-  NOTIFICATION_DELETE,
-  NotificationObject,
-  NOTIFICATIONS_DELETE_ALL,
-  NOTIFICATIONS_PUSH,
-  NotificationsConfigPayload,
-  NotificationsConfigState,
-  NotificationsManagerPayload,
-  NotificationsManagerState,
+  NotificationsPayload,
+  NotificationsReducerState,
   UPDATE_NOTIFICATIONS_PERMISSIONS,
   USER_FIRST_USE,
+  NOTIFICATIONS_PUSH,
+  NOTIFICATION_DELETE,
+  NOTIFICATIONS_DELETE_ALL,
+  Notification,
 } from "./Types";
 
-const notificationsConfigState: NotificationsConfigState = {
+const notificationsState: NotificationsReducerState = {
   firstUse: true,
   allowNotifications: false,
-};
-const notificationsManagerState: NotificationsManagerState = {
   notifications: [],
 };
-const notificationsConfigReducer = (
-  state: NotificationsConfigState = notificationsConfigState,
-  payload: NotificationsConfigPayload
-): NotificationsConfigState => {
+const NotificationsReducer = (
+  state: NotificationsReducerState = notificationsState,
+  payload: NotificationsPayload
+): NotificationsReducerState => {
   switch (payload.type) {
     case USER_FIRST_USE:
       return { ...state, firstUse: false };
 
     case UPDATE_NOTIFICATIONS_PERMISSIONS:
-      return { ...state, allowNotifications: payload.allowNotifications };
+      return { ...state, allowNotifications: payload.payload };
 
-    default:
-      return state;
-  }
-};
-const notificationsManagerReducer = (
-  state: NotificationsManagerState = notificationsManagerState,
-  payload: NotificationsManagerPayload
-): NotificationsManagerState => {
-  switch (payload.type) {
     case NOTIFICATIONS_PUSH: {
-      state.notifications = [...payload.notifications, ...state.notifications];
+      if (state.allowNotifications) {
+        return {
+          ...state,
+          notifications: [...state.notifications, ...payload.payload],
+        };
+      }
 
       return state;
     }
@@ -48,8 +40,8 @@ const notificationsManagerReducer = (
       return {
         ...state,
         notifications: state.notifications.filter(
-          (notification: NotificationObject): boolean =>
-            notification.id !== payload.id
+          (notification: Notification): boolean =>
+            notification.id !== payload.payload
         ),
       };
 
@@ -61,9 +53,4 @@ const notificationsManagerReducer = (
   }
 };
 
-export {
-  notificationsConfigState,
-  notificationsManagerState,
-  notificationsConfigReducer,
-  notificationsManagerReducer,
-};
+export { notificationsState, NotificationsReducer };

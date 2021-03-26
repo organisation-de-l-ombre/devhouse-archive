@@ -28,7 +28,7 @@ const generateCodeChallenge = async (code: string): Promise<string> => {
 localForage.getItem("client-id").then(async (res) => {
   if (!res) {
     if (process.env.NODE_ENV === "development") {
-      clientID = "fee7548d-f79f-48ff-b454-d635bcfabca5";
+      clientID = "5850f912-4654-42c4-9961-6ce577288bdb";
       await localForage.setItem("client-id", clientID);
     } else {
       clientIDPromise = fetchClientID();

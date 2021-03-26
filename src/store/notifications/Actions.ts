@@ -5,7 +5,7 @@ import {
   NOTIFICATIONS_PUSH,
   NOTIFICATION_DELETE,
   NOTIFICATIONS_DELETE_ALL,
-  NotificationObject,
+  Notification,
 } from "./Types";
 import { Action } from "../Types";
 
@@ -18,17 +18,20 @@ const updateNotificationsPermissions = (
   allowNotifications: boolean
 ): Action => {
   return (dispatch: Dispatch): void => {
-    dispatch({ type: UPDATE_NOTIFICATIONS_PERMISSIONS, allowNotifications });
+    dispatch({
+      type: UPDATE_NOTIFICATIONS_PERMISSIONS,
+      payload: allowNotifications,
+    });
   };
 };
-const pushNotifications = (notifications: NotificationObject[]): Action => {
+const pushNotifications = (notifications: Notification[]): Action => {
   return (dispatch: Dispatch): void => {
-    dispatch({ type: NOTIFICATIONS_PUSH, notifications });
+    dispatch({ type: NOTIFICATIONS_PUSH, payload: notifications });
   };
 };
 const removeNotification = (id: string): Action => {
   return (dispatch: Dispatch): void => {
-    dispatch({ type: NOTIFICATION_DELETE, id });
+    dispatch({ type: NOTIFICATION_DELETE, payload: id });
   };
 };
 const clearNotifications = (): Action => {

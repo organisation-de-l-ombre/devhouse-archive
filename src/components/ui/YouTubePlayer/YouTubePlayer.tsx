@@ -2,8 +2,9 @@ import React from "react";
 import YouTube from "react-youtube";
 import Modal from "../Modal/Modal";
 import styles from "./YouTubePlayer.module.scss";
+import { PlayerDimensions } from "./Types";
 
-const getPlayerDimensions = (): { width: number; height: number } => {
+const getPlayerDimensions = (): PlayerDimensions => {
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
   const width =

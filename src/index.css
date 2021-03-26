@@ -12,9 +12,9 @@ a, button { text-align: center; }
 
 a { text-decoration: none; }
 
-h1 {
-    font-size: 2.25rem;
-}
+h1 { font-size: 35px; }
+
+h2 { font-size: 25px; }
 
 hr {
     margin: 1rem 0;
@@ -27,9 +27,7 @@ p, q { word-wrap: break-word; }
 
 ::-webkit-scrollbar-track { background: rgb(140, 140, 140); }
 
-::-webkit-scrollbar-thumb {
-    background-color: rgb(230, 85, 85);
-}
+::-webkit-scrollbar-thumb { background-color: rgb(230, 85, 85); }
 
 #app {
     max-width: 100%;
@@ -38,5 +36,5 @@ p, q { word-wrap: break-word; }
     flex-direction: column;
     justify-content: space-between;
     background-color: var(--website-background-color);
-    transition: background-color ease-in-out .5s;
+    transition: background-color ease-in-out 300ms;
 }

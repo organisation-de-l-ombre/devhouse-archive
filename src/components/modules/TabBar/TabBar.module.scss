@@ -26,7 +26,7 @@
       }
 
       &:hover {
-        background-color: var(--secondary-background-color);
+        background-color: var(--primary-background-color-hover);
         border-top: .150rem solid var(--font-color-hover);
         color: var(--font-color-hover);
       }
@@ -81,7 +81,7 @@
           &:hover, &.active {
             border-left: .2rem solid var(--font-color-hover);
             color: var(--font-color-hover);
-            background-color: var(--secondary-background-color);
+            background-color: var(--primary-background-color-hover);
           }
         }
       }

@@ -1,0 +1,17 @@
+.notification-enter {
+  transform: translateX(100%);
+}
+
+.notification-enter-active {
+  transform: translateX(0);
+  transition: transform 500ms;
+}
+
+.notification-exit {
+  transform: translateX(0);
+}
+
+.notification-exit-active {
+  transform: translateX(100%);
+  transition: transform 500ms;
+}

@@ -6,7 +6,7 @@ import SelectList, { manageSelection } from "../../ui/SelectList/SelectList";
 import { supportedLanguages } from "../../../store/language/Types";
 import Button from "../../ui/Button/Button";
 import Modal from "../../ui/Modal/Modal";
-import useLanguage from "../../../hooks/Language";
+import useLanguage from "../../../hooks/Language/Language";
 
 const DisplaySVG: React.FC<
   React.ImgHTMLAttributes<HTMLImageElement> & { alt: string; lang: string }
@@ -27,8 +27,7 @@ const LanguageModal: React.FC<
     setLanguageWindowOpen: React.Dispatch<React.SetStateAction<boolean>>;
   }
 > = ({ languageWindowOpen, setLanguageWindowOpen }) => {
-  const [languageState, setLanguageState] = React.useState<string>("default");
-  const { validateLanguage } = useLanguage();
+  const { setLanguageState, validateLanguage } = useLanguage();
   const { t } = useTranslation("components\\navbar");
 
   return (
@@ -65,16 +64,7 @@ const LanguageModal: React.FC<
             );
           })}
         </SelectList>
-        <Button
-          onClick={() => {
-            validateLanguage({
-              languageState,
-              setLanguageState,
-              languageWindowOpen,
-              setLanguageWindowOpen,
-            });
-          }}
-        >
+        <Button onClick={() => validateLanguage(setLanguageWindowOpen)}>
           <Trans t={t} i18nKey="modal.saveLanguage" />
         </Button>
       </div>

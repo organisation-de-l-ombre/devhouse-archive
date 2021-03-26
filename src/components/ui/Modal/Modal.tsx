@@ -27,6 +27,14 @@ const Modal: React.FC<
   setOpen,
   ...props
 }) => {
+  React.useEffect(() => {
+    if (open) {
+      document.body.style.overflowY = "hidden";
+    } else {
+      document.body.style.overflowY = "";
+    }
+  }, [open]);
+
   return (
     <CSSTransition
       in={open}

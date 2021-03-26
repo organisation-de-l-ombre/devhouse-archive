@@ -2,7 +2,6 @@
 import React from "react";
 import { useTranslation, Trans } from "react-i18next";
 import { FcCheckmark } from "react-icons/fc";
-import { useDispatch, useSelector } from "react-redux";
 import Modal from "../../Modal/Modal";
 import modalStyles from "../../Modal/Modal.module.scss";
 import globalStyles from "../../../../themes/Global.module.scss";
@@ -11,13 +10,11 @@ import Button from "../../Button/Button";
 import styles from "./NotificationModal.module.scss";
 import generateNotificationID from "../../../../utilities/generateNotificationID";
 import i18n from "../../../../languages/i18n";
-import { NotificationsConfigState } from "../../../../store/notifications/Types";
-import { GlobalState } from "../../../../store/Types";
 import {
-  pushNotifications,
-  setFirstUse,
-  updateNotificationsPermissions,
-} from "../../../../store/notifications/Actions";
+  useNotificationsManager,
+  useNotificationsPreferences,
+  useNotificationsState,
+} from "../../../../hooks/Notifications/Notifications";
 
 const NotificationsModal: React.FC<
   React.DetailedHTMLProps<
@@ -29,45 +26,12 @@ const NotificationsModal: React.FC<
   }
 > = ({ open, setOpen }) => {
   const { t } = useTranslation("components\\notifications\\notificationsModal");
-  const config: NotificationsConfigState = useSelector(
-    (state: GlobalState): NotificationsConfigState => state.notificationsConfig
-  );
-  const dispatch = useDispatch();
-  const [
-    notificationsPreferencesState,
+  const { allowNotifications } = useNotificationsState();
+  const {
     setNotificationsPreferencesState,
-  ] = React.useState<string | boolean>("default");
-  const validateChoice = (): boolean => {
-    if (
-      notificationsPreferencesState === "default" ||
-      notificationsPreferencesState === config.allowNotifications
-    ) {
-      alert(
-        i18n.t(
-          "components\\notifications\\notificationsModal:invalidPreference"
-        )
-      );
-
-      return false;
-    }
-
-    setNotificationsPreferencesState("default");
-    setOpen(false);
-
-    return true;
-  };
-
-  React.useEffect((): (() => void) => {
-    return (): void => {
-      if (notificationsPreferencesState !== "default") {
-        dispatch(
-          updateNotificationsPermissions(
-            notificationsPreferencesState as boolean
-          )
-        );
-      }
-    };
-  }, [dispatch, notificationsPreferencesState]);
+    validateChoice,
+  } = useNotificationsPreferences();
+  const { addNotifications } = useNotificationsManager();
 
   return (
     <Modal
@@ -95,7 +59,7 @@ const NotificationsModal: React.FC<
             <span>
               <Trans t={t} i18nKey="options.yes" />
             </span>
-            {config.allowNotifications ? <FcCheckmark /> : <></>}
+            {allowNotifications ? <FcCheckmark /> : <></>}
           </li>
           <li
             onClick={() => {
@@ -106,30 +70,24 @@ const NotificationsModal: React.FC<
             <span>
               <Trans t={t} i18nKey="options.no" />
             </span>
-            {config.allowNotifications ? <></> : <FcCheckmark />}
+            {allowNotifications ? <></> : <FcCheckmark />}
           </li>
         </SelectList>
         <Button
           onClick={() => {
-            if (config && config.firstUse) {
-              dispatch(setFirstUse());
-            }
-
-            const validation: boolean = validateChoice();
+            const validation: boolean = validateChoice(setOpen);
 
             if (validation) {
-              dispatch(
-                pushNotifications([
-                  {
-                    id: generateNotificationID(),
-                    type: "info",
-                    time: 5000,
-                    body: i18n.t(
-                      "components\\notifications\\notificationsModal:preferencesUpdated"
-                    ),
-                  },
-                ])
-              );
+              addNotifications([
+                {
+                  id: generateNotificationID(),
+                  type: "info",
+                  time: 5000,
+                  body: i18n.t(
+                    "components\\notifications\\notificationsModal:preferencesUpdated"
+                  ),
+                },
+              ]);
             }
           }}
         >
