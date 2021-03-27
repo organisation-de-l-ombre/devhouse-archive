@@ -2,7 +2,6 @@
   "name": "abdera",
   "version": "1.0.0",
   "description": "The website API",
-  "main": "index.js",
   "repository": "https://gitlab.com/developers-house/dev/website-group/abdera.git",
   "author": "Matthieu <matthieu974fr.pignolet@gmail.com>",
   "license": "MIT",

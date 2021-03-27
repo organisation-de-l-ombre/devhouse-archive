@@ -11,4 +11,4 @@ WORKDIR /app
 COPY package.json .
 COPY --from=build /build/node_modules /app/node_modules
 COPY --from=build /build/dist .
-CMD node .
+ENTRYPOINT node .
