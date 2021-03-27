@@ -50,22 +50,22 @@ export default class Server {
 
         });
 
-        this.server.register(fastifyAuth);
+        this.server.register(fastifyAuth).after(() => {
+            this.server.route(getProjectsRoute);
+            this.server.route(getStaffRoute);
+            this.server.route(getAuthorizationsRoute(this.server));
+            this.server.route(deleteAuthorizationRoute(this.server));
+            this.server.route(getTakeouts(this.server));
+            this.server.route(postLogoutAll(this.server));
+            this.server.route(postTakeouts(this.server));
 
-        this.server.route(getProjectsRoute);
-        this.server.route(getStaffRoute);
-        this.server.route(getAuthorizationsRoute(this.server));
-        this.server.route(deleteAuthorizationRoute(this.server));
-        this.server.route(getTakeouts(this.server));
-        this.server.route(postLogoutAll(this.server));
-        this.server.route(postTakeouts(this.server));
+            this.server.setErrorHandler(Server.errorHandler);
+            this.server.setNotFoundHandler(Server.notFound);
 
-        this.server.setErrorHandler(Server.errorHandler);
-        this.server.setNotFoundHandler(Server.notFound);
-
-        this.server.listen({
-            port,
-            host: '0.0.0.0',
+            this.server.listen({
+                port,
+                host: '0.0.0.0',
+            });
         });
     }
 
