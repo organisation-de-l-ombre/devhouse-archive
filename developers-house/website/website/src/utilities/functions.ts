@@ -1,4 +1,4 @@
-import { CachedUser } from "../pages/Members/types";
+import { StaffMember } from "../api/gen";
 
 export function groupBy<T, TR>(
   array: T[],
@@ -26,7 +26,7 @@ export function statusToColor(
   return nameColor[name] || nameColor.offline;
 }
 
-export function getAvatar(member: CachedUser): string {
+export function getAvatar(member: StaffMember): string {
   return member.avatar
     ? `https://cdn.discordapp.com/avatars/${member.id}/${member.avatar}.${
         member.avatar.startsWith("a_") ? "gif" : "webp"

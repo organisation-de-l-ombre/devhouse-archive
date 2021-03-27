@@ -4,6 +4,10 @@
 /// <reference types="react" />
 /// <reference types="react-dom" />
 
+declare interface GlobalFetch {
+  fetch(input: RequestInfo, init?: RequestInit): Promise<Response>;
+}
+
 declare namespace NodeJS {
   interface ProcessEnv {
     readonly NODE_ENV: "development" | "production" | "test";

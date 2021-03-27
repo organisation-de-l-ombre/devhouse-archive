@@ -3,7 +3,7 @@ import { ThunkAction } from "redux-thunk";
 import { Action } from "redux";
 import { fetchUser } from "utilities";
 import { DefaultRootState } from "react-redux";
-import { NotificationPayloadType } from "../notifications";
+import { NotificationPayloadType } from "../notifications/Types";
 import {
   PayloadTypes,
   User,
@@ -40,20 +40,22 @@ function urlEncodeFormData(fd: string[][]) {
   let s = "";
   fd.forEach((pair) => {
     if (typeof pair[1] === "string") {
-      s += `${
-        (s ? "&" : "") + encodeURIComponent(pair[0])
-      }=${pair[1]}`;
+      s += `${(s ? "&" : "") + encodeURIComponent(pair[0])}=${pair[1]}`;
     }
   });
   return s;
 }
 
 async function generateCodeChallenge(codeVerifier: string) {
-  const digest = await crypto.subtle.digest("SHA-256",
-    new TextEncoder().encode(codeVerifier));
+  const digest = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(codeVerifier)
+  );
 
   return btoa(String.fromCharCode(...new Uint8Array(digest)))
-    .replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
+    .replace(/=/g, "")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_");
 }
 
 if (process.env.NODE_ENV === "development") {
@@ -94,11 +96,7 @@ async function getTokenWithPopup(): Promise<string> {
     apiAudience
   )}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
 
-  const popupWindow = window.open(
-    url,
-    "Login",
-    options
-  );
+  const popupWindow = window.open(url, "Login", options);
 
   // eslint-disable-next-line @typescript-eslint/return-await
   return await new Promise<string>((resolve, reject): void => {

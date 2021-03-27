@@ -1,13 +1,13 @@
 /* eslint-disable */
 import React, { ReactElement, useEffect, useState } from "react";
-import { Notification } from "state/modules/notifications";
+import { Notification } from "state/modules/notifications/Types";
 import { CSSTransition } from "react-transition-group";
 import { FaWindowClose } from "react-icons/fa";
 import { Button } from "../ui/Button/Button";
 import ButtonGroup from "../ui/Button/ButtonGroup";
 import styles from "./notifications.module.scss";
 
-type Merde = undefined | (() => void);
+type NotificationCleanup = undefined | (() => void);
 
 const NotificationComponent = (props: {
   notification: Notification;
@@ -16,7 +16,7 @@ const NotificationComponent = (props: {
   const { notification, destroy } = props;
 
   const [timer, setTimer] = useState<number | null>(null);
-  useEffect((): Merde => {
+  useEffect((): NotificationCleanup => {
     if (timer) return;
     if (notification.time !== -1) {
       setTimer(

@@ -15,6 +15,7 @@ import styles from "./Menu/navigation.module.scss";
 import UserAvatarStatus from "../ui/UserAvatarStatus/UserAvatarStatus";
 import globalStyles from "../../styles/Global.module.scss";
 import Tooltip from "../tooltip/Tooltip";
+import { useNotificationsManager } from "../../hooks/Notifications/Notifications";
 
 export function Menu(): ReactElement {
   const [open, setOpen] = useState<boolean>(false);
@@ -22,6 +23,7 @@ export function Menu(): ReactElement {
   const dispatch = useDispatch();
   const page = useLocation();
   const dark = useSelector((e) => e.theme.theme === "light");
+  const { addNotification } = useNotificationsManager();
 
   const [transparent, setTransparent] = useState(window.scrollY > 0);
 
@@ -132,6 +134,11 @@ export function Menu(): ReactElement {
             onClick={(e) => {
               e.stopPropagation();
               dispatch(updateTheme(dark ? "dark" : "light"));
+              addNotification({
+                level: "information",
+                text: `Switched to ${dark ? "dark" : "light"} theme.`,
+                time: 5000,
+              });
             }}
           >
             {dark ? <BsMoon /> : <FaSun />}

@@ -4,24 +4,27 @@
 
 import React, { ReactElement } from "react";
 import { FallbackProps } from "react-error-boundary";
-import styles from "./error-page.module.scss";
+import globalStyles from "../styles/Global.module.scss";
+import FlexContainer from "../components/FlexContainer/FlexContainer";
+import { Button } from "../components/ui/Button/Button";
+import { Card, CardPadding } from "../components/ui/Card/Card";
 
 const ErrorPage = (props: unknown & FallbackProps): ReactElement => {
   const { resetErrorBoundary } = props;
   return (
-    <div id="error-container" className={styles.errorPage}>
-      <div id="error-window">
-        <h1>Oops... The page just crashed...</h1>
-        <p>
-          Try refreshing the page. <br />
-          If the problem persists, update your browser to the latest version.
-          The error has been reported to our team.
-        </p>
-        <button onClick={resetErrorBoundary} type="button">
-          Restart.
-        </button>
-      </div>
-    </div>
+    <FlexContainer className={globalStyles["container-align-full-center"]}>
+      <Card className={globalStyles["fit-content"]}>
+        <CardPadding>
+          <h1>Oops... The page just crashed...</h1>
+          <p>
+            Try refreshing the page. <br />
+            If the problem persists, update your browser to the latest version.
+            The error has been reported to our team.
+          </p>
+          <Button onClick={resetErrorBoundary}>Reload page</Button>
+        </CardPadding>
+      </Card>
+    </FlexContainer>
   );
 };
 
