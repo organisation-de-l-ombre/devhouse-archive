@@ -3,7 +3,7 @@
     "esModuleInterop": true,
     "moduleResolution": "Node",
     "outDir": "dist",
-    "target": "ES6",
+    "target": "ES3"
   },
   "include": [
     "./src"
