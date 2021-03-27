@@ -29,7 +29,7 @@ import {
     UserToJSON,
 } from '../models';
 
-export interface UserMeAuthorizationsDeleteRequest {
+export interface SelfAuthorizationsDeleteRequest {
     clientId: string;
 }
 
@@ -37,6 +37,204 @@ export interface UserMeAuthorizationsDeleteRequest {
  * 
  */
 export class UserAPIApi extends runtime.BaseAPI {
+
+    /**
+     */
+    async selfAuthorizationsDeleteRaw(requestParameters: SelfAuthorizationsDeleteRequest): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.clientId === null || requestParameters.clientId === undefined) {
+            throw new runtime.RequiredError('clientId','Required parameter requestParameters.clientId was null or undefined when calling selfAuthorizationsDelete.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        if (requestParameters.clientId !== undefined) {
+            queryParameters['clientId'] = requestParameters.clientId;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/self/authorizations`,
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async selfAuthorizationsDelete(requestParameters: SelfAuthorizationsDeleteRequest): Promise<void> {
+        await this.selfAuthorizationsDeleteRaw(requestParameters);
+    }
+
+    /**
+     */
+    async selfAuthorizationsGetRaw(): Promise<runtime.ApiResponse<Array<Authorization>>> {
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/self/authorizations`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(AuthorizationFromJSON));
+    }
+
+    /**
+     */
+    async selfAuthorizationsGet(): Promise<Array<Authorization>> {
+        const response = await this.selfAuthorizationsGetRaw();
+        return await response.value();
+    }
+
+    /**
+     */
+    async selfGetRaw(): Promise<runtime.ApiResponse<SelfUser>> {
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/self`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SelfUserFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async selfGet(): Promise<SelfUser> {
+        const response = await this.selfGetRaw();
+        return await response.value();
+    }
+
+    /**
+     */
+    async selfLinksGetRaw(): Promise<runtime.ApiResponse<string>> {
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/self/links`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.TextApiResponse(response) as any;
+    }
+
+    /**
+     */
+    async selfLinksGet(): Promise<string> {
+        const response = await this.selfLinksGetRaw();
+        return await response.value();
+    }
+
+    /**
+     */
+    async selfLogoutAllPostRaw(): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/self/logoutAll`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async selfLogoutAllPost(): Promise<void> {
+        await this.selfLogoutAllPostRaw();
+    }
+
+    /**
+     */
+    async selfPatchRaw(): Promise<runtime.ApiResponse<SelfUser>> {
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/self`,
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SelfUserFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async selfPatch(): Promise<SelfUser> {
+        const response = await this.selfPatchRaw();
+        return await response.value();
+    }
+
+    /**
+     */
+    async selfTakeoutsGetRaw(): Promise<runtime.ApiResponse<Array<Takeout>>> {
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/self/takeouts`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(TakeoutFromJSON));
+    }
+
+    /**
+     */
+    async selfTakeoutsGet(): Promise<Array<Takeout>> {
+        const response = await this.selfTakeoutsGetRaw();
+        return await response.value();
+    }
+
+    /**
+     */
+    async selfTakeoutsPostRaw(): Promise<runtime.ApiResponse<Takeout>> {
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/self/takeouts`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => TakeoutFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async selfTakeoutsPost(): Promise<Takeout> {
+        const response = await this.selfTakeoutsPostRaw();
+        return await response.value();
+    }
 
     /**
      */
@@ -59,204 +257,6 @@ export class UserAPIApi extends runtime.BaseAPI {
      */
     async userIdGet(): Promise<User> {
         const response = await this.userIdGetRaw();
-        return await response.value();
-    }
-
-    /**
-     */
-    async userMeAuthorizationsDeleteRaw(requestParameters: UserMeAuthorizationsDeleteRequest): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.clientId === null || requestParameters.clientId === undefined) {
-            throw new runtime.RequiredError('clientId','Required parameter requestParameters.clientId was null or undefined when calling userMeAuthorizationsDelete.');
-        }
-
-        const queryParameters: runtime.HTTPQuery = {};
-
-        if (requestParameters.clientId !== undefined) {
-            queryParameters['clientId'] = requestParameters.clientId;
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/user/@me/authorizations`,
-            method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     */
-    async userMeAuthorizationsDelete(requestParameters: UserMeAuthorizationsDeleteRequest): Promise<void> {
-        await this.userMeAuthorizationsDeleteRaw(requestParameters);
-    }
-
-    /**
-     */
-    async userMeAuthorizationsGetRaw(): Promise<runtime.ApiResponse<Array<Authorization>>> {
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/user/@me/authorizations`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(AuthorizationFromJSON));
-    }
-
-    /**
-     */
-    async userMeAuthorizationsGet(): Promise<Array<Authorization>> {
-        const response = await this.userMeAuthorizationsGetRaw();
-        return await response.value();
-    }
-
-    /**
-     */
-    async userMeGetRaw(): Promise<runtime.ApiResponse<SelfUser>> {
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/user/@me`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => SelfUserFromJSON(jsonValue));
-    }
-
-    /**
-     */
-    async userMeGet(): Promise<SelfUser> {
-        const response = await this.userMeGetRaw();
-        return await response.value();
-    }
-
-    /**
-     */
-    async userMeLinksGetRaw(): Promise<runtime.ApiResponse<string>> {
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/user/@me/links`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.TextApiResponse(response) as any;
-    }
-
-    /**
-     */
-    async userMeLinksGet(): Promise<string> {
-        const response = await this.userMeLinksGetRaw();
-        return await response.value();
-    }
-
-    /**
-     */
-    async userMeLogoutAllPostRaw(): Promise<runtime.ApiResponse<void>> {
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/user/@me/logoutAll`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     */
-    async userMeLogoutAllPost(): Promise<void> {
-        await this.userMeLogoutAllPostRaw();
-    }
-
-    /**
-     */
-    async userMePatchRaw(): Promise<runtime.ApiResponse<SelfUser>> {
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/user/@me`,
-            method: 'PATCH',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => SelfUserFromJSON(jsonValue));
-    }
-
-    /**
-     */
-    async userMePatch(): Promise<SelfUser> {
-        const response = await this.userMePatchRaw();
-        return await response.value();
-    }
-
-    /**
-     */
-    async userMeTakeoutsGetRaw(): Promise<runtime.ApiResponse<Array<Takeout>>> {
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/user/@me/takeouts`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(TakeoutFromJSON));
-    }
-
-    /**
-     */
-    async userMeTakeoutsGet(): Promise<Array<Takeout>> {
-        const response = await this.userMeTakeoutsGetRaw();
-        return await response.value();
-    }
-
-    /**
-     */
-    async userMeTakeoutsPostRaw(): Promise<runtime.ApiResponse<Takeout>> {
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/user/@me/takeouts`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => TakeoutFromJSON(jsonValue));
-    }
-
-    /**
-     */
-    async userMeTakeoutsPost(): Promise<Takeout> {
-        const response = await this.userMeTakeoutsPostRaw();
         return await response.value();
     }
 
