@@ -2,7 +2,7 @@ import { FastifyInstance, RouteOptions } from "fastify";
 import { logoutAll } from "../../logic/hydra-interface";
 import { hydraCheckToken } from "../../middlewares/hydra-check-token";
 
-const getTakeouts = (server: FastifyInstance): RouteOptions => {
+const postLogoutAll = (server: FastifyInstance): RouteOptions => {
     return {
         method: "POST",
         async handler(
@@ -19,4 +19,4 @@ const getTakeouts = (server: FastifyInstance): RouteOptions => {
     };
 }
 
-export default getTakeouts;
+export default postLogoutAll;
