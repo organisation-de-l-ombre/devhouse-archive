@@ -497,7 +497,7 @@ export const DisplayDataApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async dataStaffGet(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StaffMember>> {
+        async dataStaffGet(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<StaffMember>>> {
             const localVarAxiosArgs = await DisplayDataApiAxiosParamCreator(configuration).dataStaffGet(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -526,7 +526,7 @@ export const DisplayDataApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        dataStaffGet(options?: any): AxiosPromise<StaffMember> {
+        dataStaffGet(options?: any): AxiosPromise<Array<StaffMember>> {
             return DisplayDataApiFp(configuration).dataStaffGet(options).then((request) => request(axios, basePath));
         },
     };
