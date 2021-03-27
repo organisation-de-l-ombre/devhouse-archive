@@ -11,14 +11,17 @@ function hydraCheckToken (scopes: string[]) {
 
             const resp = validateHydraResponse(await req.hydra.introspectOAuth2Token(
                 token,
-                scopes.join(" "),
             ));
             const audiences = ["abdera"];
 
             if (audiences.reduce((valid, current) => valid && resp.aud.includes(current), true)) {
                 req.user = resp.sub;
                 next();
+                return;
             }
+            req.user = resp.sub;
+            next();
+            return;
         }
 
         res.code(401);
