@@ -10,7 +10,7 @@ const requester = axios.create({
 export const AdminAPI = new AdminApi(
   {},
   process.env.HYDRA_ADMIN || "http://localhost:5005",
-  requester as any
+  requester
 );
 
 export function validateHydraResponse<T>(response: AxiosResponse<T>): T {
