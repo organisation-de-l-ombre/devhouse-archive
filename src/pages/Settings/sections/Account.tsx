@@ -164,18 +164,22 @@ const Takeouts: FC = () => {
                 Status: {dat.status} <br />
                 Expires in {dat.expire} seconds. <br />
                 Includes:
-                {dat.services.map((service) => {
-                  return (
-                    <Indicator
-                      key={`${service.name}${dat.uuid}`}
-                      color={
-                        service.status === "finished" ? "#6dab49" : "#9b9946"
-                      }
-                    >
-                      {service.name}
-                    </Indicator>
-                  );
-                })}
+                {dat.services ? (
+                  dat.services.map((service) => {
+                    return (
+                      <Indicator
+                        key={`${service.name}${dat.uuid}`}
+                        color={
+                          service.status === "finished" ? "#6dab49" : "#9b9946"
+                        }
+                      >
+                        {service.name}
+                      </Indicator>
+                    );
+                  })
+                ) : (
+                  <></>
+                )}
               </CardSection>
               {dat.link && (
                 <a href={dat.link} rel="noopener noreferrer">

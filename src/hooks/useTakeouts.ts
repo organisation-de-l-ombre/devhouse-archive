@@ -8,74 +8,20 @@ import {
   useQuery,
   useQueryClient,
 } from "react-query";
-import { gql } from "graphql-request";
-import { GlobalGraphQLClient } from "../constants";
 import { useCriticalError } from "./useAuthorizedApps";
+import { Takeout } from "../api/gen";
+import { UserAPI } from "../Root";
 
-const getTakeouts = gql`
-  query {
-    listTakeouts {
-      status
-      uuid
-      link
-      expire
-      services {
-        name
-        status
-      }
-    }
-  }
-`;
-
-const createTakeout = gql`
-  mutation {
-    createTakeout {
-      uuid
-      status
-      link
-      expire
-    }
-  }
-`;
-
-export type Takeout = {
-  status: string;
-  uuid: string;
-  link?: string;
-  expire: number;
-  services: {
-    name: string;
-    status: string;
-  }[];
+const useTakeouts = (): QueryObserverResult<Takeout[], Error> => {
+  return useQuery("membersCache", () => UserAPI.selfTakeoutsGet());
 };
 
-const requestsTakeouts = async () => {
-  const data = await GlobalGraphQLClient.request<{
-    listTakeouts: Takeout[];
-  }>(getTakeouts);
-  return data.listTakeouts;
-};
-
-const doCreateTakeout = async () => {
-  const takeout = await GlobalGraphQLClient.request<{
-    createTakeout: Takeout;
-  }>(createTakeout);
-  return takeout.createTakeout;
-};
-
-export const useTakeouts = (): QueryObserverResult<Takeout[], Error> => {
-  const criticalError = useCriticalError();
-  return useQuery("takeouts", requestsTakeouts, {
-    onError: criticalError,
-  });
-};
-
-export const useCreateTakeout = (): UseMutateFunction<Takeout, Error> => {
+const useCreateTakeout = (): UseMutateFunction<Takeout, Error> => {
   const criticalError = useCriticalError();
   const client = useQueryClient();
-  const { mutate } = useMutation<Takeout, Error>(
+  const { mutate } = useMutation(
     "create_takeout",
-    doCreateTakeout,
+    () => UserAPI.selfTakeoutsPost(),
     {
       onSuccess(data) {
         client.setQueryData<Takeout[]>("takeouts", (old = []) => {
@@ -88,10 +34,11 @@ export const useCreateTakeout = (): UseMutateFunction<Takeout, Error> => {
           ];
         });
       },
-      onError: (error) => criticalError(error) && undefined,
+      onError: (error: Error) => criticalError(error) && undefined,
     }
   );
+
   return mutate;
 };
 
-export default useTakeouts;
+export { useTakeouts, useCreateTakeout };

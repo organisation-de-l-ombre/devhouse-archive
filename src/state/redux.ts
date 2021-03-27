@@ -16,7 +16,6 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { PersistConfig } from "redux-persist/es/types";
 import localForage from "localforage";
 import { modules } from "./modules";
-import { GlobalGraphQLClient } from "../constants";
 import { Logger } from "../utilities/logger";
 
 const logger = new Logger("Redux");
@@ -73,13 +72,7 @@ export function createState(): { store: Store; persistor: Persistor } {
     callCompose
   );
 
-  store.subscribe(() => {
-    logger.info("Authorization updated");
-    GlobalGraphQLClient.setHeader(
-      "Authorization",
-      `Bearer ${store.getState().user.token}`
-    );
-  });
+  store.subscribe(() => logger.info("Authorization updated"));
 
   initStateWithPrevTab(store);
 

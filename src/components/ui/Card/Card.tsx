@@ -14,11 +14,10 @@ export const CardPadding: React.FC<
   <div className={[className, styles.padding].join(" ")} {...props} />
 );
 
-export const CardHeader: React.FC<
-  SimplifiedHTMLProperties<HTMLDivElement>
-> = ({ className, ...props }) => (
-  <div className={[className, styles.header].join(" ")} {...props} />
-);
+export const CardHeader: React.FC<SimplifiedHTMLProperties<HTMLDivElement>> = ({
+  className,
+  ...props
+}) => <div className={[className, styles.header].join(" ")} {...props} />;
 
 export const CardSection: React.FC<
   SimplifiedHTMLProperties<HTMLDivElement>

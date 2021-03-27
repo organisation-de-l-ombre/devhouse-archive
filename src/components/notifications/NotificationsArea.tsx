@@ -1,19 +1,20 @@
 import React, { ReactElement } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { TransitionGroup } from "react-transition-group";
-import { Notification, removeNotification } from "state/modules/notifications";
+import { Notification } from "state/modules/notifications/Types";
 import styles from "./notifications.module.scss";
 import "./animations.css";
 import NotificationComponent from "./NotificationComponent";
+import {
+  useNotificationsManager,
+  useNotificationsState,
+} from "../../hooks/Notifications/Notifications";
 
 export default function NotificationsArea(): ReactElement {
-  const notifications = useSelector(
-    (state) => state.notifications.notifications
-  );
-  const dispatch = useDispatch();
+  const { notifications } = useNotificationsState();
+  const { deleteNotification } = useNotificationsManager();
 
   const callback = (notification: Notification) => {
-    dispatch(removeNotification(notification.id || ""));
+    deleteNotification(notification.id || "");
   };
 
   return (

@@ -10,7 +10,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { BrowserRouter } from "react-router-dom";
 import { I18nextProvider } from "react-i18next";
 import i18next from "i18next";
-import { pushNotification } from "./state/modules/notifications";
+import { pushNotification } from "./state/modules/notifications/Actions";
 import ThemeProvider from "./components/ThemeProvider/ThemeProvider";
 import Navigator from "./pages/Navigator";
 import { register } from "./utilities";
@@ -19,12 +19,24 @@ import { Menu } from "./components/navbar";
 import { Loader } from "./components/SuspenseLoader/SuspenseLoader";
 import { Logger } from "./utilities/logger";
 import NotificationsArea from "./components/notifications/NotificationsArea";
+import { RequestContext, UserAPIApi } from "./api/gen";
 
 const logger = new Logger("Root");
 // eslint-disable-next-line no-console
 console.clear();
 logger.info("~ Loading Developer's House frontend.");
 const { store, persistor } = createState();
+const UserAPI = new UserAPIApi().withPreMiddleware(
+  async (context: RequestContext) => {
+    const { token } = store.getState().user;
+
+    context.init.headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    return { url: `${context.url}?auth_token=${token}`, init: context.init };
+  }
+);
 
 const ErrorPage = React.lazy(() => import("pages/ErrorPage"));
 
@@ -82,3 +94,4 @@ export default function Root(): ReactElement {
     </ErrorBoundary>
   );
 }
+export { UserAPI };

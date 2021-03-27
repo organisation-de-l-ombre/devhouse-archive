@@ -1,21 +1,16 @@
-import React, { ComponentProps, ReactElement } from "react";
+import React, { FC, DetailedHTMLProps, AllHTMLAttributes } from "react";
 import { Card, CardPadding } from "components/ui/Card/Card";
 import UserAvatarStatus from "components/ui/UserAvatarStatus/UserAvatarStatus";
 import { getAvatar, statusToColor } from "../../utilities";
-import { CachedUser } from "./types";
 import styles from "./member.module.scss";
 import Tooltip from "../../components/tooltip/Tooltip";
+import { StaffMember } from "../../api/gen";
 
-function MemberDisplay({
-  className,
-  member: {
-    presence,
-    discriminator,
-    username,
-    hoistRole: { name, color },
-  },
-  member,
-}: ComponentProps<"section"> & { member: CachedUser }): ReactElement {
+const MemberDisplay: FC<
+  DetailedHTMLProps<AllHTMLAttributes<HTMLDivElement>, HTMLDivElement> & {
+    member: StaffMember;
+  }
+> = ({ className, member }) => {
   return (
     <Card className={className}>
       <CardPadding>
@@ -23,30 +18,30 @@ function MemberDisplay({
           <div className={styles.svgContainer}>
             <UserAvatarStatus
               height="7rem"
-              animate={member.presence?.status !== "offline"}
-              statusColor={statusToColor(member.presence?.status || "offline")}
+              animate={member.presence.status !== "offline"}
+              statusColor={statusToColor(member.presence.status || "offline")}
               avatar={getAvatar(member)}
             />
           </div>
           <div>
-            <Tooltip tooltip={`${username}#${discriminator}`}>
-              <h2>{username}</h2>
+            <Tooltip tooltip={`${member.username}#${member.discriminator}`}>
+              <h2>{member.username}</h2>
             </Tooltip>
-            <p style={{ color }}>{name}</p>
+            <p style={{ color: member.role.color }}>{member.role.name}</p>
             <div>
-              {presence?.presenceText && (
+              {member.presence.text && (
                 <p>
-                  {presence?.emote &&
-                    (presence.emote.startsWith("http") ? (
+                  {member.presence.emote &&
+                    (member.presence.emote.startsWith("http") ? (
                       <img
                         alt="Discord emoji"
                         className={styles.emote}
-                        src={presence.emote}
+                        src={member.presence.emote}
                       />
                     ) : (
-                      presence.emote
+                      member.presence.emote
                     ))}
-                  {`   ${presence?.presenceText}`}
+                  {`   ${member.presence.text}`}
                 </p>
               )}
             </div>
@@ -56,6 +51,6 @@ function MemberDisplay({
       </CardPadding>
     </Card>
   );
-}
+};
 
 export default MemberDisplay;

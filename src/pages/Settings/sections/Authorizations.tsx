@@ -15,18 +15,18 @@ import {
   CardSection,
 } from "../../../components/ui/Card/Card";
 import {
-  Client,
   useAuthorizedApps,
   useAuthorizedAppsAllDelete,
   useAuthorizedAppsDeleteMutation,
 } from "../../../hooks/useAuthorizedApps";
 import ButtonGroup from "../../../components/ui/Button/ButtonGroup";
 import globalStyles from "../../../styles/Global.module.scss";
+import { Authorization } from "../../../api/gen";
 
 const AuthorizationsCard: React.FC<{
-  client: Client;
+  client: Authorization;
 }> = ({ client }) => {
-  const { remove } = useAuthorizedAppsDeleteMutation(client.client_id);
+  const { remove } = useAuthorizedAppsDeleteMutation(client.client.id);
 
   const date = new Date(client.grantedAt);
   const dateString = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
@@ -34,7 +34,7 @@ const AuthorizationsCard: React.FC<{
     <Card className={globalStyles["card-margin"]}>
       <CardPadding>
         <CardHeader>
-          <b>{client.client_name || client.client_id}</b>
+          <b>{client.client.name || client.client.id}</b>
         </CardHeader>
         <CardSection>
           The permission was accorded on {dateString} for the audiences{" "}
@@ -93,7 +93,7 @@ const Authorizations = (): ReactElement => {
       </CardPadding>
       <CardFlexContainer>
         {data?.map((client) => {
-          return <AuthorizationsCard client={client} key={client.grantedAt} />;
+          return <AuthorizationsCard client={client} key={client.client.id} />;
         })}
       </CardFlexContainer>
     </>
