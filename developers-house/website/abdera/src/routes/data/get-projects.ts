@@ -1,7 +1,7 @@
 import { RouteOptions } from "fastify";
 import getProjects from "../../logic/get-projects";
 
-const route: RouteOptions = {
+const getProjectsRoute: RouteOptions = {
     method: "GET",
     async handler(
         req,
@@ -13,4 +13,6 @@ const route: RouteOptions = {
     url: "/data/projects",
 };
 
-export default route;
+export {
+    getProjectsRoute
+};

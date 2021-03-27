@@ -1,7 +1,7 @@
 import { RouteOptions } from "fastify";
 import getStaff from "../../logic/get-staff";
 
-const route: RouteOptions = {
+const getStaffRoute: RouteOptions = {
     method: "GET",
     async handler(
         req,
@@ -13,4 +13,6 @@ const route: RouteOptions = {
     url: "/data/staff",
 };
 
-export default route;
+export {
+    getStaffRoute
+};
