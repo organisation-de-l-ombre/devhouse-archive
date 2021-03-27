@@ -23,7 +23,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/StaffMember"
+                type: array
+                items:
+                  $ref: "#/components/schemas/StaffMember"
         default:
           description: Failed to fetch the staff users.
   "/data/projects":
