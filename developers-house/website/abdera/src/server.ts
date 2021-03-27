@@ -61,11 +61,11 @@ export default class Server {
 
             this.server.setErrorHandler(Server.errorHandler);
             this.server.setNotFoundHandler(Server.notFound);
+        });
 
-            this.server.listen({
-                port,
-                host: '0.0.0.0',
-            });
+        this.server.listen({
+            port,
+            host: '0.0.0.0',
         });
     }
 
