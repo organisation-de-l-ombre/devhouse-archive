@@ -1,0 +1,348 @@
+openapi: 3.0.0
+
+info:
+  title: Abdera API
+  description: A simple api for the ressources needed by the website.
+  version: v1
+
+servers:
+  - url: https://abdera-api.developershouse.xyz
+
+tags:
+  - name: Display Data
+  - name: User API
+
+paths:
+  "/data/staff":
+    get:
+      tags:
+        - Display Data
+      responses:
+        200:
+          description: Succesfully fetched the staff users.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StaffMember"
+        default:
+          description: Failed to fetch the staff users.
+  "/data/projects":
+    get:
+      tags:
+        - Display Data
+      responses:
+        200:
+          description: Succesfullt got the staff from the api.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Projects"
+  "/user/:id":
+    get:
+      tags:
+        - User API
+      responses:
+        200:
+          description: Get a user information by id.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        404:
+          description: The user profile is private of non-existent.
+  "/self/takeouts":
+    get:
+      tags:
+        - User API
+      responses:
+        200:
+          description: Get the list of takeouts for the current user.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Takeout"
+    post:
+      tags:
+        - User API
+      responses:
+        200:
+          description: Create a takeout request.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Takeout"
+
+  "/self/authorizations":
+    get:
+      tags:
+        - User API
+      responses:
+        200:
+          description: Get the authorizations of the user.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Authorization"
+    delete:
+      tags:
+        - User API
+      parameters:
+        - in: query
+          required: true
+          name: clientId
+          content:
+            text/plain:
+              schema:
+                type: string
+      responses:
+        200:
+          description: Succesfully deleted.
+  "/self/logoutAll":
+    post:
+      tags:
+        - User API
+      responses:
+        200:
+          description: All the sessions were revoked.
+  "/self":
+    get:
+      tags:
+        - User API
+      responses:
+        200:
+          description: the user exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SelfUser"
+    patch:
+      tags:
+        - User API
+      responses:
+        202:
+          description: User updates
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SelfUser"
+  "/self/links":
+    get:
+      tags:
+        - User API
+      responses:
+        200:
+          description: Gets the link of a user.
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  securitySchemes:
+    devhouse:
+      type: oauth2
+      description: connect using a devhouse client and authorization
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth-server.developershouse.xyz/oauth2/auth
+          tokenUrl: https://auth-server.developershouse.xyz/oauth2/token
+          scopes:
+            "*": All permissions on the account
+  schemas:
+    SelfUser:
+      type: object
+      required:
+        - id
+        - private
+        - roles
+        - dataCollection
+        - premium
+      properties:
+        id:
+          type: string
+          readOnly: true
+        username:
+          type: string
+        private:
+          type: string
+        roles:
+          type: number
+        avatar:
+          type: string
+        dataCollection:
+          type: boolean
+        premium:
+          type: boolean
+        ban:
+          type: string
+
+    Authorization:
+      type: object
+      required:
+        - audiences
+        - client
+        - scopes
+        - grantedAt
+      properties:
+        client:
+          type: object
+          required:
+            - name
+            - id
+          properties:
+            name:
+              type: string
+            id:
+              type: string
+            tos:
+              type: string
+            image:
+              type: string
+        scopes:
+          type: array
+          items:
+            type: string
+        audiences:
+          type: array
+          items:
+            type: string
+        grantedAt:
+          type: string
+          format: date
+    Takeout:
+      type: object
+      required:
+        - expire
+        - status
+        - uuid
+      properties:
+        uuid:
+          type: string
+        link:
+          type: string
+        expire:
+          type: number
+        services:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              status:
+                type: string
+                enum:
+                  - found
+                  - finished
+        status:
+          type: string
+          enum:
+            - pending
+            - failed
+            - finished
+            - processing
+    User:
+      type: object
+      required:
+        - id
+        - username
+      properties:
+        username:
+          type: string
+        id:
+          type: string
+        profilePicture:
+          type: string
+
+        shortDescription:
+          type: string
+        links:
+          type: array
+          items:
+            properties:
+              type:
+                type: string
+              link:
+                type: string
+              name:
+                type: string
+    Projects:
+      type: object
+      required:
+        - name
+        - logo
+        - longDescription
+        - normalizedName
+        - managers
+      properties:
+        name:
+          type: string
+        normalizedName:
+          type: string
+        logo:
+          type: string
+        shortDescription:
+          type: string
+        longDescription: # URL to the markdown
+          type: string
+        members:
+          type: array
+          items:
+            $ref: "#/components/schemas/StaffMember"
+        managers:
+          type: array
+          items:
+            $ref: "#/components/schemas/StaffMember"
+    StaffMember:
+      type: object
+      required:
+        - username
+        - id
+        - discriminator
+        - presence
+        - role
+        - avatar
+      properties:
+        username:
+          type: string
+        presence:
+          type: object
+          required:
+            - status
+          properties:
+            emote:
+              type: string
+            status:
+              type: string
+              enum:
+                - online
+                - dnd
+                - offline
+                - idle
+                - invisible
+            text:
+              type: string
+        role:
+          type: object
+          required:
+            - name
+            - color
+            - position
+          properties:
+            position:
+              type: number
+            color:
+              type: string
+            name:
+              type: string
+        avatar:
+          type: string
+        discriminator:
+          type: string
+        id:
+          type: string

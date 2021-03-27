@@ -9,11 +9,14 @@
   "private": true,
   "dependencies": {
     "@oryd/hydra-client": "^1.9.0-alpha.2",
+    "@sentry/node": "^5.28.0",
     "@types/ioredis": "^4.17.7",
+    "connect": "^3.7.0",
     "fastify": "^3.7.0",
+    "fastify-auth": "^1.0.1",
     "ioredis": "^4.19.2",
-    "typescript": "^4.0.5",
-    "@sentry/node": "^5.28.0"
+    "middie": "^5.2.0",
+    "typescript": "^4.0.5"
   },
   "scripts": {
     "dev": "yarn build && yarn start",
