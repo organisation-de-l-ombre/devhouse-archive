@@ -30,13 +30,13 @@ export class DisplayDataApi extends runtime.BaseAPI {
 
     /**
      */
-    async projectsGetRaw(): Promise<runtime.ApiResponse<Array<Projects>>> {
+    async dataProjectsGetRaw(): Promise<runtime.ApiResponse<Array<Projects>>> {
         const queryParameters: runtime.HTTPQuery = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/projects`,
+            path: `/data/projects`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -47,32 +47,32 @@ export class DisplayDataApi extends runtime.BaseAPI {
 
     /**
      */
-    async projectsGet(): Promise<Array<Projects>> {
-        const response = await this.projectsGetRaw();
+    async dataProjectsGet(): Promise<Array<Projects>> {
+        const response = await this.dataProjectsGetRaw();
         return await response.value();
     }
 
     /**
      */
-    async staffGetRaw(): Promise<runtime.ApiResponse<StaffMember>> {
+    async dataStaffGetRaw(): Promise<runtime.ApiResponse<Array<StaffMember>>> {
         const queryParameters: runtime.HTTPQuery = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/staff`,
+            path: `/data/staff`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => StaffMemberFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(StaffMemberFromJSON));
     }
 
     /**
      */
-    async staffGet(): Promise<StaffMember> {
-        const response = await this.staffGetRaw();
+    async dataStaffGet(): Promise<Array<StaffMember>> {
+        const response = await this.dataStaffGetRaw();
         return await response.value();
     }
 
