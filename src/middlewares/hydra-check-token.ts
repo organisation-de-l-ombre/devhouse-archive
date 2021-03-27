@@ -3,7 +3,7 @@ import { validateHydraResponse } from "../hydra";
 
 function hydraCheckToken (scopes: string[]) {
     return async function (req: FastifyRequest, res: FastifyReply, next: Function) {
-        let token: string = req.query["auth_token"] || req.headers["Authorization"];
+        let token: string = req.query["auth_token"] || req.headers.authorization;
         if (token) {
             if (token.startsWith("Bearer ")) {
                 token = token.slice(7)
