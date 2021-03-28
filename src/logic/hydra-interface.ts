@@ -1,6 +1,6 @@
 import { AdminApi } from "@oryd/hydra-client";
 import { validateHydraResponse } from "../hydra";
-import {Authorization, Takeout} from "../../gen";
+import {Authorization} from "../../gen";
 
 async function deleteAuthorization (user: string, hydra: AdminApi, client?: string) {
     return validateHydraResponse(await hydra.revokeConsentSessions(user, client, !user));
