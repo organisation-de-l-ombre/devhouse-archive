@@ -46,5 +46,11 @@
     }
 
     span { transition: .5s }
+
+    &:hover {
+      svg { fill: var(--font-color-hover); }
+
+      span { color: var(--font-color-hover); }
+    }
   }
 }
