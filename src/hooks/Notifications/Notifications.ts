@@ -1,4 +1,5 @@
 import { DefaultRootState, useDispatch, useSelector } from "react-redux";
+import { useCallback } from "react";
 import {
   Notification,
   NotificationsState,
@@ -18,13 +19,19 @@ const useNotificationsState = (): NotificationsState => {
 const useNotificationsManager = (): NotificationsManagerHook => {
   const dispatch = useDispatch();
 
-  const addNotification = (notification: Notification): void => {
-    dispatch(pushNotification(notification));
-  };
+  const addNotification = useCallback(
+    (notification: Notification): void => {
+      dispatch(pushNotification(notification));
+    },
+    [dispatch]
+  );
 
-  const deleteNotification = (id: string): void => {
-    dispatch(removeNotification(id));
-  };
+  const deleteNotification = useCallback(
+    (id: string): void => {
+      dispatch(removeNotification(id));
+    },
+    [dispatch]
+  );
 
   return { addNotification, deleteNotification };
 };

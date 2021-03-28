@@ -1,5 +1,3 @@
-import { GlobalGraphQLClient } from "../../../constants";
-
 export const UserInit = "USER_INIT";
 export const UserTokenReceived = "USER_TOKEN_RECEIVED";
 export const UserFetched = "USER_FETCHED";
@@ -67,7 +65,6 @@ export default function reducer(
         ...state,
         token: payload.token,
       };
-      GlobalGraphQLClient.setHeader("Authorization", `Bearer ${payload.token}`);
       break;
     }
     case UserFetched: {

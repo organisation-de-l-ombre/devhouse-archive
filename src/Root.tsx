@@ -22,10 +22,10 @@ import NotificationsArea from "./components/notifications/NotificationsArea";
 import { RequestContext, UserAPIApi } from "./api/gen";
 
 const logger = new Logger("Root");
-// eslint-disable-next-line no-console
-console.clear();
 logger.info("~ Loading Developer's House frontend.");
+
 const { store, persistor } = createState();
+
 const UserAPI = new UserAPIApi().withPreMiddleware(
   async (context: RequestContext) => {
     const { token } = store.getState().user;
@@ -34,7 +34,7 @@ const UserAPI = new UserAPIApi().withPreMiddleware(
       Authorization: `Bearer ${token}`,
     };
 
-    return { url: `${context.url}?auth_token=${token}`, init: context.init };
+    return { url: context.url, init: context.init };
   }
 );
 

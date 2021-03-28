@@ -1,19 +1,15 @@
-/*
- * New redux interface.
- */
-
 import { applyMiddleware, combineReducers, createStore, Store } from "redux";
 import reduxThunk from "redux-thunk";
 import {
   createStateSyncMiddleware,
   initStateWithPrevTab,
 } from "redux-state-sync";
-import { Persistor, persistReducer, persistStore } from "redux-persist";
+import { persistReducer, PersistState, persistStore } from "redux-persist";
 
 import { env } from "process";
 import { DefaultRootState } from "react-redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { PersistConfig } from "redux-persist/es/types";
+import { PersistConfig, Persistor } from "redux-persist/es/types";
 import localForage from "localforage";
 import { modules } from "./modules";
 import { Logger } from "../utilities/logger";
@@ -24,20 +20,30 @@ const persistConfig: PersistConfig<DefaultRootState> = {
   storage: localForage,
   blacklist: ["notifications"],
 };
+type ValueOf<T> = T[keyof T];
+type ModulesKeys = keyof typeof modules;
+
+type ReducerMap = {
+  [K in ModulesKeys]: ValueOf<typeof modules>["default"];
+};
+type DefaultStateMap = {
+  [K in ModulesKeys]: ValueOf<typeof modules>["defaultState"];
+} & {
+  _persist: PersistState;
+};
 
 const buildDefaults = (): {
-  defaultState: Partial<DefaultRootState>;
-  reducers: { [T: string]: (...args: unknown[]) => unknown };
+  defaultState: DefaultStateMap;
+  reducers: ReducerMap;
 } => {
   logger.info("Building defaults");
-  // eslint-disable-next-line
-  const reducers: { [T: string]: (...args: any[]) => unknown } = {};
-  const state: DefaultRootState = {} as DefaultRootState;
+
+  const reducers: ReducerMap = {} as ReducerMap;
+  const state: DefaultStateMap = {} as DefaultStateMap;
 
   Object.keys(modules).forEach((module) => {
-    const mod = module as keyof typeof modules;
-    // eslint-disable-next-line
-    state[mod] = modules[mod].defaultState as any;
+    const mod = module as ModulesKeys;
+    state[mod] = modules[mod].defaultState;
     reducers[mod] = modules[mod].default;
   });
 
@@ -66,13 +72,10 @@ export function createState(): { store: Store; persistor: Persistor } {
   }
 
   const store = createStore(
-    // eslint-disable-next-line
-    persistReducer(persistConfig, combineReducers(reducers) as any),
+    persistReducer(persistConfig, combineReducers(reducers) as never),
     defaultState as DefaultRootState,
     callCompose
   );
-
-  store.subscribe(() => logger.info("Authorization updated"));
 
   initStateWithPrevTab(store);
 

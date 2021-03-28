@@ -20,16 +20,18 @@ const messages = [
 export const Loader: React.FC<
   DetailedHTMLProps<Record<string, never>, HTMLDivElement>
 > = () => {
-  const [msg, setMsg] = useState<null | string>(null);
+  const [msg, setMsg] = useState<string>();
   const changeMessage = useCallback(() => {
     setMsg(messages[Math.floor(Math.random() * messages.length)]);
   }, []);
-  const timeout = useRef<number>();
+  const timeout = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
-    timeout.current = (setInterval(changeMessage, 5000) as unknown) as number;
+    timeout.current = setInterval(changeMessage, 5000);
     return () => {
-      clearInterval(timeout.current);
+      if (timeout.current) {
+        clearInterval(timeout.current);
+      }
     };
   }, [changeMessage]);
 
