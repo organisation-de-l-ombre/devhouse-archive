@@ -9,7 +9,7 @@ include:
 
 package:
   stage: build
-  image: node
+  image: timbru31/java-node
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
