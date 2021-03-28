@@ -7,6 +7,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "@openapitools/openapi-generator-cli": "^2.2.3",
     "@oryd/hydra-client": "^1.9.0-alpha.2",
     "@sentry/node": "^5.28.0",
     "@types/ioredis": "^4.17.7",
@@ -19,7 +20,8 @@
   },
   "scripts": {
     "dev": "yarn build && yarn start",
-    "build": "tsc -p .",
+    "gen:client": "openapi-generator-cli generate -i openapi.yaml -g typescript-fetch -o gen",
+    "build": "yarn gen:client && tsc -p .",
     "start": "node dist",
     "test": "exit 0"
   }
