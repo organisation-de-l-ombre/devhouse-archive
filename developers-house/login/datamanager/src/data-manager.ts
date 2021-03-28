@@ -1,95 +1,82 @@
-/*
- * The main class of the program.
- */
-import * as RabbitMQ from 'amqp-ts';
-import {IService, TakeoutRequest} from "./types/service";
-import {Payload, TakeoutPayload} from "./types/protocol";
-import {S3_CLIENT} from "./s3";
-
+import { IService, WithName } from "./types/service";
+import { RabbitMQConnection } from "./protocol/rabbitmq";
+import { DeletePayload, Payload, TakeoutPayload } from "./types/protocol";
+import { S3_CLIENT } from "./s3";
+import { Stream } from "stream";
 
 /**
  * @description This class handles the connection between Cryir and the library.
  */
 export class DataManager {
-    private connection?: RabbitMQ.Connection;
-    private queue?: RabbitMQ.Queue;
-    private exchange?: RabbitMQ.Exchange;
+  private services: IService[] = [];
+  private conn?: RabbitMQConnection;
 
-    public services: IService[] = [];
+  /**
+   * Constructs the datamanager from the service name.
+   *
+   * @param {string} programName The name of the current program.
+   * @param {string} amqp Optional url of rabbitmq.
+   */
+  constructor(
+    private readonly programName: string,
+    private readonly amqp: string = process.env.DATAMANAGER_RABBITMQ_HOST || ""
+  ) {}
 
-    /**
-     * Constructs the datamanager from the service name.
-     */
-    constructor(private readonly serviceName: string, private readonly options: {
-        amqp: string;
-        exchange: string;
-    } = {
-        amqp: process.env.RABBITMQ_HOST as string,
-        exchange: 'takeout_request'
-    }) {}
-
-    /**
-     * Starts the datamanager and listens for messages in cryir.
-     * Note: This doesn't do anything is the environment is not production.
-     */
-    public async start () {
-        if (process.env.NODE_ENV === "production") {
-            this.connection = new RabbitMQ.Connection(this.options.amqp);
-            this.queue = this.connection.declareQueue(this.serviceName);
-            await this.queue.activateConsumer(this.onMessage.bind(this));
-            this.exchange = this.connection.declareExchange(this.options.exchange);
-            await this.queue.bind(this.exchange, 'cryir.takeout_request.create');
-        } else {
-            console.debug("[Datamanager] NOT started because the environment is not production.");
-        }
+  /**
+   * Starts the datamanager and listens for messages in cryir.
+   * Note: This doesn't do anything is the environment is not production.
+   */
+  public start(): void {
+    if (process.env.NODE_ENV === "production") {
+      this.conn = new RabbitMQConnection("", this.programName);
+      this.conn.onTakeout = async (...a) => await this.onTakeout(...a);
+      this.conn.onDelete = async (...a) => await this.onDelete(...a);
+    } else {
+      console.debug(
+        "[Datamanager] NOT started because the environment is not production."
+      );
     }
+  }
 
-    private async onMessage(message: RabbitMQ.Message) {
-        const data: Payload = JSON.parse(message.content.toString());
+  private async onTakeout(data: Payload) {
+    const services = (
+      await Promise.all(
+        this.services.map(
+          async (s) => await s.getUserData(data as TakeoutPayload)
+        )
+      )
+    ).filter((a) => a !== null);
+    const files: WithName<Buffer | Stream>[] = [];
+    void services.map((d) => {
+      if (Array.isArray(d)) {
+        files.push(...d);
+      } else {
+        files.push(d);
+      }
+    });
 
-        const exchange = this.connection?.declareExchange('takeout_callback', 'topic');
-        if (!exchange) return;
-        // Send that our service is ready!
-        let msg = new RabbitMQ.Message(JSON.stringify({
-            uuid: data.requestId,
-            status: 'found',
-            name: this.serviceName,
-        }));
-        exchange.send(msg, 'takeout.callback.' + data.requestId);
+    const sendTasks = files.map((file) =>
+      S3_CLIENT.upload({
+        Bucket: "takeouts",
+        Key: `${data.requestId}/${data.user}/${this.programName}/${file.file}`,
+        Body: file.data,
+        ContentLength:
+          file.data instanceof Buffer ? file.data.length : undefined
+      })
+    );
+    await Promise.all(sendTasks);
+  }
 
-        if (data.type === "TAKEOUT") {
-            // The requests is a takeout.
-            const results = await Promise.all(this.services.map((service) => service.getUserData(data as TakeoutPayload)));
-            const toUpload: TakeoutRequest = [];
+  private async onDelete(data: Payload) {
+    await Promise.all(
+      this.services.map(
+        async (s) => await s.deleteUserData(data as DeletePayload)
+      )
+    );
+  }
 
-            for (const result of results) {
-                if (Array.isArray(result)) {
-                    toUpload.push(...result);
-                    continue;
-                }
-                toUpload.push(result);
-            }
-
-            const promises = toUpload.map((file) => (
-                S3_CLIENT.upload({
-                    Bucket: "takeouts",
-                    Key: `${data.requestId}/${data.user}/${this.serviceName}/${file.file}`,
-                    Body: file.data,
-                    ContentLength: file.data instanceof Buffer ? file.data.length : undefined,
-                }).promise()
-            ));
-
-            Promise.all(promises).then(() => {
-                msg = new RabbitMQ.Message(JSON.stringify({
-                    uuid: data.requestId,
-                    status: 'finished',
-                    name: this.serviceName,
-                }));
-                exchange.send(msg, 'takeout.callback.' + data.requestId);
-                // Avoid the message requeue.
-                message.ack();
-            }).catch(console.error);
-
-        }
-    }
+  private register<T extends IService>(service: T): this {
+    this.services.push(service);
+    return this;
+  }
 }
