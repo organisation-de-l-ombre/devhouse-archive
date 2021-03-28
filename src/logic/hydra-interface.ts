@@ -3,7 +3,7 @@ import { validateHydraResponse } from "../hydra";
 import {Authorization} from "../../gen";
 
 async function deleteAuthorization (user: string, hydra: AdminApi, client?: string) {
-    return validateHydraResponse(await hydra.revokeConsentSessions(user, client, !user));
+    return validateHydraResponse(await hydra.revokeConsentSessions(user, client, !client));
 }
 
 async function getAuthorizations (user: string, hydra: AdminApi): Promise<Authorization[]> {
