@@ -28,6 +28,8 @@ spec:
   {{- end -}}
   {{- end }}
   audience:
-    - abdera
+  {{- range $aud := .Values.oauthClient.audicnces }}
+    - {{ $aud }}
+  {{- end -}}
   tokenEndpointAuthMethod: {{ .Values.oauthClient.tokenEndpointAuthMethod }}
 {{- end}}
