@@ -19,6 +19,7 @@ async function getAuthorizations (user: string, hydra: AdminApi): Promise<Author
                 tos: client.consent_request.client.tos_uri,
                 image: client.consent_request.client.logo_uri,
             },
+            grantedAt: client.handled_at,
         } as Authorization;
     })
 }
