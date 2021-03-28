@@ -1,4 +1,4 @@
-import { StaffMember } from "../api/gen";
+import { StaffMember } from "@developers-house/abdera";
 
 export function groupBy<T, TR>(
   array: T[],

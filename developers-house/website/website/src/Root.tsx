@@ -10,6 +10,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { BrowserRouter } from "react-router-dom";
 import { I18nextProvider } from "react-i18next";
 import i18next from "i18next";
+import { RequestContext, UserAPIApi } from "@developers-house/abdera";
 import { pushNotification } from "./state/modules/notifications/Actions";
 import ThemeProvider from "./components/ThemeProvider/ThemeProvider";
 import Navigator from "./pages/Navigator";
@@ -19,7 +20,6 @@ import { Menu } from "./components/navbar";
 import { Loader } from "./components/SuspenseLoader/SuspenseLoader";
 import { Logger } from "./utilities/logger";
 import NotificationsArea from "./components/notifications/NotificationsArea";
-import { RequestContext, UserAPIApi } from "./api/gen";
 
 const logger = new Logger("Root");
 logger.info("~ Loading Developer's House frontend.");

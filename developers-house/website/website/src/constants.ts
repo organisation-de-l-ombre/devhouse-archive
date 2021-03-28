@@ -1,5 +1,5 @@
 import { GraphQLClient } from "graphql-request";
-import { DisplayDataApi } from "./api/gen";
+import { DisplayDataApi } from "@developers-house/abdera";
 
 const GRAPHQL_ENDPOINT = "https://abdera-gateway.developershouse.xyz";
 const GlobalGraphQLClient = new GraphQLClient(GRAPHQL_ENDPOINT);

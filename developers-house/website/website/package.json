@@ -6,6 +6,7 @@
     "dependencies": {
         "@babel/cli": "^7.12.10",
         "@babel/register": "^7.12.10",
+        "@developers-house/abdera": "^1.0.0",
         "babel-register": "^6.26.0",
         "formik": "^2.2.6",
         "graphql": "^15.4.0",

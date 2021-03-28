@@ -1,10 +1,10 @@
 import React, { FC, DetailedHTMLProps, AllHTMLAttributes } from "react";
 import { Card, CardPadding } from "components/ui/Card/Card";
 import UserAvatarStatus from "components/ui/UserAvatarStatus/UserAvatarStatus";
+import { StaffMember } from "@developers-house/abdera";
 import { getAvatar, statusToColor } from "../../utilities";
 import styles from "./member.module.scss";
 import Tooltip from "../../components/tooltip/Tooltip";
-import { StaffMember } from "../../api/gen";
 
 const MemberDisplay: FC<
   DetailedHTMLProps<AllHTMLAttributes<HTMLDivElement>, HTMLDivElement> & {

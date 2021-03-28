@@ -4,6 +4,7 @@
 
 import React, { ReactElement } from "react";
 import { AiOutlineLoading, BiRefresh, BiTrash } from "react-icons/all";
+import { Authorization } from "@developers-house/abdera";
 import { TitleBox } from "../../../components/ui/TitleBox/TitleBox";
 import { Button } from "../../../components/ui/Button/Button";
 import { Loader } from "../../../components/SuspenseLoader/SuspenseLoader";
@@ -21,7 +22,6 @@ import {
 } from "../../../hooks/useAuthorizedApps";
 import ButtonGroup from "../../../components/ui/Button/ButtonGroup";
 import globalStyles from "../../../styles/Global.module.scss";
-import { Authorization } from "../../../api/gen";
 
 const AuthorizationsCard: React.FC<{
   client: Authorization;

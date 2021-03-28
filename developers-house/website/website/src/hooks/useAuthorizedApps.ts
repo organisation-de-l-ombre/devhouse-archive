@@ -1,6 +1,3 @@
-/**
- * @author Matthieu
- */
 import {
   QueryObserverResult,
   UseMutateFunction,
@@ -10,10 +7,10 @@ import {
 } from "react-query";
 import { useDispatch } from "react-redux";
 import { useCallback } from "react";
+import { Authorization } from "@developers-house/abdera";
 import { getClientId, logoutUser } from "../state/modules/user/actions";
 import { useNotificationsManager } from "./Notifications/Notifications";
 import { UserAPI } from "../Root";
-import { Authorization } from "../api/gen";
 
 const useCriticalError = (): ((err: Error) => Error) => {
   const { addNotification } = useNotificationsManager();
