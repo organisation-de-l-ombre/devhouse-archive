@@ -10,7 +10,7 @@ import NotFound from "../../components/modules/NotFound/NotFound";
 import { MovieObject } from "./Types";
 import BackToTop from "../../components/modules/BackToTop/BackToTop";
 import { useNotificationsManager } from "../../hooks/Notifications/Notifications";
-import generateNotificationID from "../../utilities/generateNotificationID";
+import generateNotificationID from "../../lib/generateNotificationID";
 
 const MovieRoot: React.FC<RouteComponentProps> = ({ match }) => {
   const [view, setView] = React.useState<null | MovieObject>(null);

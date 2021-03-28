@@ -16,6 +16,8 @@
   }
 }
 
+.no-margin { margin: 0 !important; }
+
 .primary-padding { padding: 1rem; }
 
 .secondary-padding { padding: 2rem; }
@@ -55,3 +57,13 @@
 .overflow-hidden { overflow: hidden; }
 
 .text-align-center { text-align: center; }
+
+.page-body-width {
+  padding: 2rem;
+  width: calc(100% - 4rem);
+  max-width: 75%;
+
+  @media screen and (max-width: 700px) {
+    max-width: unset;
+  }
+}

@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "./ButtonsGroup.module.scss";
+import styles from "./TextArea.module.scss";
 
-const ButtonsGroup: React.FC<
+const TextArea: React.FC<
   React.DetailedHTMLProps<
     React.AllHTMLAttributes<HTMLDivElement>,
     HTMLDivElement
@@ -9,9 +9,7 @@ const ButtonsGroup: React.FC<
 > = ({ className, children, ...props }) => {
   return (
     <div
-      className={`${styles["buttons-group"]}${
-        className ? ` ${className}` : ""
-      }`}
+      className={`${styles["text-area"]}${className ? ` ${className}` : ""}`}
       {...props}
     >
       {children}
@@ -19,4 +17,4 @@ const ButtonsGroup: React.FC<
   );
 };
 
-export default ButtonsGroup;
+export default TextArea;

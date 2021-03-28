@@ -4,7 +4,7 @@ import { useHistory } from "react-router";
 import requestParameters from "./QueriesSelector";
 import useUser from "../../hooks/User/User";
 import { useNotificationsManager } from "../../hooks/Notifications/Notifications";
-import generateNotificationID from "../../utilities/generateNotificationID";
+import generateNotificationID from "../../lib/generateNotificationID";
 import { ErrorState } from "./Types";
 
 const getLocalForage = async () => {

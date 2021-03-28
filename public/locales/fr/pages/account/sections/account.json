@@ -1,0 +1,18 @@
+{
+  "yes": "Oui",
+  "no": "Non",
+  "devHouse":{
+    "title": "Compte Developer's House",
+    "username": "Nom d'utilisateur",
+    "id": "Identifiant",
+    "dataCollection": "Collection des données",
+    "premiumAccess": "Accès premium",
+    "editAccount": "Modifier votre compte",
+    "logout": "Se déconnecter",
+    "loggedOut": "Vous avez été déconnecté avec succès."
+  },
+  "imr": {
+    "title": "Compte IMR",
+    "notImplemented": "Ce site web est une preview de la version finale. Toutes les fonctionnalités ne sont pas encore implémentées, soyez patient !"
+  }
+}

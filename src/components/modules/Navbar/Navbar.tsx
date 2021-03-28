@@ -12,7 +12,7 @@ import useUser from "../../../hooks/User/User";
 import NotificationsModal from "../../ui/Notifications/NotificationsModal/NotificationsModal";
 import { DisplaySVG, LanguageModal } from "./LanguageModal";
 import { useNotificationsManager } from "../../../hooks/Notifications/Notifications";
-import generateNotificationID from "../../../utilities/generateNotificationID";
+import generateNotificationID from "../../../lib/generateNotificationID";
 
 const useNavbar = (): { open: boolean; manageNavbar: () => void } => {
   const [open, setOpen] = React.useState<boolean>(false);

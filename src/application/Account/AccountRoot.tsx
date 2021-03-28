@@ -7,6 +7,7 @@ import useUser from "../../hooks/User/User";
 import AccountInternalNavigation from "./modules/AccountInternalNavigation/AccountInternalNavigation";
 import AccountRouter from "./modules/Router/AccountRouter";
 import AccountHeaders from "./modules/AccountHeaders/AccountHeaders";
+import BackToTop from "../../components/modules/BackToTop/BackToTop";
 
 const AccountRoot = (): React.ReactElement => {
   const { user } = useUser();
@@ -24,6 +25,7 @@ const AccountRoot = (): React.ReactElement => {
     >
       <AccountHeaders />
       <AccountInternalNavigation />
+      <BackToTop />
       <AccountRouter />
     </FlexContainer>
   ) : (

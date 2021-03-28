@@ -14,7 +14,7 @@
   justify-content: space-between;
   align-items: center;
   background-color: var(--primary-background-color);
-  box-shadow: 0 0 .5rem black;
+  box-shadow: 0 0 .3rem black;
 
   .mobile-menu { display: none; }
 
@@ -56,6 +56,7 @@
   .buttons {
     display: flex;
     align-items: center;
+    border: none;
     border-radius: 0;
 
     &:hover { background-color: var(--primary-background-color); }
@@ -63,6 +64,7 @@
     svg, img {
       width: 1rem;
       transform: scale(1.5);
+      margin-right: 0;
     }
 
     span { margin-left: 1rem; }

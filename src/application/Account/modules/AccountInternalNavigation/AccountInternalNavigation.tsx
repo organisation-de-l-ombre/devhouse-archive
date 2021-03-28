@@ -8,7 +8,7 @@ import tabBarStyles from "../../../../components/modules/TabBar/TabBar.module.sc
 const AccountInternalNavigation = (): React.ReactElement => {
   const baseURL: string = useRouteMatch().path;
   const { open, manageTabBar } = useTabBar();
-  const { t } = useTranslation("application\\account\\tabBar");
+  const { t } = useTranslation("pages\\account\\tabBar");
 
   return (
     <TabBar open={open} manageTabBar={manageTabBar}>

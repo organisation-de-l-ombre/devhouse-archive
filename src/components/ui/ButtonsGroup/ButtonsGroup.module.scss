@@ -1,4 +1,21 @@
 .buttons-group {
+  margin: 1rem;
+  width: fit-content;
   display: flex;
+  flex-wrap: wrap;
   overflow: hidden;
+  border-radius: 5px;
+
+  a, button {
+    margin: 0 !important;
+    min-width: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    border-radius: 0;
+    transition: .5s;
+
+    &:hover {  background-color: var(--primary-background-color-hover); }
+  }
 }

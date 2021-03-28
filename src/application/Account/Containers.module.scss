@@ -1,0 +1,50 @@
+.container {
+  flex-direction: column;
+  align-self: center;
+  justify-content: center;
+
+  .generic-margin-top { margin-top: 1rem; }
+
+  .card {
+    margin: 2rem 0 0 0;
+
+    h2 { color: var(--font-color-hover); }
+
+    .forms-container {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+
+      .form-container {
+        flex: 1 30rem;
+
+        span { cursor: default; }
+      }
+    }
+  }
+}
+
+.buttons-root {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+
+.buttons-container {
+  margin: 2rem 0 0 0;
+  border: .15rem solid var(--font-color-hover);
+
+  a, button {
+    min-width: 12rem;
+    transition: .5s;
+
+    svg {
+      margin-right: 1rem;
+      min-width: 20px;
+      min-height: 20px;
+      transition: .5s;
+    }
+
+    span { transition: .5s }
+  }
+}

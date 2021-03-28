@@ -1,0 +1,21 @@
+{
+  "statusTitle": "Statut des données",
+  "buttons": {
+    "status": {
+      "fetching": "Récupération...",
+      "fetched": "Récupérées"
+    },
+    "refresh": "Rafraîchir"
+  },
+  "authorization": {
+    "grantedAt": "Date de création de l'autorisation",
+    "unknownDate": "Date inconnue",
+    "scopes": "Scopes",
+    "audiences": "Audiences"
+  },
+  "deleteAuthorization": {
+    "button": "Révoquer",
+    "confirmation": "Etes-vous sûr de vouloir supprimer cette autorisation ?",
+    "notification": "L'autorisation a été supprimée."
+  }
+}

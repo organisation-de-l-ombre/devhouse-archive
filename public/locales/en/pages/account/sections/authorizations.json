@@ -1,0 +1,21 @@
+{
+  "statusTitle": "Data status",
+  "buttons": {
+    "status": {
+      "fetching": "Fetching...",
+      "fetched": "Fetched"
+    },
+    "refresh": "Refresh"
+  },
+  "authorization": {
+    "grantedAt": "Authorization creation date",
+    "unknownDate": "Unknown date",
+    "scopes": "Scopes",
+    "audiences": "Audiences"
+  },
+  "deleteAuthorization": {
+    "button": "Revoke",
+    "confirmation": "Are you sure to want to delete this authorization?",
+    "notification": "The authorization has been removed."
+  }
+}

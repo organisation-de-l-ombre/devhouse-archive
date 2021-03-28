@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import React from "react";
 import ReactDOM from "react-dom";
 import { PersistGate } from "redux-persist/integration/react";
+import { RequestContext, UserAPIApi } from "@developers-house/abdera";
 import App from "./application/App";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
@@ -19,6 +20,18 @@ init({
   tracesSampleRate: 1,
   release: process.env.CI_COMMIT_SHORT_SHA ?? "No Commit Short SHA",
 });
+
+const DevHouseUserAPIInit = new UserAPIApi().withPreMiddleware(
+  async (context: RequestContext) => {
+    const token: string = store.getState().user.user?.token || "";
+
+    context.init.headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    return { url: context.url, init: context.init };
+  }
+);
 
 const app = document.createElement("div");
 
@@ -45,3 +58,5 @@ ReactDOM.render(<RootComponent />, app);
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+export { DevHouseUserAPIInit };

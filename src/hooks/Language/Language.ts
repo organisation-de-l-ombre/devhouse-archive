@@ -5,7 +5,7 @@ import { GlobalState } from "../../store/Types";
 import i18n from "../../languages/i18n";
 import changeLanguage from "../../store/language/Actions";
 import { useNotificationsManager } from "../Notifications/Notifications";
-import generateNotificationID from "../../utilities/generateNotificationID";
+import generateNotificationID from "../../lib/generateNotificationID";
 import { LanguageHook } from "./Types";
 
 const useLanguage = (): LanguageHook => {

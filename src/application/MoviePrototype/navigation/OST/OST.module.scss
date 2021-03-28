@@ -12,7 +12,7 @@
       height: 256px;
       pointer-events: none;
       border-radius: 5px;
-      box-shadow: 0 0 .5rem black;
+      box-shadow: 0 0 .3rem black;
     }
 
     .album-headers {
@@ -24,9 +24,7 @@
   }
 
   .card-container {
-    background-color: var(--primary-background-color);
     margin: 2rem 0 0 0;
-    padding: 1.5rem;
     flex-direction: column;
 
     .vo-title {

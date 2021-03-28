@@ -8,7 +8,7 @@ import globalStyles from "../../../../themes/Global.module.scss";
 import SelectList, { manageSelection } from "../../SelectList/SelectList";
 import Button from "../../Button/Button";
 import styles from "./NotificationModal.module.scss";
-import generateNotificationID from "../../../../utilities/generateNotificationID";
+import generateNotificationID from "../../../../lib/generateNotificationID";
 import i18n from "../../../../languages/i18n";
 import {
   useNotificationsManager,

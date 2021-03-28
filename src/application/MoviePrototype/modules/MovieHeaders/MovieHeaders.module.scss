@@ -27,7 +27,7 @@
       border-radius: 5px;
       pointer-events: none;
       display: flex;
-      box-shadow: 0 0 .5rem black;
+      box-shadow: 0 0 .3rem black;
     }
 
     .headers-container {
@@ -40,8 +40,6 @@
     }
 
     @media screen and (max-width: 700px) {
-      padding: 2rem;
-      width: calc(100% - 4rem);
       max-width: unset;
     }
   }
