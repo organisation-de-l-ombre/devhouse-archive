@@ -16,8 +16,8 @@ const Home = (): React.ReactElement => {
   return (
     <>
       <YouTubePlayer
-        title="Raiponce - I see the lights"
-        videoID="ILRs2r6lcHY"
+        title="Raiponce - Faire marche arrière"
+        videoID="FPyU2A8HW2E"
         autoPlay
         open={open}
         setOpen={setOpen}
