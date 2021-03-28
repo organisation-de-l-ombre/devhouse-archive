@@ -4,6 +4,7 @@
 
 import React, { ReactElement, useEffect } from "react";
 import { RequestParams } from "../../constants";
+import { Loader } from "../../components/SuspenseLoader/SuspenseLoader";
 
 const Callback = (): ReactElement => {
   useEffect(() => {
@@ -16,7 +17,7 @@ const Callback = (): ReactElement => {
     }
   });
 
-  return <></>;
+  return <Loader />;
 };
 
 export default Callback;

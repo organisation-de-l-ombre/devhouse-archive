@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { ReactElement, useEffect, useState } from "react";
 import { Notification } from "state/modules/notifications/Types";
 import { CSSTransition } from "react-transition-group";
@@ -17,18 +16,16 @@ const NotificationComponent = (props: {
 
   const [timer, setTimer] = useState<number | null>(null);
   useEffect((): NotificationCleanup => {
-    if (timer) return;
-    if (notification.time !== -1) {
+    if (notification.time !== -1 && !timer) {
       setTimer(
         (setTimeout(() => {
           destroy();
         }, notification.time) as unknown) as number
       );
-      return () => {
-        if (timer) clearTimeout(timer);
-      };
     }
-    return undefined;
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
   }, [notification.time, destroy, timer]);
 
   return (

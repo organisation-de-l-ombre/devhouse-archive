@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, Suspense } from "react";
 import {
   Route,
   Switch,
@@ -11,7 +11,7 @@ import { RouteProps } from "react-router";
 import { ErrorBoundary } from "react-error-boundary";
 import { useSelector } from "react-redux";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import SuspenseLoader from "../components/SuspenseLoader/SuspenseLoader";
+import { Loader } from "../components/SuspenseLoader/SuspenseLoader";
 import NotFound from "./NotFound/NotFound";
 import styles from "./navigator.module.scss";
 import { useNotificationsManager } from "../hooks/Notifications/Notifications";
@@ -80,7 +80,7 @@ const Navigator = () => {
             classNames="fade"
             timeout={500}
           >
-            <SuspenseLoader key={route.pathname}>
+            <Suspense fallback={<Loader />} key={route.pathname}>
               <Switch location={route}>
                 <Route path="/members" exact component={MembersPage} />
                 <Route path="/" exact component={HomePage} />
@@ -92,7 +92,7 @@ const Navigator = () => {
                 <Route path="/join" component={NotImplemented} />
                 <Route path="*" exact component={NotFound} />
               </Switch>
-            </SuspenseLoader>
+            </Suspense>
           </CSSTransition>
         </TransitionGroup>
       </div>

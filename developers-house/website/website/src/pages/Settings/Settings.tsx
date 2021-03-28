@@ -16,6 +16,7 @@ import styles from "./settings.module.scss";
 import NotFound from "../NotFound/NotFound";
 import UserAvatarStatus from "../../components/ui/UserAvatarStatus/UserAvatarStatus";
 import { logoutUser } from "../../state/modules/user/actions";
+import { Loader } from "../../components/SuspenseLoader/SuspenseLoader";
 
 const Content: FC<{ path: string }> = ({ path }) => {
   const dispatch = useDispatch();
@@ -69,7 +70,7 @@ const Settings = (): ReactElement => {
         <Content path={match.path} />
       </div>
       <div className={styles.content}>
-        <Suspense fallback="">
+        <Suspense fallback={<Loader />}>
           <Switch>
             <Route exact path={`${match.path}`} component={Account} />
             <Route

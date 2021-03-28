@@ -1,8 +1,8 @@
-/* eslint-disable prettier/prettier */
 import { ThunkAction } from "redux-thunk";
 import { Action } from "redux";
-import { fetchUser } from "utilities";
+import { fetchUser, urlEncodeFormData } from "utilities";
 import { DefaultRootState } from "react-redux";
+import { randomBytes } from "crypto";
 import { NotificationPayloadType } from "../notifications/Types";
 import {
   PayloadTypes,
@@ -12,38 +12,21 @@ import {
   UserTokenReceived,
 } from "./index";
 
-function makeId(length: number): string {
-  let result = "";
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const charactersLength = characters.length;
-  for (let i = 0; i < length; i += 1) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
+let clientId: string | null = null;
+
+const DEV_CLIENT_ID = "4f48003e-3e66-40c4-b2b7-a0516dc40d4a";
+async function fetchClientId(): Promise<string> {
+  if (process.env.NODE_ENV === "development") return DEV_CLIENT_ID;
+  const { id } = await fetch("/.oauth.json").then((r) => r.json());
+  return id;
 }
 
-let clientIdPromise: Promise<void> | null = null;
-let clientId: string | null = null;
+fetchClientId().then((cid) => {
+  clientId = cid;
+});
 
 export function getClientId(): string | null {
   return clientId;
-}
-
-async function fetchClientId() {
-  const { id } = await fetch("/.oauth.json").then((r) => r.json());
-  clientId = id;
-  clientIdPromise = null;
-}
-
-function urlEncodeFormData(fd: string[][]) {
-  let s = "";
-  fd.forEach((pair) => {
-    if (typeof pair[1] === "string") {
-      s += `${(s ? "&" : "") + encodeURIComponent(pair[0])}=${pair[1]}`;
-    }
-  });
-  return s;
 }
 
 async function generateCodeChallenge(codeVerifier: string) {
@@ -58,57 +41,39 @@ async function generateCodeChallenge(codeVerifier: string) {
     .replace(/\//g, "_");
 }
 
-if (process.env.NODE_ENV === "development") {
-  clientId = "4f48003e-3e66-40c4-b2b7-a0516dc40d4a";
-} else {
-  clientIdPromise = fetchClientId();
-}
-
-async function getTokenWithPopup(): Promise<string> {
+function getTokenWithPopup() {
   const h = 600;
   const w = 450;
 
   const y = window.top.outerHeight / 2 + window.top.screenY - h / 2;
   const x = window.top.outerWidth / 2 + window.top.screenX - w / 2;
-
   const options = `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=${w}, height=${h}, top=${y}, left=${x}`;
 
-  const state = makeId(32);
+  return new Promise<string>((accept, reject) => {
+    const state = randomBytes(32).toString("hex");
+    const codeVerifier = encodeURIComponent(randomBytes(32).toString("hex"));
+    generateCodeChallenge(codeVerifier).then((codeChallenge): void => {
+      if (!clientId) return reject(new Error("ClientId not loaded"));
+      const redirect = `${document.location.protocol}//${document.location.host}/callback`;
+      const apiAudience = "abdera";
+      const scopes = ["account.* websocket.*"].join(" ");
 
-  const codeVerifier = makeId(43);
-  const codeChallenge = await generateCodeChallenge(codeVerifier);
+      const url = `http://auth-server.developershouse.xyz/oauth2/auth?response_type=code&client_id=${encodeURIComponent(
+        clientId
+      )}&scope=${encodeURIComponent(scopes)}&redirect_uri=${encodeURIComponent(
+        redirect
+      )}&state=${encodeURIComponent(state)}&audience=${encodeURIComponent(
+        apiAudience
+      )}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
+      const popupWindow = window.open(url, "Login", options);
 
-  if (!clientId) {
-    await clientIdPromise;
-  }
+      if (!popupWindow)
+        return reject(new Error("Can't open the window popup."));
 
-  if (!clientId) throw new Error("Failed to get the client id.");
+      const channel = new BroadcastChannel("callback");
 
-  const redirect = `${document.location.protocol}//${document.location.host}/callback`;
-  const apiAudience = "abdera";
-
-  const scopes = ["account.* websocket.*"].join(" ");
-  const url = `http://auth-server.developershouse.xyz/oauth2/auth?response_type=code&client_id=${encodeURIComponent(
-    clientId
-  )}&scope=${encodeURIComponent(scopes)}&redirect_uri=${encodeURIComponent(
-    redirect
-  )}&state=${encodeURIComponent(state)}&audience=${encodeURIComponent(
-    apiAudience
-  )}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
-
-  const popupWindow = window.open(url, "Login", options);
-
-  // eslint-disable-next-line @typescript-eslint/return-await
-  return await new Promise<string>((resolve, reject): void => {
-    if (popupWindow === null) {
-      return reject(new Error("The window failed to open."));
-    }
-
-    const channel = new BroadcastChannel("callback");
-
-    const listener = ({ data }: MessageEvent): void => {
-      if (data.code && data.state) {
-        if (data.state === state) {
+      const listener = async ({ data }: MessageEvent): Promise<void> => {
+        if (data.code && data.state && data.state === state) {
           const formEncoder = urlEncodeFormData([
             ["client_id", encodeURIComponent(clientId || "")],
             ["grant_type", encodeURIComponent("authorization_code")],
@@ -125,20 +90,19 @@ async function getTokenWithPopup(): Promise<string> {
           })
             .then((resp) => resp.json())
             .then((response) => {
-              resolve(response.access_token);
-            });
+              accept(response.access_token);
+            })
+            .catch(reject);
         } else {
           reject(new Error("Invalid state!"));
         }
-      } else if (data.error) {
-        reject(new Error(data.error));
-      }
-      channel.close();
-      popupWindow.close();
-      return window.focus();
-    };
+        channel.close();
+        popupWindow.close();
+        return window.focus();
+      };
 
-    return channel.addEventListener("message", listener);
+      return channel.addEventListener("message", listener);
+    });
   });
 }
 
@@ -152,9 +116,6 @@ export function loginUser(): ThunkAction<
     dispatch({
       type: UserInit,
     });
-    /*
-     * Popup open.
-     */
 
     dispatch({
       type: "NOTIFICATION_PUSH",

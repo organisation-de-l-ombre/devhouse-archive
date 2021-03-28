@@ -11,6 +11,11 @@ a:hover,
     cursor: pointer;
 }
 
+.transparent {
+    background-color: var(--transparent) !important;
+    box-shadow: none !important;
+}
+
 .right {
     margin-left: auto;
 }
@@ -116,9 +121,4 @@ a:hover,
             }
         }
     }
-}
-
-.transparent {
-    background-color: var(--transparent);
-    box-shadow: none;
 }
