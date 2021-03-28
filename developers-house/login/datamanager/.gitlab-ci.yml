@@ -20,6 +20,7 @@ stages:
 publish:
   stage: release
   script:
+    - apt-get update -y
     - apt-get install jq -y
     - yarn
     - yarn build
