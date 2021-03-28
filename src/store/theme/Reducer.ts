@@ -1,7 +1,10 @@
 import { Theme, THEME_UPDATED, ThemePayload, ThemeState } from "./Types";
 
 const detectBrowserColorTheme = (): Theme => {
-  if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+  if (
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  ) {
     return "dark";
   }
 
