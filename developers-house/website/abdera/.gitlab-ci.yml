@@ -8,6 +8,7 @@ include:
     file: 'helm.gitlab-ci.yml'
 
 package:
+  stage: build
   image: node
   cache:
     key: ${CI_COMMIT_REF_SLUG}
