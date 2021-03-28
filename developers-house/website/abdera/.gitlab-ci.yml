@@ -16,6 +16,8 @@ package:
       - .npm/
 
   script:
+    - yarn
+    - yarn gen:client
     - cd gen
     - apt-get update -y
     - apt-get install jq -y
