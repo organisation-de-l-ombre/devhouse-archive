@@ -1,8 +1,5 @@
-import { GraphQLClient } from "graphql-request";
 import { DisplayDataApi } from "@developers-house/abdera";
 
-const GRAPHQL_ENDPOINT = "https://abdera-gateway.developershouse.xyz";
-const GlobalGraphQLClient = new GraphQLClient(GRAPHQL_ENDPOINT);
 const DisplayAPIClient = new DisplayDataApi();
 
 const params: {
@@ -22,9 +19,4 @@ doSearch(window.location.href.split("?")[1] || "");
 
 const RequestParams = params;
 
-export {
-  GRAPHQL_ENDPOINT,
-  GlobalGraphQLClient,
-  RequestParams,
-  DisplayAPIClient,
-};
+export { RequestParams, DisplayAPIClient };
