@@ -1,5 +1,5 @@
 import React from "react";
-import { FaWindowClose } from "react-icons/all";
+import { FaWindowClose } from "react-icons/fa";
 import { Notification } from "../../../../store/notifications/Types";
 import styles from "./Notification.module.scss";
 import Button from "../../Button/Button";

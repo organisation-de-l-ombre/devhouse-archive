@@ -1,5 +1,5 @@
 import React from "react";
-import { TiArrowSortedDown } from "react-icons/all";
+import { TiArrowSortedDown } from "react-icons/ti";
 import styles from "./SelectList.module.scss";
 import globalStyles from "../../../themes/Global.module.scss";
 

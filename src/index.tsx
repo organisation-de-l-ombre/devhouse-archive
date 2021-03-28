@@ -38,7 +38,7 @@ const app = document.createElement("div");
 app.id = "app";
 document.body.appendChild(app);
 
-const RootComponent = (): React.ReactElement => {
+export const RootComponent = (): React.ReactElement => {
   return (
     <React.StrictMode>
       <React.Suspense fallback={<Suspense />}>
