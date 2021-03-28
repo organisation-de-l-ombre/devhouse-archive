@@ -6,36 +6,40 @@
  * and report data.
  */
 
-import {DeletePayload, Payload, TakeoutPayload} from "./protocol";
-import {Stream} from "stream";
+import { DeletePayload, TakeoutPayload } from "./protocol";
+import { Stream } from "stream";
 
 type PromiseOfNone<T> = Promise<T> | T;
 type ArrayOrSingle<T> = T[] | T;
-type WithName<T> = {
-    data: T;
-    file: string;
+export type WithName<T> = {
+  data: T;
+  file: string;
 };
 
-export type TakeoutRequest = PromiseOfNone<ArrayOrSingle<WithName<Buffer | Stream>>>;
+export type TakeoutRequest = PromiseOfNone<
+  ArrayOrSingle<WithName<Buffer | Stream>>
+>;
 
 /**
  * @description This interface represents a service that contains user data that must be reported back to Cryir.
  */
 export interface IService {
+  /**
+   * @description Deletes all the data from a user in the databases, this cannot be recovered.
+   */
+  deleteUserData(payload: DeletePayload): Promise<void> | void;
 
-    /**
-     * @description Deletes all the data from a user in the databases, this cannot be recovered.
-     */
-    deleteUserData (payload: DeletePayload): Promise<void> | void;
+  /**
+   * @description Gets all the available user data from the services.
+   */
+  getUserData(payload: TakeoutPayload): TakeoutRequest;
 
-    /**
-     * @description Returns if the service contains data from a specific user.
-     */
-    hasUserData (payload: Payload): Promise<boolean> | boolean;
-
-    /**
-     * @description Gets all the available user data from the services.
-     */
-    getUserData (payload: TakeoutPayload): TakeoutRequest;
-
+  /**
+   * @description The data that can't be deleted.
+   */
+  unableToDelete: string[];
+  /**
+   * @description The data that can't be deleted.
+   */
+  unableToRetrieve: string[];
 }
