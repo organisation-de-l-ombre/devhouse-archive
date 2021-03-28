@@ -1,6 +1,3 @@
-/**
- * @author Matthieu
- */
 import {
   QueryObserverResult,
   UseMutateFunction,
@@ -8,8 +5,8 @@ import {
   useQuery,
   useQueryClient,
 } from "react-query";
+import { Takeout } from "@developers-house/abdera";
 import { useCriticalError } from "./useAuthorizedApps";
-import { Takeout } from "../api/gen";
 import { UserAPI } from "../Root";
 
 const useTakeouts = (): QueryObserverResult<Takeout[], Error> => {
