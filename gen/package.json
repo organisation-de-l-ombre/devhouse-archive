@@ -1,0 +1,17 @@
+{
+  "name": "@developers-house/abdera",
+  "version": "1.0.0",
+  "description": "Th library responsible for the data management & takeout.",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "types": "lib/index.d.ts",
+  "author": "Matthieu <matthieu974fr.pignolet@gmail.com>",
+  "devDependencies": {
+    "typescript": "^4.2.3"
+  },
+  "scripts": {
+    "build": "tsc"
+  }
+}

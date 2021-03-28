@@ -6,3 +6,25 @@ include:
   - project: 'developers-house/dev/gitlab-ci-collection'
     ref: master
     file: 'helm.gitlab-ci.yml'
+
+package:
+  image: node
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .npm/
+
+  script:
+    - cd gen
+    - apt-get update -y
+    - apt-get install jq -y
+    - yarn
+    - yarn build
+    - |
+      {
+        echo "@${CI_PROJECT_ROOT_NAMESPACE}:registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/"
+        echo "${CI_API_V4_URL#https?}/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=\${CI_JOB_TOKEN}"
+      } | tee --append .npmrc
+    - VERSION=$(jq .version package.json)
+    - echo "${VERSION:1:${#VERSION}-2}"
+    - yarn publish --new-version "${VERSION:1:${#VERSION}-2}"
