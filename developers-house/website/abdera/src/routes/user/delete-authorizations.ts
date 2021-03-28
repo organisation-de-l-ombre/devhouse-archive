@@ -9,7 +9,10 @@ const deleteAuthorizationRoute = (server: FastifyInstance): RouteOptions => {
             req,
             res
         ) {
-            const clientId: string = req.query["clientId"];
+            let clientId: string = req.query["clientId"];
+            if (clientId === "") {
+                clientId = null;
+            }
             const user = req.user;
             await deleteAuthorization(user, req.hydra, clientId);
             res.code(200);
