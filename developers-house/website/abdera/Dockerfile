@@ -1,4 +1,4 @@
-FROM node as build
+FROM timbru31/java-node as build
 WORKDIR /build
 COPY package.json .
 RUN yarn
