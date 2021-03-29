@@ -1,0 +1,306 @@
+openapi: 3.0.0
+
+info:
+  title: Scarlet
+  description: Simple authentification and user management api
+  version: v2
+
+paths:
+  "/_healz":
+    get:
+      responses:
+        200:
+          description: Success
+  "/user/:id":
+    get:
+      parameters:
+        - in: path
+          required: true
+          name: id
+      responses:
+        200:
+          description: Succesfully got a user from the database.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        404:
+          description: User does not exists.
+        401:
+          description: User is banned.
+    patch:
+      parameters:
+        - in: path
+          required: true
+          name: id
+      requestBody:
+        $ref: "#/components/schemas/User"
+      responses:
+        200:
+          description: Edits a user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        404:
+          description: User does not exists.
+        401:
+          description: User is not editable.
+    delete:
+      parameters:
+        - in: path
+          name: id
+          required: true
+      responses:
+        200:
+          description: User deleted.
+        404:
+          description: User does not exists.
+  "/user":
+    post:
+      requestBody:
+        $ref: "#/components/schemas/User"
+      responses:
+        200:
+          description: Created the user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+  "/user/:id/links":
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+      responses:
+        200:
+          description: Got a linked account list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Link"
+        404:
+          description: User does not exists.
+    put:
+      parameters:
+        - in: path
+          name: id
+          required: true
+      requestBody:
+        $ref: "#/components/schemas/Link"
+      responses:
+        200:
+          description: Added a link to this user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Link"
+  "/user/links/:id":
+    delete:
+      parameters:
+        - in: path
+          required: true
+          name: id
+      responses:
+        200:
+          description: Succesfully deleted the link
+    get:
+      parameters:
+        - in: path
+          required: true
+          name: id
+      responses:
+        200:
+          description: Got a link from the database.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Link"
+  "/user/:id/webauth":
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+      responses:
+        200:
+          description: Got a webauth key
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/WebAuthKey"
+    put:
+      requestBody:
+        $ref: "#/components/schemas/WebAuthKey"
+      parameters:
+        - in: path
+          name: id
+          required: true
+      responses:
+        200:
+          description: Created a webauth key.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebAuthKey"
+  "/user/webauth/:id":
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+      responses:
+        200:
+          description: Got a webauth key.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebAuthKey"
+    delete:
+      parameters:
+        - in: path
+          name: id
+          required: true
+      responses:
+        200:
+          description: Deleted a key.
+  "/link/:platform/:id": # /link/discord/<discordid> -> User
+    get:
+      parameters:
+        - in: path
+          name: platform
+          required: true
+        - in: path
+          name: id
+          required: true
+      responses:
+        200:
+          description: Got a user with this link.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+  "/login":
+    post:
+      requestBody:
+        $ref: "#/components/schemas/UserLoginRequest"
+      description: |
+        The login endpoint takes data from the client in order
+        to complete the auth process. If the auth is not complete
+        the first time, it will return a sessionId.
+      parameters:
+        - in: query
+          name: method
+          description: Login methods separated by ,
+          required: true
+        - in: query
+          name: loginSession
+          description: Login session
+          required: false
+      responses:
+        200:
+          description: User logged in and returned.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        202:
+          description: User need more information, session created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sessionId:
+                    type: string
+        404:
+          description: User does not exists.
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+        private:
+          type: boolean
+        roles:
+          type: number
+        avatar:
+          type: string
+        ban:
+          type: string
+        links:
+          type: array
+          items:
+            $ref: ""
+        keys:
+          type: array
+          items:
+            $ref: ""
+
+    Link:
+      type: object
+      properties:
+        name:
+          type: string
+        platform:
+          type: string
+    WebAuthKey:
+      type: object
+
+    LoginRequest:
+      type: object
+      properties:
+        platform:
+          type: object
+          properties:
+            name:
+              type: string
+            id:
+              type: string
+        webAuth:
+          type: object
+          properties:
+            keyName:
+              type: string
+            signature:
+              type: string
+
+    LoginResponse:
+      type: object
+      required:
+        - status
+        - validationId
+      properties:
+        status:
+          type: string
+          enum:
+            - "success"
+            - "webauthn-required"
+            - "failed"
+
+        user:
+          type: object
+          $ref: ""
+
+        webAuth:
+          type: object
+          properties:
+            validationId:
+              type: string
+            keys:
+              type: array
+              items:
+                properties:
+                  name:
+                    type: string
+                  key:
+                    type: string
