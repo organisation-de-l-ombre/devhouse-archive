@@ -1,0 +1,21 @@
+{
+  "websiteParameters": {
+    "title": "Website preferences",
+    "theme": {
+      "title": "Colors theme",
+      "themeChanged": {
+        "dark": "The website has been switched to dark mode.",
+        "light": "The website has been switched to light mode."
+      }
+    },
+    "notifications": {
+      "title": "Notifications activation",
+      "preferencesUpdated": "Your preferences have been updated."
+    },
+    "language": {
+      "title": "Language",
+      "defaultSelect": "Select language",
+      "changeLanguage": "Save language"
+    }
+  }
+}

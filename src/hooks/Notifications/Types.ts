@@ -3,6 +3,7 @@ import { Notification } from "../../store/notifications/Types";
 
 interface NotificationsPreferencesHook {
   setNotificationsPreferencesState: Dispatch<SetStateAction<string | boolean>>;
+  updatePreference: (preference: boolean) => void;
   validateChoice: (
     setNotificationsWindowOpen: Dispatch<SetStateAction<boolean>>
   ) => boolean;

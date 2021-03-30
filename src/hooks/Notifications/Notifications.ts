@@ -30,6 +30,9 @@ const useNotificationsPreferences = (): NotificationsPreferencesHook => {
     notificationsPreferencesState,
     setNotificationsPreferencesState,
   ] = React.useState<string | boolean>("default");
+  const updatePreference = (preference: boolean): void => {
+    dispatch(updateNotificationsPermissions(preference as boolean));
+  };
   const validateChoice = (
     setNotificationsWindowOpen: React.Dispatch<React.SetStateAction<boolean>>
   ): boolean => {
@@ -49,9 +52,7 @@ const useNotificationsPreferences = (): NotificationsPreferencesHook => {
       dispatch(setFirstUse());
     }
 
-    dispatch(
-      updateNotificationsPermissions(notificationsPreferencesState as boolean)
-    );
+    updatePreference(notificationsPreferencesState as boolean);
     setNotificationsPreferencesState("default");
     setNotificationsWindowOpen(false);
 
@@ -60,6 +61,7 @@ const useNotificationsPreferences = (): NotificationsPreferencesHook => {
 
   return {
     setNotificationsPreferencesState,
+    updatePreference,
     validateChoice,
   };
 };

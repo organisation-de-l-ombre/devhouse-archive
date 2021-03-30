@@ -16,7 +16,7 @@ const useLanguage = (): LanguageHook => {
   const { addNotifications } = useNotificationsManager();
   const [languageState, setLanguageState] = React.useState<string>("default");
   const validateLanguage = async (
-    setLanguageWindowOpen: React.Dispatch<React.SetStateAction<boolean>>
+    setLanguageWindowOpen?: React.Dispatch<React.SetStateAction<boolean>>
   ): Promise<void> => {
     if (languageState === "default" || languageState === language) {
       alert(i18n.t("components\\navbar:modal.invalidLanguage"));
@@ -26,7 +26,9 @@ const useLanguage = (): LanguageHook => {
     dispatch(changeLanguage(languageState));
     i18n.changeLanguage(languageState);
     setLanguageState("default");
-    setLanguageWindowOpen(false);
+    if (setLanguageWindowOpen) {
+      setLanguageWindowOpen(false);
+    }
 
     const newLanguage = await import(
       `../../../public/locales/${languageState}/components/navbar.json`

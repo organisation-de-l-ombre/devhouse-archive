@@ -42,6 +42,7 @@ const App = (): React.ReactElement => {
       app.className = themes[theme];
     }
   }, [theme]);
+
   React.useEffect(() => {
     i18n.changeLanguage(language);
   }, [language]);
