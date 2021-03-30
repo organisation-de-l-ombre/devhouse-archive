@@ -30,6 +30,6 @@ spec:
   audience:
   {{- range $aud := .Values.oauthClient.audicnces }}
     - {{ $aud }}
-  {{- end -}}
+  {{- end }}
   tokenEndpointAuthMethod: {{ .Values.oauthClient.tokenEndpointAuthMethod }}
 {{- end}}
