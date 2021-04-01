@@ -72,8 +72,10 @@ register({
               text: i18n.t("serviceWorker:waitingUpdate.button"),
               icon: <MdSystemUpdate />,
               onClick: () => {
-                registration.waiting?.postMessage({ type: "SKIP_WAITING" });
-                window.location.reload();
+                if (registration.waiting) {
+                  registration.waiting.postMessage({ type: "SKIP_WAITING" });
+                  window.location.reload();
+                }
                 return true;
               },
             },

@@ -26,10 +26,18 @@ const reducer = combineReducers({
 const persistConfiguration = {
   key: "root",
   storage,
-  blacklist: ["notifications/notifications"],
+  blacklist: ["notifications"],
 };
 const syncConfiguration = {
-  blacklist: ["persist/PERSIST", "persist/REHYDRATE"],
+  blacklist: [
+    "persist/PERSIST",
+    "persist/REHYDRATE",
+    "USER_FIRST_USE",
+    "UPDATE_NOTIFICATIONS_PERMISSIONS",
+    "NOTIFICATIONS_PUSH",
+    "NOTIFICATION_DELETE",
+    "NOTIFICATIONS_DELETE_ALL",
+  ],
 };
 const middlewares = [reduxThunk, createStateSyncMiddleware(syncConfiguration)];
 let callCompose = applyMiddleware(...middlewares);

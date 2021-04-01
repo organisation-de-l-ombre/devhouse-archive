@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
 import { IconType } from "react-icons";
+import { PersistState } from "redux-persist";
 
 interface Button {
   text: string;
@@ -17,6 +18,7 @@ interface NotificationsReducerState {
   firstUse: boolean;
   allowNotifications: string | boolean;
   notifications: Notification[];
+  _persist: PersistState;
 }
 
 const USER_FIRST_USE = "USER_FIRST_USE";

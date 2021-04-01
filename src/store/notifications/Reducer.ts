@@ -1,3 +1,5 @@
+import storage from "localforage";
+import { persistReducer, PersistState } from "redux-persist";
 import {
   NotificationsPayload,
   NotificationsReducerState,
@@ -13,8 +15,16 @@ const notificationsState: NotificationsReducerState = {
   firstUse: true,
   allowNotifications: false,
   notifications: [],
+  _persist: {} as PersistState,
 };
-const NotificationsReducer = (
+
+const persistConfiguration = {
+  key: "notifications",
+  storage,
+  blacklist: ["notifications"],
+};
+
+const BaseNotificationsReducer = (
   state: NotificationsReducerState = notificationsState,
   payload: NotificationsPayload
 ): NotificationsReducerState => {
@@ -52,5 +62,10 @@ const NotificationsReducer = (
       return state;
   }
 };
+
+const NotificationsReducer = persistReducer(
+  persistConfiguration,
+  BaseNotificationsReducer
+);
 
 export { notificationsState, NotificationsReducer };
