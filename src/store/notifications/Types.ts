@@ -4,7 +4,7 @@ import { IconType } from "react-icons";
 interface Button {
   text: string;
   icon?: ReactElement | IconType;
-  onClick: Function;
+  onClick: () => unknown;
 }
 interface Notification {
   id: string;
