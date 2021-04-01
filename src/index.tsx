@@ -6,7 +6,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { PersistGate } from "redux-persist/integration/react";
 import { RequestContext, UserAPIApi } from "@developers-house/abdera";
-import { MdSystemUpdate } from "react-icons/all";
+import { MdSystemUpdate } from "react-icons/md";
 import { Action } from "redux";
 import App from "./application/App";
 import reportWebVitals from "./reportWebVitals";
