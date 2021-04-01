@@ -92,6 +92,8 @@
     "webpack": "4.44.2",
     "webpack-dev-server": "3.11.0",
     "webpack-manifest-plugin": "2.2.0",
+    "workbox-precaching": "^6.1.2",
+    "workbox-routing": "^6.1.2",
     "workbox-webpack-plugin": "5.1.4"
   },
   "scripts": {
