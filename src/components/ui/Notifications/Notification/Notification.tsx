@@ -1,9 +1,14 @@
 import React from "react";
 import { FaWindowClose } from "react-icons/fa";
-import { Notification } from "../../../../store/notifications/Types";
+import {
+  Notification,
+  Button as ButtonType,
+} from "../../../../store/notifications/Types";
 import styles from "./Notification.module.scss";
+import globalStyles from "../../../../themes/Global.module.scss";
 import Button from "../../Button/Button";
 import { useNotificationsManager } from "../../../../hooks/Notifications/Notifications";
+import ButtonsGroup from "../../ButtonsGroup/ButtonsGroup";
 
 const NotificationComponent: React.FC<
   React.DetailedHTMLProps<
@@ -46,7 +51,27 @@ const NotificationComponent: React.FC<
 
   return (
     <div className={styles.notification}>
-      <p>{notification.body}</p>
+      {notification.buttons?.length ? (
+        <div
+          className={`${globalStyles.flex} ${globalStyles.column} ${styles["margin-right"]}`}
+        >
+          <p>{notification.body}</p>
+          <ButtonsGroup className={styles["buttons-container"]}>
+            {notification.buttons.map(
+              (b: ButtonType): React.ReactElement => {
+                return (
+                  <Button onClick={() => b.onClick()}>
+                    {b.icon ? b.icon : <></>}
+                    <span>{b.text}</span>
+                  </Button>
+                );
+              }
+            )}
+          </ButtonsGroup>
+        </div>
+      ) : (
+        <p className={styles["margin-right"]}>{notification.body}</p>
+      )}
       <Button
         className={styles.close}
         onClick={() => deleteNotification(notification.id)}

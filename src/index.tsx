@@ -12,7 +12,13 @@ import "./index.css";
 import "./languages/i18n";
 import Suspense from "./components/modules/Suspense/Suspense";
 import { store, persistor } from "./store/Store";
+import { register } from "./lib/serviceWorker";
+import { pushNotifications } from "./store/notifications/Actions";
+import generateNotificationID from "./lib/generateNotificationID";
+import i18n from "./languages/i18n";
+import {MdSystemUpdate} from "react-icons/all";
 
+// Sentry initialization
 init({
   dsn:
     "https://392ce00de8f64a408fcbf26155ba2e21@o487534.ingest.sentry.io/5595403",
@@ -21,6 +27,7 @@ init({
   release: process.env.CI_COMMIT_SHORT_SHA ?? "No Commit Short SHA",
 });
 
+// Developer's House API initialization for users and authorizations
 const DevHouseUserAPIInit = new UserAPIApi().withPreMiddleware(
   async (context: RequestContext) => {
     const token: string = store.getState().user.user?.token || "";
@@ -33,12 +40,50 @@ const DevHouseUserAPIInit = new UserAPIApi().withPreMiddleware(
   }
 );
 
+// Creation of the app div which contains the website
 const app = document.createElement("div");
 
 app.id = "app";
 document.body.appendChild(app);
 
-export const RootComponent = (): React.ReactElement => {
+// Service worker initialization
+register({
+    onSuccess() {
+        store.dispatch(pushNotifications(
+            [
+                {
+                    id: generateNotificationID(),
+                    type: "info",
+                    body: i18n.t("serviceWorker:installed"),
+                    time: 5000,
+                }
+            ]
+        ));
+    },
+    onUpdate(registration: ServiceWorkerRegistration) {
+        store.dispatch(pushNotifications([
+            {
+                id: generateNotificationID(),
+                type: "warning",
+                body: i18n.t("serviceWorker:waitingUpdate.title"),
+                buttons: [
+                    {
+                        text: i18n.t("serviceWorker:waitingUpdate.button"),
+                        icon: <MdSystemUpdate />,
+                        onClick: () => {
+                            registration.waiting?.postMessage({type: "SKIP_WAITING"});
+                            window.location.reload();
+                            return true;
+
+                        }
+                    }
+                ]
+            }
+        ]));
+    }
+});
+
+const RootComponent = (): React.ReactElement => {
   return (
     <React.StrictMode>
       <React.Suspense fallback={<Suspense />}>
@@ -59,4 +104,4 @@ ReactDOM.render(<RootComponent />, app);
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 
-export { DevHouseUserAPIInit };
+export { DevHouseUserAPIInit, RootComponent };

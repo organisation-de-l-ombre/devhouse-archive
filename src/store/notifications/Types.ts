@@ -1,7 +1,16 @@
+import { ReactElement } from "react";
+import { IconType } from "react-icons";
+
+interface Button {
+  text: string;
+  icon?: ReactElement | IconType;
+  onClick: Function;
+}
 interface Notification {
   id: string;
   type: "info" | "warning" | "error";
   body: string;
+  buttons?: Button[];
   time: number;
 }
 interface NotificationsReducerState {
@@ -43,6 +52,7 @@ type NotificationsPayload =
   | NotificationDeleteAllPayload;
 
 export {
+  Button,
   Notification,
   NotificationsReducerState,
   USER_FIRST_USE,

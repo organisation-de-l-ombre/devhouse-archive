@@ -8,9 +8,33 @@
   border-radius: 5px;
   background-color: var(--secondary-background-color);
 
-  p { margin-right: 1rem; }
+  .margin-right { margin-right: 1rem; }
 
-  button {
+  .buttons-container {
+    margin: 1rem 0 0 0;
+
+    button {
+      padding: .75rem;
+      transition: .5s;
+
+      svg {
+        margin-right: .75rem;
+        transition: .5s;
+      }
+
+      span { transition: .5s; }
+
+      &:hover {
+        color: var(--font-color-hover);
+
+        svg { fill: var(--font-color-hover); }
+
+        span { color: var(--font-color-hover); }
+      }
+    }
+  }
+
+  .close {
     margin: 0 0 0 1rem;
     padding: 0;
     background-color: transparent;
