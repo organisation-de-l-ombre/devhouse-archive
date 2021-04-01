@@ -6,17 +6,17 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { PersistGate } from "redux-persist/integration/react";
 import { RequestContext, UserAPIApi } from "@developers-house/abdera";
+import { MdSystemUpdate } from "react-icons/all";
+import { Action } from "redux";
 import App from "./application/App";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
-import "./languages/i18n";
+import i18n from "./languages/i18n";
 import Suspense from "./components/modules/Suspense/Suspense";
 import { store, persistor } from "./store/Store";
 import { register } from "./lib/serviceWorker";
 import { pushNotifications } from "./store/notifications/Actions";
 import generateNotificationID from "./lib/generateNotificationID";
-import i18n from "./languages/i18n";
-import {MdSystemUpdate} from "react-icons/all";
 
 // Sentry initialization
 init({
@@ -48,39 +48,41 @@ document.body.appendChild(app);
 
 // Service worker initialization
 register({
-    onSuccess() {
-        store.dispatch(pushNotifications(
-            [
-                {
-                    id: generateNotificationID(),
-                    type: "info",
-                    body: i18n.t("serviceWorker:installed"),
-                    time: 5000,
-                }
-            ]
-        ));
-    },
-    onUpdate(registration: ServiceWorkerRegistration) {
-        store.dispatch(pushNotifications([
+  onSuccess() {
+    store.dispatch(
+      (pushNotifications([
+        {
+          id: generateNotificationID(),
+          type: "info",
+          body: i18n.t("serviceWorker:installed"),
+          time: 5000,
+        },
+      ]) as unknown) as Action
+    );
+  },
+  onUpdate(registration: ServiceWorkerRegistration) {
+    store.dispatch(
+      (pushNotifications([
+        {
+          id: generateNotificationID(),
+          type: "warning",
+          body: i18n.t("serviceWorker:waitingUpdate.title"),
+          buttons: [
             {
-                id: generateNotificationID(),
-                type: "warning",
-                body: i18n.t("serviceWorker:waitingUpdate.title"),
-                buttons: [
-                    {
-                        text: i18n.t("serviceWorker:waitingUpdate.button"),
-                        icon: <MdSystemUpdate />,
-                        onClick: () => {
-                            registration.waiting?.postMessage({type: "SKIP_WAITING"});
-                            window.location.reload();
-                            return true;
-
-                        }
-                    }
-                ]
-            }
-        ]));
-    }
+              text: i18n.t("serviceWorker:waitingUpdate.button"),
+              icon: <MdSystemUpdate />,
+              onClick: () => {
+                registration.waiting?.postMessage({ type: "SKIP_WAITING" });
+                window.location.reload();
+                return true;
+              },
+            },
+          ],
+          time: 10000,
+        },
+      ]) as unknown) as Action
+    );
+  },
 });
 
 const RootComponent = (): React.ReactElement => {
