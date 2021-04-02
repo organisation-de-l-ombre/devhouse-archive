@@ -2,12 +2,22 @@
 
 #[macro_use] extern crate diesel;
 #[macro_use] extern crate rocket;
+#[macro_use] extern crate diesel_migrations;
 extern crate serde;
+
+use crate::database::establish_connection;
 
 mod database;
 mod api;
 
+
+embed_migrations!();
+
 fn main() {
+
+    let con = establish_connection();
+    embedded_migrations::run(&con);
+
     rocket::ignite().mount("/", routes![
         api::health::health,
         api::links::delete_link_for_user,
