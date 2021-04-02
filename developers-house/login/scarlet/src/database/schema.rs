@@ -21,9 +21,19 @@ table! {
     }
 }
 
-joinable!(links -> users (user_id));
+table! {
+    webauthn_keys (id) {
+        id -> Uuid,
+        user_id -> Uuid,
+        credential_id -> Varchar,
+        public_key -> Bytea,
+        updated_at -> Nullable<Timestamptz>,
+        created_at -> Timestamptz,
+    }
+}
 
 allow_tables_to_appear_in_same_query!(
     links,
     users,
+    webauthn_keys,
 );

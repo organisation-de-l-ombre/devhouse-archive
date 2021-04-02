@@ -4,7 +4,8 @@ use dotenv::dotenv;
 
 pub mod user;
 pub mod link;
-// pub mod link;
+pub mod schema;
+mod webauth_key;
 
 pub fn establish_connection () -> PgConnection {
     dotenv().ok();
