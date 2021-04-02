@@ -19,7 +19,6 @@ pub fn put_link_for_id (user: Uuid) {
 /// Delete a linked account on the user account.
 #[delete("/user/<user>/links/<link>")]
 pub fn delete_link_for_user (user: Uuid, link: Uuid) {
-
 }
 
 /// get_link_by_id - GET /link/:id

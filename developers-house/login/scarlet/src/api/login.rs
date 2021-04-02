@@ -1,3 +1,5 @@
+use rocket_contrib::uuid::Uuid;
+
 /// start_login_session - POST /login
 /// Creates a login session, used to complete
 /// the login flow, if the request is successful,
@@ -13,7 +15,7 @@ pub fn start_login_session () {
 /// get_login_session - GET /login/:id
 /// Get a login session by session_id
 #[get("/login/<id>")]
-pub fn get_login_session () {
+pub fn get_login_session (id: Uuid) {
 
 }
 
@@ -21,6 +23,6 @@ pub fn get_login_session () {
 /// Add a login validation to the login session
 /// using the session_id.
 #[post("/login/<id>")]
-pub fn post_to_login_session () {
+pub fn post_to_login_session (id: Uuid) {
 
 }

@@ -20,6 +20,7 @@ fn main() {
         api::user::post_user,
         api::webauthn::delete_webauthn_for_user,
         api::webauthn::put_webauth_key,
-        api::webauthn::get_webauth_keys_for_user
+        api::webauthn::get_webauth_keys_for_user,
+        api::statistics::get_statistics
     ]).launch();
 }
