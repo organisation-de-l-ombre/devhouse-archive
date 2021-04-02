@@ -1,7 +1,7 @@
 use chrono::NaiveDateTime;
 use uuid::Uuid;
 use crate::database::schema::users;
-use serde::{Serialize};
+use serde::{Serialize, Deserialize};
 
 #[derive(Queryable, Identifiable, Serialize)]
 pub struct User {
@@ -14,18 +14,19 @@ pub struct User {
     pub created_at: NaiveDateTime
 }
 
-#[derive(AsChangeset)]
+#[derive(AsChangeset, Deserialize)]
 #[table_name="users"]
-struct UserUpdate<'a> {
-    pub username: Option<&'a str>,
-    pub private: Option<&'a bool>,
-    pub ban: Option<Option<&'a str>>,
-    pub roles: Option<&'a i32>
+pub struct UserUpdate {
+    pub username: Option<String>,
+    pub private: Option<bool>,
+    pub ban: Option<Option<String>>,
+    pub roles: Option<i32>
 }
 
 #[derive(Insertable)]
 #[table_name="users"]
-struct NewUser<'a> {
+pub struct NewUser<'a> {
+    pub id: &'a Uuid,
     pub username: &'a str,
     pub private: &'a bool,
 }

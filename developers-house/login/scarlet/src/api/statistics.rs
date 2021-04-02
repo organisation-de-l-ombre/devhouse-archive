@@ -4,8 +4,6 @@ use diesel::QueryDsl;
 use crate::database::establish_connection;
 use rocket_contrib::json::Json;
 use crate::diesel::RunQueryDsl;
-use diesel::dsl::*;
-use diesel::result::Error;
 use rocket::http::Status;
 use crate::database::schema::links::dsl::links;
 use crate::database::schema::webauthn_keys::dsl::webauthn_keys;
