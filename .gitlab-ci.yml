@@ -29,10 +29,8 @@ stages:
 
 
 rust_build:
-  image: rust
+  image: rustlang/rust:nightly
   script:
-    - apt-get update
-    - apt-get install clang -y
     - cargo update
     - cargo build --release
   cache:
