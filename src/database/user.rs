@@ -1,6 +1,6 @@
 use chrono::NaiveDateTime;
 use uuid::Uuid;
-use crate::schema::users;
+use crate::database::schema::users;
 use serde::{Serialize};
 
 #[derive(Queryable, Identifiable, Serialize)]
