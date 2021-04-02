@@ -2,7 +2,7 @@ table! {
     links (id) {
         id -> Uuid,
         platform -> Varchar,
-        platformid -> Varchar,
+        platform_id -> Varchar,
         user_id -> Uuid,
         updated_at -> Nullable<Timestamptz>,
         created_at -> Timestamptz,

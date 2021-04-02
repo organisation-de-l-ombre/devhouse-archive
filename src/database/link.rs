@@ -13,3 +13,12 @@ pub struct Link {
     pub updated_at: Option<NaiveDateTime>,
     pub created_at: NaiveDateTime
 }
+
+#[derive(Insertable)]
+#[table_name="links"]
+pub struct NewLink<'a> {
+    pub id: &'a Uuid,
+    pub platform: &'a String,
+    pub platform_id: &'a String,
+    pub user_id: &'a Uuid,
+}
