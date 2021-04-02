@@ -17,6 +17,8 @@ paths:
         - in: path
           required: true
           name: id
+          schema:
+            type: string
       responses:
         200:
           description: Succesfully got a user from the database.
@@ -33,8 +35,13 @@ paths:
         - in: path
           required: true
           name: id
+          schema:
+            type: string
       requestBody:
-        $ref: "#/components/schemas/User"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
       responses:
         200:
           description: Edits a user
@@ -51,6 +58,8 @@ paths:
         - in: path
           name: id
           required: true
+          schema:
+            type: string
       responses:
         200:
           description: User deleted.
@@ -59,7 +68,10 @@ paths:
   "/user":
     post:
       requestBody:
-        $ref: "#/components/schemas/User"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
       responses:
         200:
           description: Created the user
@@ -73,6 +85,8 @@ paths:
         - in: path
           name: id
           required: true
+          schema:
+            type: string
       responses:
         200:
           description: Got a linked account list
@@ -89,8 +103,13 @@ paths:
         - in: path
           name: id
           required: true
+          schema:
+            type: string
       requestBody:
-        $ref: "#/components/schemas/Link"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Link"
       responses:
         200:
           description: Added a link to this user.
@@ -104,6 +123,8 @@ paths:
         - in: path
           required: true
           name: id
+          schema:
+            type: string
       responses:
         200:
           description: Succesfully deleted the link
@@ -112,6 +133,8 @@ paths:
         - in: path
           required: true
           name: id
+          schema:
+            type: string
       responses:
         200:
           description: Got a link from the database.
@@ -125,6 +148,8 @@ paths:
         - in: path
           name: id
           required: true
+          schema:
+            type: string
       responses:
         200:
           description: Got a webauth key
@@ -136,11 +161,16 @@ paths:
                   $ref: "#/components/schemas/WebAuthKey"
     put:
       requestBody:
-        $ref: "#/components/schemas/WebAuthKey"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WebAuthKey"
       parameters:
         - in: path
           name: id
           required: true
+          schema:
+            type: string
       responses:
         200:
           description: Created a webauth key.
@@ -154,6 +184,8 @@ paths:
         - in: path
           name: id
           required: true
+          schema:
+            type: string
       responses:
         200:
           description: Got a webauth key.
@@ -166,6 +198,8 @@ paths:
         - in: path
           name: id
           required: true
+          schema:
+            type: string
       responses:
         200:
           description: Deleted a key.
@@ -175,9 +209,13 @@ paths:
         - in: path
           name: platform
           required: true
+          schema:
+            type: string
         - in: path
           name: id
           required: true
+          schema:
+            type: string
       responses:
         200:
           description: Got a user with this link.
@@ -189,7 +227,10 @@ paths:
   "/login":
     post:
       requestBody:
-        $ref: "#/components/schemas/UserLoginRequest"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserLoginRequest"
       description: |
         The login endpoint takes data from the client in order
         to complete the auth process. If the auth is not complete
@@ -199,10 +240,14 @@ paths:
           name: method
           description: Login methods separated by ,
           required: true
+          schema:
+            type: string
         - in: query
           name: loginSession
           description: Login session
           required: false
+          schema:
+            type: string
       responses:
         200:
           description: User logged in and returned.
@@ -240,11 +285,13 @@ components:
         links:
           type: array
           items:
-            $ref: ""
+            $ref: "#/components/schemas/Link"
         keys:
           type: array
           items:
-            $ref: ""
+            $ref: "#/components/schemas/WebAuthKey"
+    UserLoginRequest:
+      type: object
 
     Link:
       type: object
@@ -288,8 +335,7 @@ components:
             - "failed"
 
         user:
-          type: object
-          $ref: ""
+          $ref: "#/components/schemas/User"
 
         webAuth:
           type: object
