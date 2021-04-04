@@ -25,6 +25,7 @@ const MemberDisplay: FC<
         </div>
         <Tooltip
           className={styles.name}
+          showMobile
           tooltip={`${member.username}#${member.discriminator}`}
         >
           <h2>{member.username}</h2>

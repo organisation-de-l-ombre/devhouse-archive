@@ -51,7 +51,29 @@ export default function ProjectsPage(): ReactElement {
                     <div className={styles.managers}>
                       {project.managers.map((member) => {
                         return (
-                          <Tooltip key={member.id} tooltip={member.username}>
+                          <Tooltip
+                            showMobile
+                            key={member.id}
+                            tooltip={
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                }}
+                              >
+                                <p style={{ margin: "0" }}>
+                                  <b style={{ marginBottom: "0.125rem" }}>
+                                    {member.username}
+                                  </b>
+                                  <br />
+                                  This member is a manager on this project{" "}
+                                  <br />
+                                  and a <b>{member.role.name}</b> on
+                                  Developer&rsquo;s House
+                                </p>
+                              </div>
+                            }
+                          >
                             <UserAvatarStatus
                               statusColor={statusToColor(
                                 member.presence.status
@@ -65,7 +87,28 @@ export default function ProjectsPage(): ReactElement {
                     <div className={styles.members}>
                       {project.members?.map((member) => {
                         return (
-                          <Tooltip tooltip={member.username} key={member.id}>
+                          <Tooltip
+                            showMobile
+                            tooltip={
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                }}
+                              >
+                                <p style={{ margin: "0" }}>
+                                  <b style={{ marginBottom: "0.125rem" }}>
+                                    {member.username}
+                                  </b>
+                                  <br />
+                                  This member is a member on this project <br />
+                                  and a <b>{member.role.name}</b> on
+                                  Developer&rsquo;s House
+                                </p>
+                              </div>
+                            }
+                            key={member.id}
+                          >
                             <UserAvatarStatus
                               statusColor={statusToColor(
                                 member.presence.status

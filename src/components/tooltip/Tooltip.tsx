@@ -6,18 +6,19 @@ const Tooltip: FC<
   {
     tooltip: ReactNode;
     direction?: string;
+    showMobile?: boolean;
   } & React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLDivElement>,
     HTMLDivElement
   >
-> = ({ direction, className, tooltip, children, ...props }) => {
+> = ({ showMobile, direction, className, tooltip, children, ...props }) => {
   return (
     <div className={[styles.tooltipContainer, className].join(" ")} {...props}>
       <span
         className={[
           styles.tooltip,
           styles[direction || "top"],
-          GlobalStyles.exceptMobile,
+          !showMobile && GlobalStyles.exceptMobile,
         ].join(" ")}
       >
         <span className={styles.hoverFix} />

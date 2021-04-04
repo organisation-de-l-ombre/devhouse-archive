@@ -4,24 +4,27 @@
     .tooltip {
         position: absolute;
         display: none;
-        background-color: var(--background-primary);
         box-shadow: black 0 0 10px -5px;
         border-radius: 5px;
         opacity: 0;
         width: max-content;
         transition: opacity 500ms;
         overflow: hidden;
-        .hoverFix {
-            position: absolute;
-            width: fit-content;
-            transform: scale(1.75);
-            height: 100%;
-            z-index: -1;
-        }
         .padding {
             width: fit-content;
             display: block;
             padding: 0.75rem;
+            background-color: var(--background-primary);
+            backdrop-filter: blur( 0px );
+            border-radius: 5px;
+            border: 1px solid rgba( 255, 255, 255, 0.18 );
+        }
+        .hoverFix {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            transform: scale(1.25);
+            z-index: -1;
         }
     }
     .bottom {
@@ -33,7 +36,7 @@
     &:hover,
     .tooltip:hover {
         .tooltip {
-            opacity: 1;
+            opacity: .99;
             display: block;
             transition: opacity 500ms;
         }
