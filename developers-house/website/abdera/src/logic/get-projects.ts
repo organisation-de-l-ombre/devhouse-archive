@@ -6,15 +6,16 @@ import { Redis } from "ioredis";
 
 const selfProjects: Projects[] = [];
 readYamlFolder<Projects>(join(process.cwd(), "data", "projects"))
-    .then(selfProjects.push.bind(selfProjects));
+    .then((a) => selfProjects.push(...a));
 
 async function getProjects (redis: Redis): Promise<Projects[]> {
     const fetcher = fetchStaff(redis);
+    console.log(selfProjects[0]);
     return await Promise.all(selfProjects
-        .map(async (project) => ({
+        .map(async ({ members, managers, ...project }) => ({
             ...project,
-            members: await Promise.all(project.members.map(({ id }) => fetcher(id)).filter(Boolean)),
-            managers: await Promise.all(project.members.map(({ id }) => fetcher(id)).filter(Boolean)),
+            members: members ? (await Promise.all(members.map(({ id }) => fetcher(id)))).filter(Boolean) : [],
+            managers: managers ? (await Promise.all(managers.map(({ id }) => fetcher(id)))).filter(Boolean) : [],
         })));
 }
 

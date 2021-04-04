@@ -5,7 +5,7 @@ import { join } from "path";
 
 const selfMembers: Partial<StaffMember>[] = [];
 readYamlFolder<Partial<StaffMember>>(join(process.cwd(), "data", "members"))
-    .then(selfMembers.push.bind(selfMembers));
+    .then((a) => selfMembers.push(...a));
 
 /**
  * Closure that fetches the user using a provided redis instance.

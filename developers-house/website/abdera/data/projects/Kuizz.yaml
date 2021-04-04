@@ -6,6 +6,6 @@ longDescription: |
   Kuizz is a simple and easy quizz application. Kuizz can organize
   competitive games, tournaments and groups.
 members:
-  - id: 314354049023737857
+  - id: "314354049023737857"
 managers:
-  - id: 264867653271814144
+  - id: "264867653271814144"
