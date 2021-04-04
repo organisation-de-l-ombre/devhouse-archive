@@ -1,0 +1,8 @@
+# IDE / Code editors
+.idea/
+.code/
+
+# Files / folders realted to node
+node_modules/
+yarn.lock
+yarn-error.log
