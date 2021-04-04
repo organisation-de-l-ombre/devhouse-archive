@@ -54,7 +54,13 @@ register({
             text: "Yes",
             click: (): boolean => {
               registration.waiting?.postMessage({ type: "SKIP_WAITING" });
-              window.location.reload();
+              if (registration.waiting?.state !== "activated") {
+                  registration.waiting?.addEventListener("statechange", (state) => {
+                      if (registration?.waiting?.state === "activated") {
+                        window.location.reload();
+                      }
+                  });
+              }
               return true;
             },
           },
