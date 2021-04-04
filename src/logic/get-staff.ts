@@ -19,7 +19,6 @@ export function fetchStaff (redis: Redis): (id: string) => Promise<(null | Staff
         if (!data) return null;
 
         try {
-            console.log(data);
             return JSON.parse(data);
         } catch (e) {
             return null;
@@ -40,8 +39,8 @@ async function getStaff(redis: Redis): Promise<StaffMember[] | string> {
             const fetcher = fetchStaff(redis);
             return (await Promise.all<StaffMember>(membersIds.map(fetcher)))
                 .filter(Boolean)
-                .map((user) => ({ ...user, ...(selfMembers
-                        .filter(({ id }) => id === user.id)[0] || {}) }));
+                .map((user) => ({ ...(selfMembers
+                        .filter(({ id }) => id === user.id)[0] || {}),...user  }));
         } catch (e) {
             return [];
         }
