@@ -7,7 +7,7 @@ const getProjectsRoute: RouteOptions = {
         req,
         res
     ) {
-        const staff = await getProjects();
+        const staff = await getProjects(req.redis);
         res.send(staff);
     },
     url: "/data/projects",
