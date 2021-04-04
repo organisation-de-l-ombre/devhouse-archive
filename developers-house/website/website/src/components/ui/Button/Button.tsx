@@ -21,7 +21,9 @@ const rippleEvent = (event: React.MouseEvent): boolean => {
   button.appendChild(circle);
 
   setTimeout(() => {
-    button.removeChild(circle);
+    if (button) {
+      button.removeChild(circle);
+    }
   }, 600);
 
   return true;
@@ -37,7 +39,7 @@ const Ripple: React.FC<
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
     <div
       className={[className, styles.relative].join(" ")}
-      onClick={(e) => rippleEvent(e) && onClick && onClick(e)}
+      onClick={(e) => ((onClick && onClick(e)) || true) && rippleEvent(e)}
       {...props}
     />
   );
