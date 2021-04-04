@@ -72,7 +72,8 @@ export default class Server {
 
     private static errorHandler(error, req: FastifyRequest, res: FastifyReply) {
         res.code(500);
-        res.send();
+        console.error(error);
+        res.send(error);
     }
 
     private static notFound(req: FastifyRequest, res: FastifyReply) {
