@@ -40,6 +40,7 @@ export default class Server {
             sentinelPassword: process.env["REDIS_PASSWORD"],
             name: "mymaster",
         });
+        this.redis.on('error', () => {});
 
         this.hydra = AdminAPI;
         // Add the redis connexion to all the requests objects.
