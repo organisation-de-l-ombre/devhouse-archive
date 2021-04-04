@@ -28,7 +28,7 @@
     "build": "yarn gen:client-axios && tsc -p .",
     "start": "node dist/src",
     "test": "jest",
-    "ci:test": "jest --reporters=jest-junit"
+    "ci:test": "jest --reporters=jest-junit --ci"
   },
   "devDependencies": {
     "@types/jest": "^26.0.22",
