@@ -31,14 +31,14 @@ export default class Server {
         this.server = Fastify({});
         // Connect to the redis cluster.
         this.redis = new CreateRedis({
-            /*sentinels: [
+            sentinels: [
                 {
                     host: process.env["REDIS_HOST"],
                     port: parseInt(process.env["REDIS_PORT"] || "6379"),
                 },
             ],
             sentinelPassword: process.env["REDIS_PASSWORD"],
-            name: "mymaster",*/
+            name: "mymaster",
             host: "localhost"
         });
 
