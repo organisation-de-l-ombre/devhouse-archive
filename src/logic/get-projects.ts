@@ -6,7 +6,7 @@ import { Redis } from "ioredis";
 
 const selfProjects: Projects[] = [];
 readYamlFolder<Projects>(join(process.cwd(), "data", "projects"))
-    .then((projects) => selfProjects.push.bind(selfProjects));
+    .then(selfProjects.push.bind(selfProjects));
 
 async function getProjects (redis: Redis): Promise<Projects[]> {
     const fetcher = fetchStaff(redis);
