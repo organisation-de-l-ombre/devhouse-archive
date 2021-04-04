@@ -38,7 +38,8 @@ test:
   image: timbru31/java-node
   script:
     - yarn install
-    - yarn test --reporters=jest-junit
+    - yarn build
+    - yarn run test --reporters=jest-junit
   artifacts:
     when: always
     reports:
