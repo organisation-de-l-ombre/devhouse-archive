@@ -53,7 +53,7 @@ const PrivateRoute: FC<{ component: FC<unknown> } & RouteProps> = ({
   );
 };
 
-const Navigator = () => {
+const GA: FC = () => {
   const route = useLocation();
 
   useEffect(() => {
@@ -67,12 +67,17 @@ const Navigator = () => {
     });
   }, [route]);
 
+  return null;
+};
+
+const Navigator = () => {
   return (
     <ErrorBoundary FallbackComponent={ErrorPage}>
       <div className={styles.wrapper}>
+        <GA />
         <div className={styles.content}>
-          <Suspense fallback={<Loader />} key={route.pathname}>
-            <Switch location={route}>
+          <Suspense fallback={<Loader />}>
+            <Switch>
               <Route path="/members" exact component={MembersPage} />
               <Route path="/" exact component={HomePage} />
               <Route path="/about" exact component={AboutPage} />
