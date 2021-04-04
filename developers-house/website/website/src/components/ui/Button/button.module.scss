@@ -3,7 +3,6 @@
   display: inline-flex;
   align-items: center;
   border-radius: 5px;
-  overflow: hidden;
   background-color: var(--background-primary);
   color: var(--foreground-primary);
 
@@ -54,6 +53,7 @@
     border-radius: 0;
     padding: 1.25em;
     margin: 0;
+    flex: 1;
   }
   &.full {
     max-width: unset;

@@ -1,16 +1,19 @@
 .tooltipContainer {
     position: relative;
+    display: block;
     .tooltip {
         position: absolute;
-        background-color: var(--background-secondary);
+        display: none;
+        background-color: var(--background-primary);
         box-shadow: black 0 0 10px -5px;
         border-radius: 5px;
         opacity: 0;
+        width: max-content;
         transition: opacity 500ms;
         overflow: hidden;
         .hoverFix {
             position: absolute;
-            width: 100%;
+            width: fit-content;
             transform: scale(1.75);
             height: 100%;
             z-index: -1;
@@ -22,15 +25,16 @@
         }
     }
     .bottom {
-        transform: translateY(calc(50px)) translateX(-50%);
+        transform: translateY(calc(105%)) translateX(-71%);
     }
     .top {
-        transform: translateY(calc(-50px));
+        transform: translateY(calc(-120%)) translateX(0%);
     }
     &:hover,
     .tooltip:hover {
         .tooltip {
-            opacity: .99;
+            opacity: 1;
+            display: block;
             transition: opacity 500ms;
         }
     }

@@ -1,6 +1,5 @@
 import React, { ReactElement } from "react";
 import { TitleBox } from "components/ui/TitleBox/TitleBox";
-import { TypeWriter } from "components/TypeWriter/TypeWriter";
 import { Button } from "../../components/ui/Button/Button";
 import MemberDisplay from "./MemberDisplay";
 import "../transitions.css";
@@ -32,11 +31,11 @@ const MembersPage = (): ReactElement => {
       <TitleBox className={styles.title}>
         <h1>Our members</h1>
         <h2>
-          <TypeWriter characterDisplayInterval={100}>
+          <p>
             Thanks to all of our team to have helped to develop and to make
             possible this project! Without these persons below this project
             wouldn&rsquo;t exist.
-          </TypeWriter>
+          </p>
         </h2>
         <Button onClick={() => refetch()}>Refresh</Button>
       </TitleBox>
