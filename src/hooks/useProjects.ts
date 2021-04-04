@@ -3,7 +3,7 @@ import { Projects } from "@developers-house/abdera";
 import { DisplayAPIClient } from "../constants";
 
 const useProjects = (
-  options?: UseQueryOptions<Projects[]>
+  options?: UseQueryOptions<Projects[], Error>
 ): QueryObserverResult<Projects[], Error> => {
   return useQuery(
     "projectsCache",
