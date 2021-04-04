@@ -27,10 +27,10 @@ export function Menu(): ReactElement {
 
   const [transparent, setTransparent] = useState(window.scrollY > 0);
 
-  const switchOpenClick = () => {
+  const switchOpenClick = useCallback(() => {
     if (open) setOpen(false);
     return true;
-  };
+  }, [open]);
 
   const listener = useCallback(() => {
     if (!page.pathname.includes("settings")) {
@@ -53,6 +53,7 @@ export function Menu(): ReactElement {
     <NavigationContainer
       open={open}
       className={transparent ? styles.transparent : ""}
+      onClick={switchOpen}
     >
       <div className={`${styles.primed} ${globalStyles.onlyMobiles}`}>
         <NavigationItem onClick={switchOpen}>

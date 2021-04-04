@@ -1,14 +1,11 @@
 import React, { ReactElement } from "react";
 import { TitleBox } from "components/ui/TitleBox/TitleBox";
 import { TypeWriter } from "components/TypeWriter/TypeWriter";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { Button } from "../../components/ui/Button/Button";
-import { CardFlexContainer } from "../../components/ui/Card/Card";
 import MemberDisplay from "./MemberDisplay";
 import "../transitions.css";
 import styles from "./member.module.scss";
 import { Loader } from "../../components/SuspenseLoader/SuspenseLoader";
-import globalStyles from "../../styles/Global.module.scss";
 import useMembers from "../../hooks/Members/Members";
 import FlexContainer from "../../components/FlexContainer/FlexContainer";
 
@@ -32,7 +29,7 @@ const MembersPage = (): ReactElement => {
 
   return (
     <div>
-      <TitleBox>
+      <TitleBox className={styles.title}>
         <h1>Our members</h1>
         <h2>
           <TypeWriter characterDisplayInterval={100}>
@@ -44,30 +41,20 @@ const MembersPage = (): ReactElement => {
         <Button onClick={() => refetch()}>Refresh</Button>
       </TitleBox>
 
-      <CardFlexContainer>
-        <TransitionGroup className={styles.wrapper}>
-          {data ? (
-            data
-              .sort((x, y) => y.role.position - x.role.position)
-              .map((member) => {
-                return (
-                  <CSSTransition
-                    classNames="fade"
-                    timeout={500}
-                    key={member.id}
-                  >
-                    <MemberDisplay
-                      className={globalStyles["card-margin"]}
-                      member={member}
-                    />
-                  </CSSTransition>
-                );
-              })
-          ) : (
-            <></>
-          )}
-        </TransitionGroup>
-      </CardFlexContainer>
+      <div className={styles.grid}>
+        {data &&
+          data
+            .sort((x, y) => y.role.position - x.role.position)
+            .map((member) => {
+              return (
+                <MemberDisplay
+                  key={member.id}
+                  className={styles.card}
+                  member={member}
+                />
+              );
+            })}
+      </div>
     </div>
   );
 };

@@ -48,14 +48,16 @@ const Button: React.FC<
     HTMLButtonElement
   > & {
     large?: boolean;
+    margin?: boolean;
   }
-> = ({ className, large, onClick, ...props }) => (
+> = ({ className, margin, large, onClick, ...props }) => (
   <button
     className={[
       className,
       styles.relative,
       styles.button,
       large && styles.large,
+      margin && styles.margin,
     ].join(" ")}
     onClick={(e) => rippleEvent(e) && onClick && onClick(e)}
     type="button"

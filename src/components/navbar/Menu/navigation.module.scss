@@ -3,12 +3,17 @@ a:hover,
     transition: background-color .5s;
     background-color: var(--menu-item-hover-background);
 }
+$speed: 175ms;
 
 .item {
     display: block;
     --padding: 1.15rem;
     padding: var(--padding) 1rem var(--padding) 1rem;
     cursor: pointer;
+}
+
+.drawer {
+    transition: transform $speed ease-in-out;
 }
 
 .transparent {
@@ -29,8 +34,13 @@ a:hover,
 }
 
 .drawer {
-    display: flex;
+    display: grid;
+    grid-template-columns: 60% auto;
     width: 100%;
+}
+
+.backdrop {
+    display: none;
 }
 
 .container {
@@ -45,6 +55,10 @@ a:hover,
     box-shadow: black 0 0 5px -1px;
     transition: box-shadow 300ms;
 
+    .content {
+        grid-column: 1 / -1;
+    }
+
     @media screen and (max-width: 700px) {
         flex-flow: column wrap;
         display: inline-block;
@@ -53,12 +67,9 @@ a:hover,
             background-color: var(--background-primary) !important;
             .drawer {
                 pointer-events: visible;
+                transform: none;
                 .backdrop {
-                    flex: 1;
                     opacity: .6;
-                }
-                .content {
-                    width: 66%;
                 }
             }
         }
@@ -67,22 +78,19 @@ a:hover,
             display: block;
         }
         .drawer {
-            display: flex;
+            transform: translateX(-100%);
             position: absolute;
 
-            height: calc(100vh - 2.25rem - 1.15rem - 1.15rem);
+            height: calc(100vh - 2.25rem - 1.15rem);
             width: 100%;
 
             pointer-events: none;
 
             .content {
-                width: 0;
+                grid-column: 1 / 2;
                 background-color: var(--background-primary);
                 overflow: hidden;
                 display: block;
-
-                transition: width 300ms ease-in-out;
-
                 .item, a {
                     margin-left: 0 !important;
                     display: inline-flex;
@@ -97,7 +105,9 @@ a:hover,
                 }
             }
             .backdrop {
-                transition: opacity 300ms;
+                display: block;
+                transition: opacity $speed 150ms;
+                width: 500%;
                 background-color: black;
                 opacity: 0;
             }
@@ -108,7 +118,7 @@ a:hover,
         .primed {
             z-index: 2;
             .item {
-                height: 2.25rem;
+                padding: 1.125rem;
                 flex: 1;
                 display: flex;
                 justify-content: space-between;
