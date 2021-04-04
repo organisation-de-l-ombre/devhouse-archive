@@ -34,7 +34,6 @@
   background-color: var(--primary);
   color: var(--text-color-button);
   padding: 1% 4%;
-  box-shadow: black 0 3px 10px;
 
   p {
     vertical-align: middle;
@@ -55,7 +54,6 @@
   flex-direction: row;
   justify-content: space-between;
   z-index: 10;
-  box-shadow: black 0 -3px 10px;
   min-height: 50px;
 
   h1 {
