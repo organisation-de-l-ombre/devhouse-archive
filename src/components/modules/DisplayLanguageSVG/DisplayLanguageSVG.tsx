@@ -1,0 +1,14 @@
+import React from "react";
+
+const DisplayLanguageSVG: React.FC<
+  React.ImgHTMLAttributes<HTMLImageElement> & { alt: string; lang: string }
+> = ({ alt, lang, ...props }) => {
+  const { default: image } = React.useMemo(
+    () => require(`../../../assets/pictures/locales/${lang}.svg`),
+    [lang]
+  );
+
+  return <img src={image} alt={alt} {...props} />;
+};
+
+export default DisplayLanguageSVG;

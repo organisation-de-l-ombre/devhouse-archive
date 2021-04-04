@@ -1,4 +1,11 @@
-import { FaMoon, FaSun, FaUser, MdLocalMovies, FaBell } from "react-icons/all";
+import {
+  FaMoon,
+  FaSun,
+  FaUser,
+  MdLocalMovies,
+  FaBell,
+  FaBellSlash,
+} from "react-icons/all";
 import { NavLink } from "react-router-dom";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
@@ -10,17 +17,22 @@ import useLanguage from "../../../hooks/Language/Language";
 import useTheme from "../../../hooks/Theme/Theme";
 import useUser from "../../../hooks/User/User";
 import NotificationsModal from "../../ui/Notifications/NotificationsModal/NotificationsModal";
-import { DisplaySVG, LanguageModal } from "./LanguageModal";
-import { useNotificationsManager } from "../../../hooks/Notifications/Notifications";
+import LanguageModal from "./LanguageModal";
+import {
+  useNotificationsManager,
+  useNotificationsState,
+} from "../../../hooks/Notifications/Notifications";
 import generateNotificationID from "../../../lib/generateNotificationID";
+import DisplayLanguageSVG from "../DisplayLanguageSVG/DisplayLanguageSVG";
+import { NavbarManagement } from "./Types";
 
-const useNavbar = (): { open: boolean; manageNavbar: () => void } => {
+const useNavbar = (): NavbarManagement => {
   const [open, setOpen] = React.useState<boolean>(false);
-  const manageNavbar = () => {
+  const manageNavbar = React.useCallback((): void => {
     if (window.matchMedia("(max-width: 700px)").matches) {
       setOpen(!open);
     }
-  };
+  }, [open]);
 
   return { open, manageNavbar };
 };
@@ -38,7 +50,7 @@ const Navbar = (): React.ReactElement => {
   ] = React.useState<boolean>(false);
   const { theme, switchTheme } = useTheme();
   const { addNotifications } = useNotificationsManager();
-  const manageTheme = (): void => {
+  const manageTheme = React.useCallback((): void => {
     switchTheme();
     manageNavbar();
     addNotifications([
@@ -51,7 +63,8 @@ const Navbar = (): React.ReactElement => {
         time: 5000,
       },
     ]);
-  };
+  }, [addNotifications, manageNavbar, switchTheme, t, theme]);
+  const { allowNotifications } = useNotificationsState();
 
   return (
     <>
@@ -133,7 +146,7 @@ const Navbar = (): React.ReactElement => {
               setLanguageWindowOpen(!languageWindowOpen);
             }}
           >
-            <DisplaySVG lang={language} alt={`lang-${language}`} />
+            <DisplayLanguageSVG lang={language} alt={`lang-${language}`} />
             <span className={styles["switcher-span"]}>
               <Trans t={t} i18nKey="items.changeLanguage" />
             </span>
@@ -148,7 +161,7 @@ const Navbar = (): React.ReactElement => {
               setNotificationsWindowOpen(!notificationsWindowOpen);
             }}
           >
-            <FaBell />
+            {allowNotifications ? <FaBell /> : <FaBellSlash />}
             <span className={styles["switcher-span"]}>
               <Trans t={t} i18nKey="items.notifications" />
             </span>

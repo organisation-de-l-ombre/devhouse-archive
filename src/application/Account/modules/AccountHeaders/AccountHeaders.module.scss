@@ -5,20 +5,21 @@
   justify-content: center;
 
   .headers {
-    padding: 2rem;
+    padding: 0 2rem 2rem 2rem;
     width: calc(100% - 4rem);
     max-width: 75%;
     flex-wrap: wrap;
     align-items: center;
 
     img {
-      margin: 1rem 2rem 1rem 0;
+      margin: 2rem 2rem 0 0;
       pointer-events: none;
       height: 128px;
       border-radius: 50%;
     }
 
     .headers-text {
+      margin-top: 2rem;
       flex: 1 30rem;
       flex-direction: column;
 

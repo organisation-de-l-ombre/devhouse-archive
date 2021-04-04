@@ -2,7 +2,7 @@ import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import Toggle from "react-toggle";
 import { FaSun, FaMoon } from "react-icons/fa";
-import { IoClose } from "react-icons/all";
+import { IoClose } from "react-icons/io5";
 import { GoCheck } from "react-icons/go";
 import flexContainerStyles from "../../../../components/ui/FlexContainer/FlexContainer.module.scss";
 import containerStyle from "../../Containers.module.scss";
@@ -24,9 +24,9 @@ import { supportedLanguages } from "../../../../store/language/Types";
 import SelectList, {
   manageSelection,
 } from "../../../../components/ui/SelectList/SelectList";
-import { DisplaySVG } from "../../../../components/modules/Navbar/LanguageModal";
 import useLanguage from "../../../../hooks/Language/Language";
 import Button from "../../../../components/ui/Button/Button";
+import DisplayLanguageSVG from "../../../../components/modules/DisplayLanguageSVG/DisplayLanguageSVG";
 
 const Settings = (): React.ReactElement => {
   const { t } = useTranslation("pages\\account\\sections\\settings");
@@ -134,7 +134,7 @@ const Settings = (): React.ReactElement => {
                         );
                       }}
                     >
-                      <DisplaySVG lang={lang} alt={`lang-${lang}`} />
+                      <DisplayLanguageSVG lang={lang} alt={`lang-${lang}`} />
                       <span>
                         <Trans
                           t={tModal}

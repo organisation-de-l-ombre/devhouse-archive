@@ -7,17 +7,8 @@ import { supportedLanguages } from "../../../store/language/Types";
 import Button from "../../ui/Button/Button";
 import Modal from "../../ui/Modal/Modal";
 import useLanguage from "../../../hooks/Language/Language";
+import DisplayLanguageSVG from "../DisplayLanguageSVG/DisplayLanguageSVG";
 
-const DisplaySVG: React.FC<
-  React.ImgHTMLAttributes<HTMLImageElement> & { alt: string; lang: string }
-> = ({ alt, lang, ...props }) => {
-  const { default: image } = React.useMemo(
-    () => require(`../../../assets/pictures/locales/${lang}.svg`),
-    [lang]
-  );
-
-  return <img src={image} alt={alt} {...props} />;
-};
 const LanguageModal: React.FC<
   React.DetailedHTMLProps<
     React.AllHTMLAttributes<HTMLDivElement>,
@@ -56,7 +47,7 @@ const LanguageModal: React.FC<
                   manageSelection("select-language", "none");
                 }}
               >
-                <DisplaySVG lang={lang} alt={`lang-${lang}`} />
+                <DisplayLanguageSVG lang={lang} alt={`lang-${lang}`} />
                 <span>
                   <Trans t={t} i18nKey={`modal.select.languages.${lang}`} />
                 </span>
@@ -72,4 +63,4 @@ const LanguageModal: React.FC<
   );
 };
 
-export { DisplaySVG, LanguageModal };
+export default LanguageModal;
