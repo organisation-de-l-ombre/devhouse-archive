@@ -45,6 +45,8 @@ const imageInlineSizeLimit = parseInt(
 // Check if TypeScript is setup
 const useTypeScript = fs.existsSync(paths.appTsConfig);
 
+const swSrc = paths.serviceWorker;
+
 // style files regexes
 const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
@@ -624,44 +626,18 @@ module.exports = function (webpackEnv) {
             // Generate a service worker script that will precache, and keep up to date,
             // the HTML & assets that are part of the webpack build.
             isEnvProduction &&
-            new WorkboxWebpackPlugin.GenerateSW({
-                clientsClaim: true,
-                exclude: [/\.map$/, /asset-manifest\.json$/],
-                importWorkboxFrom: 'local',
-                navigateFallback: paths.publicUrlOrPath + 'index.html',
-                navigateFallbackBlacklist: [
-                    // Exclude URLs starting with /_, as they're likely an API call
-                    new RegExp('^/_'),
-                    // Exclude any URLs whose last part seems to be a file extension
-                    // as they're likely a resource and not a SPA route.
-                    // URLs containing a "?" character won't be blacklisted as they're likely
-                    // a route with query params (e.g. auth callbacks).
-                    new RegExp('/[^/?]+\\.[^/]+$'),
-                ],
-                runtimeCaching: [
-                    {
-                        urlPattern: /^https:\/\/fonts\.gstatic\.com/,
-                        handler: 'StaleWhileRevalidate',
-                        options: {
-                            cacheName: 'google-fonts-webfonts'
-                        }
-                    },
-                    {
-                        urlPattern: /^https:\/\/cdn\.discordapp\.com/,
-                        handler: 'StaleWhileRevalidate',
-                        options: {
-                            cacheName: 'discord-avatar-cache'
-                        }
-                    },
-                    {
-                        urlPattern: /^https:\/\/s3\.developershouse\.xyz/,
-                        handler: 'StaleWhileRevalidate',
-                        options: {
-                            cacheName: "dh-cdn"
-                        }
-                    }
-                ]
+            fs.existsSync(swSrc) &&
+            new WorkboxWebpackPlugin.InjectManifest({
+                swSrc,
+                dontCacheBustURLsMatching: /\.[0-9a-f]{8}\./,
+                exclude: [/\.map$/, /asset-manifest\.json$/, /LICENSE/],
+                // Bump up the default maximum size (2mb) that's precached,
+                // to make lazy-loading failure scenarios less likely.
+                // See https://github.com/cra-template/pwa/issues/13#issuecomment-722667270
+                maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
+
             }),
+
             // TypeScript type checking
             useTypeScript &&
             new ForkTsCheckerWebpackPlugin({
