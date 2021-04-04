@@ -39,7 +39,7 @@ async function getStaff(redis: Redis): Promise<StaffMember[]> {
             const fetcher = fetchStaff(redis);
             return (await Promise.all<StaffMember>(membersIds.map(fetcher)))
                 .filter(Boolean)
-                .map((user) => ({ ...user, ...selfMembers.filter(({ id }) => id === user.id) }));
+                .map((user) => ({ ...user, ...selfMembers.filter(({ id }) => id === user.id)[0] }));
         } catch (e) { return null; }
     }
 }
