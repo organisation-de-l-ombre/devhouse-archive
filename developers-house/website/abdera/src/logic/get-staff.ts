@@ -6,8 +6,7 @@ import { join } from "path";
 const selfMembers: Partial<StaffMember>[] = [];
 readYamlFolder<Partial<StaffMember>>(join(process.cwd(), "data", "members"))
     .then((e) => e.filter((a) => Boolean(a) && a.id))
-    .then((a) => selfMembers.push(...a))
-    .then(() => console.log(selfMembers));
+    .then((a) => selfMembers.push(...a));
 /**
  * Closure that fetches the user using a provided redis instance.
  * @param {Redis} redis The provided redis client for the closure
@@ -20,6 +19,7 @@ export function fetchStaff (redis: Redis): (id: string) => Promise<(null | Staff
         if (!data) return null;
 
         try {
+            console.log(data);
             return JSON.parse(data);
         } catch (e) {
             return null;
@@ -36,18 +36,17 @@ async function getStaff(redis: Redis): Promise<StaffMember[] | string> {
     if (index) {
         try {
             const membersIds: string[] = JSON.parse(index);
-            if (!Array.isArray(membersIds)) return null;
+            if (!Array.isArray(membersIds)) return [];
             const fetcher = fetchStaff(redis);
             return (await Promise.all<StaffMember>(membersIds.map(fetcher)))
                 .filter(Boolean)
                 .map((user) => ({ ...user, ...(selfMembers
                         .filter(({ id }) => id === user.id)[0] || {}) }));
         } catch (e) {
-            console.log(e);
-            return null;
+            return [];
         }
     }
-    return "No data index.";
+    return [];
 }
 
 export default getStaff;

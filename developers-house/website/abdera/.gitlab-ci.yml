@@ -38,4 +38,9 @@ test:
   image: timbru31/java-node
   script:
     - yarn install
-    - yarn test
+    - yarn test --reporters=jest-junit
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - junit.xml
