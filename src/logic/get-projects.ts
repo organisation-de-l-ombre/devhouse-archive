@@ -10,7 +10,6 @@ readYamlFolder<Projects>(join(process.cwd(), "data", "projects"))
 
 async function getProjects (redis: Redis): Promise<Projects[]> {
     const fetcher = fetchStaff(redis);
-    console.log(selfProjects[0]);
     return await Promise.all(selfProjects
         .map(async ({ members, managers, ...project }) => ({
             ...project,
