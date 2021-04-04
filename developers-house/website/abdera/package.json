@@ -27,7 +27,8 @@
     "gen:client-axios": "openapi-generator-cli generate -i openapi.yaml -g typescript-axios -o gen",
     "build": "yarn gen:client-axios && tsc -p .",
     "start": "node dist/src",
-    "test": "jest"
+    "test": "jest",
+    "ci:test": "jest --reporters=jest-junit"
   },
   "devDependencies": {
     "@types/jest": "^26.0.22",

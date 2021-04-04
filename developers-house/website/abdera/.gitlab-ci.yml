@@ -39,7 +39,7 @@ test:
   script:
     - yarn install
     - yarn build
-    - yarn run test --reporters=jest-junit
+    - yarn run ci:test
   artifacts:
     when: always
     reports:
