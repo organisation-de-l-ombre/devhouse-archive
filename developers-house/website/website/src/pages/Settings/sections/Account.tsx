@@ -109,7 +109,7 @@ const Indicator: FC<{ color: string; key: string }> = ({ color, children }) => {
 };
 
 const Takeouts: FC = () => {
-  const { isLoading, refetch, isFetching, data, error } = useTakeouts();
+  const { refetch, isFetching, data, error } = useTakeouts();
   const createTakeout = useCreateTakeout();
   const create = useCallback(() => {
     // eslint-disable-next-line no-alert
@@ -120,7 +120,7 @@ const Takeouts: FC = () => {
       createTakeout();
     }
   }, [createTakeout]);
-  if (isLoading) {
+  if (isFetching) {
     return (
       <TitleBox>
         <Loader />

@@ -1,67 +1,56 @@
-import { Card, CardFlexContainer, CardPadding } from "components/ui/Card/Card";
+import { Card } from "components/ui/Card/Card";
 import React, { ReactElement } from "react";
 import Text from "components/ui/Text/Text";
-import ButtonGroup from "components/ui/Button/ButtonGroup";
 import Button from "components/ui/Button/Button";
-import projects from "./projects.temp.json";
 import { TitleBox } from "../../components/ui/TitleBox/TitleBox";
 import styles from "./Projects.module.scss";
+import ButtonGroup from "../../components/ui/Button/ButtonGroup";
+import useProjects from "../../hooks/useProjects";
+import { Loader } from "../../components/SuspenseLoader/SuspenseLoader";
 
 export default function ProjectsPage(): ReactElement {
+  const { data, isLoading, error } = useProjects({
+    refetchOnMount: false,
+    refetchIntervalInBackground: false,
+    refetchInterval: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+  });
+
+  if (isLoading || !data) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return <TitleBox>{error.message}</TitleBox>;
+  }
+
   return (
     <div className={styles.main}>
-      <TitleBox>
-        <h1>About our projects</h1>
-        <Text className={styles["top-text-margin"]}>
-          We are much more than you think! That is why this webpage exist on the
-          website. Here are displayed each projects of our team. You can found
-          all information you need.
-        </Text>
-      </TitleBox>
-      <CardFlexContainer className={styles["projects-container"]}>
-        {projects
+      <div className={styles.grid}>
+        <TitleBox className={styles.header}>
+          <h1>About our projects</h1>
+          <Text className={styles["top-text-margin"]}>
+            We are much more than you think! That is why this webpage exist on
+            the website. Here are displayed each projects of our team. You can
+            found all information you need.
+          </Text>
+        </TitleBox>
+        {data
           .sort((a, b) => a.name.localeCompare(b.name))
           .map((project) => {
             return (
-              <Card className={styles["card-container"]} key={project.name}>
-                <CardPadding>
-                  <h2>{project.name}</h2>
-                  <hr />
-                  <Text className={styles.text}>{project.description}</Text>
-
-                  <div className={styles["members-global-container"]}>
-                    <div className={styles["members-container"]}>
-                      <h3 className={styles["h3-margin"]}>
-                        Project manager
-                        {project.managers.length > 1 ? "s" : ""}
-                      </h3>
-                      <ButtonGroup>
-                        {project.managers
-                          .sort((a, b) => a.localeCompare(b))
-                          .map((member) => {
-                            return <Button key={member}>{member}</Button>;
-                          })}
-                      </ButtonGroup>
-                    </div>
-                    <div className={styles["members-container"]}>
-                      <h3 className={styles["h3-margin"]}>
-                        Project member
-                        {project.members.length > 1 ? "s" : ""}
-                      </h3>
-                      <ButtonGroup>
-                        {project.members
-                          .sort((a, b) => a.localeCompare(b))
-                          .map((member) => {
-                            return <Button key={member}>{member}</Button>;
-                          })}
-                      </ButtonGroup>
-                    </div>
-                  </div>
-                </CardPadding>
+              <Card className={styles.panel} key={project.name}>
+                <h2>{project.name}</h2>
+                <Text className={styles.text}>{project.longDescription}</Text>
+                <ButtonGroup>
+                  <Button margin>More information</Button>
+                  <Button margin>Visit the project</Button>
+                </ButtonGroup>
               </Card>
             );
           })}
-      </CardFlexContainer>
+      </div>
     </div>
   );
 }

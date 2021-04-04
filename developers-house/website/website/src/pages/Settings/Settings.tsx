@@ -1,9 +1,5 @@
-/*
- * The Error page displayed to the user when the website crashes.
- */
-
-import React, { ReactElement, useCallback, Suspense, FC } from "react";
-import { Route, Switch, useRouteMatch } from "react-router";
+import React, { ReactElement, useCallback, FC, useMemo } from "react";
+import { Route, Switch } from "react-router";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AiFillLock } from "react-icons/all";
@@ -16,29 +12,35 @@ import styles from "./settings.module.scss";
 import NotFound from "../NotFound/NotFound";
 import UserAvatarStatus from "../../components/ui/UserAvatarStatus/UserAvatarStatus";
 import { logoutUser } from "../../state/modules/user/actions";
-import { Loader } from "../../components/SuspenseLoader/SuspenseLoader";
 
-const Content: FC<{ path: string }> = ({ path }) => {
+const Content: FC = () => {
   const dispatch = useDispatch();
+  const match = useMemo(
+    () => ({
+      path: "/settings",
+    }),
+    []
+  );
+
   const logout = useCallback(() => {
     dispatch(logoutUser());
   }, [dispatch]);
 
   return (
     <ButtonGroup className={styles.list} full>
-      <NavLink to={`${path}`}>
+      <NavLink to={`${match.path}`}>
         <Button>Account</Button>
       </NavLink>
-      <NavLink to={`${path}/authorizations`}>
+      <NavLink to={`${match.path}/authorizations`}>
         <Button>Manage authorizations</Button>
       </NavLink>
-      <NavLink to={`${path}/linked-accounts`}>
+      <NavLink to={`${match.path}/linked-accounts`}>
         <Button>Linked accounts</Button>
       </NavLink>
-      <NavLink to={`${path}/privacy-settings`}>
+      <NavLink to={`${match.path}/privacy-settings`}>
         <Button>Privacy settings</Button>
       </NavLink>
-      <NavLink to={`${path}/support`}>
+      <NavLink to={`${match.path}/support`}>
         <Button>Support</Button>
       </NavLink>
       <Button onClick={logout}>
@@ -52,7 +54,7 @@ const Content: FC<{ path: string }> = ({ path }) => {
 };
 
 const Settings = (): ReactElement => {
-  const match = useRouteMatch();
+  const match = useMemo(() => "/settings", []);
   const user = useSelector((x) => x.user.user);
 
   return (
@@ -67,23 +69,21 @@ const Settings = (): ReactElement => {
           />
           <h3>{user?.username}</h3>
         </div>
-        <Content path={match.path} />
+        <Content />
       </div>
       <div className={styles.content}>
-        <Suspense fallback={<Loader />}>
-          <Switch>
-            <Route exact path={`${match.path}`} component={Account} />
-            <Route
-              exact
-              path={`${match.path}/authorizations`}
-              component={Authorizations}
-            />
-            <Route exact path={`${match.path}/support`} component={Support} />
-            <Route path="*" exact>
-              <NotFound />
-            </Route>
-          </Switch>
-        </Suspense>
+        <Switch>
+          <Route exact path={`${match}`} component={Account} />
+          <Route
+            exact
+            path={`${match}/authorizations`}
+            component={Authorizations}
+          />
+          <Route exact path={`${match}/support`} component={Support} />
+          <Route path="*" exact>
+            <NotFound />
+          </Route>
+        </Switch>
       </div>
     </div>
   );

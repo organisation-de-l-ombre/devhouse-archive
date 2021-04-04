@@ -1,25 +1,36 @@
 .top-text-margin { margin: 1rem; }
 
-.projects-container {
-    margin: 2rem;
-    align-content: center;
+
+.text {
+    flex: 1;
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
 }
-
-.card-container {
-    margin: .5rem;
-    text-align: center;
-}
-
-.text { margin: 2rem 0 .5rem 0; }
-
-.members-global-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-}
-
-.h3-margin { margin-bottom: 1rem; }
 
 .members-container { margin: 1rem; }
 
-.main { flex: 1; }
+.main { flex: 1; margin-top: 2.5rem; }
+
+.header {
+    margin: 0;
+    grid-column: 1/-1;
+}
+
+.grid {
+    padding: .5rem;
+    display: grid;
+    grid-gap: .5rem;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    margin-left: 5vw;
+    margin-right: 5vw;
+}
+
+
+.panel {
+    display: flex;
+    padding: 1rem;
+    background: rgba( 80, 80, 80, 0.25 );
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}

@@ -10,7 +10,6 @@ import "./transitions.css";
 import { RouteProps } from "react-router";
 import { ErrorBoundary } from "react-error-boundary";
 import { useSelector } from "react-redux";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { Loader } from "../components/SuspenseLoader/SuspenseLoader";
 import NotFound from "./NotFound/NotFound";
 import styles from "./navigator.module.scss";
@@ -23,9 +22,6 @@ const ErrorPage = React.lazy(() => import("./ErrorPage"));
 const Callback = React.lazy(() => import("./Settings/Callback"));
 const Settings = React.lazy(() => import("./Settings/Settings"));
 const MembersPage = React.lazy(() => import("./Members/Members"));
-const NotImplemented = React.lazy(
-  () => import("./NotImplemented/NotImplemented")
-);
 
 const PrivateRoute: FC<{ component: FC<unknown> } & RouteProps> = ({
   component: Component,
@@ -74,27 +70,19 @@ const Navigator = () => {
   return (
     <ErrorBoundary FallbackComponent={ErrorPage}>
       <div className={styles.wrapper}>
-        <TransitionGroup className={styles.content}>
-          <CSSTransition
-            key={route.pathname.split("/")[1]}
-            classNames="fade"
-            timeout={500}
-          >
-            <Suspense fallback={<Loader />} key={route.pathname}>
-              <Switch location={route}>
-                <Route path="/members" exact component={MembersPage} />
-                <Route path="/" exact component={HomePage} />
-                <Route path="/about" exact component={AboutPage} />
-                <Route path="/projects" exact component={ProjectsPage} />
-                <Route path="/callback" exact component={Callback} />
-                <PrivateRoute path="/settings" component={Settings} />
-                <Route path="/contact" component={NotImplemented} />
-                <Route path="/join" component={NotImplemented} />
-                <Route path="*" exact component={NotFound} />
-              </Switch>
-            </Suspense>
-          </CSSTransition>
-        </TransitionGroup>
+        <div className={styles.content}>
+          <Suspense fallback={<Loader />} key={route.pathname}>
+            <Switch location={route}>
+              <Route path="/members" exact component={MembersPage} />
+              <Route path="/" exact component={HomePage} />
+              <Route path="/about" exact component={AboutPage} />
+              <Route path="/projects" exact component={ProjectsPage} />
+              <Route path="/callback" exact component={Callback} />
+              <PrivateRoute path="/settings" component={Settings} />
+              <Route path="*" exact component={NotFound} />
+            </Switch>
+          </Suspense>
+        </div>
       </div>
     </ErrorBoundary>
   );

@@ -1,5 +1,3 @@
-div, p, span, body, button, input { transition: background 250ms; }
-
 body {
     font-family: 'Roboto', sans-serif;
     color: black;
@@ -8,9 +6,8 @@ body {
     margin: 0;
 }
 
-a {
-    color: var(--foreground-primary);
-    text-decoration: none;
+p {
+    margin: 1rem;
 }
 
 button {
@@ -21,9 +18,14 @@ button {
 
 #root { min-height: 100vh; }
 
-h1,h2,h3,h4,h5 {
+* {
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
+    transition: background 250ms;
+
+    color: var(--foreground-primary);
+    text-decoration: none;
 }
 
 cloudflare-app[app="cf-auth-bar"] {
