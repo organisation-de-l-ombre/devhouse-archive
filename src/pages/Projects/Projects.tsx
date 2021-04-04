@@ -7,6 +7,9 @@ import styles from "./Projects.module.scss";
 import ButtonGroup from "../../components/ui/Button/ButtonGroup";
 import useProjects from "../../hooks/useProjects";
 import { Loader } from "../../components/SuspenseLoader/SuspenseLoader";
+import UserAvatarStatus from "../../components/ui/UserAvatarStatus/UserAvatarStatus";
+import { getAvatar, statusToColor } from "../../utilities";
+import Tooltip from "../../components/tooltip/Tooltip";
 
 export default function ProjectsPage(): ReactElement {
   const { data, isLoading, error } = useProjects({
@@ -42,7 +45,39 @@ export default function ProjectsPage(): ReactElement {
             return (
               <Card className={styles.panel} key={project.name}>
                 <h2>{project.name}</h2>
-                <Text className={styles.text}>{project.longDescription}</Text>
+                <div className={styles.text}>
+                  <p className={styles.full}>{project.longDescription}</p>
+                  <div className={styles.users}>
+                    <div className={styles.managers}>
+                      {project.managers.map((member) => {
+                        return (
+                          <Tooltip key={member.id} tooltip={member.username}>
+                            <UserAvatarStatus
+                              statusColor={statusToColor(
+                                member.presence.status
+                              )}
+                              avatar={getAvatar(member)}
+                            />
+                          </Tooltip>
+                        );
+                      })}
+                    </div>
+                    <div className={styles.members}>
+                      {project.members?.map((member) => {
+                        return (
+                          <Tooltip tooltip={member.username} key={member.id}>
+                            <UserAvatarStatus
+                              statusColor={statusToColor(
+                                member.presence.status
+                              )}
+                              avatar={getAvatar(member)}
+                            />
+                          </Tooltip>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
                 <ButtonGroup>
                   <Button margin>More information</Button>
                   <Button margin>Visit the project</Button>

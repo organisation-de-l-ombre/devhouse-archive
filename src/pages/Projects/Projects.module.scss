@@ -1,10 +1,36 @@
-.top-text-margin { margin: 1rem; }
-
-
 .text {
     flex: 1;
-    margin-top: 0.75rem;
-    margin-bottom: 0.75rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.full {
+    flex: 1;
+    margin: 0;
+}
+
+.users {
+    display: flex;
+    align-items: center;
+    svg {
+        pointer-events: all;
+        height: 2.5rem;
+        margin-left: 0.25rem;
+    }
+    .managers {
+        padding: 0.25rem 0.25rem 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: var(--background-primary) 3px solid;
+        border-radius: 5px;
+    }
+    .members {
+        border: transparent 3px solid;
+    }
+    margin-top: 1rem;
 }
 
 .members-container { margin: 1rem; }
@@ -27,8 +53,9 @@
 
 
 .panel {
+
     display: flex;
-    padding: 1rem;
+    padding: 1.75rem;
     background: rgba( 80, 80, 80, 0.25 );
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);

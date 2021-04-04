@@ -105,7 +105,6 @@ export function Menu(): ReactElement {
               <div style={{ display: "flex", alignItems: "center" }}>
                 <UserAvatarStatus
                   style={{
-                    paddingRight: "0.45rem",
                     width: "1.25rem",
                     display: "flex",
                     transform: "scale(1.5)",
