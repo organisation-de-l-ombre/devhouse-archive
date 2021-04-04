@@ -1,12 +1,18 @@
 import { Redis } from "ioredis";
-import { StaffMember } from "../../gen";
+import {StaffMember} from "../../gen";
+import { readYamlFolder } from "../utils/read-yaml-folder";
+import { join } from "path";
+
+const selfMembers: Partial<StaffMember>[] = [];
+readYamlFolder<Partial<StaffMember>>(join(process.cwd(), "data", "members"))
+    .then(selfMembers.push.bind(selfMembers));
 
 /**
  * Closure that fetches the user using a provided redis instance.
  * @param {Redis} redis The provided redis client for the closure
  * @returns {Function} closure The closure used to fetch the user.
  */
-function fetchStaff (redis: Redis): (id: string) => Promise<(null | StaffMember)> {
+export function fetchStaff (redis: Redis): (id: string) => Promise<(null | StaffMember)> {
     return async function (id: string) {
         const key = `discord:cache:users:${id}`;
         const data = await redis.get(key);
@@ -32,7 +38,8 @@ async function getStaff(redis: Redis): Promise<StaffMember[]> {
             if (!Array.isArray(membersIds)) return null;
             const fetcher = fetchStaff(redis);
             return (await Promise.all<StaffMember>(membersIds.map(fetcher)))
-                .filter(Boolean);
+                .filter(Boolean)
+                .map((user) => ({ ...user, ...selfMembers.filter(({ id }) => id === user.id) }));
         } catch (e) { return null; }
     }
 }
