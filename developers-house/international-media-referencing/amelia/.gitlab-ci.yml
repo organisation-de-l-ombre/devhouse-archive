@@ -1,0 +1,21 @@
+include:
+  - template: Auto-DevOps.gitlab-ci.yml
+  - project: 'developers-house/dev/gitlab-ci-collection'
+    ref: master
+    file: 'kaniko.gitlab-ci.yml'
+  - project: 'developers-house/dev/gitlab-ci-collection'
+    ref: master
+    file: 'helm.gitlab-ci.yml'
+
+test:
+  image: node
+  script:
+    - yarn install
+    - yarn build
+    - rm -r dist
+    - npx jest --ci --reporters=default --reporters=jest-junit
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - junit.xml
