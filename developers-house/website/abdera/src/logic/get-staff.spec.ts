@@ -22,8 +22,8 @@ const user: StaffMember = {
 const mockRedis = new Redis({
     data: {
         "discord:cache:index": JSON.stringify(["_user"]),
-        "discord:cache:user:_user": JSON.stringify(user),
-        "discord:cache:user:invalid": "hey",
+        "discord:cache:users:_user": JSON.stringify(user),
+        "discord:cache:users:invalid": "hey",
     },
 });
 
@@ -31,32 +31,33 @@ describe("fetchStaff(redis)", () => {
     const fetcher = fetchStaff(mockRedis);
     it ("Fetched a specific user", () => {
         expect(fetcher("_user"))
-            .resolves.toStrictEqual(user);
+            .resolves.toMatchSnapshot();
     });
     it ("Returned null if the user doesn't exists in the cache", () => {
-        expect(fetcher("not_existent")).resolves.toStrictEqual(null);
+        expect(fetcher("not_existent")).resolves.toBeFalsy();
     });
     it ("Returned null if the user isn't valid", () => {
-        expect(fetcher("invalid")).resolves.toStrictEqual(null);
+        expect(fetcher("invalid")).resolves.toBeFalsy();
     });
 });
 
 describe("getStaff(redis)", () => {
    it ("Fetched a list of correct users", () => {
-       expect(getStaff(mockRedis)).resolves.toStrictEqual([user]);
+       mockRedis.set("discord:cache:index", JSON.stringify(["_user"]));
+       expect(getStaff(mockRedis)).resolves.toMatchSnapshot();
    });
-   mockRedis.del("discord:cache:index");
 
    it ("Returns an empty array if the index doesn't exists", () => {
-       expect(getStaff(mockRedis)).resolves.toStrictEqual(null);
+       mockRedis.del("discord:cache:index");
+       expect(getStaff(mockRedis)).resolves.toMatchSnapshot();
    });
-   mockRedis.set("discord:cache:index", JSON.stringify(["invalid"]))
    it ("Ignores the invalid users", () => {
-       expect(getStaff(mockRedis)).resolves.toStrictEqual([]);
+       mockRedis.set("discord:cache:index", JSON.stringify(["invalid"]));
+       expect(getStaff(mockRedis)).resolves.toMatchSnapshot();
    });
 
-    mockRedis.set("discord:cache:index", JSON.stringify("hey"))
    it ("Returns an empty array if the index is invalid", () => {
+       mockRedis.set("discord:cache:index", JSON.stringify("hey"))
        expect(getStaff(mockRedis)).resolves.toStrictEqual([]);
    });
 });
