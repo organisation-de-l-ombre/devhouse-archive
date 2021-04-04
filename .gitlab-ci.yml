@@ -14,7 +14,9 @@ package:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
       - .npm/
-
+  only:
+    changes:
+      - openapi.yaml
   script:
     - yarn
     - yarn gen:client
