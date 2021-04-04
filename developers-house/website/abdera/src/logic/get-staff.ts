@@ -5,8 +5,9 @@ import { join } from "path";
 
 const selfMembers: Partial<StaffMember>[] = [];
 readYamlFolder<Partial<StaffMember>>(join(process.cwd(), "data", "members"))
-    .then((a) => selfMembers.push(...a));
-
+    .then((e) => e.filter((a) => Boolean(a) && a.id))
+    .then((a) => selfMembers.push(...a))
+    .then(() => console.log(selfMembers));
 /**
  * Closure that fetches the user using a provided redis instance.
  * @param {Redis} redis The provided redis client for the closure
@@ -30,7 +31,7 @@ export function fetchStaff (redis: Redis): (id: string) => Promise<(null | Staff
  * Fetches the list of staff users stored in the redis cache.
  * @param {Redis} redis redis instance containing the cache information.
  */
-async function getStaff(redis: Redis): Promise<StaffMember[]> {
+async function getStaff(redis: Redis): Promise<StaffMember[] | string> {
     const index = await redis.get('discord:cache:index');
     if (index) {
         try {
@@ -39,9 +40,14 @@ async function getStaff(redis: Redis): Promise<StaffMember[]> {
             const fetcher = fetchStaff(redis);
             return (await Promise.all<StaffMember>(membersIds.map(fetcher)))
                 .filter(Boolean)
-                .map((user) => ({ ...user, ...selfMembers.filter(({ id }) => id === user.id)[0] }));
-        } catch (e) { return null; }
+                .map((user) => ({ ...user, ...(selfMembers
+                        .filter(({ id }) => id === user.id)[0] || {}) }));
+        } catch (e) {
+            console.log(e);
+            return null;
+        }
     }
+    return "No data index.";
 }
 
 export default getStaff;

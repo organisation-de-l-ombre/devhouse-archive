@@ -31,25 +31,21 @@ export default class Server {
         this.server = Fastify({});
         // Connect to the redis cluster.
         this.redis = new CreateRedis({
-            sentinels: [
+            /*sentinels: [
                 {
                     host: process.env["REDIS_HOST"],
                     port: parseInt(process.env["REDIS_PORT"] || "6379"),
                 },
             ],
             sentinelPassword: process.env["REDIS_PASSWORD"],
-            name: "mymaster",
+            name: "mymaster",*/
+            host: "localhost"
         });
-        this.redis.on('error', () => {});
 
         this.hydra = AdminAPI;
         // Add the redis connexion to all the requests objects.
         this.server.decorateRequest('redis', this.redis);
         this.server.decorateRequest('hydra', this.hydra);
-
-        this.server.decorate("verifyHydraToken", function (request, reply, done) {
-
-        });
 
         this.server.register(fastifyAuth).after(() => {
             this.server.route(getProjectsRoute);
