@@ -77,6 +77,7 @@ new (class AmeliaAPI {
   startAmelia(): void {
     this.FastifyClient.listen(
       process.env.PORT || "9000",
+      "0.0.0.0",
       (error: Error, address: string): void => {
         if (error) {
           throw error;
