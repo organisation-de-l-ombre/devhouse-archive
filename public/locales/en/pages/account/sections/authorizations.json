@@ -17,5 +17,9 @@
     "button": "Revoke",
     "confirmation": "Are you sure to want to delete this authorization?",
     "notification": "The authorization has been removed."
+  },
+  "noData": {
+    "title": "No data available",
+    "description": "Your data are not reachable... Please reload the page or check your internet connection."
   }
 }

@@ -1,33 +1,4 @@
 * {
-    margin: 0;
-    padding: 0;
-    font-family: "Roboto", sans-serif;
-}
-
-noscript {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(255, 255, 255);
-}
-
-noscript > div {
-    margin: 2rem;
-    padding: 1rem;
-    max-width: 50rem;
-    background-color: rgb(200, 200, 200);
-    border-radius: 5px;
-}
-
-noscript > div > hr {
-    margin: 1rem 0;
-    border-color: black;
-}
-
-noscript > div > p { font-size: 1.2rem; }
-
-* {
     color: var(--font-color);
     scroll-behavior: smooth;
 }
@@ -46,7 +17,7 @@ h1 { font-size: 35px; }
 h2 { font-size: 25px; }
 
 hr {
-    margin: 1rem 0;
+    margin: 2rem 0;
     border-color: var(--font-color);
 }
 

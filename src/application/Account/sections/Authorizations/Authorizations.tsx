@@ -7,12 +7,15 @@ import { Authorization } from "@developers-house/abdera";
 import flexContainerStyles from "../../../../components/ui/FlexContainer/FlexContainer.module.scss";
 import containerStyle from "../../Containers.module.scss";
 import globalStyles from "../../../../themes/Global.module.scss";
+import cardStyles from "../../../../components/ui/Card/Card.module.scss";
+import styles from "./Authorizations.module.scss";
 import FlexContainer from "../../../../components/ui/FlexContainer/FlexContainer";
 import { useAuthorizations } from "../../../../hooks/API/Authorizations/Authorizations";
 import Error from "../../../../components/modules/Error/Error";
 import ButtonsGroup from "../../../../components/ui/ButtonsGroup/ButtonsGroup";
 import Button from "../../../../components/ui/Button/Button";
 import AuthorizationCard from "./AuthorizationCard";
+import Card from "../../../../components/ui/Card/Card";
 
 const Authorizations = (): React.ReactElement => {
   const { isError, isLoading, isFetching, data, refetch } = useAuthorizations();
@@ -74,7 +77,21 @@ const Authorizations = (): React.ReactElement => {
         )}
     </FlexContainer>
   ) : (
-    <></>
+    <FlexContainer
+      className={`${flexContainerStyles.container} ${globalStyles["alignment-full-center"]} ${styles["no-data"]}`}
+    >
+      <Card
+        className={`${cardStyles.container} ${styles.card} ${globalStyles["animation-opacity"]}`}
+      >
+        <h2>
+          <Trans t={t} i18nKey="noData.title" />
+        </h2>
+        <hr />
+        <p>
+          <Trans t={t} i18nKey="noData.description" />
+        </p>
+      </Card>
+    </FlexContainer>
   );
 };
 

@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "title": "International Media Referencing",
+    "presentation": [
+      "La base de données alternative en ligne et complète, qui référence une large sélection de contenus cinématographiques.",
+      "Qu'est-ce que vous attendez ? Commencez l'aventure avec nous ! Il y a tant à découvrir..."
+    ],
+    "buttons": {
+      "about": "Le projet IMR",
+      "contact": "Contactez-nous",
+      "support": "Obtenir de l'aide"
+    }
+  },
+  "prototypeAccess": "Accéder à la preview de film"
+}

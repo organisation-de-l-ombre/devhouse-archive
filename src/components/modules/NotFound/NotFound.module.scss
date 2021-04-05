@@ -1,10 +1,11 @@
 .card {
+  margin: 2rem;
   padding: 1.5rem;
   max-width: 40rem;
   flex-direction: column;
   background-color: transparent;
 
-  p, a { margin-top: 1.5rem; }
+  a { margin-top: 1.5rem; }
 
   .buttons-container { margin: 1.5rem 0 0 0; }
 }

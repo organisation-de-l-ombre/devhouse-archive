@@ -17,5 +17,9 @@
     "button": "Révoquer",
     "confirmation": "Etes-vous sûr de vouloir supprimer cette autorisation ?",
     "notification": "L'autorisation a été supprimée."
+  },
+  "noData": {
+    "title": "Aucune donnée disponible",
+    "description": "Vos données ne sont pas accessibles... Veuillez recharger la page, ou vérifier votre connexion internet."
   }
 }

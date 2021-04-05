@@ -1,5 +1,5 @@
-import { randomBytes } from "crypto";
+import { v4 as uuid } from "uuid";
 
-const generateNotificationID = (): string => randomBytes(22).toString("hex");
+const generateNotificationID = (): string => uuid();
 
 export default generateNotificationID;

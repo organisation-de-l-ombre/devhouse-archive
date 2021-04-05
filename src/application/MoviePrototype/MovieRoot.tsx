@@ -11,20 +11,47 @@ import { MovieObject } from "./Types";
 import BackToTop from "../../components/modules/BackToTop/BackToTop";
 import { useNotificationsManager } from "../../hooks/Notifications/Notifications";
 import generateNotificationID from "../../lib/generateNotificationID";
+import useLanguage from "../../hooks/Language/Language";
 
+const fetchMovieData = async (
+  title: string,
+  language: string
+): Promise<MovieObject | undefined> => {
+  try {
+    const { dataURL: APIResponse } = await fetch(
+      `http://localhost:9000/data/movies/title/${title}/${language}`
+    ).then((res) => res.json());
+
+    if (APIResponse) {
+      try {
+        const S3Response = await fetch(APIResponse).then((res) => res.json());
+
+        if (S3Response) {
+          return S3Response;
+        }
+      } catch {
+        return undefined;
+      }
+    }
+  } catch {
+    return undefined;
+  }
+
+  return undefined;
+};
 const MovieRoot: React.FC<RouteComponentProps> = ({ match }) => {
-  const [view, setView] = React.useState<null | MovieObject>(null);
+  const { language } = useLanguage();
+  const [view, setView] = React.useState<undefined | MovieObject>(undefined);
 
   React.useEffect(() => {
-    Promise.resolve(
-      import(
-        `./prototypes/${(match.params as Record<string, unknown>).title}.json`
-      )
-    )
-      .then((response) => setView(response))
-      .catch(() => setView(null));
+    fetchMovieData(
+      (match.params as Record<string, unknown>).title as string,
+      language
+    ).then((response: MovieObject | undefined): void => {
+      setView(response);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [language]);
 
   const { addNotifications, deleteNotification } = useNotificationsManager();
 
@@ -45,7 +72,7 @@ const MovieRoot: React.FC<RouteComponentProps> = ({ match }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (view === null) {
+  if (view === undefined) {
     return <NotFound />;
   }
 

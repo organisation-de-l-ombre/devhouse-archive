@@ -15,7 +15,7 @@ const NotFound = (): React.ReactElement => {
 
   return (
     <FlexContainer
-      className={`${flexContainerStyles.container} ${globalStyles["alignment-full-center"]}`}
+      className={`${flexContainerStyles.container} ${globalStyles["alignment-full-center"]} ${globalStyles["navbar-margin"]}`}
     >
       <Card
         className={`${styles.card} ${cardStyles.container} ${globalStyles["animation-opacity"]}`}
