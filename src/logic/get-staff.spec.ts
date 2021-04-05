@@ -11,6 +11,7 @@ const user: StaffMember = {
         text: "",
         status: StaffMemberPresenceStatusEnum.Online,
     },
+    socials: [],
     role: {
        name: "",
        position: 0,
