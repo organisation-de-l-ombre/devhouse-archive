@@ -10,24 +10,20 @@ servers:
     description: First version of the API in production
 
 paths:
-  "/data/movies/title":
+  "/data/movies/title/:movieTitle/:language":
     description: Get movie data
     get:
       parameters:
-        - in: query
-          name: movie_title
+        - in: path
+          name: movieTitle
           required: true
-          content:
-            text/plain:
-              schema:
-                type: string
+          schema:
+            type: string
         - in: path
           name: language
           required: true
-          content:
-            text/plain:
-              schema:
-                type: string
+          schema:
+            type: string
       tags:
         - Movie data
       responses:
