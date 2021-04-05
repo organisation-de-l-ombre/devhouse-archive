@@ -113,7 +113,9 @@ export function Menu(): ReactElement {
                   statusColor="gray"
                   avatar={`https://s3.developershouse.xyz/${userState.user?.avatar}`}
                 />
-                {userState.user?.username}
+                <span className={styles.username}>
+                  {userState.user?.username}
+                </span>
               </div>
             </NavigationItem>
           </NavLink>

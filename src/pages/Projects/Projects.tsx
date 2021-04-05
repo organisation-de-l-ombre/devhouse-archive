@@ -10,8 +10,9 @@ import { Loader } from "../../components/SuspenseLoader/SuspenseLoader";
 import UserAvatarStatus from "../../components/ui/UserAvatarStatus/UserAvatarStatus";
 import { getAvatar, statusToColor } from "../../utilities";
 import Tooltip from "../../components/tooltip/Tooltip";
+import { withNetwork } from "../../hooks/hoc/withNetwork";
 
-export default function ProjectsPage(): ReactElement {
+function ProjectsPage(): ReactElement {
   const { data, isLoading, error } = useProjects({
     refetchOnMount: false,
     refetchIntervalInBackground: false,
@@ -132,3 +133,5 @@ export default function ProjectsPage(): ReactElement {
     </div>
   );
 }
+
+export default withNetwork(ProjectsPage);
