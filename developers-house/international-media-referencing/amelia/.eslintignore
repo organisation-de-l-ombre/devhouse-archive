@@ -19,3 +19,6 @@ x/
 # Editors/IDE
 .idea/
 .vscode/
+
+# OpenAPI generated files
+openapi-gen/

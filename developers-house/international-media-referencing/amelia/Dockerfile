@@ -1,4 +1,4 @@
-FROM node:alpine AS build
+FROM timbru31/java-node AS build
 WORKDIR /build
 COPY package.json .
 RUN yarn
@@ -11,4 +11,4 @@ WORKDIR /app
 COPY --from=build /build/dist ./dist
 COPY --from=build /build/node_modules ./node_modules
 
-ENTRYPOINT ["node", "dist"]
+ENTRYPOINT ["node", "dist/src"]

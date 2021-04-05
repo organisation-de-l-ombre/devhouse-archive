@@ -28,12 +28,16 @@
   },
   "scripts": {
     "dev": "yarn build && yarn start",
-    "start": "node dist",
-    "build": "tsc -p .",
+    "start": "node dist/src",
+    "build": "yarn gen:client-axios && tsc -p .",
     "test": "jest",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "gen:client": "openapi-generator-cli generate -i openapi.yaml -g typescript-fetch -o openapi-gen",
+    "gen:client-axios": "openapi-generator-cli generate -i openapi.yaml -g typescript-axios -o openapi-gen"
   },
   "dependencies": {
+    "@openapitools/openapi-generator-cli": "^2.2.5",
+    "aws-sdk": "^2.879.0",
     "fastify": "^3.14.1",
     "fastify-cors": "^5.2.0"
   }
