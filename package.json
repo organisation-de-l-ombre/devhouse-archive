@@ -30,7 +30,7 @@
     "dev": "yarn build && yarn start",
     "start": "node dist/src",
     "build": "yarn gen:client-axios && tsc -p .",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "prepare": "husky install",
     "gen:client": "openapi-generator-cli generate -i openapi.yaml -g typescript-fetch -o openapi-gen",
     "gen:client-axios": "openapi-generator-cli generate -i openapi.yaml -g typescript-axios -o openapi-gen"
