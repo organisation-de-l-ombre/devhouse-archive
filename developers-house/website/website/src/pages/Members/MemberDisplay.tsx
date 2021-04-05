@@ -43,13 +43,13 @@ const MemberDisplay: FC<
                   ) : (
                     member.presence.emote
                   ))}
-                {`   ${member.presence.text}`}
+                ${member.presence.text}
               </p>
             )}
           </div>
         </Tooltip>
       </div>
-      <p className={styles.text}>{"a".repeat(5)}</p>
+      <p className={styles.text} />
 
       <ButtonGroup>
         <Button>View profile</Button>

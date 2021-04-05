@@ -1,15 +1,15 @@
 import React, { ReactElement } from "react";
 import { TitleBox } from "components/ui/TitleBox/TitleBox";
-import { Button } from "../../components/ui/Button/Button";
 import MemberDisplay from "./MemberDisplay";
 import "../transitions.css";
 import styles from "./member.module.scss";
 import { Loader } from "../../components/SuspenseLoader/SuspenseLoader";
 import useMembers from "../../hooks/Members/Members";
 import FlexContainer from "../../components/FlexContainer/FlexContainer";
+import { withNetwork } from "../../hooks/hoc/withNetwork";
 
 const MembersPage = (): ReactElement => {
-  const { isLoading, isError, refetch, data } = useMembers();
+  const { isLoading, isError, data } = useMembers();
 
   if (isLoading) {
     return <Loader />;
@@ -37,7 +37,6 @@ const MembersPage = (): ReactElement => {
             wouldn&rsquo;t exist.
           </p>
         </h2>
-        <Button onClick={() => refetch()}>Refresh</Button>
       </TitleBox>
 
       <div className={styles.grid}>
@@ -58,4 +57,4 @@ const MembersPage = (): ReactElement => {
   );
 };
 
-export default MembersPage;
+export default withNetwork(MembersPage);

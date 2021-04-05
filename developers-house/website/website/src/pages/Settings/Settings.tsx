@@ -12,6 +12,8 @@ import styles from "./settings.module.scss";
 import NotFound from "../NotFound/NotFound";
 import UserAvatarStatus from "../../components/ui/UserAvatarStatus/UserAvatarStatus";
 import { logoutUser } from "../../state/modules/user/actions";
+import { withNetwork } from "../../hooks/hoc/withNetwork";
+import DataSettings from "./sections/DataSettings";
 
 const Content: FC = () => {
   const dispatch = useDispatch();
@@ -79,6 +81,11 @@ const Settings = (): ReactElement => {
             path={`${match}/authorizations`}
             component={Authorizations}
           />
+          <Route
+            exact
+            path={`${match}/privacy-settings`}
+            component={DataSettings}
+          />
           <Route exact path={`${match}/support`} component={Support} />
           <Route path="*" exact>
             <NotFound />
@@ -89,4 +96,4 @@ const Settings = (): ReactElement => {
   );
 };
 
-export default Settings;
+export default withNetwork(Settings);

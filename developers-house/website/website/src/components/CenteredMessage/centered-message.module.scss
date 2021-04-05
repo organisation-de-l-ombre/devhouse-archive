@@ -1,4 +1,4 @@
-.not-found {
+.messageContainer {
   display: grid;
   height: 100%;
   .container {
@@ -6,7 +6,7 @@
     padding: 1rem;
 
     h1 {
-      font-size: 350%;
+      font-size: 250%;
     }
 
     hr {
@@ -15,7 +15,7 @@
       margin-top: 1rem;
     }
     p {
-      margin-bottom: 1rem;
+      margin: 0 0 1rem;
     }
   }
 }

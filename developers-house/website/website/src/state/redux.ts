@@ -61,7 +61,15 @@ export function createState(): { store: Store; persistor: Persistor } {
     ...[
       reduxThunk,
       createStateSyncMiddleware({
-        blacklist: ["persist/PERSIST", "persist/REHYDRATE", "notifications"],
+        blacklist: [
+          "persist/PERSIST",
+          "persist/REHYDRATE",
+          "notifications",
+          "NOTIFICATION_REMOVE",
+          "NOTIFICATION_PUSH",
+          "NOTIFICATION_READ_ALL",
+          "NOTIFICATION_SET_DISABLED",
+        ],
       }),
     ]
   );
