@@ -1,0 +1,13 @@
+name: International Media Referencing
+normalizedName: imr
+logo:
+shortDescription: A complete and online database referencing a great deal of movies and series.
+longDescription: |
+  International Media Referencing is an online web database which references a great deal of multimedia
+  content such as movies or series. The goal is to purpose an alternative to other online databases
+  (IMDB, TMDB) while adding features like Wikipedia or Fandom (detailled information, casting, original
+  soundtrack, etc... Everyone who possess a verified account can add or edit content to contribute.
+members:
+  - id: "537979556259430411"
+managers:
+  - id: "537979556259430411"
