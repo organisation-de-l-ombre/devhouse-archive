@@ -19,7 +19,7 @@ const fetchMovieData = async (
 ): Promise<MovieObject | undefined> => {
   try {
     const { dataURL: APIResponse } = await fetch(
-      `http://localhost:9000/data/movies/title/${title}/${language}`
+      `https://developers-house-dev-international-media-referencing-amelia.matthieu-dev.xyz/${title}/${language}`
     ).then((res) => res.json());
 
     if (APIResponse) {
