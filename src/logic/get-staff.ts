@@ -1,7 +1,7 @@
-import { Redis } from "ioredis";
-import {StaffMember} from "../../gen";
-import { readYamlFolder } from "../utils/read-yaml-folder";
-import { join } from "path";
+import {Redis} from "ioredis";
+import {StaffMember, StaffMemberPresenceStatusEnum} from "../../gen";
+import {readYamlFolder} from "../utils/read-yaml-folder";
+import {join} from "path";
 
 const selfMembers: Partial<StaffMember>[] = [];
 readYamlFolder<Partial<StaffMember>>(join(process.cwd(), "data", "members"))
@@ -19,12 +19,32 @@ export function fetchStaff (redis: Redis): (id: string) => Promise<(null | Staff
         if (!data) return null;
 
         try {
-            return JSON.parse(data);
+            const user = JSON.parse(data);
+            return ({ ...(selfMembers
+                    .filter(({ id }) => id === user.id)[0] || {}), ...user, ...completion  });
         } catch (e) {
             return null;
         }
     }
 }
+
+const completion: StaffMember = {
+    avatar: "",
+    discriminator: "",
+    id: "",
+    presence: {
+        text: "",
+        status: StaffMemberPresenceStatusEnum.Online,
+        emote: ""
+    },
+    role: {
+        position: 0,
+        name: "",
+        color: "",
+    },
+    socials: [],
+    username: ""
+};
 
 /**
  * Fetches the list of staff users stored in the redis cache.
@@ -38,9 +58,7 @@ async function getStaff(redis: Redis): Promise<StaffMember[] | string> {
             if (!Array.isArray(membersIds)) return [];
             const fetcher = fetchStaff(redis);
             return (await Promise.all<StaffMember>(membersIds.map(fetcher)))
-                .filter(Boolean)
-                .map((user) => ({ ...(selfMembers
-                        .filter(({ id }) => id === user.id)[0] || {}),...user  }));
+                .filter(Boolean);
         } catch (e) {
             return [];
         }
