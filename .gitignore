@@ -6,3 +6,13 @@
 node_modules/
 yarn.lock
 yarn-error.log
+
+# TypeScript builds
+build/
+dist/
+
+# OpenAPI generated files
+openapi-gen/
+!openapi-gen/package.json
+!openapi-gen/tsconfig.json
+!openapi-gen/global-fetch.ts
