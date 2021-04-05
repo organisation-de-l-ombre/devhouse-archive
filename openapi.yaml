@@ -281,6 +281,7 @@ components:
         - longDescription
         - normalizedName
         - managers
+        - markdown_s3
       properties:
         name:
           type: string
@@ -300,6 +301,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/StaffMember"
+        link:
+          type: string
+        markdown_s3:
+          type: string
     StaffMember:
       type: object
       required:
@@ -309,6 +314,7 @@ components:
         - presence
         - role
         - avatar
+        - socials
       properties:
         username:
           type: string
@@ -329,6 +335,22 @@ components:
                 - invisible
             text:
               type: string
+        socials:
+          type: array
+          items:
+            properties:
+              link:
+                type: string
+              name:
+                type: string
+              icon:
+                type: string
+                enum:
+                  - gitlab
+                  - github
+                  - discord
+                  - website
+                  - stackoverflow
         role:
           type: object
           required:
