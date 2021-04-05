@@ -4,7 +4,7 @@ id: "314354049023737857"
 socials:
   - name: Serveur Discord
     link: https://discord.gg/NB8fFwrJ
-    type: website
+    icon: website
   - name: Matthieu#2050
     type: discord
-    link:
+    icon:
