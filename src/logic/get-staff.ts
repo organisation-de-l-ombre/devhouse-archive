@@ -20,8 +20,8 @@ export function fetchStaff (redis: Redis): (id: string) => Promise<(null | Staff
 
         try {
             const user = JSON.parse(data);
-            return ({ ...(selfMembers
-                    .filter(({ id }) => id === user.id)[0] || {}), ...user, ...completion  });
+            return ({ ...completion, ...(selfMembers
+                    .filter(({ id }) => id === user.id)[0] || {}), ...user  });
         } catch (e) {
             return null;
         }
