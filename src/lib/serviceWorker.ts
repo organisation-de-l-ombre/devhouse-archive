@@ -15,8 +15,8 @@
  */
 
 interface ServiceWorkerConfig {
-  onUpdate: (registration: ServiceWorkerRegistration) => void;
-  onSuccess: (registration: ServiceWorkerRegistration) => void;
+  onUpdate?: (registration: ServiceWorkerRegistration) => void;
+  onSuccess?: (registration: ServiceWorkerRegistration) => void;
 }
 
 const isLocalhost = Boolean(
@@ -71,7 +71,7 @@ const registerValidSW = (swUrl: string, config: ServiceWorkerConfig): void => {
     .register(swUrl)
     .then((registration: ServiceWorkerRegistration) => {
       // If an update is waiting
-      if (registration.waiting) {
+      if (registration.waiting && config.onUpdate) {
         config.onUpdate(registration);
       }
       registration.onupdatefound = (): void => {
@@ -141,7 +141,7 @@ const checkValidServiceWorker = (
     })
     .catch(() => {
       console.log(
-        "No internet connection found. App is running in offline mode."
+        "No internet connection found. Application is running in offline mode."
       );
     });
 };
