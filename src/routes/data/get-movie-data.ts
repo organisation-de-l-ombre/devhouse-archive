@@ -3,6 +3,11 @@ import { S3Client } from "../../";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
+interface RequestParameters {
+  movieTitle: string;
+  language: string;
+}
+
 export default {
   method: "GET",
   url: "/data/movies/title/:movieTitle/:language",
@@ -10,10 +15,10 @@ export default {
     request: FastifyRequest,
     reply: FastifyReply
   ): Promise<void> => {
-    const parameters: string[] = request.url.split("/").slice(4);
+    const { movieTitle, language } = request.params as RequestParameters;
     const command: GetObjectCommand = new GetObjectCommand({
       Bucket: "international-media-referencing",
-      Key: `amelia-data-private/movies/title/${parameters[0]}/${parameters[1]}/${parameters[0]}.json`
+      Key: `amelia-data-private/movies/title/${movieTitle}/${language}/${movieTitle}.json`
     });
     const movieDataURL = await getSignedUrl(S3Client, command, {
       expiresIn: 1800
