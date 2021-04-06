@@ -1,4 +1,9 @@
-import Fastify, { RouteOptions, FastifyInstance } from "fastify";
+import Fastify, {
+  RouteOptions,
+  FastifyInstance,
+  FastifyRequest,
+  FastifyReply
+} from "fastify";
 import { S3 as S3ClientBuilder } from "@aws-sdk/client-s3";
 import fastifyCors from "fastify-cors";
 import { logger } from "./lib/logger";
@@ -69,6 +74,22 @@ new (class AmeliaAPI {
     for (const route of this.routes) {
       this.FastifyClient.route(route);
     }
+
+    this.FastifyClient.setErrorHandler(
+      (error: Error, request: FastifyRequest, reply: FastifyReply): void => {
+        logger.error(`API error at URL ${request.url} :\n${error.message}`);
+        void reply.code(500).send({
+          statusCode: 500,
+          error
+        });
+      }
+    );
+
+    this.FastifyClient.setNotFoundHandler(
+      (request: FastifyRequest, reply: FastifyReply): void => {
+        void reply.code(404).send();
+      }
+    );
 
     logger.info(`Amelia is starting with ${this.routes.length} routes...`);
   }
