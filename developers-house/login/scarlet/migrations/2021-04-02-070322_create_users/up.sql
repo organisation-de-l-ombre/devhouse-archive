@@ -5,7 +5,8 @@ CREATE TABLE users (
   roles INTEGER NOT NULL DEFAULT 0,
   ban TEXT DEFAULT NULL,
   avatar VARCHAR NOT NULL,
-  "2fa" BOOLEAN NOT NULL DEFAULT false,
+  twofa BOOLEAN NOT NULL DEFAULT false,
+  otpkey varchar DEFAULT NULL,
   updated_at Timestamptz DEFAULT NULL,
   created_at Timestamptz NOT NULL DEFAULT NOW()
 )

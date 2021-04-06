@@ -21,3 +21,7 @@ redis = { version = "*" }
 version = "0.4.7"
 default-features = false
 features = ["uuid", "json", "diesel_postgres_pool", "redis_pool"]
+
+[dependencies.otp]
+
+git = "https://github.com/TimDumol/rust-otp"

@@ -12,6 +12,7 @@ pub struct User {
     pub ban: Option<String>,
     pub avatar: String,
     pub a2f: bool,
+    pub otpkey: Option<String>,
     pub updated_at: Option<NaiveDateTime>,
     pub created_at: NaiveDateTime,
 }
@@ -23,7 +24,7 @@ pub struct UserUpdate {
     pub private: Option<bool>,
     pub ban: Option<Option<String>>,
     pub roles: Option<i32>,
-    pub a2f: Option<bool>,
+    pub twofa: Option<bool>,
     pub avatar: Option<String>,
 }
 

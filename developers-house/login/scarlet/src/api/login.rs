@@ -1,11 +1,12 @@
 use crate::database::link::Link;
 use crate::database::schema::links::dsl::{links, platform, platform_id};
-use crate::database::schema::users::dsl::users;
+use crate::database::schema::users::dsl::{users};
 use crate::database::user::User;
 use crate::diesel::RunQueryDsl;
 use crate::{RedisDB, ScarletDB};
 use diesel::result::Error;
 use diesel::{ExpressionMethods, QueryDsl};
+use otp::make_totp;
 use rocket::http::Status;
 use rocket_contrib::databases::redis::{Commands, RedisError};
 use rocket_contrib::json::Json;
@@ -22,7 +23,9 @@ pub struct WithPlatform {
 pub struct WithWebAuthn {}
 
 #[derive(Serialize, Deserialize)]
-pub struct WithOTP {}
+pub struct WithOTP {
+    code: u32,
+}
 
 #[derive(Serialize, Deserialize)]
 pub struct LoginDataPost {
@@ -63,7 +66,7 @@ pub fn start_login_session(
 
     match rec_link {
         Ok(link) => {
-            let req_user: Result<User, Error> = users.find(link.user_id).first(&*conn);
+            let req_user: Result<User, Error> = users.find(link.user_id).first::<User>(&*conn);
 
             match req_user {
                 Ok(user) => {
@@ -102,10 +105,14 @@ pub fn start_login_session(
 
 /// get_login_session - GET /login/:id
 /// Get a login session by session_id
-#[get("/login/<id>")]
-pub fn get_login_session(id: Uuid, redis: RedisDB) -> Result<Json<LoginSessionState>, Status> {
-    let result: Result<String, RedisError> =
-        redis.0.get(format!("scarlet:session:{}", id.to_string()));
+#[get("/login/<other_id>")]
+pub fn get_login_session(
+    other_id: Uuid,
+    redis: RedisDB,
+) -> Result<Json<LoginSessionState>, Status> {
+    let result: Result<String, RedisError> = redis
+        .0
+        .get(format!("scarlet:session:{}", other_id.to_string()));
 
     match result {
         Ok(result) => Ok(Json(
@@ -118,5 +125,46 @@ pub fn get_login_session(id: Uuid, redis: RedisDB) -> Result<Json<LoginSessionSt
 /// post_to_login_session - POST /login/:id
 /// Add a login validation to the login session
 /// using the session_id.
-#[post("/login/<id>")]
-pub fn post_to_login_session(id: Uuid) {}
+#[post("/login/<login>", data = "<data>")]
+pub fn post_to_login_session(
+    login: Uuid,
+    data: Json<LoginDataPost>,
+    redis: RedisDB,
+) -> Result<Json<LoginSessionState>, Status> {
+    if data.with_webauthn.is_none() && data.with_otp.is_none() {
+        return Err(Status::BadRequest);
+    }
+
+    let result: Result<String, RedisError> = redis
+        .0
+        .get(format!("scarlet:session:{}", login.to_string()));
+
+    let result = match result {
+        Ok(result) => Ok(serde_json::from_str::<LoginSessionState>(&result).unwrap()),
+        Err(_) => Err(Status::NotFound),
+    };
+
+    match result {
+        Ok(mut state) => {
+            if data.with_webauthn.is_some() {
+                // todo: webauthn logic
+                Ok(Json(state))
+            } else {
+                let data = data.with_otp.as_ref().unwrap();
+                let totp = make_totp(&state.user.unwrap().otpkey.unwrap(), 30, 30);
+                match totp {
+                    Ok(code) => {
+                        if code == data.code {
+                            state.done = true;
+                            Ok(Json(state))
+                        } else {
+                            Err(Status::NonAuthoritativeInformation)
+                        }
+                    }
+                    Err(_) => Err(Status::NonAuthoritativeInformation),
+                }
+            }
+        }
+        Err(_) => Err(Status::NotFound),
+    }
+}
