@@ -100,6 +100,7 @@
     "webpack-manifest-plugin": "2.2.0",
     "workbox-precaching": "^6.1.2",
     "workbox-routing": "^6.1.2",
+    "workbox-strategies": "^6.1.2",
     "workbox-webpack-plugin": "5.1.4"
   },
   "scripts": {
