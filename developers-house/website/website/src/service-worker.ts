@@ -7,6 +7,9 @@ import { registerRoute } from "workbox-routing";
 import { StaleWhileRevalidate } from "workbox-strategies";
 import { BackgroundSyncPlugin } from "workbox-background-sync";
 
+export type {};
+declare const self: ServiceWorkerGlobalScope;
+
 // eslint-disable-next-line no-restricted-globals,no-underscore-dangle
 precacheAndRoute((self as any).__WB_MANIFEST);
 
@@ -21,3 +24,9 @@ registerRoute(
     plugins: [bgSyncPlugin as never],
   })
 );
+
+self.addEventListener("message", (content) => {
+  if (content.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
+});
