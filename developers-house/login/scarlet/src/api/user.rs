@@ -76,7 +76,7 @@ pub fn delete_user_by_id (user: Uuid) -> Result<Status, Status> {
     }
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone)]
 pub struct CreateUserPayload {
     platform: String,
     platform_id: String,
@@ -90,10 +90,10 @@ pub struct CreateUserPayload {
 #[post("/user", data="<user>")]
 pub fn post_user (user: Json<CreateUserPayload>) -> Result<Json<User>, Status> {
     let conn = establish_connection();
-    let uuid = &uuid::Uuid::new(uuid::UuidVersion::Random).unwrap();
+    let uuid = uuid::Uuid::new(uuid::UuidVersion::Random).unwrap();
     let create = diesel::insert_into(users)
         .values(NewUser{
-            id: uuid,
+            id: &uuid,
             username: &user.username,
             private: &user.private
         })
@@ -101,11 +101,13 @@ pub fn post_user (user: Json<CreateUserPayload>) -> Result<Json<User>, Status> {
 
     match create {
         Ok(_) => {
+
+            let new_platform = user.clone();
             let create = diesel::insert_into(links)
                 .values(NewLink {
-                    id: &uuid::Uuid::new(UuidVersion::Random).unwrap(),
-                    platform: &user.platform,
-                    platform_id: &user.platform_id,
+                    id: uuid::Uuid::new(UuidVersion::Random).unwrap(),
+                    platform: new_platform.platform,
+                    platform_id: new_platform.platform_id,
                     user_id: uuid
                 })
                 .execute(&conn);

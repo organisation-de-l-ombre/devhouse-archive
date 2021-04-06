@@ -1,7 +1,7 @@
 use uuid::Uuid;
 use chrono::NaiveDateTime;
 use crate::database::schema::links;
-use serde::{Serialize};
+use serde::{Serialize, Deserialize};
 
 #[derive(Associations, Identifiable, Queryable, Serialize)]
 #[belongs_to(users, foreign_key=user_id)]
@@ -14,11 +14,13 @@ pub struct Link {
     pub created_at: NaiveDateTime
 }
 
-#[derive(Insertable)]
+#[derive(Insertable, Deserialize, Clone)]
 #[table_name="links"]
-pub struct NewLink<'a> {
-    pub id: &'a Uuid,
-    pub platform: &'a String,
-    pub platform_id: &'a String,
-    pub user_id: &'a Uuid,
+pub struct NewLink {
+    #[serde(skip_deserializing)]
+    pub id: Uuid,
+    pub platform: String,
+    pub platform_id: String,
+    #[serde(skip_deserializing)]
+    pub user_id: Uuid,
 }
