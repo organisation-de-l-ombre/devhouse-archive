@@ -5,6 +5,6 @@ use rocket::http::Status;
 /// Used by the kubernetes health checksto check if the
 /// service is alive.
 #[get("/_healz")]
-pub fn health () -> Status {
+pub fn health() -> Status {
     Status::Accepted
 }
