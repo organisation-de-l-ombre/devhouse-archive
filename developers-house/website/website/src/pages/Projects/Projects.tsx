@@ -1,5 +1,5 @@
 import { Card } from "components/ui/Card/Card";
-import React, { ReactElement } from "react";
+import React, { CSSProperties, ReactElement } from "react";
 import Text from "components/ui/Text/Text";
 import Button from "components/ui/Button/Button";
 import { TitleBox } from "../../components/ui/TitleBox/TitleBox";
@@ -44,7 +44,11 @@ function ProjectsPage(): ReactElement {
           .sort((a, b) => a.name.localeCompare(b.name))
           .map((project) => {
             return (
-              <Card className={styles.panel} key={project.name}>
+              <Card
+                className={styles.panel}
+                key={project.name}
+                style={{ "--image": `url("${project.logo}")` } as CSSProperties}
+              >
                 <h2>{project.name}</h2>
                 <div className={styles.text}>
                   <p className={styles.full}>{project.longDescription}</p>
