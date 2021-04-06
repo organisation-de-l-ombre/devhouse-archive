@@ -1,4 +1,12 @@
 {
+  "name": "amelia",
+  "description": "Amelia is the API which allows to interact with the frontend of IMR & to manage data and users.",
+  "author": "Kylian Prévot",
+  "contributors": [
+    "Matthieu Pignolet"
+  ],
+  "license": "MIT",
+  "version": "1.1.0",
   "devDependencies": {
     "@types/jest": "^26.0.22",
     "@typescript-eslint/eslint-plugin": "^4.20.0",
