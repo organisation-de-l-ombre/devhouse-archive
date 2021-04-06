@@ -151,7 +151,8 @@ pub fn post_to_login_session(
                 Ok(Json(state))
             } else {
                 let data = data.with_otp.as_ref().unwrap();
-                let totp = make_totp(&state.user.unwrap().otpkey.unwrap(), 30, 30);
+                let key = state.user.as_ref().unwrap();
+                let totp = make_totp(key.otpkey.as_ref().unwrap(), 30, 30);
                 match totp {
                     Ok(code) => {
                         if code == data.code {
