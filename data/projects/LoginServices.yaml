@@ -1,0 +1,16 @@
+name: Login Platform
+normalizedName: login-platform
+logo: https://s3.developershouse.xyz/website-assets/projects/website/clef.png
+shortDescription: Login platform handles all the users sessions, and RGPD compliance.
+longDescription: |
+  The Login Services handles all the user accounts, manage all the user's data, and
+  ensure the RGPD compliance across all the Developer's House services. It also handles
+  the login system management and moderation requirements. This is a central piece of 
+  Developer's House and is required for the functionement of various services.
+members:
+  - id: "357595301210619904"
+  - id: "537979556259430411"
+  - id: "263713074630885376"
+  - id: "314354049023737857"
+managers:
+  - id: "314354049023737857"
