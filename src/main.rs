@@ -11,11 +11,11 @@ extern crate rocket_contrib;
 extern crate serde;
 
 use crate::database::establish_connection;
+use dotenv::dotenv;
 use rocket::config::{Environment, Value};
 use rocket::Rocket;
 use std::collections::HashMap;
 use std::env;
-use dotenv::dotenv;
 mod api;
 mod database;
 
