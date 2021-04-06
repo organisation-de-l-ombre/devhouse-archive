@@ -1,6 +1,6 @@
 {
   "name": "@developers-house/amelia",
-  "version": "1.0.3",
+  "version": "1.0.2",
   "description": "The library to allow IMR frontend to interact with Amelia, to manage users and data.",
   "main": "lib/index.js",
   "files": [
