@@ -1,27 +1,25 @@
-use rocket_contrib::uuid::Uuid;
-use crate::database::schema::users::dsl::{users, id};
-use diesel::{QueryDsl, ExpressionMethods};
-use crate::database::user::{User, NewUser, UserUpdate};
-use rocket_contrib::json::Json;
-use crate::database::establish_connection;
+use crate::database::link::NewLink;
+use crate::database::schema::links::dsl::links;
+use crate::database::schema::users::dsl::{id, users};
+use crate::database::user::{NewUser, User, UserUpdate};
 use crate::diesel::RunQueryDsl;
+use crate::ScarletDB;
+use diesel::result::Error;
+use diesel::{ExpressionMethods, QueryDsl};
 use rocket::http::Status;
+use rocket_contrib::json::Json;
+use rocket_contrib::uuid::Uuid;
 use serde::Deserialize;
 use uuid::UuidVersion;
-use crate::database::schema::links::dsl::links;
-use crate::database::link::{NewLink};
-use diesel::result::Error;
 
 /// get_user_by_id - GET /user/:id
 /// Get a user information by id.
 /// Returns 403 if the user is banned.
 #[get("/user/<user>")]
-pub fn get_user_by_id (user: Uuid) -> Result<Json<User>, Status> {
-    let conn = establish_connection();
-
+pub fn get_user_by_id(conn: ScarletDB, user: Uuid) -> Result<Json<User>, Status> {
     let result: Result<User, diesel::result::Error> = users
         .filter(id.eq(uuid::Uuid::from_bytes(user.as_bytes()).unwrap()))
-        .first::<User>(&conn);
+        .first::<User>(&*conn);
 
     match result {
         Ok(user) => {
@@ -30,13 +28,10 @@ pub fn get_user_by_id (user: Uuid) -> Result<Json<User>, Status> {
             }
             Ok(Json(user))
         }
-        Err(e) => {
-
-            match e {
-                Error::NotFound => Err(Status::NotFound),
-                _ => Err(Status::InternalServerError)
-            }
-        }
+        Err(e) => match e {
+            Error::NotFound => Err(Status::NotFound),
+            _ => Err(Status::InternalServerError),
+        },
     }
 }
 
@@ -44,17 +39,20 @@ pub fn get_user_by_id (user: Uuid) -> Result<Json<User>, Status> {
 /// Edits a user profile, only certain fields
 /// can be edited.
 #[patch("/user/<user>", data = "<update>")]
-pub fn patch_user_by_id (user: Uuid, update: Json<UserUpdate>) -> Result<Status, Status> {
-    let conn = establish_connection();
+pub fn patch_user_by_id(
+    conn: ScarletDB,
+    user: Uuid,
+    update: Json<UserUpdate>,
+) -> Result<Status, Status> {
     let result: Result<usize, Error> = diesel::update(users)
         .filter(id.eq(uuid::Uuid::from_bytes(user.as_bytes()).unwrap()))
         .set(update.0)
-        .execute(&conn);
+        .execute(&*conn);
 
     if result.is_ok() {
-        return Ok(Status::Accepted)
+        return Ok(Status::Accepted);
     }
-    return Err(Status::InternalServerError)
+    return Err(Status::InternalServerError);
 }
 
 /// delete_user_by_id - DELETE /user/:id
@@ -62,12 +60,10 @@ pub fn patch_user_by_id (user: Uuid, update: Json<UserUpdate>) -> Result<Status,
 /// call the cryir service to handle this
 /// kind of stuff.
 #[delete("/user/<user>")]
-pub fn delete_user_by_id (user: Uuid) -> Result<Status, Status> {
-    let conn = establish_connection();
-
-    let result = diesel::delete(users
-        .filter(id.eq(uuid::Uuid::from_bytes(user.as_bytes()).unwrap())))
-        .execute(&conn);
+pub fn delete_user_by_id(conn: ScarletDB, user: Uuid) -> Result<Status, Status> {
+    let result =
+        diesel::delete(users.filter(id.eq(uuid::Uuid::from_bytes(user.as_bytes()).unwrap())))
+            .execute(&*conn);
 
     if result.is_ok() && result.unwrap() > 0 {
         Ok(Status::Ok)
@@ -82,51 +78,47 @@ pub struct CreateUserPayload {
     platform_id: String,
     username: String,
     private: bool,
+    avatar: String,
 }
 
 /// post_user - POST /user
 /// Creates a user profile using some preferences,
 /// and a linked account.
-#[post("/user", data="<user>")]
-pub fn post_user (user: Json<CreateUserPayload>) -> Result<Json<User>, Status> {
-    let conn = establish_connection();
+#[post("/user", data = "<user>")]
+pub fn post_user(conn: ScarletDB, user: Json<CreateUserPayload>) -> Result<Json<User>, Status> {
     let uuid = uuid::Uuid::new(uuid::UuidVersion::Random).unwrap();
     let create = diesel::insert_into(users)
-        .values(NewUser{
+        .values(NewUser {
             id: &uuid,
             username: &user.username,
-            private: &user.private
+            private: &user.private,
+            avatar: &user.avatar,
         })
-        .execute(&conn);
+        .execute(&*conn);
 
     match create {
         Ok(_) => {
-
             let new_platform = user.clone();
             let create = diesel::insert_into(links)
                 .values(NewLink {
                     id: uuid::Uuid::new(UuidVersion::Random).unwrap(),
                     platform: new_platform.platform,
                     platform_id: new_platform.platform_id,
-                    user_id: uuid
+                    user_id: uuid,
                 })
-                .execute(&conn);
+                .execute(&*conn);
 
             if !create.is_ok() {
-                return Err(Status::InternalServerError)
+                return Err(Status::InternalServerError);
             }
 
-            let res: Result<User, Error> = users
-                .filter(id.eq(uuid))
-                .first::<User>(&conn);
+            let res: Result<User, Error> = users.filter(id.eq(uuid)).first::<User>(&*conn);
 
             if res.is_ok() {
                 return Ok(Json(res.unwrap()));
             }
-            return Err(Status::InternalServerError)
+            return Err(Status::InternalServerError);
         }
-        Err(_) => {
-            Err(Status::InternalServerError)
-        }
+        Err(_) => Err(Status::InternalServerError),
     }
 }

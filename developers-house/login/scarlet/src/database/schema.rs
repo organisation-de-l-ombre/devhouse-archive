@@ -16,6 +16,8 @@ table! {
         private -> Bool,
         roles -> Int4,
         ban -> Nullable<Text>,
+        avatar -> Varchar,
+        a2f -> Bool,
         updated_at -> Nullable<Timestamptz>,
         created_at -> Timestamptz,
     }
@@ -32,8 +34,4 @@ table! {
     }
 }
 
-allow_tables_to_appear_in_same_query!(
-    links,
-    users,
-    webauthn_keys,
-);
+allow_tables_to_appear_in_same_query!(links, users, webauthn_keys,);
