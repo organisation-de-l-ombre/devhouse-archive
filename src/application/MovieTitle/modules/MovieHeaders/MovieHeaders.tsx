@@ -81,7 +81,7 @@ const MovieHeaders: React.FC<
                   new Date(dataResponse.releaseDate)
                 )}
                 {dataResponse.duration ? ` • ${dataResponse.duration}` : ""}
-                {dataResponse.publicType ? ` •${dataResponse.publicType}` : ""}
+                {dataResponse.publicType ? ` • ${dataResponse.publicType}` : ""}
               </h3>
             ) : (
               <></>

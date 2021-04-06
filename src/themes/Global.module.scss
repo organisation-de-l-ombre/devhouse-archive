@@ -30,7 +30,7 @@
 
 .navbar-margin {
   @media screen and (max-width: 800px) {
-    margin-top: 3.4rem;
+    margin-top: 3.36rem;
   }
 }
 
@@ -69,3 +69,5 @@
     max-width: unset;
   }
 }
+
+.position-relative { position: relative; }

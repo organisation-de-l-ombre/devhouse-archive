@@ -50,7 +50,11 @@ const NotificationComponent: React.FC<
   ]);
 
   return (
-    <div className={styles.notification}>
+    <div
+      className={`${styles.notification}${
+        styles[notification.type] ? ` ${styles[notification.type]}` : ""
+      }`}
+    >
       {notification.buttons?.length ? (
         <div
           className={`${globalStyles.flex} ${globalStyles.column} ${styles["margin-right"]}`}

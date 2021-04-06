@@ -50,4 +50,14 @@
       }
     }
   }
+
+  &.info, &.warning, &.error {
+    p, span { color: black; }
+
+    svg { fill: black; }
+  }
+
+  &.info { background-color: var(--notification-error-color); }
+
+  &.warning { background-color: var(--notification-warning-color) }
 }
