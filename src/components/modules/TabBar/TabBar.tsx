@@ -11,7 +11,7 @@ const TabBar: React.FC<
 > = ({ className, children, open, manageTabBar }) => {
   return (
     <div
-      className={`${styles["sections-container"]}${
+      className={`${styles["navigation-container"]}${
         className ? ` ${className}` : ""
       }`}
     >
@@ -20,7 +20,7 @@ const TabBar: React.FC<
         <span>Accéder à la navigation</span>
       </Button>
       <div
-        className={`${styles["sections-items"]}${
+        className={`${styles["navigation-items"]}${
           open ? ` ${styles.open}` : ""
         }`}
       >
