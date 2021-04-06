@@ -1,11 +1,14 @@
 name: Kuizz
 normalizedName: kuizz
-logo:
 shortDescription: A simple and easy competitive quizz application.
 longDescription: |
   Kuizz is a simple and easy quizz application. Kuizz can organize
-  competitive games, tournaments and groups.
+  competitive games, tournaments and groups and allow you to play
+  in real-time with your friends around the world. Kuizz will be 
+  available on all platforms, such as Android, IOS and in your
+  web browser. Kuizz will be cross-platform and free for everyone.
 members:
   - id: "314354049023737857"
 managers:
   - id: "264867653271814144"
+logo: https://s3.developershouse.xyz/website-assets/projects/website/Kuizz_logo.png
