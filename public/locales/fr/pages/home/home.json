@@ -11,5 +11,9 @@
       "support": "Obtenir de l'aide"
     }
   },
-  "prototypeAccess": "Accéder à la preview de film"
+  "prototypeAccess": {
+    "title": "Accéder aux prototypes de films",
+    "tangled": "Raiponce - preview",
+    "spirit": "Spirit : L'indomptable - preview"
+  }
 }

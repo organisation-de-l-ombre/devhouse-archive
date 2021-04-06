@@ -11,5 +11,9 @@
       "support": "Get support"
     }
   },
-  "prototypeAccess": "Access to movie preview"
+  "prototypeAccess": {
+    "title": "Access to movie prototypes",
+    "tangled": "Tangled - preview",
+    "spirit": "Spirit Untamed - preview"
+  }
 }

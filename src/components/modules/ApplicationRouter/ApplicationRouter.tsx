@@ -14,7 +14,7 @@ const Callback = React.lazy(
   () => import("../../../application/Callback/Callback")
 );
 const MovieTitle = React.lazy(
-  () => import("../../../application/MoviePrototype/MovieRoot")
+  () => import("../../../application/MovieTitle/MovieRoot")
 );
 const NotFound = React.lazy(() => import("../NotFound/NotFound"));
 

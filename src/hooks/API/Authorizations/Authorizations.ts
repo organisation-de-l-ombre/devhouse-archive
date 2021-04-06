@@ -9,12 +9,12 @@ import { Authorization } from "@developers-house/abdera";
 import { useTranslation } from "react-i18next";
 import { DevHouseUserAPI } from "../../../lib/api";
 import { useNotificationsManager } from "../../Notifications/Notifications";
-import i18n from "../../../languages/i18n";
 import generateNotificationID from "../../../lib/generateNotificationID";
 import useUser from "../../User/User";
 import getApplicationID from "../../../lib/getApplicationID";
 
 const useAuthorizationsError = (): ((error?: Error) => Error) => {
+  const { t } = useTranslation("pages\\account\\sections\\authorizations");
   const { addNotifications } = useNotificationsManager();
 
   return (error?: Error): Error => {
@@ -22,7 +22,7 @@ const useAuthorizationsError = (): ((error?: Error) => Error) => {
       {
         id: generateNotificationID(),
         type: "error",
-        body: i18n.t("hooks\\api\\authorizations:error"),
+        body: t("hooks.error"),
         time: 5000,
       },
     ]);
@@ -75,7 +75,7 @@ const useAuthorizationsDeleteMutation = (
           {
             id: generateNotificationID(),
             type: "info",
-            body: t("deleteAuthorization.notification"),
+            body: t("hooks.authorizationDeleted"),
             time: 5000,
           },
         ]);

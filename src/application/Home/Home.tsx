@@ -60,16 +60,27 @@ const Home = (): React.ReactElement => {
       </div>
       <BackToTop />
       <FlexContainer
-        className={`${flexContainerStyles.container} ${globalStyles.column} ${globalStyles["alignment-full-center"]} ${styles.body}`}
+        className={`${flexContainerStyles.container} ${globalStyles.column} ${styles.body} ${globalStyles["page-body-width"]}`}
       >
-        <ButtonsGroup>
-          <NavLink
-            className={buttonStyles["button-styles"]}
-            to="/movies/title/tangled_10_24_2010"
-          >
-            <Trans t={t} i18nKey="prototypeAccess" />
-          </NavLink>
-        </ButtonsGroup>
+        <div className={`${globalStyles.flex} ${globalStyles.column}`}>
+          <h2 style={{ color: "var(--font-color-hover)" }}>
+            <Trans t={t} i18nKey="prototypeAccess.title" />
+          </h2>
+          <ButtonsGroup className={styles["buttons-container"]}>
+            <NavLink
+              className={buttonStyles["button-styles"]}
+              to="/movies/title/tangled_994f87ryf.a4"
+            >
+              <Trans t={t} i18nKey="prototypeAccess.tangled" />
+            </NavLink>
+            <NavLink
+              className={buttonStyles["button-styles"]}
+              to="/movies/title/spirit_untamed_yrsctho8x.l"
+            >
+              <Trans t={t} i18nKey="prototypeAccess.spirit" />
+            </NavLink>
+          </ButtonsGroup>
+        </div>
       </FlexContainer>
     </FlexContainer>
   );

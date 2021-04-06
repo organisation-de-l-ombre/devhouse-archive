@@ -1,0 +1,33 @@
+.container {
+  min-height: 25rem;
+  align-self: center;
+  justify-content: center;
+  align-items: center;
+
+  .card {
+    margin: 0;
+    flex-direction: column;
+    background-color: transparent;
+
+    .buttons-container {
+      margin: 3rem 0 0 0;
+
+      button {
+        svg {
+          margin-right: 1rem;
+          width: 1.75rem;
+          height: 1.75rem;
+          transition: .5s;
+        }
+
+        span { transition: .5s; }
+
+        &:hover {
+          svg { fill: var(--font-color-hover); }
+
+          span { color: var(--font-color-hover); }
+        }
+      }
+    }
+  }
+}

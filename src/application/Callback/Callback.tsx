@@ -1,6 +1,7 @@
 import React from "react";
 import localForage from "localforage";
 import { useHistory } from "react-router";
+import { useTranslation } from "react-i18next";
 import requestParameters from "./QueriesSelector";
 import useUser from "../../hooks/User/User";
 import { useNotificationsManager } from "../../hooks/Notifications/Notifications";
@@ -31,6 +32,7 @@ const Callback = (): React.ReactElement => {
     error: false,
   });
   const { addNotifications } = useNotificationsManager();
+  const { t } = useTranslation("pages\\callback\\callback");
 
   const doLogin = React.useCallback(async () => {
     const [state, redirection, clientID, codeVerifier] = await getLocalForage();
@@ -101,8 +103,7 @@ const Callback = (): React.ReactElement => {
             {
               id: generateNotificationID(),
               type: "error",
-              body:
-                "Une erreur est survenue durant la connexion. Veuillez réessayer.",
+              body: t("error"),
               time: 5000,
             },
           ]);
@@ -114,7 +115,7 @@ const Callback = (): React.ReactElement => {
               {
                 id: generateNotificationID(),
                 type: "info",
-                body: `Vous êtes connecté en tant que ${errorState.username}.`,
+                body: t("userLoggedIn", { username: errorState.username }),
                 time: 5000,
               },
             ]);

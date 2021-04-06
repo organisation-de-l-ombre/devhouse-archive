@@ -15,11 +15,14 @@
   },
   "deleteAuthorization": {
     "button": "Revoke",
-    "confirmation": "Are you sure to want to delete this authorization?",
-    "notification": "The authorization has been removed."
+    "confirmation": "Are you sure to want to delete this authorization?"
   },
   "noData": {
     "title": "No data available",
     "description": "Your data are not reachable... Please reload the page or check your internet connection."
+  },
+  "hooks": {
+    "error": "An error occurred, please try again.",
+    "authorizationDeleted": "The authorization has been removed."
   }
 }

@@ -1,0 +1,87 @@
+import React from "react";
+import styles from "./Casting.module.scss";
+import containerStyle from "../../Containers.module.scss";
+import flexContainerStyles from "../../../../components/ui/FlexContainer/FlexContainer.module.scss";
+import cardStyles from "../../../../components/ui/Card/Card.module.scss";
+import globalStyles from "../../../../themes/Global.module.scss";
+import FlexContainer from "../../../../components/ui/FlexContainer/FlexContainer";
+import { Item, Summary } from "../../../../components/ui/Summary/Summary";
+import Card from "../../../../components/ui/Card/Card";
+import bust from "../../../../assets/pictures/bust.png";
+import {
+  CastingObject,
+  CharacterObject,
+  S3DataResponse,
+  SummaryObject,
+} from "../../types";
+
+const CastingSection: React.FC<
+  React.DetailedHTMLProps<
+    React.AllHTMLAttributes<HTMLDivElement>,
+    HTMLDivElement
+  > & { dataResponse: S3DataResponse }
+> = ({ dataResponse }) => {
+  const { casting } = dataResponse;
+
+  if (!casting) {
+    return <></>;
+  }
+
+  return (
+    <FlexContainer
+      className={`${flexContainerStyles.container} ${containerStyle.container}`}
+    >
+      <Summary className={containerStyle.summary}>
+        {casting.summary.map(
+          (item: SummaryObject): React.ReactElement => {
+            switch (item.type) {
+              case "item":
+                return <Item key={item.to} to={item.to} name={item.name} />;
+
+              default:
+                return <></>;
+            }
+          }
+        )}
+      </Summary>
+      {casting.body.map(
+        (section: CastingObject): React.ReactElement => {
+          return (
+            <FlexContainer
+              key={section.name}
+              id={section.id}
+              className={`${flexContainerStyles.container} ${globalStyles.column} ${containerStyle["generic-margin-top"]}`}
+            >
+              <h1>{section.name}</h1>
+              <FlexContainer
+                className={`${flexContainerStyles.container} ${styles["cards-container"]}`}
+              >
+                {section.items.map(
+                  (character: CharacterObject): React.ReactElement => {
+                    return (
+                      <Card
+                        key={`${character.name}-${character.role}`}
+                        className={`${cardStyles.container} ${styles["card-container"]}`}
+                      >
+                        <img
+                          src={character.imageURL ? character.imageURL : bust}
+                          alt={character.name}
+                        />
+                        <div>
+                          <h2>{character.name}</h2>
+                          <p>{character.role}</p>
+                        </div>
+                      </Card>
+                    );
+                  }
+                )}
+              </FlexContainer>
+            </FlexContainer>
+          );
+        }
+      )}
+    </FlexContainer>
+  );
+};
+
+export default CastingSection;

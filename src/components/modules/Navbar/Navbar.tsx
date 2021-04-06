@@ -1,11 +1,4 @@
-import {
-  FaMoon,
-  FaSun,
-  FaUser,
-  MdLocalMovies,
-  FaBell,
-  FaBellSlash,
-} from "react-icons/all";
+import { FaMoon, FaSun, FaUser, FaBell, FaBellSlash } from "react-icons/all";
 import { NavLink } from "react-router-dom";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
@@ -24,18 +17,9 @@ import {
 } from "../../../hooks/Notifications/Notifications";
 import generateNotificationID from "../../../lib/generateNotificationID";
 import DisplayLanguageSVG from "../DisplayLanguageSVG/DisplayLanguageSVG";
-import { NavbarManagement } from "./Types";
+import useNavbar from "../../../hooks/Navbar/Navbar";
+import IMRMinimalLogo from "../../../assets/pictures/imr/imr-minimal.png";
 
-const useNavbar = (): NavbarManagement => {
-  const [open, setOpen] = React.useState<boolean>(false);
-  const manageNavbar = React.useCallback((): void => {
-    if (window.matchMedia("(max-width: 700px)").matches) {
-      setOpen(!open);
-    }
-  }, [open]);
-
-  return { open, manageNavbar };
-};
 const Navbar = (): React.ReactElement => {
   const { open, manageNavbar } = useNavbar();
   const { t } = useTranslation("components\\navbar");
@@ -76,106 +60,117 @@ const Navbar = (): React.ReactElement => {
         open={notificationsWindowOpen}
         setOpen={setNotificationsWindowOpen}
       />
-      <nav className={`${styles.navbar}${open ? ` ${styles.open}` : ""}`}>
-        <Button className={styles["mobile-menu"]} onClick={manageNavbar}>
-          <MdLocalMovies />
-          <h1>
+      <nav className={styles.navbar}>
+        <NavLink
+          to="/"
+          exact
+          className={styles["navbar-logo"]}
+          onClick={manageNavbar}
+        >
+          <img src={IMRMinimalLogo} alt="IMR logo" draggable={false} />
+          <span>
             <Trans t={t} i18nKey="mobileMenu" />
-          </h1>
-        </Button>
-
-        <div className={styles.start}>
-          <NavLink
-            to="/"
-            exact
-            activeClassName={styles.active}
-            onClick={manageNavbar}
-          >
-            <Trans t={t} i18nKey="items.home" />
-          </NavLink>
-          <NavLink
-            to="/movies"
-            exact
-            activeClassName={styles.active}
-            onClick={manageNavbar}
-          >
-            <Trans t={t} i18nKey="items.movies" />
-          </NavLink>
-          <NavLink
-            to="/series"
-            exact
-            activeClassName={styles.active}
-            onClick={manageNavbar}
-          >
-            <Trans t={t} i18nKey="items.series" />
-          </NavLink>
-        </div>
-        <div className={styles.end}>
-          <Button
-            className={`${styles.buttons} ${styles.user}`}
-            onClick={() => {
-              manageUser();
-              manageNavbar();
-            }}
-          >
-            {user ? (
-              <>
-                {user ? (
-                  <Image
-                    className={styles.avatar}
-                    src={getAvatar(user.avatar)}
-                  />
-                ) : (
-                  <FaUser />
-                )}
-                <span>
-                  <Trans t={t} i18nKey="items.manageAccount" />
-                </span>
-              </>
-            ) : (
-              <Trans t={t} i18nKey="items.login" />
-            )}
-          </Button>
-          <Button
-            className={styles.buttons}
-            onClick={() => {
-              if (open) {
+          </span>
+        </NavLink>
+        <div className={styles.separator} />
+        <div
+          className={`${styles["navbar-items"]}${
+            open ? ` ${styles.open}` : ""
+          }`}
+        >
+          <div className={styles.start}>
+            <NavLink
+              to="/"
+              exact
+              activeClassName={styles.active}
+              onClick={manageNavbar}
+            >
+              <Trans t={t} i18nKey="items.home" />
+            </NavLink>
+            <NavLink
+              to="/movies"
+              exact
+              activeClassName={styles.active}
+              onClick={manageNavbar}
+            >
+              <Trans t={t} i18nKey="items.movies" />
+            </NavLink>
+            <NavLink
+              to="/series"
+              exact
+              activeClassName={styles.active}
+              onClick={manageNavbar}
+            >
+              <Trans t={t} i18nKey="items.series" />
+            </NavLink>
+          </div>
+          <div className={styles.end}>
+            <Button
+              className={`${styles.buttons} ${styles.user}`}
+              onClick={() => {
+                manageUser();
                 manageNavbar();
-              }
-
-              setLanguageWindowOpen(!languageWindowOpen);
-            }}
-          >
-            <DisplayLanguageSVG lang={language} alt={`lang-${language}`} />
-            <span className={styles["switcher-span"]}>
-              <Trans t={t} i18nKey="items.changeLanguage" />
-            </span>
-          </Button>
-          <Button
-            className={styles.buttons}
-            onClick={() => {
-              if (open) {
-                manageNavbar();
-              }
-
-              setNotificationsWindowOpen(!notificationsWindowOpen);
-            }}
-          >
-            {allowNotifications ? <FaBell /> : <FaBellSlash />}
-            <span className={styles["switcher-span"]}>
-              <Trans t={t} i18nKey="items.notifications" />
-            </span>
-          </Button>
-          <Button className={styles.buttons} onClick={manageTheme}>
-            {theme === "light" ? <FaMoon /> : <FaSun />}
-            <span className={styles["switcher-span"]}>
-              {theme === "light" ? (
-                <Trans t={t} i18nKey="items.darkTheme" />
+              }}
+            >
+              {user ? (
+                <>
+                  {user ? (
+                    <Image
+                      className={styles.avatar}
+                      src={getAvatar(user.avatar)}
+                    />
+                  ) : (
+                    <FaUser />
+                  )}
+                  <span>
+                    <Trans t={t} i18nKey="items.manageAccount" />
+                  </span>
+                </>
               ) : (
-                <Trans t={t} i18nKey="items.lightTheme" />
+                <Trans t={t} i18nKey="items.login" />
               )}
-            </span>
-          </Button>
+            </Button>
+            <Button
+              className={styles.buttons}
+              onClick={() => {
+                if (open) {
+                  manageNavbar();
+                }
+
+                setLanguageWindowOpen(!languageWindowOpen);
+              }}
+            >
+              <DisplayLanguageSVG lang={language} alt={`lang-${language}`} />
+              <span className={styles["switcher-span"]}>
+                <Trans t={t} i18nKey="items.changeLanguage" />
+              </span>
+            </Button>
+            <Button
+              className={styles.buttons}
+              onClick={() => {
+                if (open) {
+                  manageNavbar();
+                }
+
+                setNotificationsWindowOpen(!notificationsWindowOpen);
+              }}
+            >
+              {allowNotifications ? <FaBell /> : <FaBellSlash />}
+              <span className={styles["switcher-span"]}>
+                <Trans t={t} i18nKey="items.notifications" />
+              </span>
+            </Button>
+            <Button className={styles.buttons} onClick={manageTheme}>
+              {theme === "light" ? <FaMoon /> : <FaSun />}
+              <span className={styles["switcher-span"]}>
+                {theme === "light" ? (
+                  <Trans t={t} i18nKey="items.darkTheme" />
+                ) : (
+                  <Trans t={t} i18nKey="items.lightTheme" />
+                )}
+              </span>
+            </Button>
+          </div>
         </div>
       </nav>
     </>

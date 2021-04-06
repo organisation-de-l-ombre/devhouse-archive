@@ -1,4 +1,0 @@
-{
-  "success": "Welcome {{username}}! You have been logged in successfully.",
-  "failed": "An error occurred during login. Please try again."
-}

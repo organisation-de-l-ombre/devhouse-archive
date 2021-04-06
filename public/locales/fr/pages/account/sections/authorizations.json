@@ -15,11 +15,14 @@
   },
   "deleteAuthorization": {
     "button": "Révoquer",
-    "confirmation": "Etes-vous sûr de vouloir supprimer cette autorisation ?",
-    "notification": "L'autorisation a été supprimée."
+    "confirmation": "Etes-vous sûr de vouloir supprimer cette autorisation ?"
   },
   "noData": {
     "title": "Aucune donnée disponible",
     "description": "Vos données ne sont pas accessibles... Veuillez recharger la page, ou vérifier votre connexion internet."
+  },
+  "hooks": {
+    "error": "Une erreur est survenue, veuillez réessayer.",
+    "authorizationDeleted": "L'autorisation a été supprimée."
   }
 }
