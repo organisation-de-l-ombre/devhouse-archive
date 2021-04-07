@@ -21,6 +21,7 @@ import {
   TrailerObject,
   VideoObject,
 } from "../../types";
+import detectMobileDevice from "../../../../lib/detectMobileDevice";
 
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 const DisplaySVG = ({ type }: { type: string }): any => {
@@ -195,11 +196,19 @@ const OSTSection: React.FC<
                             {track.videoID ? (
                               <Button
                                 onClick={() => {
-                                  setVideo({
-                                    title: `Raiponce - ${track.title}`,
-                                    videoID: track.videoID as string,
-                                  });
-                                  setPlayerOpen(!playerOpen);
+                                  const isMobileDevice: boolean = detectMobileDevice();
+
+                                  if (isMobileDevice) {
+                                    window.open(
+                                      `https://www.youtube.com/watch?v=${track.videoID}`
+                                    );
+                                  } else {
+                                    setVideo({
+                                      title: `${dataResponse.title} - ${track.title}`,
+                                      videoID: track.videoID as string,
+                                    });
+                                    setPlayerOpen(!playerOpen);
+                                  }
                                 }}
                               >
                                 <FaPlay />

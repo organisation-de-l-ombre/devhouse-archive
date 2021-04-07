@@ -1,5 +1,6 @@
 import React from "react";
 import YouTube from "react-youtube";
+import { useTranslation } from "react-i18next";
 import Modal from "../Modal/Modal";
 import styles from "./YouTubePlayer.module.scss";
 import { PlayerDimensions } from "./Types";
@@ -31,6 +32,20 @@ const YouTubePlayer: React.FC<
     autoClose?: boolean;
   }
 > = ({ title, videoID, autoPlay, open, setOpen, autoClose }) => {
+  const { t } = useTranslation("components\\ui\\youtubePlayer\\youtubePlayer");
+
+  React.useEffect((): void => {
+    if (!open) {
+      return;
+    }
+
+    if (!window.navigator.onLine) {
+      setOpen(!open);
+      alert(t("deviceOffline"));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, window.navigator.onLine]);
+
   const { width, height } = getPlayerDimensions();
   const playerOptions = {
     width,
@@ -42,7 +57,7 @@ const YouTubePlayer: React.FC<
     },
   };
 
-  return (
+  return window.navigator.onLine ? (
     <Modal
       windowTitle={title}
       open={open}
@@ -60,6 +75,8 @@ const YouTubePlayer: React.FC<
         }}
       />
     </Modal>
+  ) : (
+    <></>
   );
 };
 

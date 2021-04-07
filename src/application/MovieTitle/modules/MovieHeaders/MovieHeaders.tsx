@@ -10,6 +10,7 @@ import Button from "../../../../components/ui/Button/Button";
 import YouTubePlayer from "../../../../components/ui/YouTubePlayer/YouTubePlayer";
 import { S3DataResponse, TrailerObject } from "../../types";
 import useLanguage from "../../../../hooks/Language/Language";
+import detectMobileDevice from "../../../../lib/detectMobileDevice";
 
 const MovieHeaders: React.FC<
   React.DetailedHTMLProps<
@@ -126,7 +127,17 @@ const MovieHeaders: React.FC<
               </Button>
               {trailer ? (
                 <Button
-                  onClick={() => setTrailerWindowOpen(!trailerWindowOpen)}
+                  onClick={() => {
+                    const isMobileDevice: boolean = detectMobileDevice();
+
+                    if (isMobileDevice) {
+                      window.open(
+                        `https://www.youtube.com/watch?v=${trailer?.videoID}`
+                      );
+                    } else {
+                      setTrailerWindowOpen(!trailerWindowOpen);
+                    }
+                  }}
                 >
                   <FaPlay />
                   <span>Bande annonce</span>

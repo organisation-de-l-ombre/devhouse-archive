@@ -5,16 +5,15 @@ import { precacheAndRoute } from "workbox-precaching/precacheAndRoute";
 import { registerRoute } from "workbox-routing";
 import { StaleWhileRevalidate } from "workbox-strategies";
 
-export type {};
 declare const self: ServiceWorkerGlobalScope;
 
-// eslint-disable-next-line no-restricted-globals,no-underscore-dangle
+// eslint-disable-next-line no-restricted-globals,no-underscore-dangle,@typescript-eslint/no-explicit-any
 precacheAndRoute((self as any).__WB_MANIFEST);
 
-const runtimecache = ["/locales", "/fonts"];
+const runtimeCache: string[] = ["/locales", "/fonts"];
 
 registerRoute(
-  ({ url }) => runtimecache.filter((u) => url.pathname.startsWith(u)),
+  ({ url }) => runtimeCache.filter((u) => url.pathname.startsWith(u)),
   new StaleWhileRevalidate({})
 );
 
@@ -23,3 +22,5 @@ self.addEventListener("message", (content) => {
     self.skipWaiting();
   }
 });
+
+export type {};

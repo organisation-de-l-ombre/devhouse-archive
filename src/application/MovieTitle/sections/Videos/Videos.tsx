@@ -12,6 +12,7 @@ import {
   VideoObject,
   VideosSection as VideosSectionType,
 } from "../../types";
+import detectMobileDevice from "../../../../lib/detectMobileDevice";
 
 const VideosSection: React.FC<
   React.DetailedHTMLProps<
@@ -69,8 +70,16 @@ const VideosSection: React.FC<
                       key={trailer.title}
                       className={`${flexContainerStyles.container} ${styles["video-container"]}`}
                       onClick={() => {
-                        setVideoState(trailer);
-                        setPlayerOpen(!playerOpen);
+                        const isMobileDevice: boolean = detectMobileDevice();
+
+                        if (isMobileDevice) {
+                          window.open(
+                            `https://www.youtube.com/watch?v=${trailer.videoID}`
+                          );
+                        } else {
+                          setVideoState(trailer);
+                          setPlayerOpen(!playerOpen);
+                        }
                       }}
                     >
                       <img
@@ -106,8 +115,16 @@ const VideosSection: React.FC<
                             key={video.title}
                             className={`${flexContainerStyles.container} ${styles["video-container"]}`}
                             onClick={() => {
-                              setVideoState(video);
-                              setPlayerOpen(!playerOpen);
+                              const isMobileDevice: boolean = detectMobileDevice();
+
+                              if (isMobileDevice) {
+                                window.open(
+                                  `https://www.youtube.com/watch?v=${video.videoID}`
+                                );
+                              } else {
+                                setVideoState(video);
+                                setPlayerOpen(!playerOpen);
+                              }
                             }}
                           >
                             <img
