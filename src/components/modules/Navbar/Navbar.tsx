@@ -61,17 +61,12 @@ const Navbar = (): React.ReactElement => {
         setOpen={setNotificationsWindowOpen}
       />
       <nav className={styles.navbar}>
-        <NavLink
-          to="/"
-          exact
-          className={styles["navbar-logo"]}
-          onClick={manageNavbar}
-        >
+        <Button className={styles["navbar-logo"]} onClick={manageNavbar}>
           <img src={IMRMinimalLogo} alt="IMR logo" draggable={false} />
           <span>
             <Trans t={t} i18nKey="mobileMenu" />
           </span>
-        </NavLink>
+        </Button>
         <div className={styles.separator} />
         <div
           className={`${styles["navbar-items"]}${
