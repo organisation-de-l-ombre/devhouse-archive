@@ -7,7 +7,7 @@ import modalStyles from "../../Modal/Modal.module.scss";
 import globalStyles from "../../../../themes/Global.module.scss";
 import SelectList, { manageSelection } from "../../SelectList/SelectList";
 import Button from "../../Button/Button";
-import styles from "./NotificationModal.module.scss";
+import styles from "./NotificationsModal.module.scss";
 import generateNotificationID from "../../../../lib/generateNotificationID";
 import i18n from "../../../../languages/i18n";
 import {

@@ -29,7 +29,7 @@ const useNotificationsPreferences = (): NotificationsPreferencesHook => {
   const [
     notificationsPreferencesState,
     setNotificationsPreferencesState,
-  ] = React.useState<string | boolean>("default");
+  ] = React.useState<string | boolean>(firstUse ? false : "default");
   const updatePreference = (preference: boolean): void => {
     dispatch(updateNotificationsPermissions(preference as boolean));
   };

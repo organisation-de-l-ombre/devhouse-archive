@@ -63,6 +63,10 @@ const DevHouseUserAPIInit = new UserAPIApi().withPreMiddleware(
 );
 
 const IMRMain = (): React.ReactElement => {
+  React.useEffect((): void => {
+    document.body.style.overflowY = "visible";
+  }, []);
+
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>

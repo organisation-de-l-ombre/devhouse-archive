@@ -1,7 +1,6 @@
 import React from "react";
 import { SiSpotify, SiDeezer, SiApplemusic } from "react-icons/si";
-import { FaMusic } from "react-icons/fa";
-import { FaPlay } from "react-icons/all";
+import { FaMusic, FaPlay } from "react-icons/fa";
 import styles from "./OST.module.scss";
 import containerStyle from "../../Containers.module.scss";
 import flexContainerStyles from "../../../../components/ui/FlexContainer/FlexContainer.module.scss";
@@ -13,7 +12,7 @@ import Button from "../../../../components/ui/Button/Button";
 import Card from "../../../../components/ui/Card/Card";
 import YouTubePlayer from "../../../../components/ui/YouTubePlayer/YouTubePlayer";
 import {
-  S3DataResponse,
+  ReactMovieElement,
   StreamingObject,
   SummaryObject,
   TrackInformationObject,
@@ -23,8 +22,7 @@ import {
 } from "../../types";
 import detectMobileDevice from "../../../../lib/detectMobileDevice";
 
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-const DisplaySVG = ({ type }: { type: string }): any => {
+const DisplaySVG = ({ type }: { type: string }): React.ReactElement => {
   switch (type) {
     case "Spotify":
       return <SiSpotify />;
@@ -36,12 +34,7 @@ const DisplaySVG = ({ type }: { type: string }): any => {
       return <FaMusic />;
   }
 };
-const OSTSection: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & { dataResponse: S3DataResponse }
-> = ({ dataResponse }) => {
+const OSTSection: ReactMovieElement = ({ dataResponse }) => {
   const { ost } = dataResponse;
   const [playerOpen, setPlayerOpen] = React.useState<boolean>(false);
   const [video, setVideo] = React.useState<TrailerObject | VideoObject>({

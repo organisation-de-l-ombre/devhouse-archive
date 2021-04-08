@@ -1,8 +1,7 @@
 {
   "short_name": "IMR",
   "name": "International Media Referencing",
-  "description": "A web platform referencing a great deal of multimedia contents, particularly movies and series.",
-  "author": "The Developer's House web development team",
+  "description": "The online and complete alternative database referencing a great deal of cinematographic content.",
   "icons": [
     {
       "src": "favicon.ico",

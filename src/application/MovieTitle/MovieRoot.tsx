@@ -68,7 +68,7 @@ const MovieRoot: React.FC<RouteComponentProps> = ({ match }) => {
       setView(response);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [language]);
+  }, []);
 
   React.useEffect((): (() => void) => {
     const id: string = generateNotificationID();

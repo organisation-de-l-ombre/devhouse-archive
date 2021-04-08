@@ -11,16 +11,11 @@ import bust from "../../../../assets/pictures/bust.png";
 import {
   CastingObject,
   CharacterObject,
-  S3DataResponse,
+  ReactMovieElement,
   SummaryObject,
 } from "../../types";
 
-const CastingSection: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & { dataResponse: S3DataResponse }
-> = ({ dataResponse }) => {
+const CastingSection: ReactMovieElement = ({ dataResponse }) => {
   const { casting } = dataResponse;
 
   if (!casting) {

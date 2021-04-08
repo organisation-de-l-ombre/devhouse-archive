@@ -6,7 +6,7 @@ import FlexContainer from "../../../../components/ui/FlexContainer/FlexContainer
 import { Item, Summary } from "../../../../components/ui/Summary/Summary";
 import YouTubePlayer from "../../../../components/ui/YouTubePlayer/YouTubePlayer";
 import {
-  S3DataResponse,
+  ReactMovieElement,
   SummaryObject,
   TrailerObject,
   VideoObject,
@@ -14,12 +14,7 @@ import {
 } from "../../types";
 import detectMobileDevice from "../../../../lib/detectMobileDevice";
 
-const VideosSection: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & { dataResponse: S3DataResponse }
-> = ({ dataResponse }) => {
+const VideosSection: ReactMovieElement = ({ dataResponse }) => {
   const { videos } = dataResponse;
   const [playerOpen, setPlayerOpen] = React.useState<boolean>(false);
   const [videoState, setVideoState] = React.useState<

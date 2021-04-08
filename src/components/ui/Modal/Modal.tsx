@@ -31,7 +31,7 @@ const Modal: React.FC<
     if (open) {
       document.body.style.overflowY = "hidden";
     } else {
-      document.body.style.overflowY = "";
+      document.body.style.overflowY = "visible";
     }
   }, [open]);
 

@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "./DetailledText.module.scss";
+import styles from "./DetailedText.module.scss";
 
-const DetailledText: React.FC<
+const DetailedText: React.FC<
   React.DetailedHTMLProps<
     React.AllHTMLAttributes<HTMLDivElement>,
     HTMLDivElement
@@ -36,4 +36,4 @@ const DetailledText: React.FC<
   );
 };
 
-export default DetailledText;
+export default DetailedText;

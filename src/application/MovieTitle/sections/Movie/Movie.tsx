@@ -8,16 +8,11 @@ import {
   SubSummary,
   Summary,
 } from "../../../../components/ui/Summary/Summary";
-import DetailledText from "../../../../components/ui/DetailledText/DetailledText";
+import DetailedText from "../../../../components/ui/DetailedText/DetailedText";
 import List from "../../../../components/ui/List/List";
-import { BodyContent, S3DataResponse, SummaryObject } from "../../types";
+import { BodyContent, ReactMovieElement, SummaryObject } from "../../types";
 
-const MovieSection: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & { dataResponse: S3DataResponse }
-> = ({ dataResponse }) => {
+const MovieSection: ReactMovieElement = ({ dataResponse }) => {
   const { movie } = dataResponse;
 
   return (
@@ -65,27 +60,27 @@ const MovieSection: React.FC<
           switch (item.type) {
             case "text":
               return (
-                <DetailledText key={item.name}>
+                <DetailedText key={item.name}>
                   <h1 id={item.id}>{item.name}</h1>
                   <p>{item.text}</p>
-                </DetailledText>
+                </DetailedText>
               );
 
             case "textlist":
               return (
-                <DetailledText key={item.name}>
+                <DetailedText key={item.name}>
                   <h1 id={item.id}>{item.name}</h1>
                   {item.texts.map(
                     (text: string): React.ReactElement => (
                       <p key={text}>{text}</p>
                     )
                   )}
-                </DetailledText>
+                </DetailedText>
               );
 
             case "list":
               return (
-                <DetailledText key={item.name}>
+                <DetailedText key={item.name}>
                   <h1 id={item.id}>{item.name}</h1>
                   <List
                     className={`${listStyles.list} ${containerStyle["list-margin"]}`}
@@ -96,30 +91,30 @@ const MovieSection: React.FC<
                       )
                     )}
                   </List>
-                </DetailledText>
+                </DetailedText>
               );
 
             case "subsection":
               return (
-                <DetailledText key={item.name}>
+                <DetailedText key={item.name}>
                   <h1 id={item.id}>{item.name}</h1>
                   {item.body.map(
                     (subItem: BodyContent): React.ReactElement => {
                       switch (subItem.type) {
                         case "text":
                           return (
-                            <DetailledText
+                            <DetailedText
                               key={subItem.name}
                               className={containerStyle["sub-groups"]}
                             >
                               <h2 id={subItem.id}>{subItem.name}</h2>
                               <p>{subItem.text}</p>
-                            </DetailledText>
+                            </DetailedText>
                           );
 
                         case "textlist":
                           return (
-                            <DetailledText
+                            <DetailedText
                               key={subItem.name}
                               className={containerStyle["sub-groups"]}
                             >
@@ -129,12 +124,12 @@ const MovieSection: React.FC<
                                   <p key={text}>{text}</p>
                                 )
                               )}
-                            </DetailledText>
+                            </DetailedText>
                           );
 
                         case "list":
                           return (
-                            <DetailledText
+                            <DetailedText
                               key={item.name}
                               className={containerStyle["sub-groups"]}
                             >
@@ -148,7 +143,7 @@ const MovieSection: React.FC<
                                   )
                                 )}
                               </List>
-                            </DetailledText>
+                            </DetailedText>
                           );
 
                         default:
@@ -156,7 +151,7 @@ const MovieSection: React.FC<
                       }
                     }
                   )}
-                </DetailledText>
+                </DetailedText>
               );
 
             default:

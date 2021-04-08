@@ -5,6 +5,7 @@ export * from "./modules/Headers";
 export * from "./global/Summary";
 export * from "./global/GenericSectionBody";
 export * from "./global/S3DataResponse";
+export * from "./global/ReactMovieElement";
 
 // Sections
 export * from "./sections/GenericSection";
