@@ -2,9 +2,9 @@ use crate::database::schema::links::dsl::links;
 use crate::database::schema::users::dsl::users;
 use crate::database::schema::webauthn_keys::dsl::webauthn_keys;
 use crate::diesel::RunQueryDsl;
+use crate::types::ScarletError;
 use crate::ScarletDB;
 use diesel::QueryDsl;
-use rocket::http::Status;
 use rocket_contrib::json::Json;
 use serde::Serialize;
 
@@ -17,7 +17,7 @@ pub struct Statistics {
 }
 
 #[get("/statistics")]
-pub fn get_statistics(conn: ScarletDB) -> Result<Json<Statistics>, Status> {
+pub fn get_statistics(conn: ScarletDB) -> Result<Json<Statistics>, Json<ScarletError>> {
     let mut statistics = Statistics {
         user_count: 0,
         links_count: 0,

@@ -1,6 +1,8 @@
 use crate::database::link::{Link, NewLink};
 use crate::database::schema::links::dsl::{id, links, user_id};
 use crate::diesel::RunQueryDsl;
+use crate::types::db_error::db_error;
+use crate::types::*;
 use crate::ScarletDB;
 use diesel::result::Error;
 use diesel::{ExpressionMethods, QueryDsl};
@@ -12,21 +14,28 @@ use rocket_contrib::uuid::Uuid;
 /// This endpoint return all the linked accounts
 /// on the user's account.
 #[get("/user/<user>/links")]
-pub fn get_user_links_by_id(conn: ScarletDB, user: Uuid) -> Result<Json<Vec<Link>>, Status> {
+pub fn get_user_links_by_id(
+    conn: ScarletDB,
+    user: Uuid,
+) -> Result<Json<Vec<Link>>, Json<ScarletError>> {
     let link: Result<Vec<Link>, Error> = links
         .filter(user_id.eq(uuid::Uuid::from_bytes(user.as_bytes()).unwrap()))
         .load::<Link>(&*conn);
 
     match link {
         Ok(data) => Ok(Json(data)),
-        Err(_) => Err(Status::InternalServerError),
+        Err(error) => Err(Json(db_error(error))),
     }
 }
 
 /// put_link_for_id - PUT /user/:id/links
 /// Create a linked account on the user account.
 #[put("/user/<user>/links", data = "<data>")]
-pub fn put_link_for_id(conn: ScarletDB, user: Uuid, data: Json<NewLink>) -> Status {
+pub fn put_link_for_id(
+    conn: ScarletDB,
+    user: Uuid,
+    data: Json<NewLink>,
+) -> Result<Status, Json<ScarletError>> {
     let uuid = uuid::Uuid::new(uuid::UuidVersion::Random).unwrap();
     let new_platform = data.clone();
     match diesel::insert_into(links)
@@ -38,15 +47,19 @@ pub fn put_link_for_id(conn: ScarletDB, user: Uuid, data: Json<NewLink>) -> Stat
         })
         .execute(&*conn)
     {
-        Ok(_) => Status::Created,
-        Err(_) => Status::InternalServerError,
+        Ok(_) => Ok(Status::Created),
+        Err(error) => Err(Json(db_error(error))),
     }
 }
 
 /// delete_link_for_user - DELETE /user/:user/links/:link
 /// Delete a linked account on the user account.
 #[delete("/user/<user>/links/<link>")]
-pub fn delete_link_for_user(conn: ScarletDB, user: Uuid, link: Uuid) -> Status {
+pub fn delete_link_for_user(
+    conn: ScarletDB,
+    user: Uuid,
+    link: Uuid,
+) -> Result<Status, Json<ScarletError>> {
     let user = uuid::Uuid::from_bytes(user.as_bytes()).unwrap();
     let link = uuid::Uuid::from_bytes(link.as_bytes()).unwrap();
 
@@ -55,7 +68,7 @@ pub fn delete_link_for_user(conn: ScarletDB, user: Uuid, link: Uuid) -> Status {
         .filter(user_id.eq(user))
         .execute(&*conn)
     {
-        Ok(_) => Status::Accepted,
-        Err(_) => Status::InternalServerError,
+        Ok(_) => Ok(Status::Accepted),
+        Err(error) => Err(Json(db_error(error))),
     }
 }

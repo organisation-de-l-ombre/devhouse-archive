@@ -3,6 +3,8 @@ use crate::database::schema::links::dsl::links;
 use crate::database::schema::users::dsl::{id, users};
 use crate::database::user::{NewUser, User, UserUpdate};
 use crate::diesel::RunQueryDsl;
+use crate::types::db_error::db_error;
+use crate::types::ScarletError;
 use crate::ScarletDB;
 use diesel::result::Error;
 use diesel::{ExpressionMethods, QueryDsl};
@@ -16,7 +18,7 @@ use uuid::UuidVersion;
 /// Get a user information by id.
 /// Returns 403 if the user is banned.
 #[get("/user/<user>")]
-pub fn get_user_by_id(conn: ScarletDB, user: Uuid) -> Result<Json<User>, Status> {
+pub fn get_user_by_id(conn: ScarletDB, user: Uuid) -> Result<Json<User>, Json<ScarletError>> {
     let result: Result<User, diesel::result::Error> = users
         .filter(id.eq(uuid::Uuid::from_bytes(user.as_bytes()).unwrap()))
         .first::<User>(&*conn);
@@ -24,14 +26,14 @@ pub fn get_user_by_id(conn: ScarletDB, user: Uuid) -> Result<Json<User>, Status>
     match result {
         Ok(user) => {
             if user.ban.is_some() {
-                return Err(Status::Unauthorized);
+                return Err(Json(ScarletError {
+                    code: 0,
+                    message: "This user does not exists.".to_string(),
+                }));
             }
             Ok(Json(user))
         }
-        Err(e) => match e {
-            Error::NotFound => Err(Status::NotFound),
-            _ => Err(Status::InternalServerError),
-        },
+        Err(e) => Err(Json(db_error(e))),
     }
 }
 
@@ -43,7 +45,7 @@ pub fn patch_user_by_id(
     conn: ScarletDB,
     user: Uuid,
     update: Json<UserUpdate>,
-) -> Result<Status, Status> {
+) -> Result<Status, Json<ScarletError>> {
     let result: Result<usize, Error> = diesel::update(users)
         .filter(id.eq(uuid::Uuid::from_bytes(user.as_bytes()).unwrap()))
         .set(update.0)
@@ -52,7 +54,7 @@ pub fn patch_user_by_id(
     if result.is_ok() {
         return Ok(Status::Accepted);
     }
-    return Err(Status::InternalServerError);
+    return Err(Json(db_error(result.err().unwrap())));
 }
 
 /// delete_user_by_id - DELETE /user/:id
@@ -60,15 +62,14 @@ pub fn patch_user_by_id(
 /// call the cryir service to handle this
 /// kind of stuff.
 #[delete("/user/<user>")]
-pub fn delete_user_by_id(conn: ScarletDB, user: Uuid) -> Result<Status, Status> {
+pub fn delete_user_by_id(conn: ScarletDB, user: Uuid) -> Result<Status, Json<ScarletError>> {
     let result =
         diesel::delete(users.filter(id.eq(uuid::Uuid::from_bytes(user.as_bytes()).unwrap())))
             .execute(&*conn);
 
-    if result.is_ok() && result.unwrap() > 0 {
-        Ok(Status::Ok)
-    } else {
-        Err(Status::NoContent)
+    match result {
+        Ok(_) => Ok(Status::Ok),
+        Err(e) => Err(Json(db_error(e))),
     }
 }
 

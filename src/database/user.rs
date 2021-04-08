@@ -3,7 +3,7 @@ use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-#[derive(Queryable, Identifiable, Serialize, Deserialize)]
+#[derive(Queryable, Identifiable, Serialize, Deserialize, Clone)]
 pub struct User {
     pub id: Uuid,
     pub username: String,
