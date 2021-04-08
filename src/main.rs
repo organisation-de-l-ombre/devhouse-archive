@@ -13,10 +13,11 @@ extern crate serde;
 use crate::database::establish_connection;
 use dotenv::dotenv;
 use rocket::config::{Environment, Value};
-use rocket::{Rocket};
+use rocket::{Rocket, Request};
 use std::collections::HashMap;
 use std::env;
 use rocket::http::Status;
+use rocket::response::{ResponseBuilder, Body};
 
 mod api;
 mod database;
@@ -80,11 +81,6 @@ fn rocket() -> Rocket {
 }
 
 
-#[catch(404)]
-fn not_found() -> Status {
-    Status::NotFound
-}
-
 fn main() {
     dotenv().ok();
     let con = establish_connection();
@@ -93,7 +89,6 @@ fn main() {
     rocket()
         .attach(ScarletDB::fairing())
         .attach(RedisDB::fairing())
-        .register(catchers![not_found])
         .mount(
             "/",
             routes![
