@@ -1,6 +1,8 @@
 use crate::database::schema::webauthn_keys::dsl::{id, user_id, webauthn_keys};
 use crate::database::webauth_key::{NewWebAuthnKey, WebAuthKey};
 use crate::diesel::RunQueryDsl;
+use crate::types::db_error::db_error;
+use crate::types::ScarletError;
 use crate::ScarletDB;
 use diesel::result::Error;
 use diesel::{ExpressionMethods, QueryDsl};
@@ -28,7 +30,11 @@ pub fn get_webauth_keys_for_user(
 /// put_webauth_key - PUT /user/:id/webauth
 /// Creates a new webauthn key for the user.
 #[put("/user/<user>/webauth", data = "<data>")]
-pub fn put_webauth_key(data: Json<NewWebAuthnKey>, conn: ScarletDB, user: Uuid) -> Status {
+pub fn put_webauth_key(
+    data: Json<NewWebAuthnKey>,
+    conn: ScarletDB,
+    user: Uuid,
+) -> Result<Status, Json<ScarletError>> {
     let uuid = uuid::Uuid::new(uuid::UuidVersion::Random).unwrap();
     let new_platform = data.clone();
     match diesel::insert_into(webauthn_keys)
@@ -40,15 +46,19 @@ pub fn put_webauth_key(data: Json<NewWebAuthnKey>, conn: ScarletDB, user: Uuid) 
         })
         .execute(&*conn)
     {
-        Ok(_) => Status::Created,
-        Err(_) => Status::InternalServerError,
+        Ok(_) => Ok(Status::Created),
+        Err(e) => Err(Json(db_error(e))),
     }
 }
 
 /// delete_webauthn_for_user - DELETE /user/:user/webauth/:key
 /// Deletes a linked key of the account.
 #[delete("/user/<user>/webauth/<key>")]
-pub fn delete_webauthn_for_user(conn: ScarletDB, user: Uuid, key: Uuid) -> Status {
+pub fn delete_webauthn_for_user(
+    conn: ScarletDB,
+    user: Uuid,
+    key: Uuid,
+) -> Result<Status, Json<ScarletError>> {
     let user = uuid::Uuid::from_bytes(user.as_bytes()).unwrap();
     let key_id = uuid::Uuid::from_bytes(key.as_bytes()).unwrap();
 
@@ -57,7 +67,7 @@ pub fn delete_webauthn_for_user(conn: ScarletDB, user: Uuid, key: Uuid) -> Statu
         .filter(user_id.eq(user))
         .execute(&*conn)
     {
-        Ok(_) => Status::Accepted,
-        Err(_) => Status::InternalServerError,
+        Ok(_) => Ok(Status::Accepted),
+        Err(e) => Err(Json(db_error(e))),
     }
 }

@@ -1,6 +1,6 @@
 [package]
 name = "scarlet"
-version = "0.1.0"
+version = "1.0.0"
 authors = ["matthieu <matthieu@developershouse.xyz>"]
 edition = "2018"
 
@@ -16,7 +16,6 @@ serde_json = "1.0"
 rocket = { version = "0.4.7" }
 diesel_migrations = "1.4.0"
 redis = { version = "*" }
-
 [dependencies.rocket_contrib]
 version = "0.4.7"
 default-features = false

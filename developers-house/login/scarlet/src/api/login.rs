@@ -1,16 +1,15 @@
 use crate::database::link::Link;
 use crate::database::schema::links::dsl::{links, platform, platform_id};
-use crate::database::schema::users::dsl::{users};
+use crate::database::schema::users::dsl::users;
 use crate::database::user::User;
 use crate::diesel::RunQueryDsl;
-use crate::{RedisDB, ScarletDB};
+use crate::types::ScarletError;
+use crate::ScarletDB;
+use diesel::associations::HasTable;
 use diesel::result::Error;
-use diesel::{ExpressionMethods, QueryDsl};
+use diesel::{BoolExpressionMethods, ExpressionMethods, JoinOnDsl, QueryDsl};
 use otp::make_totp;
-use rocket::http::Status;
-use rocket_contrib::databases::redis::{Commands, RedisError};
 use rocket_contrib::json::Json;
-use rocket_contrib::uuid::Uuid;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
@@ -34,138 +33,104 @@ pub struct LoginDataPost {
     with_otp: Option<WithOTP>,
 }
 
-#[derive(Serialize, Deserialize)]
-pub struct LoginSessionState {
-    id: Option<uuid::Uuid>,
-    done: bool,
-    user: Option<User>,
+pub fn do_user_login(data: LoginDataPost, db: ScarletDB) -> Result<User, ScarletError> {
+    let with_otp = data.with_otp.as_ref();
+    let with_platform = data.with_platform.as_ref();
+    let with_webauthn = data.with_webauthn.as_ref();
+
+    if with_platform.is_some() {
+        let q_plat = with_platform.unwrap();
+        let rec_link: Result<Vec<(User, Option<Link>)>, Error> = users
+            .left_join(
+                links::table().on(platform
+                    .eq(&q_plat.platform_name)
+                    .and(platform_id.eq(&q_plat.platform_id))),
+            )
+            .load::<(User, _)>(&*db);
+
+        return match rec_link {
+            Ok(res) => {
+                if res.len() == 1 {
+                    let count: Vec<User> = res
+                        .into_iter()
+                        .map::<User, _>(|val: (User, Option<Link>)| return val.0)
+                        .rev()
+                        .collect();
+                    let user: &User = count.get(0).unwrap();
+
+                    if user.ban.is_some() {
+                        return Err(ScarletError {
+                            code: 0x01,
+                            message: "Cannot login using this account: This user is banned."
+                                .to_string(),
+                        });
+                    }
+
+                    if user.a2f && (user.otpkey.is_some()) {
+                        if with_otp.is_some() {
+                            if check_otp(with_otp.unwrap(), user).is_some() {
+                                Ok(user.clone())
+                            } else {
+                                Err(ScarletError {
+                                    code: 0x02,
+                                    message: "Cannot login using this TOTP: Invalid TOTP code."
+                                        .to_string(),
+                                })
+                            }
+                        } else if with_webauthn.is_some() {
+                            Err(ScarletError {
+                                code: 0x99,
+                                message: "Webauthn is not implemented.".to_string(),
+                            })
+                        } else {
+                            Err(ScarletError {
+                                code: 0x04,
+                                message: "Cannot login using this account: This user need A2F validation.".to_string()
+                            })
+                        }
+                    } else {
+                        Ok(user.clone())
+                    }
+                } else {
+                    Err(ScarletError {
+                        code: 0x05,
+                        message: "This user does not exists.".to_string(),
+                    })
+                }
+            }
+            Err(_) => Err(ScarletError {
+                code: 0x06,
+                message: "Internal error.".to_string(),
+            }),
+        };
+    } else {
+        Err(ScarletError {
+            code: 0x7,
+            message: "No login platform specified.".to_string(),
+        })
+    }
+}
+
+pub fn check_otp(data: &WithOTP, user: &User) -> Option<bool> {
+    if user.otpkey.is_some() {
+        let totp = make_totp(user.otpkey.as_ref().unwrap(), 30, 30);
+        match totp {
+            Ok(processed_code) => Some(data.code == processed_code),
+            Err(_) => None,
+        }
+    } else {
+        None
+    }
 }
 
 /// start_login_session - POST /login
-/// Creates a login session, used to complete
-/// the login flow, if the request is successful,
-/// the complete flag will be true, in the other
-/// case, a login session_id will be assigned and
-/// used to validate the request using other login
-/// methods.
 #[post("/login", data = "<data>")]
 pub fn start_login_session(
-    redis: RedisDB,
     conn: ScarletDB,
     data: Json<LoginDataPost>,
-) -> Result<Json<LoginSessionState>, Status> {
-    if !data.with_platform.is_some() {
-        return Err(Status::BadRequest);
-    }
-
-    let link = data.with_platform.as_ref().unwrap();
-    let rec_link: Result<Link, Error> = links
-        .filter(platform_id.eq(&link.platform_id))
-        .filter(platform.eq(&link.platform_name))
-        .first::<Link>(&*conn);
-
-    match rec_link {
-        Ok(link) => {
-            let req_user: Result<User, Error> = users.find(link.user_id).first::<User>(&*conn);
-
-            match req_user {
-                Ok(user) => {
-                    if user.a2f {
-                        let uuid = uuid::Uuid::new(uuid::UuidVersion::Random).unwrap();
-                        let state = LoginSessionState {
-                            id: Some(uuid),
-                            done: false,
-                            user: None,
-                        };
-                        let json = serde_json::to_string(&state).unwrap();
-                        let key = format!("scarlet:session:{}", uuid.to_string());
-                        let result: Result<String, RedisError> = redis.0.set(key.clone(), json);
-                        redis
-                            .0
-                            .expire::<String, String>(key.clone(), 60 * 5)
-                            .unwrap();
-                        match result {
-                            Ok(_) => Ok(Json(state)),
-                            Err(_) => Err(Status::InternalServerError),
-                        }
-                    } else {
-                        Ok(Json(LoginSessionState {
-                            id: None,
-                            done: true,
-                            user: Some(user),
-                        }))
-                    }
-                }
-                Err(_) => Err(Status::InternalServerError),
-            }
-        }
-        Err(_) => Err(Status::NotFound),
-    }
-}
-
-/// get_login_session - GET /login/:id
-/// Get a login session by session_id
-#[get("/login/<other_id>")]
-pub fn get_login_session(
-    other_id: Uuid,
-    redis: RedisDB,
-) -> Result<Json<LoginSessionState>, Status> {
-    let result: Result<String, RedisError> = redis
-        .0
-        .get(format!("scarlet:session:{}", other_id.to_string()));
-
-    match result {
-        Ok(result) => Ok(Json(
-            serde_json::from_str::<LoginSessionState>(&result).unwrap(),
-        )),
-        Err(_) => Err(Status::NotFound),
-    }
-}
-
-/// post_to_login_session - POST /login/:id
-/// Add a login validation to the login session
-/// using the session_id.
-#[post("/login/<login>", data = "<data>")]
-pub fn post_to_login_session(
-    login: Uuid,
-    data: Json<LoginDataPost>,
-    redis: RedisDB,
-) -> Result<Json<LoginSessionState>, Status> {
-    if data.with_webauthn.is_none() && data.with_otp.is_none() {
-        return Err(Status::BadRequest);
-    }
-
-    let result: Result<String, RedisError> = redis
-        .0
-        .get(format!("scarlet:session:{}", login.to_string()));
-
-    let result = match result {
-        Ok(result) => Ok(serde_json::from_str::<LoginSessionState>(&result).unwrap()),
-        Err(_) => Err(Status::NotFound),
-    };
-
-    match result {
-        Ok(mut state) => {
-            if data.with_webauthn.is_some() {
-                // todo: webauthn logic
-                Ok(Json(state))
-            } else {
-                let data = data.with_otp.as_ref().unwrap();
-                let key = state.user.as_ref().unwrap();
-                let totp = make_totp(key.otpkey.as_ref().unwrap(), 30, 30);
-                match totp {
-                    Ok(code) => {
-                        if code == data.code {
-                            state.done = true;
-                            Ok(Json(state))
-                        } else {
-                            Err(Status::NonAuthoritativeInformation)
-                        }
-                    }
-                    Err(_) => Err(Status::NonAuthoritativeInformation),
-                }
-            }
-        }
-        Err(_) => Err(Status::NotFound),
+) -> Result<Json<User>, Json<ScarletError>> {
+    match do_user_login(data.0, conn) {
+        Ok(user) => Ok(Json(user)),
+        Err(err) => Err(Json(err)),
     }
 }
