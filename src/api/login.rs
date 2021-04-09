@@ -68,7 +68,7 @@ pub fn do_user_login(data: LoginDataPost, db: ScarletDB) -> Result<User, Scarlet
 
                     if user.a2f && (user.otpkey.is_some()) {
                         if with_otp.is_some() {
-                            if check_otp(with_otp.unwrap(), user).is_some() {
+                            if check_otp(with_otp.unwrap(), user) {
                                 Ok(user.clone())
                             } else {
                                 Err(ScarletError {
@@ -111,15 +111,15 @@ pub fn do_user_login(data: LoginDataPost, db: ScarletDB) -> Result<User, Scarlet
     }
 }
 
-pub fn check_otp(data: &WithOTP, user: &User) -> Option<bool> {
+pub fn check_otp(data: &WithOTP, user: &User) -> bool {
     if user.otpkey.is_some() {
         let totp = make_totp(user.otpkey.as_ref().unwrap(), 30, 30);
         match totp {
-            Ok(processed_code) => Some(data.code == processed_code),
-            Err(_) => None,
+            Ok(processed_code) => data.code == processed_code,
+            Err(_) => false,
         }
     } else {
-        None
+        false
     }
 }
 
