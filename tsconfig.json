@@ -26,5 +26,11 @@
   },
   "include": [
     "src"
+  ],
+  "exclude": [
+    "build",
+    "node_modules",
+    "scripts",
+    "config"
   ]
 }

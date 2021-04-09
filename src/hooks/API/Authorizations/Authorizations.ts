@@ -104,9 +104,7 @@ const useAuthorizationsDeleteMutation = (
     }
   );
 
-  return {
-    remove: mutate,
-  };
+  return { remove: mutate };
 };
 
 export { useAuthorizations, useAuthorizationsDeleteMutation };

@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 import { GlobalState } from "../../store/Types";
-import i18n from "../../languages/i18n";
 import {
   clearNotifications,
   pushNotifications,
@@ -30,34 +30,45 @@ const useNotificationsPreferences = (): NotificationsPreferencesHook => {
     notificationsPreferencesState,
     setNotificationsPreferencesState,
   ] = React.useState<string | boolean>(firstUse ? false : "default");
-  const updatePreference = (preference: boolean): void => {
-    dispatch(updateNotificationsPermissions(preference as boolean));
-  };
-  const validateChoice = (
-    setNotificationsWindowOpen: React.Dispatch<React.SetStateAction<boolean>>
-  ): boolean => {
-    if (
-      notificationsPreferencesState === "default" ||
-      (notificationsPreferencesState === allowNotifications && !firstUse)
-    ) {
-      alert(
-        i18n.t(
-          "components\\notifications\\notificationsModal:invalidPreference"
-        )
-      );
-      return false;
-    }
+  const { t } = useTranslation("components\\notifications\\notificationsModal");
 
-    if (firstUse) {
-      dispatch(setFirstUse());
-    }
+  const updatePreference = React.useCallback(
+    (preference: boolean): void => {
+      dispatch(updateNotificationsPermissions(preference as boolean));
+    },
+    [dispatch]
+  );
+  const validateChoice = React.useCallback(
+    (
+      setNotificationsWindowOpen: React.Dispatch<React.SetStateAction<boolean>>
+    ): boolean => {
+      if (
+        notificationsPreferencesState === "default" ||
+        (notificationsPreferencesState === allowNotifications && !firstUse)
+      ) {
+        alert(t("invalidPreference"));
+        return false;
+      }
 
-    updatePreference(notificationsPreferencesState as boolean);
-    setNotificationsPreferencesState("default");
-    setNotificationsWindowOpen(false);
+      if (firstUse) {
+        dispatch(setFirstUse());
+      }
 
-    return true;
-  };
+      updatePreference(notificationsPreferencesState as boolean);
+      setNotificationsPreferencesState("default");
+      setNotificationsWindowOpen(false);
+
+      return true;
+    },
+    [
+      allowNotifications,
+      dispatch,
+      firstUse,
+      notificationsPreferencesState,
+      t,
+      updatePreference,
+    ]
+  );
 
   return {
     setNotificationsPreferencesState,
@@ -67,15 +78,22 @@ const useNotificationsPreferences = (): NotificationsPreferencesHook => {
 };
 const useNotificationsManager = (): NotificationsManagerHook => {
   const dispatch = useDispatch();
-  const addNotifications = (notifications: Notification[]): void => {
-    dispatch(pushNotifications(notifications));
-  };
-  const deleteNotification = (id: string): void => {
-    dispatch(removeNotification(id));
-  };
-  const deleteAllNotifications = (): void => {
+
+  const addNotifications = React.useCallback(
+    (notifications: Notification[]): void => {
+      dispatch(pushNotifications(notifications));
+    },
+    [dispatch]
+  );
+  const deleteNotification = React.useCallback(
+    (id: string): void => {
+      dispatch(removeNotification(id));
+    },
+    [dispatch]
+  );
+  const deleteAllNotifications = React.useCallback((): void => {
     dispatch(clearNotifications());
-  };
+  }, [dispatch]);
 
   return { addNotifications, deleteNotification, deleteAllNotifications };
 };

@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useCallback } from "react";
 import { GlobalState } from "../../store/Types";
 import { Theme } from "../../store/theme/Types";
 import changeTheme from "../../store/theme/Actions";
@@ -9,8 +10,10 @@ const useTheme = (): ThemeHook => {
   const theme: Theme = useSelector(
     (state: GlobalState): Theme => state.theme.theme
   );
-  const switchTheme = () =>
+
+  const switchTheme = useCallback((): void => {
     dispatch(changeTheme(theme === "light" ? "dark" : "light"));
+  }, [dispatch, theme]);
 
   return { theme, switchTheme };
 };
