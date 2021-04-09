@@ -19,6 +19,7 @@ tags:
 paths:
   "/_healz":
     get:
+      operationId: healz
       description: Check the service aliveness.
       tags:
         - service-system
@@ -38,16 +39,18 @@ paths:
           pattern: uuidv4
           example: ecc69c21-a28d-4561-a875-57275c06b54f
     get:
+      operationId: getUser
       tags:
         - user
       responses:
         200:
           description: Succesfully got a user from the database.
           content:
-            application/json+scarlet:
+            application/json:
               schema:
-                type: "#/components/schemas/User"
+                $ref: "#/components/schemas/User"
     patch:
+      operationId: patchUser
       tags:
         - user
       requestBody:
@@ -63,6 +66,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/User"
     delete:
+      operationId: deleteUser
       tags:
         - user
       responses:
@@ -71,10 +75,9 @@ paths:
         404:
           description: User does not exists.
 
-
-
   "/user":
     post:
+      operationId: createUser
       tags:
         - user
       requestBody:
@@ -95,8 +98,11 @@ paths:
       - in: path
         required: true
         name: user
+        schema:
+          type: string
 
     get:
+      operationId: getUserLinks
       tags:
         - links
       responses:
@@ -109,6 +115,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Link"
     put:
+      operationId: addUserLink
       tags:
         - links
       requestBody:
@@ -128,10 +135,15 @@ paths:
       - in: path
         required: true
         name: user
+        schema:
+          type: string
       - in: path
         required: true
         name: link
+        schema:
+          type: string
     delete:
+      operationId: deleteUserLink
       tags:
         - links
       responses:
@@ -143,7 +155,10 @@ paths:
       - in: path
         name: user
         required: true
+        schema:
+          type: string
     get:
+      operationId: getUserWebAuth
       tags:
         - webauth
       responses:
@@ -156,6 +171,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/WebAuthKey"
     put:
+      operationId: addUserWebauth
       tags:
         - webauth
       requestBody:
@@ -175,10 +191,15 @@ paths:
       - in: path
         name: user
         required: true
+        schema:
+          type: string
       - in: path
         name: key
         required: true
+        schema:
+          type: string
     delete:
+      operationId: deleteUserWebAuth
       tags:
         - webauth
       responses:
@@ -188,6 +209,7 @@ paths:
 
   "/login":
     post:
+      operationId: doLogin
       tags:
         - login
       requestBody:
