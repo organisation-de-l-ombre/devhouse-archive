@@ -12,6 +12,7 @@ pub struct User {
     pub ban: Option<String>,
     pub avatar: String,
     pub a2f: bool,
+    #[serde(skip_serializing)]
     pub otpkey: Option<String>,
     pub updated_at: Option<NaiveDateTime>,
     pub created_at: NaiveDateTime,

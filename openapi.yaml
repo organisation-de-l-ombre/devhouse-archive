@@ -5,43 +5,56 @@ info:
   description: Simple authentification and user management api
   version: v2
 
+tags:
+  - name: service-system
+    description: Internal service for the Service functionement.
+  - name: user
+    description: User management.
+  - name: links
+    description: Linked accounts management.
+  - name: webauth
+    description: Linked keys of the user.
+  - name: login
+    description: login system.
 paths:
   "/_healz":
     get:
+      description: Check the service aliveness.
+      tags:
+        - service-system
       responses:
-        200:
-          description: Success
-  "/user/:id":
+        201:
+          description: The service is alive.
+        500:
+          description: The service contains a problem.
+
+  "/user/{id}":
+    parameters:
+      - in: path
+        required: true
+        name: id
+        schema:
+          type: string
+          pattern: uuidv4
+          example: ecc69c21-a28d-4561-a875-57275c06b54f
     get:
-      parameters:
-        - in: path
-          required: true
-          name: id
-          schema:
-            type: string
+      tags:
+        - user
       responses:
         200:
           description: Succesfully got a user from the database.
           content:
-            application/json:
+            application/json+scarlet:
               schema:
-                $ref: "#/components/schemas/User"
-        404:
-          description: User does not exists.
-        401:
-          description: User is banned.
+                type: "#/components/schemas/User"
     patch:
-      parameters:
-        - in: path
-          required: true
-          name: id
-          schema:
-            type: string
+      tags:
+        - user
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User"
+              $ref: "#/components/schemas/UserUpdate"
       responses:
         200:
           description: Edits a user
@@ -49,44 +62,43 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
-        404:
-          description: User does not exists.
-        401:
-          description: User is not editable.
     delete:
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
+      tags:
+        - user
       responses:
         200:
           description: User deleted.
         404:
           description: User does not exists.
+
+
+
   "/user":
     post:
+      tags:
+        - user
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User"
+              $ref: "#/components/schemas/UserCreate"
       responses:
         200:
-          description: Created the user
+          description: The user was succesfully created.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
-  "/user/:id/links":
+
+  "/user/{user}/links":
+    parameters:
+      - in: path
+        required: true
+        name: user
+
     get:
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
+      tags:
+        - links
       responses:
         200:
           description: Got a linked account list
@@ -96,20 +108,14 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Link"
-        404:
-          description: User does not exists.
     put:
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
+      tags:
+        - links
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Link"
+              $ref: "#/components/schemas/NewLink"
       responses:
         200:
           description: Added a link to this user.
@@ -117,42 +123,32 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Link"
-  "/user/links/:id":
+  "/user/{user}/links/{link}":
+    parameters:
+      - in: path
+        required: true
+        name: user
+      - in: path
+        required: true
+        name: link
     delete:
-      parameters:
-        - in: path
-          required: true
-          name: id
-          schema:
-            type: string
+      tags:
+        - links
       responses:
         200:
           description: Succesfully deleted the link
+
+  "/user/{user}/webauth":
+    parameters:
+      - in: path
+        name: user
+        required: true
     get:
-      parameters:
-        - in: path
-          required: true
-          name: id
-          schema:
-            type: string
+      tags:
+        - webauth
       responses:
         200:
-          description: Got a link from the database.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Link"
-  "/user/:id/webauth":
-    get:
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: Got a webauth key
+          description: List of the linked keys.
           content:
             application/json:
               schema:
@@ -160,17 +156,13 @@ paths:
                 items:
                   $ref: "#/components/schemas/WebAuthKey"
     put:
+      tags:
+        - webauth
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/WebAuthKey"
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
+              $ref: "#/components/schemas/WebAuthCreate"
       responses:
         200:
           description: Created a webauth key.
@@ -178,76 +170,31 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/WebAuthKey"
-  "/user/webauth/:id":
-    get:
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: Got a webauth key.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/WebAuthKey"
+  "/user/{user}/webauth/{key}":
+    parameters:
+      - in: path
+        name: user
+        required: true
+      - in: path
+        name: key
+        required: true
     delete:
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
+      tags:
+        - webauth
       responses:
         200:
           description: Deleted a key.
-  "/link/:platform/:id": # /link/discord/<discordid> -> User
-    get:
-      parameters:
-        - in: path
-          name: platform
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: Got a user with this link.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
+
 
   "/login":
     post:
+      tags:
+        - login
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserLoginRequest"
-      description: |
-        The login endpoint takes data from the client in order
-        to complete the auth process. If the auth is not complete
-        the first time, it will return a sessionId.
-      parameters:
-        - in: query
-          name: method
-          description: Login methods separated by ,
-          required: true
-          schema:
-            type: string
-        - in: query
-          name: loginSession
-          description: Login session
-          required: false
-          schema:
-            type: string
+              $ref: "#/components/schemas/Login"
       responses:
         200:
           description: User logged in and returned.
@@ -255,98 +202,208 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
-        202:
-          description: User need more information, session created.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  sessionId:
-                    type: string
-        404:
-          description: User does not exists.
 
 components:
   schemas:
-    User:
-      type: object
-      properties:
-        username:
-          type: string
-        private:
-          type: boolean
-        roles:
-          type: number
-        avatar:
-          type: string
-        ban:
-          type: string
-        links:
-          type: array
-          items:
-            $ref: "#/components/schemas/Link"
-        keys:
-          type: array
-          items:
-            $ref: "#/components/schemas/WebAuthKey"
-    UserLoginRequest:
-      type: object
-
-    Link:
-      type: object
-      properties:
-        name:
-          type: string
-        platform:
-          type: string
+    # WebAuth Section
     WebAuthKey:
       type: object
-
-    LoginRequest:
+      description: WebAuthKey represents a available webauthn key for the user to login with.
+      required:
+        - id
+        - user_id
+        - credential_id
+        - created_at
+      readOnly: true
+      properties:
+        id:
+          type: string
+          pattern: uuidv4
+          description: The unique identifier for this credential.
+        user_id:
+          type: string
+          pattern: uuidv4
+          description: The unique identifier of the user.
+        credential_id:
+          type: string
+          description: The credential id of the auth device.
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    WebAuthCreate:
       type: object
+      description: WebAuthCreate represents the needed data to create a key for the user.
+      required:
+        - credential_id
+        - public_key
+      properties:
+        credential_id:
+          type: string
+          description: The credential id of the new device.
+        public_key:
+          type: array
+          items:
+            type: number
+          description: The public key as an array of bytes.
+
+    # User section
+    User:
+      type: object
+      description: User is the representation of a Developer's House user.
+      required:
+        - id
+        - username
+        - private
+        - roles
+        - avatar
+        - a2f
+        - created_at
+      properties:
+        id:
+          type: string
+          pattern: uuidv4
+          description: The unique id of the user.
+        username:
+          type: string
+          description: The username of the user.
+        private:
+          type: boolean
+          description: Is the user account a private account?
+        roles:
+          type: integer
+          description: The roles attribued to this user.
+        ban:
+          type: string
+          description: Will be filled by the reason if the user is banned.
+        avatar:
+          type: string
+          description: The avatar associated to the user in s3
+        a2f:
+          type: boolean
+          description: Is two factor auth enabled for this user?
+        updated_at:
+          type: string
+          format: date-time
+          description: The date of the last update of this account.
+        created_at:
+          type: string
+          format: date-time
+          description: The creation date of the account.
+
+    UserCreate:
+      type: object
+      description: UserCreate described the data needed for a user to be created.
+      required:
+        - platform
+        - platform_id
+        - username
+        - private
+        - avatar
       properties:
         platform:
-          type: object
-          properties:
-            name:
-              type: string
-            id:
-              type: string
-        webAuth:
-          type: object
-          properties:
-            keyName:
-              type: string
-            signature:
-              type: string
+          type: string
+          description: The name of the platform user to log-in.
+        platform_id:
+          description: The user id of the user on the login platform.
+          type: string
+        username:
+          description: The username of the new user.
+          type: string
+        private:
+          description: Is the account public by default
+          type: boolean
+        avatar:
+          description: The already-uploaded user account on s3.
+          type: string
 
-    LoginResponse:
+    UserUpdate:
+      type: object
+      description: UserUpdate described all the available fields for the user.
+      properties:
+        username:
+          description: The new username of the user.
+          type: string
+        private:
+          description: The new private setting of the user.
+          type: string
+        roles:
+          description: The new role of the user.
+          type: integer
+        twofa:
+          description: The new 2fa setting of the user.
+          type: boolean
+        avatar:
+          description: The new avatar of the user.
+          type: string
+
+    # Link section
+    Link:
+      type: object
+      description: A link describes a connection to an external account.
+      required:
+        - id
+        - platform
+        - platform_id
+        - user_id
+        - created_at
+      readOnly: true
+      properties:
+        id:
+          description: The unique if of the link.
+          type: string
+          pattern: uuidv4
+        platform:
+          description: The platform of the link.
+          type: string
+        platform_id:
+          description: The user id on the platform.
+          type: string
+        user_id:
+          description: The devhouse account linked to this link.
+          type: string
+        created_at:
+          description: The creation date of the link.
+          type: string
+          format: date-time
+        updated_at:
+          description: The last update of the link (may be always null)
+          type: string
+          format: date-time
+
+    NewLink:
+      description: NewLink represents the data needed for a link to be created.
       type: object
       required:
-        - status
-        - validationId
+        - platform
+        - platform_id
       properties:
-        status:
+        platform:
+          description: The platform used.
           type: string
-          enum:
-            - "success"
-            - "webauthn-required"
-            - "failed"
+        platform_id:
+          description: The user id on this platform.
+          type: string
 
-        user:
-          $ref: "#/components/schemas/User"
-
-        webAuth:
+    Login:
+      description: Login request.
+      type: object
+      required:
+        - with_platform
+      properties:
+        with_platform:
           type: object
           properties:
-            validationId:
+            platform_id:
               type: string
-            keys:
-              type: array
-              items:
-                properties:
-                  name:
-                    type: string
-                  key:
-                    type: string
+            platform_name:
+              type: string
+        with_webauthn:
+          type: object
+        with_otp:
+          type: object
+          properties:
+            code:
+              type: integer
