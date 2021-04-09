@@ -6,8 +6,9 @@ longDescription: |
   International Media Referencing is an online web database which references a great deal of multimedia
   content such as movies or series. The goal is to purpose an alternative to other online databases
   (IMDB, TMDB) while adding features like Wikipedia or Fandom (detailled information, casting, original
-  soundtrack, etc... Everyone who possess a verified account can add or edit content to contribute.
+  soundtrack, etc...). Everyone who possesses a verified account on the platform can add or edit content
+  to contribute.
 members:
-  - id: "537979556259430411"
+  - id: "537979556259430411" # Kylian
 managers:
-  - id: "537979556259430411"
+  - id: "537979556259430411" # Kylian

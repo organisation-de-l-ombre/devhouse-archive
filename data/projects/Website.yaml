@@ -1,0 +1,15 @@
+name: Developer's House website
+normalizedName: website
+logo: https://s3.developershouse.xyz/website-assets/projects/website/DevHouse_Icon.png
+shortDescription: The main website of the Developer's House organization.
+longDescription: |
+  It is even the website you are currently on! It allows you to see our projects, our
+  members, and to get detailed information on them. You can also manage your
+  Developer's House account and the authorizations you delivered. You will find all
+  other information you need such as news, contact ways, or to know more about us yet.
+members:
+  - id: "314354049023737857" # Matthieu
+  - id: "537979556259430411" # Kylian
+managers:
+  - id: "314354049023737857" # Matthieu
+  - id: "537979556259430411" # Kylian

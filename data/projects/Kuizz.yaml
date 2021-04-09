@@ -8,7 +8,7 @@ longDescription: |
   available on all platforms, such as Android, IOS and in your
   web browser. Kuizz will be cross-platform and free for everyone.
 members:
-  - id: "314354049023737857"
+  - id: "314354049023737857" # Matthieu
 managers:
-  - id: "264867653271814144"
+  - id: "314354049023737857" # Matthieu
 logo: https://s3.developershouse.xyz/website-assets/projects/website/Kuizz_logo.png
