@@ -23,3 +23,8 @@ health:
     scheme: "HTTP"
     probeType: "httpGet"
     command: []
+
+service:
+  externalPort: 80
+  # The port of your application goes here.
+  internalPort: 8000
