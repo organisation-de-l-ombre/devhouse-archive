@@ -60,8 +60,7 @@ package:
   script:
     - apt-get update -y
     - apt-get install jq -y
-    - yarn
-    - npw openapi-generator-cli generate -i openapi.yaml -g typescript-fetch -o gen
+    - npx openapi-generator-cli generate -i openapi.yaml -g typescript-fetch -o gen
     - cd gen
     - yarn
     - yarn build
