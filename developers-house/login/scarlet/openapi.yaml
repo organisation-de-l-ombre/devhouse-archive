@@ -194,37 +194,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserLoginRequest"
-      description: |
-        The login endpoint takes data from the client in order
-        to complete the auth process. If the auth is not complete
-        the first time, it will return a sessionId.
-      parameters:
-        - in: query
-          name: method
-          description: Login methods separated by ,
-          required: true
-          schema:
-            type: string
-        - in: query
-          name: loginSession
-          description: Login session
-          required: false
-          schema:
-            type: string
+              $ref: "#/components/schemas/Login"
       responses:
         200:
           description: User logged in and returned.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Login"
-        202:
-          description: User need more information, session created.
-          content:
-            application/json:
-              schema:
-                type: object
                 $ref: "#/components/schemas/User"
 
 components:
