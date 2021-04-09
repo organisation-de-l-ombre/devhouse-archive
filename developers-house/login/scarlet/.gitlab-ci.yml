@@ -57,9 +57,6 @@ package:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
       - .npm/
-  only:
-    changes:
-      - openapi.yaml
   script:
     - apt-get update -y
     - apt-get install jq -y
