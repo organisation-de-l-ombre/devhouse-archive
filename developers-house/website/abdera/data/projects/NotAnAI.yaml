@@ -1,0 +1,13 @@
+name: Not An AI
+normalizedName: alma
+logo: 
+shortDescription: A project of development and deployment of different AIs.
+longDescription: |
+  Not An AI is a project aiming at developing and deploying different
+  artificial intelligences (AI) to help humans in different daily tasks
+  or in very specific cases that require complex calculations and different approaches.
+members:
+  - id: "357595301210619904" # icecodder
+managers:
+  - id: "357595301210619904" # icecodder
+link:
