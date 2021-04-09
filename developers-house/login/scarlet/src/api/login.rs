@@ -115,8 +115,14 @@ pub fn check_otp(data: &WithOTP, user: &User) -> bool {
     if user.otpkey.is_some() {
         let totp = make_totp(user.otpkey.as_ref().unwrap(), 30, 30);
         match totp {
-            Ok(processed_code) => data.code == processed_code,
-            Err(_) => false,
+            Ok(processed_code) => {
+                println!("Expected code {}", processed_code);
+                data.code == processed_code
+            },
+            Err(e) => {
+                println!("Failed.");
+                false
+            },
         }
     } else {
         false
