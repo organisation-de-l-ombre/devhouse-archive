@@ -50,7 +50,7 @@ pub fn do_user_login(data: LoginDataPost, db: ScarletDB) -> Result<User, Scarlet
 
         return match rec_link {
             Ok(res) => {
-                if res.len() == 1 {
+                if res.len() >= 1 {
                     let count: Vec<User> = res
                         .into_iter()
                         .map::<User, _>(|val: (User, Option<Link>)| return val.0)
