@@ -26,6 +26,7 @@ const reducer = combineReducers({
 const persistConfiguration = {
   key: "root",
   storage,
+  blacklist: ["notifications"],
 };
 const syncConfiguration = {
   blacklist: [
