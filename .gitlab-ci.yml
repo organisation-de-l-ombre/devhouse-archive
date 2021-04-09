@@ -17,6 +17,8 @@ package:
   only:
     changes:
       - openapi.yaml
+    refs:
+      - master
   script:
     - yarn
     - yarn gen:client
