@@ -10,6 +10,7 @@ pub struct WebAuthKey {
     pub id: Uuid,
     pub user_id: Uuid,
     pub credential_id: String,
+    #[serde(skip_serializing)]
     pub public_key: Vec<u8>,
     pub updated_at: Option<NaiveDateTime>,
     pub created_at: NaiveDateTime,
