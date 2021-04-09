@@ -1,23 +1,23 @@
-import { FaMoon, FaSun, FaUser, FaBell, FaBellSlash } from "react-icons/all";
+import { FaMoon, FaSun, FaUser, FaBell, FaBellSlash } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
+import generateNotificationID from "@lib/generateNotificationID";
+import { useLanguage } from "@hooks/Language";
+import { useNavbar } from "@hooks/Navbar";
+import {
+  useNotificationsManager,
+  useNotificationsState,
+} from "@hooks/Notifications";
+import { useTheme } from "@hooks/Theme";
+import { useUser } from "@hooks/User";
 import styles from "./Navbar.module.scss";
 import Button from "../../ui/Button/Button";
 import Image from "../../ui/Image/Image";
 import { getAvatar } from "../../../store/user/Login";
-import useLanguage from "../../../hooks/Language/Language";
-import useTheme from "../../../hooks/Theme/Theme";
-import useUser from "../../../hooks/User/User";
 import NotificationsModal from "../../ui/Notifications/NotificationsModal/NotificationsModal";
 import LanguageModal from "./LanguageModal";
-import {
-  useNotificationsManager,
-  useNotificationsState,
-} from "../../../hooks/Notifications/Notifications";
-import generateNotificationID from "../../../lib/generateNotificationID";
 import DisplayLanguageSVG from "../DisplayLanguageSVG/DisplayLanguageSVG";
-import useNavbar from "../../../hooks/Navbar/Navbar";
 import IMRMinimalLogo from "../../../assets/pictures/imr/imr-minimal.png";
 
 const Navbar = (): React.ReactElement => {

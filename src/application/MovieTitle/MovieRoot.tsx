@@ -1,6 +1,9 @@
 import React from "react";
 import { RouteComponentProps } from "react-router";
 import { Trans, useTranslation } from "react-i18next";
+import generateNotificationID from "@lib/generateNotificationID";
+import { useNotificationsManager } from "@hooks/Notifications";
+import { useLanguage } from "@hooks/Language";
 import flexContainerStyles from "../../components/ui/FlexContainer/FlexContainer.module.scss";
 import globalStyles from "../../themes/Global.module.scss";
 import FlexContainer from "../../components/ui/FlexContainer/FlexContainer";
@@ -9,9 +12,6 @@ import MovieInternalNavigation from "./modules/MovieInternalNavigation/MovieInte
 import MovieRouter from "./modules/Router/MovieRouter";
 import NotFound from "../../components/modules/NotFound/NotFound";
 import BackToTop from "../../components/modules/BackToTop/BackToTop";
-import { useNotificationsManager } from "../../hooks/Notifications/Notifications";
-import generateNotificationID from "../../lib/generateNotificationID";
-import useLanguage from "../../hooks/Language/Language";
 import GenericLoader from "../../components/ui/GenericLoader/GenericLoader";
 import { S3DataResponse } from "./types";
 

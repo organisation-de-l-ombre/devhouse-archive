@@ -2,19 +2,19 @@
 import React from "react";
 import { useTranslation, Trans } from "react-i18next";
 import { FcCheckmark } from "react-icons/fc";
+import generateNotificationID from "@lib/generateNotificationID";
+import {
+  useNotificationsManager,
+  useNotificationsPreferences,
+  useNotificationsState,
+} from "@hooks/Notifications";
 import Modal from "../../Modal/Modal";
 import modalStyles from "../../Modal/Modal.module.scss";
 import globalStyles from "../../../../themes/Global.module.scss";
 import SelectList, { manageSelection } from "../../SelectList/SelectList";
 import Button from "../../Button/Button";
 import styles from "./NotificationsModal.module.scss";
-import generateNotificationID from "../../../../lib/generateNotificationID";
 import i18n from "../../../../languages/i18n";
-import {
-  useNotificationsManager,
-  useNotificationsPreferences,
-  useNotificationsState,
-} from "../../../../hooks/Notifications/Notifications";
 
 const NotificationsModal: React.FC<
   React.DetailedHTMLProps<

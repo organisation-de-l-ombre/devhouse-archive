@@ -4,10 +4,10 @@ import { Action } from "redux";
 import { RequestContext, UserAPIApi } from "@developers-house/abdera";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
-import { register } from "./lib/serviceWorker";
+import { register } from "@lib/serviceWorker";
+import generateNotificationID from "@lib/generateNotificationID";
 import { persistor, store } from "./store/Store";
 import { pushNotifications } from "./store/notifications/Actions";
-import generateNotificationID from "./lib/generateNotificationID";
 
 const Application = React.lazy(() => import("./application/Application"));
 

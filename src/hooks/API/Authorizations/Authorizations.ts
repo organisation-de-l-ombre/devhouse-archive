@@ -7,11 +7,11 @@ import {
 } from "react-query";
 import { Authorization } from "@developers-house/abdera";
 import { useTranslation } from "react-i18next";
-import { DevHouseUserAPI } from "../../../lib/api";
-import { useNotificationsManager } from "../../Notifications/Notifications";
-import generateNotificationID from "../../../lib/generateNotificationID";
-import useUser from "../../User/User";
-import getApplicationID from "../../../lib/getApplicationID";
+import { DevHouseUserAPI } from "@lib/api";
+import generateNotificationID from "@lib/generateNotificationID";
+import getApplicationID from "@lib/getApplicationID";
+import { useNotificationsManager } from "@hooks/Notifications";
+import { useUser } from "@hooks/User";
 
 const useAuthorizationsError = (): ((error?: Error) => Error) => {
   const { t } = useTranslation("pages\\account\\sections\\authorizations");

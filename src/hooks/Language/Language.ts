@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import React from "react";
+import generateNotificationID from "@lib/generateNotificationID";
+import { useNotificationsManager } from "@hooks/Notifications";
 import { Language } from "../../store/language/Types";
 import { GlobalState } from "../../store/Types";
 import i18n from "../../languages/i18n";
 import changeLanguage from "../../store/language/Actions";
-import { useNotificationsManager } from "../Notifications/Notifications";
-import generateNotificationID from "../../lib/generateNotificationID";
 import { LanguageHook } from "./Types";
 
 const useLanguage = (): LanguageHook => {
@@ -24,7 +24,7 @@ const useLanguage = (): LanguageHook => {
     }
 
     dispatch(changeLanguage(languageState));
-    i18n.changeLanguage(languageState);
+    await i18n.changeLanguage(languageState);
     setLanguageState("default");
     if (setLanguageWindowOpen) {
       setLanguageWindowOpen(false);

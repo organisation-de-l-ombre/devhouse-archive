@@ -1,12 +1,12 @@
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
+import { useLanguage } from "@hooks/Language";
 import modalStyles from "../../ui/Modal/Modal.module.scss";
 import globalStyles from "../../../themes/Global.module.scss";
 import SelectList, { manageSelection } from "../../ui/SelectList/SelectList";
 import { supportedLanguages } from "../../../store/language/Types";
 import Button from "../../ui/Button/Button";
 import Modal from "../../ui/Modal/Modal";
-import useLanguage from "../../../hooks/Language/Language";
 import DisplayLanguageSVG from "../DisplayLanguageSVG/DisplayLanguageSVG";
 
 const LanguageModal: React.FC<

@@ -1,9 +1,9 @@
 import React from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { useNotificationsState } from "@hooks/Notifications";
 import styles from "./NotificationsGroup.module.scss";
 import { Notification } from "../../../../store/notifications/Types";
 import NotificationComponent from "../Notification/Notification";
-import { useNotificationsState } from "../../../../hooks/Notifications/Notifications";
 import "./Animations.scss";
 
 const NotificationsGroup = (): React.ReactElement => {

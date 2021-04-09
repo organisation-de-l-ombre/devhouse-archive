@@ -4,7 +4,7 @@ interface LanguagePayload {
   type: string;
   payload: Language;
 }
-interface LanguageState {
+interface LanguageReducerState {
   language: Language;
 }
 
@@ -14,7 +14,7 @@ const supportedLanguages = ["en", "fr"];
 export {
   Language,
   LanguagePayload,
-  LanguageState,
+  LanguageReducerState,
   LANGUAGE_UPDATED,
   supportedLanguages,
 };

@@ -1,9 +1,9 @@
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
+import { useUser } from "@hooks/User";
 import styles from "./AccountHeaders.module.scss";
 import flexContainerStyles from "../../../../components/ui/FlexContainer/FlexContainer.module.scss";
 import globalStyles from "../../../../themes/Global.module.scss";
-import useUser from "../../../../hooks/User/User";
 import { getAvatar } from "../../../../store/user/Login";
 import FlexContainer from "../../../../components/ui/FlexContainer/FlexContainer";
 

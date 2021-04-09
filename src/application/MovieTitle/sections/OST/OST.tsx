@@ -1,6 +1,7 @@
 import React from "react";
 import { SiSpotify, SiDeezer, SiApplemusic } from "react-icons/si";
 import { FaMusic, FaPlay } from "react-icons/fa";
+import detectMobileDevice from "@lib/detectMobileDevice";
 import styles from "./OST.module.scss";
 import containerStyle from "../../Containers.module.scss";
 import flexContainerStyles from "../../../../components/ui/FlexContainer/FlexContainer.module.scss";
@@ -20,7 +21,6 @@ import {
   TrailerObject,
   VideoObject,
 } from "../../types";
-import detectMobileDevice from "../../../../lib/detectMobileDevice";
 
 const DisplaySVG = ({ type }: { type: string }): React.ReactElement => {
   switch (type) {

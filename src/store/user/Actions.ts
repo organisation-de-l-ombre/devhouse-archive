@@ -9,7 +9,7 @@ const createUser = (payload: UserObject): Action => {
 };
 const deleteUser = (): Action => {
   return (dispatch: Dispatch): void => {
-    dispatch({ type: USER_DELETED, payload: null });
+    dispatch({ type: USER_DELETED, payload: undefined });
   };
 };
 

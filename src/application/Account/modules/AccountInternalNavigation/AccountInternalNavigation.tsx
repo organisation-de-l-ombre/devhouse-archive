@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink, useRouteMatch } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
-import useTabBar from "../../../../hooks/TabBar/TabBar";
+import { useTabBar } from "@hooks/TabBar";
 import TabBar from "../../../../components/modules/TabBar/TabBar";
 import tabBarStyles from "../../../../components/modules/TabBar/TabBar.module.scss";
 

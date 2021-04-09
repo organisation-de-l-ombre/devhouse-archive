@@ -1,6 +1,4 @@
-interface NavbarManagement {
+export interface NavbarManagement {
   open: boolean;
   manageNavbar: () => void;
 }
-
-export { NavbarManagement };

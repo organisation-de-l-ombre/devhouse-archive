@@ -1,8 +1,8 @@
 import React from "react";
 import { NavLink, useRouteMatch } from "react-router-dom";
+import { useTabBar } from "@hooks/TabBar";
 import TabBar from "../../../../components/modules/TabBar/TabBar";
 import tabBarStyles from "../../../../components/modules/TabBar/TabBar.module.scss";
-import useTabBar from "../../../../hooks/TabBar/TabBar";
 import { S3DataResponse } from "../../types";
 
 const MovieInternalNavigation: React.FC<

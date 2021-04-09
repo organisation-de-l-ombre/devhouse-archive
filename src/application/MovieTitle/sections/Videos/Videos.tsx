@@ -1,4 +1,5 @@
 import React from "react";
+import detectMobileDevice from "@lib/detectMobileDevice";
 import styles from "./Videos.module.scss";
 import containerStyle from "../../Containers.module.scss";
 import flexContainerStyles from "../../../../components/ui/FlexContainer/FlexContainer.module.scss";
@@ -12,7 +13,6 @@ import {
   VideoObject,
   VideosSection as VideosSectionType,
 } from "../../types";
-import detectMobileDevice from "../../../../lib/detectMobileDevice";
 
 const VideosSection: ReactMovieElement = ({ dataResponse }) => {
   const { videos } = dataResponse;

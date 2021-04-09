@@ -1,7 +1,8 @@
 import { USER_CREATED, USER_DELETED, UserPayload, UserState } from "./Types";
 
 const userState: UserState = { user: undefined };
-const userReducer = (
+
+const UserReducer = (
   state: UserState = userState,
   { type, payload: user }: UserPayload
 ): UserState => {
@@ -17,5 +18,4 @@ const userReducer = (
   }
 };
 
-export default userReducer;
-export { userState };
+export { userState, UserReducer };

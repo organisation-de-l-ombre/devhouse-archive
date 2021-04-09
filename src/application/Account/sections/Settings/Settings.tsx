@@ -4,6 +4,14 @@ import Toggle from "react-toggle";
 import { FaSun, FaMoon } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { GoCheck } from "react-icons/go";
+import generateNotificationID from "@lib/generateNotificationID";
+import { useLanguage } from "@hooks/Language";
+import {
+  useNotificationsManager,
+  useNotificationsPreferences,
+  useNotificationsState,
+} from "@hooks/Notifications";
+import { useTheme } from "@hooks/Theme";
 import flexContainerStyles from "../../../../components/ui/FlexContainer/FlexContainer.module.scss";
 import containerStyle from "../../Containers.module.scss";
 import globalStyles from "../../../../themes/Global.module.scss";
@@ -11,20 +19,12 @@ import cardStyles from "../../../../components/ui/Card/Card.module.scss";
 import styles from "./Settings.module.scss";
 import FlexContainer from "../../../../components/ui/FlexContainer/FlexContainer";
 import Card from "../../../../components/ui/Card/Card";
-import useTheme from "../../../../hooks/Theme/Theme";
 import "../../../../themes/Toggle.scss";
 import "./Toggle.scss";
-import {
-  useNotificationsManager,
-  useNotificationsPreferences,
-  useNotificationsState,
-} from "../../../../hooks/Notifications/Notifications";
-import generateNotificationID from "../../../../lib/generateNotificationID";
 import { supportedLanguages } from "../../../../store/language/Types";
 import SelectList, {
   manageSelection,
 } from "../../../../components/ui/SelectList/SelectList";
-import useLanguage from "../../../../hooks/Language/Language";
 import Button from "../../../../components/ui/Button/Button";
 import DisplayLanguageSVG from "../../../../components/modules/DisplayLanguageSVG/DisplayLanguageSVG";
 

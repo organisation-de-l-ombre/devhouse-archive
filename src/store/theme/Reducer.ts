@@ -10,8 +10,10 @@ const detectBrowserColorTheme = (): Theme => {
 
   return "light";
 };
+
 const themeState: ThemeState = { theme: detectBrowserColorTheme() };
-const themeReducer = (
+
+const ThemeReducer = (
   state: ThemeState = themeState,
   { type, payload: theme }: ThemePayload
 ): ThemeState => {
@@ -24,5 +26,4 @@ const themeReducer = (
   }
 };
 
-export default themeReducer;
-export { themeState };
+export { themeState, ThemeReducer };

@@ -8,13 +8,13 @@ import {
   initMessageListener,
   initStateWithPrevTab,
 } from "redux-state-sync";
-import LanguageReducer, { languageState } from "./language/Reducer";
+import { languageState, LanguageReducer } from "./language/Reducer";
 import {
   notificationsState,
   NotificationsReducer,
 } from "./notifications/Reducer";
-import ThemeReducer, { themeState } from "./theme/Reducer";
-import UserReducer, { userState } from "./user/Reducer";
+import { themeState, ThemeReducer } from "./theme/Reducer";
+import { userState, UserReducer } from "./user/Reducer";
 import { GlobalState } from "./Types";
 
 const reducer = combineReducers({

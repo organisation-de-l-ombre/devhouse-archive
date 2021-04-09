@@ -1,5 +1,6 @@
 import React from "react";
 import { FaWindowClose } from "react-icons/fa";
+import { useNotificationsManager } from "@hooks/Notifications";
 import {
   Notification,
   Button as ButtonType,
@@ -7,7 +8,6 @@ import {
 import styles from "./Notification.module.scss";
 import globalStyles from "../../../../themes/Global.module.scss";
 import Button from "../../Button/Button";
-import { useNotificationsManager } from "../../../../hooks/Notifications/Notifications";
 import ButtonsGroup from "../../ButtonsGroup/ButtonsGroup";
 
 const NotificationComponent: React.FC<

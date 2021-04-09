@@ -1,6 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { FaPlay, MdMovie } from "react-icons/all";
+import detectMobileDevice from "@lib/detectMobileDevice";
+import { useLanguage } from "@hooks/Language";
 import styles from "./MovieHeaders.module.scss";
 import containerStyle from "../../Containers.module.scss";
 import FlexContainer from "../../../../components/ui/FlexContainer/FlexContainer";
@@ -9,8 +11,6 @@ import globalStyles from "../../../../themes/Global.module.scss";
 import Button from "../../../../components/ui/Button/Button";
 import YouTubePlayer from "../../../../components/ui/YouTubePlayer/YouTubePlayer";
 import { S3DataResponse, TrailerObject } from "../../types";
-import useLanguage from "../../../../hooks/Language/Language";
-import detectMobileDevice from "../../../../lib/detectMobileDevice";
 
 const MovieHeaders: React.FC<
   React.DetailedHTMLProps<

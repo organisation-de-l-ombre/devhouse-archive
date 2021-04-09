@@ -2,10 +2,10 @@ import React from "react";
 import localForage from "localforage";
 import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
+import generateNotificationID from "@lib/generateNotificationID";
+import { useUser } from "@hooks/User";
+import { useNotificationsManager } from "@hooks/Notifications";
 import requestParameters from "./QueriesSelector";
-import useUser from "../../hooks/User/User";
-import { useNotificationsManager } from "../../hooks/Notifications/Notifications";
-import generateNotificationID from "../../lib/generateNotificationID";
 import { ErrorState } from "./Types";
 
 const getLocalForage = async () => {
@@ -93,7 +93,8 @@ const Callback = (): React.ReactElement => {
 
   React.useEffect(() => {
     doLogin();
-  }, [doLogin]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   React.useEffect((): (() => void) => {
     return (): void => {

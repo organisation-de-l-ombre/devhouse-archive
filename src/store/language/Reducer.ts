@@ -1,7 +1,7 @@
 import {
   LANGUAGE_UPDATED,
   LanguagePayload,
-  LanguageState,
+  LanguageReducerState,
   supportedLanguages,
 } from "./Types";
 
@@ -14,11 +14,13 @@ const detectLanguage = (): string => {
 
   return language;
 };
-const languageState: LanguageState = { language: detectLanguage() };
-const languageReducer = (
-  state: LanguageState = languageState,
+
+const languageState: LanguageReducerState = { language: detectLanguage() };
+
+const LanguageReducer = (
+  state: LanguageReducerState = languageState,
   { type, payload: language }: LanguagePayload
-): LanguageState => {
+): LanguageReducerState => {
   switch (type) {
     case LANGUAGE_UPDATED:
       return { ...state, language };
@@ -28,5 +30,4 @@ const languageReducer = (
   }
 };
 
-export default languageReducer;
-export { languageState };
+export { languageState, LanguageReducer };
