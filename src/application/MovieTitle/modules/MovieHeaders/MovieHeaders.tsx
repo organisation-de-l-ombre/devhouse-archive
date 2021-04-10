@@ -3,21 +3,13 @@ import { NavLink } from "react-router-dom";
 import { FaPlay, MdMovie } from "react-icons/all";
 import detectMobileDevice from "@lib/detectMobileDevice";
 import { useLanguage } from "@hooks/Language";
+import { FlexContainer, Button, YouTubePlayer } from "@components/ui";
+import globalStyles from "@themes/Global.module.scss";
 import styles from "./MovieHeaders.module.scss";
 import containerStyle from "../../Containers.module.scss";
-import FlexContainer from "../../../../components/ui/FlexContainer/FlexContainer";
-import flexContainerStyles from "../../../../components/ui/FlexContainer/FlexContainer.module.scss";
-import globalStyles from "../../../../themes/Global.module.scss";
-import Button from "../../../../components/ui/Button/Button";
-import YouTubePlayer from "../../../../components/ui/YouTubePlayer/YouTubePlayer";
-import { S3DataResponse, TrailerObject } from "../../types";
+import { ReactMovieElement, TrailerObject } from "../../types";
 
-const MovieHeaders: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & { dataResponse: S3DataResponse }
-> = ({ dataResponse }) => {
+const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
   const { language } = useLanguage();
   const [trailerWindowOpen, setTrailerWindowOpen] = React.useState<boolean>(
     false
@@ -56,9 +48,7 @@ const MovieHeaders: React.FC<
         ) : (
           <div className={styles["headers-no-background-image"]} />
         )}
-        <FlexContainer
-          className={`${flexContainerStyles.container} ${styles.headers}`}
-        >
+        <FlexContainer className={styles.headers}>
           {dataResponse.headers && dataResponse.headers.moviePoster ? (
             <img
               src={dataResponse.headers.moviePoster}
@@ -69,9 +59,7 @@ const MovieHeaders: React.FC<
           ) : (
             <></>
           )}
-          <FlexContainer
-            className={`${flexContainerStyles.container} ${styles["headers-container"]}`}
-          >
+          <FlexContainer className={styles["headers-container"]}>
             <h1>{dataResponse.title}</h1>
             <h3>
               <i>{dataResponse.companies.join(", ")}</i>

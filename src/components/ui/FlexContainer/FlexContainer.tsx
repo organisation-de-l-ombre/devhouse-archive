@@ -1,14 +1,19 @@
 import React from "react";
-import styles from "./FlexContainer.module.scss";
+import globalStyles from "@themes/Global.module.scss";
 
 const FlexContainer: React.FC<
   React.DetailedHTMLProps<
     React.AllHTMLAttributes<HTMLDivElement>,
     HTMLDivElement
   >
-> = ({ children, ...props }) => {
+> = ({ className, children, ...props }) => {
   return (
-    <div className={styles.container} {...props}>
+    <div
+      className={`${globalStyles.flex} ${globalStyles["flex-full"]}${
+        className ? ` ${className}` : ""
+      }`}
+      {...props}
+    >
       {children}
     </div>
   );

@@ -4,7 +4,7 @@ import { useNotificationsManager } from "@hooks/Notifications";
 import {
   Notification,
   Button as ButtonType,
-} from "../../../../store/notifications/Types";
+} from "@store/notifications/notificationsData";
 import styles from "./Notification.module.scss";
 import globalStyles from "../../../../themes/Global.module.scss";
 import Button from "../../Button/Button";

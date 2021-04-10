@@ -6,9 +6,12 @@ const Card: React.FC<
     React.AllHTMLAttributes<HTMLDivElement>,
     HTMLDivElement
   >
-> = ({ children, ...props }) => {
+> = ({ className, children, ...props }) => {
   return (
-    <div className={styles.container} {...props}>
+    <div
+      className={`${styles.container}${className ? ` ${className}` : ""}`}
+      {...props}
+    >
       {children}
     </div>
   );

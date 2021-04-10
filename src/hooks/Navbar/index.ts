@@ -1,4 +1,2 @@
-import useNavbar from "./Navbar";
-
-export { useNavbar };
+export { default as useNavbar } from "./Navbar";
 export * from "./Types";

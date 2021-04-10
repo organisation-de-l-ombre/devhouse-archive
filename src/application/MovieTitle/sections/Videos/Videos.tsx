@@ -1,11 +1,13 @@
 import React from "react";
 import detectMobileDevice from "@lib/detectMobileDevice";
+import {
+  FlexContainer,
+  Summary,
+  SummaryItem,
+  YouTubePlayer,
+} from "@components/ui";
 import styles from "./Videos.module.scss";
 import containerStyle from "../../Containers.module.scss";
-import flexContainerStyles from "../../../../components/ui/FlexContainer/FlexContainer.module.scss";
-import FlexContainer from "../../../../components/ui/FlexContainer/FlexContainer";
-import { Item, Summary } from "../../../../components/ui/Summary/Summary";
-import YouTubePlayer from "../../../../components/ui/YouTubePlayer/YouTubePlayer";
 import {
   ReactMovieElement,
   SummaryObject,
@@ -24,6 +26,7 @@ const VideosSection: ReactMovieElement = ({ dataResponse }) => {
     videoID: "",
     main: false,
   });
+
   return (
     <>
       <YouTubePlayer
@@ -35,14 +38,16 @@ const VideosSection: ReactMovieElement = ({ dataResponse }) => {
         autoClose
       />
       <FlexContainer
-        className={`${flexContainerStyles.container} ${styles.container} ${containerStyle.container}`}
+        className={`${styles.container} ${containerStyle.container}`}
       >
         <Summary className={containerStyle.summary}>
           {videos.summary.map(
             (item: SummaryObject): React.ReactElement => {
               switch (item.type) {
                 case "item":
-                  return <Item key={item.to} to={item.to} name={item.name} />;
+                  return (
+                    <SummaryItem key={item.to} to={item.to} name={item.name} />
+                  );
 
                 default:
                   return <></>;
@@ -51,19 +56,15 @@ const VideosSection: ReactMovieElement = ({ dataResponse }) => {
           )}
         </Summary>
         {videos.trailers ? (
-          <FlexContainer
-            className={`${flexContainerStyles.container} ${styles["videos-container-root"]}`}
-          >
+          <FlexContainer className={styles["videos-container-root"]}>
             <h1 id={videos.trailers.id}>{videos.trailers.name}</h1>
-            <FlexContainer
-              className={`${flexContainerStyles.container} ${styles["videos-container"]}`}
-            >
+            <FlexContainer className={styles["videos-container"]}>
               {videos.trailers.videos.map(
                 (trailer: TrailerObject): React.ReactElement => {
                   return (
                     <FlexContainer
                       key={trailer.title}
-                      className={`${flexContainerStyles.container} ${styles["video-container"]}`}
+                      className={styles["video-container"]}
                       onClick={() => {
                         const isMobileDevice: boolean = detectMobileDevice();
 
@@ -97,18 +98,16 @@ const VideosSection: ReactMovieElement = ({ dataResponse }) => {
               return (
                 <FlexContainer
                   key={body.name}
-                  className={`${flexContainerStyles.container} ${styles["videos-container-root"]}`}
+                  className={styles["videos-container-root"]}
                 >
                   <h1 id={body.id}>{body.name}</h1>
-                  <FlexContainer
-                    className={`${flexContainerStyles.container} ${styles["videos-container"]}`}
-                  >
+                  <FlexContainer className={styles["videos-container"]}>
                     {body.videos.map(
                       (video: VideoObject): React.ReactElement => {
                         return (
                           <FlexContainer
                             key={video.title}
-                            className={`${flexContainerStyles.container} ${styles["video-container"]}`}
+                            className={styles["video-container"]}
                             onClick={() => {
                               const isMobileDevice: boolean = detectMobileDevice();
 

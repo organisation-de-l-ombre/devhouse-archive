@@ -1,4 +1,2 @@
-import useLanguage from "./Language";
-
-export { useLanguage };
+export { default as useLanguage } from "./Language";
 export * from "./Types";

@@ -1,4 +1,2 @@
-import useUser from "./User";
-
-export { useUser };
+export { default as useUser } from "./User";
 export * from "./Types";

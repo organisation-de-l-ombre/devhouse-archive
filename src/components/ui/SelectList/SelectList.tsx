@@ -1,7 +1,7 @@
 import React from "react";
 import { TiArrowSortedDown } from "react-icons/ti";
+import globalStyles from "@themes/Global.module.scss";
 import styles from "./SelectList.module.scss";
-import globalStyles from "../../../themes/Global.module.scss";
 
 const manageSelection = (id: string, display: "flex" | "none"): void => {
   const item = document.getElementById(id);
@@ -10,6 +10,7 @@ const manageSelection = (id: string, display: "flex" | "none"): void => {
     item.style.display = display;
   }
 };
+
 const SelectList: React.FC<
   React.DetailedHTMLProps<
     React.AllHTMLAttributes<HTMLUListElement>,

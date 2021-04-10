@@ -12,21 +12,14 @@ import {
   useNotificationsState,
 } from "@hooks/Notifications";
 import { useTheme } from "@hooks/Theme";
-import flexContainerStyles from "../../../../components/ui/FlexContainer/FlexContainer.module.scss";
+import globalStyles from "@themes/Global.module.scss";
+import { FlexContainer, Card, SelectList, Button } from "@components/ui";
+import "@themes/Toggle.scss";
+import { supportedLanguages } from "@store/language";
+import { manageSelection } from "@components/ui/SelectList/SelectList";
+import { DisplayLanguageSVG } from "@components/modules";
 import containerStyle from "../../Containers.module.scss";
-import globalStyles from "../../../../themes/Global.module.scss";
-import cardStyles from "../../../../components/ui/Card/Card.module.scss";
 import styles from "./Settings.module.scss";
-import FlexContainer from "../../../../components/ui/FlexContainer/FlexContainer";
-import Card from "../../../../components/ui/Card/Card";
-import "../../../../themes/Toggle.scss";
-import "./Toggle.scss";
-import { supportedLanguages } from "../../../../store/language/Types";
-import SelectList, {
-  manageSelection,
-} from "../../../../components/ui/SelectList/SelectList";
-import Button from "../../../../components/ui/Button/Button";
-import DisplayLanguageSVG from "../../../../components/modules/DisplayLanguageSVG/DisplayLanguageSVG";
 
 const Settings = (): React.ReactElement => {
   const { t } = useTranslation("pages\\account\\sections\\settings");
@@ -36,7 +29,7 @@ const Settings = (): React.ReactElement => {
   const { allowNotifications } = useNotificationsState();
   const { updatePreference } = useNotificationsPreferences();
   const { setLanguageState, validateLanguage } = useLanguage();
-  const changeTheme = (): void => {
+  const changeTheme = React.useCallback((): void => {
     switchTheme();
 
     addNotifications([
@@ -51,26 +44,26 @@ const Settings = (): React.ReactElement => {
         time: 5000,
       },
     ]);
-  };
-  const changeNotificationsPreferences = (): void => {
+  }, [addNotifications, switchTheme, t, theme]);
+  const changeNotificationsPreferences = React.useCallback((): void => {
     updatePreference(!allowNotifications);
 
     addNotifications([
       {
         id: generateNotificationID(),
         type: "info",
-        body: t("websitePreferences.notifications.preferencesUpdated"),
+        body: t("websiteParameters.notifications.preferencesUpdated"),
         time: 5000,
       },
     ]);
-  };
+  }, [addNotifications, allowNotifications, t, updatePreference]);
 
   return (
     <FlexContainer
-      className={`${flexContainerStyles.container} ${containerStyle.container} ${globalStyles["page-body-width"]}`}
+      className={`${containerStyle.container} ${globalStyles["page-body-width"]}`}
     >
       <Card
-        className={`${cardStyles.container} ${containerStyle.card} ${globalStyles.column} ${globalStyles["no-margin"]}`}
+        className={`${containerStyle.card} ${globalStyles.column} ${globalStyles["no-margin"]}`}
       >
         <h2>
           <Trans t={t} i18nKey="websiteParameters.title" />
@@ -95,7 +88,7 @@ const Settings = (): React.ReactElement => {
               <Trans t={t} i18nKey="websiteParameters.notifications.title" />
             </h3>
             <Toggle
-              checked={!!allowNotifications}
+              checked={allowNotifications}
               className="settings-toggle"
               icons={{
                 checked: <GoCheck />,
@@ -109,7 +102,7 @@ const Settings = (): React.ReactElement => {
               <Trans t={t} i18nKey="websiteParameters.language.title" />
             </h3>
             <div
-              className={` ${globalStyles.flex} ${globalStyles["flex-wrap"]}`}
+              className={`${globalStyles.flex} ${globalStyles["flex-wrap"]}`}
             >
               <SelectList
                 className={styles.buttons}

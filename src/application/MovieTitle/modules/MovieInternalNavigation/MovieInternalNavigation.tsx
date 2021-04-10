@@ -1,16 +1,10 @@
 import React from "react";
 import { NavLink, useRouteMatch } from "react-router-dom";
 import { useTabBar } from "@hooks/TabBar";
-import TabBar from "../../../../components/modules/TabBar/TabBar";
-import tabBarStyles from "../../../../components/modules/TabBar/TabBar.module.scss";
-import { S3DataResponse } from "../../types";
+import { TabBar, tabBarStyles } from "@components/modules";
+import { ReactMovieElement } from "../../types";
 
-const MovieInternalNavigation: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & { dataResponse: S3DataResponse }
-> = ({ dataResponse }) => {
+const MovieInternalNavigation: ReactMovieElement = ({ dataResponse }) => {
   const baseURL: string = useRouteMatch().path.replace(
     ":title",
     dataResponse.id
@@ -18,7 +12,7 @@ const MovieInternalNavigation: React.FC<
   const { open, manageTabBar } = useTabBar();
 
   return (
-    <TabBar open={open} manageTabBar={manageTabBar}>
+    <TabBar id="movie-page-navigation" open={open} manageTabBar={manageTabBar}>
       <NavLink
         to={baseURL}
         exact

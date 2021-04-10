@@ -2,16 +2,17 @@ import React from "react";
 import { SiSpotify, SiDeezer, SiApplemusic } from "react-icons/si";
 import { FaMusic, FaPlay } from "react-icons/fa";
 import detectMobileDevice from "@lib/detectMobileDevice";
+import {
+  FlexContainer,
+  Summary,
+  SummaryItem,
+  Button,
+  Card,
+  YouTubePlayer,
+} from "@components/ui";
 import styles from "./OST.module.scss";
 import containerStyle from "../../Containers.module.scss";
-import flexContainerStyles from "../../../../components/ui/FlexContainer/FlexContainer.module.scss";
-import cardStyles from "../../../../components/ui/Card/Card.module.scss";
 import globalStyles from "../../../../themes/Global.module.scss";
-import FlexContainer from "../../../../components/ui/FlexContainer/FlexContainer";
-import { Summary, Item } from "../../../../components/ui/Summary/Summary";
-import Button from "../../../../components/ui/Button/Button";
-import Card from "../../../../components/ui/Card/Card";
-import YouTubePlayer from "../../../../components/ui/YouTubePlayer/YouTubePlayer";
 import {
   ReactMovieElement,
   StreamingObject,
@@ -34,6 +35,7 @@ const DisplaySVG = ({ type }: { type: string }): React.ReactElement => {
       return <FaMusic />;
   }
 };
+
 const OSTSection: ReactMovieElement = ({ dataResponse }) => {
   const { ost } = dataResponse;
   const [playerOpen, setPlayerOpen] = React.useState<boolean>(false);
@@ -78,14 +80,16 @@ const OSTSection: ReactMovieElement = ({ dataResponse }) => {
         <></>
       )}
       <FlexContainer
-        className={`${flexContainerStyles.container} ${styles.container} ${containerStyle.container}`}
+        className={`${styles.container} ${containerStyle.container}`}
       >
         <Summary className={containerStyle.summary}>
           {ost.summary.map(
             (item: SummaryObject): React.ReactElement => {
               switch (item.type) {
                 case "item":
-                  return <Item key={item.to} to={item.to} name={item.name} />;
+                  return (
+                    <SummaryItem key={item.to} to={item.to} name={item.name} />
+                  );
 
                 default:
                   return <></>;
@@ -96,7 +100,7 @@ const OSTSection: ReactMovieElement = ({ dataResponse }) => {
         {ost.album ? (
           <FlexContainer
             id={ost.album.id}
-            className={`${flexContainerStyles.container} ${globalStyles.column} ${containerStyle["generic-margin-top"]}`}
+            className={`${globalStyles.column} ${containerStyle["generic-margin-top"]}`}
           >
             <h1>{ost.album.name}</h1>
             <div className={styles["album-container"]}>
@@ -141,7 +145,7 @@ const OSTSection: ReactMovieElement = ({ dataResponse }) => {
               <FlexContainer
                 key={body.name}
                 id={body.id}
-                className={`${flexContainerStyles.container} ${globalStyles.column} ${containerStyle["generic-margin-top"]}`}
+                className={`${globalStyles.column} ${containerStyle["generic-margin-top"]}`}
               >
                 <h1>{body.name}</h1>
                 {body.tracks.map(
@@ -149,7 +153,7 @@ const OSTSection: ReactMovieElement = ({ dataResponse }) => {
                     return (
                       <Card
                         key={track.title}
-                        className={`${cardStyles.container} ${styles["card-container"]}`}
+                        className={styles["card-container"]}
                       >
                         <h2>{track.title}</h2>
                         {track.VOTitle ? (

@@ -1,27 +1,33 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { GlobalState } from "../../store/Types";
-import {
-  clearNotifications,
-  pushNotifications,
-  removeNotification,
-  setFirstUse,
-  updateNotificationsPermissions,
-} from "../../store/notifications/Actions";
-import {
-  Notification,
-  NotificationsReducerState,
-} from "../../store/notifications/Types";
 import {
   NotificationsManagerHook,
   NotificationsPreferencesHook,
 } from "./Types";
+import { GlobalState } from "@store/Types";
+import {
+  setFirstUse,
+  updateNotificationsPermissions,
+  NotificationsConfigState,
+} from "@store/notifications/notificationsConfig";
+import {
+  pushNotifications,
+  removeNotification,
+  removeAllNotifications,
+  Notification,
+  NotificationsDataState,
+} from "@store/notifications/notificationsData";
 
-const useNotificationsState = (): NotificationsReducerState => {
-  return useSelector(
-    (state: GlobalState): NotificationsReducerState => state.notifications
+const useNotificationsState = (): NotificationsConfigState & NotificationsDataState => {
+  const notificationsConfig = useSelector(
+    (state: GlobalState): NotificationsConfigState => state.notificationsConfig
   );
+  const notificationsData = useSelector(
+    (state: GlobalState): NotificationsDataState => state.notificationsData
+  );
+
+  return { ...notificationsConfig, ...notificationsData };
 };
 const useNotificationsPreferences = (): NotificationsPreferencesHook => {
   const dispatch = useDispatch();
@@ -33,8 +39,8 @@ const useNotificationsPreferences = (): NotificationsPreferencesHook => {
   const { t } = useTranslation("components\\notifications\\notificationsModal");
 
   const updatePreference = React.useCallback(
-    (preference: boolean): void => {
-      dispatch(updateNotificationsPermissions(preference as boolean));
+    (): void => {
+      dispatch(updateNotificationsPermissions());
     },
     [dispatch]
   );
@@ -54,7 +60,7 @@ const useNotificationsPreferences = (): NotificationsPreferencesHook => {
         dispatch(setFirstUse());
       }
 
-      updatePreference(notificationsPreferencesState as boolean);
+      updatePreference();
       setNotificationsPreferencesState("default");
       setNotificationsWindowOpen(false);
 
@@ -92,7 +98,7 @@ const useNotificationsManager = (): NotificationsManagerHook => {
     [dispatch]
   );
   const deleteAllNotifications = React.useCallback((): void => {
-    dispatch(clearNotifications());
+    dispatch(removeAllNotifications());
   }, [dispatch]);
 
   return { addNotifications, deleteNotification, deleteAllNotifications };

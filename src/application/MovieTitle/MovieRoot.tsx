@@ -4,15 +4,12 @@ import { Trans, useTranslation } from "react-i18next";
 import generateNotificationID from "@lib/generateNotificationID";
 import { useNotificationsManager } from "@hooks/Notifications";
 import { useLanguage } from "@hooks/Language";
-import flexContainerStyles from "../../components/ui/FlexContainer/FlexContainer.module.scss";
+import { FlexContainer, GenericLoader } from "@components/ui";
+import { NotFound, BackToTop } from "@components/modules";
 import globalStyles from "../../themes/Global.module.scss";
-import FlexContainer from "../../components/ui/FlexContainer/FlexContainer";
 import MovieHeaders from "./modules/MovieHeaders/MovieHeaders";
 import MovieInternalNavigation from "./modules/MovieInternalNavigation/MovieInternalNavigation";
 import MovieRouter from "./modules/Router/MovieRouter";
-import NotFound from "../../components/modules/NotFound/NotFound";
-import BackToTop from "../../components/modules/BackToTop/BackToTop";
-import GenericLoader from "../../components/ui/GenericLoader/GenericLoader";
 import { S3DataResponse } from "./types";
 
 const fetchMovieData = async (
@@ -50,6 +47,7 @@ const fetchMovieData = async (
 
   return undefined;
 };
+
 const MovieRoot: React.FC<RouteComponentProps> = ({ match }) => {
   const { language } = useLanguage();
   const [isFetching, setIsFetching] = React.useState<boolean>(false);
@@ -89,7 +87,7 @@ const MovieRoot: React.FC<RouteComponentProps> = ({ match }) => {
   if (isFetching) {
     return (
       <FlexContainer
-        className={`${flexContainerStyles.container} ${globalStyles["alignment-full-center"]}`}
+        className={`${globalStyles["alignment-full-center"]} ${globalStyles["navbar-margin"]}`}
       >
         <GenericLoader>
           <Trans t={t} i18nKey="fetchingData" />
@@ -104,11 +102,11 @@ const MovieRoot: React.FC<RouteComponentProps> = ({ match }) => {
 
   return (
     <FlexContainer
-      className={`${flexContainerStyles.container} ${globalStyles.column} ${globalStyles["navbar-margin"]}`}
+      className={`${globalStyles.column} ${globalStyles["navbar-margin"]}`}
     >
       <MovieHeaders dataResponse={view} />
       <MovieInternalNavigation dataResponse={view} />
-      <BackToTop />
+      <BackToTop href="#movie-page-navigation" />
       <MovieRouter dataResponse={view} />
     </FlexContainer>
   );

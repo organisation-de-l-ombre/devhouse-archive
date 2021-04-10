@@ -1,30 +1,28 @@
 import React from "react";
-import containerStyle from "../../Containers.module.scss";
-import flexContainerStyles from "../../../../components/ui/FlexContainer/FlexContainer.module.scss";
-import listStyles from "../../../../components/ui/List/List.module.scss";
-import FlexContainer from "../../../../components/ui/FlexContainer/FlexContainer";
 import {
-  Item,
-  SubSummary,
+  FlexContainer,
   Summary,
-} from "../../../../components/ui/Summary/Summary";
-import DetailedText from "../../../../components/ui/DetailedText/DetailedText";
-import List from "../../../../components/ui/List/List";
+  SummaryItem,
+  SubSummary,
+  DetailedText,
+  List,
+} from "@components/ui";
+import containerStyle from "../../Containers.module.scss";
 import { BodyContent, ReactMovieElement, SummaryObject } from "../../types";
 
 const MovieSection: ReactMovieElement = ({ dataResponse }) => {
   const { movie } = dataResponse;
 
   return (
-    <FlexContainer
-      className={`${flexContainerStyles.container} ${containerStyle.container}`}
-    >
+    <FlexContainer className={containerStyle.container}>
       <Summary className={containerStyle.summary}>
         {movie.summary.map(
           (item: SummaryObject): React.ReactElement => {
             switch (item.type) {
               case "item":
-                return <Item key={item.to} to={item.to} name={item.name} />;
+                return (
+                  <SummaryItem key={item.to} to={item.to} name={item.name} />
+                );
 
               case "subitem":
                 return (
@@ -34,7 +32,7 @@ const MovieSection: ReactMovieElement = ({ dataResponse }) => {
                         switch (subItem.type) {
                           case "item":
                             return (
-                              <Item
+                              <SummaryItem
                                 key={subItem.to}
                                 to={subItem.to}
                                 name={subItem.name}
@@ -82,9 +80,7 @@ const MovieSection: ReactMovieElement = ({ dataResponse }) => {
               return (
                 <DetailedText key={item.name}>
                   <h1 id={item.id}>{item.name}</h1>
-                  <List
-                    className={`${listStyles.list} ${containerStyle["list-margin"]}`}
-                  >
+                  <List className={containerStyle["list-margin"]}>
                     {item.items.map(
                       (listItem: string): React.ReactElement => (
                         <li key={listItem}>{listItem}</li>
@@ -134,9 +130,7 @@ const MovieSection: ReactMovieElement = ({ dataResponse }) => {
                               className={containerStyle["sub-groups"]}
                             >
                               <h2 id={subItem.id}>{subItem.name}</h2>
-                              <List
-                                className={`${listStyles.list} ${containerStyle["list-margin"]}`}
-                              >
+                              <List className={containerStyle["list-margin"]}>
                                 {subItem.items.map(
                                   (listItem: string): React.ReactElement => (
                                     <li key={listItem}>{listItem}</li>

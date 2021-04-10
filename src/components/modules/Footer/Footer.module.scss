@@ -13,7 +13,10 @@
     flex-direction: column;
     align-items: center;
 
-    .logo { height: 10rem; }
+    .logo {
+      height: 160px;
+      pointer-events: none;
+    }
 
     h3 {
       margin: 1rem 0;

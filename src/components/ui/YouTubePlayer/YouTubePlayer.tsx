@@ -1,7 +1,7 @@
 import React from "react";
 import YouTube from "react-youtube";
 import { useTranslation } from "react-i18next";
-import Modal from "../Modal/Modal";
+import { Modal } from "..";
 import styles from "./YouTubePlayer.module.scss";
 import { PlayerDimensions } from "./Types";
 
@@ -19,6 +19,7 @@ const getPlayerDimensions = (): PlayerDimensions => {
 
   return { width, height };
 };
+
 const YouTubePlayer: React.FC<
   React.DetailedHTMLProps<
     React.AllHTMLAttributes<HTMLDivElement>,

@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useCallback } from "react";
+import { manageAuth } from "@lib/manageAuthentication";
+import { GlobalState } from "@store/Types";
 import { User, UserObject } from "../../store/user/Types";
-import { GlobalState } from "../../store/Types";
 import { createUser, deleteUser } from "../../store/user/Actions";
-import { manageAuth } from "../../store/user/Login";
 import { UserHook } from "./Types";
 
 const useUser = (): UserHook => {

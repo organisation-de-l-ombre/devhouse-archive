@@ -34,6 +34,7 @@ const Summary: React.FC<
     </div>
   );
 };
+
 const SubSummary: React.FC<
   React.DetailedHTMLProps<
     React.AllHTMLAttributes<HTMLUListElement>,
@@ -49,7 +50,8 @@ const SubSummary: React.FC<
     </li>
   );
 };
-const Item: React.FC<
+
+const SummaryItem: React.FC<
   React.DetailedHTMLProps<
     React.AllHTMLAttributes<HTMLLIElement>,
     HTMLLIElement
@@ -62,4 +64,4 @@ const Item: React.FC<
   );
 };
 
-export { Summary, SubSummary, Item };
+export { Summary, SubSummary, SummaryItem };

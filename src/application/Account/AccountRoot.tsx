@@ -1,13 +1,12 @@
 import React from "react";
 import { useHistory } from "react-router";
 import { useUser } from "@hooks/User";
-import FlexContainer from "../../components/ui/FlexContainer/FlexContainer";
-import flexContainerStyles from "../../components/ui/FlexContainer/FlexContainer.module.scss";
-import globalStyles from "../../themes/Global.module.scss";
+import FlexContainer from "@components/ui/FlexContainer/FlexContainer";
+import BackToTop from "@components/modules/BackToTop/BackToTop";
+import globalStyles from "@themes/Global.module.scss";
 import AccountInternalNavigation from "./modules/AccountInternalNavigation/AccountInternalNavigation";
 import AccountRouter from "./modules/Router/AccountRouter";
 import AccountHeaders from "./modules/AccountHeaders/AccountHeaders";
-import BackToTop from "../../components/modules/BackToTop/BackToTop";
 
 const AccountRoot = (): React.ReactElement => {
   const { user } = useUser();
@@ -17,11 +16,12 @@ const AccountRoot = (): React.ReactElement => {
     if (!user) {
       history.push("/");
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return user ? (
     <FlexContainer
-      className={`${flexContainerStyles.container} ${globalStyles.column} ${globalStyles["navbar-margin"]}`}
+      className={`${globalStyles.column} ${globalStyles["navbar-margin"]}`}
     >
       <AccountHeaders />
       <AccountInternalNavigation />

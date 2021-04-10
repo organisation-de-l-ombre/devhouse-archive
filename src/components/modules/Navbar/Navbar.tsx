@@ -11,14 +11,12 @@ import {
 } from "@hooks/Notifications";
 import { useTheme } from "@hooks/Theme";
 import { useUser } from "@hooks/User";
+import { getAvatar } from "@lib/manageAuthentication";
+import IMRMinimalLogo from "@assets/pictures/imr/imr-minimal.png";
 import styles from "./Navbar.module.scss";
-import Button from "../../ui/Button/Button";
-import Image from "../../ui/Image/Image";
-import { getAvatar } from "../../../store/user/Login";
-import NotificationsModal from "../../ui/Notifications/NotificationsModal/NotificationsModal";
+import { Button, NotificationsModal } from "../../ui";
 import LanguageModal from "./LanguageModal";
-import DisplayLanguageSVG from "../DisplayLanguageSVG/DisplayLanguageSVG";
-import IMRMinimalLogo from "../../../assets/pictures/imr/imr-minimal.png";
+import { DisplayLanguageSVG } from "..";
 
 const Navbar = (): React.ReactElement => {
   const { open, manageNavbar } = useNavbar();
@@ -110,9 +108,11 @@ const Navbar = (): React.ReactElement => {
               {user ? (
                 <>
                   {user ? (
-                    <Image
+                    <img
                       className={styles.avatar}
                       src={getAvatar(user.avatar)}
+                      alt={`Avatar of ${user.username}`}
+                      draggable={false}
                     />
                   ) : (
                     <FaUser />

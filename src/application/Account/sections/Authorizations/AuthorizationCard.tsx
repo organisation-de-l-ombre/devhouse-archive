@@ -4,15 +4,14 @@ import { Trans, useTranslation } from "react-i18next";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useLanguage } from "@hooks/Language";
 import { useAuthorizationsDeleteMutation } from "@hooks/API/Authorizations";
-import Card from "../../../../components/ui/Card/Card";
-import cardStyles from "../../../../components/ui/Card/Card.module.scss";
+import {
+  Card,
+  FlexContainer,
+  TextArea,
+  ButtonsGroup,
+  Button,
+} from "@components/ui";
 import containerStyle from "../../Containers.module.scss";
-import globalStyles from "../../../../themes/Global.module.scss";
-import FlexContainer from "../../../../components/ui/FlexContainer/FlexContainer";
-import flexContainerStyles from "../../../../components/ui/FlexContainer/FlexContainer.module.scss";
-import TextArea from "../../../../components/ui/TextArea/TextArea";
-import ButtonsGroup from "../../../../components/ui/ButtonsGroup/ButtonsGroup";
-import Button from "../../../../components/ui/Button/Button";
 
 const AuthorizationCard: React.FC<
   React.DetailedHTMLProps<
@@ -32,22 +31,18 @@ const AuthorizationCard: React.FC<
   grantedAt[0] = grantedAt[0].toUpperCase();
 
   const { remove } = useAuthorizationsDeleteMutation(authorization.client.id);
-  const deleteAuthorization = (): void => {
+  const deleteAuthorization = React.useCallback((): void => {
     const confirmation = window.confirm(t("deleteAuthorization.confirmation"));
 
     if (confirmation) {
       remove();
     }
-  };
+  }, [remove, t]);
 
   return (
-    <Card
-      className={`${cardStyles.container} ${containerStyle.card} ${globalStyles.column}`}
-    >
+    <Card className={containerStyle.card}>
       <h2>{authorization.client.name}</h2>
-      <FlexContainer
-        className={`${flexContainerStyles.container} ${containerStyle["forms-container"]}`}
-      >
+      <FlexContainer className={containerStyle["forms-container"]}>
         <TextArea className={containerStyle["form-container"]}>
           <h3>
             <Trans t={t} i18nKey="authorization.grantedAt" />

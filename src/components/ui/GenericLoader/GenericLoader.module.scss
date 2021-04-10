@@ -1,14 +1,15 @@
 .loader-container {
   display: flex;
-  align-items: center;
+  flex-direction: column;
 
   .loader {
-    margin-right: 1.5rem;
     width: 40px;
     height: 40px;
 
     div { background-color: var(--font-color); }
   }
+
+  p { margin-top: 1rem; }
 }
 
-.loader-active { display: flex; }
+.loader-active { display: block; }

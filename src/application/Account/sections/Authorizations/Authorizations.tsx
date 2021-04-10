@@ -5,17 +5,12 @@ import { FaCheckCircle } from "react-icons/fa";
 import { MdRefresh } from "react-icons/md";
 import { Authorization } from "@developers-house/abdera";
 import { useAuthorizations } from "@hooks/API/Authorizations";
-import flexContainerStyles from "../../../../components/ui/FlexContainer/FlexContainer.module.scss";
-import containerStyle from "../../Containers.module.scss";
-import globalStyles from "../../../../themes/Global.module.scss";
-import cardStyles from "../../../../components/ui/Card/Card.module.scss";
-import styles from "./Authorizations.module.scss";
-import FlexContainer from "../../../../components/ui/FlexContainer/FlexContainer";
-import Error from "../../../../components/modules/Error/Error";
-import ButtonsGroup from "../../../../components/ui/ButtonsGroup/ButtonsGroup";
-import Button from "../../../../components/ui/Button/Button";
+import { FlexContainer, ButtonsGroup, Button, Card } from "@components/ui";
+import { Error } from "@components/modules";
+import globalStyles from "@themes/Global.module.scss";
 import AuthorizationCard from "./AuthorizationCard";
-import Card from "../../../../components/ui/Card/Card";
+import styles from "./Authorizations.module.scss";
+import containerStyle from "../../Containers.module.scss";
 
 const Authorizations = (): React.ReactElement => {
   const { isError, isLoading, isFetching, data, refetch } = useAuthorizations();
@@ -27,7 +22,7 @@ const Authorizations = (): React.ReactElement => {
 
   return data ? (
     <FlexContainer
-      className={`${flexContainerStyles.container} ${containerStyle.container} ${globalStyles["page-body-width"]}`}
+      className={`${containerStyle.container} ${globalStyles["page-body-width"]}`}
     >
       <div className={containerStyle["buttons-root"]}>
         <h2>
@@ -78,11 +73,9 @@ const Authorizations = (): React.ReactElement => {
     </FlexContainer>
   ) : (
     <FlexContainer
-      className={`${flexContainerStyles.container} ${globalStyles["alignment-full-center"]} ${styles["no-data"]}`}
+      className={`${globalStyles["alignment-full-center"]} ${styles["no-data"]}`}
     >
-      <Card
-        className={`${cardStyles.container} ${styles.card} ${globalStyles["animation-opacity"]}`}
-      >
+      <Card className={`${styles.card} ${globalStyles["animation-opacity"]}`}>
         <h2>
           <Trans t={t} i18nKey="noData.title" />
         </h2>

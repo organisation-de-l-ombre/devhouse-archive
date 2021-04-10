@@ -3,8 +3,7 @@ import React from "react";
 import { MdClose } from "react-icons/md";
 import { CSSTransition } from "react-transition-group";
 import styles from "./Modal.module.scss";
-import Button from "../Button/Button";
-import FlexContainer from "../FlexContainer/FlexContainer";
+import { Button, FlexContainer } from "..";
 import "./Animations.scss";
 
 const Modal: React.FC<

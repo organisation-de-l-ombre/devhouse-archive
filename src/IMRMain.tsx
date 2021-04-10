@@ -2,14 +2,12 @@ import React from "react";
 import { MdSystemUpdate } from "react-icons/md";
 import { Action } from "redux";
 import { RequestContext, UserAPIApi } from "@developers-house/abdera";
-import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 import { register } from "@lib/serviceWorker";
 import generateNotificationID from "@lib/generateNotificationID";
-import { persistor, store } from "./store/Store";
-import { pushNotifications } from "./store/notifications/Actions";
-
-const Application = React.lazy(() => import("./application/Application"));
+import { store } from "@store/Store";
+import { pushNotifications } from "@store/notifications/notificationsData";
+import Application from "./application/Application";
 
 // Service worker initialization
 register({
@@ -66,12 +64,9 @@ const IMRMain = (): React.ReactElement => {
   React.useEffect((): void => {
     document.body.style.overflowY = "visible";
   }, []);
-
   return (
     <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <Application />
-      </PersistGate>
+      <Application />
     </Provider>
   );
 };

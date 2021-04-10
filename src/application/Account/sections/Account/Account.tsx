@@ -3,23 +3,23 @@ import { Trans, useTranslation } from "react-i18next";
 import generateNotificationID from "@lib/generateNotificationID";
 import { useNotificationsManager } from "@hooks/Notifications";
 import { useUser } from "@hooks/User";
-import FlexContainer from "../../../../components/ui/FlexContainer/FlexContainer";
-import flexContainerStyles from "../../../../components/ui/FlexContainer/FlexContainer.module.scss";
-import globalStyles from "../../../../themes/Global.module.scss";
+import {
+  FlexContainer,
+  Card,
+  TextArea,
+  Button,
+  buttonStyles,
+  ButtonsGroup,
+  GenericLoader,
+} from "@components/ui";
+import globalStyles from "@themes/Global.module.scss";
 import containerStyle from "../../Containers.module.scss";
-import Card from "../../../../components/ui/Card/Card";
-import cardStyles from "../../../../components/ui/Card/Card.module.scss";
-import TextArea from "../../../../components/ui/TextArea/TextArea";
-import ButtonsGroup from "../../../../components/ui/ButtonsGroup/ButtonsGroup";
-import buttonStyles from "../../../../components/ui/Button/Button.module.scss";
-import Button from "../../../../components/ui/Button/Button";
-import GenericLoader from "../../../../components/ui/GenericLoader/GenericLoader";
 
 const Account = (): React.ReactElement => {
   const { t } = useTranslation("pages\\account\\sections\\account");
   const { user, removeUser } = useUser();
   const { addNotifications } = useNotificationsManager();
-  const logout = (): void => {
+  const logout = React.useCallback((): void => {
     removeUser();
     addNotifications([
       {
@@ -29,21 +29,17 @@ const Account = (): React.ReactElement => {
         time: 5000,
       },
     ]);
-  };
+  }, [addNotifications, removeUser, t]);
 
   return user ? (
     <FlexContainer
-      className={`${flexContainerStyles.container} ${containerStyle.container} ${globalStyles["page-body-width"]}`}
+      className={`${containerStyle.container} ${globalStyles["page-body-width"]}`}
     >
-      <Card
-        className={`${cardStyles.container} ${globalStyles["no-margin"]} ${containerStyle.card} ${globalStyles.column}`}
-      >
+      <Card className={`${globalStyles["no-margin"]} ${containerStyle.card}`}>
         <h2>
           <Trans t={t} i18nKey="devHouse.title" />
         </h2>
-        <FlexContainer
-          className={`${flexContainerStyles.container} ${containerStyle["forms-container"]}`}
-        >
+        <FlexContainer className={containerStyle["forms-container"]}>
           <TextArea className={containerStyle["form-container"]}>
             <h3>
               <Trans t={t} i18nKey="devHouse.username" />
@@ -94,9 +90,7 @@ const Account = (): React.ReactElement => {
           </Button>
         </ButtonsGroup>
       </Card>
-      <Card
-        className={`${cardStyles.container} ${containerStyle.card} ${globalStyles.column}`}
-      >
+      <Card className={containerStyle.card}>
         <h2>
           <Trans t={t} i18nKey="imr.title" />
         </h2>

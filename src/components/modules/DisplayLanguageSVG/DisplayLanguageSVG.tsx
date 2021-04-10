@@ -8,7 +8,7 @@ const DisplayLanguageSVG: React.FC<
     [lang]
   );
 
-  return <img src={image} alt={alt} {...props} />;
+  return <img src={image} alt={alt} draggable={false} {...props} />;
 };
 
 export default DisplayLanguageSVG;

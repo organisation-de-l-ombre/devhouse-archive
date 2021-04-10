@@ -4,13 +4,12 @@ import { Trans, useTranslation } from "react-i18next";
 import { BsFillQuestionCircleFill } from "react-icons/bs";
 import { MdWork } from "react-icons/md";
 import { RiMessage2Fill } from "react-icons/ri";
-import FlexContainer from "../../components/ui/FlexContainer/FlexContainer";
-import flexContainerStyles from "../../components/ui/FlexContainer/FlexContainer.module.scss";
-import globalStyles from "../../themes/Global.module.scss";
+import FlexContainer from "@components/ui/FlexContainer/FlexContainer";
+import globalStyles from "@themes/Global.module.scss";
+import { buttonStyles } from "@components/ui/Button";
+import BackToTop from "@components/modules/BackToTop/BackToTop";
+import ButtonsGroup from "@components/ui/ButtonsGroup/ButtonsGroup";
 import styles from "./Home.module.scss";
-import buttonStyles from "../../components/ui/Button/Button.module.scss";
-import BackToTop from "../../components/modules/BackToTop/BackToTop";
-import ButtonsGroup from "../../components/ui/ButtonsGroup/ButtonsGroup";
 
 const Home = (): React.ReactElement => {
   const { t } = useTranslation("pages\\home\\home");
@@ -19,7 +18,7 @@ const Home = (): React.ReactElement => {
 
   return (
     <FlexContainer
-      className={`${flexContainerStyles.container} ${globalStyles.column} ${globalStyles["navbar-margin"]}`}
+      className={`${globalStyles.column} ${globalStyles["navbar-margin"]}`}
     >
       <div className={styles.headers}>
         <div
@@ -60,7 +59,7 @@ const Home = (): React.ReactElement => {
       </div>
       <BackToTop />
       <FlexContainer
-        className={`${flexContainerStyles.container} ${globalStyles.column} ${styles.body} ${globalStyles["page-body-width"]}`}
+        className={`${globalStyles.column} ${styles.body} ${globalStyles["page-body-width"]}`}
       >
         <div className={`${globalStyles.flex} ${globalStyles.column}`}>
           <h2 style={{ color: "var(--font-color-hover)" }}>

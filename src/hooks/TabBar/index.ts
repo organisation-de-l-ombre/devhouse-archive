@@ -1,4 +1,2 @@
-import useTabBar from "./TabBar";
-
-export { useTabBar };
+export { default as useTabBar } from "./TabBar";
 export * from "./Types";

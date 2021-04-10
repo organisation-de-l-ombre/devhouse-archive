@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { Notification } from "../../store/notifications/Types";
+import { Notification } from "@store/notifications/notificationsData";
 
 interface NotificationsPreferencesHook {
   setNotificationsPreferencesState: Dispatch<SetStateAction<string | boolean>>;

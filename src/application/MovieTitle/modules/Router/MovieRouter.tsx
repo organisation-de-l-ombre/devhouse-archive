@@ -1,17 +1,22 @@
 import React from "react";
 import { Switch, useRouteMatch, Route } from "react-router";
-import Suspense from "../../../../components/modules/Suspense/Suspense";
-import MovieSection from "../../sections/Movie/Movie";
-import NotFound from "../../../../components/modules/NotFound/NotFound";
-import VideosSection from "../../sections/Videos/Videos";
-import OSTSection from "../../sections/OST/OST";
-import FlexContainer from "../../../../components/ui/FlexContainer/FlexContainer";
-import flexContainerStyles from "../../../../components/ui/FlexContainer/FlexContainer.module.scss";
+import { Suspense } from "@components/modules";
 import styles from "./MovieRouter.module.scss";
-import CastingSection from "../../sections/Casting/Casting";
-import CharactersSection from "../../sections/Characters/Characters";
 import { S3DataResponse } from "../../types";
 import SectionEmpty from "../SectionEmpty/SectionEmpty";
+
+const MovieSection = React.lazy(() => import("../../sections/Movie/Movie"));
+const CastingSection = React.lazy(
+  () => import("../../sections/Casting/Casting")
+);
+const CharactersSection = React.lazy(
+  () => import("../../sections/Characters/Characters")
+);
+const VideosSection = React.lazy(() => import("../../sections/Videos/Videos"));
+const OSTSection = React.lazy(() => import("../../sections/OST/OST"));
+const NotFound = React.lazy(
+  () => import("@components/modules/NotFound/NotFound")
+);
 
 const MovieRouter: React.FC<{ dataResponse: S3DataResponse }> = ({
   dataResponse,
@@ -24,10 +29,11 @@ const MovieRouter: React.FC<{ dataResponse: S3DataResponse }> = ({
     return () => {
       document.title = "IMR";
     };
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-    <React.Suspense fallback={<Suspense />}>
+    <React.Suspense fallback={<Suspense className={styles.container} />}>
       <Switch>
         <Route path={baseURL} exact>
           <MovieSection dataResponse={dataResponse} />
@@ -64,11 +70,7 @@ const MovieRouter: React.FC<{ dataResponse: S3DataResponse }> = ({
           {dataResponse.technicalSpecs ? <></> : <SectionEmpty />}
         </Route>
         <Route path="*" exact>
-          <FlexContainer
-            className={`${flexContainerStyles.container} ${styles.container}`}
-          >
-            <NotFound />
-          </FlexContainer>
+          <NotFound className={styles.container} />
         </Route>
       </Switch>
     </React.Suspense>

@@ -1,6 +1,4 @@
 import { applyMiddleware, combineReducers, createStore } from "redux";
-import { persistStore, persistReducer } from "redux-persist";
-import storage from "localforage";
 import reduxThunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import {
@@ -8,25 +6,25 @@ import {
   initMessageListener,
   initStateWithPrevTab,
 } from "redux-state-sync";
-import { languageState, LanguageReducer } from "./language/Reducer";
+import storage from "localforage";
+import { persistReducer, persistStore } from "redux-persist";
 import {
-  notificationsState,
-  NotificationsReducer,
-} from "./notifications/Reducer";
+  NotificationsDataReducer,
+  notificationsDataState,
+} from "./notifications/notificationsData";
+import { languageState, LanguageReducer } from "./language/Reducer";
 import { themeState, ThemeReducer } from "./theme/Reducer";
 import { userState, UserReducer } from "./user/Reducer";
 import { GlobalState } from "./Types";
+import {
+  NotificationsConfigReducer,
+  notificationsConfigState,
+} from "./notifications/notificationsConfig";
 
-const reducer = combineReducers({
-  language: LanguageReducer,
-  notifications: NotificationsReducer,
-  theme: ThemeReducer,
-  user: UserReducer,
-});
 const persistConfiguration = {
   key: "root",
   storage,
-  blacklist: ["notifications"],
+  blacklist: ["notificationsData"],
 };
 const syncConfiguration = {
   blacklist: [
@@ -46,17 +44,25 @@ if (process.env.NODE_ENV !== "production") {
   callCompose = composeWithDevTools(callCompose);
 }
 
-const persistedReducer = persistReducer(persistConfiguration, reducer);
+const rootReducer = combineReducers({
+  language: LanguageReducer,
+  notificationsConfig: NotificationsConfigReducer,
+  notificationsData: NotificationsDataReducer,
+  theme: ThemeReducer,
+  user: UserReducer,
+});
+const reducer = persistReducer(persistConfiguration, rootReducer);
 const globalState: GlobalState = {
   language: languageState,
-  notifications: notificationsState,
+  notificationsConfig: notificationsConfigState,
+  notificationsData: notificationsDataState,
   theme: themeState,
   user: userState,
 };
-const store = createStore(persistedReducer, globalState, callCompose);
-const persistor = persistStore(store as never);
+const store = createStore(reducer, globalState, callCompose);
+const persistedStore = persistStore(store);
 
 initMessageListener(store as never);
 initStateWithPrevTab(store as never);
 
-export { store, persistor };
+export { store, persistedStore };

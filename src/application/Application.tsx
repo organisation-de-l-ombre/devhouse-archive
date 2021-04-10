@@ -3,25 +3,20 @@ import { I18nextProvider } from "react-i18next";
 import { ErrorBoundary } from "react-error-boundary";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { useLanguage } from "@hooks/Language";
-import { useNotificationsState } from "@hooks/Notifications";
 import { useTheme } from "@hooks/Theme";
-import i18n from "../languages/i18n";
-import themes from "../themes/Themes.module.scss";
-import NotificationsModal from "../components/ui/Notifications/NotificationsModal/NotificationsModal";
-import NotificationsGroup from "../components/ui/Notifications/NotificationsGroup/NotificationsGroup";
-import Error from "../components/modules/Error/Error";
-import ApplicationRouter from "../components/modules/ApplicationRouter/ApplicationRouter";
+import { useNotificationsState } from "@hooks/Notifications";
+import themes from "@themes/Themes.module.scss";
+import { NotificationsGroup, NotificationsModal } from "@components/ui";
+import i18n from "@languages/i18n";
+import { Error, ApplicationRouter } from "@components/modules";
 
 const queryClient: QueryClient = new QueryClient();
 
 const Application = (): React.ReactElement => {
   const { theme } = useTheme();
-  const { firstUse } = useNotificationsState();
   const { language } = useLanguage();
-  const [
-    notificationsWindowOpen,
-    setNotificationsWindowOpen,
-  ] = React.useState<boolean>(firstUse);
+  const { firstUse } = useNotificationsState();
+  const [open, setOpen] = React.useState<boolean>(firstUse);
 
   React.useEffect(() => {
     const app = document.querySelector("#app");
@@ -39,10 +34,11 @@ const Application = (): React.ReactElement => {
     <I18nextProvider i18n={i18n}>
       <ErrorBoundary FallbackComponent={Error}>
         <QueryClientProvider client={queryClient}>
-          <NotificationsModal
-            open={notificationsWindowOpen}
-            setOpen={setNotificationsWindowOpen}
-          />
+          {firstUse ? (
+            <NotificationsModal open={open} setOpen={setOpen} />
+          ) : (
+            <></>
+          )}
           <NotificationsGroup />
           <ApplicationRouter />
         </QueryClientProvider>

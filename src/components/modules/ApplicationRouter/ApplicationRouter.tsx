@@ -5,6 +5,7 @@ import { RouteComponentProps } from "react-router";
 // Modules
 const Navbar = React.lazy(() => import("../Navbar/Navbar"));
 const Footer = React.lazy(() => import("../Footer/Footer"));
+const NotFound = React.lazy(() => import("../NotFound/NotFound"));
 // Routes
 const Home = React.lazy(() => import("../../../application/Home/Home"));
 const Account = React.lazy(
@@ -16,7 +17,6 @@ const Callback = React.lazy(
 const MovieTitle = React.lazy(
   () => import("../../../application/MovieTitle/MovieRoot")
 );
-const NotFound = React.lazy(() => import("../NotFound/NotFound"));
 
 const ApplicationRouter = (): React.ReactElement => {
   return (

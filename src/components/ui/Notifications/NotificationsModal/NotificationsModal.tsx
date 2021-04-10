@@ -8,11 +8,9 @@ import {
   useNotificationsPreferences,
   useNotificationsState,
 } from "@hooks/Notifications";
-import Modal from "../../Modal/Modal";
-import modalStyles from "../../Modal/Modal.module.scss";
+import { Modal, modalStyles, SelectList, Button } from "../..";
 import globalStyles from "../../../../themes/Global.module.scss";
-import SelectList, { manageSelection } from "../../SelectList/SelectList";
-import Button from "../../Button/Button";
+import { manageSelection } from "../../SelectList/SelectList";
 import styles from "./NotificationsModal.module.scss";
 import i18n from "../../../../languages/i18n";
 
