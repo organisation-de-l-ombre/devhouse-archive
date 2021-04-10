@@ -1,10 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import {
-  NotificationsManagerHook,
-  NotificationsPreferencesHook,
-} from "./Types";
 import { GlobalState } from "@store/Types";
 import {
   setFirstUse,
@@ -18,8 +14,13 @@ import {
   Notification,
   NotificationsDataState,
 } from "@store/notifications/notificationsData";
+import {
+  NotificationsManagerHook,
+  NotificationsPreferencesHook,
+} from "./Types";
 
-const useNotificationsState = (): NotificationsConfigState & NotificationsDataState => {
+const useNotificationsState = (): NotificationsConfigState &
+  NotificationsDataState => {
   const notificationsConfig = useSelector(
     (state: GlobalState): NotificationsConfigState => state.notificationsConfig
   );
@@ -38,12 +39,9 @@ const useNotificationsPreferences = (): NotificationsPreferencesHook => {
   ] = React.useState<string | boolean>(firstUse ? false : "default");
   const { t } = useTranslation("components\\notifications\\notificationsModal");
 
-  const updatePreference = React.useCallback(
-    (): void => {
-      dispatch(updateNotificationsPermissions());
-    },
-    [dispatch]
-  );
+  const updatePreference = React.useCallback((): void => {
+    dispatch(updateNotificationsPermissions());
+  }, [dispatch]);
   const validateChoice = React.useCallback(
     (
       setNotificationsWindowOpen: React.Dispatch<React.SetStateAction<boolean>>
