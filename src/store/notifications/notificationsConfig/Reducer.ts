@@ -2,7 +2,7 @@ import {
   NotificationsConfigPayload,
   NotificationsConfigState,
   UPDATE_NOTIFICATIONS_PERMISSIONS,
-  USER_FIRST_USE
+  USER_FIRST_USE,
 } from "./Types";
 
 const notificationsConfigState: NotificationsConfigState = {
