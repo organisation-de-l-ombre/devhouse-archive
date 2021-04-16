@@ -3,14 +3,14 @@ import axios, { AxiosResponse } from "axios";
 
 const requester = axios.create({
   headers: {
-    "X-Forwarded-Proto": "https",
-  },
+    "X-Forwarded-Proto": "https"
+  }
 });
 
 export const AdminAPI = new AdminApi(
   {},
   process.env.HYDRA_ADMIN || "http://localhost:5005",
-  requester
+  requester as never
 );
 
 export function validateHydraResponse<T>(response: AxiosResponse<T>): T {

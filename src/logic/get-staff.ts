@@ -1,49 +1,60 @@
-import {Redis} from "ioredis";
-import {StaffMember, StaffMemberPresenceStatusEnum} from "../../gen";
-import {readYamlFolder} from "../utils/read-yaml-folder";
-import {join} from "path";
+import { Redis } from "ioredis";
+import { StaffMember, StaffMemberPresenceStatusEnum } from "../../gen";
+import { readYamlFolder } from "../utils/read-yaml-folder";
+import path from "path";
 
 const selfMembers: Partial<StaffMember>[] = [];
-readYamlFolder<Partial<StaffMember>>(join(process.cwd(), "data", "members"))
-    .then((e) => e.filter((a) => Boolean(a) && a.id))
-    .then((a) => selfMembers.push(...a));
+void readYamlFolder<Partial<StaffMember>>(
+  path.join(process.cwd(), "data", "members")
+)
+  .then((data) => data.filter((a) => Boolean(a) && a.id))
+  .then((data) => selfMembers.push(...data));
+
 /**
  * Closure that fetches the user using a provided redis instance.
  * @param {Redis} redis The provided redis client for the closure
  * @returns {Function} closure The closure used to fetch the user.
  */
-export function fetchStaff (redis: Redis): (id: string) => Promise<(null | StaffMember)> {
-    return async function (id: string) {
-        const key = `discord:cache:users:${id}`;
-        const data = await redis.get(key);
-        if (!data) return null;
-
-        try {
-            const user = JSON.parse(data);
-            return ({ ...completion, ...(selfMembers
-                    .filter(({ id }) => id === user.id)[0] || {}), ...user  });
-        } catch (e) {
-            return null;
-        }
+export function fetchStaff(
+  redis: Redis
+): (id: string) => Promise<null | StaffMember> {
+  return async function (id: string) {
+    const key = `discord:cache:users:${id}`;
+    const data = await redis.get(key);
+    if (!data) {
+      return;
     }
+
+    try {
+      const user = JSON.parse(data) as StaffMember;
+
+      return {
+        ...completion,
+        ...(selfMembers.find(({ id }) => id === user.id) || {}),
+        ...user,
+      };
+    } catch {
+      return;
+    }
+  };
 }
 
 const completion: StaffMember = {
-    avatar: "",
-    discriminator: "",
-    id: "",
-    presence: {
-        text: "",
-        status: StaffMemberPresenceStatusEnum.Online,
-        emote: ""
-    },
-    role: {
-        position: 0,
-        name: "",
-        color: "",
-    },
-    socials: [],
-    username: ""
+  avatar: "",
+  discriminator: "",
+  id: "",
+  presence: {
+    text: "",
+    status: StaffMemberPresenceStatusEnum.Online,
+    emote: "",
+  },
+  role: {
+    position: 0,
+    name: "",
+    color: "",
+  },
+  socials: [],
+  username: "",
 };
 
 /**
@@ -51,19 +62,26 @@ const completion: StaffMember = {
  * @param {Redis} redis redis instance containing the cache information.
  */
 async function getStaff(redis: Redis): Promise<StaffMember[] | string> {
-    const index = await redis.get('discord:cache:index');
-    if (index) {
-        try {
-            const membersIds: string[] = JSON.parse(index);
-            if (!Array.isArray(membersIds)) return [];
-            const fetcher = fetchStaff(redis);
-            return (await Promise.all<StaffMember>(membersIds.map(fetcher)))
-                .filter(Boolean);
-        } catch (e) {
-            return [];
-        }
+  const index = await redis.get("discord:cache:index");
+
+  if (index) {
+    try {
+      const membersIds = JSON.parse(index) as string[];
+
+      if (!Array.isArray(membersIds)) return [];
+
+      const fetcher = fetchStaff(redis);
+
+      return (
+        await Promise.all<StaffMember>(
+          membersIds.map((element) => fetcher(element))
+        )
+      ).filter(Boolean);
+    } catch {
+      return [];
     }
-    return [];
+  }
+  return [];
 }
 
 export default getStaff;
