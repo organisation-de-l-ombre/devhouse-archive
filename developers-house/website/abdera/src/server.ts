@@ -1,79 +1,104 @@
-import { AdminApi } from '@oryd/hydra-client';
-import Fastify, { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import { AdminApi } from "@oryd/hydra-client";
+import Fastify, {
+  FastifyInstance,
+  FastifyReply,
+  FastifyRequest
+} from "fastify";
 import CreateRedis, { Redis } from "ioredis";
-import { AdminAPI } from './hydra';
+import { AdminAPI } from "./hydra";
+import {
+  UserApi,
+  WebauthApi,
+  LoginApi,
+  LinksApi
+} from "@developers-house/scarlet";
 import fastifyAuth from "fastify-auth";
-import getProjects from "./logic/get-projects";
-import {getProjectsRoute} from "./routes/data/get-projects";
-import {getStaffRoute} from "./routes/data/get-staff";
+import { getProjectsRoute } from "./routes/data/get-projects";
+import { getStaffRoute } from "./routes/data/get-staff";
 import getAuthorizationsRoute from "./routes/user/get-authorizations";
 import deleteAuthorizationRoute from "./routes/user/delete-authorizations";
 import getTakeouts from "./routes/user/get-takeouts";
-import postLogoutAll from "./routes/user/post-logoutAll";
+import postLogoutAll from "./routes/user/post-logout-all";
 import postTakeouts from "./routes/user/post-takeouts";
 
+interface Scarlet {
+  user: UserApi;
+  webAuth: WebauthApi;
+  login: LoginApi;
+  links: LinksApi;
+}
+
 declare module "fastify" {
-    export interface FastifyRequest {
-        redis: Redis;
-        hydra: AdminApi;
-        user: string;
-    }
+  export interface FastifyRequest {
+    redis: Redis;
+    hydra: AdminApi;
+    user: string;
+    scarlet: Scarlet;
+  }
 }
 
 export default class Server {
-    private readonly server: FastifyInstance;
-    private readonly redis: Redis;
+  private readonly server: FastifyInstance = Fastify();
+  private readonly redis: Redis = new CreateRedis({
+    sentinels: [
+      {
+        host: process.env.REDIS_HOST,
+        port: Number.parseInt(process.env.REDIS_PORT || "6379")
+      }
+    ],
+    sentinelPassword: process.env.REDIS_PASSWORD,
+    name: "mymaster",
+    host: "localhost"
+  });
+  private readonly hydra: AdminApi = AdminAPI;
+  private readonly scarlet: Scarlet = {
+    user: new UserApi(),
+    webAuth: new WebauthApi(),
+    login: new LoginApi(),
+    links: new LinksApi()
+  };
 
-    private readonly hydra: AdminApi;
+  constructor(port: number) {
+    this.server.decorateRequest("redis", this.redis);
+    this.server.decorateRequest("hydra", this.hydra);
+    this.server.decorateRequest("scarlet", this.scarlet);
 
-    constructor(port: number) {
-        // Create the fastify server.
-        this.server = Fastify({});
-        // Connect to the redis cluster.
-        this.redis = new CreateRedis({
-            sentinels: [
-                {
-                    host: process.env["REDIS_HOST"],
-                    port: parseInt(process.env["REDIS_PORT"] || "6379"),
-                },
-            ],
-            sentinelPassword: process.env["REDIS_PASSWORD"],
-            name: "mymaster",
-            host: "localhost"
-        });
+    this.server.register(fastifyAuth).after(() => {
+      this.server.route(getProjectsRoute);
+      this.server.route(getStaffRoute);
+      this.server.route(getAuthorizationsRoute(this.server));
+      this.server.route(deleteAuthorizationRoute(this.server));
+      this.server.route(getTakeouts(this.server));
+      this.server.route(postLogoutAll(this.server));
+      this.server.route(postTakeouts(this.server));
 
-        this.hydra = AdminAPI;
-        // Add the redis connexion to all the requests objects.
-        this.server.decorateRequest('redis', this.redis);
-        this.server.decorateRequest('hydra', this.hydra);
+      this.server.setErrorHandler(Server.errorHandler);
+      this.server.setNotFoundHandler(Server.notFound);
+    });
 
-        this.server.register(fastifyAuth).after(() => {
-            this.server.route(getProjectsRoute);
-            this.server.route(getStaffRoute);
-            this.server.route(getAuthorizationsRoute(this.server));
-            this.server.route(deleteAuthorizationRoute(this.server));
-            this.server.route(getTakeouts(this.server));
-            this.server.route(postLogoutAll(this.server));
-            this.server.route(postTakeouts(this.server));
+    void this.server.listen({
+      port,
+      host: "0.0.0.0"
+    });
+  }
 
-            this.server.setErrorHandler(Server.errorHandler);
-            this.server.setNotFoundHandler(Server.notFound);
-        });
+  private static errorHandler(
+    this: void,
+    error,
+    _request: FastifyRequest,
+    response: FastifyReply
+  ) {
+    void response.code(500);
+    console.error(error);
+    void response.send(error);
+  }
 
-        this.server.listen({
-            port,
-            host: '0.0.0.0',
-        });
-    }
-
-    private static errorHandler(error, req: FastifyRequest, res: FastifyReply) {
-        res.code(500);
-        console.error(error);
-        res.send(error);
-    }
-
-    private static notFound(req: FastifyRequest, res: FastifyReply) {
-        res.code(404);
-        res.send();
-    }
+  private static notFound(
+    this: void,
+    _request: FastifyRequest,
+    response: FastifyReply
+  ) {
+    void response.code(404);
+    void response.send();
+  }
 }

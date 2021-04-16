@@ -1,28 +1,31 @@
-import {FastifyInstance, RouteOptions} from "fastify";
+import {
+  FastifyInstance,
+  FastifyReply,
+  FastifyRequest,
+  RouteOptions
+} from "fastify";
 import { deleteAuthorization } from "../../logic/hydra-interface";
 import { hydraCheckToken } from "../../middlewares/hydra-check-token";
 
 const deleteAuthorizationRoute = (server: FastifyInstance): RouteOptions => {
-    return {
-        method: "DELETE",
-        async handler(
-            req,
-            res
-        ) {
-            let clientId: string = req.query["clientId"];
-            if (clientId === "") {
-                clientId = null;
-            }
-            const user = req.user;
-            await deleteAuthorization(user, req.hydra, clientId);
-            res.code(200);
-            res.send();
-        },
-        url: "/self/authorizations",
-        preHandler: server.auth([
-            hydraCheckToken(["account.authorized.edit"])
-        ] , {})
-    };
+  return {
+    method: "DELETE",
+    async handler(request: FastifyRequest, response: FastifyReply) {
+      let clientId: string | undefined = request.query["clientId"] as string;
+
+      if (clientId === "") {
+        clientId = undefined;
+      }
+
+      const user = request.user;
+
+      await deleteAuthorization(user, request.hydra, clientId);
+
+      void response.send();
+    },
+    url: "/self/authorizations",
+    preHandler: server.auth([hydraCheckToken(["account.authorized.edit"])], {})
+  };
 };
 
 export default deleteAuthorizationRoute;
