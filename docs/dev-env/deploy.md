@@ -2,51 +2,61 @@
 title: Deployment
 ---
 
-Pour faire tourner un service sur l'infrastructure, vous devez premièrement définir comment l'image Docker de ce service doit être crée puis définir votre service.
+To deploy a service on the infrastructure, first you have to define
+how the service Docker image should be created and define your
+service for Kubernetes.
 
-### Elements requis pour le fonctionnement d'un service.
+### Required elements for service functioning
 
-* Un système pour vérifier le fonctionnement d'un service et une endpoint pour que Kubernetes puisse vérifier (usuellement `/_healz`)
-* Un conteneur qui se démarre.
+* A system which allow to check the service and an endpoint for
+  Kubernetes checking (usually `/_healz`).
 
+### Write a pipeline
 
-### Ecrire une pipeline
-
-La plupart du temps, un tel processus n'est pas nécessaire, mais chaque projet a besoin d'un fichier de configuration.
-Pour pouvoir compiler les projets plus facilement, nous utilisont [Kaniko](https://github.com/GoogleContainerTools/kaniko). Nous disposons d'un dépot avec les fichiers de configuration, tel que helm3, kaniko et autre... en général, un fichier de configuration sera structuré comme ça.
+Most of the time, a process of this kind is not necessary, but each
+project needs a configuration file.
+To compile the projects easier, we use
+[Kaniko](https://github.com/GoogleContainerTools/kaniko). We have a
+deposit with configuration files, such as Helm 3, Kaniko and other...
+In general, a configuration file is used like this.
 
 ```yml
 include:
-  # Inclusion de la configuration de base de GitLab, AutoDevops.
+  # GitLab base inclusion, AutoDevops.
   - template: Auto-DevOps.gitlab-ci.yml
-  # Application du patch pour l'utilisation de kaniko.
+  # Patch application for Kaniko use.
   - project: 'developers-house/dev/gitlab-ci-collection'
     ref: master
     file: 'kaniko.gitlab-ci.yml'
-  # Application du patch pour l'utilisation de helm version 3
+  # Patch application for Helm 3.
   - project: 'developers-house/dev/gitlab-ci-collection'
     ref: master
     file: 'helm.gitlab-ci.yml'
 
-# ... <reste du fichier de configuration>
+# ... <Remainder of the configuration file>.
 ```
 
-### Deploiement a partie de la chart de Developer's House.
+### Deployment using the Developer's House chart.
 
-La deploiement de service se fait a parir de manifestes Kubernetes, qui définissent quelles ressources votre service a besoin (client oauth, démarrage de conteneur...).
-Pour faciliter le deploiement de services basiques, nous avons une "chart" custom qui utilise helm (un package manager pour ces manifests) [ici](https://gitlab.com/developers-house/dev/deploy-chart).
+Service deployment is realized using Kubernetes manifests which define
+which ressources your system needs (oauth client, containers start...).
+To easy the deployment of basic services, we have a chart using Helm
+(a package manager for these manifests). You can find
+[here](https://gitlab.com/developers-house/dev/deploy-chart), on the
+GitLab organization, browsing in developers repositories.
+In the deploy.yaml file, you can change the chart settings.
 
-Dans le fichier deploy.yaml, vous pouvez changez les réglages de cete chart.
 
-
-Vous pouvez demander un certain nombre de replicas.
+You can ask a certain number of replicas.
 ```yml
 replicaCount: 1
 ```
 
-L'autoscaling permet de changer le nombre de réplicas selon la demande
+Autoscaling allows to change the number of replicas according to the
+demand.
 
-> Activer l'autoscaling efface la configuration `replicaCount`
+> The activation of autoscaling disable the `replicaCount` parameter in
+the YAML file.
 
 ```yml
 autoscaling:
@@ -57,7 +67,8 @@ autoscaling:
   targetMemoryUtilizationPercentage: 80
 ```
 
-Vous pouvez aussi définir des limites de ressources a chque conteneur, ce réglage permet a Kubernetes de mieux pouvoir distribuer les conteneurs a travers les serveurs.
+You can also define the limits of ressources for each container, which
+allows Kubernetes to improve the containers delivery through the servers.
 
 ```yml
 resources:
@@ -69,7 +80,9 @@ resources:
     memory: 128Mi
 ```
 
-Définir les permissions requises a un conteneur est primordial pour la sécurité, par défaut, les conteneurs sont lancés avec les privilèges les plus bas. Si vous avez besoin de privilèges plus hauts au niveau de l'hôte, vous pouvez les changer ici.
+Define the required permissions for a container is essential for security.
+By default, containers are launched with the lowest possible privileges. If you
+need higher privileges at the level of the host, you have to change them.
 
 ```yml
 # Other details of the deployment.
@@ -77,7 +90,8 @@ podSecurityContext: {}
 securityContext: {}
 ```
 
-Certains conteneurs ont besoin d'être lancés seulement sur certains hôtes et dans certaines circonstances, vous pouvez configurer ça ici.
+Certain containers need to be only launched on certain hosts and in certain
+circonstances, you can configure this like this:
 
 ```yml
 nodeSelector: {}
@@ -85,7 +99,8 @@ affinity: {}
 tolerations: {}
 ```
 
-Chaque service a une adresse DNS assignée, des ports personalisés etc... Vous pouvez configurer ça ici. 
+Each service has an assigned DNS address, custom ports etc... You can configure
+this like this:
 
 ```yml
 service:
@@ -97,9 +112,12 @@ service:
   internalPort: 5000
 ```
 
-Certains services ont besoin d'avoir une adresse HTTP(s) qui leut est assignée, un ingress permet de dire au Reverse Proxy de rediriger le trafic du nom de domaine assigné a votre service.
+Certain services have to have an assigned HTTP address, an ingress allow to say
+to proxy Reverse Proxy to redirect the trafic from the assigned domain name to your
+service.
 
-> Pour ajouter des noms de domaines, ajoutez la variable `ADDITIONAL_HOSTS` contenant tout les noms de domaine séparés par une virgule dans votre projet GitLab (CI/CD > Variables).
+> To add domain names, add the variable `ADDITIONAL_HOSTS` containing all domain names
+> splitted by a coma in your GitLab project repository (CI/CD > Variables).
 
 ```yml
 ingress:
@@ -108,7 +126,8 @@ ingress:
   annotations: {}
 ```
 
-Avant que le service soit disponible, Kubernetes vérifie le status de ce dernier. Vous pouvez configurer ces vérifications avec les lignes suivantes. Les endpoints HTTP doivent obligatoirement retourner 2xx.
+Before the service become available, Kubernetes checks its status. You can configure
+these verifications with the following lines. HTTP endpoints must imperatively return 2xx.
 
 ```yml
 health:
@@ -128,7 +147,7 @@ health:
     command: []
 ```
 
-Definit le comportement qu'aura Kubernetes pendant une mise a jour.
+Here is how to define the performance which will have Kubernetes during an update:
 
 ```yml
 podDisruption:
@@ -137,10 +156,12 @@ podDisruption:
   maxUnavailable: 1
 ```
 
-Permet de restreindre l'accès a ce conteneur par le réseau selon le groupe de ce conteneur. Par exemple, dans cet exemple, on autorise seulement les conteneurs présents dans le namespace ayant le label "ingress" a toucher le service.
+You can restrict the access to a container by network in function of the group of this
+container. For instance, in this example we only authorize present containers in the
+namespace having the label "ingress" to access to the service.
 
 ```yml
-# You should preferably only allow acces of the services you need.
+# You should preferably only allow access of the services you need.
 networkPolicy:
   enabled: true
   spec:
@@ -155,22 +176,23 @@ networkPolicy:
             role: ingress
 ```
 
-L'api de Kubernetes fonctionne grâce a des rôles et des comptes, si votre conteneur a besoin d'un compte au niveau de l'api, activez cette option.
+Kubernetes API works thanks to roles anc accounts, if the container needs an account at
+the level of the API, enable this option.
 
 ```yml
-# The service account of the contaier.
+# The service account of the container.
 # Allow access to the kubernetes apis here.
 serviceAccount:
-  # Specifies whether a service account should be created
+  # Specifies whether a service account should be created.
   create: true
-  # Annotations to add to the service account
+  # Annotations to add to the service account.
   annotations: {}
   # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
+  # If not set and create is true, a name is generated using the fullname template.
   name: ""
 ```
 
-Ajoute des labels a votre conteneur, utile pour l'utilisation des networkPolicy.
+You can add labels to containers, it is helpful for networkPolicy use.
 
 ```yml
 # Annotations attached to the container.
@@ -178,7 +200,7 @@ extraLabels: {}
 podAnnotations: {}
 ```
 
-Permet la création d'un client d'accès OAuth au niveau du serveur de login.
+The OAuth access client at the level of the login service can potentially interest you :
 
 ```yaml
 oauthClient:
@@ -190,8 +212,8 @@ oauthClient:
     - code
     - token
     - id_token
-  scope: "account.* websocket.*" # Liste des scopes.
+  scope: "account.* websocket.*" # Scopes list.
   audiences:
-   - abdera # Liste des apis.
-  tokenEndpointAuthMethod: none # Paramètres requis a la validation du code.
+   - abdera # APIs list.
+  tokenEndpointAuthMethod: none # Required parameters for code validation.
 ```

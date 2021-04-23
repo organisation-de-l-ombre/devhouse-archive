@@ -1,22 +1,23 @@
 ---
-title: Registre NPM
+title: NPM registry
 ---
 
-Certains projets ont besoin de paquets npm internes Developer's House.
-Afin de pouvoir les télécharger, vous devez configurer votre client npm.
+Certain projects needs Developer's House internal NPM packages.
+To download them, you have to configure your NPM client.
 
-Premièrement, vous devez gérerer un token d'accès personnel depuis vos [réglages
-gitlab](https://gitlab.com/-/profile/personal_access_tokens) avec la permission "api".
+First you have to generate a personal access token from your
+[GitLab settings](https://gitlab.com/-/profile/personal_access_tokens)
+with thr permission `api`.
 
 ```shell
-# On dit a NPM d'utiliser gitlab pour l'organisation "developers-house".
+# You say to NPM to use GitLab for Developer's House organisation : "developers-house".
 npm config set @developers-house:registry https://gitlab.com/api/v4/packages/npm/
-# Configuration du token d'authorisation de GitLab pour NPM
+# GitLab token authorization configuration for NPM
 npm config set -- '//gitlab.com/api/v4/packages/npm/:_authToken' "<your_token>"
-# Configuration du token d'authorisation de GitLab pour Yarn
+# GitLab token authorization configuration for Yarn
 npm config set -- '//gitlab.com/api/v4/projects/:_authToken' "<your_token>"
 ```
 
-> N'oubliez pas de remplacer `<your_token>` avec le token d'acces que vous avez généré.
+> Don't forget to replace `<your_token>` by the personal access token you generated.
 
-Vous devriez à partir de maintenant pouvoir télécharger les paquets de l'organisation.
+Now, you can download the NPM packages of the organization.

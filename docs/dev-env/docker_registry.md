@@ -1,16 +1,17 @@
 ---
-title: Registre Docker
+title: Docker registry
 ---
 
-Les services coté serveur de Developer's House sont tous
-contenus dans des conteneurs OCI (ou Docker) il est parfois utile de pouvoir télécharger ces images pour pouvoir regarder ce qu'il y a dedans. Les images docker sont stoquées dans le registre Docker de GitLab.
+Developer's House server side services are all container in OCI (or Docker) containers.
+It is sometimes helpful to download these images to watch their content. Docker images
+are stored in GitLab Docker registry.
 
-Comme les paquets NPM, vous allez devoir créer un token d'acces avec la permission "read_registry".
-
-Puis taper dans votre invite de commande
+Such as NPM packages, you have to create an access token with the permission
+`read_registry`.
+Next you have to enter these in your shell/terminal:
 
 ```shell
 docker login
 ```
-
-avec comme nom d'utilisateur votre pseudo GitLab et comme mot de passe le token d'acces que vous avez crée.
+Your username is your GitLab full username and the password is the access token you
+generated before.
