@@ -1,6 +1,6 @@
 name: Alma
 normalizedName: alma
-logo: https://s3.developershouse.xyz/website-assets/projects/website/Alma_Icon_Transparent.png
+logo: https://s3.developershouse.xyz/website-assets/projects/alma/icon.png
 shortDescription: A web administration panel for managing users, permissions, data and services for Developer's House team.
 longDescription: |
   Alma is a web administration panel to manage the different services
@@ -13,5 +13,4 @@ members:
 managers:
   - id: "357595301210619904" # icecodder
   - id: "314354049023737857" # Matthieu
-  - id: "263713074630885376" # Nico
 link:
