@@ -16,12 +16,18 @@ module.exports = {
                 alt: 'My Site Logo',
                 src: 'img/logo.svg',
             },
-            items: [{
-                type: 'doc',
-                docId: 'intro',
-                position: 'left',
-                label: 'Main documentation',
-            }, ],
+            items: [
+                {
+                    type: 'localeDropdown',
+                    position: 'left'
+                },
+                {
+                    type: 'doc',
+                    docId: 'intro',
+                    position: 'left',
+                    label: 'Main documentation',
+                },
+            ],
         },
         footer: {
             style: 'dark',
@@ -44,4 +50,11 @@ module.exports = {
             },
         ],
     ],
+    i18n: {
+        defaultLocale: "en",
+        locales: [
+            "en",
+            "fr",
+        ]
+    }
 };
