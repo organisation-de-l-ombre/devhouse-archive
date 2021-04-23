@@ -9,21 +9,11 @@ import ReactDOM from "react-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import SuspenseLoader from "./components/SuspenseLoader/SuspenseLoader";
 import "./transitions.css";
-import { RequestParams } from "./constants";
+import "rc-tooltip/assets/bootstrap.css";
 
 const queryClient = new QueryClient();
 
 const Root = React.lazy(() => import("./Root"));
-
-if (RequestParams.url) {
-  const url = new URL(window.location.toString());
-  url.searchParams.delete("url");
-  url.pathname = decodeURIComponent(RequestParams.url as string).replace(
-    "web+devhouse:",
-    ""
-  );
-  window.location.replace(url.toString());
-}
 
 const MainComponent = (): ReactElement => (
   <SuspenseLoader>

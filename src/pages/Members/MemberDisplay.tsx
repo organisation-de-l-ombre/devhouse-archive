@@ -8,9 +8,9 @@ import Button, { ButtonImage } from "components/ui/Button/Button";
 import { FaGithub, FaGitlab, FaStackOverflow, GiClick } from "react-icons/all";
 import { FaDiscord } from "react-icons/fa";
 import { IconType } from "react-icons";
+import Tooltip from "rc-tooltip";
 import { getAvatar, statusToColor } from "../../utilities";
 import styles from "./member.module.scss";
-import Tooltip from "../../components/tooltip/Tooltip";
 import ButtonGroup from "../../components/ui/Button/ButtonGroup";
 
 const socialIcons: { icon: IconType; name: StaffMemberSocialsIconEnum }[] = [
@@ -38,34 +38,35 @@ const MemberDisplay: FC<
           />
         </div>
         <Tooltip
-          className={styles.name}
-          showMobile
-          tooltip={`${member.username}#${member.discriminator}`}
+          placement="top"
+          overlay={`${member.username}#${member.discriminator}`}
         >
-          <h2>{member.username}</h2>
-          <p style={{ color: member.role.color }}>{member.role.name}</p>
-          <div>
-            {member.presence.text && (
-              <p>
-                {member.presence.emote &&
-                  (member.presence.emote.startsWith("http") ? (
-                    <img
-                      alt="Discord emoji"
-                      className={styles.emote}
-                      src={member.presence.emote}
-                    />
-                  ) : (
-                    member.presence.emote
-                  ))}
-                {member.presence.text}
-              </p>
-            )}
+          <div className={styles.name}>
+            <h2>{member.username}</h2>
+            <p style={{ color: member.role.color }}>{member.role.name}</p>
+            <div>
+              {member.presence.text && (
+                <p>
+                  {member.presence.emote &&
+                    (member.presence.emote.startsWith("http") ? (
+                      <img
+                        alt="Discord emoji"
+                        className={styles.emote}
+                        src={member.presence.emote}
+                      />
+                    ) : (
+                      member.presence.emote
+                    ))}
+                  {member.presence.text}
+                </p>
+              )}
+            </div>
           </div>
         </Tooltip>
       </div>
       <p className={styles.text} />
 
-      <ButtonGroup>
+      <ButtonGroup className={styles.links}>
         {member.socials &&
           member.socials
             .map((icon) => {
@@ -76,7 +77,7 @@ const MemberDisplay: FC<
               };
               return (
                 <a
-                  key={icon.name}
+                  key={`${icon.name}${icon.link}`}
                   referrerPolicy="no-referrer"
                   target="_blank"
                   href={icon.link}
