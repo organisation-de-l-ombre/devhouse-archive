@@ -2,6 +2,7 @@ import { Card } from "components/ui/Card/Card";
 import React, { CSSProperties, ReactElement } from "react";
 import Text from "components/ui/Text/Text";
 import Button from "components/ui/Button/Button";
+import Tooltip from "rc-tooltip";
 import { TitleBox } from "../../components/ui/TitleBox/TitleBox";
 import styles from "./Projects.module.scss";
 import ButtonGroup from "../../components/ui/Button/ButtonGroup";
@@ -9,7 +10,6 @@ import useProjects from "../../hooks/useProjects";
 import { Loader } from "../../components/SuspenseLoader/SuspenseLoader";
 import UserAvatarStatus from "../../components/ui/UserAvatarStatus/UserAvatarStatus";
 import { getAvatar, statusToColor } from "../../utilities";
-import Tooltip from "../../components/tooltip/Tooltip";
 import { withNetwork } from "../../hooks/hoc/withNetwork";
 
 function ProjectsPage(): ReactElement {
@@ -57,9 +57,8 @@ function ProjectsPage(): ReactElement {
                       {project.managers.map((member) => {
                         return (
                           <Tooltip
-                            showMobile
                             key={member.id}
-                            tooltip={
+                            overlay={
                               <div
                                 style={{
                                   display: "flex",
@@ -93,8 +92,8 @@ function ProjectsPage(): ReactElement {
                       {project.members?.map((member) => {
                         return (
                           <Tooltip
-                            showMobile
-                            tooltip={
+                            placement="top"
+                            overlay={
                               <div
                                 style={{
                                   display: "flex",

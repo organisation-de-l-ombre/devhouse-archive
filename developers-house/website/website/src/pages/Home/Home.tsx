@@ -11,7 +11,6 @@ import { Card, CardPadding } from "../../components/ui/Card/Card";
 import Footer from "../../components/footer/Footer";
 
 const shareAvailable = !!navigator.share;
-const protocolAvailable = !!navigator.registerProtocolHandler;
 
 export default function HomePage(): ReactElement {
   const share = useCallback(() => {
@@ -20,11 +19,6 @@ export default function HomePage(): ReactElement {
       text: "Discover Developer's House today!",
       url: document.location.toString(),
     });
-  }, []);
-
-  const protocol = useCallback(() => {
-    const url = `${document.location.toString()}?url=%s`;
-    navigator.registerProtocolHandler("web+devhouse", url, "Developer's House");
   }, []);
 
   return (
@@ -216,9 +210,6 @@ export default function HomePage(): ReactElement {
               </a>
               {shareAvailable && (
                 <Button onClick={share}>Share the project</Button>
-              )}
-              {protocolAvailable && (
-                <Button onClick={protocol}>Add the protocol</Button>
               )}
             </ButtonGroup>
           </CardPadding>

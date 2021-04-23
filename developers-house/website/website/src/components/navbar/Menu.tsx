@@ -14,7 +14,6 @@ import { DrawerContent } from "./Menu/DrawerContent";
 import styles from "./Menu/navigation.module.scss";
 import UserAvatarStatus from "../ui/UserAvatarStatus/UserAvatarStatus";
 import globalStyles from "../../styles/Global.module.scss";
-import Tooltip from "../tooltip/Tooltip";
 import { useNotificationsManager } from "../../hooks/Notifications/Notifications";
 
 export function Menu(): ReactElement {
@@ -120,38 +119,30 @@ export function Menu(): ReactElement {
             </NavigationItem>
           </NavLink>
         ) : (
-          <Tooltip
-            className={styles.right}
-            direction="bottom"
-            tooltip={t("menu.login.tooltip")}
-          >
-            <NavigationItem onClick={() => dispatch(loginUser())}>
-              <FaUser />
-              <span className={globalStyles.onlyMobiles}>Login</span>
-            </NavigationItem>
-          </Tooltip>
-        )}
-        <Tooltip direction="bottom" tooltip={t("menu.theme.tooltip")}>
-          <NavigationItem
-            onClick={(e) => {
-              e.stopPropagation();
-              dispatch(updateTheme(dark ? "dark" : "light"));
-              addNotification({
-                level: "information",
-                text: `Switched to ${dark ? "dark" : "light"} theme.`,
-                time: 5000,
-              });
-            }}
-          >
-            {dark ? <BsMoon /> : <FaSun />}
-            <div className={globalStyles.onlyMobiles}>
-              <Trans
-                t={t}
-                i18nKey={`menu.theme.text.${!dark ? "light" : "dark"}`}
-              />
-            </div>
+          <NavigationItem onClick={() => dispatch(loginUser())}>
+            <FaUser />
+            <span className={globalStyles.onlyMobiles}>Login</span>
           </NavigationItem>
-        </Tooltip>
+        )}
+        <NavigationItem
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch(updateTheme(dark ? "dark" : "light"));
+            addNotification({
+              level: "information",
+              text: `Switched to ${dark ? "dark" : "light"} theme.`,
+              time: 5000,
+            });
+          }}
+        >
+          {dark ? <BsMoon /> : <FaSun />}
+          <div className={globalStyles.onlyMobiles}>
+            <Trans
+              t={t}
+              i18nKey={`menu.theme.text.${!dark ? "light" : "dark"}`}
+            />
+          </div>
+        </NavigationItem>
       </DrawerContent>
     </NavigationContainer>
   );
