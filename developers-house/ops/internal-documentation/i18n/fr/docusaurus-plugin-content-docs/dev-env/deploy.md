@@ -1,6 +1,4 @@
----
-title: Deployment
----
+# Deploiement
 
 Pour faire tourner un service sur l'infrastructure, vous devez premièrement définir comment l'image Docker de ce service doit être crée puis définir votre service.
 
