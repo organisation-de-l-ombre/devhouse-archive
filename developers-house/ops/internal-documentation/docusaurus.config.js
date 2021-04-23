@@ -1,7 +1,7 @@
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
     title: 'Developer\'s House Documentation',
-    tagline: 'Internal documentaiton for Developer\`s house services.',
+    tagline: 'Internal documentation for Developer\`s house services.',
     url: 'https://docs.matthieu-dev.xyz',
     baseUrl: '/',
     onBrokenLinks: 'throw',
@@ -32,7 +32,7 @@ module.exports = {
         footer: {
             style: 'dark',
             links: [],
-            copyright: `Copyright © ${new Date().getFullYear()} Developer's House. Built with Docusaurus.`,
+            copyright: `Copyright © ${new Date().getFullYear()} Developer's House. All rights reserved.`,
         },
     },
     presets: [
@@ -42,7 +42,7 @@ module.exports = {
                 docs: {
                     sidebarPath: require.resolve('./sidebars.js'),
                     // Please change this to your repo.
-                    editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
+                    editUrl: 'https://gitlab.com/-/ide/project/developers-house/documentations/internal-documentation/edit/master/-/',
                 },
                 theme: {
                     customCss: require.resolve('./src/css/custom.css'),

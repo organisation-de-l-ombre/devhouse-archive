@@ -3,12 +3,18 @@ title: Guide
 sidebar_position: 1
 ---
 
-Developer's House essaie de maintenir une qualité de code raisonable a travers le projets, et pour pouvoir accomplir ce but, nous avont des règles plutpt strictes pour le dévelopement en TypeScript et JSX.
+Developer's house tries to maintain a good code quality through the
+different projects, and to assure this we have rather strict rules for
+TypeScript and JSX/TSX (for React front-ends) development.
 
 ### JSX
 
-Une grande partie des front-ends de Developer's House est développées avec React (JSX). Chaque projet doit suivre les règles de base de CRA (Create React App).
+A major part of the developer's House front-ends uses React (JSX/TSX).
+Each project should follow the base rules of CRA (Create React App).
 
 ### TypeScript
 
-Le code TypeScript doit suivre les règles stipulées dans le repo [`eslint-prettier-config`](https://gitlab.com/developers-house/dev/eslint-prettier-config/-/tree/master/node-typescript). Il vous suffit d'installer les paquets et de copier les fichiers de configuration d'Eslint et de Prettier.
+TypeScript code should follow indicated rules in the repository
+[`eslint-prettier-config`](https://gitlab.com/developers-house/dev/eslint-prettier-config/-/tree/master/node-typescript).
+You have to install the provided packages in the `readme.md` file and to
+copy Eslint & Prettier files to tour project root directory.
