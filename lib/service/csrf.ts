@@ -16,9 +16,7 @@ export function check(secret: string, token: string) {
   return tokenProvider.verify(secret, token);
 }
 
-export async function provide(
-  req: IncomingMessage,
-) {
+export async function provide(req: IncomingMessage) {
   if (!req.session.csrfKey) {
     req.session.csrfKey = await createSession();
   }

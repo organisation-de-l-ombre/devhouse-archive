@@ -1,16 +1,13 @@
 import { randomBytes } from "crypto";
 import { NextApiHandler, NextApiRequest } from "next";
 import { withSession, applySession } from "next-session";
-import {options} from "../../../../../lib/service/session";
-import {Providers} from "../../../../../lib/service/providers";
+import { options } from "../../../../../lib/service/session";
+import { Providers } from "../../../../../lib/service/providers";
 
 /*
  * Redirects to the requested url.
  */
-const handler: NextApiHandler = async (
-  req: NextApiRequest,
-  res
-) => {
+const handler: NextApiHandler = async (req: NextApiRequest, res) => {
   let {
     query: { provider, code: challenge },
   } = req;
