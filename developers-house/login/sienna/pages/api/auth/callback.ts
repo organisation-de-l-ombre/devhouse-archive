@@ -1,16 +1,13 @@
 import { NextApiHandler, NextApiRequest } from "next";
-import {applySession, withSession} from "next-session";
-import {GeneralUser, Providers} from "../../../lib/service/providers";
-import {AdminAPI, validateHydraResponse} from "../../../lib/service/hydra";
-import {options} from "../../../lib/service/session";
+import { applySession, withSession } from "next-session";
+import { GeneralUser, Providers } from "../../../lib/service/providers";
+import { AdminAPI, validateHydraResponse } from "../../../lib/service/hydra";
+import { options } from "../../../lib/service/session";
 
 /*
  * Redirects to the requested url.
  */
-const handler: NextApiHandler = async (
-  req: NextApiRequest,
-  res
-) => {
+const handler: NextApiHandler = async (req: NextApiRequest, res) => {
   if (!req.session.login) throw new Error("Invalid session.");
   // Unpack all the data.
   let {
@@ -51,20 +48,22 @@ const handler: NextApiHandler = async (
         platformId: user.id,
       };
 
-      const result = await fetch(`${process.env.SCARLET_ENDPOINT}/api/users/login`, {
-        body: JSON.stringify(requestBody),
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const result = await fetch(
+        `${process.env.SCARLET_ENDPOINT}/api/users/login`,
+        {
+          body: JSON.stringify(requestBody),
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (result.ok) {
         const { status, user: userData } = await result.json();
 
         switch (status) {
-          case 'NO_USER':
-          {
+          case "NO_USER": {
             await applySession(req as any, res, options);
             req.session.register = {
               loginChallenge,
@@ -73,8 +72,7 @@ const handler: NextApiHandler = async (
             res.redirect(`/dialog/register`);
             return;
           }
-          case 'FLOW_VALIDATED':
-          {
+          case "FLOW_VALIDATED": {
             const data = await AdminAPI.acceptLoginRequest(loginChallenge, {
               subject: userData.uuid,
               remember: true,
@@ -83,8 +81,7 @@ const handler: NextApiHandler = async (
             res.redirect(data.redirect_to);
             return;
           }
-          case '2FA_REQUIRED_VERIFY':
-          {
+          case "2FA_REQUIRED_VERIFY": {
             // TODO: 2FA redirect & session.
             return;
           }

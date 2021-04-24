@@ -1,10 +1,10 @@
-import {GetServerSidePropsContext, GetServerSidePropsResult} from "next";
+import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import React, { ReactElement } from "react";
 import { Button, ButtonContainer } from "../components/button";
 import { applySession } from "next-session";
-import {AdminAPI, validateHydraResponse} from "../lib/service/hydra";
-import {options} from "../lib/service/session";
-import {provide} from "../lib/service/csrf";
+import { AdminAPI, validateHydraResponse } from "../lib/service/hydra";
+import { options } from "../lib/service/session";
+import { provide } from "../lib/service/csrf";
 
 type Props = {
   csrf: string;
@@ -14,21 +14,15 @@ type Props = {
 };
 
 export default function Consent(props: Props): ReactElement {
-
-  const {
-    csrf,
-      client,
-      consentChallenge,
-      scopes,
-  } = props;
+  const { csrf, client, consentChallenge, scopes } = props;
 
   return (
     <div>
       <h2>Consent page</h2>
       <p>
-        The application {client.name} needs some kind of access to your account and
-        needs your consent, if you do not trust this application, feel free to
-        reject the consent request. This application requires the following
+        The application {client.name} needs some kind of access to your account
+        and needs your consent, if you do not trust this application, feel free
+        to reject the consent request. This application requires the following
         permissions.
       </p>
 
@@ -53,33 +47,32 @@ export default function Consent(props: Props): ReactElement {
   );
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<Props>> {
+export async function getServerSideProps(
+  context: GetServerSidePropsContext
+): Promise<GetServerSidePropsResult<Props>> {
   // Consent.
-  const {
-    query,
-      req,
-      res,
-  } = context;
+  const { query, req, res } = context;
 
   let consentChallenge = query.consent_challenge;
   if (Array.isArray(consentChallenge)) {
-    consentChallenge =  consentChallenge[0];
+    consentChallenge = consentChallenge[0];
   }
 
   if (consentChallenge) {
-
     const {
       client: { client_name, client_id },
-        subject,
+      subject,
       requested_scope,
-        requested_access_token_audience,
-        skip
-    } = await AdminAPI.getConsentRequest(consentChallenge).then(validateHydraResponse);
+      requested_access_token_audience,
+      skip,
+    } = await AdminAPI.getConsentRequest(consentChallenge).then(
+      validateHydraResponse
+    );
 
-    const user = await fetch(`${process.env.SCARLET_ENDPOINT}/api/users/${subject}`)
-        .then (x => x.json());
+    const user = await fetch(
+      `${process.env.SCARLET_ENDPOINT}/api/users/${subject}`
+    ).then((x) => x.json());
     if (skip) {
-
       const data = await AdminAPI.acceptConsentRequest(consentChallenge, {
         grant_scope: requested_scope,
         grant_access_token_audience: requested_access_token_audience,
@@ -120,7 +113,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext): Pr
         scopes: requested_scope,
       },
     };
-
   }
   return {
     notFound: true,

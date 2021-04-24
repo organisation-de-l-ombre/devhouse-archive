@@ -1,18 +1,18 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { withSession } from "next-session";
-import {AdminAPI, validateHydraResponse} from "../../../lib/service/hydra";
-import {check} from "../../../lib/service/csrf";
-import {options} from "../../../lib/service/session";
+import { AdminAPI, validateHydraResponse } from "../../../lib/service/hydra";
+import { check } from "../../../lib/service/csrf";
+import { options } from "../../../lib/service/session";
 
 /*
  * Get the list of enabled features.
  */
-async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
-    session: { csrfKey, logout: { logoutChallenge }, },
+    session: {
+      csrfKey,
+      logout: { logoutChallenge },
+    },
     body: { validate, challenge, _csrf },
   } = req;
 
@@ -22,14 +22,16 @@ async function handler(
     if (logoutChallenge === challenge) {
       if (validate === "accept") {
         // we fetch the user from
-        const data = await AdminAPI.acceptLogoutRequest(challenge).then(validateHydraResponse);
+        const data = await AdminAPI.acceptLogoutRequest(challenge).then(
+          validateHydraResponse
+        );
         res.redirect(data.redirect_to);
         return;
       }
       if (validate === "reject") {
         // Reject.
         await AdminAPI.rejectLogoutRequest(challenge).then(
-            validateHydraResponse
+          validateHydraResponse
         );
         return;
       }

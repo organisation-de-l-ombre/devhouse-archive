@@ -2,8 +2,6 @@
  * The list of oauth proviers.
  */
 
-
-
 export const Providers = new Map<string, Provider>();
 
 import DiscordProvider from "./Discord";
