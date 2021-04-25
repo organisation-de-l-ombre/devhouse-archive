@@ -1,9 +1,6 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import React, { ReactElement } from "react";
 import { Button, ButtonContainer } from "../components/button";
-import { applySession } from "next-session";
-import { options } from "../lib/service/session";
-import { provide } from "../lib/service/csrf";
 import { GeneralUser } from "../lib/service/providers";
 
 type Props = {
@@ -16,12 +13,12 @@ export default function Register({ user, csrf }: Props): ReactElement {
     <div>
       <h2>Hello!</h2>
       <p>
-        Hello, {user.username}! Welcome to <b>Developer's House</b>! As a new
-        member, you need to accept our <a href="">terms of service</a> in order
-        to continue.
+        Hello, {user.username}! Welcome to <b>Developer&rsquo;s House</b>! As a
+        new member, you need to accept our <a href="">terms of service</a> in
+        order to continue.
       </p>
 
-      <form method="POST" action={"/dialog/api/register/validate"}>
+      <form method="POST" action="/dialog/api/register/validate">
         <ButtonContainer horizontal>
           <Button name="validate" value="accept">
             Accept

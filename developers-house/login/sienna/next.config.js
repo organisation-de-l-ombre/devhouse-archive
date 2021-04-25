@@ -2,6 +2,8 @@ module.exports = {
   basePath: "/dialog",
   assetPrefix: "/dialog",
   api: {
-    externalResolver: true,
+    bodyParser: {
+      sizeLimit: '500kb',
+    },
   },
 };
