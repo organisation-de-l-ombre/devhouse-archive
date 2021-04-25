@@ -1,3 +1,5 @@
+import "reflect-metadata";
+import { Connection, createConnection } from "typeorm";
 import Fastify, {
   RouteOptions,
   FastifyInstance,
@@ -9,6 +11,11 @@ import fastifyCors from "fastify-cors";
 import { logger } from "./lib/logger";
 import { readdirSync } from "fs";
 import path from "path";
+import { addAliases } from "module-alias";
+
+addAliases({
+  "@entities": path.join(__dirname, "entity")
+});
 
 const S3Client: S3ClientBuilder = new S3ClientBuilder({
   endpoint: "https://s3.developershouse.xyz",
@@ -21,93 +28,98 @@ const S3Client: S3ClientBuilder = new S3ClientBuilder({
   },
   forcePathStyle: true
 });
+let databaseConnection: Connection;
 
-new (class AmeliaAPI {
-  FastifyClient: FastifyInstance = Fastify();
-  routes: RouteOptions[] = [];
+createConnection()
+  .then((connection: Connection): boolean => {
+    databaseConnection = connection;
 
-  constructor() {
-    this.addPlugins();
-    this.addDecorators();
-    void this.setupRouting();
-    this.startAmelia();
-  }
+    new (class AmeliaAPI {
+      FastifyClient: FastifyInstance = Fastify();
+      routes: RouteOptions[] = [];
 
-  // Adds plugins to Fastify instance
-  addPlugins(): void {
-    void this.FastifyClient.register(fastifyCors);
-  }
-
-  // Adds decorators to Fastify instance
-  addDecorators(): void {
-    this.FastifyClient.decorateReply(
-      "S3Client",
-      (): S3ClientBuilder => S3Client
-    );
-  }
-
-  // Setup Amelia API routing
-  async setupRouting(): Promise<void> {
-    /* this.FastifyClient.setNotFoundHandler(
-      (request: FastifyRequest, reply: FastifyReply): void => {
-        void reply.code(404).send();
+      constructor() {
+        this.addPlugins();
+        void this.setupRouting();
+        this.start();
       }
-    ); */
 
-    const directories: string[] = readdirSync(path.join(__dirname, "routes"));
+      // Adds plugins to Fastify instance
+      addPlugins(): void {
+        void this.FastifyClient.register(fastifyCors);
+      }
 
-    for (const directory of directories) {
-      const routes: string[] = readdirSync(
-        path.join(__dirname, "routes", directory)
-      );
-
-      for (const route of routes) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const { default: routeFile } = await import(
-          `${path.join(__dirname, "routes", directory, route)}`
+      // Setup Amelia API routing
+      async setupRouting(): Promise<void> {
+        this.FastifyClient.setNotFoundHandler(
+          (request: FastifyRequest, reply: FastifyReply): void => {
+            void reply.code(404).send();
+          }
         );
 
-        this.routes.push(routeFile);
-      }
-    }
+        const directories: string[] = readdirSync(
+          path.join(__dirname, "routes")
+        );
 
-    for (const route of this.routes) {
-      this.FastifyClient.route(route);
-    }
+        for (const directory of directories) {
+          const routes: string[] = readdirSync(
+            path.join(__dirname, "routes", directory)
+          );
 
-    this.FastifyClient.setErrorHandler(
-      (error: Error, request: FastifyRequest, reply: FastifyReply): void => {
-        logger.error(`API error at URL ${request.url} :\n${error.message}`);
-        void reply.code(500).send({
-          statusCode: 500,
-          error
-        });
-      }
-    );
+          for (const route of routes) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            const { default: routeFile } = await import(
+              `${path.join(__dirname, "routes", directory, route)}`
+            );
 
-    this.FastifyClient.setNotFoundHandler(
-      (request: FastifyRequest, reply: FastifyReply): void => {
-        void reply.code(404).send();
-      }
-    );
-
-    logger.info(`Amelia is starting with ${this.routes.length} routes...`);
-  }
-
-  // Starts Amelia
-  startAmelia(): void {
-    this.FastifyClient.listen(
-      process.env.PORT || "9000",
-      "0.0.0.0",
-      (error: Error, address: string): void => {
-        if (error) {
-          throw error;
+            this.routes.push(routeFile);
+          }
         }
 
-        logger.info(`Amelia started and listening on ${address}.`);
-      }
-    );
-  }
-})();
+        for (const route of this.routes) {
+          this.FastifyClient.route(route);
+        }
 
-export { S3Client };
+        this.FastifyClient.setErrorHandler(
+          (
+            error: Error,
+            request: FastifyRequest,
+            reply: FastifyReply
+          ): void => {
+            logger.error(`API error at URL ${request.url} :\n${error.message}`);
+            void reply.code(500).send({
+              statusCode: 500,
+              error
+            });
+          }
+        );
+
+        this.FastifyClient.setNotFoundHandler(
+          (request: FastifyRequest, reply: FastifyReply): void => {
+            void reply.code(404).send();
+          }
+        );
+
+        logger.info(`Amelia is starting with ${this.routes.length} routes...`);
+      }
+
+      // Starts Amelia
+      start(): void {
+        this.FastifyClient.listen(
+          process.env.PORT || "9000",
+          (error: Error, address: string): void => {
+            if (error) {
+              throw error;
+            }
+
+            logger.info(`Amelia started and listening on ${address}.`);
+          }
+        );
+      }
+    })();
+
+    return true;
+  })
+  .catch((error) => console.log(error));
+
+export { S3Client, databaseConnection };
