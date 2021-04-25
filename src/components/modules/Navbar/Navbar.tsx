@@ -1,4 +1,5 @@
 import { FaMoon, FaSun, FaUser, FaBell, FaBellSlash } from "react-icons/fa";
+import { MdSearch } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
@@ -13,10 +14,10 @@ import { useTheme } from "@hooks/Theme";
 import { useUser } from "@hooks/User";
 import { getAvatar } from "@lib/manageAuthentication";
 import IMRMinimalLogo from "@assets/pictures/imr/imr-minimal.png";
+import { NotificationsModal } from "../../ui";
+import DisplayLanguageSVG from "../DisplayLanguageSVG/DisplayLanguageSVG";
 import styles from "./Navbar.module.scss";
-import { Button, NotificationsModal } from "../../ui";
 import LanguageModal from "./LanguageModal";
-import { DisplayLanguageSVG } from "..";
 
 const Navbar = (): React.ReactElement => {
   const { open, manageNavbar } = useNavbar();
@@ -59,12 +60,16 @@ const Navbar = (): React.ReactElement => {
         setOpen={setNotificationsWindowOpen}
       />
       <nav className={styles.navbar}>
-        <Button className={styles["navbar-logo"]} onClick={manageNavbar}>
+        <button
+          type="button"
+          className={styles["navbar-logo"]}
+          onClick={manageNavbar}
+        >
           <img src={IMRMinimalLogo} alt="IMR logo" draggable={false} />
           <span>
             <Trans t={t} i18nKey="mobileMenu" />
           </span>
-        </Button>
+        </button>
         <div className={styles.separator} />
         <div
           className={`${styles["navbar-items"]}${
@@ -98,7 +103,8 @@ const Navbar = (): React.ReactElement => {
             </NavLink>
           </div>
           <div className={styles.end}>
-            <Button
+            <button
+              type="button"
               className={`${styles.buttons} ${styles.user}`}
               onClick={() => {
                 manageUser();
@@ -124,8 +130,20 @@ const Navbar = (): React.ReactElement => {
               ) : (
                 <Trans t={t} i18nKey="items.login" />
               )}
-            </Button>
-            <Button
+            </button>
+            <NavLink
+              to="/search"
+              exact
+              className={styles.buttons}
+              onClick={manageNavbar}
+            >
+              <MdSearch className={styles.search} />
+              <span className={styles["switcher-span"]}>
+                <Trans t={t} i18nKey="items.browse" />
+              </span>
+            </NavLink>
+            <button
+              type="button"
               className={styles.buttons}
               onClick={() => {
                 if (open) {
@@ -139,8 +157,9 @@ const Navbar = (): React.ReactElement => {
               <span className={styles["switcher-span"]}>
                 <Trans t={t} i18nKey="items.changeLanguage" />
               </span>
-            </Button>
-            <Button
+            </button>
+            <button
+              type="button"
               className={styles.buttons}
               onClick={() => {
                 if (open) {
@@ -154,8 +173,12 @@ const Navbar = (): React.ReactElement => {
               <span className={styles["switcher-span"]}>
                 <Trans t={t} i18nKey="items.notifications" />
               </span>
-            </Button>
-            <Button className={styles.buttons} onClick={manageTheme}>
+            </button>
+            <button
+              type="button"
+              className={styles.buttons}
+              onClick={manageTheme}
+            >
               {theme === "light" ? <FaMoon /> : <FaSun />}
               <span className={styles["switcher-span"]}>
                 {theme === "light" ? (
@@ -164,7 +187,7 @@ const Navbar = (): React.ReactElement => {
                   <Trans t={t} i18nKey="items.lightTheme" />
                 )}
               </span>
-            </Button>
+            </button>
           </div>
         </div>
       </nav>

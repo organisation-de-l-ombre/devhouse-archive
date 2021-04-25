@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import Suspense from "./components/modules/Suspense/Suspense";
+import Suspense from "@components/modules/Suspense/Suspense";
 
 const IMRMain = React.lazy(() => import("./IMRMain"));
 
@@ -14,7 +13,7 @@ const RootComponent = (): React.ReactElement => {
 };
 
 const app = document.createElement("div");
-app.id = "app";
+app.className = "app";
 document.body.appendChild(app);
 
 ReactDOM.render(<RootComponent />, app);

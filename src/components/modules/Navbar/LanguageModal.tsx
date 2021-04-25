@@ -4,8 +4,8 @@ import { useLanguage } from "@hooks/Language";
 import globalStyles from "@themes/Global.module.scss";
 import { manageSelection } from "@components/ui/SelectList/SelectList";
 import { supportedLanguages } from "@store/language";
+import { DisplayLanguageSVG } from "@components/modules";
 import { Button, Modal, modalStyles, SelectList } from "../../ui";
-import { DisplayLanguageSVG } from "..";
 
 const LanguageModal: React.FC<
   React.DetailedHTMLProps<

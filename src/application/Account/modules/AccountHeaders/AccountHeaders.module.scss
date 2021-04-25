@@ -1,4 +1,5 @@
 .background {
+  z-index: 4;
   width: 100%;
   background-color: var(--primary-background-color);
   display: flex;
@@ -6,8 +7,6 @@
 
   .headers {
     padding: 0 2rem 2rem 2rem;
-    width: calc(100% - 4rem);
-    max-width: 75%;
     flex-wrap: wrap;
     align-items: center;
 

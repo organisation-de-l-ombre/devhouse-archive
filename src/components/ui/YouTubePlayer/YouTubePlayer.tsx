@@ -1,7 +1,7 @@
 import React from "react";
 import YouTube from "react-youtube";
 import { useTranslation } from "react-i18next";
-import { Modal } from "..";
+import { Modal } from "../Modal";
 import styles from "./YouTubePlayer.module.scss";
 import { PlayerDimensions } from "./Types";
 

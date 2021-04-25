@@ -17,6 +17,10 @@ const Callback = React.lazy(
 const MovieTitle = React.lazy(
   () => import("../../../application/MovieTitle/MovieRoot")
 );
+const Search = React.lazy(() => import("../../../application/Search/Search"));
+const InternalWiki = React.lazy(
+  () => import("../../../application/Wiki/Internal/InternalRoot")
+);
 
 const ApplicationRouter = (): React.ReactElement => {
   return (
@@ -35,6 +39,8 @@ const ApplicationRouter = (): React.ReactElement => {
             return <MovieTitle {...props} />;
           }}
         />
+        <Route path="/search" exact component={Search} />
+        <Route path="/wiki/internal" component={InternalWiki} />
         <Route path="*" component={NotFound} />
       </Switch>
 

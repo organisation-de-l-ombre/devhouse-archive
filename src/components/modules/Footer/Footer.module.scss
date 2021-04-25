@@ -2,7 +2,7 @@
   width: calc(100% - 2rem);
   padding: 2rem 1rem 1rem 1rem;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   background-color: var(--primary-background-color);
@@ -19,7 +19,7 @@
     }
 
     h3 {
-      margin: 1rem 0;
+      margin: 1.5rem 0 1rem 0;
       text-align: center;
     }
 
@@ -29,13 +29,10 @@
       a {
         margin: .5rem;
 
-        svg { transition: .5s; }
+        svg { transition: fill .5s; }
 
         &:hover {
-          svg {
-            transition: .5s;
-            fill: var(--font-color-hover);
-          }
+          svg { fill: var(--font-color-hover); }
         }
       }
     }
@@ -44,6 +41,7 @@
   .right {
     margin: 1rem 1rem 1rem 2rem;
     display: flex;
+    flex: .7 40rem;
     flex-direction: column;
 
     h3 { text-align: center; }
@@ -60,9 +58,9 @@
       flex-wrap: wrap;
 
       .items {
-        margin: .5rem 2rem 1rem 2rem;
+        margin: .5rem 1rem 1rem 1rem;
         display: flex;
-        flex: 1;
+        flex: 1 10rem;
         flex-direction: column;
 
         h3 {
@@ -74,12 +72,10 @@
         a {
           margin: .25rem 0;
           text-align: start;
-          transition: .5s;
+          font-size: 16px;
+          transition: color .5s;
 
-          &:hover {
-            transition: .5s;
-            color: var(--font-color-hover);
-          }
+          &:hover { color: var(--font-color-hover); }
         }
       }
     }

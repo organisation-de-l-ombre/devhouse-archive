@@ -11,6 +11,7 @@ import MovieHeaders from "./modules/MovieHeaders/MovieHeaders";
 import MovieInternalNavigation from "./modules/MovieInternalNavigation/MovieInternalNavigation";
 import MovieRouter from "./modules/Router/MovieRouter";
 import { S3DataResponse } from "./types";
+import containerStyle from "./Containers.module.scss";
 
 const fetchMovieData = async (
   movieTitle: string,
@@ -19,7 +20,7 @@ const fetchMovieData = async (
 ): Promise<S3DataResponse | undefined> => {
   try {
     const { dataURL: APIResponse } = await fetch(
-      `https://amelia-api.developershouse.xyz/data/movies/title/${movieTitle}/${language}`
+      `http://localhost:9000/data/movies/title/${movieTitle}/${language}`
     ).then((response) => response.json());
 
     if (APIResponse) {
@@ -87,9 +88,9 @@ const MovieRoot: React.FC<RouteComponentProps> = ({ match }) => {
   if (isFetching) {
     return (
       <FlexContainer
-        className={`${globalStyles["alignment-full-center"]} ${globalStyles["navbar-margin"]}`}
+        className={`${containerStyle["is-fetching-root"]} ${globalStyles["alignment-full-center"]} ${globalStyles["navbar-margin"]}`}
       >
-        <GenericLoader>
+        <GenericLoader className={containerStyle["is-fetching"]}>
           <Trans t={t} i18nKey="fetchingData" />
         </GenericLoader>
       </FlexContainer>

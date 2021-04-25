@@ -20,6 +20,7 @@ import { manageSelection } from "@components/ui/SelectList/SelectList";
 import { DisplayLanguageSVG } from "@components/modules";
 import containerStyle from "../../Containers.module.scss";
 import styles from "./Settings.module.scss";
+import "./Toggle.scss";
 
 const Settings = (): React.ReactElement => {
   const { t } = useTranslation("pages\\account\\sections\\settings");

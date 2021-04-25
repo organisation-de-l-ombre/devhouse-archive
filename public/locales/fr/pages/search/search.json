@@ -1,0 +1,28 @@
+{
+  "headers": {
+    "title": "Recherche",
+    "description": "Veuillez entrer un titre ou des mots clés pour effectuer une recherche dans le base de données. Vous devez fournir au minimum 3 caractères et au maximum 32.",
+    "form": {
+      "input": "Rechercher un film, une série...",
+      "button": "Rechercher",
+      "validation": {
+        "invalidValue": "Vous devez fournir au minimum 3 caractères et au maximum 32."
+      }
+    },
+    "advancedSearch":{
+      "label": "Recherche avancée",
+      "selectors": {
+        "movie": "Film",
+        "series": "Série"
+      }
+    }
+  },
+  "body": {
+    "fetchingData": "Récupération des données depuis la base de données... Veuillez patienter quelques instants.",
+    "success": {
+      "title": "Résultats pour \"{{search}}\" ({{resultsLength}})"
+    },
+    "noSearch": "Commencez par effectuer une recherche.",
+    "notFound": "Aucun résultat n'a été trouvé pour votre recherche. Veuillez réessayer en étant plus précis."
+  }
+}

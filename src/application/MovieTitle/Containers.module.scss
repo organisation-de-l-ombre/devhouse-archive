@@ -1,3 +1,14 @@
+.is-fetching-root {
+  min-height: 30rem;
+
+  .is-fetching { align-items: center; }
+}
+
+.loading {
+  min-height: 30rem;
+  align-items: center;
+}
+
 .container {
   padding: 2rem;
   width: calc(100% - 4rem);

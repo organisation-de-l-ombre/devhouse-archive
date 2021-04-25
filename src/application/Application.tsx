@@ -19,11 +19,7 @@ const Application = (): React.ReactElement => {
   const [open, setOpen] = React.useState<boolean>(firstUse);
 
   React.useEffect(() => {
-    const app = document.querySelector("#app");
-
-    if (app) {
-      app.className = themes[theme];
-    }
+    document.body.className = themes[theme];
   }, [theme]);
 
   React.useEffect(() => {

@@ -6,6 +6,7 @@ import {
   SummaryItem,
   YouTubePlayer,
 } from "@components/ui";
+import globalStyles from "@themes/Global.module.scss";
 import styles from "./Videos.module.scss";
 import containerStyle from "../../Containers.module.scss";
 import {
@@ -78,10 +79,14 @@ const VideosSection: ReactMovieElement = ({ dataResponse }) => {
                         }
                       }}
                     >
-                      <img
-                        src={`https://img.youtube.com/vi/${trailer.videoID}/mqdefault.jpg`}
-                        alt={trailer.title}
-                      />
+                      <div
+                        className={`${globalStyles["overflow-hidden"]} ${globalStyles["border-radius"]} ${globalStyles["image-rendering"]}`}
+                      >
+                        <img
+                          src={`https://img.youtube.com/vi/${trailer.videoID}/mqdefault.jpg`}
+                          alt={trailer.title}
+                        />
+                      </div>
                       <h3>{trailer.title}</h3>
                     </FlexContainer>
                   );
@@ -121,10 +126,14 @@ const VideosSection: ReactMovieElement = ({ dataResponse }) => {
                               }
                             }}
                           >
-                            <img
-                              src={`https://img.youtube.com/vi/${video.videoID}/mqdefault.jpg`}
-                              alt={video.title}
-                            />
+                            <div
+                              className={`${globalStyles["overflow-hidden"]} ${globalStyles["border-radius"]} ${globalStyles["image-rendering"]}`}
+                            >
+                              <img
+                                src={`https://img.youtube.com/vi/${video.videoID}/mqdefault.jpg`}
+                                alt={video.title}
+                              />
+                            </div>
                             <h3>{video.title}</h3>
                           </FlexContainer>
                         );

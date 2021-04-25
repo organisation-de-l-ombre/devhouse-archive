@@ -4,15 +4,19 @@ import { Trans, useTranslation } from "react-i18next";
 import { BsFillQuestionCircleFill } from "react-icons/bs";
 import { MdWork } from "react-icons/md";
 import { RiMessage2Fill } from "react-icons/ri";
-import FlexContainer from "@components/ui/FlexContainer/FlexContainer";
+import { FlexContainer, ButtonsGroup, buttonStyles } from "@components/ui";
 import globalStyles from "@themes/Global.module.scss";
-import { buttonStyles } from "@components/ui/Button";
-import BackToTop from "@components/modules/BackToTop/BackToTop";
-import ButtonsGroup from "@components/ui/ButtonsGroup/ButtonsGroup";
+import { BackToTop } from "@components/modules";
+import { useSpring, animated } from "react-spring";
 import styles from "./Home.module.scss";
 
 const Home = (): React.ReactElement => {
   const { t } = useTranslation("pages\\home\\home");
+  const headerStyles = useSpring({
+    from: { transform: "scale(0)", opacity: "0" },
+    to: { transform: "scale(1)", opacity: "1" },
+    config: { duration: 500 },
+  });
   const backgroundImage =
     "https://s3.developershouse.xyz/international-media-referencing/amelia-data-public/website-data/pictures/pages/home/home-headers-background.jpg";
 
@@ -25,16 +29,19 @@ const Home = (): React.ReactElement => {
           className={styles["headers-background"]}
           style={{ backgroundImage: `url("${backgroundImage}")` }}
         />
-        <div className={styles["headers-content"]}>
+        <animated.div
+          style={headerStyles}
+          className={styles["headers-content"]}
+        >
           <h1>
             <Trans t={t} i18nKey="headers.title" />
           </h1>
-          <h2>
+          <h3>
             <Trans t={t} i18nKey="headers.presentation.0" />
-          </h2>
-          <h2>
+          </h3>
+          <h3>
             <Trans t={t} i18nKey="headers.presentation.1" />
-          </h2>
+          </h3>
           <ButtonsGroup className={styles["headers-buttons"]}>
             <NavLink className={buttonStyles["button-styles"]} to="/about">
               <MdWork />
@@ -55,7 +62,7 @@ const Home = (): React.ReactElement => {
               </span>
             </NavLink>
           </ButtonsGroup>
-        </div>
+        </animated.div>
       </div>
       <BackToTop />
       <FlexContainer

@@ -1,14 +1,15 @@
 import React from "react";
 import { useTranslation, Trans } from "react-i18next";
 import { FaDiscord, FaInstagram, FaTwitter } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import IMRLogo from "@assets/pictures/imr/imr-full.png";
 import styles from "./Footer.module.scss";
 
-const Footer = (): React.ReactElement => {
-  const { t } = useTranslation("components\\footer");
+const Footer: React.FC = () => {
+  const baseURL = useLocation().pathname;
+  const { t } = useTranslation("components\\modules\\footer\\footer");
 
-  return (
+  return baseURL.startsWith("/wiki") ? null : (
     <footer className={styles.footer}>
       <div className={styles.left}>
         <img
@@ -18,7 +19,11 @@ const Footer = (): React.ReactElement => {
           draggable={false}
         />
         <h3>
-          <Trans t={t} i18nKey="left.imr" />
+          <Trans
+            t={t}
+            i18nKey="left.imr"
+            values={{ year: new Date().getFullYear() }}
+          />
         </h3>
         <div className={styles["social-networks"]}>
           <a href="https://discord.com/invite/QECkmy8TqC" target="blank">
@@ -40,67 +45,73 @@ const Footer = (): React.ReactElement => {
         <div className={styles.container}>
           <div className={styles.items}>
             <h3>
-              <Trans t={t} i18nKey="right.containers.one.title" />
+              <Trans t={t} i18nKey="right.containers.0.title" />
             </h3>
             <NavLink to="/" exact>
-              <Trans t={t} i18nKey="right.containers.one.home" />
+              <Trans t={t} i18nKey="right.containers.0.home" />
             </NavLink>
             <NavLink to="/about" exact>
-              <Trans t={t} i18nKey="right.containers.one.about" />
-            </NavLink>
-            <NavLink to="/support" exact>
-              <Trans t={t} i18nKey="right.containers.one.support" />
+              <Trans t={t} i18nKey="right.containers.0.about" />
             </NavLink>
             <NavLink to="/contact" exact>
-              <Trans t={t} i18nKey="right.containers.one.contact" />
+              <Trans t={t} i18nKey="right.containers.0.contact" />
             </NavLink>
+            <a
+              href={`https://status.${document.location.hostname}`}
+              target="blank"
+            >
+              <Trans t={t} i18nKey="right.containers.0.status" />
+            </a>
           </div>
           <div className={styles.items}>
             <h3>
-              <Trans t={t} i18nKey="right.containers.two.title" />
+              <Trans t={t} i18nKey="right.containers.1.title" />
             </h3>
             <a href="https://developershouse.xyz" target="blank">
-              <Trans t={t} i18nKey="right.containers.two.website" />
+              <Trans t={t} i18nKey="right.containers.1.website" />
             </a>
             <a href="https://developershouse.xyz/about" target="blank">
-              <Trans t={t} i18nKey="right.containers.two.about" />
+              <Trans t={t} i18nKey="right.containers.1.about" />
             </a>
             <a href="https://discord.com/invite/QECkmy8TqC" target="blank">
-              <Trans t={t} i18nKey="right.containers.two.discord" />
+              <Trans t={t} i18nKey="right.containers.1.discord" />
             </a>
           </div>
           <div className={styles.items}>
             <h3>
-              <Trans t={t} i18nKey="right.containers.three.title" />
+              <Trans t={t} i18nKey="right.containers.2.title" />
             </h3>
-            <NavLink to="/" exact>
-              <Trans t={t} i18nKey="right.containers.three.gui" />
+            <NavLink to="/wiki/internal" exact>
+              <Trans t={t} i18nKey="right.containers.2.support" />
             </NavLink>
-            <NavLink to="/" exact>
-              <Trans t={t} i18nKey="right.containers.three.mediaRegistration" />
+            <NavLink to="/wiki/internal/referencing" exact>
+              <Trans t={t} i18nKey="right.containers.2.mediaRegistration" />
             </NavLink>
-            <NavLink to="/" exact>
-              <Trans t={t} i18nKey="right.containers.three.mediaUpdate" />
-            </NavLink>
-            <NavLink to="/" exact>
-              <Trans t={t} i18nKey="right.containers.three.mediaAlert" />
+            <a
+              href={`https://docs.${document.location.hostname}`}
+              target="blank"
+            >
+              <Trans t={t} i18nKey="right.containers.2.documentation" />
+            </a>
+            <NavLink to="/wiki/internal/developers" exact>
+              <Trans t={t} i18nKey="right.containers.2.developers" />
             </NavLink>
           </div>
           <div className={styles.items}>
             <h3>
-              <Trans t={t} i18nKey="right.containers.four.title" />
+              <Trans t={t} i18nKey="right.containers.3.title" />
             </h3>
-            <NavLink to="/status" exact>
-              <Trans t={t} i18nKey="right.containers.four.status" />
-            </NavLink>
             <NavLink to="/conditions" exact>
-              <Trans t={t} i18nKey="right.containers.four.conditions" />
+              <Trans t={t} i18nKey="right.containers.3.conditions" />
             </NavLink>
             <NavLink to="/legal-mentions" exact>
-              <Trans t={t} i18nKey="right.containers.four.legalMentions" />
+              <Trans t={t} i18nKey="right.containers.3.legalMentions" />
+            </NavLink>
+            <NavLink to="/chart" exact>
+              <Trans t={t} i18nKey="right.containers.3.chart" />
             </NavLink>
             <NavLink to="/acknowledgements" exact>
-              <Trans t={t} i18nKey="right.containers.four.acknowledgements" />
+              <Trans t={t} i18nKey="right.containers.3.acknowledgements" />
             </NavLink>
           </div>
         </div>

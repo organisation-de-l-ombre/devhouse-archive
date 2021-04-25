@@ -32,7 +32,7 @@
 
 .navbar-margin {
   @media screen and (max-width: 800px) {
-    margin-top: 3.36rem;
+    margin-top: 3.34rem;
   }
 }
 
@@ -73,3 +73,5 @@
 }
 
 .position-relative { position: relative; }
+
+.image-rendering { image-rendering: pixelated; }

@@ -8,11 +8,11 @@ import {
   useNotificationsPreferences,
   useNotificationsState,
 } from "@hooks/Notifications";
-import { Modal, modalStyles, SelectList, Button } from "../..";
-import globalStyles from "../../../../themes/Global.module.scss";
+import globalStyles from "@themes/Global.module.scss";
+import i18n from "@languages/i18n";
+import { Modal, modalStyles, SelectList, Button } from "@components/ui";
 import { manageSelection } from "../../SelectList/SelectList";
 import styles from "./NotificationsModal.module.scss";
-import i18n from "../../../../languages/i18n";
 
 const NotificationsModal: React.FC<
   React.DetailedHTMLProps<

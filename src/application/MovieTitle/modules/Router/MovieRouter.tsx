@@ -1,9 +1,9 @@
 import React from "react";
 import { Switch, useRouteMatch, Route } from "react-router";
 import { Suspense } from "@components/modules";
-import styles from "./MovieRouter.module.scss";
 import { S3DataResponse } from "../../types";
 import SectionEmpty from "../SectionEmpty/SectionEmpty";
+import containerStyle from "../../Containers.module.scss";
 
 const MovieSection = React.lazy(() => import("../../sections/Movie/Movie"));
 const CastingSection = React.lazy(
@@ -33,7 +33,7 @@ const MovieRouter: React.FC<{ dataResponse: S3DataResponse }> = ({
   }, []);
 
   return (
-    <React.Suspense fallback={<Suspense className={styles.container} />}>
+    <React.Suspense fallback={<Suspense className={containerStyle.loading} />}>
       <Switch>
         <Route path={baseURL} exact>
           <MovieSection dataResponse={dataResponse} />
@@ -70,7 +70,7 @@ const MovieRouter: React.FC<{ dataResponse: S3DataResponse }> = ({
           {dataResponse.technicalSpecs ? <></> : <SectionEmpty />}
         </Route>
         <Route path="*" exact>
-          <NotFound className={styles.container} />
+          <NotFound className={containerStyle.loading} />
         </Route>
       </Switch>
     </React.Suspense>

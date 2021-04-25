@@ -46,6 +46,5 @@ module.exports = {
         "import/no-dynamic-require": "off",
         "no-alert": "off",
         "no-console": "off",
-        "import/no-cycle": "off"
     },
 };
