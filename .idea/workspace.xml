@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d3d18c8d-7411-4834-bb50-ecbcc486d018" name="Default Changelist" comment="aaaaaaaaaaaaaa">
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-    </list>
+    <list default="true" id="d3d18c8d-7411-4834-bb50-ecbcc486d018" name="Default Changelist" comment="aaaaaaaaaaaaaa" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,7 +47,7 @@
       <option name="presentableId" value="Default" />
       <updated>1619349710648</updated>
       <workItem from="1619349713349" duration="1685000" />
-      <workItem from="1619354213513" duration="9892000" />
+      <workItem from="1619354213513" duration="9986000" />
     </task>
     <task id="LOCAL-00001" summary="aaaaaaaaaaaaaa">
       <created>1619364939876</created>
@@ -58,7 +56,14 @@
       <option name="project" value="LOCAL" />
       <updated>1619364939877</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="aaaaaaaaaaaaaa">
+      <created>1619365175324</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1619365175324</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
