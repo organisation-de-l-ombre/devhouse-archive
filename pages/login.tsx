@@ -1,7 +1,6 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import React, { ReactElement } from "react";
 import { Button, ButtonContainer } from "../components/button";
-import { AdminAPI, validateHydraResponse } from "../lib/service/hydra";
 import { Providers } from "../lib/service/providers";
 
 type Props = {
@@ -10,7 +9,6 @@ type Props = {
     name: string;
   };
   loginChallenge: string;
-  htmlClass: string;
 };
 
 export default function Login(props: Props): ReactElement {
@@ -20,10 +18,11 @@ export default function Login(props: Props): ReactElement {
     <div>
       <h2>Login page</h2>
       <p>
-        Welcome to <b>Developer's House!</b> To continue, you need to login to
-        your account or create one. Our system does not accepts password / email
-        login for security reasons and we propose a variety of login providers
-        available to you. You must login to continue to <b>{client.name}</b>
+        Welcome to <b>Developer&rsquo;s House!</b> To continue, you need to
+        login to your account or create one. Our system does not accepts
+        password / email login for security reasons and we propose a variety of
+        login providers available to you. You must login to continue to{" "}
+        <b>{client.name}</b>
       </p>
       <ButtonContainer>
         {platforms.map((name) => {

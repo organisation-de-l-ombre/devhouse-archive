@@ -4,9 +4,6 @@ import { GeneralUser, Providers } from "../../../lib/service/providers";
 import { AdminAPI, validateHydraResponse } from "../../../lib/service/hydra";
 import { options } from "../../../lib/service/session";
 
-/*
- * Redirects to the requested url.
- */
 const handler: NextApiHandler = async (req: NextApiRequest, res) => {
   if (!req.session.login) throw new Error("Invalid session.");
   // Unpack all the data.
