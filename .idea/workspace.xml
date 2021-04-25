@@ -4,7 +4,6 @@
     <list default="true" id="d3d18c8d-7411-4834-bb50-ecbcc486d018" name="Default Changelist" comment="aaaaaaaaaaaaaa">
       <change beforePath="$PROJECT_DIR$/.gitlab-ci.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.gitlab-ci.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +50,7 @@
       <option name="presentableId" value="Default" />
       <updated>1619349710648</updated>
       <workItem from="1619349713349" duration="1685000" />
-      <workItem from="1619354213513" duration="10146000" />
+      <workItem from="1619354213513" duration="10270000" />
     </task>
     <task id="LOCAL-00001" summary="aaaaaaaaaaaaaa">
       <created>1619364939876</created>
@@ -74,7 +73,14 @@
       <option name="project" value="LOCAL" />
       <updated>1619365266127</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="aaaaaaaaaaaaaa">
+      <created>1619365424917</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1619365424917</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
