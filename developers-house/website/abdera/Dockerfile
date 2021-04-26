@@ -1,6 +1,7 @@
 FROM timbru31/java-node as build
 WORKDIR /build
 COPY package.json .
+COPY .npmrc .npmrc
 RUN yarn
 COPY . .
 RUN yarn build
