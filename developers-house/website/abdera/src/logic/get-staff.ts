@@ -4,11 +4,11 @@ import { readYamlFolder } from "../utils/read-yaml-folder";
 import path from "path";
 
 const selfMembers: Partial<StaffMember>[] = [];
-void readYamlFolder<Partial<StaffMember>>(
-  path.join(process.cwd(), "data", "members")
-)
-  .then((data) => data.filter((a) => Boolean(a) && a.id))
-  .then((data) => selfMembers.push(...data));
+readYamlFolder("members", path.join(process.cwd(), "data", "members"))
+  .filter(
+    (member: StaffMember): boolean => Boolean(member) && Boolean(member.id)
+  )
+  .map((member: StaffMember) => selfMembers.push(member));
 
 /**
  * Closure that fetches the user using a provided redis instance.
@@ -31,7 +31,7 @@ export function fetchStaff(
       return {
         ...completion,
         ...(selfMembers.find(({ id }) => id === user.id) || {}),
-        ...user,
+        ...user
       };
     } catch {
       return;
@@ -46,15 +46,15 @@ const completion: StaffMember = {
   presence: {
     text: "",
     status: StaffMemberPresenceStatusEnum.Online,
-    emote: "",
+    emote: ""
   },
   role: {
     position: 0,
     name: "",
-    color: "",
+    color: ""
   },
   socials: [],
-  username: "",
+  username: ""
 };
 
 /**
