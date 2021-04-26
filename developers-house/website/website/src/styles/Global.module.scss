@@ -27,3 +27,20 @@
     display: none !important;
   }
 }
+
+.quotes {
+  font-style: italic;
+  font-weight: bold;
+  font-size: 20px !important;
+  line-height: 1.5;
+
+  &:before {
+    content: "\201F";
+    font-family: sans-serif;
+  }
+  &:after {
+    content: "\201D";
+    font-family: sans-serif;
+  }
+}
+

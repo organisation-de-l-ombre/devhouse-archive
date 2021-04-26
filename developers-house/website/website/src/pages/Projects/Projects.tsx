@@ -3,6 +3,7 @@ import React, { CSSProperties, ReactElement } from "react";
 import Text from "components/ui/Text/Text";
 import Button from "components/ui/Button/Button";
 import Tooltip from "rc-tooltip";
+import { useHistory } from "react-router";
 import { TitleBox } from "../../components/ui/TitleBox/TitleBox";
 import styles from "./Projects.module.scss";
 import ButtonGroup from "../../components/ui/Button/ButtonGroup";
@@ -20,6 +21,7 @@ function ProjectsPage(): ReactElement {
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
+  const history = useHistory();
 
   if (isLoading || !data) {
     return <Loader />;
@@ -51,7 +53,7 @@ function ProjectsPage(): ReactElement {
               >
                 <h2>{project.name}</h2>
                 <div className={styles.text}>
-                  <p className={styles.full}>{project.longDescription}</p>
+                  <p className={styles.full}>{project.shortDescription}</p>
                   <div className={styles.users}>
                     <div className={styles.managers}>
                       {project.managers.map((member) => {
@@ -125,8 +127,15 @@ function ProjectsPage(): ReactElement {
                     </div>
                   </div>
                 </div>
-                <ButtonGroup>
-                  <Button margin>More information</Button>
+                <ButtonGroup className={styles["buttons-group"]}>
+                  <Button
+                    margin
+                    onClick={() =>
+                      history.push(`/projects/${project.normalizedName}`)
+                    }
+                  >
+                    More information
+                  </Button>
                   <Button margin>Visit the project</Button>
                 </ButtonGroup>
               </Card>
