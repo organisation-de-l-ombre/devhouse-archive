@@ -99,7 +99,11 @@ export function Menu(): ReactElement {
           <NavigationItem>Contact</NavigationItem>
         </NavLink>
         {userState.loggedIn ? (
-          <NavLink to="/settings" style={{ marginLeft: "auto" }}>
+          <NavLink
+            to="/settings"
+            className={styles.right}
+            style={{ marginLeft: "auto" }}
+          >
             <NavigationItem style={{ padding: "auto" }}>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <UserAvatarStatus
@@ -119,7 +123,10 @@ export function Menu(): ReactElement {
             </NavigationItem>
           </NavLink>
         ) : (
-          <NavigationItem onClick={() => dispatch(loginUser())}>
+          <NavigationItem
+            className={styles.right}
+            onClick={() => dispatch(loginUser())}
+          >
             <FaUser />
             <span className={globalStyles.onlyMobiles}>Login</span>
           </NavigationItem>
