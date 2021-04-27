@@ -36,7 +36,6 @@ export const Menu = (): ReactElement => {
       setTransparent(false);
     }
   }, [page]);
-  const { pathname } = useLocation();
 
   useEffect(() => {
     listener();
@@ -46,14 +45,6 @@ export const Menu = (): ReactElement => {
 
   const userState = useSelector((s) => s.user);
   const { t } = useTranslation("layout");
-
-  if (pathname.startsWith("/projects")) {
-    const parameters = pathname.split("/");
-
-    if (parameters[2] && parameters[2].length) {
-      return <></>;
-    }
-  }
 
   return (
     <NavigationContainer

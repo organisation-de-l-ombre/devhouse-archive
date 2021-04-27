@@ -1,7 +1,7 @@
 import { Card } from "components/ui/Card/Card";
-import React, { CSSProperties, ReactElement, useCallback } from "react";
+import React, { CSSProperties, ReactElement } from "react";
 import Text from "components/ui/Text/Text";
-import Button from "components/ui/Button/Button";
+import Button, { ButtonLink } from "components/ui/Button/Button";
 import Tooltip from "rc-tooltip";
 import { TitleBox } from "../../components/ui/TitleBox/TitleBox";
 import styles from "./Projects.module.scss";
@@ -12,17 +12,6 @@ import UserAvatarStatus from "../../components/ui/UserAvatarStatus/UserAvatarSta
 import { getAvatar, statusToColor } from "../../utilities";
 import { withNetwork } from "../../hooks/hoc/withNetwork";
 
-const getWindowDimensions = (): { width: number; height: number } => {
-  const windowWidth = window.outerWidth;
-  const windowHeight = window.outerHeight;
-  const width = (80 / 100) * windowWidth;
-  const height =
-    windowWidth > windowHeight
-      ? (80 / 100) * windowHeight
-      : (60 / 100) * windowHeight;
-
-  return { width, height };
-};
 const ProjectsPage = (): ReactElement => {
   const { data, isLoading, error } = useProjects({
     refetchOnMount: false,
@@ -31,32 +20,6 @@ const ProjectsPage = (): ReactElement => {
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
-  const createProjectWindow = useCallback((id: string, name: string): void => {
-    const { width, height } = getWindowDimensions();
-    const left = window.top.outerWidth / 2 + window.top.screenX - width / 2;
-    const top = window.top.outerHeight / 2 + window.top.screenY - height / 2;
-    const windowOptions = `
-      width=${width},
-      height=${height},
-      left=${left},
-      top=${top},
-      toolbar=no,
-      location=no,
-      directories=no,
-      status=no,
-      menubar=no,
-      resizable=no,
-      copyhistory=no
-    `;
-
-    window.open(
-      `${document.location.protocol}//${document.location.hostname}${
-        process.env.NODE_ENV === "development" ? ":3000" : ""
-      }/projects/${id}`,
-      `Developer's House projects - ${name}`,
-      windowOptions
-    );
-  }, []);
 
   if (isLoading || !data) {
     return <Loader />;
@@ -163,14 +126,9 @@ const ProjectsPage = (): ReactElement => {
                   </div>
                 </div>
                 <ButtonGroup className={styles["buttons-group"]}>
-                  <Button
-                    margin
-                    onClick={() =>
-                      createProjectWindow(project.normalizedName, project.name)
-                    }
-                  >
+                  <ButtonLink to={`/projects/${project.normalizedName}`}>
                     More information
-                  </Button>
+                  </ButtonLink>
                   <Button margin>Visit the project</Button>
                 </ButtonGroup>
               </Card>

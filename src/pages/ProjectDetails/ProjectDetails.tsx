@@ -15,6 +15,8 @@ import ReactMarkdown from "react-markdown";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import rehypeHighlight from "rehype-highlight";
+import { BsArrowLeft } from "react-icons/bs";
+import { NavLink } from "react-router-dom";
 import styles from "./ProjectDetails.module.scss";
 import globalStyles from "../../styles/Global.module.scss";
 import { Loader } from "../../components/SuspenseLoader/SuspenseLoader";
@@ -26,6 +28,16 @@ import { discordServer } from "../../constants";
 
 type Category = "managers" | "members";
 
+const BackToProjects = (): ReactElement => {
+  return (
+    <NavLink to="/projects" className={styles["back-to-projects"]}>
+      <div>
+        <BsArrowLeft />
+      </div>
+      <span>Back to projects</span>
+    </NavLink>
+  );
+};
 const ProjectDetails: FC<RouteComponentProps> = ({ match }) => {
   const { data, isLoading, error } = useProjects({
     refetchOnMount: false,
@@ -90,6 +102,7 @@ const ProjectDetails: FC<RouteComponentProps> = ({ match }) => {
   if (!project) {
     return (
       <CenteredMessage title="Project not found">
+        <BackToProjects />
         <p>
           It seems this project doesn not exist. If you are here, it is
           certainly a mistake...
@@ -103,6 +116,7 @@ const ProjectDetails: FC<RouteComponentProps> = ({ match }) => {
 
   return (
     <FlexContainer className={styles.container}>
+      <BackToProjects />
       <div className={styles.headers}>
         {project.logo && (
           <img
@@ -119,13 +133,13 @@ const ProjectDetails: FC<RouteComponentProps> = ({ match }) => {
       {["managers", "members"].map(
         (category): ReactElement => {
           return (
-            <div className={styles.section}>
+            <div key={category} className={styles.section}>
               <h2>Project {category}</h2>
               <div className={styles.cards}>
                 {project[category as Category]?.map(
                   (member: StaffMember): ReactElement => {
                     return (
-                      <Card className={styles["card-root"]}>
+                      <Card key={member.id} className={styles["card-root"]}>
                         <CardPadding className={styles["card-content"]}>
                           <UserAvatarStatus
                             statusColor={statusToColor(member.presence.status)}
