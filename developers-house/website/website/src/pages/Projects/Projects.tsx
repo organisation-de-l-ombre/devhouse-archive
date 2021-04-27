@@ -1,9 +1,8 @@
 import { Card } from "components/ui/Card/Card";
-import React, { CSSProperties, ReactElement } from "react";
+import React, { CSSProperties, ReactElement, useCallback } from "react";
 import Text from "components/ui/Text/Text";
 import Button from "components/ui/Button/Button";
 import Tooltip from "rc-tooltip";
-import { useHistory } from "react-router";
 import { TitleBox } from "../../components/ui/TitleBox/TitleBox";
 import styles from "./Projects.module.scss";
 import ButtonGroup from "../../components/ui/Button/ButtonGroup";
@@ -13,7 +12,18 @@ import UserAvatarStatus from "../../components/ui/UserAvatarStatus/UserAvatarSta
 import { getAvatar, statusToColor } from "../../utilities";
 import { withNetwork } from "../../hooks/hoc/withNetwork";
 
-function ProjectsPage(): ReactElement {
+const getWindowDimensions = (): { width: number; height: number } => {
+  const windowWidth = window.outerWidth;
+  const windowHeight = window.outerHeight;
+  const width = (80 / 100) * windowWidth;
+  const height =
+    windowWidth > windowHeight
+      ? (80 / 100) * windowHeight
+      : (60 / 100) * windowHeight;
+
+  return { width, height };
+};
+const ProjectsPage = (): ReactElement => {
   const { data, isLoading, error } = useProjects({
     refetchOnMount: false,
     refetchIntervalInBackground: false,
@@ -21,7 +31,32 @@ function ProjectsPage(): ReactElement {
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
-  const history = useHistory();
+  const createProjectWindow = useCallback((id: string, name: string): void => {
+    const { width, height } = getWindowDimensions();
+    const left = window.top.outerWidth / 2 + window.top.screenX - width / 2;
+    const top = window.top.outerHeight / 2 + window.top.screenY - height / 2;
+    const windowOptions = `
+      width=${width},
+      height=${height},
+      left=${left},
+      top=${top},
+      toolbar=no,
+      location=no,
+      directories=no,
+      status=no,
+      menubar=no,
+      resizable=no,
+      copyhistory=no
+    `;
+
+    window.open(
+      `${document.location.protocol}//${document.location.hostname}${
+        process.env.NODE_ENV === "development" ? ":3000" : ""
+      }/projects/${id}`,
+      `Developer's House projects - ${name}`,
+      windowOptions
+    );
+  }, []);
 
   if (isLoading || !data) {
     return <Loader />;
@@ -131,7 +166,7 @@ function ProjectsPage(): ReactElement {
                   <Button
                     margin
                     onClick={() =>
-                      history.push(`/projects/${project.normalizedName}`)
+                      createProjectWindow(project.normalizedName, project.name)
                     }
                   >
                     More information
@@ -144,6 +179,6 @@ function ProjectsPage(): ReactElement {
       </div>
     </div>
   );
-}
+};
 
 export default withNetwork(ProjectsPage);

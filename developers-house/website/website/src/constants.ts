@@ -14,9 +14,11 @@ const doSearch = (hash: string) => {
   });
 };
 
+const discordServer = "https://discord.com/invite/QECkmy8TqC";
+
 doSearch(window.location.hash.substring(1) || "");
 doSearch(window.location.href.split("?")[1] || "");
 
 const RequestParams = params;
 
-export { RequestParams, DisplayAPIClient };
+export { RequestParams, DisplayAPIClient, discordServer };
