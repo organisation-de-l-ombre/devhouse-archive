@@ -1,30 +1,111 @@
 .container {
-    width: calc(100% - 4rem);
-    max-width: 75%;
-    margin-top: 3.5rem;
-    padding: 2rem;
+  width: calc(100% - 4rem);
+  max-width: 75%;
+  padding: 2rem;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+
+  .headers {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+
+    img {
+      margin-right: 2rem;
+      width: 256px;
+      pointer-events: none;
+      border-radius: 5px;
+    }
+
+    h1 {
+      margin: 2rem 2rem 0 0;
+      flex: 1;
+    }
+  }
+
+  .description {
+    margin: 4rem 0 0 0;
+
+    q { font-size: 16px; }
+  }
+
+  .section {
+    margin-top: 4rem;
+    width: 100%;
+    display: flex;
     flex-direction: column;
-    align-items: center;
-    align-self: center;
-    
-    .headers {
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
 
-        img, h1 { margin: 2rem 2rem 0 0; }
+    a {
+      color: var(--link-color);
 
-        img {
-            width: 256px;
-            pointer-events: none;
+      &:hover { text-decoration: underline; }
+    }
+
+    p {
+      margin: 1rem 0 0 0;
+      line-height: 1.5;
+    }
+
+    .cards {
+      margin-top: .5rem;
+      display: flex;
+      flex-wrap: wrap;
+
+      .card-root {
+        margin: .5rem .5rem 0 0;
+        flex: 1 20rem;
+
+        .card-content {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: flex-start;
+
+          svg {
+            margin-right: 1rem;
+            width: 128px;
+          }
+
+          .content {
+            margin-top: 1rem;
+            display: flex;
+            flex: 1 15rem;
+            flex-direction: column;
+
+            h3, p { margin: 1rem 0 0 0; }
+
+            h3 { font-weight: normal; }
+
+            img {
+              margin-right: .5rem;
+              width: 32px;
+              pointer-events: none;
+              transform: translateY(8px);
+            }
+          }
         }
+      }
     }
 
-    .description {
-        margin: 4rem 0 0 0;
+    .markdown {
+      display: flex;
+      flex-direction: column;
 
-        q { font-size: 16px; }
+      h2 { margin: 4rem 0 0 0; }
+
+      h3 { margin: 1rem 0 0 0; }
+
+      p {
+        margin: 1rem 0 0 0;
+        line-height: 1.5;
+      }
+
+      ul {
+        margin: 1rem 0 0 0;
+        list-style: inside;
+      }
     }
+  }
 
-    @media screen and (max-width: 700px) { max-width: unset; }
+  @media screen and (max-width: 700px) { max-width: unset; }
 }

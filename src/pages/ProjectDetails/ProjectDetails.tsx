@@ -1,14 +1,30 @@
-import React, { FC, useEffect, useState } from "react";
+import React, {
+  FC,
+  ReactElement,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { RouteComponentProps, useHistory } from "react-router";
 import useProjects from "hooks/useProjects";
-import { Projects } from "@developers-house/abdera";
+import { Projects, StaffMember } from "@developers-house/abdera";
 import CenteredMessage from "components/CenteredMessage/CenteredMessage";
 import Button from "components/ui/Button/Button";
 import FlexContainer from "components/FlexContainer/FlexContainer";
+import ReactMarkdown from "react-markdown";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import rehypeHighlight from "rehype-highlight";
 import styles from "./ProjectDetails.module.scss";
 import globalStyles from "../../styles/Global.module.scss";
 import { Loader } from "../../components/SuspenseLoader/SuspenseLoader";
 import { TitleBox } from "../../components/ui/TitleBox/TitleBox";
+import { Card, CardPadding } from "../../components/ui/Card/Card";
+import UserAvatarStatus from "../../components/ui/UserAvatarStatus/UserAvatarStatus";
+import { getAvatar, statusToColor } from "../../utilities";
+import { discordServer } from "../../constants";
+
+type Category = "managers" | "members";
 
 const ProjectDetails: FC<RouteComponentProps> = ({ match }) => {
   const { data, isLoading, error } = useProjects({
@@ -21,6 +37,18 @@ const ProjectDetails: FC<RouteComponentProps> = ({ match }) => {
   const [project, setProject] = useState<Projects | undefined>(undefined);
   const projectID = (match.params as Record<string, unknown>).id as string;
   const history = useHistory();
+  const [markdown, setMarkdown] = useState<string | undefined>(undefined);
+  const fetchMarkdown = useCallback(async (url: string): Promise<
+    string | undefined
+  > => {
+    const request = await fetch(url);
+
+    if (request.status !== 200) {
+      return undefined;
+    }
+
+    return request.text();
+  }, []);
 
   useEffect((): void => {
     if (!data) {
@@ -35,7 +63,19 @@ const ProjectDetails: FC<RouteComponentProps> = ({ match }) => {
       return;
     }
 
-    setProject(projectsFilter[0]);
+    const projectData: Projects = projectsFilter[0];
+
+    setProject(projectData);
+
+    if (projectData.markdownS3) {
+      fetchMarkdown(projectData.markdownS3).then(
+        (response: string | undefined): void => {
+          if (response !== undefined) {
+            setMarkdown(response);
+          }
+        }
+      );
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
@@ -76,6 +116,76 @@ const ProjectDetails: FC<RouteComponentProps> = ({ match }) => {
       <p className={styles.description}>
         <q className={globalStyles.quotes}>{project.longDescription}</q>
       </p>
+      {["managers", "members"].map(
+        (category): ReactElement => {
+          return (
+            <div className={styles.section}>
+              <h2>Project {category}</h2>
+              <div className={styles.cards}>
+                {project[category as Category]?.map(
+                  (member: StaffMember): ReactElement => {
+                    return (
+                      <Card className={styles["card-root"]}>
+                        <CardPadding className={styles["card-content"]}>
+                          <UserAvatarStatus
+                            statusColor={statusToColor(member.presence.status)}
+                            avatar={getAvatar(member)}
+                          />
+                          <div className={styles.content}>
+                            <h2>{member.username}</h2>
+                            <h3 style={{ color: member.role.color }}>
+                              {member.role.name}
+                            </h3>
+                            <div>
+                              {member.presence.text && (
+                                <p>
+                                  {member.presence.emote &&
+                                    (member.presence.emote.startsWith(
+                                      "http"
+                                    ) ? (
+                                      <img
+                                        alt="Discord emoji"
+                                        src={member.presence.emote}
+                                      />
+                                    ) : (
+                                      member.presence.emote
+                                    ))}
+                                  {member.presence.text}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        </CardPadding>
+                      </Card>
+                    );
+                  }
+                )}
+              </div>
+            </div>
+          );
+        }
+      )}
+      <div className={styles.section}>
+        <h2>Detailed project information</h2>
+        {markdown ? (
+          <div className={styles.markdown}>
+            <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+              {markdown}
+            </ReactMarkdown>
+          </div>
+        ) : (
+          <p>
+            It seems {project.name} does not have any detailed information. If
+            you think it is a bug try to refresh this page. In any case it is
+            always possible to get additional information on this project by
+            joining our{" "}
+            <a href={discordServer} target="blank">
+              Discord server
+            </a>
+            .
+          </p>
+        )}
+      </div>
     </FlexContainer>
   );
 };

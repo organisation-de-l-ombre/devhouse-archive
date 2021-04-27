@@ -1,9 +1,11 @@
-a:hover,
-.active {
-    transition: background-color .5s;
-    background-color: var(--menu-item-hover-background);
-}
 $speed: 175ms;
+
+.links {
+    a:hover, a.active {
+        transition: background-color .5s;
+        background-color: var(--menu-item-hover-background);
+    }
+}
 
 .item {
     display: block;

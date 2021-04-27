@@ -9,6 +9,7 @@ import { BsPeople } from "react-icons/all";
 import styles from "./Home.module.scss";
 import { Card, CardPadding } from "../../components/ui/Card/Card";
 import Footer from "../../components/footer/Footer";
+import {discordServer} from "../../constants";
 
 const shareAvailable = !!navigator.share;
 
@@ -31,9 +32,8 @@ export default function HomePage(): ReactElement {
         </p>
         <ButtonGroup full className={styles.margin}>
           <a
-            target="_blank"
-            rel="noreferrer"
-            href="https://discord.gg/r8RC2TjnFd"
+            target="blank"
+            href={discordServer}
           >
             <Button large>
               <ButtonImage>

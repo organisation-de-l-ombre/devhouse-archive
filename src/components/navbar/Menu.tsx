@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, ReactElement } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,21 +16,18 @@ import UserAvatarStatus from "../ui/UserAvatarStatus/UserAvatarStatus";
 import globalStyles from "../../styles/Global.module.scss";
 import { useNotificationsManager } from "../../hooks/Notifications/Notifications";
 
-export function Menu(): ReactElement {
+export const Menu = (): ReactElement => {
   const [open, setOpen] = useState<boolean>(false);
   const switchOpen = (): void => setOpen(!open);
   const dispatch = useDispatch();
   const page = useLocation();
   const dark = useSelector((e) => e.theme.theme === "light");
   const { addNotification } = useNotificationsManager();
-
   const [transparent, setTransparent] = useState(window.scrollY > 0);
-
   const switchOpenClick = useCallback(() => {
     if (open) setOpen(false);
     return true;
   }, [open]);
-
   const listener = useCallback(() => {
     if (!page.pathname.includes("settings")) {
       const scroll = window.scrollY > 0;
@@ -39,6 +36,7 @@ export function Menu(): ReactElement {
       setTransparent(false);
     }
   }, [page]);
+  const { pathname } = useLocation();
 
   useEffect(() => {
     listener();
@@ -48,6 +46,15 @@ export function Menu(): ReactElement {
 
   const userState = useSelector((s) => s.user);
   const { t } = useTranslation("layout");
+
+  if (pathname.startsWith("/projects")) {
+    const parameters = pathname.split("/");
+
+    if (parameters[2] && parameters[2].length) {
+      return <></>;
+    }
+  }
+
   return (
     <NavigationContainer
       open={open}
@@ -74,7 +81,7 @@ export function Menu(): ReactElement {
           )}
         </NavigationItem>
       </div>
-      <DrawerContent onClick={switchOpenClick}>
+      <DrawerContent className={styles.links} onClick={switchOpenClick}>
         <NavLink to="/" exact activeClassName={styles.active}>
           <NavigationItem>
             <Trans t={t} i18nKey="menu.home" />
@@ -153,4 +160,4 @@ export function Menu(): ReactElement {
       </DrawerContent>
     </NavigationContainer>
   );
-}
+};
