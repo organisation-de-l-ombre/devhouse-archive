@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render correctly 1`] = `
+<ErrorBoundary
+  FallbackComponent={
+    Object {
+      "$$typeof": Symbol(react.lazy),
+      "_init": [Function],
+      "_payload": Object {
+        "_result": [Function],
+        "_status": -1,
+      },
+    }
+  }
+>
+  <Provider
+    store={
+      Object {
+        "dispatch": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+        Symbol(observable): [Function],
+      }
+    }
+  >
+    <PersistGate
+      loading={<Loader />}
+      persistor={
+        Object {
+          "dispatch": [Function],
+          "flush": [Function],
+          "getState": [Function],
+          "pause": [Function],
+          "persist": [Function],
+          "purge": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        }
+      }
+    >
+      <I18nextProvider
+        i18n={
+          I18n {
+            "logger": Logger {
+              "debug": undefined,
+              "logger": Object {
+                "error": [Function],
+                "log": [Function],
+                "output": [Function],
+                "type": "logger",
+                "warn": [Function],
+              },
+              "options": Object {},
+              "prefix": "i18next:",
+            },
+            "modules": Object {
+              "external": Array [],
+            },
+            "observers": Object {},
+            "options": Object {},
+            "services": Object {},
+          }
+        }
+      >
+        <ThemeProvider>
+          <NotificationsArea />
+          <BrowserRouter>
+            <Menu />
+            <withRouter(Navigator) />
+          </BrowserRouter>
+        </ThemeProvider>
+      </I18nextProvider>
+    </PersistGate>
+  </Provider>
+</ErrorBoundary>
+`;
