@@ -1,18 +1,10 @@
-# IDE / Code editors
 .idea/
-.code/
-
-# Files / folders realted to node
+.vscode/
 node_modules/
-yarn.lock
-yarn-error.log
-
-# TypeScript builds
 build/
-dist/
-
-# OpenAPI generated files
-openapi-gen/
+tmp/
+temp/
+openapi-gen
 !openapi-gen/package.json
-!openapi-gen/tsconfig.json
 !openapi-gen/global-fetch.ts
+!openapi-gen/tsconfig.json
