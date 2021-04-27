@@ -1,7 +1,8 @@
 .container {
+  margin-top: 3.5rem;
   width: calc(100% - 4rem);
   max-width: 75%;
-  padding: 2rem;
+  padding: 6rem 2rem;
   flex-direction: column;
   align-items: center;
   align-self: center;
@@ -27,7 +28,7 @@
   .description {
     margin: 4rem 0 0 0;
 
-    q { font-size: 16px; }
+    q { font-size: 18px; }
   }
 
   .section {
@@ -44,8 +45,8 @@
 
     p {
       margin: 1rem 0 0 0;
-      font-size: 16px;
       line-height: 1.5;
+      font-size: 18px;
     }
 
     .cards {
@@ -101,6 +102,8 @@
         line-height: 1.5;
       }
 
+      ul li { font-size: 18px; }
+
       ul {
         margin: 1rem 0 0 0;
         list-style: inside;
@@ -109,4 +112,35 @@
   }
 
   @media screen and (max-width: 700px) { max-width: unset; }
+}
+
+.back-to-projects {
+  height: 55px;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  border-radius: 50px;
+  border: .15rem solid var(--background-secondary);
+  background-color: var(--background-primary);
+  overflow: hidden;
+  transition: background-color 300ms;
+
+  div {
+    margin-left: -.1rem;
+    width: 55px;
+    height: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--background-secondary);
+    border-radius: 50%;
+
+    svg { transform: scale(1.75); }
+  }
+
+  span { padding: 1rem; }
+
+  &:hover { background-color: var(--background-hover-primary); }
 }

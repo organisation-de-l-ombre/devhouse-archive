@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink, NavLinkProps } from "react-router-dom";
 import styles from "./button.module.scss";
 
 export type SimplifiedHTMLProperties<T> = React.DetailedHTMLProps<
@@ -66,6 +67,25 @@ const Button: React.FC<
     {...props}
   />
 );
+const ButtonLink: React.FC<
+  NavLinkProps & {
+    large?: boolean;
+    margin?: boolean;
+  }
+> = ({ className, margin, large, onClick, ...props }) => (
+  // eslint-disable-next-line jsx-a11y/anchor-has-content,jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+  <NavLink
+    className={[
+      className,
+      styles.relative,
+      styles.button,
+      large && styles.large,
+      margin && styles.margin,
+    ].join(" ")}
+    onClick={(e) => rippleEvent(e) && onClick && onClick(e)}
+    {...props}
+  />
+);
 
 const ButtonImage: React.FC<SimplifiedHTMLProperties<HTMLDivElement>> = ({
   className,
@@ -73,4 +93,4 @@ const ButtonImage: React.FC<SimplifiedHTMLProperties<HTMLDivElement>> = ({
 }) => <div className={[className, styles.image].join(" ")} {...props} />;
 
 export default Button;
-export { Button, ButtonImage, Ripple };
+export { Button, ButtonLink, ButtonImage, Ripple };
