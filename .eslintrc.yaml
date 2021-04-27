@@ -30,7 +30,6 @@ extends:
   - plugin:no-use-extend-native/recommended
   - plugin:optimize-regex/all
   - plugin:json/recommended
-  - plugin:jsdoc/recommended
   - plugin:prettier/recommended
 plugins:
   - unicorn
@@ -42,7 +41,6 @@ plugins:
   - json
   - only-error
   - "@typescript-eslint"
-  - jsdoc
   - woke
   - prettier
 rules:

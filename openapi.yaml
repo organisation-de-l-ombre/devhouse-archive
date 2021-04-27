@@ -10,7 +10,7 @@ servers:
     description: First version of the API in production
 
 paths:
-  "/data/movies/title/:movieTitle/:language":
+  "/data/movies/title/{movieTitle}/{language}":
     description: Get movie data
     get:
       parameters:
@@ -38,3 +38,39 @@ paths:
                       type: number
                     dataURL:
                       type: string
+        404:
+          description: Movie not found on the database
+
+  "/data/search":
+    description: Search content into the database
+    get:
+      parameters:
+        - in: query
+          name: title
+          required: true
+          schema:
+            type: string
+      tags:
+        - Content search
+      responses:
+        200:
+          description: Successfully found content
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - id
+                  - name
+                  - releaseDate
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  releaseDate:
+                    type: string
+        400:
+          description: "Bad request: missing parameters"
+        404:
+          description: Content not found
