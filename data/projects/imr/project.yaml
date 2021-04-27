@@ -12,3 +12,4 @@ members:
   - id: "537979556259430411" # Kylian
 managers:
   - id: "537979556259430411" # Kylian
+markdownS3: https://s3.developershouse.xyz/website-assets/projects/imr/project.md
