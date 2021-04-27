@@ -4,7 +4,7 @@ node_modules/
 build/
 tmp/
 temp/
-openapi-gen
+openapi-gen/*
 !openapi-gen/package.json
 !openapi-gen/global-fetch.ts
 !openapi-gen/tsconfig.json
