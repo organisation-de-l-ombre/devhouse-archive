@@ -1,4 +1,6 @@
-module.exports = {
+const withImages = require("next-images");
+
+module.exports = withImages({
   basePath: "/dialog",
   assetPrefix: "/dialog",
   api: {
@@ -6,4 +8,4 @@ module.exports = {
       sizeLimit: '500kb',
     },
   },
-};
+});
