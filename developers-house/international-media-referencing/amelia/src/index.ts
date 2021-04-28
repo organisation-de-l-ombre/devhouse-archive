@@ -13,22 +13,27 @@ import { readdirSync } from "fs";
 import path from "path";
 import { addAliases } from "module-alias";
 
+declare module "fastify" {
+  export interface FastifyRequest {
+    S3Client: () => S3ClientBuilder;
+    databaseConnection: () => Connection;
+  }
+}
+
 addAliases({
-  "@entities": path.join(__dirname, "entity")
+  "@entities": path.join(__dirname, "entity"),
+  "@migrations": path.join(__dirname, "migrations")
 });
 
-const S3Client: S3ClientBuilder = new S3ClientBuilder({
-  endpoint: "https://s3.developershouse.xyz",
-  region: "eu",
-  credentials: {
-    accessKeyId: process.env.S3_ACCESS_KEY || "",
-    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || ""
-  },
-  forcePathStyle: true
-});
+import { Company } from "@entities/company";
+import { Language } from "@entities/language";
+import { MovieTitle } from "@entities/movie-title";
+import { Tag } from "@entities/tag";
+
+import { MovieTitle1618162709488 } from "./migration/1618162709488-MovieTitle";
+
 const databaseHost: string = process.env.POSTGRES_HOST || "";
 const databaseUsername: string = process.env.POSTGRES_USERNAME || "";
-let databaseConnection: Connection;
 
 createConnection({
   type: "postgres",
@@ -36,13 +41,13 @@ createConnection({
   port: Number.parseInt(process.env.POSTGRES_PORT || ""),
   database: process.env.POSTGRES_DATABASE || "",
   username: databaseUsername,
-  password: process.env.POSTGRES_PASSWORD || ""
+  password: process.env.POSTGRES_PASSWORD || "",
+  entities: [Company, Language, MovieTitle, Tag],
+  migrations: [MovieTitle1618162709488]
 })
   .then(
     async (connection: Connection): Promise<boolean> => {
       await connection.synchronize(false);
-
-      databaseConnection = connection;
 
       logger.info(
         `Postgres database connection ${databaseUsername}@${databaseHost} successful.`
@@ -50,10 +55,20 @@ createConnection({
 
       new (class AmeliaAPI {
         FastifyClient: FastifyInstance = Fastify();
+        S3Client: S3ClientBuilder = new S3ClientBuilder({
+          endpoint: "https://s3.developershouse.xyz",
+          region: "eu",
+          credentials: {
+            accessKeyId: process.env.S3_ACCESS_KEY || "",
+            secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || ""
+          },
+          forcePathStyle: true
+        });
         routes: RouteOptions[] = [];
 
         constructor() {
           this.addPlugins();
+          this.addDecorators();
           void this.setupRouting();
           this.start();
         }
@@ -63,8 +78,36 @@ createConnection({
           void this.FastifyClient.register(fastifyCors);
         }
 
+        // Adds decorations to Fastify instance
+        addDecorators(): void {
+          this.FastifyClient.decorateRequest(
+            "S3Client",
+            (): S3ClientBuilder => this.S3Client
+          );
+          this.FastifyClient.decorateRequest(
+            "databaseConnection",
+            (): Connection => connection
+          );
+        }
+
         // Setup Amelia API routing
         async setupRouting(): Promise<void> {
+          this.FastifyClient.setErrorHandler(
+            (
+              error: Error,
+              request: FastifyRequest,
+              reply: FastifyReply
+            ): void => {
+              logger.error(
+                `API error at URL ${request.url} :\n${error.message}`
+              );
+              void reply.code(500).send({
+                statusCode: 500,
+                error
+              });
+            }
+          );
+
           this.FastifyClient.setNotFoundHandler(
             (request: FastifyRequest, reply: FastifyReply): void => {
               void reply.code(404).send();
@@ -94,22 +137,6 @@ createConnection({
             this.FastifyClient.route(route);
           }
 
-          this.FastifyClient.setErrorHandler(
-            (
-              error: Error,
-              request: FastifyRequest,
-              reply: FastifyReply
-            ): void => {
-              logger.error(
-                `API error at URL ${request.url} :\n${error.message}`
-              );
-              void reply.code(500).send({
-                statusCode: 500,
-                error
-              });
-            }
-          );
-
           logger.info(
             `Amelia is starting with ${this.routes.length} routes...`
           );
@@ -134,5 +161,3 @@ createConnection({
     }
   )
   .catch(console.error);
-
-export { S3Client, databaseConnection };
