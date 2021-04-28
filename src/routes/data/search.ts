@@ -1,5 +1,4 @@
 import { FastifyReply, FastifyRequest, RouteOptions } from "fastify";
-import { databaseConnection } from "../../index";
 import { MovieTitle } from "@entities/movie-title";
 
 interface RequestParameters {
@@ -31,7 +30,7 @@ export default {
 
     title = title.replace(/_/gi, " ");
 
-    const repository = databaseConnection.getRepository(MovieTitle);
+    const repository = request.databaseConnection().getRepository(MovieTitle);
     const databaseRequest: MovieTitle[] = await repository
       .createQueryBuilder("movie_title")
       .where("UPPER(movie_title.name) like UPPER(:name)", {

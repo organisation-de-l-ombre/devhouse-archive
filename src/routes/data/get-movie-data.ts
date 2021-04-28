@@ -1,5 +1,4 @@
 import { FastifyReply, FastifyRequest, RouteOptions } from "fastify";
-import { S3Client, databaseConnection } from "../../";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { MovieTitle } from "@entities/movie-title";
@@ -23,7 +22,7 @@ export default {
     reply: FastifyReply
   ): Promise<void> => {
     const { movieTitle, language } = request.params as RequestParameters;
-    const repository = databaseConnection.getRepository(MovieTitle);
+    const repository = request.databaseConnection().getRepository(MovieTitle);
     const databaseRequest: MovieTitle[] = await repository.find({
       where: {
         id: movieTitle
@@ -33,7 +32,9 @@ export default {
 
     if (
       databaseRequest.length === 0 ||
-      databaseRequest[0].availableLanguages.findIndex((lang): boolean => lang.language === language) === -1
+      databaseRequest[0].availableLanguages.findIndex(
+        (lang): boolean => lang.language === language
+      ) === -1
     ) {
       void reply.code(404).send({
         statusCode: 404,
@@ -47,7 +48,7 @@ export default {
       Bucket: "international-media-referencing",
       Key: `amelia-data-private/movies/title/${movieTitle}/${language}/${movieTitle}.json`
     });
-    const movieDataURL = await getSignedUrl(S3Client, command, {
+    const movieDataURL = await getSignedUrl(request.S3Client(), command, {
       expiresIn: 1800
     });
 
