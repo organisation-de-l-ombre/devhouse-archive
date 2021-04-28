@@ -21,28 +21,32 @@ const S3Client: S3ClientBuilder = new S3ClientBuilder({
   endpoint: "https://s3.developershouse.xyz",
   region: "eu",
   credentials: {
-    accessKeyId:
-      process.env.S3_ACCESS_KEY || "9fd286dc-1cfb-47e9-a34f-f8786979b1dd",
-    secretAccessKey:
-      process.env.S3_SECRET_ACCESS_KEY || "fb065cb4-4bc7-44c4-991d-465d674b41a0"
+    accessKeyId: process.env.S3_ACCESS_KEY || "",
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || ""
   },
   forcePathStyle: true
 });
+const databaseHost: string = process.env.POSTGRES_HOST || "";
+const databaseUsername: string = process.env.POSTGRES_USERNAME || "";
 let databaseConnection: Connection;
 
 createConnection({
   type: "postgres",
-  host: process.env.POSTGRES_HOST || "192.168.1.80",
-  port: Number.parseInt(process.env.POSTGRES_PORT || "5432"),
-  database: process.env.POSTGRES_DATABASE || "test",
-  username: process.env.POSTGRES_USERNAME || "test",
-  password: process.env.POSTGRES_PASSWORD || "test"
+  host: databaseHost,
+  port: Number.parseInt(process.env.POSTGRES_PORT || ""),
+  database: process.env.POSTGRES_DATABASE || "",
+  username: databaseUsername,
+  password: process.env.POSTGRES_PASSWORD || ""
 })
   .then(
     async (connection: Connection): Promise<boolean> => {
       await connection.synchronize(false);
 
       databaseConnection = connection;
+
+      logger.info(
+        `Postgres database connection ${databaseUsername}@${databaseHost} successful.`
+      );
 
       new (class AmeliaAPI {
         FastifyClient: FastifyInstance = Fastify();
@@ -106,12 +110,6 @@ createConnection({
             }
           );
 
-          this.FastifyClient.setNotFoundHandler(
-            (request: FastifyRequest, reply: FastifyReply): void => {
-              void reply.code(404).send();
-            }
-          );
-
           logger.info(
             `Amelia is starting with ${this.routes.length} routes...`
           );
@@ -135,6 +133,6 @@ createConnection({
       return true;
     }
   )
-  .catch((error) => console.log(error));
+  .catch(console.error);
 
 export { S3Client, databaseConnection };
