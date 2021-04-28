@@ -1,10 +1,12 @@
 import React from "react";
 import localForage from "localforage";
 import { useHistory } from "react-router";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import generateNotificationID from "@lib/generateNotificationID";
 import { useUser } from "@hooks/User";
 import { useNotificationsManager } from "@hooks/Notifications";
+import { FlexContainer, GenericLoader } from "@components/ui";
+import globalStyles from "@themes/Global.module.scss";
 import requestParameters from "./QueriesSelector";
 import { ErrorState } from "./Types";
 
@@ -129,7 +131,13 @@ const Callback = (): React.ReactElement => {
     };
   });
 
-  return <></>;
+  return (
+    <FlexContainer className={globalStyles["alignment-full-center"]}>
+      <GenericLoader className={globalStyles["alignment-full-center"]}>
+        <Trans t={t} i18nKey="message" />
+      </GenericLoader>
+    </FlexContainer>
+  );
 };
 
 export default Callback;

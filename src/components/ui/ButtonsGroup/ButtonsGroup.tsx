@@ -5,13 +5,13 @@ const ButtonsGroup: React.FC<
   React.DetailedHTMLProps<
     React.AllHTMLAttributes<HTMLDivElement>,
     HTMLDivElement
-  >
-> = ({ className, children, ...props }) => {
+  > & { notifications?: boolean }
+> = ({ className, children, notifications, ...props }) => {
   return (
     <div
       className={`${styles["buttons-group"]}${
-        className ? ` ${className}` : ""
-      }`}
+        notifications ? ` ${styles.notifications}` : ""
+      }${className ? ` ${className}` : ""}`}
       {...props}
     >
       {children}

@@ -26,7 +26,8 @@
       "@themes/*": ["./themes/*"],
       "@languages/*": ["./languages/*"],
       "@components/*": ["./components/*"],
-      "@assets/*": ["./assets/*"]
+      "@assets/*": ["./assets/*"],
+      "@application/*": ["./application/*"]
     }
   },
   "include": [

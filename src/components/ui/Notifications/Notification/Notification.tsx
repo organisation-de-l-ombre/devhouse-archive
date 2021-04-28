@@ -60,11 +60,11 @@ const NotificationComponent: React.FC<
           className={`${globalStyles.flex} ${globalStyles.column} ${styles["margin-right"]}`}
         >
           <p>{notification.body}</p>
-          <ButtonsGroup className={styles["buttons-container"]}>
+          <ButtonsGroup notifications className={styles["buttons-container"]}>
             {notification.buttons.map(
               (b: ButtonType): React.ReactElement => {
                 return (
-                  <Button onClick={() => b.onClick()}>
+                  <Button key={b.text} onClick={() => b.onClick()}>
                     {b.icon ? b.icon : <></>}
                     <span>{b.text}</span>
                   </Button>

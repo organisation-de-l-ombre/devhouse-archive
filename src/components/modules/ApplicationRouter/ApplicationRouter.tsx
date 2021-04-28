@@ -7,19 +7,16 @@ const Navbar = React.lazy(() => import("../Navbar/Navbar"));
 const Footer = React.lazy(() => import("../Footer/Footer"));
 const NotFound = React.lazy(() => import("../NotFound/NotFound"));
 // Routes
-const Home = React.lazy(() => import("../../../application/Home/Home"));
-const Account = React.lazy(
-  () => import("../../../application/Account/AccountRoot")
-);
-const Callback = React.lazy(
-  () => import("../../../application/Callback/Callback")
-);
+const Home = React.lazy(() => import("@application/Home/Home"));
+const Account = React.lazy(() => import("@application/Account/AccountRoot"));
+const Callback = React.lazy(() => import("@application/Callback/Callback"));
+const Login = React.lazy(() => import("@application/Login/Login"));
 const MovieTitle = React.lazy(
-  () => import("../../../application/MovieTitle/MovieRoot")
+  () => import("@application/MovieTitle/MovieRoot")
 );
-const Search = React.lazy(() => import("../../../application/Search/Search"));
+const Search = React.lazy(() => import("@application/Search/Search"));
 const InternalWiki = React.lazy(
-  () => import("../../../application/Wiki/Internal/InternalRoot")
+  () => import("@application/Wiki/Internal/InternalRoot")
 );
 
 const ApplicationRouter = (): React.ReactElement => {
@@ -31,6 +28,7 @@ const ApplicationRouter = (): React.ReactElement => {
         <Route path="/" exact component={Home} />
         <Route path="/account" component={Account} />
         <Route path="/callback" exact component={Callback} />
+        <Route path="/auth/login" exact component={Login} />
         <Route path="/movies" exact />
         <Route path="/series" exact />
         <Route

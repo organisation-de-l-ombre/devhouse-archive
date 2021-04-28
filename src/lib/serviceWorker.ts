@@ -1,5 +1,3 @@
-// eslint-disable @typescript-eslint/no-use-before-define
-
 /**
  * This optional code is used to register a service worker.
  * register() is not called by default.
@@ -15,8 +13,8 @@
  */
 
 interface ServiceWorkerConfig {
-  onUpdate?: (registration: ServiceWorkerRegistration) => void;
-  onSuccess?: (registration: ServiceWorkerRegistration) => void;
+  onUpdate?: (registration: ServiceWorkerRegistration) => unknown;
+  onSuccess?: (registration: ServiceWorkerRegistration) => unknown;
 }
 
 const isLocalhost = Boolean(
@@ -28,7 +26,6 @@ const isLocalhost = Boolean(
       /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
     )
 );
-
 const register = (config: ServiceWorkerConfig): void => {
   if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
     // The URL constructor is available in all browsers that support SW.
@@ -41,7 +38,7 @@ const register = (config: ServiceWorkerConfig): void => {
       return;
     }
 
-    window.addEventListener("load", () => {
+    window.addEventListener("load", (): void => {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
       if (isLocalhost) {
@@ -65,20 +62,22 @@ const register = (config: ServiceWorkerConfig): void => {
     });
   }
 };
-
 const registerValidSW = (swUrl: string, config: ServiceWorkerConfig): void => {
   navigator.serviceWorker
     .register(swUrl)
-    .then((registration: ServiceWorkerRegistration) => {
+    .then((registration: ServiceWorkerRegistration): void => {
       // If an update is waiting
       if (registration.waiting && config.onUpdate) {
         config.onUpdate(registration);
       }
+
       registration.onupdatefound = (): void => {
         const installingWorker = registration.installing;
+
         if (installingWorker == null) {
           return;
         }
+
         installingWorker.onstatechange = (): void => {
           if (installingWorker.state === "installed") {
             if (navigator.serviceWorker.controller) {
@@ -108,11 +107,10 @@ const registerValidSW = (swUrl: string, config: ServiceWorkerConfig): void => {
         };
       };
     })
-    .catch((error) => {
+    .catch((error: Error) => {
       console.error("Error during service worker registration:", error);
     });
 };
-
 const checkValidServiceWorker = (
   swUrl: string,
   config: ServiceWorkerConfig
@@ -124,13 +122,14 @@ const checkValidServiceWorker = (
     .then((response: Response) => {
       // Ensure service worker exists, and that we really are getting a JS file.
       const contentType = response.headers.get("content-type");
+
       if (
         response.status === 404 ||
         (contentType != null && contentType.indexOf("javascript") === -1)
       ) {
         // No service worker found. Probably a different app. Reload the page.
-        navigator.serviceWorker.ready.then((registration) => {
-          registration.unregister().then(() => {
+        navigator.serviceWorker.ready.then((registration): void => {
+          registration.unregister().then((): void => {
             window.location.reload();
           });
         });
@@ -145,14 +144,15 @@ const checkValidServiceWorker = (
       );
     });
 };
-
 const unregister = (): void => {
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.ready
-      .then((registration: ServiceWorkerRegistration) => {
-        registration.unregister();
-      })
-      .catch((error) => {
+      .then(
+        async (registration: ServiceWorkerRegistration): Promise<void> => {
+          await registration.unregister();
+        }
+      )
+      .catch((error: Error) => {
         console.error(error.message);
       });
   }

@@ -42,7 +42,6 @@ const manageAuth = async (): Promise<void> => {
   const state = randomBytes(32).toString("hex");
 
   await localForage.setItem("state-oauth", state);
-  await localForage.setItem("redirection", document.location.pathname);
 
   if (clientIDPromise !== null) {
     await clientIDPromise;
@@ -59,7 +58,7 @@ const manageAuth = async (): Promise<void> => {
 
   const codeChallenge = await generateCodeChallenge(codeVerifier);
 
-  document.location.href = `http://auth-server.developershouse.xyz/oauth2/auth?response_type=code&client_id=${encodeURIComponent(
+  document.location.href = `https://auth-server.developershouse.xyz/oauth2/auth?response_type=code&client_id=${encodeURIComponent(
     clientID as string
   )}&scope=${encodeURIComponent(
     scopes.join(" ")

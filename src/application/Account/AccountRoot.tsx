@@ -16,8 +16,7 @@ const AccountRoot = (): React.ReactElement => {
     if (!user) {
       history.push("/");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [history, user]);
 
   return user ? (
     <FlexContainer

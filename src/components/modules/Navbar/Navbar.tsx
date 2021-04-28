@@ -1,6 +1,6 @@
 import { FaMoon, FaSun, FaUser, FaBell, FaBellSlash } from "react-icons/fa";
 import { MdSearch } from "react-icons/md";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import generateNotificationID from "@lib/generateNotificationID";
@@ -14,6 +14,8 @@ import { useTheme } from "@hooks/Theme";
 import { useUser } from "@hooks/User";
 import { getAvatar } from "@lib/manageAuthentication";
 import IMRMinimalLogo from "@assets/pictures/imr/imr-minimal.png";
+import localForage from "localforage";
+import routeWithOnlyContent from "@lib/routeWithOnlyContent";
 import { NotificationsModal } from "../../ui";
 import DisplayLanguageSVG from "../DisplayLanguageSVG/DisplayLanguageSVG";
 import styles from "./Navbar.module.scss";
@@ -22,7 +24,7 @@ import LanguageModal from "./LanguageModal";
 const Navbar = (): React.ReactElement => {
   const { open, manageNavbar } = useNavbar();
   const { t } = useTranslation("components\\navbar");
-  const { user, manageUser } = useUser();
+  const { user } = useUser();
   const { language } = useLanguage();
   const [languageWindowOpen, setLanguageWindowOpen] = React.useState<boolean>(
     false
@@ -48,6 +50,19 @@ const Navbar = (): React.ReactElement => {
     ]);
   }, [addNotifications, manageNavbar, switchTheme, t, theme]);
   const { allowNotifications } = useNotificationsState();
+  const manageAuth = React.useCallback((): void => {
+    manageNavbar();
+    localForage.setItem("redirection", document.location.pathname);
+  }, [manageNavbar]);
+  const { pathname } = useLocation();
+
+  if (
+    routeWithOnlyContent.navbarBlacklist.filter((route: string): boolean =>
+      pathname.startsWith(route)
+    ).length
+  ) {
+    return <></>;
+  }
 
   return (
     <>
@@ -103,13 +118,11 @@ const Navbar = (): React.ReactElement => {
             </NavLink>
           </div>
           <div className={styles.end}>
-            <button
-              type="button"
+            <NavLink
+              to={user ? `/account` : "/auth/login"}
+              exact
               className={`${styles.buttons} ${styles.user}`}
-              onClick={() => {
-                manageUser();
-                manageNavbar();
-              }}
+              onClick={manageAuth}
             >
               {user ? (
                 <>
@@ -128,9 +141,11 @@ const Navbar = (): React.ReactElement => {
                   </span>
                 </>
               ) : (
-                <Trans t={t} i18nKey="items.login" />
+                <span>
+                  <Trans t={t} i18nKey="items.login" />
+                </span>
               )}
-            </button>
+            </NavLink>
             <NavLink
               to="/search"
               exact

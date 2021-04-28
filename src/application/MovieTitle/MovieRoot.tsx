@@ -13,59 +13,52 @@ import MovieRouter from "./modules/Router/MovieRouter";
 import { S3DataResponse } from "./types";
 import containerStyle from "./Containers.module.scss";
 
-const fetchMovieData = async (
-  movieTitle: string,
-  language: string,
-  setIsFetching: React.Dispatch<React.SetStateAction<boolean>>
-): Promise<S3DataResponse | undefined> => {
-  try {
-    const { dataURL: APIResponse } = await fetch(
-      `http://localhost:9000/data/movies/title/${movieTitle}/${language}`
-    ).then((response) => response.json());
-
-    if (APIResponse) {
-      try {
-        const S3Response = await fetch(APIResponse).then((res) => res.json());
-
-        setIsFetching(false);
-
-        if (S3Response) {
-          return S3Response;
-        }
-      } catch {
-        setIsFetching(false);
-
-        return undefined;
-      }
-    }
-  } catch {
-    setIsFetching(false);
-
-    return undefined;
-  }
-
-  setIsFetching(false);
-
-  return undefined;
-};
-
 const MovieRoot: React.FC<RouteComponentProps> = ({ match }) => {
   const { language } = useLanguage();
   const [isFetching, setIsFetching] = React.useState<boolean>(false);
   const [view, setView] = React.useState<S3DataResponse | undefined>(undefined);
   const { addNotifications, deleteNotification } = useNotificationsManager();
   const { t } = useTranslation("pages\\moviePrototype\\root");
-
-  React.useEffect(() => {
+  const params = (match.params as unknown) as Record<string, unknown>;
+  const fetchMovieData = React.useCallback(async (): Promise<void> => {
     setIsFetching(true);
 
-    fetchMovieData(
-      (match.params as Record<string, unknown>).title as string,
-      language,
-      setIsFetching
-    ).then((response: S3DataResponse | undefined): void => {
-      setView(response);
-    });
+    try {
+      const baseRequest = await fetch(
+        `https://amelia-api.developershouse.xyz/data/movies/title/${params.title}/${language}`
+      );
+
+      if (baseRequest.status !== 200) {
+        setIsFetching(false);
+        return;
+      }
+
+      const { dataURL } = await baseRequest.json();
+
+      if (dataURL) {
+        try {
+          const request = await fetch(dataURL);
+
+          if (request.status !== 200) {
+            setIsFetching(false);
+            return;
+          }
+
+          const data: S3DataResponse = await request.json();
+
+          setIsFetching(false);
+          setView(data);
+        } catch {
+          setIsFetching(false);
+        }
+      }
+    } catch {
+      setIsFetching(false);
+    }
+  }, [language, params.title]);
+
+  React.useEffect(() => {
+    fetchMovieData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

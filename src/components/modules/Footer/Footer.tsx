@@ -3,13 +3,22 @@ import { useTranslation, Trans } from "react-i18next";
 import { FaDiscord, FaInstagram, FaTwitter } from "react-icons/fa";
 import { NavLink, useLocation } from "react-router-dom";
 import IMRLogo from "@assets/pictures/imr/imr-full.png";
+import routeWithOnlyContent from "@lib/routeWithOnlyContent";
 import styles from "./Footer.module.scss";
 
-const Footer: React.FC = () => {
-  const baseURL = useLocation().pathname;
+const Footer = (): React.ReactElement => {
   const { t } = useTranslation("components\\modules\\footer\\footer");
+  const { pathname } = useLocation();
 
-  return baseURL.startsWith("/wiki") ? null : (
+  if (
+    routeWithOnlyContent.footerBlacklist.filter((route: string): boolean =>
+      pathname.startsWith(route)
+    ).length
+  ) {
+    return <></>;
+  }
+
+  return (
     <footer className={styles.footer}>
       <div className={styles.left}>
         <img

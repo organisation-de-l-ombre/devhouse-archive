@@ -50,15 +50,22 @@ const Search = (): React.ReactElement => {
       setFirstTime(false);
 
       try {
-        const request = await fetch(
-          `http://localhost:9000/data/search?title=${inputForm.value.replace(
+        const baseRequest = await fetch(
+          `https://amelia-api.developershouse.xyz/data/search?title=${inputForm.value.replace(
             / /gi,
             "_"
           )}`
-        ).then((response) => response.json());
+        );
 
-        if (request instanceof Array && request.length) {
-          setData(request);
+        if (baseRequest.status !== 200) {
+          setIsFetching(false);
+          return;
+        }
+
+        const response = await baseRequest.json();
+
+        if (response instanceof Array && response.length) {
+          setData(response);
         }
 
         setIsFetching(false);
