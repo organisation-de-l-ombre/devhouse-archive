@@ -7,6 +7,8 @@ import {
   GetConsentReturn,
   validateConsent,
 } from "../lib/rpc/fetchConsent";
+import styles from "../styles/pages/consent.module.scss";
+import globalStyles from "../styles/generic.module.scss";
 
 export default function Consent(): ReactElement {
   const [loading, setLoading] = useState<boolean>(true);
@@ -51,25 +53,34 @@ export default function Consent(): ReactElement {
   );
 
   if (loading) {
-    return <Loader type="line-scale" active />;
+    return (
+      <div className={styles["loader-root"]}>
+        <Loader type="line-scale" innerClassName={styles.loader} active />
+        <p>Loading the resource you requested...</p>
+      </div>
+    );
   }
 
   return (
-    <div>
+    <div className={styles.consent}>
       <h2>Consent page</h2>
+      <h3>{consent.clientName}</h3>
       <p>
-        The application {consent.clientName} needs some kind of access to your
-        account and needs your consent, if you do not trust this application,
-        feel free to reject the consent request. This application requires the
-        following permissions.
+        This application needs some kind of access to your account and needs
+        your consent, if you do not trust this application, feel free to reject
+        the consent request. This application requires the following
+        permissions:
       </p>
 
-      <ul>
+      <div className={styles.scopes}>
         {consent.scopes.map((val) => (
-          <li key={val}>{val}</li>
+          <code key={val}>{val}</code>
         ))}
-      </ul>
-      <ButtonContainer horizontal>
+      </div>
+      <ButtonContainer
+        horizontal
+        className={globalStyles["alignment-full-center"]}
+      >
         <Button onClick={() => submit(true)}>Accept</Button>
         <Button onClick={() => submit(false)}>Reject</Button>
       </ButtonContainer>
