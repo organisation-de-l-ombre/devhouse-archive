@@ -95,9 +95,7 @@ const MovieRoot: React.FC<RouteComponentProps> = ({ match }) => {
   }
 
   return (
-    <FlexContainer
-      className={`${globalStyles.column} ${globalStyles["navbar-margin"]}`}
-    >
+    <FlexContainer className={globalStyles.column}>
       <MovieHeaders dataResponse={view} />
       <MovieInternalNavigation dataResponse={view} />
       <BackToTop href="#movie-page-navigation" />

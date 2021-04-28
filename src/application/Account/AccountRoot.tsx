@@ -18,17 +18,17 @@ const AccountRoot = (): React.ReactElement => {
     }
   }, [history, user]);
 
-  return user ? (
-    <FlexContainer
-      className={`${globalStyles.column} ${globalStyles["navbar-margin"]}`}
-    >
+  if (!user) {
+    return <></>;
+  }
+
+  return (
+    <FlexContainer className={globalStyles.column}>
       <AccountHeaders />
       <AccountInternalNavigation />
       <BackToTop />
       <AccountRouter />
     </FlexContainer>
-  ) : (
-    <></>
   );
 };
 

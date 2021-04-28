@@ -21,9 +21,7 @@ const Home = (): React.ReactElement => {
     "https://s3.developershouse.xyz/international-media-referencing/amelia-data-public/website-data/pictures/pages/home/home-headers-background.jpg";
 
   return (
-    <FlexContainer
-      className={`${globalStyles.column} ${globalStyles["navbar-margin"]}`}
-    >
+    <FlexContainer className={globalStyles.column}>
       <div className={styles.headers}>
         <div
           className={styles["headers-background"]}

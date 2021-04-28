@@ -1,5 +1,6 @@
 .navigation-container {
-  z-index: 3;
+  z-index: 8;
+  height: 3.5rem;
   position: sticky;
   top: 0;
   box-shadow: 0 0 .3rem black;
@@ -8,6 +9,7 @@
 
   .navigation-items {
     width: calc(100% - 2rem);
+    height: 100%;
     padding: 0 1rem 0 1rem;
     background-color: var(--primary-background-color);
     display: flex;
@@ -34,11 +36,9 @@
   }
 
   @media screen and (max-width: 1000px) {
-    position: unset;
-    top: unset;
-
     button {
       width: 100%;
+      height: 100%;
       display: flex;
       border-radius: 0;
 
@@ -69,6 +69,7 @@
       &.open {
         padding: 0;
         width: 100%;
+        height: auto;
         display: flex;
         flex-direction: column;
 

@@ -16,7 +16,7 @@ const LanguageModal: React.FC<
     setLanguageWindowOpen: React.Dispatch<React.SetStateAction<boolean>>;
   }
 > = ({ languageWindowOpen, setLanguageWindowOpen }) => {
-  const { setLanguageState, validateLanguage } = useLanguage();
+  const { language, setLanguageState, validateLanguage } = useLanguage();
   const { t } = useTranslation("components\\navbar");
 
   return (
@@ -28,7 +28,11 @@ const LanguageModal: React.FC<
       <p
         className={`${globalStyles["primary-margin"]} ${globalStyles["text-align-center"]}`}
       >
-        <Trans t={t} i18nKey="modal.description" />
+        <Trans
+          t={t}
+          i18nKey="modal.description"
+          values={{ language: t(`modal.select.languages.${language}`) }}
+        />
       </p>
       <div className={modalStyles["buttons-container"]}>
         <SelectList

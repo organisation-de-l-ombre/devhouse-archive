@@ -72,14 +72,18 @@ const Search = (): React.ReactElement => {
       } catch {
         setIsFetching(false);
       }
+
+      const container = document.querySelector("#search-page-navigation");
+
+      if (container) {
+        container.scrollIntoView();
+      }
     },
     [t]
   );
 
   return (
-    <FlexContainer
-      className={`${globalStyles.column} ${globalStyles["navbar-margin"]}`}
-    >
+    <FlexContainer className={globalStyles.column}>
       <div className={styles.background}>
         <FlexContainer
           className={`${styles.headers} ${globalStyles["page-body-width"]}`}
@@ -152,7 +156,7 @@ const Search = (): React.ReactElement => {
       </div>
       {isFetching ? (
         <FlexContainer
-          className={`${styles["temp-root"]} ${globalStyles["alignment-full-center"]} ${globalStyles["navbar-margin"]}`}
+          className={`${styles["temp-root"]} ${globalStyles["alignment-full-center"]}`}
         >
           <GenericLoader className={styles.temp}>
             <Trans t={t} i18nKey="body.fetchingData" />
@@ -164,22 +168,27 @@ const Search = (): React.ReactElement => {
       {data && typeof data === "object" && !isFetching ? (
         <FlexContainer
           className={`${styles["page-body"]} ${globalStyles["page-body-width"]}`}
+          id="search-page-navigation"
         >
           <h1>
+            <Trans t={t} i18nKey="body.success.title" />
+          </h1>
+          <p>
             <Trans
               t={t}
-              i18nKey="body.success.title"
+              i18nKey="body.success.description"
               values={{
                 search: inputRef.current?.value,
                 resultsLength: data.length,
               }}
             />
-          </h1>
+          </p>
           <FlexContainer className={styles["container-root"]}>
             {data.map(
               (movie: RequestResult): React.ReactElement => {
                 return (
                   <NavLink
+                    key={movie.id}
                     to={`/movies/title/${movie.id}`}
                     className={styles["movie-container"]}
                   >
@@ -209,7 +218,8 @@ const Search = (): React.ReactElement => {
       )}
       {data === undefined && !isFetching ? (
         <FlexContainer
-          className={`${styles["temp-root"]} ${globalStyles["alignment-full-center"]} ${globalStyles["navbar-margin"]}`}
+          className={`${styles["temp-root"]} ${globalStyles["alignment-full-center"]}`}
+          id="search-page-navigation"
         >
           <div className={styles["not-found"]}>
             <AiOutlineFileSearch />

@@ -10,7 +10,11 @@ const AccountHeaders = (): React.ReactElement => {
   const { user } = useUser();
   const { t } = useTranslation("pages\\account\\headers");
 
-  return user ? (
+  if (!user) {
+    return <></>;
+  }
+
+  return (
     <div className={styles.background}>
       <FlexContainer
         className={`${styles.headers} ${globalStyles["page-body-width"]}`}
@@ -26,8 +30,6 @@ const AccountHeaders = (): React.ReactElement => {
         </FlexContainer>
       </FlexContainer>
     </div>
-  ) : (
-    <></>
   );
 };
 

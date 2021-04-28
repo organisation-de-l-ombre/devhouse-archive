@@ -21,7 +21,7 @@
   },
   "modal": {
     "title": "Language preferences",
-    "description": "Please choose the language in which you want to display the website:",
+    "description": "Please choose the language in which you want to display the website. Current language is {{language}}.",
     "select": {
       "default": "Select language",
       "languages": {

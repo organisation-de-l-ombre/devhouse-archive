@@ -30,12 +30,6 @@
 
 .secondary-margin { margin: 2rem; }
 
-.navbar-margin {
-  @media screen and (max-width: 800px) {
-    margin-top: 3.34rem;
-  }
-}
-
 .rotate-infinite-animation {
   animation: animate-rotate-infinite 1s infinite;
 

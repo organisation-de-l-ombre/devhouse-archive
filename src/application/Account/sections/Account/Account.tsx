@@ -31,7 +31,11 @@ const Account = (): React.ReactElement => {
     ]);
   }, [addNotifications, removeUser, t]);
 
-  return user ? (
+  if (!user) {
+    return <></>;
+  }
+
+  return (
     <FlexContainer
       className={`${containerStyle.container} ${globalStyles["page-body-width"]}`}
     >
@@ -99,8 +103,6 @@ const Account = (): React.ReactElement => {
         </GenericLoader>
       </Card>
     </FlexContainer>
-  ) : (
-    <></>
   );
 };
 
