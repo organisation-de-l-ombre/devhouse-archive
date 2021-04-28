@@ -1,4 +1,5 @@
 FROM nginx
+RUN useradd www
 USER www
 
 COPY ./bin/startup.sh /docker-entrypoint.d/credentials.sh
