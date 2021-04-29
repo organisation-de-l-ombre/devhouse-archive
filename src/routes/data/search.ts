@@ -40,6 +40,9 @@ export default {
       .cache(true)
       .getMany();
 
-    void reply.code(200).send(databaseRequest);
+    void reply.code(200).send({
+      statusCode: 200,
+      data: databaseRequest
+    });
   }
 } as RouteOptions;

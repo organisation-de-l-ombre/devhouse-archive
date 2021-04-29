@@ -13,6 +13,7 @@ paths:
   "/data/movies/title/{movieTitle}/{language}":
     description: Get movie data
     get:
+      operationId: getMovieData
       parameters:
         - in: path
           name: movieTitle
@@ -28,7 +29,7 @@ paths:
         - Movie data
       responses:
         200:
-          description: Successfully generated S3 link to provide data access
+          description: Successfully generated signed S3 link to provide data access
           content:
             application/json:
               schema:
@@ -40,10 +41,15 @@ paths:
                       type: string
         404:
           description: Movie not found on the database
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/genericReturn"
 
   "/data/search":
     description: Search content into the database
     get:
+      operationId: getSearchResults
       parameters:
         - in: query
           name: title
@@ -60,17 +66,96 @@ paths:
               schema:
                 type: object
                 required:
-                  - id
-                  - name
-                  - releaseDate
+                  - statusCode
+                  - data
                 properties:
-                  id:
-                    type: string
-                  name:
-                    type: string
-                  releaseDate:
-                    type: string
+                  statusCode:
+                    type: number
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/searchResponse"
         400:
           description: "Bad request: missing parameters"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/genericReturn"
+
         404:
           description: Content not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/genericReturn"
+
+  "/data/wiki/{type}/{language}/{path}":
+    description: Get wiki data
+    get:
+      operationId: getWiki
+      parameters:
+        - in: path
+          name: type
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: language
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: path
+          required: true
+          schema:
+            type: string
+      tags:
+        - Wiki
+      responses:
+        200:
+          description: Successfully found wiki
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - statusCode
+                  - body
+                properties:
+                  statusCode:
+                    type: number
+                  body:
+                    type: string
+        404:
+          description: Content not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/genericReturn"
+
+components:
+  schemas:
+    genericReturn:
+      type: object
+      required:
+        - statusCode
+        - message
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: number
+
+    searchResponse:
+      type: object
+      required:
+        - id
+        - name
+        - releaseDate
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        releaseDate:
+          type: string
