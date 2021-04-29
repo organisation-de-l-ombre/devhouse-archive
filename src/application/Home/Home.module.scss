@@ -10,8 +10,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position-x: center;
-    opacity: var(--background-opacity);
-    background-color: rgba(255, 255, 255, 0);
+    opacity: .5;
   }
 
   .headers-content {
@@ -23,9 +22,9 @@
 
     h1 { margin-bottom: 1rem; }
 
-    h3 {
+    h2 {
       margin-top: 1rem;
-      font-size: 20px;
+      font-size: 22px;
     }
 
     .headers-buttons {

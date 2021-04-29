@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import Toggle from "react-toggle";
@@ -70,11 +71,12 @@ const Settings = (): React.ReactElement => {
           <Trans t={t} i18nKey="websiteParameters.title" />
         </h2>
         <div className={styles.items}>
-          <div className={styles.item}>
-            <h3>
+          <form className={styles.item}>
+            <label htmlFor="theme-toggle">
               <Trans t={t} i18nKey="websiteParameters.theme.title" />
-            </h3>
+            </label>
             <Toggle
+              id="theme-toggle"
               checked={theme === "light"}
               className="settings-toggle"
               icons={{
@@ -83,12 +85,13 @@ const Settings = (): React.ReactElement => {
               }}
               onChange={changeTheme}
             />
-          </div>
-          <div className={styles.item}>
-            <h3>
+          </form>
+          <form className={styles.item}>
+            <label htmlFor="notifications-toggle">
               <Trans t={t} i18nKey="websiteParameters.notifications.title" />
-            </h3>
+            </label>
             <Toggle
+              id="notifications-toggle"
               checked={allowNotifications}
               className="settings-toggle"
               icons={{
@@ -97,7 +100,7 @@ const Settings = (): React.ReactElement => {
               }}
               onChange={changeNotificationsPreferences}
             />
-          </div>
+          </form>
           <div className={styles.item}>
             <h3 className={globalStyles["no-margin"]}>
               <Trans t={t} i18nKey="websiteParameters.language.title" />

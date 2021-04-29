@@ -35,13 +35,17 @@ const Footer = (): React.ReactElement => {
           />
         </h3>
         <div className={styles["social-networks"]}>
-          <a href="https://discord.com/invite/QECkmy8TqC" target="blank">
+          <a
+            href="https://discord.com/invite/QECkmy8TqC"
+            target="blank"
+            aria-label="Discord"
+          >
             <FaDiscord />
           </a>
-          <a href="https://instagram.com" target="blank">
+          <a href="https://instagram.com" target="blank" aria-label="Instagram">
             <FaInstagram />
           </a>
-          <a href="https://twitter.com" target="blank">
+          <a href="https://twitter.com" target="blank" aria-label="Twitter">
             <FaTwitter />
           </a>
         </div>

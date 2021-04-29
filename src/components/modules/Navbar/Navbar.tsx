@@ -151,6 +151,7 @@ const Navbar = (): React.ReactElement => {
               exact
               className={styles.buttons}
               onClick={manageNavbar}
+              aria-label="Do a search"
             >
               <MdSearch className={styles.search} />
               <span className={styles["switcher-span"]}>
@@ -167,6 +168,7 @@ const Navbar = (): React.ReactElement => {
 
                 setLanguageWindowOpen(!languageWindowOpen);
               }}
+              aria-label="Change language"
             >
               <DisplayLanguageSVG lang={language} alt={`lang-${language}`} />
               <span className={styles["switcher-span"]}>
@@ -183,6 +185,7 @@ const Navbar = (): React.ReactElement => {
 
                 setNotificationsWindowOpen(!notificationsWindowOpen);
               }}
+              aria-label="Manage notifications preferences"
             >
               {allowNotifications ? <FaBell /> : <FaBellSlash />}
               <span className={styles["switcher-span"]}>
@@ -193,6 +196,7 @@ const Navbar = (): React.ReactElement => {
               type="button"
               className={styles.buttons}
               onClick={manageTheme}
+              aria-label="Change color theme"
             >
               {theme === "light" ? <FaMoon /> : <FaSun />}
               <span className={styles["switcher-span"]}>

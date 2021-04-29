@@ -10,7 +10,11 @@ const BackToTop: React.FC<
 > = ({ href }) => {
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
-    <a className={styles.button} href={href || "#"}>
+    <a
+      className={styles.button}
+      href={href || "#"}
+      aria-label="Back to the top of the page"
+    >
       <RiArrowUpSLine />
     </a>
   );

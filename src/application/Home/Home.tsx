@@ -34,12 +34,12 @@ const Home = (): React.ReactElement => {
           <h1>
             <Trans t={t} i18nKey="headers.title" />
           </h1>
-          <h3>
+          <h2>
             <Trans t={t} i18nKey="headers.presentation.0" />
-          </h3>
-          <h3>
+          </h2>
+          <h2>
             <Trans t={t} i18nKey="headers.presentation.1" />
-          </h3>
+          </h2>
           <ButtonsGroup className={styles["headers-buttons"]}>
             <NavLink className={buttonStyles["button-styles"]} to="/about">
               <MdWork />
