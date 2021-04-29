@@ -6,6 +6,8 @@ import { useNotificationsManager } from "@hooks/Notifications";
 import { useLanguage } from "@hooks/Language";
 import { FlexContainer, GenericLoader } from "@components/ui";
 import { NotFound, BackToTop } from "@components/modules";
+import { MovieDataAPI } from "@lib/api";
+import { InlineResponse200 } from "@developers-house/amelia";
 import globalStyles from "../../themes/Global.module.scss";
 import MovieHeaders from "./modules/MovieHeaders/MovieHeaders";
 import MovieInternalNavigation from "./modules/MovieInternalNavigation/MovieInternalNavigation";
@@ -19,42 +21,24 @@ const MovieRoot: React.FC<RouteComponentProps> = ({ match }) => {
   const [view, setView] = React.useState<S3DataResponse | undefined>(undefined);
   const { addNotifications, deleteNotification } = useNotificationsManager();
   const { t } = useTranslation("pages\\moviePrototype\\root");
-  const params = (match.params as unknown) as Record<string, unknown>;
-  const fetchMovieData = React.useCallback(async (): Promise<void> => {
+  const params = (match.params as unknown) as Record<string, string>;
+  const fetchMovieData = React.useCallback((): void => {
     setIsFetching(true);
 
-    try {
-      const baseRequest = await fetch(
-        `https://amelia-api.developershouse.xyz/data/movies/title/${params.title}/${language}`
-      );
-
-      if (baseRequest.status !== 200) {
-        setIsFetching(false);
-        return;
+    MovieDataAPI.getMovieData({
+      movieTitle: params.title,
+      language,
+    }).then((response: InlineResponse200): void => {
+      if (response.dataURL) {
+        fetch(response.dataURL)
+          .then((S3Response) => S3Response.json())
+          .then((S3Response: S3DataResponse): void => {
+            setView(S3Response);
+          });
       }
+    });
 
-      const { dataURL } = await baseRequest.json();
-
-      if (dataURL) {
-        try {
-          const request = await fetch(dataURL);
-
-          if (request.status !== 200) {
-            setIsFetching(false);
-            return;
-          }
-
-          const data: S3DataResponse = await request.json();
-
-          setIsFetching(false);
-          setView(data);
-        } catch {
-          setIsFetching(false);
-        }
-      }
-    } catch {
-      setIsFetching(false);
-    }
+    setIsFetching(false);
   }, [language, params.title]);
 
   React.useEffect(() => {
@@ -97,8 +81,8 @@ const MovieRoot: React.FC<RouteComponentProps> = ({ match }) => {
   return (
     <FlexContainer className={globalStyles.column}>
       <MovieHeaders dataResponse={view} />
-      <MovieInternalNavigation dataResponse={view} />
-      <BackToTop href="#movie-page-navigation" />
+      <MovieInternalNavigation />
+      <BackToTop />
       <MovieRouter dataResponse={view} />
     </FlexContainer>
   );

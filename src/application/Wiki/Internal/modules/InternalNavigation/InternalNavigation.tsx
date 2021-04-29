@@ -15,7 +15,7 @@ const InternalNavigation: React.FC<
   > & { open: boolean; manageSidebar: () => void }
 > = ({ open, manageSidebar }) => {
   const { t } = useTranslation("pages\\wiki\\internal\\sidebar");
-  const baseURL: string = useRouteMatch().path;
+  const { url: baseURL } = useRouteMatch();
 
   return (
     <Sidebar

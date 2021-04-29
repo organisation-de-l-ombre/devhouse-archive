@@ -2,13 +2,9 @@ import React from "react";
 import { NavLink, useRouteMatch } from "react-router-dom";
 import { useTabBar } from "@hooks/TabBar";
 import { TabBar, tabBarStyles } from "@components/modules";
-import { ReactMovieElement } from "../../types";
 
-const MovieInternalNavigation: ReactMovieElement = ({ dataResponse }) => {
-  const baseURL: string = useRouteMatch().path.replace(
-    ":title",
-    dataResponse.id
-  );
+const MovieInternalNavigation = (): React.ReactElement => {
+  const { url: baseURL } = useRouteMatch();
   const { open, manageTabBar } = useTabBar();
 
   return (

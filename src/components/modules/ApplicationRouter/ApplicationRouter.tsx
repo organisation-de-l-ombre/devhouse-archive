@@ -38,7 +38,12 @@ const ApplicationRouter = (): React.ReactElement => {
           }}
         />
         <Route path="/search" exact component={Search} />
-        <Route path="/wiki/internal" component={InternalWiki} />
+        <Route
+          path="/wiki/internal/:section"
+          render={(props: RouteComponentProps): React.ReactElement => {
+            return <InternalWiki {...props} />;
+          }}
+        />
         <Route path="*" component={NotFound} />
       </Switch>
 

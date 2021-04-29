@@ -21,7 +21,7 @@ const NotFound = React.lazy(
 const MovieRouter: React.FC<{ dataResponse: S3DataResponse }> = ({
   dataResponse,
 }) => {
-  const baseURL: string = useRouteMatch().path;
+  const { url: baseURL } = useRouteMatch();
 
   React.useEffect(() => {
     document.title = `${dataResponse.title} - IMR`;

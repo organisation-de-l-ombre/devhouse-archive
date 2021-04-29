@@ -48,6 +48,7 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    background-color: var(--primary-background-color);
 
     .start {
       display: flex;
@@ -110,7 +111,7 @@
     flex-direction: column;
 
     .navbar-logo {
-      width: calc(100% - 1rem);
+      width: calc(100%);
 
       span { transition: .5s; }
 
@@ -125,6 +126,7 @@
       display: none;
 
       &.open {
+        padding: 0 .5rem;
         display: flex;
         flex-direction: column;
 

@@ -6,14 +6,15 @@ import { AiOutlineFileSearch } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import { useLanguage } from "@hooks/Language";
 import { CSSTransition } from "react-transition-group";
+import { SearchAPI } from "@lib/api";
+import { InlineResponse2001, SearchResponse } from "@developers-house/amelia";
 import styles from "./Search.module.scss";
-import { RequestResult } from "./Types";
 import "./Animations.scss";
 
 const Search = (): React.ReactElement => {
   const { t } = useTranslation("pages\\search\\search");
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const [data, setData] = React.useState<RequestResult[] | undefined>(
+  const [data, setData] = React.useState<SearchResponse[] | undefined>(
     undefined
   );
   const [isFetching, setIsFetching] = React.useState<boolean>(false);
@@ -27,7 +28,7 @@ const Search = (): React.ReactElement => {
     setAdvancedSearchEnabled(!advancedSearchEnabled);
   }, [advancedSearchEnabled]);
   const validateRequest = React.useCallback(
-    async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    (event: React.FormEvent<HTMLFormElement>): void => {
       event.preventDefault();
 
       const { current: inputForm } = inputRef;
@@ -49,29 +50,15 @@ const Search = (): React.ReactElement => {
       setIsFetching(true);
       setFirstTime(false);
 
-      try {
-        const baseRequest = await fetch(
-          `https://amelia-api.developershouse.xyz/data/search?title=${inputForm.value.replace(
-            / /gi,
-            "_"
-          )}`
-        );
-
-        if (baseRequest.status !== 200) {
-          setIsFetching(false);
-          return;
+      SearchAPI.getSearchResults({
+        title: inputForm.value,
+      }).then((response: InlineResponse2001): void => {
+        if (response.data.length) {
+          setData(response.data);
         }
+      });
 
-        const response = await baseRequest.json();
-
-        if (response instanceof Array && response.length) {
-          setData(response);
-        }
-
-        setIsFetching(false);
-      } catch {
-        setIsFetching(false);
-      }
+      setIsFetching(false);
 
       const container = document.querySelector("#search-page-navigation");
 
@@ -81,6 +68,7 @@ const Search = (): React.ReactElement => {
     },
     [t]
   );
+  console.log(data);
 
   return (
     <FlexContainer className={globalStyles.column}>
@@ -96,9 +84,9 @@ const Search = (): React.ReactElement => {
           </h3>
           <form
             className={styles["form-root"]}
-            onSubmit={(
-              event: React.FormEvent<HTMLFormElement>
-            ): Promise<void> => validateRequest(event)}
+            onSubmit={(event: React.FormEvent<HTMLFormElement>): void =>
+              validateRequest(event)
+            }
           >
             <input
               ref={inputRef}
@@ -185,7 +173,7 @@ const Search = (): React.ReactElement => {
           </p>
           <FlexContainer className={styles["container-root"]}>
             {data.map(
-              (movie: RequestResult): React.ReactElement => {
+              (movie: SearchResponse): React.ReactElement => {
                 return (
                   <NavLink
                     key={movie.id}

@@ -90,7 +90,7 @@ const Footer = (): React.ReactElement => {
             <h3>
               <Trans t={t} i18nKey="right.containers.2.title" />
             </h3>
-            <NavLink to="/wiki/internal" exact>
+            <NavLink to="/wiki/internal/intro" exact>
               <Trans t={t} i18nKey="right.containers.2.support" />
             </NavLink>
             <NavLink to="/wiki/internal/referencing" exact>

@@ -1250,10 +1250,10 @@
   resolved "https://gitlab.com/api/v4/projects/22309686/packages/npm/@developers-house/abdera/-/@developers-house/abdera-1.0.0.tgz#deca4d777061fc6af4b756afa0ce9b4a8bea084a"
   integrity sha1-3spNd3Bh/Gr0t1avoM6bSovqCEo=
 
-"@developers-house/amelia@^1.1.0":
-  version "1.1.0"
-  resolved "https://gitlab.com/api/v4/projects/25638828/packages/npm/@developers-house/amelia/-/@developers-house/amelia-1.1.0.tgz#8a42967b9e657c6aa97d96c52c6f483ac66cf07b"
-  integrity sha1-ikKWe55lfGqpfZbFLG9IOsZs8Hs=
+"@developers-house/amelia@1.1.4":
+  version "1.1.4"
+  resolved "https://gitlab.com/api/v4/projects/25638828/packages/npm/@developers-house/amelia/-/@developers-house/amelia-1.1.4.tgz#ab3c799334b810b9fbd93fe619eb0dd24afb1b71"
+  integrity sha1-qzx5kzS4ELn72T/mGesN0kr7G3E=
 
 "@eslint/eslintrc@^0.4.0":
   version "0.4.0"
