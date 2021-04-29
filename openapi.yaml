@@ -151,11 +151,14 @@ components:
       required:
         - id
         - name
+        - poster
         - releaseDate
       properties:
         id:
           type: string
         name:
+          type: string
+        poster:
           type: string
         releaseDate:
           type: string
