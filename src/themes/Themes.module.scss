@@ -16,9 +16,10 @@
   --notification-button-text-color: black;
 
   --font-color: black;
+  --link-font-color: rgb(41, 136, 244);
   --font-color-hover: rgb(230, 85, 85);
 
-  --background-opacity: .6;
+  --background-opacity: .5;
 }
 
 .dark {
@@ -39,6 +40,7 @@
   --notification-button-text-color: black;
 
   --font-color: white;
+  --link-font-color: rgb(41, 136, 244);
   --font-color-hover: rgb(230, 85, 85);
 
   --background-opacity: .3;

@@ -80,7 +80,7 @@ const MovieSection: ReactMovieElement = ({ dataResponse }) => {
               return (
                 <DetailedText key={item.name}>
                   <h1 id={item.id}>{item.name}</h1>
-                  <List className={containerStyle["list-margin"]}>
+                  <List className={containerStyle.list}>
                     {item.items.map(
                       (listItem: string): React.ReactElement => (
                         <li key={listItem}>{listItem}</li>
@@ -130,7 +130,7 @@ const MovieSection: ReactMovieElement = ({ dataResponse }) => {
                               className={containerStyle["sub-groups"]}
                             >
                               <h2 id={subItem.id}>{subItem.name}</h2>
-                              <List className={containerStyle["list-margin"]}>
+                              <List className={containerStyle.list}>
                                 {subItem.items.map(
                                   (listItem: string): React.ReactElement => (
                                     <li key={listItem}>{listItem}</li>

@@ -10,7 +10,7 @@
 }
 
 .container {
-  padding: 2rem;
+  padding: 4rem 2rem;
   width: calc(100% - 4rem);
   max-width: 75%;
   flex-direction: column;
@@ -20,12 +20,15 @@
 
   .summary { max-width: 20rem; }
 
-  .list-margin { margin-top: 1.5rem !important; }
+  .list {
+    margin-top: 1.75rem;
+
+    li { margin-top: .25rem; }
+  }
 
   .sub-groups { margin-top: 2rem; }
 
   @media screen and (max-width: 700px) {
-    padding: 2rem;
     width: calc(100% - 4rem);
     max-width: unset;
   }

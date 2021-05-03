@@ -26,3 +26,6 @@ yarn-error.log*
 .vscode/
 .idea/
 .eslintcache
+
+# Next.js
+.next/
