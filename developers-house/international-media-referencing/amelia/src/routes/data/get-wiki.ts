@@ -29,7 +29,7 @@ export default {
     const path = requestPath.replace(/_/gi, "/");
 
     let baseResponse = await fetch(
-      `https://s3.developershouse.xyz/international-media-referencing/amelia-data-public/wiki/${type}/${language}/${path}`
+      `https://s3.developershouse.xyz/international-media-referencing/amelia-data-public/wiki/${type}/${language}/${path}.md`
     );
 
     if (language === "en" && baseResponse.status === 404) {
