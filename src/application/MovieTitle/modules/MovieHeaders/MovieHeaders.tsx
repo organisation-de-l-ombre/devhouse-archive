@@ -50,12 +50,13 @@ const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
         )}
         <FlexContainer className={styles.headers}>
           {dataResponse.headers && dataResponse.headers.moviePoster ? (
-            <img
-              src={dataResponse.headers.moviePoster}
-              alt={dataResponse.title}
-              className={styles["movie-poster"]}
-              draggable={false}
-            />
+            <div className={styles["movie-poster"]}>
+              <img
+                src={dataResponse.headers.moviePoster}
+                alt={dataResponse.title}
+                draggable={false}
+              />
+            </div>
           ) : (
             <></>
           )}

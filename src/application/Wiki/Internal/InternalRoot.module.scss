@@ -1,18 +1,6 @@
 .container-root {
   max-height: calc(100vh - 3.5rem);
 
-  .container-main {
-    position: relative;
-    flex-direction: column;
-    overflow-y: auto;
-    transition: opacity 300ms;
-
-    &.sidebar-open {
-      overflow-y: hidden;
-      opacity: .1;
-    }
-  }
-
   .content {
     padding: 6rem 4rem;
     flex-direction: column;

@@ -13,8 +13,12 @@
  */
 
 interface ServiceWorkerConfig {
-  onUpdate?: (registration: ServiceWorkerRegistration) => unknown;
-  onSuccess?: (registration: ServiceWorkerRegistration) => unknown;
+  onUpdate?: (
+    registration: ServiceWorkerRegistration
+  ) => unknown | Promise<unknown>;
+  onSuccess?: (
+    registration: ServiceWorkerRegistration
+  ) => unknown | Promise<unknown>;
 }
 
 const isLocalhost = Boolean(

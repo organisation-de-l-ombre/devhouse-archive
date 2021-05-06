@@ -43,6 +43,7 @@
   border: .15rem solid var(--font-color-hover);
 
   a, button {
+    min-width: 11rem;
     transition: .5s;
 
     svg {
@@ -52,7 +53,7 @@
       transition: .5s;
     }
 
-    span { transition: .5s }
+    span { transition: .5s; }
 
     &:hover {
       svg { fill: var(--font-color-hover); }

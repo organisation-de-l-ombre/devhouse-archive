@@ -18,7 +18,7 @@ const WikiSection: React.FC<
 > = ({ type, section }) => {
   const { language } = useLanguage();
   const { isFetching, data } = useQuery(
-    "wiki-internal-intro",
+    `wiki-internal-${section}`,
     () => {
       return WikiAPI.getWiki({
         type,

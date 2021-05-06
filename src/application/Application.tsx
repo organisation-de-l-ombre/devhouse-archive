@@ -17,16 +17,22 @@ import { Action } from "redux";
 
 // Service worker initialization
 register({
-  onUpdate(registration: ServiceWorkerRegistration) {
+  async onUpdate(registration: ServiceWorkerRegistration): Promise<void> {
+    const translations = await import(
+      `../../public/locales/${
+        store.getState().language.language
+      }/serviceWorker.json`
+    );
+
     store.dispatch(
       (pushNotifications([
         {
           id: generateNotificationID(),
           type: "warning",
-          body: i18n.t("serviceWorker:updateMessage"),
+          body: translations.updateMessage,
           buttons: [
             {
-              text: i18n.t("serviceWorker:updateButton"),
+              text: translations.updateButton,
               icon: <MdSystemUpdate />,
               onClick: () => {
                 if (registration.waiting) {

@@ -155,7 +155,7 @@ const Navbar = (): React.ReactElement => {
             >
               <MdSearch className={styles.search} />
               <span className={styles["switcher-span"]}>
-                <Trans t={t} i18nKey="items.browse" />
+                <Trans t={t} i18nKey="items.search" />
               </span>
             </NavLink>
             <button

@@ -17,11 +17,7 @@ const pushNotifications = (notifications: Notification[]): Action => {
   };
 };
 const removeNotification = (id: string): Action => {
-  return (dispatch: Dispatch, getState: GetState): void => {
-    if (!getState().notificationsConfig.allowNotifications) {
-      return;
-    }
-
+  return (dispatch: Dispatch): void => {
     dispatch({ type: NOTIFICATION_DELETE, payload: id });
   };
 };

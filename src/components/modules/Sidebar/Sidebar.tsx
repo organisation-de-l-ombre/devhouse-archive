@@ -2,6 +2,7 @@ import React from "react";
 import { BsArrowRight } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
 import { NavLink } from "react-router-dom";
+import { FlexContainer } from "@components/ui";
 import styles from "./Sidebar.module.scss";
 
 const Sidebar: React.FC<
@@ -84,5 +85,29 @@ const SidebarManager: React.FC<
     </button>
   );
 };
+const SidebarContainer: React.FC<
+  React.DetailedHTMLProps<
+    React.AllHTMLAttributes<HTMLDivElement>,
+    HTMLDivElement
+  > & { open: boolean; manageSidebar: () => void }
+> = ({ open, manageSidebar, ...props }) => {
+  return (
+    <FlexContainer
+      className={`${styles.container}${open ? ` ${styles.open}` : ""}`}
+      onClick={(): void => {
+        if (open) {
+          manageSidebar();
+        }
+      }}
+      {...props}
+    />
+  );
+};
 
-export { Sidebar, SidebarSection, SidebarItem, SidebarManager };
+export {
+  Sidebar,
+  SidebarSection,
+  SidebarItem,
+  SidebarManager,
+  SidebarContainer,
+};
