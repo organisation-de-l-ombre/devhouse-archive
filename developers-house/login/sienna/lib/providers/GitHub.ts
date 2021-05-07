@@ -1,6 +1,6 @@
 import FormData from "form-data";
 import fetch from "node-fetch";
-import { ConstructorType, GeneralUser, Provider } from "./index";
+import { GeneralUser, Provider } from "./types";
 
 export default class GitHubProvider implements Provider {
   constructor(
@@ -32,7 +32,7 @@ export default class GitHubProvider implements Provider {
       },
     });
     if (!resp.ok) {
-      throw "Unable to exchange the token from github.";
+      throw new Error("Unable to exchange the token from github.");
     }
     return (await resp.json()).access_token;
   }
@@ -53,7 +53,7 @@ export default class GitHubProvider implements Provider {
     });
     const user = await resp.json();
     if (!resp.ok || !user.id || !user.login) {
-      throw "Unable to get the user from github.";
+      throw new Error("Unable to get the user from github.");
     }
     return {
       id: user.id,
@@ -63,7 +63,7 @@ export default class GitHubProvider implements Provider {
     };
   }
 
-  name(): string {
-    return "Github";
+  meta(): { name: string; color: string } {
+    return { color: "#222222", name: "GitHub" };
   }
 }

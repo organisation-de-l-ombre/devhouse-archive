@@ -1,55 +1,42 @@
-import React, { ReactElement, useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import React, { ReactElement, useCallback, useState } from "react";
 import Loader from "react-loaders";
+import { withIronSession } from "next-iron-session";
+import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
+import { ConsentRequest } from "@ory/hydra-client";
+import { AxiosResponse } from "axios";
+import { useRouter } from "next/router";
 import { Button, ButtonContainer } from "../components/button";
-import {
-  getConsent,
-  GetConsentReturn,
-  validateConsent,
-} from "../lib/rpc/fetchConsent";
 import styles from "../styles/pages/consent.module.scss";
 import globalStyles from "../styles/generic.module.scss";
+import { ironSession } from "../lib/options";
+import { Admin } from "../lib/admin";
 
-export default function Consent(): ReactElement {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [consent, setConsent] = useState<GetConsentReturn>();
-
-  const route = useRouter();
-
-  useEffect(() => {
-    (async function asyncUseEffect() {
-      if (route.query.consent_challenge) {
-        const data = await getConsent({
-          challenge: route.query.consent_challenge as string,
-        });
-        if (data) {
-          setConsent(data);
-          setLoading(false);
-        } else {
-          await route.push("/dialog/error", {
-            pathname: "error",
-            query: { message: "Invalid challenge" },
-          });
-        }
-      }
-    })();
-  }, [route]);
-
+export default function Consent({ consent }: ConsentProps): ReactElement {
+  const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
   const submit = useCallback(
     async (granted: boolean) => {
       setLoading(true);
-      const response = await validateConsent({
-        granted,
-        challenge: consent.challenge,
-        scopes: consent.scopes,
-        audiences: consent.audiences,
-        token: consent.token,
+      const response = await fetch("/dialog/api/consent", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          granted,
+          challenge: consent.challenge,
+          scopes: consent.scopes,
+          audiences: consent.audiences,
+        }),
       });
-      if (response) {
-        window.location.href = response.redirect;
+      if (response.ok) {
+        const json = await response.json();
+        if (json.code === 200) {
+          await router.push(json.redirect);
+        }
       }
     },
-    [consent]
+    [consent.audiences, consent.challenge, consent.scopes, router]
   );
 
   if (loading) {
@@ -87,3 +74,45 @@ export default function Consent(): ReactElement {
     </div>
   );
 }
+
+interface ConsentProps {
+  consent: {
+    scopes: string[];
+    clientName: string;
+    audiences: string[];
+    challenge: string;
+  };
+}
+
+async function serverSideProps(
+  context: GetServerSidePropsContext
+): Promise<GetServerSidePropsResult<ConsentProps>> {
+  const { query, req } = context;
+  if (!query.consent_challenge) return { notFound: true };
+  const { data }: AxiosResponse<ConsentRequest> = await Admin.getConsentRequest(
+    query.consent_challenge as string
+  ).catch(() => ({ data: null } as AxiosResponse));
+  if (!data) return { notFound: true };
+  req.session.set("consentSession", {
+    audiences: data.requested_access_token_audience,
+    challenge: query.consent_challenge as string,
+    clientName: data.client.client_name,
+    scopes: data.requested_scope,
+  });
+  await req.session.save();
+  return {
+    props: {
+      consent: {
+        audiences: data.requested_access_token_audience,
+        challenge: query.consent_challenge as string,
+        clientName: data.client.client_name,
+        scopes: data.requested_scope,
+      },
+    },
+  };
+}
+
+export const getServerSideProps = withIronSession(
+  serverSideProps,
+  ironSession()
+);

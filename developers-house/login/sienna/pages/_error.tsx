@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 import { NextRouter, useRouter } from "next/router";
 import styles from "../styles/pages/error.module.scss";
 
-export default function Error(): ReactElement {
+function Error(): ReactElement {
   const router: NextRouter = useRouter();
   const error =
     router.query.error_message || router.query.error || router.query.message;
@@ -26,3 +26,5 @@ export default function Error(): ReactElement {
     </div>
   );
 }
+
+export default Error;
