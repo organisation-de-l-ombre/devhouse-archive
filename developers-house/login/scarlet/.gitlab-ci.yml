@@ -57,6 +57,9 @@ package:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
       - .npm/
+  only:
+    changes:
+      - gen/*
   script:
     - apt-get update -y
     - apt-get install jq -y
