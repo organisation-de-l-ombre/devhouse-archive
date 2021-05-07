@@ -13,14 +13,12 @@ use rocket_contrib::json::Json;
 use rocket_contrib::uuid::Uuid;
 use serde::Deserialize;
 use uuid::UuidVersion;
-use rocket::http::uri::Query;
-use rocket::Response;
 
 /// get_user_by_id - GET /user/:id
 /// Get a user information by id.
 /// Returns 403 if the user is banned.
 #[get("/user/<user>")]
-pub fn get_user_by_id(conn: ScarletDB, user: Uuid) -> Result<Json<User>, Response> {
+pub fn get_user_by_id(conn: ScarletDB, user: Uuid) -> Result<Json<User>, Json<ScarletError>> {
     let result: Result<User, diesel::result::Error> = users
         .filter(id.eq(uuid::Uuid::from_bytes(user.as_bytes()).unwrap()))
         .first::<User>(&*conn);
@@ -28,20 +26,20 @@ pub fn get_user_by_id(conn: ScarletDB, user: Uuid) -> Result<Json<User>, Respons
     match result {
         Ok(user) => {
             if user.ban.is_some() {
-                return Err(Status::NotFound(Json(ScarletError {
+                return Err(Json(ScarletError {
                     code: 0,
                     message: "This user does not exists.".to_string(),
-                })));
+                }));
             }
             Ok(Json(user))
         }
         Err(e) => {
             match e {
-                Error::NotFound => Err(Status::NotFound(Json(ScarletError {
+                Error::NotFound => Err(Json(ScarletError {
                     code: 0,
                     message: "This user does not exists.".to_string(),
-                }))),
-                _ => rr(Status::InternalServerError(Json(db_error(e))))
+                })),
+                e => Err(Json(db_error(e)))
             }
         },
     }
@@ -65,12 +63,12 @@ pub fn patch_user_by_id(
         return Ok(Status::Accepted);
     }
     return
-        match e {
-            Error::NotFound => Err(Status::NotFound(Json(ScarletError {
+        match result.err().unwrap() {
+            Error::NotFound => Err(Json(ScarletError {
                 code: 0,
                 message: "This user does not exists.".to_string(),
-            }))),
-            _ => rr(Status::InternalServerError(Json(db_error(e))))
+            })),
+            e => Err(Json(db_error(e)))
         }
 }
 
@@ -88,11 +86,11 @@ pub fn delete_user_by_id(conn: ScarletDB, user: Uuid) -> Result<Status, Json<Sca
         Ok(_) => Ok(Status::Ok),
         Err(e) => {
             match e {
-                Error::NotFound => Err(Status::NotFound(Json(ScarletError {
+                Error::NotFound => Err(Json(ScarletError {
                     code: 0,
                     message: "This user does not exists.".to_string(),
-                }))),
-                _ => rr(Status::InternalServerError(Json(db_error(e))))
+                })),
+                _ => Err(Json(db_error(e)))
             }
         },
     }
