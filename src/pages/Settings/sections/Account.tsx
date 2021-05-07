@@ -4,7 +4,6 @@
 
 import React, { FC, ReactElement } from "react";
 import { Formik } from "formik";
-import { useSelector } from "react-redux";
 import Button from "components/ui/Button/Button";
 import { TitleBox } from "../../../components/ui/TitleBox/TitleBox";
 import {
@@ -15,17 +14,18 @@ import {
 } from "../../../components/ui/Card/Card";
 import { Input } from "../../../components/ui/Input/Input";
 import styles from "./account.module.scss";
+import { useUser } from "../../../state/slices/account/hooks";
 
 type Form = { username: string; dataCollection: boolean };
 
 const AccountUpdateForm: FC = () => {
-  const user = useSelector((x) => x.user.user);
+  const user = useUser();
 
   if (!user) return null;
   return (
     <Formik<Form>
       initialValues={{
-        username: user.username,
+        username: user.username as string,
         dataCollection: user.dataCollection,
       }}
       validateOnChange

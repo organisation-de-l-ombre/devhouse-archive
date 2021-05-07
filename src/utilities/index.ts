@@ -1,5 +1,4 @@
 export * from "./functions";
-export * from "./account";
 export * from "./serviceWorker";
 
 export function urlEncodeFormData(fd: string[][]): string {

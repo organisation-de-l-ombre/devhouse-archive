@@ -3,7 +3,7 @@ import { TransitionGroup } from "react-transition-group";
 import styles from "./notifications.module.scss";
 import "./animations.css";
 import NotificationComponent from "./NotificationComponent";
-import { useNotificationsState } from "../../hooks/Notifications/Notifications";
+import { useNotificationsState } from "../../hooks/useNotifications";
 
 export default function NotificationsArea(): ReactElement {
   const { notifications } = useNotificationsState();

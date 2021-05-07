@@ -9,11 +9,11 @@ import {
 import "./transitions.css";
 import { RouteProps, RouteComponentProps } from "react-router";
 import { ErrorBoundary } from "react-error-boundary";
-import { useSelector } from "react-redux";
 import { Loader } from "../components/SuspenseLoader/SuspenseLoader";
 import NotFound from "./NotFound/NotFound";
 import styles from "./navigator.module.scss";
-import { useNotificationsManager } from "../hooks/Notifications/Notifications";
+import { useNotificationsManager } from "../hooks/useNotifications";
+import { useHasUser } from "../state/slices/account/hooks";
 
 const AboutPage = React.lazy(() => import("./About/About"));
 const HomePage = React.lazy(() => import("./Home/Home"));
@@ -30,7 +30,7 @@ const PrivateRoute: FC<{ component: FC<unknown> } & RouteProps> = ({
   component: Component,
   ...rest
 }) => {
-  const auth = useSelector((s) => s.user.loggedIn);
+  const auth = useHasUser();
   const history = useHistory();
   const { addNotification } = useNotificationsManager();
   useEffect(() => {

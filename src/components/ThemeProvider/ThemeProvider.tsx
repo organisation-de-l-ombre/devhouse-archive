@@ -1,15 +1,11 @@
-/*
- * Synchronize the theme to the styled-components variable.
- */
-
 import React, { PropsWithChildren, ReactElement, useEffect } from "react";
-import { useSelector } from "react-redux";
 import styles from "./themes.module.scss";
+import { useTheme } from "../../state/slices/theme/hooks";
 
 const ThemeProvider = ({
   children,
 }: PropsWithChildren<unknown>): ReactElement => {
-  const currentTheme = useSelector((state) => state.theme.theme);
+  const currentTheme = useTheme();
 
   useEffect(() => {
     const elem = document.querySelector("#root");
