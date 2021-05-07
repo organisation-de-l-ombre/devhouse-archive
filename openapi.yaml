@@ -37,7 +37,6 @@ paths:
         schema:
           type: string
           pattern: uuidv4
-          example: ecc69c21-a28d-4561-a875-57275c06b54f
     get:
       operationId: getUser
       tags:
@@ -49,6 +48,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
+        404:
+          description: The user is banned or not existent.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     patch:
       operationId: patchUser
       tags:
@@ -65,6 +70,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
+        404:
+          description: The user is banned or not existent.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     delete:
       operationId: deleteUser
       tags:
@@ -73,7 +84,11 @@ paths:
         200:
           description: User deleted.
         404:
-          description: User does not exists.
+          description: The user is banned or not existent.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   "/user":
     post:
@@ -92,6 +107,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
+        500:
+          description: The service contains a problem.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   "/user/{user}/links":
     parameters:
@@ -223,7 +244,22 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
+                type: object
+                properties:
+                  code:
+                    type: number
+                    enum:
+                      - 1
+                      - 2
+                      - 3
+                      - 4
+                      - 5
+                      - 6
+                      - 153
+                  user:
+                    $ref: "#/components/schemas/User"
+                required:
+                  - code
 
 components:
   schemas:
@@ -429,3 +465,10 @@ components:
           properties:
             code:
               type: integer
+    Error:
+      type: object
+      properties:
+        code:
+          type: number
+        message:
+          type: string

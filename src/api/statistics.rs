@@ -26,9 +26,7 @@ pub fn get_statistics(conn: ScarletDB) -> Result<Json<Statistics>, Json<ScarletE
     };
 
     statistics.user_count = users.count().first::<i64>(&*conn).unwrap();
-
     statistics.links_count = links.count().first::<i64>(&*conn).unwrap();
-
     statistics.webauth_count = webauthn_keys.count().first::<i64>(&*conn).unwrap();
 
     Ok(Json(statistics))
