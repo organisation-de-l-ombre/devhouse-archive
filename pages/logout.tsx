@@ -1,66 +1,85 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useCallback, useState } from "react";
+import { AxiosResponse } from "axios";
+import { LogoutRequest } from "@ory/hydra-client";
+import { withIronSession } from "next-iron-session";
+import { useRouter } from "next/router";
+import { Admin } from "../lib/admin";
 import { Button, ButtonContainer } from "../components/button";
-import { applySession } from "next-session";
-import { options } from "../lib/service/session";
-import { provide } from "../lib/service/csrf";
+import { ironSession } from "../lib/options";
 
-type Props = {
-  csrf: string;
+type LogoutProps = {
   logoutChallenge: string;
 };
 
-export default function Logout(props: Props): ReactElement {
-  const { csrf, logoutChallenge } = props;
+export default function Logout(props: LogoutProps): ReactElement {
+  const { logoutChallenge } = props;
+  const router = useRouter();
+  const [done, setDone] = useState(false);
+
+  const submit = useCallback(async () => {
+    const response = await fetch("/dialog/api/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "same-origin",
+      body: JSON.stringify({
+        challenge: logoutChallenge,
+      }),
+    });
+    if (response.ok) {
+      const json = await response.json();
+      if (json.code === 200) {
+        await router.push(json.redirect);
+      }
+    }
+  }, [logoutChallenge, router]);
+
+  if (done) {
+    window.close();
+    return <p>You can close this window.</p>;
+  }
 
   return (
     <div>
       <h2>Logout</h2>
-      <p>Are you sure you want to logout ?</p>
-
-      <form method="POST" action={"/dialog/api/logout/validate"}>
-        <ButtonContainer horizontal>
-          <Button name="validate" value="accept">
-            Yes
-          </Button>
-          <Button name="validate" value="reject">
-            No
-          </Button>
-          <input type="hidden" value={logoutChallenge} name="challenge" />
-          <input type="hidden" value={csrf} name="_csrf" />
-        </ButtonContainer>
-      </form>
+      <br />
+      <p>
+        Are you sure you want to logout ?
+        <i>
+          This will <u>not</u> revoke the authorizations.
+        </i>
+      </p>
+      <ButtonContainer horizontal>
+        <Button onClick={submit}>Accept</Button>
+        <Button onClick={() => setDone(true)}>Reject</Button>
+      </ButtonContainer>
     </div>
   );
 }
 
-export async function getServerSideProps(
+async function serverSideProps(
   context: GetServerSidePropsContext
-): Promise<GetServerSidePropsResult<Props>> {
-  // Consent.
-  const { query, req, res } = context;
-
-  let logoutChallenge = query.logout_challenge;
-  if (Array.isArray(logoutChallenge)) {
-    logoutChallenge = logoutChallenge[0];
-  }
-
-  if (logoutChallenge) {
-    // Load the session.
-    await applySession(req as any, res, options);
-    // Save the scopes in the session.
-    req.session.logout = {
-      logoutChallenge,
-    };
-    // Return the scopes for the request.
-    return {
-      props: {
-        csrf: await provide(req),
-        logoutChallenge,
-      },
-    };
-  }
+): Promise<GetServerSidePropsResult<LogoutProps>> {
+  const { query, req } = context;
+  if (!query.logout_challenge) return { notFound: true };
+  const { data }: AxiosResponse<LogoutRequest> = await Admin.getLogoutRequest(
+    query.logout_challenge as string
+  ).catch(() => ({ data: null } as AxiosResponse));
+  if (!data) return { notFound: true };
+  req.session.set("logoutSession", {
+    challenge: query.logout_challenge as string,
+  });
+  await req.session.save();
   return {
-    notFound: true,
+    props: {
+      logoutChallenge: query.logout_challenge as string,
+    },
   };
 }
+
+export const getServerSideProps = withIronSession(
+  serverSideProps,
+  ironSession()
+);

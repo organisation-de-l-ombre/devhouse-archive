@@ -7,21 +7,23 @@ import { Theme, ThemeContext } from "../contexts/Theme";
 import themes from "../styles/themes.module.scss";
 import parseCookies from "../lib/cookies/parseCookies";
 
+/**
+ * Main react component dedicated to the login system.
+ * This one handles
+ * @param Component Page component from Next
+ * @param pageProps Page properties
+ * @param theme Theme from the initial props.
+ * @constructor
+ */
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const App = ({ Component, pageProps }): ReactElement => {
+const App = ({ Component, pageProps, theme }): ReactElement => {
   const [cookies, setCookie] = useCookies(["theme"]);
-  const themeValue: Theme = cookies.theme
-    ? cookies.theme
-    : {
-        theme: "light",
-      };
+  const themeValue: Theme = {
+    theme: cookies.theme || theme,
+  };
+
   const switchTheme = React.useCallback((): void => {
-    setCookie(
-      "theme",
-      JSON.stringify({
-        theme: themeValue.theme === "light" ? "dark" : "light",
-      })
-    );
+    setCookie("theme", themeValue.theme === "light" ? "dark" : "light");
   }, [setCookie, themeValue.theme]);
 
   return (
@@ -37,18 +39,15 @@ const App = ({ Component, pageProps }): ReactElement => {
   );
 };
 
-export const getServerSideProps = ({ req }): { props: Theme } => {
-  const data = parseCookies(req) as Theme;
-
-  console.log(req.headers);
-
+/**
+ * Properties given to the application at the first navigation.
+ * @param props
+ */
+App.getInitialProps = (props): Theme => {
+  const cookies = parseCookies(props.ctx.req) as Theme;
+  const colorScheme = props.router.query.color_scheme;
   return {
-    props: {
-      theme:
-        data && (data.theme === "light" || data.theme === "dark")
-          ? data.theme
-          : "light",
-    },
+    theme: colorScheme || cookies.theme || "light",
   };
 };
 

@@ -1,6 +1,6 @@
 import FormData from "form-data";
 import fetch from "node-fetch";
-import { ConstructorType, GeneralUser, Provider } from "./index";
+import { GeneralUser, Provider } from "./types";
 
 export default class GoogleProvider implements Provider {
   constructor(
@@ -29,7 +29,7 @@ export default class GoogleProvider implements Provider {
     });
 
     if (!resp.ok) {
-      throw "Unable to exchange the token from google.";
+      throw new Error("Unable to exchange the token from google.");
     }
     return (await resp.json()).access_token;
   }
@@ -53,9 +53,12 @@ export default class GoogleProvider implements Provider {
 
     const user = await resp.json();
     if (!resp.ok || !user.id || !user.name) {
-      throw (
-        "Unable to get the user from discord." +
-        JSON.stringify(user, null, "\t")
+      throw new Error(
+        `Unable to get the user from google. ${JSON.stringify(
+          user,
+          null,
+          "\t"
+        )}`
       );
     }
     return {
@@ -66,7 +69,7 @@ export default class GoogleProvider implements Provider {
     };
   }
 
-  name(): string {
-    return "Google";
+  meta(): { name: string; color: string } {
+    return { color: "#4285F4", name: "Google" };
   }
 }

@@ -1,7 +1,7 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import React, { ReactElement } from "react";
 import { Button, ButtonContainer } from "../components/button";
-import { GeneralUser } from "../lib/service/providers";
+import { GeneralUser } from "../lib/providers";
 
 type Props = {
   user: GeneralUser;
