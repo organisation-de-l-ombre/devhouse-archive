@@ -13,11 +13,9 @@ extern crate serde;
 use crate::database::establish_connection;
 use dotenv::dotenv;
 use rocket::config::{Environment, Value};
-use rocket::{Rocket, Request};
+use rocket::{Rocket};
 use std::collections::HashMap;
 use std::env;
-use rocket::http::Status;
-use rocket::response::{ResponseBuilder, Body};
 
 mod api;
 mod database;

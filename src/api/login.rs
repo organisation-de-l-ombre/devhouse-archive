@@ -119,7 +119,7 @@ pub fn check_otp(data: &WithOTP, user: &User) -> bool {
                 println!("Expected code {}", processed_code);
                 data.code == processed_code
             },
-            Err(e) => {
+            Err(_) => {
                 println!("Failed.");
                 false
             },

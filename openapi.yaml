@@ -256,6 +256,7 @@ paths:
                       - 5
                       - 6
                       - 153
+                      - 200
                   user:
                     $ref: "#/components/schemas/User"
                 required:
