@@ -6,6 +6,7 @@ import { BsMoon } from "react-icons/bs";
 import { Trans, useTranslation } from "react-i18next";
 import { CgClose } from "react-icons/cg";
 import { useDispatch } from "react-redux";
+import { AiFillWarning } from "react-icons/all";
 import { NavigationItem } from "./Menu/MenuItem";
 import { NavigationContainer } from "./Menu/MenuContainer";
 import { DrawerContent } from "./Menu/DrawerContent";
@@ -27,7 +28,7 @@ export const Menu = (): ReactElement => {
   const transparent = useScrollPosition() === 0 && !blacklisted;
 
   const dispatch = useDispatch();
-  const { login, available, user } = useLogin();
+  const { login, status, user } = useLogin();
 
   const dark = useTheme() === "light";
   const { addNotification } = useNotificationsManager();
@@ -88,20 +89,33 @@ export const Menu = (): ReactElement => {
         <NavLink to="/contact" activeClassName={styles.active}>
           <NavigationItem>Contact</NavigationItem>
         </NavLink>
+
+        {status === "failed" && (
+          <NavigationItem className={styles.right}>
+            <AiFillWarning />
+          </NavigationItem>
+        )}
+        {status === "loading" && (
+          <NavigationItem className={styles.right}>
+            <SmallLoader />
+          </NavigationItem>
+        )}
+
         {/* eslint-disable-next-line no-nested-ternary */}
-        {available ? (
-          user ? (
+        {status === "available" &&
+          (user ? (
             <NavLink to="/settings" className={styles.right}>
-              <NavigationItem style={{ padding: "auto" }}>
+              <NavigationItem>
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <UserAvatarStatus
                     style={{
                       width: "1.25rem",
                       display: "flex",
-                      transform: "scale(1.5)",
+                      transform: "scale(1.35)",
                     }}
                     animate
-                    statusColor="gray"
+                    status={false}
+                    statusColor="transparent"
                     avatar={`https://s3.developershouse.xyz/${user?.avatar}`}
                   />
                   <span className={styles.username}>{user?.username}</span>
@@ -113,12 +127,7 @@ export const Menu = (): ReactElement => {
               <FaUser />
               <span className={globalStyles.onlyMobiles}>Login</span>
             </NavigationItem>
-          )
-        ) : (
-          <NavigationItem className={styles.right}>
-            <SmallLoader />
-          </NavigationItem>
-        )}
+          ))}
         <NavigationItem
           onClick={(e) => {
             e.stopPropagation();

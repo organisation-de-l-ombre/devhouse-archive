@@ -1,11 +1,11 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-export function usePath() {
+export function usePath(): string {
   const { pathname } = useLocation();
   return pathname;
 }
-export function useStartsWith(...paths: string[]) {
+export function useStartsWith(...paths: string[]): boolean {
   const { pathname } = useLocation();
   const [value, setValue] = useState(false);
   useEffect(() => {

@@ -1,10 +1,35 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, DeepPartial } from "@reduxjs/toolkit";
 import { ThunkAction } from "redux-thunk";
 import { Action, AnyAction } from "redux";
-import { accountSlice, setClientId, setState } from "./slices/account/account";
-import { themeSlice } from "./slices/theme/theme";
-import { notificationsSlice } from "./slices/notifications/notifications";
+import pick from "lodash.pick";
+import throttle from "lodash.throttle";
+import {
+  accountSlice,
+  setClientId,
+  setState,
+  UserState,
+} from "./slices/account/account";
+import { themeSlice, ThemeState } from "./slices/theme/theme";
+import {
+  notificationsSlice,
+  NotificationsState,
+} from "./slices/notifications/notifications";
 import { fetchClient } from "./slices/account/utils";
+
+const save: ("account" | "theme")[] = ["account", "theme"];
+
+const preloaded = {} as DeepPartial<{
+  account: UserState;
+  theme: ThemeState;
+  notifications: NotificationsState;
+}>;
+
+save.forEach((key) => {
+  const item = localStorage.getItem(`redux-save/${key}`);
+  if (item) {
+    preloaded[key] = JSON.parse(item);
+  }
+});
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +37,7 @@ export const store = configureStore({
     theme: themeSlice.reducer,
     notifications: notificationsSlice.reducer,
   },
+  preloadedState: preloaded,
 });
 export type AppThunk<R, A extends Action = AnyAction> = ThunkAction<
   R,
@@ -32,3 +58,15 @@ fetchClient()
   .catch(() => {
     store.dispatch(setState("failed"));
   });
+
+store.subscribe(
+  throttle(() => {
+    const state = store.getState();
+    const obj = pick(state, save);
+    Object.keys(obj).forEach((key) => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      localStorage.setItem(`redux-save/${key}`, JSON.stringify(obj[key]));
+    });
+  }, 500)
+);
