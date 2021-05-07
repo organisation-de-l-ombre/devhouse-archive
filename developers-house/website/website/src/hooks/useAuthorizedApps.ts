@@ -8,9 +8,10 @@ import {
 import { useDispatch } from "react-redux";
 import { useCallback } from "react";
 import { Authorization } from "@developers-house/abdera";
-import { getClientId, logoutUser } from "../state/modules/user/actions";
-import { useNotificationsManager } from "./Notifications/Notifications";
+import { useNotificationsManager } from "./useNotifications";
 import { UserAPI } from "../Root";
+import { useClientId } from "../state/slices/account/hooks";
+import { logout } from "../state/slices/account/actions";
 
 const useCriticalError = (): ((err: Error) => Error) => {
   const { addNotification } = useNotificationsManager();
@@ -45,6 +46,7 @@ const useAuthorizedAppsDeleteMutation = (
   const client = useQueryClient();
   const dispatch = useDispatch();
   const criticalError = useCriticalError();
+  const clientId = useClientId();
   const { mutate } = useMutation(
     "delete_authorized_apps",
     () => UserAPI.selfAuthorizationsDelete({ clientId: authorizedApp }),
@@ -61,8 +63,8 @@ const useAuthorizedAppsDeleteMutation = (
         });
       },
       onSuccess() {
-        if (getClientId() === authorizedApp) {
-          dispatch(logoutUser());
+        if (clientId === authorizedApp) {
+          dispatch(logout());
         }
       },
       onError(err, variables, previousValue) {
@@ -103,7 +105,7 @@ const useAuthorizedAppsAllDelete = (): UseMutateFunction => {
         }
       },
       onSuccess() {
-        dispatch(logoutUser());
+        dispatch(logout());
       },
     }
   );

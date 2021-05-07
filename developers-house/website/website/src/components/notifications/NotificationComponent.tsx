@@ -1,12 +1,14 @@
 import React, { ReactElement, useCallback, useEffect, useState } from "react";
-import { Notification } from "state/modules/notifications/Types";
 import { CSSTransition } from "react-transition-group";
 import { FaWindowClose } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { Button } from "../ui/Button/Button";
 import ButtonGroup from "../ui/Button/ButtonGroup";
 import styles from "./notifications.module.scss";
-import { removeNotification } from "../../state/modules/notifications/Actions";
+import {
+  removeNotification,
+  Notification,
+} from "../../state/slices/notifications/notifications";
 
 type NotificationCleanup = undefined | (() => void);
 

@@ -11,9 +11,10 @@ import Support from "./sections/Support";
 import styles from "./settings.module.scss";
 import NotFound from "../NotFound/NotFound";
 import UserAvatarStatus from "../../components/ui/UserAvatarStatus/UserAvatarStatus";
-import { logoutUser } from "../../state/modules/user/actions";
 import { withNetwork } from "../../hooks/hoc/withNetwork";
 import DataSettings from "./sections/DataSettings";
+import { useUser } from "../../state/slices/account/hooks";
+import { login } from "../../state/slices/account/actions";
 
 const Content: FC = () => {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const Content: FC = () => {
   );
 
   const logout = useCallback(() => {
-    dispatch(logoutUser());
+    dispatch(login());
   }, [dispatch]);
 
   return (
@@ -57,7 +58,7 @@ const Content: FC = () => {
 
 const Settings = (): ReactElement => {
   const match = useMemo(() => "/settings", []);
-  const user = useSelector((x) => x.user.user);
+  const user = useUser();
 
   return (
     <div className={styles.main}>

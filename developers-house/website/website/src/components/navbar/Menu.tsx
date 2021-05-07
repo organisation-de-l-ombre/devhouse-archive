@@ -1,49 +1,41 @@
-import React, { useState, useCallback, useEffect, ReactElement } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import React, { useCallback, ReactElement } from "react";
+import { NavLink } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useDispatch, useSelector } from "react-redux";
-import { updateTheme } from "state/modules/theme";
 import { FaSun, FaUser } from "react-icons/fa";
 import { BsMoon } from "react-icons/bs";
 import { Trans, useTranslation } from "react-i18next";
 import { CgClose } from "react-icons/cg";
+import { useDispatch } from "react-redux";
 import { NavigationItem } from "./Menu/MenuItem";
-import { loginUser } from "../../state/modules/user/actions";
 import { NavigationContainer } from "./Menu/MenuContainer";
 import { DrawerContent } from "./Menu/DrawerContent";
 import styles from "./Menu/navigation.module.scss";
 import UserAvatarStatus from "../ui/UserAvatarStatus/UserAvatarStatus";
 import globalStyles from "../../styles/Global.module.scss";
-import { useNotificationsManager } from "../../hooks/Notifications/Notifications";
+import { useNotificationsManager } from "../../hooks/useNotifications";
+import { useLogin } from "../../state/slices/account/hooks";
+import { setTheme } from "../../state/slices/theme/theme";
+import { useTheme } from "../../state/slices/theme/hooks";
+import { useScrollPosition } from "../../hooks/useScroll";
+import { useSwitcher } from "../../hooks/useSwitcher";
+import { useStartsWith } from "../../hooks/usePath";
+import { SmallLoader } from "../SmallLoader/SmallLoader";
 
 export const Menu = (): ReactElement => {
-  const [open, setOpen] = useState<boolean>(false);
-  const switchOpen = (): void => setOpen(!open);
+  const [open, switchOpen, setOpen] = useSwitcher();
+  const blacklisted = useStartsWith("/settings");
+  const transparent = useScrollPosition() === 0 && !blacklisted;
+
   const dispatch = useDispatch();
-  const page = useLocation();
-  const dark = useSelector((e) => e.theme.theme === "light");
+  const { login, available, user } = useLogin();
+
+  const dark = useTheme() === "light";
   const { addNotification } = useNotificationsManager();
-  const [transparent, setTransparent] = useState(window.scrollY > 0);
+
   const switchOpenClick = useCallback(() => {
     if (open) setOpen(false);
     return true;
-  }, [open]);
-  const listener = useCallback(() => {
-    if (!page.pathname.includes("settings")) {
-      const scroll = window.scrollY > 0;
-      setTransparent(!scroll);
-    } else {
-      setTransparent(false);
-    }
-  }, [page]);
-
-  useEffect(() => {
-    listener();
-    document.addEventListener("scroll", listener);
-    return () => document.removeEventListener("scroll", listener);
-  }, [listener, page]);
-
-  const userState = useSelector((s) => s.user);
+  }, [setOpen, open]);
   const { t } = useTranslation("layout");
 
   return (
@@ -96,43 +88,41 @@ export const Menu = (): ReactElement => {
         <NavLink to="/contact" activeClassName={styles.active}>
           <NavigationItem>Contact</NavigationItem>
         </NavLink>
-        {userState.loggedIn ? (
-          <NavLink
-            to="/settings"
-            className={styles.right}
-            style={{ marginLeft: "auto" }}
-          >
-            <NavigationItem style={{ padding: "auto" }}>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <UserAvatarStatus
-                  style={{
-                    width: "1.25rem",
-                    display: "flex",
-                    transform: "scale(1.5)",
-                  }}
-                  animate
-                  statusColor="gray"
-                  avatar={`https://s3.developershouse.xyz/${userState.user?.avatar}`}
-                />
-                <span className={styles.username}>
-                  {userState.user?.username}
-                </span>
-              </div>
+        {/* eslint-disable-next-line no-nested-ternary */}
+        {available ? (
+          user ? (
+            <NavLink to="/settings" className={styles.right}>
+              <NavigationItem style={{ padding: "auto" }}>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <UserAvatarStatus
+                    style={{
+                      width: "1.25rem",
+                      display: "flex",
+                      transform: "scale(1.5)",
+                    }}
+                    animate
+                    statusColor="gray"
+                    avatar={`https://s3.developershouse.xyz/${user?.avatar}`}
+                  />
+                  <span className={styles.username}>{user?.username}</span>
+                </div>
+              </NavigationItem>
+            </NavLink>
+          ) : (
+            <NavigationItem className={styles.right} onClick={login}>
+              <FaUser />
+              <span className={globalStyles.onlyMobiles}>Login</span>
             </NavigationItem>
-          </NavLink>
+          )
         ) : (
-          <NavigationItem
-            className={styles.right}
-            onClick={() => dispatch(loginUser())}
-          >
-            <FaUser />
-            <span className={globalStyles.onlyMobiles}>Login</span>
+          <NavigationItem className={styles.right}>
+            <SmallLoader />
           </NavigationItem>
         )}
         <NavigationItem
           onClick={(e) => {
             e.stopPropagation();
-            dispatch(updateTheme(dark ? "dark" : "light"));
+            dispatch(setTheme(dark ? "dark" : "light"));
             addNotification({
               level: "information",
               text: `Switched to ${dark ? "dark" : "light"} theme.`,
