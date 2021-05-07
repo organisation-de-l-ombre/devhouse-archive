@@ -1,5 +1,5 @@
 import React from "react";
-import { AiOutlineLoading } from "react-icons/all";
+import { AiOutlineLoading } from "react-icons/ai";
 import styles from "./loader.module.scss";
 
 export const SmallLoader: React.FC = () => {

@@ -6,7 +6,7 @@ import { BsMoon } from "react-icons/bs";
 import { Trans, useTranslation } from "react-i18next";
 import { CgClose } from "react-icons/cg";
 import { useDispatch } from "react-redux";
-import { AiFillWarning } from "react-icons/all";
+import { AiFillWarning } from "react-icons/ai";
 import { NavigationItem } from "./Menu/MenuItem";
 import { NavigationContainer } from "./Menu/MenuContainer";
 import { DrawerContent } from "./Menu/DrawerContent";
