@@ -10,7 +10,7 @@ export type Notification = {
   id: string;
 };
 
-interface NotificationsState {
+export interface NotificationsState {
   notifications: Notification[];
   enable: boolean;
 }

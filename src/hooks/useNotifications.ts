@@ -12,7 +12,12 @@ const useNotificationsState = (): RootState["notifications"] => {
   return useAppSelector((state) => state.notifications);
 };
 
-const useNotificationsManager = () => {
+interface NotificationsManager {
+  addNotification: (notification: Omit<Notification, "id">) => void;
+  deleteNotification: (id: string) => void;
+}
+
+const useNotificationsManager = (): NotificationsManager => {
   const dispatch = useDispatch();
 
   const hookAddNotification = useCallback(

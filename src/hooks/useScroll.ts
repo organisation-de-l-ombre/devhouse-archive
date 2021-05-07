@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-export function useScrollPosition() {
+export function useScrollPosition(): number {
   const [position, setPosition] = useState(window.scrollY);
   const page = useLocation();
 

@@ -1,7 +1,7 @@
 import React, { ReactElement, useCallback, FC, useMemo } from "react";
 import { Route, Switch } from "react-router";
 import { NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { AiFillLock } from "react-icons/all";
 import { Button, ButtonImage } from "../../components/ui/Button/Button";
 import ButtonGroup from "../../components/ui/Button/ButtonGroup";
@@ -14,7 +14,7 @@ import UserAvatarStatus from "../../components/ui/UserAvatarStatus/UserAvatarSta
 import { withNetwork } from "../../hooks/hoc/withNetwork";
 import DataSettings from "./sections/DataSettings";
 import { useUser } from "../../state/slices/account/hooks";
-import { login } from "../../state/slices/account/actions";
+import { logout } from "../../state/slices/account/actions";
 
 const Content: FC = () => {
   const dispatch = useDispatch();
@@ -25,8 +25,8 @@ const Content: FC = () => {
     []
   );
 
-  const logout = useCallback(() => {
-    dispatch(login());
+  const doLogout = useCallback(() => {
+    dispatch(logout());
   }, [dispatch]);
 
   return (
@@ -46,7 +46,7 @@ const Content: FC = () => {
       <NavLink to={`${match.path}/support`}>
         <Button>Support</Button>
       </NavLink>
-      <Button onClick={logout}>
+      <Button onClick={doLogout}>
         <ButtonImage>
           <AiFillLock />
         </ButtonImage>

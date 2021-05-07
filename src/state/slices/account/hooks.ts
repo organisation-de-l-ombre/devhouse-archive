@@ -8,19 +8,26 @@ import { login } from "./actions";
 const selectors = {
   currentUser: (state: RootState) => state.account.user,
   hasUser: (state: RootState) => !!state.account.user,
-  available: (state: RootState) => state.account.state === "available",
+  available: (state: RootState) => state.account.state,
   clientId: (state: RootState) => state.account.client_id,
 };
 
 export const useUser = (): (SelfUser & { token: string }) | undefined =>
   useAppSelector(selectors.currentUser);
-export const useLogin = () => {
+
+interface Login {
+  status: RootState["account"]["state"];
+  login: () => void;
+  user: (SelfUser & { token: string }) | undefined;
+}
+
+export const useLogin = (): Login => {
   const available = useAppSelector(selectors.available);
   const dispatch = useDispatch();
   const user = useUser();
   const doLogin = useCallback(() => dispatch(login()), [dispatch]);
   return {
-    available,
+    status: available,
     login: doLogin,
     user,
   };
