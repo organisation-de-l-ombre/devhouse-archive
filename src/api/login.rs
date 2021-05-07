@@ -33,7 +33,13 @@ pub struct LoginDataPost {
     with_otp: Option<WithOTP>,
 }
 
-pub fn do_user_login(data: LoginDataPost, db: ScarletDB) -> Result<User, ScarletError> {
+#[derive(Serialize)]
+pub struct ScarletResponse {
+    code: u32,
+    user: User,
+}
+
+pub fn do_user_login(data: LoginDataPost, db: ScarletDB) -> Result<ScarletResponse, ScarletError> {
     let with_otp = data.with_otp.as_ref();
     let with_platform = data.with_platform.as_ref();
     let with_webauthn = data.with_webauthn.as_ref();
@@ -69,7 +75,10 @@ pub fn do_user_login(data: LoginDataPost, db: ScarletDB) -> Result<User, Scarlet
                     if user.a2f && (user.otpkey.is_some()) {
                         if with_otp.is_some() {
                             if check_otp(with_otp.unwrap(), user) {
-                                Ok(user.clone())
+                                Ok(ScarletResponse {
+                                    code: 200,
+                                    user: user.clone()
+                                })
                             } else {
                                 Err(ScarletError {
                                     code: 0x02,
@@ -89,7 +98,10 @@ pub fn do_user_login(data: LoginDataPost, db: ScarletDB) -> Result<User, Scarlet
                             })
                         }
                     } else {
-                        Ok(user.clone())
+                        Ok(ScarletResponse {
+                            code: 200,
+                            user: user.clone()
+                        })
                     }
                 } else {
                     Err(ScarletError {
@@ -134,7 +146,7 @@ pub fn check_otp(data: &WithOTP, user: &User) -> bool {
 pub fn start_login_session(
     conn: ScarletDB,
     data: Json<LoginDataPost>,
-) -> Result<Json<User>, Json<ScarletError>> {
+) -> Result<Json<ScarletResponse>, Json<ScarletError>> {
     match do_user_login(data.0, conn) {
         Ok(user) => Ok(Json(user)),
         Err(err) => Err(Json(err)),
