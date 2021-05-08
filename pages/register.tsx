@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { ReactElement, useCallback, useRef, useState, FormEvent } from "react";
+import Loader from "react-loaders";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { Button, ButtonContainer } from "../components/button";
