@@ -55,7 +55,8 @@ export default function Register(): ReactElement {
       <h2>Hello {query.username}!</h2>
       <p>
         Welcome to <b>Developer&rsquo;s House</b>! As a new member, you need to
-        accept our <a href="#a">terms of service</a> in order to continue.
+        create an account and accept our <a href="#a">terms of service</a> in
+        order to continue.
       </p>
       <form onSubmit={submit} className={styles.form}>
         <div className={`${styles["form-element"]} ${styles.column}`}>
