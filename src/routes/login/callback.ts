@@ -71,7 +71,7 @@ export const loginCallback: RouteOptions = {
       case InlineResponse200CodeEnum.NUMBER_4: // 2FA Required.
         if (data.user) {
           request.session.twoFa = {
-            user: data.user?.id,
+            user: data.user,
             challenge: login.challenge
           };
           delete request.session.login;
