@@ -13,8 +13,11 @@ export default function Login(): ReactElement {
   useEffect(() => {
     const challenge = router.query.login_challenge as string;
     if (challenge) {
-      fetchLogin(challenge).then(setSession);
-      setLoading(false);
+      fetchLogin(challenge)
+        .then(setSession)
+        .then(() => {
+          setLoading(false);
+        });
     }
   }, [router]);
 
