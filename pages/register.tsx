@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { ReactElement, useCallback, useRef, FormEvent } from "react";
+import React, { ReactElement, useCallback, useRef, useState, FormEvent } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { Button, ButtonContainer } from "../components/button";
@@ -9,6 +9,7 @@ export default function Register(): ReactElement {
   const username = useRef<HTMLInputElement>(null);
   const privateAccount = useRef<HTMLInputElement>(null);
   const terms = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { query } = router;
 
@@ -28,7 +29,7 @@ export default function Register(): ReactElement {
         alert("You must agree to the terms and conditions.");
         return;
       }
-
+      setLoading(true);
       const response = await fetch("/dialog/api/register", {
         method: "POST",
         headers: {
@@ -50,6 +51,15 @@ export default function Register(): ReactElement {
     },
     [router]
   );
+
+  if (loading) {
+    return (
+      <div className={styles["loader-root"]}>
+        <Loader type="line-scale" innerClassName={styles.loader} active />
+        <p>Loading the resource you requested...</p>
+      </div>
+    );
+  }
 
   return (
     <>
