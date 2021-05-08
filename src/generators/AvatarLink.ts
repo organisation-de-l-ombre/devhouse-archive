@@ -29,10 +29,10 @@ export const avatarLink: RouteOptions = {
             const param: PutObjectRequest = {
                 Bucket: Bucket as string,
                 Key: 'avatars/' + name + '.png',
-                Body: buffer,
+                Body: newImage,
                 ACL: 'public-read',
                 ContentType: 'image/png',
-                ContentLength: buffer.length,
+                ContentLength: newImage.length,
             };
             S3client.upload(param, (err, result) => {
                 if (err) {
