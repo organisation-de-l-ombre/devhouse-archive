@@ -1,0 +1,79 @@
+import React, { ReactElement, useCallback, useRef, useState } from "react";
+import { Button, ButtonContainer } from "../components/button";
+
+type Props = {
+  challenge: string;
+};
+
+export default function Register({ challenge }: Props): ReactElement {
+  const username = useRef<HTMLInputElement>(null);
+  const privateAccount = useRef<HTMLInputElement>(null);
+  const terms = useRef<HTMLInputElement>(null);
+  const [message, setMessage] = useState("");
+  const submit = useCallback(async () => {
+    const name = username.current.value;
+    if (name.length < 3 || name.length > 32) {
+      setMessage(
+        "Your name must have at least 3 characters and least than 32 characters."
+      );
+      return;
+    }
+    if (!terms.current.checked) {
+      setMessage("You must agree to the terms and conditions.");
+      return;
+    }
+    setMessage("");
+
+    await fetch("/dialog/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "same-origin",
+      body: JSON.stringify({
+        name,
+        private: privateAccount.current.checked,
+        terms: terms.current.checked,
+      }),
+    });
+  }, []);
+
+  return (
+    <div>
+      <h2>Hello!</h2>
+      <p>
+        Hello, {user.username}! Welcome to <b>Developer&rsquo;s House</b>! As a
+        new member, you need to accept our <a href="#a">terms of service</a> in
+        order to continue.
+      </p>
+
+      <label htmlFor="_register_username">Username</label>
+      {"  "}
+      <input
+        ref={username}
+        type="text"
+        id="_register_username"
+        defaultValue={user.username}
+        contentEditable
+      />
+      <br />
+      <br />
+      <input ref={privateAccount} type="checkbox" id="_register_checkbox" />
+      <label htmlFor="_register_checkbox">Private account</label>
+      <br />
+      <br />
+      <input ref={terms} type="checkbox" id="_register_chkbox" />
+      <label htmlFor="_register_chkbox">
+        I accept the terms of service of Developer&rsquo;s House
+      </label>
+      <br />
+      <br />
+      {message}
+      <ButtonContainer horizontal>
+        <Button name="validate" value="accept" onClick={submit}>
+          Accept
+        </Button>
+      </ButtonContainer>
+    </div>
+  );
+}
