@@ -49,7 +49,7 @@ export const consentSubmit: RouteOptions = {
         : {}
     );
     if (status === 200) {
-      delete request.session.consent;
+      await new Promise((r) => request.destroySession(r));
       void response.code(200).send({ redirect: data.redirect_to });
       return;
     }
