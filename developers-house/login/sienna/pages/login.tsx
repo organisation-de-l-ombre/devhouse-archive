@@ -4,7 +4,7 @@ import Loader from "react-loaders";
 import Head from "next/head";
 import { ButtonContainer, ButtonLink } from "../components/button";
 import { fetchLogin, LoginFetchResponse } from "../lib/login";
-import styles from "../styles/pages/consent.module.scss";
+import styles from "../styles/pages/login.module.scss";
 
 export default function Login(): ReactElement {
   const [loginSession, setSession] = useState<LoginFetchResponse>();
@@ -36,7 +36,7 @@ export default function Login(): ReactElement {
       <Head key="login-page">
         <title>Sienna - Login</title>
       </Head>
-      <div>
+      <div className={styles.login}>
         <h2>Login page</h2>
         <p>
           Welcome to <b>Developer&rsquo;s House!</b> To continue, you need to
