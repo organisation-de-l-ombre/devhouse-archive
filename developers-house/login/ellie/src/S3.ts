@@ -7,7 +7,6 @@ export const S3client = new S3({
     },
     endpoint: process.env.BUCKET_HOST + ':' + process.env.BUCKET_PORT,
     s3ForcePathStyle: true,
-    signatureVersion: 'v4',
 });
 
 export const Bucket = process.env.BUCKET_NAME;
