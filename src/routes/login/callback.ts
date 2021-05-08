@@ -48,7 +48,7 @@ export const loginCallback: RouteOptions = {
 
     const token = await instance.exchangeCode(
       code,
-      `${request.protocol}://${request.headers.host as string}`
+      `https://${request.headers.host as string}`
     );
     const user = await instance.getUserData(token);
 
