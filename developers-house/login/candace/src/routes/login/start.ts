@@ -42,7 +42,7 @@ export const loginStart: RouteOptions = {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         platforms: [...Providers.values()].map((x) => ({
           ...x.meta(),
-          url: x.getRedirectUri(state, `http://${request.headers.host || ""}`)
+          url: x.getRedirectUri(state, `https://${request.headers.host || ""}`)
         })),
         clientName: data.client?.client_name
       });
