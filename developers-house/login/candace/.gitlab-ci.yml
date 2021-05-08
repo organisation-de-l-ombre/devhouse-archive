@@ -7,14 +7,11 @@ include:
     ref: master
     file: 'helm.gitlab-ci.yml'
 
-
-npm_login: &script
-  - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" >> .npmrc
-  - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
-  - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
-
-
 build:
-  before_script: *script
+  before_script: &script
+    - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" >> .npmrc
+    - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+    - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+
 test:
   before_script: *script
