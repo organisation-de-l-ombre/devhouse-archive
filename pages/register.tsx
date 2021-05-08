@@ -46,9 +46,7 @@ export default function Register(): ReactElement {
 
     if (response.ok) {
       const json = await response.json();
-      if (json.code === 200) {
-        await router.push(json.redirect);
-      }
+      await router.push(json.redirect);
     }
   }, [router]);
 
