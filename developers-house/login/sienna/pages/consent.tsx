@@ -1,55 +1,49 @@
 import React, { ReactElement, useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import Loader from "react-loaders";
+import { useRouter } from "next/router";
 import { Button, ButtonContainer } from "../components/button";
-import {
-  getConsent,
-  GetConsentReturn,
-  validateConsent,
-} from "../lib/rpc/fetchConsent";
 import styles from "../styles/pages/consent.module.scss";
 import globalStyles from "../styles/generic.module.scss";
+import { ConsentFetchResponse, fetchConsent } from "../lib/consent";
 
 export default function Consent(): ReactElement {
   const [loading, setLoading] = useState<boolean>(true);
-  const [consent, setConsent] = useState<GetConsentReturn>();
-
-  const route = useRouter();
+  const [consent, setConsent] = useState<ConsentFetchResponse>(null);
+  const router = useRouter();
 
   useEffect(() => {
-    (async function asyncUseEffect() {
-      if (route.query.consent_challenge) {
-        const data = await getConsent({
-          challenge: route.query.consent_challenge as string,
-        });
-        if (data) {
-          setConsent(data);
-          setLoading(false);
-        } else {
-          await route.push("/dialog/error", {
-            pathname: "error",
-            query: { message: "Invalid challenge" },
-          });
-        }
-      }
-    })();
-  }, [route]);
+    const challenge = router.query.consent_challenge as string;
+    if (challenge) {
+      fetchConsent(challenge)
+        .then(setConsent)
+        .then(() => setLoading(false));
+    }
+  }, [router.query.consent_challenge]);
 
   const submit = useCallback(
     async (granted: boolean) => {
       setLoading(true);
-      const response = await validateConsent({
-        granted,
-        challenge: consent.challenge,
-        scopes: consent.scopes,
-        audiences: consent.audiences,
-        token: consent.token,
+      const response = await fetch("/dialog/api/consent", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "same-origin",
+        body: JSON.stringify({
+          granted,
+          challenge: consent.challenge,
+          scopes: consent.scopes,
+          audiences: consent.audiences,
+        }),
       });
-      if (response) {
-        window.location.href = response.redirect;
+      if (response.ok) {
+        const json = await response.json();
+        if (json.code === 200) {
+          await router.push(json.redirect);
+        }
       }
     },
-    [consent]
+    [consent, router]
   );
 
   if (loading) {

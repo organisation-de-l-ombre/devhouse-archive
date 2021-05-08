@@ -1,9 +1,7 @@
 import React, { FC, useCallback, useContext } from "react";
 import styles from "./Layout.module.scss";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import banner from "../../assets/pictures/developershouse-banner.svg";
 import { ThemeContext } from "../../contexts/Theme";
+import { DevHouseLogo } from "./logo";
 
 const Layout: FC = ({ children }) => {
   const changeLanguage = useCallback((): void => {
@@ -16,11 +14,7 @@ const Layout: FC = ({ children }) => {
       <div className={styles["card-root"]}>
         <div className={styles.card}>
           <div className={styles.banner}>
-            <img
-              src={banner}
-              alt="Developer's House banner"
-              draggable={false}
-            />
+            <DevHouseLogo />
           </div>
           <div className={styles.content}>{children}</div>
         </div>
