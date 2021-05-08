@@ -50,7 +50,7 @@ pub fn do_user_login(data: LoginDataPost, db: ScarletDB) -> Result<ScarletRespon
             .left_join(
                 links::table().on(user_id.eq(id)),
             )
-            .filter(platform.eq(&q_plat.platform_id).and(platform_id.eq(&q_plat.platform_name)))
+            .filter(platform.eq(&q_plat.platform_name).and(platform_id.eq(&q_plat.platform_id)))
             .load::<(User, _)>(&*db);
 
         return match rec_link {
