@@ -1,15 +1,17 @@
-import { FC, PropsWithChildren } from "react";
+import React, { ButtonHTMLAttributes, DetailedHTMLProps, FC } from "react";
 import styles from "./ButtonContainer.module.scss";
 
-export const ButtonContainer: FC<{ horizontal?: boolean }> = ({
-  children,
-  horizontal,
-}) => {
+export const ButtonContainer: FC<
+  DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > & { horizontal?: boolean }
+> = ({ className, children, horizontal }) => {
   return (
     <div
       className={`${styles.container}${
-        horizontal ? " " + styles.horizontal : ""
-      }`}
+        horizontal ? ` ${styles.horizontal}` : ""
+      }${className ? ` ${className}` : ""}`}
     >
       {children}
     </div>

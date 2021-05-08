@@ -1,13 +1,54 @@
-import React from "react";
-import { Layout } from "../components/layout";
+import React, { ReactElement } from "react";
+import { CookiesProvider, useCookies } from "react-cookie";
+import Layout from "../components/layout";
 import "../styles/globals.scss";
+import "loaders.css";
+import { Theme, ThemeContext } from "../contexts/Theme";
+import themes from "../styles/themes.module.scss";
+import parseCookies from "../lib/cookies/parseCookies";
 
-export default function App({ Component, pageProps }) {
+/**
+ * Main react component dedicated to the login system.
+ * This one handles
+ * @param Component Page component from Next
+ * @param pageProps Page properties
+ * @param theme Theme from the initial props.
+ * @constructor
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+const App = ({ Component, pageProps, theme }): ReactElement => {
+  const [cookies, setCookie] = useCookies(["theme"]);
+  const themeValue: Theme = {
+    theme: cookies.theme || theme,
+  };
+
+  const switchTheme = React.useCallback((): void => {
+    setCookie("theme", themeValue.theme === "light" ? "dark" : "light");
+  }, [setCookie, themeValue.theme]);
+
   return (
-      <div className={(pageProps.htmlClass || 'light') + ' provider'}>
+    <CookiesProvider>
+      <ThemeContext.Provider value={{ theme: themeValue, switchTheme }}>
+        <div className={`${themes[themeValue.theme]} provider`}>
           <Layout>
-              <Component {...pageProps} />
+            <Component {...pageProps} />
           </Layout>
-      </div>
+        </div>
+      </ThemeContext.Provider>
+    </CookiesProvider>
   );
-}
+};
+
+/**
+ * Properties given to the application at the first navigation.
+ * @param props
+ */
+App.getInitialProps = (props): Theme => {
+  const cookies = parseCookies(props.ctx.req) as Theme;
+  const colorScheme = props.router.query.color_scheme;
+  return {
+    theme: colorScheme || cookies.theme || "light",
+  };
+};
+
+export default App;
