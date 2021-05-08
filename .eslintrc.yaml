@@ -1,0 +1,57 @@
+---
+# ESLint configuration for Node.js projects that use TypeScript
+# File options can be found at https://eslint.org/docs/user-guide/configuring#using-configuration-files
+# This ESLint configuration is built on the top of different configurations, known as plugins.
+# Please try to always use recommended rules in addition to custom rules.
+
+root: true
+env:
+  node: true
+  es6: true
+parser: "@typescript-eslint/parser"
+parserOptions:
+  ecmaFeatures:
+    jsx: false
+    globalReturn: false
+    impliedStrict: true
+  ecmaVersion: 2020
+  project: ./tsconfig.json
+extends:
+  - eslint:recommended
+  - plugin:@typescript-eslint/recommended
+  - plugin:@typescript-eslint/recommended-requiring-type-checking
+  - plugin:unicorn/recommended
+  - plugin:sonarjs/recommended
+  - plugin:node/recommended
+  - plugin:regexp/recommended
+  - plugin:security/recommended
+  - plugin:promise/recommended
+  - plugin:array-func/all
+  - plugin:no-use-extend-native/recommended
+  - plugin:optimize-regex/all
+  - plugin:json/recommended
+  - plugin:jsdoc/recommended
+  - plugin:prettier/recommended
+plugins:
+  - unicorn
+  - sonarjs
+  - promise
+  - no-use-extend-native
+  - array-func
+  - optimize-regex
+  - json
+  - only-error
+  - "@typescript-eslint"
+  - jsdoc
+  - woke
+  - prettier
+rules:
+  # ESLint levels: 0 -> "off", 1 -> "warn", 2 -> "error"
+  woke/all: 2
+  node/no-unsupported-features/es-syntax: 0
+  node/no-missing-import: 0
+  '@typescript-eslint/no-unsafe-call': 0
+  '@typescript-eslint/no-unsafe-assignment': 0
+  '@typescript-eslint/no-unsafe-member-access': 0
+  'array-func/prefer-array-from': 0
+  'unicorn/prefer-node-protocol': 0
