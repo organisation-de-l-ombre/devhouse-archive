@@ -14,8 +14,9 @@ export default function Consent(): ReactElement {
   useEffect(() => {
     const challenge = router.query.consent_challenge as string;
     if (challenge) {
-      fetchConsent(challenge).then(setConsent);
-      setLoading(false);
+      fetchConsent(challenge)
+        .then(setConsent)
+        .then(() => setLoading(false));
     }
   }, [router.query.consent_challenge]);
 
