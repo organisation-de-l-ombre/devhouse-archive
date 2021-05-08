@@ -36,7 +36,7 @@ export default class GitHubProvider implements Provider {
     return `https://github.com/login/oauth/authorize?client_id=${
       this.properties.client_id
     }&scope=read_user&redirect_uri=${encodeURIComponent(
-      `${host}${this.properties.redirect_uri}/discord`
+      `${host}${this.properties.redirect_uri}/github`
     )}&state=${encodeURIComponent(state)}&response_type=code&prompt=none`;
   }
 

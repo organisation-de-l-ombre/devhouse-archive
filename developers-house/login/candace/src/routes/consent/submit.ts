@@ -2,7 +2,7 @@
  * Starts a consent session using a consent_challenge.
  */
 import { FastifyReply, FastifyRequest, RouteOptions } from "fastify";
-import { Admin } from "../../utils/apis";
+import { Admin, UserAPI } from "../../utils/apis";
 
 export const consentSubmit: RouteOptions = {
   schema: {
@@ -31,12 +31,20 @@ export const consentSubmit: RouteOptions = {
       : // eslint-disable-next-line @typescript-eslint/unbound-method
         Admin.rejectConsentRequest
     ).bind(Admin);
+    const { data: user } = await UserAPI.getUser(consent.sub);
     const { status, data } = await function_(
       consent.challenge,
       granted
         ? {
             grant_access_token_audience: consent.audiences,
-            grant_scope: consent.scopes
+            grant_scope: consent.scopes,
+            session: {
+              id_token: {
+                ...user,
+                _private: undefined,
+                private: user._private
+              }
+            }
           }
         : {}
     );
