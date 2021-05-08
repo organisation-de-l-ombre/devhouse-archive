@@ -21,8 +21,10 @@ const Login = (): React.ReactElement => {
   }, [history, user]);
 
   return (
-    <FlexContainer className={globalStyles["alignment-full-center"]}>
-      <GenericLoader className={globalStyles["alignment-full-center"]}>
+    <FlexContainer
+      className={`${globalStyles["alignment-full-center"]} ${globalStyles["secondary-padding"]}`}
+    >
+      <GenericLoader className={globalStyles["generic-loader"]}>
         <Trans t={t} i18nKey="message" />
       </GenericLoader>
     </FlexContainer>

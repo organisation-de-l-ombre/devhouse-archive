@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Suspense from "@components/modules/Suspense/Suspense";
+import { RootSuspense } from "@components/modules";
 
 const IMRMain = React.lazy(() => import("./IMRMain"));
 
 const RootComponent = (): React.ReactElement => {
   return (
-    <React.Suspense fallback={<Suspense />}>
+    <React.Suspense fallback={<RootSuspense />}>
       <IMRMain />
     </React.Suspense>
   );

@@ -5,5 +5,5 @@ export { default as Error } from "./Error/Error";
 export { default as Footer } from "./Footer/Footer";
 export { default as Navbar } from "./Navbar/Navbar";
 export { default as NotFound } from "./NotFound/NotFound";
-export { default as Suspense } from "./Suspense/Suspense";
+export * from "./Suspense/Suspense";
 export * from "./TabBar";

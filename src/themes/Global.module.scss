@@ -69,3 +69,11 @@
 .position-relative { position: relative; }
 
 .image-rendering { image-rendering: pixelated; }
+
+.generic-loader {
+  max-width: 40rem;
+  justify-content: center;
+  align-items: center;
+
+  p { text-align: center; }
+}

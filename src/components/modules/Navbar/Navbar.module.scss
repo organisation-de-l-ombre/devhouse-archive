@@ -125,10 +125,12 @@
 
     .separator { display: none; }
 
-    .navbar-items {
-      display: none;
+    .navbar-items {display: none; }
 
-      &.open {
+    &.open {
+      z-index: 10;
+      
+      .navbar-items {
         padding: 0 .5rem;
         display: flex;
         flex-direction: column;

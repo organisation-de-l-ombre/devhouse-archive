@@ -2,7 +2,7 @@
   max-height: calc(100vh - 3.5rem);
 
   .content {
-    padding: 6rem 4rem;
+    padding: 4rem 4rem 6rem 4rem;
     flex-direction: column;
 
     h1, h2, h3 { color: var(--font-color-hover); }
@@ -30,7 +30,7 @@
     }
 
     @media screen and (max-width: 700px) {
-      padding: 6rem 2rem;
+      padding: 2rem 2rem 6rem 2rem;
     }
   }
 }

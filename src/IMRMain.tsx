@@ -22,7 +22,7 @@ const DevHouseUserAPIInit = new UserAPIApi().withPreMiddleware(
 // Component which initializes the entire website with routing
 const IMRMain = (): React.ReactElement => {
   React.useEffect((): void => {
-    document.body.style.overflowY = "visible";
+    document.body.style.overflowY = "auto";
   }, []);
 
   return (

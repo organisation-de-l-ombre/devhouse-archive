@@ -82,7 +82,9 @@
   }
 
   @media screen and (max-width: 400px) {
+    top: 0;
     width: calc(100% - 4rem);
+    z-index: 10;
   }
 }
 

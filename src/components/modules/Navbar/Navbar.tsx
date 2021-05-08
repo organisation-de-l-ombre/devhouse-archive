@@ -74,7 +74,7 @@ const Navbar = (): React.ReactElement => {
         open={notificationsWindowOpen}
         setOpen={setNotificationsWindowOpen}
       />
-      <nav className={styles.navbar}>
+      <nav className={`${styles.navbar}${open ? ` ${styles.open}` : ""}`}>
         <button
           type="button"
           className={styles["navbar-logo"]}
@@ -86,11 +86,7 @@ const Navbar = (): React.ReactElement => {
           </span>
         </button>
         <div className={styles.separator} />
-        <div
-          className={`${styles["navbar-items"]}${
-            open ? ` ${styles.open}` : ""
-          }`}
-        >
+        <div className={styles["navbar-items"]}>
           <div className={styles.start}>
             <NavLink
               to="/"
