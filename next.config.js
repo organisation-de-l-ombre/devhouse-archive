@@ -6,6 +6,7 @@ module.exports = withImages({
   api: {
     bodyParser: {
       sizeLimit: '500kb',
+      extended: false,
     },
   },
 });
