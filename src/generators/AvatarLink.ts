@@ -32,16 +32,11 @@ export const avatarLink: RouteOptions = {
                 Body: newImage,
                 ACL: 'public-read',
                 ContentType: 'image/png',
-                ContentLength: newImage.length,
             };
-            S3client.upload(param, (err, result) => {
-                if (err) {
-                    console.log(err);
-                }
-                res.send({
-                    link: result.Bucket + '/' + result.Key,
-                    etag: result.ETag,
-                });
+            const upload = await S3client.upload(param).promise();
+            res.send({
+                link: upload.Bucket + '/' + upload.Key,
+                etag: upload.ETag,
             });
         }
     }
