@@ -8,6 +8,24 @@ interface RequestParameters {
   language: string;
 }
 
+interface MovieData {
+  headers?: string;
+  movie?: string;
+  casting?: string;
+  characters?: string;
+  ost?: string;
+  // eslint-disable-next-line sonarjs/no-duplicate-string
+  "technical-specs"?: string;
+}
+
+type Section =
+  | "headers"
+  | "movie"
+  | "casting"
+  | "characters"
+  | "ost"
+  | "technical-specs";
+
 export default {
   method: "GET",
   url: "/data/movies/title/:movieTitle/:language",
@@ -17,10 +35,7 @@ export default {
       language: { type: "string" }
     }
   },
-  handler: async (
-    request: FastifyRequest,
-    reply: FastifyReply
-  ): Promise<void> => {
+  async handler(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     const { movieTitle, language } = request.params as RequestParameters;
     const repository = request.databaseConnection().getRepository(MovieTitle);
     const databaseRequest: MovieTitle[] = await repository.find({
@@ -44,17 +59,45 @@ export default {
       return;
     }
 
-    const command: GetObjectCommand = new GetObjectCommand({
-      Bucket: "international-media-referencing",
-      Key: `amelia-data-private/movies/title/${movieTitle}/${language}/${movieTitle}.json`
-    });
-    const movieDataURL = await getSignedUrl(request.S3Client(), command, {
-      expiresIn: 1800
-    });
+    const sections: string[] = [
+      "headers",
+      "movie",
+      "casting",
+      "characters",
+      "videos",
+      "ost",
+      "technical-specs"
+    ];
+    const movieData: MovieData = {};
+
+    for (const section of sections) {
+      try {
+        await request.S3Client().getObject({
+          Bucket: process.env.S3_BUCKET_NAME || "",
+          Key: `${
+            process.env.S3_PRIVATE || ""
+          }/movies/title/${movieTitle}/${language}/${section}.json`
+        });
+
+        const command: GetObjectCommand = new GetObjectCommand({
+          Bucket: "international-media-referencing",
+          Key: `${
+            process.env.S3_PRIVATE || ""
+          }/movies/title/${movieTitle}/${language}/${section}.json`
+        });
+        const dataURL = await getSignedUrl(request.S3Client(), command, {
+          expiresIn: 1800
+        });
+
+        movieData[section as Section] = dataURL;
+      } catch {
+        continue;
+      }
+    }
 
     void reply.code(200).send({
       statusCode: 200,
-      dataURL: movieDataURL
+      data: movieData
     });
   }
 } as RouteOptions;
