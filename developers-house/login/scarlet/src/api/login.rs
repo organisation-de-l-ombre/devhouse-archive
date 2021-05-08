@@ -92,9 +92,9 @@ pub fn do_user_login(data: LoginDataPost, db: ScarletDB) -> Result<ScarletRespon
                                 message: "Webauthn is not implemented.".to_string(),
                             })
                         } else {
-                            Err(ScarletError {
+                            Ok(ScarletResponse {
                                 code: 0x04,
-                                message: "Cannot login using this account: This user need A2F validation.".to_string()
+                                user: user.clone(),
                             })
                         }
                     } else {
