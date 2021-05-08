@@ -4,6 +4,7 @@
 import { FastifyReply, FastifyRequest, RouteOptions } from "fastify";
 import { Admin, UserAPI } from "../../utils/apis";
 import { UserCreate } from "@developers-house/scarlet";
+import fetch from "node-fetch";
 
 export const registerSubmit: RouteOptions = {
   schema: {
@@ -34,28 +35,36 @@ export const registerSubmit: RouteOptions = {
     }
 
     if (user.term && user.name.length > 3 && user.name.length < 33) {
-      const { data } = await UserAPI.createUser(({
-        platform: register.user.provider,
-        platform_id: register.user.id,
-        private: user.private,
-        username: user.name,
-        avatar: "/* Call to Ellie */"
-      } as unknown) as UserCreate);
-
-      const { data: redirect } = await Admin.acceptLoginRequest(
-        register.challenge,
-        {
-          subject: data.id,
-          context: {
-            platform: register.user.provider
-          },
-          remember: true,
-          remember_for: 3600
-        }
+      const resp = await fetch(
+        `${
+          process.env.ELLIE_ENDPOINT as string
+        }/avatar-link?link=${encodeURIComponent(register.user.avatarURL)}`
       );
-      delete request.session.register;
+      if (resp.ok) {
+        const { link } = await resp.json();
+        const { data } = await UserAPI.createUser(({
+          platform: register.user.provider,
+          platform_id: register.user.id,
+          private: user.private,
+          username: user.name,
+          avatar: link
+        } as unknown) as UserCreate);
 
-      return response.send({ redirect: redirect.redirect_to });
+        const { data: redirect } = await Admin.acceptLoginRequest(
+          register.challenge,
+          {
+            subject: data.id,
+            context: {
+              platform: register.user.provider
+            },
+            remember: true,
+            remember_for: 3600
+          }
+        );
+        delete request.session.register;
+
+        return response.send({ redirect: redirect.redirect_to });
+      }
     } else {
       return response.code(400).send({ code: 400, message: "Invalid user." });
     }

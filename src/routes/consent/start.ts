@@ -42,7 +42,8 @@ export const consentStart: RouteOptions = {
       request.session.consent = {
         audiences: data.requested_access_token_audience as string[],
         scopes: data.requested_scope as string[],
-        challenge
+        challenge,
+        sub: data.subject as string
       };
       void response.code(200).send({
         audiences: data.requested_access_token_audience,
