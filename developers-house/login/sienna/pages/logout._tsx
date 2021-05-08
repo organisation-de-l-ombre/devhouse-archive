@@ -1,19 +1,8 @@
-import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import React, { ReactElement, useCallback, useState } from "react";
-import { AxiosResponse } from "axios";
-import { LogoutRequest } from "@ory/hydra-client";
-import { withIronSession } from "next-iron-session";
 import { useRouter } from "next/router";
-import { Admin } from "../lib/admin";
 import { Button, ButtonContainer } from "../components/button";
-import { ironSession } from "../lib/options";
 
-type LogoutProps = {
-  logoutChallenge: string;
-};
-
-export default function Logout(props: LogoutProps): ReactElement {
-  const { logoutChallenge } = props;
+export default function Logout(): ReactElement {
   const router = useRouter();
   const [done, setDone] = useState(false);
 
@@ -58,28 +47,3 @@ export default function Logout(props: LogoutProps): ReactElement {
     </div>
   );
 }
-
-async function serverSideProps(
-  context: GetServerSidePropsContext
-): Promise<GetServerSidePropsResult<LogoutProps>> {
-  const { query, req } = context;
-  if (!query.logout_challenge) return { notFound: true };
-  const { data }: AxiosResponse<LogoutRequest> = await Admin.getLogoutRequest(
-    query.logout_challenge as string
-  ).catch(() => ({ data: null } as AxiosResponse));
-  if (!data) return { notFound: true };
-  req.session.set("logoutSession", {
-    challenge: query.logout_challenge as string,
-  });
-  await req.session.save();
-  return {
-    props: {
-      logoutChallenge: query.logout_challenge as string,
-    },
-  };
-}
-
-export const getServerSideProps = withIronSession(
-  serverSideProps,
-  ironSession()
-);
