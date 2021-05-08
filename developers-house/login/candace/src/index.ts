@@ -38,4 +38,8 @@ server.route(loginCallback);
 server.route(registerSubmit);
 server.route(twoFaStart);
 
+server.get("/_healz", (request, response) => {
+  void response.code(200).send();
+});
+
 void server.listen(5000);
