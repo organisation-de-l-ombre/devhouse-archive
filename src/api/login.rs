@@ -1,6 +1,6 @@
 use crate::database::link::Link;
-use crate::database::schema::links::dsl::{links, platform, platform_id};
-use crate::database::schema::users::dsl::users;
+use crate::database::schema::links::dsl::{links, platform, platform_id, user_id};
+use crate::database::schema::users::dsl::{users, id};
 use crate::database::user::User;
 use crate::diesel::RunQueryDsl;
 use crate::types::ScarletError;
@@ -48,10 +48,9 @@ pub fn do_user_login(data: LoginDataPost, db: ScarletDB) -> Result<ScarletRespon
         let q_plat = with_platform.unwrap();
         let rec_link: Result<Vec<(User, Option<Link>)>, Error> = users
             .left_join(
-                links::table().on(platform
-                    .eq(&q_plat.platform_name)
-                    .and(platform_id.eq(&q_plat.platform_id))),
+                links::table().on(user_id.eq(id)),
             )
+            .filter(platform.eq(&q_plat.platform_id).and(platform_id.eq(&q_plat.platform_name)))
             .load::<(User, _)>(&*db);
 
         return match rec_link {
