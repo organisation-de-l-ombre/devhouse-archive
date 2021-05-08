@@ -1,15 +1,23 @@
-import React, { ReactElement, useCallback, useRef, useState } from "react";
+import React, {
+  ReactElement,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { useRouter } from "next/router";
 import { Button, ButtonContainer } from "../components/button";
 
-type Props = {
-  challenge: string;
-};
-
-export default function Register({ challenge }: Props): ReactElement {
+export default function Register(): ReactElement {
   const username = useRef<HTMLInputElement>(null);
   const privateAccount = useRef<HTMLInputElement>(null);
   const terms = useRef<HTMLInputElement>(null);
+
   const [message, setMessage] = useState("");
+  const { query } = useRouter();
+
+  useEffect(() => {});
+
   const submit = useCallback(async () => {
     const name = username.current.value;
     if (name.length < 3 || name.length > 32) {
@@ -29,7 +37,7 @@ export default function Register({ challenge }: Props): ReactElement {
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "same-origin",
+      credentials: "include",
       body: JSON.stringify({
         name,
         private: privateAccount.current.checked,
@@ -42,7 +50,7 @@ export default function Register({ challenge }: Props): ReactElement {
     <div>
       <h2>Hello!</h2>
       <p>
-        Hello, {user.username}! Welcome to <b>Developer&rsquo;s House</b>! As a
+        Hello, {query.username}! Welcome to <b>Developer&rsquo;s House</b>! As a
         new member, you need to accept our <a href="#a">terms of service</a> in
         order to continue.
       </p>
@@ -53,7 +61,7 @@ export default function Register({ challenge }: Props): ReactElement {
         ref={username}
         type="text"
         id="_register_username"
-        defaultValue={user.username}
+        defaultValue={query.username}
         contentEditable
       />
       <br />
