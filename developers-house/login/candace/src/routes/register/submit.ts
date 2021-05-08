@@ -53,6 +53,7 @@ export const registerSubmit: RouteOptions = {
           remember_for: 3600
         }
       );
+      delete request.session.register;
 
       return response.send({ redirect: redirect.redirect_to });
     } else {
