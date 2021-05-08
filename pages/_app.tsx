@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
 import { CookiesProvider, useCookies } from "react-cookie";
+import Head from "next/head";
 import Layout from "../components/layout";
 import "../styles/globals.scss";
 import "loaders.css";
@@ -7,14 +8,6 @@ import { Theme, ThemeContext } from "../contexts/Theme";
 import themes from "../styles/themes.module.scss";
 import parseCookies from "../lib/cookies/parseCookies";
 
-/**
- * Main react component dedicated to the login system.
- * This one handles
- * @param Component Page component from Next
- * @param pageProps Page properties
- * @param theme Theme from the initial props.
- * @constructor
- */
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const App = ({ Component, pageProps, theme }): ReactElement => {
   const [cookies, setCookie] = useCookies(["theme"]);
@@ -27,15 +20,45 @@ const App = ({ Component, pageProps, theme }): ReactElement => {
   }, [setCookie, themeValue.theme]);
 
   return (
-    <CookiesProvider>
-      <ThemeContext.Provider value={{ theme: themeValue, switchTheme }}>
-        <div className={`${themes[themeValue.theme]} provider`}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </div>
-      </ThemeContext.Provider>
-    </CookiesProvider>
+    <>
+      <Head key="app-root">
+        <title>Sienna</title>
+        <meta name="theme-color" content="#000000" />
+        <meta content="website" property="og:type" />
+        <meta
+          content="https://auth-server.developershouse.xyz/"
+          property="og:url"
+        />
+        <meta
+          content="/dialog/assets/pictures/banner.png"
+          property="og:image"
+        />
+        <meta content="Sienna" property="og:title" />
+        <meta
+          name="description"
+          content="The authentication system for Developer's House services."
+        />
+        <meta
+          content="The authentication system for Developer's House services."
+          property="og:description"
+        />
+        <link
+          rel="manifest"
+          crossOrigin="use-credentials"
+          href="/dialog/manifest.json"
+        />
+        <link href="/dialog/embed.json" type="application/json+oembed" />
+      </Head>
+      <CookiesProvider>
+        <ThemeContext.Provider value={{ theme: themeValue, switchTheme }}>
+          <div className={`${themes[themeValue.theme]} provider`}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </div>
+        </ThemeContext.Provider>
+      </CookiesProvider>
+    </>
   );
 };
 

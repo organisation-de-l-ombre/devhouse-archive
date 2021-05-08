@@ -1,6 +1,7 @@
 import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import Loader from "react-loaders";
 import { useRouter } from "next/router";
+import Head from "next/head";
 import { Button, ButtonContainer } from "../components/button";
 import styles from "../styles/pages/consent.module.scss";
 import globalStyles from "../styles/generic.module.scss";
@@ -54,28 +55,33 @@ export default function Consent(): ReactElement {
   }
 
   return (
-    <div className={styles.consent}>
-      <h2>Consent page</h2>
-      <h3>{consent.clientName}</h3>
-      <p>
-        This application needs some kind of access to your account and needs
-        your consent, if you do not trust this application, feel free to reject
-        the consent request. This application requires the following
-        permissions:
-      </p>
+    <>
+      <Head key="consent-page">
+        <title>Sienna - Consent</title>
+      </Head>
+      <div className={styles.consent}>
+        <h2>Consent page</h2>
+        <h3>{consent.clientName}</h3>
+        <p>
+          This application needs some kind of access to your account and needs
+          your consent, if you do not trust this application, feel free to
+          reject the consent request. This application requires the following
+          permissions:
+        </p>
 
-      <div className={styles.scopes}>
-        {consent.scopes.map((val) => (
-          <code key={val}>{val}</code>
-        ))}
+        <div className={styles.scopes}>
+          {consent.scopes.map((val) => (
+            <code key={val}>{val}</code>
+          ))}
+        </div>
+        <ButtonContainer
+          horizontal
+          className={globalStyles["alignment-full-center"]}
+        >
+          <Button onClick={() => submit(true)}>Accept</Button>
+          <Button onClick={() => submit(false)}>Reject</Button>
+        </ButtonContainer>
       </div>
-      <ButtonContainer
-        horizontal
-        className={globalStyles["alignment-full-center"]}
-      >
-        <Button onClick={() => submit(true)}>Accept</Button>
-        <Button onClick={() => submit(false)}>Reject</Button>
-      </ButtonContainer>
-    </div>
+    </>
   );
 }

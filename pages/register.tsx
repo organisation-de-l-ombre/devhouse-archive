@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { ReactElement, useCallback, useRef, FormEvent } from "react";
 import { useRouter } from "next/router";
+import Head from "next/head";
 import { Button, ButtonContainer } from "../components/button";
 import styles from "../styles/pages/register.module.scss";
 
@@ -51,41 +52,47 @@ export default function Register(): ReactElement {
   );
 
   return (
-    <div className={styles.register}>
-      <h2>Hello {query.username}!</h2>
-      <p>
-        Welcome to <b>Developer&rsquo;s House</b>! As a new member, you need to
-        accept our <a href="#a">terms of service</a> in order to continue.
-      </p>
-      <form onSubmit={submit} className={styles.form}>
-        <div className={`${styles["form-element"]} ${styles.column}`}>
-          <label htmlFor="register-username">Username</label>
-          <input
-            ref={username}
-            type="text"
-            id="register-username"
-            defaultValue={query.username}
-            minLength={3}
-            maxLength={32}
-          />
-        </div>
-        <div className={styles["form-element"]}>
-          <input ref={privateAccount} type="checkbox" id="private-account" />
-          <label htmlFor="private-account">Private account</label>
-        </div>
-        <div className={styles["form-element"]}>
-          <input ref={terms} type="checkbox" id="accept-terms" />
-          <label htmlFor="accept-terms">
-            Accept our{" "}
-            <a href="https://developershouse.xyz/terms" target="blank">
-              terms of service
-            </a>
-          </label>
-        </div>
-        <ButtonContainer horizontal>
-          <Button type="submit">Create account</Button>
-        </ButtonContainer>
-      </form>
-    </div>
+    <>
+      <Head key="register-page">
+        <title>Sienna - Registration</title>
+      </Head>
+      <div className={styles.register}>
+        <h2>Hello {query.username}!</h2>
+        <p>
+          Welcome to <b>Developer&rsquo;s House</b>! As a new member, you need
+          to create an account and accept our <a href="#a">terms of service</a>{" "}
+          in order to continue.
+        </p>
+        <form onSubmit={submit} className={styles.form}>
+          <div className={`${styles["form-element"]} ${styles.column}`}>
+            <label htmlFor="register-username">Username</label>
+            <input
+              ref={username}
+              type="text"
+              id="register-username"
+              defaultValue={query.username}
+              minLength={3}
+              maxLength={32}
+            />
+          </div>
+          <div className={styles["form-element"]}>
+            <input ref={privateAccount} type="checkbox" id="private-account" />
+            <label htmlFor="private-account">Private account</label>
+          </div>
+          <div className={styles["form-element"]}>
+            <input ref={terms} type="checkbox" id="accept-terms" />
+            <label htmlFor="accept-terms">
+              Accept our{" "}
+              <a href="https://developershouse.xyz/terms" target="blank">
+                terms of service
+              </a>
+            </label>
+          </div>
+          <ButtonContainer horizontal>
+            <Button type="submit">Create account</Button>
+          </ButtonContainer>
+        </form>
+      </div>
+    </>
   );
 }
