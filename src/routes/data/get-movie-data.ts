@@ -97,6 +97,7 @@ export default {
 
     void reply.code(200).send({
       statusCode: 200,
+      id: databaseRequest[0].id,
       title: databaseRequest[0].name,
       data: movieData
     });
