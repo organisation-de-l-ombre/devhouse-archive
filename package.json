@@ -16,6 +16,7 @@
   "dependencies": {
     "@sentry/node": "^5.28.0",
     "aws-sdk": "^2.804.0",
+    "fastify": "^3.14.2",
     "memory-streams": "^0.1.3",
     "morgan": "^1.10.0",
     "node-fetch": "^2.6.1",
