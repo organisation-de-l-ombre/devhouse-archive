@@ -2,7 +2,7 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Loader from "react-loaders";
 import Head from "next/head";
-import { Button, ButtonContainer } from "../components/button";
+import { ButtonContainer, ButtonLink } from "../components/button";
 import { fetchLogin, LoginFetchResponse } from "../lib/login";
 import styles from "../styles/pages/consent.module.scss";
 
@@ -47,14 +47,13 @@ export default function Login(): ReactElement {
         </p>
         <ButtonContainer>
           {loginSession.platforms.map((platform) => (
-            <a href={platform.url}>
-              <Button
-                style={{ background: platform.color }}
-                key={platform.name}
-              >
-                {platform.name}
-              </Button>
-            </a>
+            <ButtonLink
+              href={platform.url}
+              style={{ backgroundColor: platform.color }}
+              key={platform.name}
+            >
+              {platform.name}
+            </ButtonLink>
           ))}
         </ButtonContainer>
       </div>
