@@ -45,6 +45,7 @@
   "scripts": {
     "build": "tsc -p .",
     "start": "node build",
-    "dev": "yarn build && yarn start"
+    "dev": "yarn build && yarn start",
+    "test": "exit 0"
   }
 }
