@@ -14,9 +14,8 @@ export default function Register(): ReactElement {
   const terms = useRef<HTMLInputElement>(null);
 
   const [message, setMessage] = useState("");
-  const { query } = useRouter();
-
-  useEffect(() => {});
+  const router = useRouter();
+  const { query } = router;
 
   const submit = useCallback(async () => {
     const name = username.current.value;
@@ -32,7 +31,7 @@ export default function Register(): ReactElement {
     }
     setMessage("");
 
-    await fetch("/dialog/api/register", {
+    const response = await fetch("/dialog/api/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -41,10 +40,17 @@ export default function Register(): ReactElement {
       body: JSON.stringify({
         name,
         private: privateAccount.current.checked,
-        terms: terms.current.checked,
+        term: terms.current.checked,
       }),
     });
-  }, []);
+
+    if (response.ok) {
+      const json = await response.json();
+      if (json.code === 200) {
+        await router.push(json.redirect);
+      }
+    }
+  }, [router]);
 
   return (
     <div>
