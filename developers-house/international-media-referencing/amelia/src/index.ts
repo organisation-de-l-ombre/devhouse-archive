@@ -1,3 +1,10 @@
+declare module "fastify" {
+  export interface FastifyRequest {
+    S3Client: () => S3ClientBuilder;
+    databaseConnection: () => Connection;
+  }
+}
+
 import "reflect-metadata";
 import { Connection, createConnection } from "typeorm";
 import Fastify, {
@@ -12,13 +19,9 @@ import { logger } from "./lib/logger";
 import { readdirSync } from "fs";
 import path from "path";
 import { addAliases } from "module-alias";
+import dotenv from "dotenv";
 
-declare module "fastify" {
-  export interface FastifyRequest {
-    S3Client: () => S3ClientBuilder;
-    databaseConnection: () => Connection;
-  }
-}
+dotenv.config();
 
 addAliases({
   "@entities": path.join(__dirname, "entity"),

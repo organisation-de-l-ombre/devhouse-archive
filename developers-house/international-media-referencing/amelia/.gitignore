@@ -2,9 +2,11 @@
 .vscode/
 node_modules/
 build/
+dist/
 tmp/
 temp/
 openapi-gen/*
 !openapi-gen/package.json
 !openapi-gen/global-fetch.ts
 !openapi-gen/tsconfig.json
+.env
