@@ -94,9 +94,9 @@ const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
           )}
           <FlexContainer className={styles["headers-container"]}>
             <h1>{data.title}</h1>
-            <h3>
+            <h2>
               <i>{data.companies.join(", ")}</i>
-            </h3>
+            </h2>
             {data.releaseDate ? (
               <h3>
                 {new Intl.DateTimeFormat(language).format(

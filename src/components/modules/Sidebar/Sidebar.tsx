@@ -80,7 +80,12 @@ const SidebarManager: React.FC<
   >
 > = ({ ...props }) => {
   return (
-    <button type="button" className={styles.manager} {...props}>
+    <button
+      type="button"
+      aria-label="Open sidebar"
+      className={styles.manager}
+      {...props}
+    >
       <BsArrowRight />
     </button>
   );

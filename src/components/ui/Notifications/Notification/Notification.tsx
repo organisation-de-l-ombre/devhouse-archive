@@ -77,6 +77,7 @@ const NotificationComponent: React.FC<
         <p className={styles["margin-right"]}>{notification.body}</p>
       )}
       <Button
+        aria-label="Close notification"
         className={styles.close}
         onClick={() => deleteNotification(notification.id)}
       >
