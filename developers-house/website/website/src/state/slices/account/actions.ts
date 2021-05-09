@@ -15,8 +15,6 @@ export function login(): AppThunk<void> {
           c.init.headers = {
             Authorization: `Bearer ${token}`,
           };
-          // TODO: Remove this line to call abdera when implemented.
-          c.url = "https://auth-server.developershouse.xyz/userinfo";
           return c;
         })
         .selfGet();
