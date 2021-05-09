@@ -102,7 +102,7 @@ export default function Register(): ReactElement {
             </label>
           </div>
           <ButtonContainer horizontal>
-            <Button type="submit" onClick={submit}>Create account</Button>
+            <Button type="submit" onClick={() => submit()}>Create account</Button>
           </ButtonContainer>
         </form>
       </div>
