@@ -35,7 +35,7 @@ export const registerSubmit: RouteOptions = {
     }
 
     if (user.term && user.name.length > 3 && user.name.length < 33) {
-      await new Promise((r) => request.destroySession(r));
+      await new Promise((resolve) => request.destroySession(resolve));
       const resp = await fetch(
         `${
           process.env.ELLIE_ENDPOINT as string
