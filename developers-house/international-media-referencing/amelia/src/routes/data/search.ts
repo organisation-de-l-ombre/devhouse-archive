@@ -13,10 +13,7 @@ export default {
       title: { type: "string" }
     }
   },
-  handler: async (
-    request: FastifyRequest,
-    reply: FastifyReply
-  ): Promise<void> => {
+  async handler(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     let { title } = request.query as RequestParameters;
 
     if (!title || (title && title.length < 3) || (title && title.length > 32)) {
