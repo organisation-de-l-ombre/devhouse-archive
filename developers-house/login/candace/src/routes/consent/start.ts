@@ -40,7 +40,7 @@ export const consentStart: RouteOptions = {
     }: AxiosResponse<ConsentRequest> = await Admin.getConsentRequest(challenge);
     if (status === 200) {
       if (data.skip) {
-        const { data: user } = await UserAPI.getUser(data.subject);
+        const { data: user } = await UserAPI.getUser(data.subject as string);
         await Admin.acceptConsentRequest(challenge, {
           grant_access_token_audience: data.requested_access_token_audience,
           grant_scope: data.requested_scope,
