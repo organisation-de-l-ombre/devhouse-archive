@@ -38,6 +38,8 @@ export const consentSubmit: RouteOptions = {
         ? {
             grant_access_token_audience: consent.audiences,
             grant_scope: consent.scopes,
+            remember: true,
+            remember_for: 0,
             session: {
               id_token: {
                 ...user,
