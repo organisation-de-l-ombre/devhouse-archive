@@ -27,7 +27,9 @@ const onButtonClick = (
 
   button.appendChild(circle);
 
-  onClick(event);
+  if (onClick) {
+    onClick(event);
+  }
 };
 
 const Button: React.FC<
