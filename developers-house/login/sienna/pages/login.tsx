@@ -15,7 +15,13 @@ export default function Login(): ReactElement {
     const challenge = router.query.login_challenge as string;
     if (challenge) {
       fetchLogin(challenge)
-        .then(setSession)
+        .then((data) => {
+          if (data.redirect) {
+            router.push(data.redirect);
+          } else {
+            setSession(data);
+          }
+        })
         .then(() => {
           setLoading(false);
         });
