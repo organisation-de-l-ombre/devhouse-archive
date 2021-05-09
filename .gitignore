@@ -36,3 +36,4 @@ yarn-error.log*
 # IDE / Code edtitors
 .idea/
 .vscode/
+yarn.lock

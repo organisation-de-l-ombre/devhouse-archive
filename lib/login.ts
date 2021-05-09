@@ -7,6 +7,7 @@ export interface LoginFetchResponse {
     url: string;
   }[];
   clientName: string;
+  redirect?: string;
 }
 
 export async function fetchLogin(

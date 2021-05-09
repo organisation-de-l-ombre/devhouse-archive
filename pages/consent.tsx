@@ -16,7 +16,13 @@ export default function Consent(): ReactElement {
     const challenge = router.query.consent_challenge as string;
     if (challenge) {
       fetchConsent(challenge)
-        .then(setConsent)
+        .then((data) => {
+          if (data.redirect) { 
+            router.push(data.redirect);
+          } else {
+            setConsent(data);
+          }
+        })
         .then(() => setLoading(false));
     }
   }, [router.query.consent_challenge]);
