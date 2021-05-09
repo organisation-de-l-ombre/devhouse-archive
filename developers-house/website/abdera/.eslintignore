@@ -22,3 +22,5 @@ x/
 
 # Test files
 **/*.spec.ts
+gen/
+*.config.js

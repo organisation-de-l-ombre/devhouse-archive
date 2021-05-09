@@ -27,9 +27,9 @@ async function getAuthorizations(
       name: client.consent_request.client.client_name,
       id: client.consent_request.client.client_id,
       tos: client.consent_request.client.tos_uri,
-      image: client.consent_request.client.logo_uri,
+      image: client.consent_request.client.logo_uri
     },
-    grantedAt: client.handled_at,
+    grantedAt: client.handled_at
   }));
 }
 
