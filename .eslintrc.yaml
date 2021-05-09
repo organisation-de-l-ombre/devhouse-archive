@@ -50,8 +50,8 @@ rules:
   woke/all: 2
   node/no-unsupported-features/es-syntax: 0
   node/no-missing-import: 0
-  '@typescript-eslint/no-unsafe-call': 0
-  '@typescript-eslint/no-unsafe-assignment': 0
-  '@typescript-eslint/no-unsafe-member-access': 0
-  'array-func/prefer-array-from': 0
-  'unicorn/prefer-node-protocol': 0
+  "@typescript-eslint/no-unsafe-call": 0
+  "@typescript-eslint/no-unsafe-assignment": 0
+  "@typescript-eslint/no-unsafe-member-access": 0
+  "array-func/prefer-array-from": 0
+  "unicorn/prefer-node-protocol": 0

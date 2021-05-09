@@ -34,6 +34,17 @@ export const loginStart: RouteOptions = {
     }: AxiosResponse<ConsentRequest> = await Admin.getLoginRequest(challenge);
     const state = randomBytes(32).toString("base64");
     if (status === 200) {
+      if (data.skip) {
+        const { data: redirect } = await Admin.acceptLoginRequest(challenge, {
+          subject: data.subject as string,
+          context: {
+            platform: (data.context as { provider: string }).provider,
+            autoLogin: true
+          }
+        });
+        void response.code(200).send({ redirect: redirect.redirect_to });
+        return;
+      }
       request.session.login = {
         challenge,
         state: state
