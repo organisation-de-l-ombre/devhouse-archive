@@ -51,15 +51,15 @@ const Footer = (): React.ReactElement => {
         </div>
       </div>
       <div className={styles.right}>
-        <h3>
+        <h1>
           <Trans t={t} i18nKey="right.mainTitle" />
-        </h3>
+        </h1>
         <hr />
         <div className={styles.container}>
           <div className={styles.items}>
-            <h3>
+            <h1>
               <Trans t={t} i18nKey="right.containers.0.title" />
-            </h3>
+            </h1>
             <NavLink to="/" exact>
               <Trans t={t} i18nKey="right.containers.0.home" />
             </NavLink>
@@ -77,9 +77,9 @@ const Footer = (): React.ReactElement => {
             </a>
           </div>
           <div className={styles.items}>
-            <h3>
+            <h1>
               <Trans t={t} i18nKey="right.containers.1.title" />
-            </h3>
+            </h1>
             <a href="https://developershouse.xyz" target="blank">
               <Trans t={t} i18nKey="right.containers.1.website" />
             </a>
@@ -91,9 +91,9 @@ const Footer = (): React.ReactElement => {
             </a>
           </div>
           <div className={styles.items}>
-            <h3>
+            <h1>
               <Trans t={t} i18nKey="right.containers.2.title" />
-            </h3>
+            </h1>
             <NavLink to="/wiki/internal/intro" exact>
               <Trans t={t} i18nKey="right.containers.2.support" />
             </NavLink>
@@ -111,9 +111,9 @@ const Footer = (): React.ReactElement => {
             </NavLink>
           </div>
           <div className={styles.items}>
-            <h3>
+            <h1>
               <Trans t={t} i18nKey="right.containers.3.title" />
-            </h3>
+            </h1>
             <NavLink to="/conditions" exact>
               <Trans t={t} i18nKey="right.containers.3.conditions" />
             </NavLink>

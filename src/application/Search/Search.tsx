@@ -9,10 +9,12 @@ import { CSSTransition } from "react-transition-group";
 import { SearchAPI } from "@lib/api";
 import { InlineResponse2001, SearchResponse } from "@developers-house/amelia";
 import { Helmet } from "react-helmet";
+import { useQueryState } from "@hooks/Query";
 import styles from "./Search.module.scss";
 import "./Animations.scss";
 
 const Search = (): React.ReactElement => {
+  const [searchState, setSearchState] = useQueryState<string>("title");
   const { t } = useTranslation("pages\\search\\search");
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [data, setData] = React.useState<SearchResponse[] | undefined>(
@@ -24,13 +26,18 @@ const Search = (): React.ReactElement => {
   const [
     advancedSearchEnabled,
     setAdvancedSearchEnabled,
-  ] = React.useState<boolean>(false);
+  ] = useQueryState<boolean>("advanced-search", false);
+  const manageSearch = React.useCallback((): void => {
+    setSearchState(inputRef.current?.value);
+  }, [setSearchState]);
   const manageAdvancedSearch = React.useCallback((): void => {
     setAdvancedSearchEnabled(!advancedSearchEnabled);
-  }, [advancedSearchEnabled]);
+  }, [advancedSearchEnabled, setAdvancedSearchEnabled]);
   const validateRequest = React.useCallback(
-    (event: React.FormEvent<HTMLFormElement>): void => {
-      event.preventDefault();
+    (event?: React.FormEvent<HTMLFormElement>): void => {
+      if (event) {
+        event.preventDefault();
+      }
 
       const { current: inputForm } = inputRef;
 
@@ -69,7 +76,13 @@ const Search = (): React.ReactElement => {
     },
     [t]
   );
-  console.log(data);
+
+  React.useEffect((): void => {
+    if (searchState?.length) {
+      validateRequest();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <FlexContainer className={globalStyles.column}>
@@ -86,18 +99,15 @@ const Search = (): React.ReactElement => {
           <h3>
             <Trans t={t} i18nKey="headers.description" />
           </h3>
-          <form
-            className={styles["form-root"]}
-            onSubmit={(event: React.FormEvent<HTMLFormElement>): void =>
-              validateRequest(event)
-            }
-          >
+          <form className={styles["form-root"]} onSubmit={validateRequest}>
             <input
               ref={inputRef}
               type="text"
               placeholder={t("headers.form.input")}
               minLength={3}
               maxLength={32}
+              defaultValue={searchState}
+              onChange={manageSearch}
             />
             <Button className={styles["submit-button"]} type="submit">
               <Trans t={t} i18nKey="headers.form.button" />
@@ -108,6 +118,7 @@ const Search = (): React.ReactElement => {
               type="checkbox"
               id="advanced-search"
               name="advanced-search"
+              checked={advancedSearchEnabled}
               onChange={manageAdvancedSearch}
             />
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}

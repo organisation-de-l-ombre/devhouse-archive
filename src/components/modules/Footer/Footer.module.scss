@@ -41,9 +41,11 @@
     display: flex;
     flex: .7 40rem;
     flex-direction: column;
-    align-items: center;
 
-    h3 { text-align: center; }
+    h1 {
+      text-align: center;
+      font-size: 18px;
+    }
 
     hr {
       margin: 1rem 0;
@@ -62,13 +64,15 @@
         flex: 1 10rem;
         flex-direction: column;
 
-        h3 {
+        h1 {
           margin-bottom: 1.5rem;
           color: var(--font-color-hover);
           text-align: start;
+          font-size: 18px;
         }
 
         a {
+          width: fit-content;
           margin: .25rem 0;
           text-align: start;
           font-size: 16px;
