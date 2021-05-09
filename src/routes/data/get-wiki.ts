@@ -17,10 +17,7 @@ export default {
       path: { type: "string" }
     }
   }, */
-  handler: async (
-    request: FastifyRequest,
-    reply: FastifyReply
-  ): Promise<void> => {
+  async handler(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     const {
       type,
       language,

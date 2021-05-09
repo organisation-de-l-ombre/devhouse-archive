@@ -84,19 +84,35 @@ export default {
         continue;
       }
 
-      sections.push(key[key.length - 1].slice(2, -5) as Section);
+      const name = key[key.length - 1].slice(2, -5);
+
+      if (name.length === 0) {
+        continue;
+      }
+
+      sections.push(name as Section);
     }
 
     const movieData: MovieData = {};
+    const indexes = {
+      headers: "1",
+      movie: "2",
+      casting: "3",
+      characters: "4",
+      videos: "5",
+      ost: "6",
+      "technical-specs": "7"
+    };
 
-    for (const [index, section] of sections.entries()) {
+    for (const section of sections) {
       const command: GetObjectCommand = new GetObjectCommand({
         Bucket: process.env.S3_BUCKET_NAME || "",
         Key: `${
           process.env.S3_PRIVATE || ""
         }/movies/title/${movieTitle}/${language}/${
-          ((index as unknown) as number) + 1
-        }_${section as Section}.json`
+          // eslint-disable-next-line security/detect-object-injection
+          indexes[section]
+        }_${section}.json`
       });
       const dataURL = await getSignedUrl(request.S3Client(), command, {
         expiresIn: 1800
