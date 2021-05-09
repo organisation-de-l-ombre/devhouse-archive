@@ -15,8 +15,10 @@ export default function Register(): ReactElement {
   const { query } = router;
 
   const submit = useCallback(
-    async (event: FormEvent<HTMLFormElement>): Promise<void> => {
-      event.preventDefault();
+    async (event?: FormEvent<HTMLFormElement>): Promise<void> => {
+      if (event) {
+        event.preventDefault();
+      }
 
       const name = username.current.value;
 
@@ -100,7 +102,7 @@ export default function Register(): ReactElement {
             </label>
           </div>
           <ButtonContainer horizontal>
-            <Button type="submit">Create account</Button>
+            <Button type="submit" onClick={submit}>Create account</Button>
           </ButtonContainer>
         </form>
       </div>
