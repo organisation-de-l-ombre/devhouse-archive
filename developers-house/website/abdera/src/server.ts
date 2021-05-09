@@ -39,6 +39,12 @@ declare module "fastify" {
   }
 }
 
+
+
+const scarlet =
+  "http://review-v2-openapi-2nrasx.scarlet-22198115-review-v2-openapi-2nrasx";
+
+
 export default class Server {
   private readonly server: FastifyInstance = Fastify();
   private readonly redis: Redis = new CreateRedis({
@@ -54,10 +60,10 @@ export default class Server {
   });
   private readonly hydra: AdminApi = AdminAPI;
   private readonly scarlet: Scarlet = {
-    user: new UserApi(),
-    webAuth: new WebauthApi(),
-    login: new LoginApi(),
-    links: new LinksApi()
+    user: new UserApi(undefined, scarlet),
+    webAuth: new WebauthApi(undefined, scarlet),
+    login: new LoginApi(undefined, scarlet),
+    links: new LinksApi(undefined, scarlet)
   };
 
   constructor(port: number) {
