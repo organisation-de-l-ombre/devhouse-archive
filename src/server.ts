@@ -20,6 +20,8 @@ import deleteAuthorizationRoute from "./routes/user/delete-authorizations";
 import getTakeouts from "./routes/user/get-takeouts";
 import postLogoutAll from "./routes/user/post-logout-all";
 import postTakeouts from "./routes/user/post-takeouts";
+import getLinksRoute from "./routes/user/get-links";
+import getSelfRoute from "./routes/user/get-self";
 
 interface Scarlet {
   user: UserApi;
@@ -71,6 +73,8 @@ export default class Server {
       this.server.route(getTakeouts(this.server));
       this.server.route(postLogoutAll(this.server));
       this.server.route(postTakeouts(this.server));
+      this.server.route(getLinksRoute(this.server));
+      this.server.route(getSelfRoute(this.server));
 
       this.server.setErrorHandler(Server.errorHandler);
       this.server.setNotFoundHandler(Server.notFound);
