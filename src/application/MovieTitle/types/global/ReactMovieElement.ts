@@ -1,8 +1,6 @@
-import { AllHTMLAttributes, DetailedHTMLProps, FC } from "react";
-import { S3DataResponse } from "./S3DataResponse";
+import { FC } from "react";
+import { RootResponse } from "./RootResponse";
 
-export type ReactMovieElement = FC<
-  DetailedHTMLProps<AllHTMLAttributes<HTMLDivElement>, HTMLDivElement> & {
-    dataResponse: S3DataResponse;
-  }
->;
+export type ReactMovieElement = FC<{
+  dataResponse: RootResponse;
+}>;

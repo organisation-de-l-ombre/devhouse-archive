@@ -8,6 +8,7 @@ import { FlexContainer, ButtonsGroup, buttonStyles } from "@components/ui";
 import globalStyles from "@themes/Global.module.scss";
 import { BackToTop } from "@components/modules";
 import { useSpring, animated } from "react-spring";
+import { Helmet } from "react-helmet";
 import styles from "./Home.module.scss";
 
 const Home = (): React.ReactElement => {
@@ -22,6 +23,9 @@ const Home = (): React.ReactElement => {
 
   return (
     <FlexContainer className={globalStyles.column}>
+      <Helmet>
+        <title>{t("pageTitle")}</title>
+      </Helmet>
       <div className={styles.headers}>
         <div
           className={styles["headers-background"]}

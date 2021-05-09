@@ -7,44 +7,32 @@ import { useLanguage } from "@hooks/Language";
 import { FlexContainer, GenericLoader } from "@components/ui";
 import { NotFound, BackToTop } from "@components/modules";
 import { MovieDataAPI } from "@lib/api";
+import { useQuery, UseQueryResult } from "react-query";
+import { Helmet } from "react-helmet";
+import fetchOptions from "@lib/api/fetchOptions";
 import { InlineResponse200 } from "@developers-house/amelia";
 import globalStyles from "../../themes/Global.module.scss";
 import MovieHeaders from "./modules/MovieHeaders/MovieHeaders";
 import MovieInternalNavigation from "./modules/MovieInternalNavigation/MovieInternalNavigation";
 import MovieRouter from "./modules/Router/MovieRouter";
-import { S3DataResponse } from "./types";
 import containerStyle from "./Containers.module.scss";
+import { RootResponse } from "./types/global/RootResponse";
 
 const MovieRoot: React.FC<RouteComponentProps> = ({ match }) => {
   const { language } = useLanguage();
-  const [isFetching, setIsFetching] = React.useState<boolean>(false);
-  const [view, setView] = React.useState<S3DataResponse | undefined>(undefined);
   const { addNotifications, deleteNotification } = useNotificationsManager();
   const { t } = useTranslation("pages\\moviePrototype\\root");
   const params = (match.params as unknown) as Record<string, string>;
-  const fetchMovieData = React.useCallback((): void => {
-    setIsFetching(true);
-
-    MovieDataAPI.getMovieData({
-      movieTitle: params.title,
-      language,
-    }).then((response: InlineResponse200): void => {
-      if (response.dataURL) {
-        fetch(response.dataURL)
-          .then((S3Response) => S3Response.json())
-          .then((S3Response: S3DataResponse): void => {
-            setView(S3Response);
-          });
-      }
-    });
-
-    setIsFetching(false);
-  }, [language, params.title]);
-
-  React.useEffect(() => {
-    fetchMovieData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { isFetching, data }: UseQueryResult<RootResponse> = useQuery(
+    `movie-title/${params.title}/root`,
+    (): Promise<InlineResponse200> => {
+      return MovieDataAPI.getMovieData({
+        movieTitle: params.title,
+        language,
+      });
+    },
+    fetchOptions
+  );
 
   React.useEffect((): (() => void) => {
     const id: string = generateNotificationID();
@@ -74,16 +62,19 @@ const MovieRoot: React.FC<RouteComponentProps> = ({ match }) => {
     );
   }
 
-  if (view === undefined) {
+  if (data === undefined) {
     return <NotFound />;
   }
 
   return (
     <FlexContainer className={globalStyles.column}>
-      <MovieHeaders dataResponse={view} />
-      <MovieInternalNavigation />
+      <Helmet>
+        <title>{data.title}</title>
+      </Helmet>
+      <MovieHeaders dataResponse={data} />
+      <MovieInternalNavigation dataResponse={data} />
       <BackToTop />
-      <MovieRouter dataResponse={view} />
+      <MovieRouter dataResponse={data} />
     </FlexContainer>
   );
 };

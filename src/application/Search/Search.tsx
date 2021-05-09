@@ -8,6 +8,7 @@ import { useLanguage } from "@hooks/Language";
 import { CSSTransition } from "react-transition-group";
 import { SearchAPI } from "@lib/api";
 import { InlineResponse2001, SearchResponse } from "@developers-house/amelia";
+import { Helmet } from "react-helmet";
 import styles from "./Search.module.scss";
 import "./Animations.scss";
 
@@ -72,6 +73,9 @@ const Search = (): React.ReactElement => {
 
   return (
     <FlexContainer className={globalStyles.column}>
+      <Helmet>
+        <title>{t("pageTitle")}</title>
+      </Helmet>
       <div className={styles.background}>
         <FlexContainer
           className={`${styles.headers} ${globalStyles["page-body-width"]}`}

@@ -1,4 +1,5 @@
 {
+  "pageTitle": "Search on IMR",
   "headers": {
     "title": "Search",
     "description": "Please enter a title or key words to search anything into the database. You have to provide at least 3 characters and at maximum 32.",

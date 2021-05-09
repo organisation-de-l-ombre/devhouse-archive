@@ -4,7 +4,7 @@ import { BackToTop } from "@components/modules";
 import { SidebarContainer, SidebarManager } from "@components/modules/Sidebar";
 import { RouteComponentProps } from "react-router";
 import { useTranslation } from "react-i18next";
-import { useLanguage } from "@hooks/Language";
+import { Helmet } from "react-helmet";
 import Sidebar from "./modules/InternalNavigation/InternalNavigation";
 import styles from "./InternalRoot.module.scss";
 import Router from "./modules/Router/Router";
@@ -17,19 +17,12 @@ const InternalRoot: React.FC<RouteComponentProps> = () => {
     }
   }, [open]);
   const { t } = useTranslation("pages\\wiki\\internal\\root");
-  const { language } = useLanguage();
-
-  React.useEffect((): (() => void) => {
-    document.title = t("pageTitle");
-
-    return (): void => {
-      document.title = "IMR";
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [language]);
 
   return (
     <FlexContainer className={styles["container-root"]}>
+      <Helmet>
+        <title>{t("pageTitle")}</title>
+      </Helmet>
       <Sidebar open={open} manageSidebar={manageSidebar} />
       <BackToTop />
       <SidebarContainer open={open} manageSidebar={manageSidebar}>

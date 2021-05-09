@@ -9,17 +9,22 @@ import {
   Button,
   Card,
   YouTubePlayer,
+  GenericLoader,
 } from "@components/ui";
+import { NotFound } from "@components/modules";
+import fetchOptions from "@lib/api/fetchOptions";
+import { useTranslation, Trans } from "react-i18next";
+import { UseQueryResult, useQuery } from "react-query";
 import styles from "./OST.module.scss";
 import containerStyle from "../../Containers.module.scss";
 import globalStyles from "../../../../themes/Global.module.scss";
 import {
+  OSTSection as OSTSectionType,
   ReactMovieElement,
   StreamingObject,
   SummaryObject,
   TrackInformationObject,
   TracksSection,
-  TrailerObject,
   VideoObject,
 } from "../../types";
 
@@ -37,53 +42,52 @@ const DisplaySVG = ({ type }: { type: string }): React.ReactElement => {
 };
 
 const OSTSection: ReactMovieElement = ({ dataResponse }) => {
-  const { ost } = dataResponse;
+  const { t: tRoot } = useTranslation("pages\\moviePrototype\\root");
+  const { isFetching, data }: UseQueryResult<OSTSectionType> = useQuery(
+    `movie-title/${dataResponse.id}/ost`,
+    (): Promise<OSTSectionType> => {
+      return fetch(dataResponse.data.ost || "").then((response: Response) =>
+        response.json()
+      );
+    },
+    fetchOptions
+  );
+
   const [playerOpen, setPlayerOpen] = React.useState<boolean>(false);
-  const [video, setVideo] = React.useState<TrailerObject | VideoObject>({
+  const [video, setVideo] = React.useState<VideoObject>({
     title: "",
     videoID: "",
-    main: false,
   });
-  const [videosLength, setVideosLength] = React.useState<number>(0);
 
-  React.useEffect((): void => {
-    if (!ost) {
-      return;
-    }
+  if (isFetching) {
+    return (
+      <FlexContainer className={containerStyle["is-fetching-root"]}>
+        <GenericLoader className={containerStyle["is-fetching"]}>
+          <Trans t={tRoot} i18nKey="fetchingData" />
+        </GenericLoader>
+      </FlexContainer>
+    );
+  }
 
-    ost.body.forEach((section: TracksSection): void => {
-      section.tracks.forEach((track: TrackInformationObject): void => {
-        if (track.videoID) {
-          setVideosLength((previousState: number): number => previousState + 1);
-        }
-      });
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  if (!ost) {
-    return <></>;
+  if (!data) {
+    return <NotFound className={containerStyle.loading} />;
   }
 
   return (
     <>
-      {videosLength > 0 ? (
-        <YouTubePlayer
-          title={video.title}
-          videoID={video.videoID}
-          autoPlay
-          open={playerOpen}
-          setOpen={setPlayerOpen}
-          autoClose
-        />
-      ) : (
-        <></>
-      )}
+      <YouTubePlayer
+        title={video.title}
+        videoID={video.videoID}
+        autoPlay
+        open={playerOpen}
+        setOpen={setPlayerOpen}
+        autoClose
+      />
       <FlexContainer
         className={`${styles.container} ${containerStyle.container}`}
       >
         <Summary className={containerStyle.summary}>
-          {ost.summary.map(
+          {data.summary.map(
             (item: SummaryObject): React.ReactElement => {
               switch (item.type) {
                 case "item":
@@ -97,27 +101,27 @@ const OSTSection: ReactMovieElement = ({ dataResponse }) => {
             }
           )}
         </Summary>
-        {ost.album ? (
+        {data.album ? (
           <FlexContainer
-            id={ost.album.id}
+            id={data.album.id}
             className={`${globalStyles.column} ${containerStyle["generic-margin-top"]}`}
           >
-            <h1>{ost.album.name}</h1>
+            <h1>{data.album.name}</h1>
             <div className={styles["album-container"]}>
               <img
-                src={ost.album.coverURL}
-                alt={ost.album.albumName}
+                src={data.album.coverURL}
+                alt={data.album.albumName}
                 className={styles["album-headers-margin"]}
               />
               <div
                 className={`${styles["album-headers"]} ${styles["album-headers-margin"]}`}
               >
-                <h2>{ost.album.albumName}</h2>
+                <h2>{data.album.albumName}</h2>
                 <p className={styles["album-headers-margin-top"]}>
-                  {ost.album.interpreters.join(", ")}
+                  {data.album.interpreters.join(", ")}
                 </p>
                 <div className={containerStyle["headers-buttons"]}>
-                  {ost.album.streaming.map(
+                  {data.album.streaming.map(
                     (streaming: StreamingObject): React.ReactElement => {
                       return (
                         <a
@@ -127,7 +131,7 @@ const OSTSection: ReactMovieElement = ({ dataResponse }) => {
                           className={styles["album-headers-margin-top"]}
                         >
                           <DisplaySVG type={streaming.service} />
-                          <span>Ecouter sur {streaming.service}</span>
+                          <span>{streaming.service}</span>
                         </a>
                       );
                     }
@@ -139,7 +143,7 @@ const OSTSection: ReactMovieElement = ({ dataResponse }) => {
         ) : (
           <></>
         )}
-        {ost.body.map(
+        {data.body.map(
           (body: TracksSection): React.ReactElement => {
             return (
               <FlexContainer

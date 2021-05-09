@@ -14,6 +14,7 @@ import { pushNotifications } from "@store/notifications/notificationsData";
 import generateNotificationID from "@lib/generateNotificationID";
 import { MdSystemUpdate } from "react-icons/md";
 import { Action } from "redux";
+import { Helmet } from "react-helmet";
 
 // Service worker initialization
 register({
@@ -68,6 +69,9 @@ const Application = (): React.ReactElement => {
 
   return (
     <ErrorBoundary FallbackComponent={Error}>
+      <Helmet>
+        <title>IMR</title>
+      </Helmet>
       <QueryClientProvider client={queryClient}>
         {firstUse ? (
           <NotificationsModal open={open} setOpen={setOpen} />

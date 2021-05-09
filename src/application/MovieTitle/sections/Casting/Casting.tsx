@@ -1,27 +1,57 @@
 import React from "react";
-import { FlexContainer, Summary, SummaryItem, Card } from "@components/ui";
+import {
+  FlexContainer,
+  Summary,
+  SummaryItem,
+  Card,
+  GenericLoader,
+} from "@components/ui";
 import bust from "@assets/pictures/bust.png";
+import { NotFound } from "@components/modules";
+import fetchOptions from "@lib/api/fetchOptions";
+import { useTranslation, Trans } from "react-i18next";
+import { UseQueryResult, useQuery } from "react-query";
 import styles from "./Casting.module.scss";
 import containerStyle from "../../Containers.module.scss";
 import globalStyles from "../../../../themes/Global.module.scss";
 import {
   CastingObject,
+  CastingSection as CastingSectionType,
   CharacterObject,
   ReactMovieElement,
   SummaryObject,
 } from "../../types";
 
 const CastingSection: ReactMovieElement = ({ dataResponse }) => {
-  const { casting } = dataResponse;
+  const { t: tRoot } = useTranslation("pages\\moviePrototype\\root");
+  const { isFetching, data }: UseQueryResult<CastingSectionType> = useQuery(
+    `movie-title/${dataResponse.id}/casting`,
+    (): Promise<CastingSectionType> => {
+      return fetch(dataResponse.data.casting || "").then((response: Response) =>
+        response.json()
+      );
+    },
+    fetchOptions
+  );
 
-  if (!casting) {
-    return <></>;
+  if (isFetching) {
+    return (
+      <FlexContainer className={containerStyle["is-fetching-root"]}>
+        <GenericLoader className={containerStyle["is-fetching"]}>
+          <Trans t={tRoot} i18nKey="fetchingData" />
+        </GenericLoader>
+      </FlexContainer>
+    );
+  }
+
+  if (!data) {
+    return <NotFound className={containerStyle.loading} />;
   }
 
   return (
     <FlexContainer className={containerStyle.container}>
       <Summary className={containerStyle.summary}>
-        {casting.summary.map(
+        {data.summary.map(
           (item: SummaryObject): React.ReactElement => {
             switch (item.type) {
               case "item":
@@ -35,7 +65,7 @@ const CastingSection: ReactMovieElement = ({ dataResponse }) => {
           }
         )}
       </Summary>
-      {casting.body.map(
+      {data.body.map(
         (section: CastingObject): React.ReactElement => {
           return (
             <FlexContainer

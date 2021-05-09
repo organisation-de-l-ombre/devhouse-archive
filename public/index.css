@@ -59,6 +59,8 @@ p, q { word-wrap: break-word; }
 
 ::-webkit-scrollbar-thumb { background-color: rgb(230, 85, 85); }
 
+img { font-size: 16px; }
+
 .app {
     min-height: 100vh;
     display: flex;

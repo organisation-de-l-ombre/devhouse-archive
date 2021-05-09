@@ -6,21 +6,50 @@ import {
   SubSummary,
   DetailedText,
   List,
+  GenericLoader,
 } from "@components/ui";
+import { useQuery, UseQueryResult } from "react-query";
+import fetchOptions from "@lib/api/fetchOptions";
+import { Trans, useTranslation } from "react-i18next";
+import { NotFound } from "@components/modules";
 import containerStyle from "../../Containers.module.scss";
-import { BodyContent, ReactMovieElement, SummaryObject } from "../../types";
+import {
+  BodyContent,
+  GenericSection,
+  ReactMovieElement,
+  SummaryObject,
+} from "../../types";
 
-const CharactersSection: ReactMovieElement = ({ dataResponse }) => {
-  const { characters } = dataResponse;
+const MovieSection: ReactMovieElement = ({ dataResponse }) => {
+  const { t: tRoot } = useTranslation("pages\\moviePrototype\\root");
+  const { isFetching, data }: UseQueryResult<GenericSection> = useQuery(
+    `movie-title/${dataResponse.id}/characters`,
+    (): Promise<GenericSection> => {
+      return fetch(
+        dataResponse.data.characters || ""
+      ).then((response: Response) => response.json());
+    },
+    fetchOptions
+  );
 
-  if (!characters) {
-    return <></>;
+  if (isFetching) {
+    return (
+      <FlexContainer className={containerStyle["is-fetching-root"]}>
+        <GenericLoader className={containerStyle["is-fetching"]}>
+          <Trans t={tRoot} i18nKey="fetchingData" />
+        </GenericLoader>
+      </FlexContainer>
+    );
+  }
+
+  if (!data) {
+    return <NotFound className={containerStyle.loading} />;
   }
 
   return (
     <FlexContainer className={containerStyle.container}>
       <Summary className={containerStyle.summary}>
-        {characters.summary.map(
+        {data.summary.map(
           (item: SummaryObject): React.ReactElement => {
             switch (item.type) {
               case "item":
@@ -57,7 +86,7 @@ const CharactersSection: ReactMovieElement = ({ dataResponse }) => {
           }
         )}
       </Summary>
-      {characters.body.map(
+      {data.body.map(
         (item: BodyContent): React.ReactElement => {
           switch (item.type) {
             case "text":
@@ -161,4 +190,4 @@ const CharactersSection: ReactMovieElement = ({ dataResponse }) => {
   );
 };
 
-export default CharactersSection;
+export default MovieSection;

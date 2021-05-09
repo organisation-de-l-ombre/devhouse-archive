@@ -2,31 +2,56 @@ import React from "react";
 import detectMobileDevice from "@lib/detectMobileDevice";
 import {
   FlexContainer,
+  GenericLoader,
   Summary,
   SummaryItem,
   YouTubePlayer,
 } from "@components/ui";
 import globalStyles from "@themes/Global.module.scss";
-import styles from "./Videos.module.scss";
-import containerStyle from "../../Containers.module.scss";
+import { NotFound } from "@components/modules";
+import fetchOptions from "@lib/api/fetchOptions";
+import { useTranslation, Trans } from "react-i18next";
+import { UseQueryResult, useQuery } from "react-query";
 import {
   ReactMovieElement,
   SummaryObject,
-  TrailerObject,
   VideoObject,
   VideosSection as VideosSectionType,
+  VideosGlobalSection,
 } from "../../types";
+import containerStyle from "../../Containers.module.scss";
+import styles from "./Videos.module.scss";
 
 const VideosSection: ReactMovieElement = ({ dataResponse }) => {
-  const { videos } = dataResponse;
+  const { t: tRoot } = useTranslation("pages\\moviePrototype\\root");
+  const { isFetching, data }: UseQueryResult<VideosGlobalSection> = useQuery(
+    `movie-title/${dataResponse.id}/characters`,
+    (): Promise<VideosGlobalSection> => {
+      return fetch(dataResponse.data.videos || "").then((response: Response) =>
+        response.json()
+      );
+    },
+    fetchOptions
+  );
   const [playerOpen, setPlayerOpen] = React.useState<boolean>(false);
-  const [videoState, setVideoState] = React.useState<
-    TrailerObject | VideoObject
-  >({
+  const [videoState, setVideoState] = React.useState<VideoObject>({
     title: "",
     videoID: "",
-    main: false,
   });
+
+  if (isFetching) {
+    return (
+      <FlexContainer className={containerStyle["is-fetching-root"]}>
+        <GenericLoader className={containerStyle["is-fetching"]}>
+          <Trans t={tRoot} i18nKey="fetchingData" />
+        </GenericLoader>
+      </FlexContainer>
+    );
+  }
+
+  if (!data) {
+    return <NotFound className={containerStyle.loading} />;
+  }
 
   return (
     <>
@@ -42,7 +67,7 @@ const VideosSection: ReactMovieElement = ({ dataResponse }) => {
         className={`${styles.container} ${containerStyle.container}`}
       >
         <Summary className={containerStyle.summary}>
-          {videos.summary.map(
+          {data.summary.map(
             (item: SummaryObject): React.ReactElement => {
               switch (item.type) {
                 case "item":
@@ -56,96 +81,51 @@ const VideosSection: ReactMovieElement = ({ dataResponse }) => {
             }
           )}
         </Summary>
-        {videos.trailers ? (
-          <FlexContainer className={styles["videos-container-root"]}>
-            <h1 id={videos.trailers.id}>{videos.trailers.name}</h1>
-            <FlexContainer className={styles["videos-container"]}>
-              {videos.trailers.videos.map(
-                (trailer: TrailerObject): React.ReactElement => {
-                  return (
-                    <FlexContainer
-                      key={trailer.title}
-                      className={styles["video-container"]}
-                      onClick={() => {
-                        const isMobileDevice: boolean = detectMobileDevice();
+        {data.videos.map(
+          (body: VideosSectionType): React.ReactElement => {
+            return (
+              <FlexContainer
+                key={body.name}
+                className={styles["videos-container-root"]}
+              >
+                <h1 id={body.id}>{body.name}</h1>
+                <FlexContainer className={styles["videos-container"]}>
+                  {body.videos.map(
+                    (video: VideoObject): React.ReactElement => {
+                      return (
+                        <FlexContainer
+                          key={video.title}
+                          className={styles["video-container"]}
+                          onClick={() => {
+                            const isMobileDevice: boolean = detectMobileDevice();
 
-                        if (isMobileDevice) {
-                          window.open(
-                            `https://www.youtube.com/watch?v=${trailer.videoID}`
-                          );
-                        } else {
-                          setVideoState(trailer);
-                          setPlayerOpen(!playerOpen);
-                        }
-                      }}
-                    >
-                      <div
-                        className={`${globalStyles["overflow-hidden"]} ${globalStyles["border-radius"]} ${globalStyles["image-rendering"]}`}
-                      >
-                        <img
-                          src={`https://img.youtube.com/vi/${trailer.videoID}/mqdefault.jpg`}
-                          alt={trailer.title}
-                        />
-                      </div>
-                      <h3>{trailer.title}</h3>
-                    </FlexContainer>
-                  );
-                }
-              )}
-            </FlexContainer>
-          </FlexContainer>
-        ) : (
-          <></>
-        )}
-        {videos.videos ? (
-          videos.videos.map(
-            (body: VideosSectionType): React.ReactElement => {
-              return (
-                <FlexContainer
-                  key={body.name}
-                  className={styles["videos-container-root"]}
-                >
-                  <h1 id={body.id}>{body.name}</h1>
-                  <FlexContainer className={styles["videos-container"]}>
-                    {body.videos.map(
-                      (video: VideoObject): React.ReactElement => {
-                        return (
-                          <FlexContainer
-                            key={video.title}
-                            className={styles["video-container"]}
-                            onClick={() => {
-                              const isMobileDevice: boolean = detectMobileDevice();
-
-                              if (isMobileDevice) {
-                                window.open(
-                                  `https://www.youtube.com/watch?v=${video.videoID}`
-                                );
-                              } else {
-                                setVideoState(video);
-                                setPlayerOpen(!playerOpen);
-                              }
-                            }}
+                            if (isMobileDevice) {
+                              window.open(
+                                `https://www.youtube.com/watch?v=${video.videoID}`
+                              );
+                            } else {
+                              setVideoState(video);
+                              setPlayerOpen(!playerOpen);
+                            }
+                          }}
+                        >
+                          <div
+                            className={`${globalStyles["overflow-hidden"]} ${globalStyles["border-radius"]} ${globalStyles["image-rendering"]}`}
                           >
-                            <div
-                              className={`${globalStyles["overflow-hidden"]} ${globalStyles["border-radius"]} ${globalStyles["image-rendering"]}`}
-                            >
-                              <img
-                                src={`https://img.youtube.com/vi/${video.videoID}/mqdefault.jpg`}
-                                alt={video.title}
-                              />
-                            </div>
-                            <h3>{video.title}</h3>
-                          </FlexContainer>
-                        );
-                      }
-                    )}
-                  </FlexContainer>
+                            <img
+                              src={`https://img.youtube.com/vi/${video.videoID}/mqdefault.jpg`}
+                              alt={video.title}
+                            />
+                          </div>
+                          <h3>{video.title}</h3>
+                        </FlexContainer>
+                      );
+                    }
+                  )}
                 </FlexContainer>
-              );
-            }
-          )
-        ) : (
-          <></>
+              </FlexContainer>
+            );
+          }
         )}
       </FlexContainer>
     </>

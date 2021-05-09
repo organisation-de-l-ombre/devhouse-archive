@@ -4,7 +4,7 @@ export * from "./modules/Headers";
 // Global
 export * from "./global/Summary";
 export * from "./global/GenericSectionBody";
-export * from "./global/S3DataResponse";
+export * from "./global/RootResponse";
 export * from "./global/ReactMovieElement";
 
 // Sections

@@ -3,30 +3,62 @@ import { NavLink } from "react-router-dom";
 import { FaPlay, MdMovie } from "react-icons/all";
 import detectMobileDevice from "@lib/detectMobileDevice";
 import { useLanguage } from "@hooks/Language";
-import { FlexContainer, Button, YouTubePlayer } from "@components/ui";
+import {
+  FlexContainer,
+  Button,
+  YouTubePlayer,
+  GenericLoader,
+} from "@components/ui";
 import globalStyles from "@themes/Global.module.scss";
+import { Trans, useTranslation } from "react-i18next";
+import { useQuery, UseQueryResult } from "react-query";
+import fetchOptions from "@lib/api/fetchOptions";
 import styles from "./MovieHeaders.module.scss";
 import containerStyle from "../../Containers.module.scss";
-import { ReactMovieElement, TrailerObject } from "../../types";
+import {
+  ReactMovieElement,
+  MovieHeaders as MovieHeadersType,
+} from "../../types";
 
 const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
   const { language } = useLanguage();
   const [trailerWindowOpen, setTrailerWindowOpen] = React.useState<boolean>(
     false
   );
-  const trailer: TrailerObject | undefined =
-    dataResponse.videos && dataResponse.videos.trailers
-      ? (dataResponse.videos.trailers.videos.find(
-          (element: TrailerObject): boolean => element.main
-        ) as TrailerObject)
-      : undefined;
+  const { t } = useTranslation("pages\\moviePrototype\\headers");
+  const { t: tRoot } = useTranslation("pages\\moviePrototype\\root");
+  const { isFetching, data }: UseQueryResult<MovieHeadersType> = useQuery(
+    `movie-title/${dataResponse.id}/headers`,
+    (): Promise<MovieHeadersType> => {
+      return fetch(dataResponse.data.headers).then((response: Response) =>
+        response.json()
+      );
+    },
+    fetchOptions
+  );
+
+  if (isFetching) {
+    return (
+      <div
+        className={`${globalStyles.flex} ${globalStyles["alignment-full-center"]} ${styles["is-fetching"]}`}
+      >
+        <GenericLoader className={globalStyles["alignment-full-center"]}>
+          <Trans t={tRoot} i18nKey="fetchingData" />
+        </GenericLoader>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return <></>;
+  }
 
   return (
     <>
-      {trailer !== undefined ? (
+      {data.trailer ? (
         <YouTubePlayer
-          title={trailer.title}
-          videoID={trailer.videoID}
+          title={t("trailerWindowTitle", { title: data.title })}
+          videoID={data.trailer}
           autoPlay
           open={trailerWindowOpen}
           setOpen={setTrailerWindowOpen}
@@ -38,22 +70,22 @@ const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
       <div
         className={`${styles["headers-background"]} ${globalStyles["opacity-display-animation"]}`}
       >
-        {dataResponse.headers && dataResponse.headers.backgroundImage ? (
+        {data.backgroundImage ? (
           <div
             className={styles["headers-background-image"]}
             style={{
-              backgroundImage: `url("${dataResponse.headers.backgroundImage}")`,
+              backgroundImage: `url("${data.backgroundImage}")`,
             }}
           />
         ) : (
           <div className={styles["headers-no-background-image"]} />
         )}
         <FlexContainer className={styles.headers}>
-          {dataResponse.headers && dataResponse.headers.moviePoster ? (
+          {data.moviePoster ? (
             <div className={styles["movie-poster"]}>
               <img
-                src={dataResponse.headers.moviePoster}
-                alt={dataResponse.title}
+                src={data.moviePoster}
+                alt={`Movie poster of ${data.title}`}
                 draggable={false}
               />
             </div>
@@ -61,46 +93,44 @@ const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
             <></>
           )}
           <FlexContainer className={styles["headers-container"]}>
-            <h1>{dataResponse.title}</h1>
+            <h1>{data.title}</h1>
             <h3>
-              <i>{dataResponse.companies.join(", ")}</i>
+              <i>{data.companies.join(", ")}</i>
             </h3>
-            {dataResponse.releaseDate ? (
+            {data.releaseDate ? (
               <h3>
                 {new Intl.DateTimeFormat(language).format(
-                  new Date(dataResponse.releaseDate)
+                  new Date(data.releaseDate)
                 )}
-                {dataResponse.duration ? ` • ${dataResponse.duration}` : ""}
-                {dataResponse.publicType ? ` • ${dataResponse.publicType}` : ""}
+                {data.duration ? ` • ${data.duration}` : ""}
+                {data.publicType ? ` • ${data.publicType}` : ""}
               </h3>
             ) : (
               <></>
             )}
-            {dataResponse.headers && dataResponse.headers.synopsis ? (
+            {data && data.synopsis ? (
               <p>
-                <q className={containerStyle.quotes}>
-                  {dataResponse.headers.synopsis}
-                </q>
+                <q className={containerStyle.quotes}>{data.synopsis}</q>
               </p>
             ) : (
               <></>
             )}
-            {dataResponse.headers && dataResponse.headers.quotation ? (
+            {data && data.quotation ? (
               <p>
-                <q className={containerStyle.quotes}>
-                  {dataResponse.headers.quotation}
-                </q>
+                <q className={containerStyle.quotes}>{data.quotation}</q>
               </p>
             ) : (
               <></>
             )}
-            {dataResponse.type ? (
+            {data.type ? (
               <div className={containerStyle["headers-buttons"]}>
-                {dataResponse.type.map(
+                {data.type.map(
                   (type: string): React.ReactElement => {
                     return (
-                      <NavLink key={type} to={`/movies/tags/${type}`}>
-                        <span>{type}</span>
+                      <NavLink key={type} to={`/browse?=tag${type}`}>
+                        <span>
+                          <Trans t={t} i18nKey={`tags.${type}`} />
+                        </span>
                       </NavLink>
                     );
                   }
@@ -112,16 +142,18 @@ const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
             <div className={containerStyle["headers-buttons"]}>
               <Button>
                 <MdMovie />
-                <span>Voir en streaming</span>
+                <span>
+                  <Trans t={t} i18nKey="watch" />
+                </span>
               </Button>
-              {trailer ? (
+              {data.trailer ? (
                 <Button
                   onClick={() => {
                     const isMobileDevice: boolean = detectMobileDevice();
 
                     if (isMobileDevice) {
                       window.open(
-                        `https://www.youtube.com/watch?v=${trailer?.videoID}`
+                        `https://www.youtube.com/watch?v=${data.trailer}`
                       );
                     } else {
                       setTrailerWindowOpen(!trailerWindowOpen);
@@ -129,7 +161,9 @@ const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
                   }}
                 >
                   <FaPlay />
-                  <span>Bande annonce</span>
+                  <span>
+                    <Trans t={t} i18nKey="trailer" />
+                  </span>
                 </Button>
               ) : (
                 <></>
