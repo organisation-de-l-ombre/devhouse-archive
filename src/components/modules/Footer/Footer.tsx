@@ -27,13 +27,13 @@ const Footer = (): React.ReactElement => {
           alt="IMR logo"
           draggable={false}
         />
-        <h3>
+        <h1>
           <Trans
             t={t}
             i18nKey="left.imr"
             values={{ year: new Date().getFullYear() }}
           />
-        </h3>
+        </h1>
         <div className={styles["social-networks"]}>
           <a
             href="https://discord.com/invite/QECkmy8TqC"
