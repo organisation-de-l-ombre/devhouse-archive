@@ -11,7 +11,6 @@ import {
 import { useQuery, UseQueryResult } from "react-query";
 import fetchOptions from "@lib/api/fetchOptions";
 import { Trans, useTranslation } from "react-i18next";
-import { NotFound } from "@components/modules";
 import containerStyle from "../../Containers.module.scss";
 import {
   BodyContent,
@@ -19,6 +18,7 @@ import {
   ReactMovieElement,
   SummaryObject,
 } from "../../types";
+import SectionEmpty from "../../modules/SectionEmpty/SectionEmpty";
 
 const MovieSection: ReactMovieElement = ({ dataResponse }) => {
   const { t: tRoot } = useTranslation("pages\\moviePrototype\\root");
@@ -43,7 +43,7 @@ const MovieSection: ReactMovieElement = ({ dataResponse }) => {
   }
 
   if (!data) {
-    return <NotFound className={containerStyle.loading} />;
+    return <SectionEmpty />;
   }
 
   return (

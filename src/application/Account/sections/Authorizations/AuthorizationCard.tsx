@@ -8,9 +8,10 @@ import {
   Card,
   FlexContainer,
   TextArea,
-  ButtonsGroup,
   Button,
+  ButtonsGroup,
 } from "@components/ui";
+import globalStyles from "@themes/Global.module.scss";
 import containerStyle from "../../Containers.module.scss";
 
 const AuthorizationCard: React.FC<
@@ -68,7 +69,7 @@ const AuthorizationCard: React.FC<
           <span>{authorization.audiences.join(", ")}</span>
         </TextArea>
       </FlexContainer>
-      <ButtonsGroup className={containerStyle["buttons-container"]}>
+      <ButtonsGroup className={globalStyles["generic-margin-top"]}>
         <Button onClick={deleteAuthorization}>
           <FaRegTrashAlt />
           <span>

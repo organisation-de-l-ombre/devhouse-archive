@@ -10,8 +10,8 @@ import {
   Card,
   YouTubePlayer,
   GenericLoader,
+  ButtonsGroup,
 } from "@components/ui";
-import { NotFound } from "@components/modules";
 import fetchOptions from "@lib/api/fetchOptions";
 import { useTranslation, Trans } from "react-i18next";
 import { UseQueryResult, useQuery } from "react-query";
@@ -27,6 +27,7 @@ import {
   TracksSection,
   VideoObject,
 } from "../../types";
+import SectionEmpty from "../../modules/SectionEmpty/SectionEmpty";
 
 const DisplaySVG = ({ type }: { type: string }): React.ReactElement => {
   switch (type) {
@@ -70,7 +71,7 @@ const OSTSection: ReactMovieElement = ({ dataResponse }) => {
   }
 
   if (!data) {
-    return <NotFound className={containerStyle.loading} />;
+    return <SectionEmpty />;
   }
 
   return (
@@ -120,7 +121,7 @@ const OSTSection: ReactMovieElement = ({ dataResponse }) => {
                 <p className={styles["album-headers-margin-top"]}>
                   {data.album.interpreters.join(", ")}
                 </p>
-                <div className={containerStyle["headers-buttons"]}>
+                <ButtonsGroup minimal>
                   {data.album.streaming.map(
                     (streaming: StreamingObject): React.ReactElement => {
                       return (
@@ -136,7 +137,7 @@ const OSTSection: ReactMovieElement = ({ dataResponse }) => {
                       );
                     }
                   )}
-                </div>
+                </ButtonsGroup>
               </div>
             </div>
           </FlexContainer>
@@ -191,9 +192,7 @@ const OSTSection: ReactMovieElement = ({ dataResponse }) => {
                           <></>
                         )}
                         {track.videoID || track.lyrics ? (
-                          <div
-                            className={`${containerStyle["headers-buttons"]} ${styles["headers-buttons-margin"]}`}
-                          >
+                          <ButtonsGroup minimal>
                             {track.videoID ? (
                               <Button
                                 onClick={() => {
@@ -226,7 +225,7 @@ const OSTSection: ReactMovieElement = ({ dataResponse }) => {
                             ) : (
                               <></>
                             )}
-                          </div>
+                          </ButtonsGroup>
                         ) : (
                           <></>
                         )}

@@ -8,7 +8,6 @@ import {
   YouTubePlayer,
 } from "@components/ui";
 import globalStyles from "@themes/Global.module.scss";
-import { NotFound } from "@components/modules";
 import fetchOptions from "@lib/api/fetchOptions";
 import { useTranslation, Trans } from "react-i18next";
 import { UseQueryResult, useQuery } from "react-query";
@@ -21,6 +20,7 @@ import {
 } from "../../types";
 import containerStyle from "../../Containers.module.scss";
 import styles from "./Videos.module.scss";
+import SectionEmpty from "../../modules/SectionEmpty/SectionEmpty";
 
 const VideosSection: ReactMovieElement = ({ dataResponse }) => {
   const { t: tRoot } = useTranslation("pages\\moviePrototype\\root");
@@ -50,7 +50,7 @@ const VideosSection: ReactMovieElement = ({ dataResponse }) => {
   }
 
   if (!data) {
-    return <NotFound className={containerStyle.loading} />;
+    return <SectionEmpty />;
   }
 
   return (
@@ -110,7 +110,7 @@ const VideosSection: ReactMovieElement = ({ dataResponse }) => {
                           }}
                         >
                           <div
-                            className={`${globalStyles["overflow-hidden"]} ${globalStyles["border-radius"]} ${globalStyles["image-rendering"]}`}
+                            className={`${globalStyles["overflow-hidden"]} ${globalStyles["border-radius"]}`}
                           >
                             <img
                               src={`https://img.youtube.com/vi/${video.videoID}/mqdefault.jpg`}

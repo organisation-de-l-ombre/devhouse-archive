@@ -8,6 +8,7 @@ import {
   Button,
   YouTubePlayer,
   GenericLoader,
+  ButtonsGroup,
 } from "@components/ui";
 import globalStyles from "@themes/Global.module.scss";
 import { Trans, useTranslation } from "react-i18next";
@@ -57,7 +58,7 @@ const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
     <>
       {data.trailer ? (
         <YouTubePlayer
-          title={t("trailerWindowTitle", { title: data.title })}
+          title={`${data.title} - ${t("trailerWindowTitle")}`}
           videoID={data.trailer}
           autoPlay
           open={trailerWindowOpen}
@@ -123,11 +124,11 @@ const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
               <></>
             )}
             {data.type ? (
-              <div className={containerStyle["headers-buttons"]}>
+              <ButtonsGroup minimal>
                 {data.type.map(
                   (type: string): React.ReactElement => {
                     return (
-                      <NavLink key={type} to={`/browse?=tag${type}`}>
+                      <NavLink key={type} to={`/browse?tag=${type}`}>
                         <span>
                           <Trans t={t} i18nKey={`tags.${type}`} />
                         </span>
@@ -135,11 +136,11 @@ const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
                     );
                   }
                 )}
-              </div>
+              </ButtonsGroup>
             ) : (
               <></>
             )}
-            <div className={containerStyle["headers-buttons"]}>
+            <ButtonsGroup minimal>
               <Button>
                 <MdMovie />
                 <span>
@@ -168,7 +169,7 @@ const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
               ) : (
                 <></>
               )}
-            </div>
+            </ButtonsGroup>
           </FlexContainer>
         </FlexContainer>
       </div>

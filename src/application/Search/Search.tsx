@@ -196,7 +196,7 @@ const Search = (): React.ReactElement => {
                     className={styles["movie-container"]}
                   >
                     <div
-                      className={`${globalStyles["overflow-hidden"]} ${globalStyles["border-radius"]} ${globalStyles["image-rendering"]}`}
+                      className={`${globalStyles["overflow-hidden"]} ${globalStyles["border-radius"]}`}
                     >
                       <img
                         src={movie.poster}

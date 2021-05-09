@@ -7,7 +7,6 @@ import {
   GenericLoader,
 } from "@components/ui";
 import bust from "@assets/pictures/bust.png";
-import { NotFound } from "@components/modules";
 import fetchOptions from "@lib/api/fetchOptions";
 import { useTranslation, Trans } from "react-i18next";
 import { UseQueryResult, useQuery } from "react-query";
@@ -21,6 +20,7 @@ import {
   ReactMovieElement,
   SummaryObject,
 } from "../../types";
+import SectionEmpty from "../../modules/SectionEmpty/SectionEmpty";
 
 const CastingSection: ReactMovieElement = ({ dataResponse }) => {
   const { t: tRoot } = useTranslation("pages\\moviePrototype\\root");
@@ -45,7 +45,7 @@ const CastingSection: ReactMovieElement = ({ dataResponse }) => {
   }
 
   if (!data) {
-    return <NotFound className={containerStyle.loading} />;
+    return <SectionEmpty />;
   }
 
   return (

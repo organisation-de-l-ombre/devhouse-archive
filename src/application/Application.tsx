@@ -51,7 +51,7 @@ register({
   },
 });
 
-const queryClient: QueryClient = new QueryClient();
+export const queryClient: QueryClient = new QueryClient();
 
 const Application = (): React.ReactElement => {
   const { theme } = useTheme();

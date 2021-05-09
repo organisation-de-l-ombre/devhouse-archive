@@ -9,10 +9,12 @@ import {
   TextArea,
   Button,
   buttonStyles,
-  ButtonsGroup,
   GenericLoader,
+  ButtonsGroup,
 } from "@components/ui";
 import globalStyles from "@themes/Global.module.scss";
+import { FaEdit } from "react-icons/fa";
+import { RiLogoutBoxRLine } from "react-icons/ri";
 import containerStyle from "../../Containers.module.scss";
 
 const Account = (): React.ReactElement => {
@@ -81,16 +83,22 @@ const Account = (): React.ReactElement => {
             </span>
           </TextArea>
         </FlexContainer>
-        <ButtonsGroup className={containerStyle["buttons-container"]}>
+        <ButtonsGroup className={globalStyles["generic-margin-top"]}>
           <a
             className={buttonStyles["button-styles"]}
             href="https://developershouse.xyz/settings/"
             target="blank"
           >
-            <Trans t={t} i18nKey="devHouse.editAccount" />
+            <FaEdit />
+            <span>
+              <Trans t={t} i18nKey="devHouse.editAccount" />
+            </span>
           </a>
           <Button onClick={logout}>
-            <Trans t={t} i18nKey="devHouse.logout" />
+            <RiLogoutBoxRLine />
+            <span>
+              <Trans t={t} i18nKey="devHouse.logout" />
+            </span>
           </Button>
         </ButtonsGroup>
       </Card>

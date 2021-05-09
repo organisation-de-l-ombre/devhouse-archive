@@ -5,7 +5,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import { MdRefresh } from "react-icons/md";
 import { Authorization } from "@developers-house/abdera";
 import { useAuthorizations } from "@hooks/API/Authorizations";
-import { FlexContainer, ButtonsGroup, Button, Card } from "@components/ui";
+import { FlexContainer, Button, Card, ButtonsGroup } from "@components/ui";
 import { Error } from "@components/modules";
 import globalStyles from "@themes/Global.module.scss";
 import AuthorizationCard from "./AuthorizationCard";
@@ -28,9 +28,7 @@ const Authorizations = (): React.ReactElement => {
         <h2>
           <Trans t={t} i18nKey="statusTitle" />
         </h2>
-        <ButtonsGroup
-          className={`${containerStyle["buttons-container"]} ${containerStyle["generic-margin-top"]}`}
-        >
+        <ButtonsGroup className={globalStyles["generic-margin-top"]}>
           <Button>
             {isLoading || isFetching ? (
               <>

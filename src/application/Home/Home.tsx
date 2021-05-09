@@ -44,20 +44,20 @@ const Home = (): React.ReactElement => {
           <h2>
             <Trans t={t} i18nKey="headers.presentation.1" />
           </h2>
-          <ButtonsGroup className={styles["headers-buttons"]}>
-            <NavLink className={buttonStyles["button-styles"]} to="/about">
+          <ButtonsGroup className={globalStyles["generic-margin-top"]}>
+            <NavLink to="/about">
               <MdWork />
               <span>
                 <Trans t={t} i18nKey="headers.buttons.about" />
               </span>
             </NavLink>
-            <NavLink className={buttonStyles["button-styles"]} to="/contact">
+            <NavLink to="/contact">
               <RiMessage2Fill />
               <span>
                 <Trans t={t} i18nKey="headers.buttons.contact" />
               </span>
             </NavLink>
-            <NavLink className={buttonStyles["button-styles"]} to="/support">
+            <NavLink to="/support">
               <BsFillQuestionCircleFill />
               <span>
                 <Trans t={t} i18nKey="headers.buttons.support" />

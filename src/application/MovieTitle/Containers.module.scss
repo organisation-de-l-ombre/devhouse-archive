@@ -36,40 +36,6 @@
   }
 }
 
-.headers-buttons {
-  display: flex;
-  flex-wrap: wrap;
-
-  a, button {
-    margin: 1rem 1rem 0 0;
-    padding: .5rem;
-    border-radius: 5px;
-    border: .150rem solid var(--font-color-hover);
-    display: flex;
-    align-items: center;
-    background-color: var(--primary-background-color);
-
-    svg {
-      margin-right: .5rem;
-      transition: .5s;
-    }
-
-    span { transition: .5s; }
-
-    &:hover {
-      svg {
-        fill: var(--font-color-hover);
-        transition: .5s;
-      }
-
-      span {
-        transition: .5s;
-        color: var(--font-color-hover);
-      }
-    }
-  }
-}
-
 .generic-margin-top { margin-top: 4rem; }
 
 .quotes {

@@ -22,7 +22,7 @@ const SectionEmpty = (): React.ReactElement => {
         <GenericLoader>
           <Trans t={t} i18nKey="sectionEmpty.message" />
         </GenericLoader>
-        <ButtonsGroup className={styles["buttons-container"]}>
+        <ButtonsGroup>
           <Button>
             <FaEdit />
             <span>
