@@ -38,7 +38,7 @@ export const loginStart: RouteOptions = {
         const { data: redirect } = await Admin.acceptLoginRequest(challenge, {
           subject: data.subject as string,
           context: {
-            platform: (data.context as { provider: string }).provider,
+            platform: "allg",
             autoLogin: true
           }
         });
