@@ -14,7 +14,6 @@ interface MovieData {
   casting?: string;
   characters?: string;
   ost?: string;
-  // eslint-disable-next-line sonarjs/no-duplicate-string
   "technical-specs"?: string;
 }
 
@@ -44,10 +43,11 @@ export default {
       },
       relations: ["availableLanguages"]
     });
+    const databaseResult: MovieTitle = databaseRequest[0];
 
     if (
       databaseRequest.length === 0 ||
-      databaseRequest[0].availableLanguages.findIndex(
+      databaseResult.availableLanguages.findIndex(
         (lang): boolean => lang.language === language
       ) === -1
     ) {
@@ -59,46 +59,56 @@ export default {
       return;
     }
 
-    const sections: string[] = [
-      "headers",
-      "movie",
-      "casting",
-      "characters",
-      "videos",
-      "ost",
-      "technical-specs"
-    ];
-    const movieData: MovieData = {};
+    const files = await request.S3Client().listObjects({
+      Bucket: process.env.S3_BUCKET_NAME || "",
+      Prefix: `${
+        process.env.S3_PRIVATE || ""
+      }/movies/title/${movieTitle}/${language}`
+    });
 
-    for (const section of sections) {
-      try {
-        await request.S3Client().getObject({
-          Bucket: process.env.S3_BUCKET_NAME || "",
-          Key: `${
-            process.env.S3_PRIVATE || ""
-          }/movies/title/${movieTitle}/${language}/${section}.json`
-        });
+    if (!files.Contents || (files.Contents && files.Contents.length === 0)) {
+      void reply.code(404).send({
+        statusCode: 404,
+        message: `Movie not found.`
+      });
 
-        const command: GetObjectCommand = new GetObjectCommand({
-          Bucket: "international-media-referencing",
-          Key: `${
-            process.env.S3_PRIVATE || ""
-          }/movies/title/${movieTitle}/${language}/${section}.json`
-        });
-        const dataURL = await getSignedUrl(request.S3Client(), command, {
-          expiresIn: 1800
-        });
+      return;
+    }
 
-        movieData[section as Section] = dataURL;
-      } catch {
+    const sections: Section[] = [];
+
+    for (const file of files.Contents) {
+      const key = file.Key?.split("/");
+
+      if (!key) {
         continue;
       }
+
+      sections.push(key[key.length - 1].slice(2, -5) as Section);
+    }
+
+    const movieData: MovieData = {};
+
+    for (const [index, section] of sections.entries()) {
+      const command: GetObjectCommand = new GetObjectCommand({
+        Bucket: process.env.S3_BUCKET_NAME || "",
+        Key: `${
+          process.env.S3_PRIVATE || ""
+        }/movies/title/${movieTitle}/${language}/${
+          ((index as unknown) as number) + 1
+        }_${section as Section}.json`
+      });
+      const dataURL = await getSignedUrl(request.S3Client(), command, {
+        expiresIn: 1800
+      });
+
+      Object.assign(movieData, { [section]: dataURL });
     }
 
     void reply.code(200).send({
       statusCode: 200,
-      id: databaseRequest[0].id,
-      title: databaseRequest[0].name,
+      id: databaseResult.id,
+      title: databaseResult.name,
       data: movieData
     });
   }
