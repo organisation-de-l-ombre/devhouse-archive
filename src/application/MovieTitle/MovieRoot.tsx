@@ -69,7 +69,7 @@ const MovieRoot: React.FC<RouteComponentProps> = ({ match }) => {
   return (
     <FlexContainer className={globalStyles.column}>
       <Helmet>
-        <title>{data.title}</title>
+        <title>{data.title} - IMR</title>
       </Helmet>
       <MovieHeaders dataResponse={data} />
       <MovieInternalNavigation dataResponse={data} />
