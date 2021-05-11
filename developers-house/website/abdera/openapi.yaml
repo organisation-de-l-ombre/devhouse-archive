@@ -143,7 +143,9 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                type: array
+                items:
+                 $ref: "#/components/schemas/Link"
 components:
   securitySchemes:
     devhouse:
@@ -371,3 +373,36 @@ components:
           type: string
         id:
           type: string
+    
+    Link:
+      type: object
+      description: A link describes a connection to an external account.
+      required:
+        - id
+        - platform
+        - platform_id
+        - user_id
+        - created_at
+      readOnly: true
+      properties:
+        id:
+          description: The unique if of the link.
+          type: string
+          pattern: uuidv4
+        platform:
+          description: The platform of the link.
+          type: string
+        platform_id:
+          description: The user id on the platform.
+          type: string
+        user_id:
+          description: The devhouse account linked to this link.
+          type: string
+        created_at:
+          description: The creation date of the link.
+          type: string
+          format: date-time
+        updated_at:
+          description: The last update of the link (may be always null)
+          type: string
+          format: date-time
