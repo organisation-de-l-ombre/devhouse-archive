@@ -14,7 +14,7 @@ import {
 } from "@hooks/Notifications";
 import { useTheme } from "@hooks/Theme";
 import globalStyles from "@themes/Global.module.scss";
-import { FlexContainer, Card, SelectList, Button } from "@components/ui";
+import { FlexContainer, SelectList, Button } from "@components/ui";
 import "@themes/Toggle.scss";
 import { supportedLanguages } from "@store/language";
 import { manageSelection } from "@components/ui/SelectList/SelectList";
@@ -64,7 +64,7 @@ const Settings = (): React.ReactElement => {
     <FlexContainer
       className={`${containerStyle.container} ${globalStyles["page-body-width"]}`}
     >
-      <Card
+      <FlexContainer
         className={`${containerStyle.card} ${globalStyles.column} ${globalStyles["no-margin"]}`}
       >
         <h2>
@@ -154,7 +154,7 @@ const Settings = (): React.ReactElement => {
             </div>
           </div>
         </div>
-      </Card>
+      </FlexContainer>
     </FlexContainer>
   );
 };

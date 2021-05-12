@@ -1,3 +1,5 @@
+@import "src/themes/Themes.module";
+
 .is-fetching { padding: 6rem 2rem; }
 
 .headers-background {
@@ -5,6 +7,7 @@
   position: relative;
   display: flex;
   justify-content: center;
+  background-color: $MOVIE_HEADERS_BACKGROUND;
 
   .headers-background-image {
     width: 100%;
@@ -13,7 +16,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position-x: center;
-    opacity: var(--background-opacity);
+    opacity: $MOVIE_HEADERS_OPACITY;
   }
 
   .headers-no-background-image {
@@ -50,9 +53,27 @@
       display: flex;
       flex-direction: column;
 
-      h2, h3, p { margin-top: 1rem; }
+      h1, h2, p, span, i, q, a { color: white; }
 
-      h2, h3 { font-size: 18px; }
+      a, button {
+        background-color: $MOVIE_HEADERS_BUTTONS_BACKGROUND;
+
+        &:hover {
+          color: var(--font-color-hover);
+
+          span { color: var(--font-color-hover); }
+
+          svg { fill: var(--font-color-hover); }
+        }
+      }
+
+      svg { fill: white; }
+
+      h2, p { margin-top: 1rem; }
+
+      h2 { font-size: 18px; }
+
+      p { line-height: 1.5; }
     }
 
     @media screen and (max-width: 700px) {

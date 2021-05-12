@@ -21,16 +21,16 @@
 
     &:hover {
       color: var(--font-color);
-      transition: all .5s;
+      transition: color .5s;
 
       span {
         color: var(--font-color-hover);
-        transition: .5s;
+        transition: color .5s;
       }
 
       svg {
         fill: var(--font-color-hover);
-        transition: .5s;
+        transition: fill .5s;
       }
     }
   }

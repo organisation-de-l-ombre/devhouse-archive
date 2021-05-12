@@ -3,37 +3,45 @@
   align-items: center;
 }
 
-.container {
-  flex-direction: column;
-  align-self: center;
-  justify-content: center;
+.container-root {
+  max-height: calc(100vh - 3.5rem);
 
-  .generic-margin-top { margin-top: 1rem; }
+  .container {
+    padding: 6rem 2rem;
+    flex-direction: column;
+    align-self: center;
+    justify-content: center;
 
-  .card {
-    margin: 2rem 0 0 0;
+    .generic-margin-top { margin-top: 1rem; }
+
+    .card {
+      margin: 4rem 0 0 0;
+      flex-direction: column;
+
+      h2 { color: var(--font-color-hover); }
+
+      .forms-container {
+        margin-top: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+
+        .form-container {
+          flex: 1 20rem;
+
+          span { cursor: default; }
+        }
+      }
+    }
+
+    @media screen and (max-width: 700px) {
+      padding: 2rem;
+    }
+  }
+
+  .buttons-root {
+    display: flex;
     flex-direction: column;
 
     h2 { color: var(--font-color-hover); }
-
-    .forms-container {
-      margin-top: 1rem;
-      display: flex;
-      flex-wrap: wrap;
-
-      .form-container {
-        flex: 1 30rem;
-
-        span { cursor: default; }
-      }
-    }
   }
-}
-
-.buttons-root {
-  display: flex;
-  flex-direction: column;
-  align-self: center;
-
-  h2 { color: var(--font-color-hover); }
 }

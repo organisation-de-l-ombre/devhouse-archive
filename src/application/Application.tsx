@@ -8,50 +8,9 @@ import themes from "@themes/Themes.module.scss";
 import { NotificationsGroup, NotificationsModal } from "@components/ui";
 import i18n from "@languages/i18n";
 import { Error, ApplicationRouter } from "@components/modules";
-import { register } from "@lib/serviceWorker";
-import { store } from "@store/Store";
-import { pushNotifications } from "@store/notifications/notificationsData";
-import generateNotificationID from "@lib/generateNotificationID";
-import { MdSystemUpdate } from "react-icons/md";
-import { Action } from "redux";
 import { Helmet } from "react-helmet";
 
-// Service worker initialization
-register({
-  async onUpdate(registration: ServiceWorkerRegistration): Promise<void> {
-    const translations = await import(
-      `../../public/locales/${
-        store.getState().language.language
-      }/serviceWorker.json`
-    );
-
-    store.dispatch(
-      (pushNotifications([
-        {
-          id: generateNotificationID(),
-          type: "warning",
-          body: translations.updateMessage,
-          buttons: [
-            {
-              text: translations.updateButton,
-              icon: <MdSystemUpdate />,
-              onClick: () => {
-                if (registration.waiting) {
-                  registration.waiting?.postMessage({ type: "SKIP_WAITING" });
-                  window.location.reload();
-                }
-                return true;
-              },
-            },
-          ],
-          time: 10000,
-        },
-      ]) as unknown) as Action
-    );
-  },
-});
-
-export const queryClient: QueryClient = new QueryClient();
+const queryClient: QueryClient = new QueryClient();
 
 const Application = (): React.ReactElement => {
   const { theme } = useTheme();
@@ -69,7 +28,7 @@ const Application = (): React.ReactElement => {
 
   return (
     <ErrorBoundary FallbackComponent={Error}>
-      <Helmet>
+      <Helmet htmlAttributes={{ lang: language }}>
         <title>IMR</title>
       </Helmet>
       <QueryClientProvider client={queryClient}>

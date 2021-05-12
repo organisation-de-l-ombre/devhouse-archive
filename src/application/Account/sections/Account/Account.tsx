@@ -5,10 +5,8 @@ import { useNotificationsManager } from "@hooks/Notifications";
 import { useUser } from "@hooks/User";
 import {
   FlexContainer,
-  Card,
   TextArea,
   Button,
-  buttonStyles,
   GenericLoader,
   ButtonsGroup,
 } from "@components/ui";
@@ -41,7 +39,9 @@ const Account = (): React.ReactElement => {
     <FlexContainer
       className={`${containerStyle.container} ${globalStyles["page-body-width"]}`}
     >
-      <Card className={`${globalStyles["no-margin"]} ${containerStyle.card}`}>
+      <FlexContainer
+        className={`${globalStyles["no-margin"]} ${containerStyle.card}`}
+      >
         <h2>
           <Trans t={t} i18nKey="devHouse.title" />
         </h2>
@@ -83,12 +83,11 @@ const Account = (): React.ReactElement => {
             </span>
           </TextArea>
         </FlexContainer>
-        <ButtonsGroup className={globalStyles["generic-margin-top"]}>
-          <a
-            className={buttonStyles["button-styles"]}
-            href="https://developershouse.xyz/settings/"
-            target="blank"
-          >
+        <ButtonsGroup
+          allowExpand
+          className={globalStyles["generic-margin-top"]}
+        >
+          <a href="https://developershouse.xyz/settings/" target="blank">
             <FaEdit />
             <span>
               <Trans t={t} i18nKey="devHouse.editAccount" />
@@ -101,15 +100,15 @@ const Account = (): React.ReactElement => {
             </span>
           </Button>
         </ButtonsGroup>
-      </Card>
-      <Card className={containerStyle.card}>
+      </FlexContainer>
+      <FlexContainer className={containerStyle.card}>
         <h2>
           <Trans t={t} i18nKey="imr.title" />
         </h2>
         <GenericLoader className={containerStyle["generic-margin-top"]}>
           <Trans t={t} i18nKey="imr.notImplemented" />
         </GenericLoader>
-      </Card>
+      </FlexContainer>
     </FlexContainer>
   );
 };

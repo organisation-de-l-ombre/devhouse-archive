@@ -28,7 +28,10 @@ const Authorizations = (): React.ReactElement => {
         <h2>
           <Trans t={t} i18nKey="statusTitle" />
         </h2>
-        <ButtonsGroup className={globalStyles["generic-margin-top"]}>
+        <ButtonsGroup
+          allowExpand
+          className={globalStyles["generic-margin-top"]}
+        >
           <Button>
             {isLoading || isFetching ? (
               <>

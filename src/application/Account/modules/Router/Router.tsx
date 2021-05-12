@@ -12,7 +12,7 @@ const NotFound = React.lazy(
   () => import("@components/modules/NotFound/NotFound")
 );
 
-const AccountRouter = (): React.ReactElement => {
+const Router = (): React.ReactElement => {
   const baseURL: string = useRouteMatch().path;
 
   return (
@@ -31,4 +31,4 @@ const AccountRouter = (): React.ReactElement => {
   );
 };
 
-export default AccountRouter;
+export default Router;

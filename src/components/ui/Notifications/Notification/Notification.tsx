@@ -60,7 +60,7 @@ const NotificationComponent: React.FC<
           className={`${globalStyles.flex} ${globalStyles.column} ${styles["margin-right"]}`}
         >
           <p>{notification.body}</p>
-          <ButtonsGroup notifications className={styles["buttons-container"]}>
+          <ButtonsGroup className={styles["buttons-container"]}>
             {notification.buttons.map(
               (b: ButtonType): React.ReactElement => {
                 return (

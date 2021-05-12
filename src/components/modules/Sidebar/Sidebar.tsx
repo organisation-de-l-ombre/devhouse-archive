@@ -3,6 +3,7 @@ import { BsArrowRight } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import { FlexContainer } from "@components/ui";
+import globalStyles from "@themes/Global.module.scss";
 import styles from "./Sidebar.module.scss";
 
 const Sidebar: React.FC<
@@ -13,6 +14,7 @@ const Sidebar: React.FC<
     open: boolean;
     manageSidebar: () => void;
     picture?: string;
+    pictureCircle?: boolean;
     pictureAlt?: string;
     title: string;
   }
@@ -21,29 +23,40 @@ const Sidebar: React.FC<
   manageSidebar,
   className,
   picture,
+  pictureCircle,
   pictureAlt,
   title,
   children,
 }): React.ReactElement => {
   return (
     <div
-      className={`${styles.sidebar}${open ? ` ${styles.open}` : ""}${
-        className ? ` ${className}` : ""
-      }`}
+      className={[
+        styles.sidebar,
+        open && styles.open,
+        className && className,
+      ].join(" ")}
     >
       <button type="button" onClick={manageSidebar}>
         <MdClose />
       </button>
       <div className={styles.headers}>
         {picture && pictureAlt && (
-          <img src={picture} alt={pictureAlt} draggable={false} />
+          <img
+            className={
+              pictureCircle ? ` ${globalStyles["rounded-picture"]}` : ""
+            }
+            src={picture}
+            alt={pictureAlt}
+            draggable={false}
+          />
         )}
-        <h2>{title}</h2>
+        <h1>{title}</h1>
       </div>
       <div className={styles.items}>{children}</div>
     </div>
   );
 };
+
 const SidebarSection: React.FC<
   React.DetailedHTMLProps<
     React.AllHTMLAttributes<HTMLDivElement>,
@@ -56,6 +69,7 @@ const SidebarSection: React.FC<
     </div>
   );
 };
+
 const SidebarItem: React.FC<
   React.DetailedHTMLProps<
     React.AllHTMLAttributes<HTMLDivElement>,
@@ -73,6 +87,7 @@ const SidebarItem: React.FC<
     </NavLink>
   );
 };
+
 const SidebarManager: React.FC<
   React.DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -90,12 +105,13 @@ const SidebarManager: React.FC<
     </button>
   );
 };
+
 const SidebarContainer: React.FC<
   React.DetailedHTMLProps<
     React.AllHTMLAttributes<HTMLDivElement>,
     HTMLDivElement
   > & { open: boolean; manageSidebar: () => void }
-> = ({ open, manageSidebar, ...props }) => {
+> = ({ open, manageSidebar, children, ...props }) => {
   return (
     <FlexContainer
       className={`${styles.container}${open ? ` ${styles.open}` : ""}`}
@@ -105,7 +121,10 @@ const SidebarContainer: React.FC<
         }
       }}
       {...props}
-    />
+    >
+      <SidebarManager onClick={manageSidebar} />
+      {children}
+    </FlexContainer>
   );
 };
 

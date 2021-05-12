@@ -44,7 +44,10 @@ const Home = (): React.ReactElement => {
           <h2>
             <Trans t={t} i18nKey="headers.presentation.1" />
           </h2>
-          <ButtonsGroup className={globalStyles["generic-margin-top"]}>
+          <ButtonsGroup
+            allowExpand
+            className={globalStyles["generic-margin-top"]}
+          >
             <NavLink to="/about">
               <MdWork />
               <span>
@@ -74,7 +77,7 @@ const Home = (): React.ReactElement => {
           <h2 style={{ color: "var(--font-color-hover)" }}>
             <Trans t={t} i18nKey="prototypeAccess.title" />
           </h2>
-          <ButtonsGroup className={styles["buttons-container"]}>
+          <ButtonsGroup allowExpand className={styles["buttons-container"]}>
             <NavLink
               className={buttonStyles["button-styles"]}
               to="/movies/title/tangled_994f87ryf.a4"

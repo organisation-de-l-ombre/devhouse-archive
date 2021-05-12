@@ -3,16 +3,18 @@ import { useHistory } from "react-router";
 import { useUser } from "@hooks/User";
 import FlexContainer from "@components/ui/FlexContainer/FlexContainer";
 import BackToTop from "@components/modules/BackToTop/BackToTop";
-import globalStyles from "@themes/Global.module.scss";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
-import AccountInternalNavigation from "./modules/AccountInternalNavigation/AccountInternalNavigation";
-import AccountRouter from "./modules/Router/AccountRouter";
-import AccountHeaders from "./modules/AccountHeaders/AccountHeaders";
+import containerStyle from "./Containers.module.scss";
+import Sidebar from "./modules/InternalNavigation/InternalNavigation";
+import Router from "./modules/Router/Router";
+import { useSidebar } from "../../hooks/Sidebar";
+import { SidebarContainer } from "../../components/modules/Sidebar";
 
 const AccountRoot = (): React.ReactElement => {
   const { user } = useUser();
   const history = useHistory();
+  const { open, manageSidebar } = useSidebar();
   const { t } = useTranslation("pages\\account\\root");
 
   React.useEffect(() => {
@@ -26,14 +28,15 @@ const AccountRoot = (): React.ReactElement => {
   }
 
   return (
-    <FlexContainer className={globalStyles.column}>
+    <FlexContainer className={containerStyle["container-root"]}>
       <Helmet>
         <title>{t("pageTitle")}</title>
       </Helmet>
-      <AccountHeaders />
-      <AccountInternalNavigation />
+      <Sidebar open={open} manageSidebar={manageSidebar} />
       <BackToTop />
-      <AccountRouter />
+      <SidebarContainer open={open} manageSidebar={manageSidebar}>
+        <Router />
+      </SidebarContainer>
     </FlexContainer>
   );
 };

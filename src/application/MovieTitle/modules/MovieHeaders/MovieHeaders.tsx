@@ -99,13 +99,13 @@ const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
               <i>{data.companies.join(", ")}</i>
             </h2>
             {data.releaseDate ? (
-              <h3>
+              <h2>
                 {new Intl.DateTimeFormat(language).format(
                   new Date(data.releaseDate)
                 )}
                 {data.duration ? ` • ${data.duration}` : ""}
                 {data.publicType ? ` • ${data.publicType}` : ""}
-              </h3>
+              </h2>
             ) : (
               <></>
             )}
@@ -129,9 +129,7 @@ const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
                   (type: string): React.ReactElement => {
                     return (
                       <NavLink key={type} to={`/browse?tag=${type}`}>
-                        <span>
-                          <Trans t={t} i18nKey={`tags.${type}`} />
-                        </span>
+                        <Trans t={t} i18nKey={`tags.${type}`} />
                       </NavLink>
                     );
                   }

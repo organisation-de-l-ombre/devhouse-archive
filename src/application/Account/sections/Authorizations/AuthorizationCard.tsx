@@ -4,13 +4,7 @@ import { Trans, useTranslation } from "react-i18next";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useLanguage } from "@hooks/Language";
 import { useAuthorizationsDeleteMutation } from "@hooks/API/Authorizations";
-import {
-  Card,
-  FlexContainer,
-  TextArea,
-  Button,
-  ButtonsGroup,
-} from "@components/ui";
+import { FlexContainer, TextArea, Button, ButtonsGroup } from "@components/ui";
 import globalStyles from "@themes/Global.module.scss";
 import containerStyle from "../../Containers.module.scss";
 
@@ -41,7 +35,7 @@ const AuthorizationCard: React.FC<
   }, [remove, t]);
 
   return (
-    <Card className={containerStyle.card}>
+    <FlexContainer className={containerStyle.card}>
       <h2>{authorization.client.name}</h2>
       <FlexContainer className={containerStyle["forms-container"]}>
         <TextArea className={containerStyle["form-container"]}>
@@ -69,7 +63,7 @@ const AuthorizationCard: React.FC<
           <span>{authorization.audiences.join(", ")}</span>
         </TextArea>
       </FlexContainer>
-      <ButtonsGroup className={globalStyles["generic-margin-top"]}>
+      <ButtonsGroup allowExpand className={globalStyles["generic-margin-top"]}>
         <Button onClick={deleteAuthorization}>
           <FaRegTrashAlt />
           <span>
@@ -77,7 +71,7 @@ const AuthorizationCard: React.FC<
           </span>
         </Button>
       </ButtonsGroup>
-    </Card>
+    </FlexContainer>
   );
 };
 

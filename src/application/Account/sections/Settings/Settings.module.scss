@@ -17,7 +17,9 @@
     .buttons {
       margin: 1rem 1rem 0 0;
       border-radius: 5px;
-      background-color: var(--secondary-background-color);
+      background-color: var(--primary-background-color-hover);
+
+      div, ul { background-color: var(--primary-background-color-hover); }
     }
   }
 }
