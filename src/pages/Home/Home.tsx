@@ -1,15 +1,16 @@
 /* eslint-disable prettier/prettier */
 import React, { ReactElement, useCallback } from "react";
 import { FaDiscord } from "react-icons/fa";
-import { RiPencilRuler2Line } from "react-icons/ri";
-import Button, { ButtonImage } from "components/ui/Button/Button";
+import { RiMessage2Fill, RiPencilRuler2Line } from "react-icons/ri";
+import Button, { ButtonImage, ButtonLink, ButtonExternalLink } from "components/ui/Button/Button";
 import ButtonGroup from "components/ui/Button/ButtonGroup";
-import { NavLink } from "react-router-dom";
-import { BsPeople } from "react-icons/all";
+import { BsPeopleFill, BsPeople, BsLayersFill } from "react-icons/bs";
+import { MdWork } from "react-icons/md";
+import { Banner, PresentationSection, PresentationWrapper } from "components/ui";
+import FlexContainer from "components/FlexContainer/FlexContainer";
+import globalStyles from "../../styles/Global.module.scss";
 import styles from "./Home.module.scss";
-import { Card, CardPadding } from "../../components/ui/Card/Card";
-import Footer from "../../components/footer/Footer";
-import {discordServer} from "../../constants";
+import { discordServer } from "../../constants";
 
 const shareAvailable = !!navigator.share;
 
@@ -23,217 +24,173 @@ export default function HomePage(): ReactElement {
   }, []);
 
   return (
-    <div>
-      <div className={`${styles.headerContent} ${styles.homeHeader}`}>
-        <h1 className={styles.headerTitle}>Developer&rsquo;s House</h1>
-        <p className={styles.headerSubtext}>
-          We are a small team of developers who seek to learn with a team of
-          people, our goal is to learn how to work as a team.
-        </p>
-        <ButtonGroup full className={styles.margin}>
-          <a
-            target="blank"
-            href={discordServer}
-          >
-            <Button large>
-              <ButtonImage>
-                <FaDiscord />
-              </ButtonImage>
-              Discord server
-            </Button>
-          </a>
-          <NavLink to="/projects">
-            <Button large>
-              <ButtonImage>
-                <RiPencilRuler2Line />
-              </ButtonImage>
-              View projects
-            </Button>
-          </NavLink>
-          <NavLink to="/members">
-            <Button large>
-              <ButtonImage>
-                <BsPeople />
-              </ButtonImage>
-              View members
-            </Button>
-          </NavLink>
+    <FlexContainer className={globalStyles["flex-column"]}>
+      <div className={styles.homeHeader}>
+        <Banner className={styles.banner} />
+        <h1 className={styles.headerSubtext}>
+          We are young developers who learn to work as a team by developing
+          some nice, diversified and interesting projects.
+        </h1>
+        <ButtonGroup full className={styles["buttons-group"]}>
+          <ButtonLink large to="/projects">
+            <ButtonImage>
+              <RiPencilRuler2Line />
+            </ButtonImage>
+            Projects
+          </ButtonLink>
+          <ButtonLink large to="/members">
+            <ButtonImage>
+              <BsPeople />
+            </ButtonImage>
+            Members
+          </ButtonLink>
+          <ButtonExternalLink large href={discordServer} target="blank">
+            <ButtonImage>
+              <FaDiscord />
+            </ButtonImage>
+            Discord server
+          </ButtonExternalLink>
         </ButtonGroup>
       </div>
-      <section className={styles.section}>
-        <div className={styles.points}>
-          <div className={styles.point}>
-            <h2>Who we are</h2>
+      <div className={styles.content}>
+        <PresentationWrapper>
+          <PresentationSection type="text">
+            <h1 className={globalStyles["no-margin"]}>Who are we?</h1>
             <p>
-              Developer&rsquo;s House is a team of students who loves tech and
-              software engineering and aims to build projects together! We work
-              together, prioritizing group development...
+              We are yound developers who learn progressively development
+              in different programming languages and with different
+              technologies/tools. Our goal is to learn working with a team,
+              and to learn the job of developer. We create awesome and
+              crazy projects to learn but also to propose alternatives to
+              existing projects or useful functionnalities for you.
             </p>
-            <NavLink to="/about">
-              <Button>More about us</Button>
-            </NavLink>
-          </div>
-          <div className={styles.point}>
-            <h2>Our projects</h2>
+          </PresentationSection>
+          <PresentationSection type="picture">
+            <BsPeopleFill />
+          </PresentationSection>
+        </PresentationWrapper>
+        <PresentationWrapper reversed>
+          <PresentationSection type="text">
+            <h1 className={globalStyles["no-margin"]}>Our projects</h1>
             <p>
-              We works on different projects to diversifying our programming
-              skills and deploys cool stuff in production.
+              All the Developer&#39;s House projects are issued from members
+              who want to build their project with the team. Another of our
+              goals is to propose alternatives to existing projects to improve
+              functionalities, efficiency, design or other... Alternatives
+              make the web to evoluate and are necessary, they allow people
+              to use what they prefer the most, and sometimes to avoid using
+              services or projects managed by large enterprises. It can also
+              propose a different approach, a different functioning, and it is
+              this which please you particularly.
             </p>
-            <NavLink to="/projects">
-              <Button>More projects.</Button>
-            </NavLink>
-          </div>
-
-          <div className={styles.point}>
-            <h2>What technologies do we use ?</h2>
             <p>
-              At DevHouse, we mainly use JavaScript, Typescript, Golang, Docker
-              and Kubernetes. Our mainly goal is to teach to our developers by
-              creating projects, which means we are not limited to Typescript,
-              Golang... We are also planning to contribute to Open Source!
+              Our projects are enough diversified. For the moment we have
+              projects around image manipulation & edition, cinematography and
+              entertainment/fun. To know more, click on the button below.
             </p>
-          </div>
-
-          <div className={styles.point}>
-            <h2>Who is part of the project ?</h2>
+            <ButtonGroup className={styles["buttons-group"]}>
+              <ButtonLink to="/projects">View projects</ButtonLink>
+            </ButtonGroup>
+          </PresentationSection>
+          <PresentationSection type="picture">
+            <MdWork />
+          </PresentationSection>
+        </PresentationWrapper>
+        <PresentationWrapper>
+          <PresentationSection type="text">
+            <h1 className={globalStyles["no-margin"]}>Technologies/tools usage</h1>
             <p>
-              Anyone can be part of Developer&rsquo;s House since you have the
-              basics of programming science and you want to learn!
+              As we learn the job of developers, for a good begenning we
+              decided to use powerful, flexible, complete and reliable
+              technologies. Concerning programming languages, we use the most
+              popular, reliable, and the choices are adapted to our needs.
             </p>
-            <NavLink to="/members">
-              <Button>View the project&rsquo;s members</Button>
-            </NavLink>
-          </div>
-        </div>
-      </section>
-      <span className={styles.background}>
-        <div className={styles.content}>
-          <h2>Our projects</h2>
-          <p>
-            Developer&rsquo;s House is a group or people and projects - All the
-            developer&rsquo;s house projects are issued from members who want to
-            build their project with the team. If they don&rsquo; t want to
-            later, they can always leave the team without loosing the ownership
-            of the project, because even if the idea is a Developer&rsquo;s
-            House project, it is still the idea of the member who created the
-            project.
-          </p>
-        </div>
-      </span>
-      <section className={styles.section}>
-        <div className={styles.points}>
-          <Card className={styles.point}>
-            <CardPadding>
-              <h2>Framer</h2>
-              <p>
-                Framer is a discord focused image generation API, this one comes
-                with customizable images, and smart pricing. Framer is based
-                around SVG rendering and a flexible parameters system. Even
-                through Framer is focused around Discord, it can scale to
-                thousands of machines hosted with Developer&rsquo;s House.
-              </p>
-            </CardPadding>
-          </Card>
-
-          <Card className={styles.point}>
-            <CardPadding>
-              <h2>IMR</h2>
-              <p>
-                International Media Referencing is a large online cinematic
-                database. You can find a great deal of referenced content such
-                as movies or series. You will be able to found diverse
-                information, as on the content as its technical specifications.
-                We also make available summaries provided by the production
-                distributors, or the different trailers. All available with a
-                beautiful user interface! IMR also is a non-lucrative project,
-                the platform users can submit content to add or to update, to
-                provide you permanently a reliable source. If our project please
-                you, don’t hesitate to contribute!
-              </p>
-            </CardPadding>
-          </Card>
-
-          <Card className={styles.point}>
-            <CardPadding>
-              <h2>Nova Framework</h2>
-              <p>
-                Nova Framework is a polyglot framework for creating discord bots
-                at scale featuring a microservices based architecture, Nova aims
-                to bring a simple and polyglot way for discord bots to scale
-                easily using our framework. Nova is open source and available on
-                the Developer&requo;s House GitHub.
-              </p>
-            </CardPadding>
-          </Card>
-
-          <Card className={styles.point}>
-            <CardPadding>
-              <h2>Kuizz</h2>
-              <p>
-                Kuizz is a competitive quiz answering app. You can play various
-                quizzes alone or with your friends or family! Kuizz is available
-                online, on Android and IOS. You can even play competitively
-                using our real time party system.
-              </p>
-            </CardPadding>
-          </Card>
-        </div>
-      </section>
-      <span className={styles.background}>
-        <div className={styles.content}>
-          <h2>Want to stay in contact with Developer&rsquo;s House ?</h2>
-          <p>
-            Developer&rsquo;s House is very open-minded and accepts people even
-            if they do not have a IT background or profession. Our philosophy is
-            based around learning and experiment. We accept new members :shrug:
-          </p>
-          <NavLink to="/join">
-            <Button>Fill the application form</Button>
-          </NavLink>
-        </div>
-      </span>
-      <section className={`${styles.points} ${styles.section}`}>
-        <Card className={styles.point}>
-          <CardPadding>
-            <h2>Stay in contact with the project!</h2>
+            <h2>Some technologies we use</h2>
+            <ul>
+              <li>
+                <a href="https://www.docker.com/" target="blank">Docker</a>
+              </li>
+              <li>
+                <a href="https://kubernetes.io/" target="blank">Kubernettes</a>
+              </li>
+              <li>
+                <a href="https://gitlab.com/" target="blank">GitLab</a>
+              </li>
+            </ul>
+            <h2>Some programming languages we use</h2>
+            <ul>
+              <li>JavaScript/TypeScript</li>
+              <li>Golang</li>
+              <li>Rust</li>
+            </ul>
+          </PresentationSection>
+          <PresentationSection type="picture">
+            <BsLayersFill />
+          </PresentationSection>
+        </PresentationWrapper>
+        <PresentationWrapper reversed>
+          <PresentationSection type="text">
+            <h1 className={globalStyles["no-margin"]}>Our members</h1>
             <p>
-              You can stay in the contact and chat with us by joining our public
-              discord server!
+              One of the main goals of Developer&#39;s House is to learn development
+              and to work in team. This is why this project exists. And even if we
+              gain in experience, there always are people who want to initiate to
+              development. So we let the possibility to any person who is interrested
+              in development and who already have basics and want to learn to join
+              us to make grow our project, and to allow people to improve their skills.
             </p>
-            <ButtonGroup>
-              <a
-                target="_blank"
-                rel="noreferrer"
-                href="https://discord.gg/r8RC2TjnFd"
-              >
-                <Button>Join our discord server</Button>
-              </a>
+            <p>
+              A minimum of willpower and having basics, you wan join us to participate
+              to an awesome project!
+            </p>
+            <ButtonGroup className={styles["buttons-group"]}>
+              <ButtonLink to="/members">
+                View members
+              </ButtonLink>
+              <ButtonLink to="/recruitments/apply">
+                Join us now
+              </ButtonLink>
+            </ButtonGroup>
+          </PresentationSection>
+          <PresentationSection type="picture">
+            <BsPeople />
+          </PresentationSection>
+        </PresentationWrapper>
+        <PresentationWrapper>
+          <PresentationSection type="text">
+            <h1>Stay in contact with Developer&#39;s House</h1>
+            <p>
+              You are curious to know more about us, or you need more precision ? We
+              are available for you! It is by having care in us which you support us
+              💪 For a question, a need of presicion, a particular demand, we are
+              opened and ready to listen you. Below you find all you need to contact
+              us, hoping it will help you 👀
+            </p>
+            <ButtonGroup className={styles["buttons-group"]}>
+              <ButtonLink to="/about">
+                Learn more
+              </ButtonLink>
+              <ButtonLink to="/contact">
+                Contact form
+              </ButtonLink>
+              <ButtonExternalLink href="mailto:contact.developershouse.xyz">
+                E-mail
+              </ButtonExternalLink>
+              <ButtonExternalLink href={discordServer} target="blank">
+                Discord server
+              </ButtonExternalLink>
               {shareAvailable && (
-                <Button onClick={share}>Share the project</Button>
+                <Button onClick={share}>
+                  Share the project
+                </Button>
               )}
             </ButtonGroup>
-          </CardPadding>
-        </Card>
-        <Card className={styles.point}>
-          <CardPadding>
-            <h2>Contact information</h2>
-            <p>
-              If you need any information about this website or the organization
-              behind it, feel free to contact us, we will respond as soon as we
-              can!
-            </p>
-            <ButtonGroup>
-              <a href="mailto:matthieu@developershouse.xyz">
-                <Button>By email</Button>
-              </a>
-              <NavLink to="/contact">
-                <Button>Contact us</Button>
-              </NavLink>
-            </ButtonGroup>
-          </CardPadding>
-        </Card>
-      </section>
-      <Footer />
-    </div>
+          </PresentationSection>
+          <PresentationSection type="picture">
+            <RiMessage2Fill />
+          </PresentationSection>
+        </PresentationWrapper>
+      </div>
+    </FlexContainer>
   );
 }

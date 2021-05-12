@@ -1,64 +1,38 @@
 .homeHeader {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.headerTitle {
-    margin-bottom: 1.5rem;
-}
-
-.headerContent {
-    padding-top: 7rem;
-    padding-bottom: 4rem;
+    padding: 5rem 2rem 4rem 2rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
     background-color: var(--background-secondary);
+    text-align: center;
+}
+
+.banner {
+    max-width: 640px;
+    max-height: 200px;
 }
 
 .headerSubtext {
-    max-width: 58vw;
+    font-size: 25px;
+    line-height: 1.5;
     margin-bottom: 2rem;
 }
 
-.points {
+.generic-margin-top { margin-top: 1rem; }
+
+.content {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    overflow: hidden;
-    border-radius: 10px;
-    margin: 0.5rem;
-    .point {
-        max-width: content-box;
-        flex: 1 48%;
-        margin: 0.5rem;
+    flex: 1;
+    flex-direction: column;
+}
+
+.buttons-group {
+    margin-top: 1rem;
+    
+    button, a {
+        background-color: var(--background-tertiary);
+
+        &:hover { background-color: var(--background-hover-tertiary); }
     }
-}
-
-.section {
-    padding: 1rem 1rem 0;
-}
-
-.background {
-    padding: 1.5rem;
-    display: block;
-    border-radius: 5px;
-    background-color: var(--background-secondary);
-    .content {
-        display: block;
-        word-break: break-all;
-    }
-
-    margin: 1rem 1rem 0;
-}
-
-.contact {
-    padding: 2rem;
-}
-
-.margin {
-    margin: 1rem;
 }

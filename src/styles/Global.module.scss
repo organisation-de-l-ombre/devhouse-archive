@@ -5,6 +5,8 @@
   align-items: center;
 }
 
+.flex-column { flex-direction: column; }
+
 .fit-content {
   max-width: fit-content;
 }
@@ -43,3 +45,4 @@
   }
 }
 
+.no-margin { margin: 0 !important; }

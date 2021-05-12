@@ -1,7 +1,3 @@
-/*
- * The Error page displayed to the user when the website crashes.
- */
-
 import React, { ReactElement } from "react";
 import { AiOutlineLoading, BiRefresh, BiTrash } from "react-icons/all";
 import { Authorization } from "@developers-house/abdera";

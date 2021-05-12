@@ -6,17 +6,18 @@ body {
     margin: 0;
 }
 
-p {
-    margin: 1rem;
-}
-
 button {
     outline: none;
     border: none;
     cursor: pointer;
 }
 
-#root { min-height: 100vh; }
+#root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 
 * {
     padding: 0;
