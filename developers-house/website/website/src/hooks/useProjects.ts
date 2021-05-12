@@ -6,7 +6,7 @@ const useProjects = (
   options?: UseQueryOptions<Projects[], Error>
 ): QueryObserverResult<Projects[], Error> => {
   return useQuery(
-    "projectsCache",
+    "developers-house/projects",
     () => DisplayAPIClient.dataProjectsGet(),
     options
   );

@@ -33,9 +33,13 @@ const useCriticalError = (): ((err: Error) => Error) => {
 const useAuthorizedApps = (): QueryObserverResult<Authorization[], Error> => {
   const criticalError = useCriticalError();
 
-  return useQuery("authorized_apps", () => UserAPI.selfAuthorizationsGet(), {
-    onError: criticalError,
-  });
+  return useQuery(
+    "account/authorized-apps",
+    () => UserAPI.selfAuthorizationsGet(),
+    {
+      onError: criticalError,
+    }
+  );
 };
 
 const useAuthorizedAppsDeleteMutation = (
