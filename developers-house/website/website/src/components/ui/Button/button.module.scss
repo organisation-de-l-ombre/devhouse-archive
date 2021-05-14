@@ -12,10 +12,12 @@
   &:hover {
     background-color: var(--background-hover-primary);
   }
-  &:disabled { background-color: var(--background-hover-secondary); }
+  &:disabled {
+    background-color: var(--background-hover-secondary);
+  }
 
   &.large {
-    padding: .25rem .25rem .25rem .25rem;
+    padding: 0.25rem 0.25rem 0.25rem 0.25rem;
     .image {
       font-size: 2rem;
     }
@@ -48,7 +50,8 @@
       width: max-content;
     }
   }
-  .button, a .button {
+  .button,
+  a .button {
     position: relative;
     justify-content: center;
     border-radius: 0;

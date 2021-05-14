@@ -28,7 +28,9 @@
   .description {
     margin: 4rem 0 0 0;
 
-    q { font-size: 18px; }
+    q {
+      font-size: 18px;
+    }
   }
 
   .section {
@@ -40,7 +42,9 @@
     a {
       color: var(--link-color);
 
-      &:hover { text-decoration: underline; }
+      &:hover {
+        text-decoration: underline;
+      }
     }
 
     p {
@@ -50,12 +54,12 @@
     }
 
     .cards {
-      margin-top: .5rem;
+      margin-top: 0.5rem;
       display: flex;
       flex-wrap: wrap;
 
       .card-root {
-        margin: .5rem .5rem 0 0;
+        margin: 0.5rem 0.5rem 0 0;
         flex: 1 20rem;
 
         .card-content {
@@ -74,12 +78,17 @@
             flex: 1 15rem;
             flex-direction: column;
 
-            h3, p { margin: 1rem 0 0 0; }
+            h3,
+            p {
+              margin: 1rem 0 0 0;
+            }
 
-            h3 { font-weight: normal; }
+            h3 {
+              font-weight: normal;
+            }
 
             img {
-              margin-right: .5rem;
+              margin-right: 0.5rem;
               width: 32px;
               pointer-events: none;
               transform: translateY(8px);
@@ -93,16 +102,22 @@
       display: flex;
       flex-direction: column;
 
-      h2 { margin: 4rem 0 0 0; }
+      h2 {
+        margin: 4rem 0 0 0;
+      }
 
-      h3 { margin: 1rem 0 0 0; }
+      h3 {
+        margin: 1rem 0 0 0;
+      }
 
       p {
         margin: 1rem 0 0 0;
         line-height: 1.5;
       }
 
-      ul li { font-size: 18px; }
+      ul li {
+        font-size: 18px;
+      }
 
       ul {
         margin: 1rem 0 0 0;
@@ -111,7 +126,9 @@
     }
   }
 
-  @media screen and (max-width: 700px) { max-width: unset; }
+  @media screen and (max-width: 700px) {
+    max-width: unset;
+  }
 }
 
 .back-to-projects {
@@ -122,13 +139,13 @@
   bottom: 2rem;
   right: 2rem;
   border-radius: 50px;
-  border: .15rem solid var(--background-secondary);
+  border: 0.15rem solid var(--background-secondary);
   background-color: var(--background-primary);
   overflow: hidden;
   transition: background-color 300ms;
 
   div {
-    margin-left: -.1rem;
+    margin-left: -0.1rem;
     width: 55px;
     height: 55px;
     display: flex;
@@ -137,10 +154,16 @@
     background-color: var(--background-secondary);
     border-radius: 50%;
 
-    svg { transform: scale(1.75); }
+    svg {
+      transform: scale(1.75);
+    }
   }
 
-  span { padding: 1rem; }
+  span {
+    padding: 1rem;
+  }
 
-  &:hover { background-color: var(--background-hover-primary); }
+  &:hover {
+    background-color: var(--background-hover-primary);
+  }
 }
