@@ -20,7 +20,7 @@
   --link-color: rgb(58, 140, 232);
 
   color: var(--foreground-primary);
-  background: #FAFAFA;
+  background: #fafafa;
 }
 
 .dark {
@@ -47,7 +47,9 @@
   background: rgb(40, 40, 40);
 }
 
-a { color: var(--foreground-primary); }
+a {
+  color: var(--foreground-primary);
+}
 
 .themeContainer {
   color: var(--foreground-primary);

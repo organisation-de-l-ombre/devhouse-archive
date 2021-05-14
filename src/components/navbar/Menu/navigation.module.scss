@@ -1,140 +1,142 @@
 $speed: 175ms;
 
 .links {
-    a:hover, a.active {
-        transition: background-color .5s;
-        background-color: var(--menu-item-hover-background);
-    }
+  a:hover,
+  a.active {
+    transition: background-color 0.5s;
+    background-color: var(--menu-item-hover-background);
+  }
 }
 
 .item {
-    display: block;
-    --padding: 1.15rem;
-    padding: var(--padding) 1rem var(--padding) 1rem;
-    cursor: pointer;
+  display: block;
+  --padding: 1.15rem;
+  padding: var(--padding) 1rem var(--padding) 1rem;
+  cursor: pointer;
 }
 
 .drawer {
-    transition: transform $speed ease-in-out;
+  transition: transform $speed ease-in-out;
 }
 
 .transparent {
-    background-color: var(--transparent) !important;
-    box-shadow: none !important;
+  background-color: var(--transparent) !important;
+  box-shadow: none !important;
 }
 
 .right {
-    margin-left: auto;
+  margin-left: auto;
 }
 
 .content {
-    align-items: center;
-    align-content: center;
-    display: flex;
-    width: 100%;
-    transition: none;
+  align-items: center;
+  align-content: center;
+  display: flex;
+  width: 100%;
+  transition: none;
 }
 
 .drawer {
-    display: grid;
-    grid-template-columns: 60% auto;
-    width: 100%;
+  display: grid;
+  grid-template-columns: 60% auto;
+  width: 100%;
 }
 
 .username {
-    margin-left: 0.75rem;
+  margin-left: 0.75rem;
 }
 
 .backdrop {
-    display: none;
+  display: none;
 }
 
 .container {
-    top: 0;
-    width: 100%;
-    z-index: 4;
-    background-color: var(--background-primary);
-    vertical-align: middle;
-    display: flex;
-    flex-flow: row;
-    position: fixed;
-    box-shadow: black 0 0 5px -1px;
-    transition: box-shadow 300ms;
+  top: 0;
+  width: 100%;
+  z-index: 4;
+  background-color: var(--background-primary);
+  vertical-align: middle;
+  display: flex;
+  flex-flow: row;
+  position: fixed;
+  box-shadow: black 0 0 5px -1px;
+  transition: box-shadow 300ms;
 
-    .content {
-        grid-column: 1 / -1;
+  .content {
+    grid-column: 1 / -1;
+  }
+
+  @media screen and (max-width: 700px) {
+    flex-flow: column wrap;
+    display: inline-block;
+
+    &.open {
+      background-color: var(--background-primary) !important;
+      .drawer {
+        pointer-events: visible;
+        transform: none;
+        .backdrop {
+          opacity: 0.6;
+        }
+      }
     }
 
-    @media screen and (max-width: 700px) {
-        flex-flow: column wrap;
-        display: inline-block;
-
-        &.open {
-            background-color: var(--background-primary) !important;
-            .drawer {
-                pointer-events: visible;
-                transform: none;
-                .backdrop {
-                    opacity: .6;
-                }
-            }
-        }
-
-        .onlyMobiles {
-            display: block;
-        }
-        .drawer {
-            transform: translateX(-100%);
-            position: absolute;
-
-            height: calc(100vh - 2.25rem - 1.15rem);
-            width: 100%;
-
-            pointer-events: none;
-
-            .content {
-                grid-column: 1 / 2;
-                background-color: var(--background-primary);
-                overflow: hidden;
-                display: block;
-                .item, a {
-                    margin-left: 0 !important;
-                    display: inline-flex;
-                    position: relative;
-                    width: 100%;
-                    svg {
-                        margin-right: 10px;
-                    }
-                }
-                .right {
-                    margin: 0;
-                }
-            }
-            .backdrop {
-                display: block;
-                transition: opacity $speed 150ms;
-                width: 500%;
-                background-color: black;
-                opacity: 0;
-            }
-        }
-        .bottom {
-            margin-top: auto;
-        }
-        .primed {
-            z-index: 2;
-            .item {
-                padding: 1.125rem;
-                flex: 1;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                h3 {
-                    padding: 0;
-                    margin: 0;
-                    font-size: large;
-                }
-            }
-        }
+    .onlyMobiles {
+      display: block;
     }
+    .drawer {
+      transform: translateX(-100%);
+      position: absolute;
+
+      height: calc(100vh - 2.25rem - 1.15rem);
+      width: 100%;
+
+      pointer-events: none;
+
+      .content {
+        grid-column: 1 / 2;
+        background-color: var(--background-primary);
+        overflow: hidden;
+        display: block;
+        .item,
+        a {
+          margin-left: 0 !important;
+          display: inline-flex;
+          position: relative;
+          width: 100%;
+          svg {
+            margin-right: 10px;
+          }
+        }
+        .right {
+          margin: 0;
+        }
+      }
+      .backdrop {
+        display: block;
+        transition: opacity $speed 150ms;
+        width: 500%;
+        background-color: black;
+        opacity: 0;
+      }
+    }
+    .bottom {
+      margin-top: auto;
+    }
+    .primed {
+      z-index: 2;
+      .item {
+        padding: 1.125rem;
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        h3 {
+          padding: 0;
+          margin: 0;
+          font-size: large;
+        }
+      }
+    }
+  }
 }
