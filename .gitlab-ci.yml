@@ -25,6 +25,7 @@ package:
     changes:
       - openapi.yaml
       - gen/*
+      - .gitlab-ci.yml
     refs:
       - master
   script:
