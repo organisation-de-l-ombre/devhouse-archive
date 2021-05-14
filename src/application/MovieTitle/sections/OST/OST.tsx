@@ -9,11 +9,10 @@ import {
   Button,
   Card,
   YouTubePlayer,
-  GenericLoader,
   ButtonsGroup,
 } from "@components/ui";
 import fetchOptions from "@lib/api/fetchOptions";
-import { useTranslation, Trans } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { UseQueryResult, useQuery } from "react-query";
 import styles from "./OST.module.scss";
 import containerStyle from "../../Containers.module.scss";
@@ -28,6 +27,7 @@ import {
   VideoObject,
 } from "../../types";
 import SectionEmpty from "../../modules/SectionEmpty/SectionEmpty";
+import { Suspense } from "../../../../components/modules";
 
 const DisplaySVG = ({ type }: { type: string }): React.ReactElement => {
   switch (type) {
@@ -43,7 +43,7 @@ const DisplaySVG = ({ type }: { type: string }): React.ReactElement => {
 };
 
 const OSTSection: ReactMovieElement = ({ dataResponse }) => {
-  const { t: tRoot } = useTranslation("pages\\moviePrototype\\root");
+  const { t } = useTranslation("pages\\movieTitle\\root");
   const { isFetching, data }: UseQueryResult<OSTSectionType> = useQuery(
     `movie-title/${dataResponse.id}/ost`,
     (): Promise<OSTSectionType> => {
@@ -61,13 +61,7 @@ const OSTSection: ReactMovieElement = ({ dataResponse }) => {
   });
 
   if (isFetching) {
-    return (
-      <FlexContainer className={containerStyle["is-fetching-root"]}>
-        <GenericLoader className={containerStyle["is-fetching"]}>
-          <Trans t={tRoot} i18nKey="fetchingData" />
-        </GenericLoader>
-      </FlexContainer>
-    );
+    return <Suspense minHeight customText={t("fetchingData")} />;
   }
 
   if (!data) {
@@ -102,7 +96,7 @@ const OSTSection: ReactMovieElement = ({ dataResponse }) => {
             }
           )}
         </Summary>
-        {data.album ? (
+        {data.album && (
           <FlexContainer
             id={data.album.id}
             className={`${globalStyles.column} ${containerStyle["generic-margin-top"]}`}
@@ -141,8 +135,6 @@ const OSTSection: ReactMovieElement = ({ dataResponse }) => {
               </div>
             </div>
           </FlexContainer>
-        ) : (
-          <></>
         )}
         {data.body.map(
           (body: TracksSection): React.ReactElement => {
@@ -161,74 +153,61 @@ const OSTSection: ReactMovieElement = ({ dataResponse }) => {
                         className={styles["card-container"]}
                       >
                         <h2>{track.title}</h2>
-                        {track.VOTitle ? (
+                        {track.VOTitle && (
                           <h2 className={styles["vo-title"]}>
                             <i>{track.VOTitle}</i>
                           </h2>
-                        ) : (
-                          <></>
                         )}
                         <p>Durée : {track.duration}</p>
-                        {track.timecode ? (
+                        {track.timecode && (
                           <p>Timeline dans le film : {track.timecode}</p>
-                        ) : (
-                          <></>
                         )}
-                        {track.characters ? (
+                        {track.characters && (
                           <p>
                             Personnage{track.characters.length > 1 ? "s" : ""} :{" "}
                             {track.characters.join(", ")}
                           </p>
-                        ) : (
-                          <></>
                         )}
-                        {track.description ? (
+                        {track.description && (
                           <p>
                             <q className={containerStyle.quotes}>
                               {track.description}
                             </q>
                           </p>
-                        ) : (
-                          <></>
                         )}
-                        {track.videoID || track.lyrics ? (
-                          <ButtonsGroup minimal>
-                            {track.videoID ? (
-                              <Button
-                                onClick={() => {
-                                  const isMobileDevice: boolean = detectMobileDevice();
+                        {track.videoID ||
+                          (track.lyrics && (
+                            <ButtonsGroup minimal>
+                              {track.videoID && (
+                                <Button
+                                  onClick={() => {
+                                    const isMobileDevice: boolean = detectMobileDevice();
 
-                                  if (isMobileDevice) {
-                                    window.open(
-                                      `https://www.youtube.com/watch?v=${track.videoID}`
-                                    );
-                                  } else {
-                                    setVideo({
-                                      title: `${dataResponse.title} - ${track.title}`,
-                                      videoID: track.videoID as string,
-                                    });
-                                    setPlayerOpen(!playerOpen);
-                                  }
-                                }}
-                              >
-                                <FaPlay />
-                                <span>Voir la vidéo</span>
-                              </Button>
-                            ) : (
-                              <></>
-                            )}
-                            {track.lyrics ? (
-                              <a href={track.lyrics} target="blank">
-                                <FaMusic />
-                                <span>Paroles</span>
-                              </a>
-                            ) : (
-                              <></>
-                            )}
-                          </ButtonsGroup>
-                        ) : (
-                          <></>
-                        )}
+                                    if (isMobileDevice) {
+                                      window.open(
+                                        `https://www.youtube.com/watch?v=${track.videoID}`
+                                      );
+                                    } else {
+                                      setVideo({
+                                        title: `${dataResponse.title} - ${track.title}`,
+                                        videoID: track.videoID as string,
+                                      });
+                                      setPlayerOpen(!playerOpen);
+                                    }
+                                  }}
+                                >
+                                  <FaPlay />
+                                  <span>Voir la vidéo</span>
+                                </Button>
+                              )}
+                              {track.lyrics && (
+                                <a href={track.lyrics} target="blank">
+                                  <FaMusic />
+                                  <span>Paroles</span>
+                                </a>
+                              )}
+                            </ButtonsGroup>
+                          ))}
                       </Card>
                     );
                   }

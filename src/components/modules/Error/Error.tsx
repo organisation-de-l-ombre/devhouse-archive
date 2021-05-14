@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation, Trans } from "react-i18next";
 import globalStyles from "@themes/Global.module.scss";
-import { Card, FlexContainer, ButtonsGroup, buttonStyles } from "../../ui";
+import { Card, FlexContainer, ButtonsGroup } from "../../ui";
 import styles from "./Error.module.scss";
 
 const Error = (): React.ReactElement => {
@@ -17,17 +17,11 @@ const Error = (): React.ReactElement => {
         <p>
           <Trans t={t} i18nKey="description" />
         </p>
-        <ButtonsGroup className={styles["buttons-container"]}>
-          <a
-            className={buttonStyles["button-styles"]}
-            href={document.location.origin}
-          >
+        <ButtonsGroup>
+          <a href={document.location.origin}>
             <Trans t={t} i18nKey="reload" />
           </a>
-          <a
-            className={buttonStyles["button-styles"]}
-            href={`${document.location.origin}/support`}
-          >
+          <a href={`${document.location.origin}/support`}>
             <Trans t={t} i18nKey="support" />
           </a>
         </ButtonsGroup>

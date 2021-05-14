@@ -1,0 +1,14 @@
+{
+  "title": "Language preferences",
+  "description": "Please choose the language in which you want to display the website. Current language is {{language}}.",
+  "select": {
+    "default": "Select language",
+    "languages": {
+      "en": "English",
+      "fr": "French"
+    }
+  },
+  "saveLanguage": "Save language",
+  "invalidLanguage": "This language is not valid, please select a different language as the current.",
+  "languageChanged": "Language has been set to English."
+}

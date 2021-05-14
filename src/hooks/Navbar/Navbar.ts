@@ -1,16 +1,19 @@
 import React from "react";
-import { NavbarManagement } from "./Types";
+import { NavbarHook } from "./Types";
 
-const useNavbar = (): NavbarManagement => {
+const useNavbar = (): NavbarHook => {
   const [open, setOpen] = React.useState<boolean>(false);
 
+  const isMobileNavbar = React.useCallback((): boolean => {
+    return window.matchMedia("(max-width: 800px)").matches;
+  }, []);
   const manageNavbar = React.useCallback((): void => {
-    if (window.matchMedia("(max-width: 800px)").matches) {
+    if (isMobileNavbar()) {
       setOpen(!open);
     }
-  }, [open]);
+  }, [isMobileNavbar, open]);
 
-  return { open, manageNavbar };
+  return { open, isMobileNavbar, manageNavbar };
 };
 
 export default useNavbar;

@@ -1,0 +1,10 @@
+{
+  "warning": "Vous utilisez une version preview de la version finale. Cette version contient des bugs et n'est pas complète. Vous y naviguez à vos risques et périls.",
+  "fetchingData": "Récupération des données depuis la base de données... Veuillez patienter quelques instants.",
+  "sectionEmpty": {
+    "message": "Cette section n'a encore aucun contenu. Si vous souhaitez améliorer le contenu de cette page de film ou ajouter de nouvelles choses, n'hésitez pas, votre aide précieuse est la bienvenue !",
+    "buttons": {
+      "edit": "Editer cette section"
+    }
+  }
+}

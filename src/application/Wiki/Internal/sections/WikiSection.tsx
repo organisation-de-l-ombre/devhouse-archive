@@ -8,6 +8,7 @@ import { useLanguage } from "@hooks/Language";
 import { NotFound, Suspense } from "@components/modules";
 import { WikiAPI } from "@lib/api";
 import { useQuery } from "react-query";
+import fetchOptions from "@lib/api/fetchOptions";
 import styles from "../InternalRoot.module.scss";
 
 const WikiSection: React.FC<
@@ -18,7 +19,7 @@ const WikiSection: React.FC<
 > = ({ type, section }) => {
   const { language } = useLanguage();
   const { isFetching, data } = useQuery(
-    `wiki-internal-${section}`,
+    `wiki/internal/${section}`,
     () => {
       return WikiAPI.getWiki({
         type,
@@ -26,10 +27,7 @@ const WikiSection: React.FC<
         path: `sections_${section}`,
       });
     },
-    {
-      refetchOnWindowFocus: false,
-      retry: false,
-    }
+    fetchOptions
   );
 
   if (isFetching) {

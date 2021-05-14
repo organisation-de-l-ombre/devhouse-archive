@@ -1,0 +1,14 @@
+{
+  "title": "Préférences de langue",
+  "description": "Veuillez choisir la langue dans laquelle vous souhaitez afficher le site web. La langue actuelle est définie sur {{language}}.",
+  "select": {
+    "default": "Sélectionnez une langue",
+    "languages": {
+      "en": "Anglais",
+      "fr": "Français"
+    }
+  },
+  "saveLanguage": "Enregistrer la langue",
+  "invalidLanguage": "Cette langue n'est pas valide, veuillez sélectionner une langue différente de celle actuelle.",
+  "languageChanged": "La langue a été définie sur Français."
+}

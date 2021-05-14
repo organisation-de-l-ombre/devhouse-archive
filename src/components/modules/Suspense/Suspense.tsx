@@ -1,37 +1,38 @@
 import React from "react";
 import globalStyles from "@themes/Global.module.scss";
-import { Trans, useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
+import styles from "./Suspense.module.scss";
 import { FlexContainer, GenericLoader } from "../../ui";
 
 const RootSuspense = (): React.ReactElement => {
   return (
-    <FlexContainer
-      className={`${globalStyles["alignment-full-center"]} ${globalStyles["secondary-padding"]}`}
-    >
+    <FlexContainer className={styles.suspense}>
       <GenericLoader className={globalStyles["generic-loader"]}>
         Loading the resource you requested...
       </GenericLoader>
     </FlexContainer>
   );
 };
+
 const Suspense: React.FC<
   React.DetailedHTMLProps<
     React.AllHTMLAttributes<HTMLDivElement>,
     HTMLDivElement
-  >
-> = ({ className }) => {
+  > & { minHeight?: boolean; customText?: string }
+> = ({ minHeight, customText }) => {
   const { t } = useTranslation("components\\modules\\suspense\\suspense");
+  console.log(customText);
 
   return (
-    <FlexContainer
-      className={`${globalStyles["alignment-full-center"]} ${
-        globalStyles["secondary-padding"]
-      }${className ? ` ${className}` : ""}`}
+    <div
+      className={`${styles.suspense}${
+        minHeight ? ` ${styles["min-height"]}` : ""
+      }`}
     >
       <GenericLoader className={globalStyles["generic-loader"]}>
-        <Trans t={t} i18nKey="message" />
+        {customText || t("message")}
       </GenericLoader>
-    </FlexContainer>
+    </div>
   );
 };
 

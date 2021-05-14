@@ -2,10 +2,11 @@ import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useLanguage } from "@hooks/Language";
 import globalStyles from "@themes/Global.module.scss";
-import { manageSelection } from "@components/ui/SelectList/SelectList";
 import { supportedLanguages } from "@store/language";
 import { DisplayLanguageSVG } from "@components/modules";
-import { Button, Modal, modalStyles, SelectList } from "../../ui";
+import SelectList, { manageSelection } from "../SelectList/SelectList";
+import { Button } from "../Button";
+import { Modal, modalStyles } from "../Modal";
 
 const LanguageModal: React.FC<
   React.DetailedHTMLProps<
@@ -17,11 +18,11 @@ const LanguageModal: React.FC<
   }
 > = ({ languageWindowOpen, setLanguageWindowOpen }) => {
   const { language, setLanguageState, validateLanguage } = useLanguage();
-  const { t } = useTranslation("components\\navbar");
+  const { t } = useTranslation("components\\ui\\languageModal\\languageModal");
 
   return (
     <Modal
-      windowTitle={<Trans t={t} i18nKey="modal.title" />}
+      windowTitle={<Trans t={t} i18nKey="title" />}
       open={languageWindowOpen}
       setOpen={setLanguageWindowOpen}
     >
@@ -30,13 +31,13 @@ const LanguageModal: React.FC<
       >
         <Trans
           t={t}
-          i18nKey="modal.description"
-          values={{ language: t(`modal.select.languages.${language}`) }}
+          i18nKey="description"
+          values={{ language: t(`select.languages.${language}`) }}
         />
       </p>
       <div className={modalStyles["buttons-container"]}>
         <SelectList
-          defaultTitle={<Trans t={t} i18nKey="modal.select.default" />}
+          defaultTitle={<Trans t={t} i18nKey="select.default" />}
           id="select-language"
         >
           {supportedLanguages.sort().map((lang) => {
@@ -51,14 +52,14 @@ const LanguageModal: React.FC<
               >
                 <DisplayLanguageSVG lang={lang} alt={`lang-${lang}`} />
                 <span>
-                  <Trans t={t} i18nKey={`modal.select.languages.${lang}`} />
+                  <Trans t={t} i18nKey={`select.languages.${lang}`} />
                 </span>
               </li>
             );
           })}
         </SelectList>
         <Button onClick={() => validateLanguage(setLanguageWindowOpen)}>
-          <Trans t={t} i18nKey="modal.saveLanguage" />
+          <Trans t={t} i18nKey="saveLanguage" />
         </Button>
       </div>
     </Modal>

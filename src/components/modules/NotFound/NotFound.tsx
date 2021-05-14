@@ -5,19 +5,12 @@ import globalStyles from "@themes/Global.module.scss";
 import { Card, FlexContainer, buttonStyles, ButtonsGroup } from "../../ui";
 import styles from "./NotFound.module.scss";
 
-const NotFound: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  >
-> = ({ className }) => {
+const NotFound = (): React.ReactElement => {
   const { t } = useTranslation("components\\notFound");
 
   return (
     <FlexContainer
-      className={`${globalStyles["alignment-full-center"]} ${
-        globalStyles["navbar-margin"]
-      }${className ? ` ${className}` : ""}`}
+      className={`${globalStyles["min-height"]} ${globalStyles["secondary-padding"]} ${globalStyles["alignment-full-center"]}`}
     >
       <Card className={`${styles.card} ${globalStyles["animation-opacity"]}`}>
         <h1>
@@ -27,7 +20,7 @@ const NotFound: React.FC<
         <p>
           <Trans t={t} i18nKey="description" />
         </p>
-        <ButtonsGroup className={styles["buttons-container"]}>
+        <ButtonsGroup>
           <NavLink className={buttonStyles["button-styles"]} to="/">
             <Trans t={t} i18nKey="homePage" />
           </NavLink>

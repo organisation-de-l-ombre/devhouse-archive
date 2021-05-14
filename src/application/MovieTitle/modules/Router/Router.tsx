@@ -2,7 +2,6 @@ import React from "react";
 import { Switch, useRouteMatch, Route } from "react-router";
 import { Suspense } from "@components/modules";
 import { ReactMovieElement } from "../../types";
-import containerStyle from "../../Containers.module.scss";
 
 const MovieSection = React.lazy(() => import("../../sections/Movie/Movie"));
 const CastingSection = React.lazy(
@@ -17,11 +16,11 @@ const NotFound = React.lazy(
   () => import("@components/modules/NotFound/NotFound")
 );
 
-const MovieRouter: ReactMovieElement = ({ dataResponse }) => {
+const Router: ReactMovieElement = ({ dataResponse }) => {
   const { url: baseURL } = useRouteMatch();
 
   return (
-    <React.Suspense fallback={<Suspense className={containerStyle.loading} />}>
+    <React.Suspense fallback={<Suspense minHeight />}>
       <Switch>
         <Route path={baseURL} exact>
           <MovieSection dataResponse={dataResponse} />
@@ -42,11 +41,11 @@ const MovieRouter: ReactMovieElement = ({ dataResponse }) => {
           <></>
         </Route>
         <Route path="*" exact>
-          <NotFound className={containerStyle.loading} />
+          <NotFound />
         </Route>
       </Switch>
     </React.Suspense>
   );
 };
 
-export default MovieRouter;
+export default Router;

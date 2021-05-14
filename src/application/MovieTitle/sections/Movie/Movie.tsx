@@ -6,11 +6,11 @@ import {
   SubSummary,
   DetailedText,
   List,
-  GenericLoader,
 } from "@components/ui";
 import { useQuery, UseQueryResult } from "react-query";
 import fetchOptions from "@lib/api/fetchOptions";
-import { Trans, useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
+import { Suspense } from "@components/modules";
 import containerStyle from "../../Containers.module.scss";
 import {
   BodyContent,
@@ -21,7 +21,7 @@ import {
 import SectionEmpty from "../../modules/SectionEmpty/SectionEmpty";
 
 const MovieSection: ReactMovieElement = ({ dataResponse }) => {
-  const { t: tRoot } = useTranslation("pages\\moviePrototype\\root");
+  const { t } = useTranslation("pages\\movieTitle\\root");
   const { isFetching, data }: UseQueryResult<GenericSection> = useQuery(
     `movie-title/${dataResponse.id}/movie`,
     (): Promise<GenericSection> => {
@@ -33,13 +33,7 @@ const MovieSection: ReactMovieElement = ({ dataResponse }) => {
   );
 
   if (isFetching) {
-    return (
-      <FlexContainer className={containerStyle["is-fetching-root"]}>
-        <GenericLoader className={containerStyle["is-fetching"]}>
-          <Trans t={tRoot} i18nKey="fetchingData" />
-        </GenericLoader>
-      </FlexContainer>
-    );
+    return <Suspense minHeight customText={t("fetchingData")} />;
   }
 
   if (!data) {

@@ -9,7 +9,6 @@ import {
   useNotificationsState,
 } from "@hooks/Notifications";
 import globalStyles from "@themes/Global.module.scss";
-import i18n from "@languages/i18n";
 import { Modal, modalStyles, SelectList, Button } from "@components/ui";
 import { manageSelection } from "../../SelectList/SelectList";
 import styles from "./NotificationsModal.module.scss";
@@ -81,7 +80,7 @@ const NotificationsModal: React.FC<
                   id: generateNotificationID(),
                   type: "info",
                   time: 5000,
-                  body: i18n.t(
+                  body: t(
                     "components\\notifications\\notificationsModal:preferencesUpdated"
                   ),
                 },

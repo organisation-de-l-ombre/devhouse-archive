@@ -1,4 +1,5 @@
-export interface NavbarManagement {
+export interface NavbarHook {
   open: boolean;
+  isMobileNavbar: () => boolean;
   manageNavbar: () => void;
 }

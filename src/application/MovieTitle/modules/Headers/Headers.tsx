@@ -7,27 +7,27 @@ import {
   FlexContainer,
   Button,
   YouTubePlayer,
-  GenericLoader,
   ButtonsGroup,
 } from "@components/ui";
 import globalStyles from "@themes/Global.module.scss";
 import { Trans, useTranslation } from "react-i18next";
 import { useQuery, UseQueryResult } from "react-query";
 import fetchOptions from "@lib/api/fetchOptions";
-import styles from "./MovieHeaders.module.scss";
+import { Suspense } from "@components/modules";
+import styles from "./Headers.module.scss";
 import containerStyle from "../../Containers.module.scss";
 import {
   ReactMovieElement,
   MovieHeaders as MovieHeadersType,
 } from "../../types";
 
-const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
+const Headers: ReactMovieElement = ({ dataResponse }) => {
   const { language } = useLanguage();
   const [trailerWindowOpen, setTrailerWindowOpen] = React.useState<boolean>(
     false
   );
-  const { t } = useTranslation("pages\\moviePrototype\\headers");
-  const { t: tRoot } = useTranslation("pages\\moviePrototype\\root");
+  const { t } = useTranslation("pages\\movieTitle\\headers");
+  const { t: tRoot } = useTranslation("pages\\movieTitle\\root");
   const { isFetching, data }: UseQueryResult<MovieHeadersType> = useQuery(
     `movie-title/${dataResponse.id}/headers`,
     (): Promise<MovieHeadersType> => {
@@ -39,15 +39,7 @@ const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
   );
 
   if (isFetching) {
-    return (
-      <div
-        className={`${globalStyles.flex} ${globalStyles["alignment-full-center"]} ${styles["is-fetching"]}`}
-      >
-        <GenericLoader className={globalStyles["alignment-full-center"]}>
-          <Trans t={tRoot} i18nKey="fetchingData" />
-        </GenericLoader>
-      </div>
-    );
+    return <Suspense customText={tRoot("fetchingData")} />;
   }
 
   if (!data) {
@@ -56,7 +48,7 @@ const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
 
   return (
     <>
-      {data.trailer ? (
+      {data.trailer && (
         <YouTubePlayer
           title={`${data.title} - ${t("trailerWindowTitle")}`}
           videoID={data.trailer}
@@ -65,8 +57,6 @@ const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
           setOpen={setTrailerWindowOpen}
           autoClose
         />
-      ) : (
-        <></>
       )}
       <div
         className={`${styles["headers-background"]} ${globalStyles["opacity-display-animation"]}`}
@@ -82,7 +72,7 @@ const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
           <div className={styles["headers-no-background-image"]} />
         )}
         <FlexContainer className={styles.headers}>
-          {data.moviePoster ? (
+          {data.moviePoster && (
             <div className={styles["movie-poster"]}>
               <img
                 src={data.moviePoster}
@@ -90,15 +80,13 @@ const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
                 draggable={false}
               />
             </div>
-          ) : (
-            <></>
           )}
           <FlexContainer className={styles["headers-container"]}>
             <h1>{data.title}</h1>
             <h2>
               <i>{data.companies.join(", ")}</i>
             </h2>
-            {data.releaseDate ? (
+            {data.releaseDate && (
               <h2>
                 {new Intl.DateTimeFormat(language).format(
                   new Date(data.releaseDate)
@@ -106,24 +94,18 @@ const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
                 {data.duration ? ` • ${data.duration}` : ""}
                 {data.publicType ? ` • ${data.publicType}` : ""}
               </h2>
-            ) : (
-              <></>
             )}
-            {data && data.synopsis ? (
+            {data.synopsis && (
               <p>
                 <q className={containerStyle.quotes}>{data.synopsis}</q>
               </p>
-            ) : (
-              <></>
             )}
-            {data && data.quotation ? (
+            {data.quotation && (
               <p>
                 <q className={containerStyle.quotes}>{data.quotation}</q>
               </p>
-            ) : (
-              <></>
             )}
-            {data.type ? (
+            {data.type && (
               <ButtonsGroup minimal>
                 {data.type.map(
                   (type: string): React.ReactElement => {
@@ -135,8 +117,6 @@ const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
                   }
                 )}
               </ButtonsGroup>
-            ) : (
-              <></>
             )}
             <ButtonsGroup minimal>
               <Button>
@@ -145,7 +125,7 @@ const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
                   <Trans t={t} i18nKey="watch" />
                 </span>
               </Button>
-              {data.trailer ? (
+              {data.trailer && (
                 <Button
                   onClick={() => {
                     const isMobileDevice: boolean = detectMobileDevice();
@@ -164,8 +144,6 @@ const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
                     <Trans t={t} i18nKey="trailer" />
                   </span>
                 </Button>
-              ) : (
-                <></>
               )}
             </ButtonsGroup>
           </FlexContainer>
@@ -175,4 +153,4 @@ const MovieHeaders: ReactMovieElement = ({ dataResponse }) => {
   );
 };
 
-export default MovieHeaders;
+export default Headers;

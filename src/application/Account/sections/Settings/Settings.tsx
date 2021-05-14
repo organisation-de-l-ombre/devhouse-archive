@@ -25,7 +25,9 @@ import "./Toggle.scss";
 
 const Settings = (): React.ReactElement => {
   const { t } = useTranslation("pages\\account\\sections\\settings");
-  const { t: tModal } = useTranslation("components\\navbar");
+  const { t: tModal } = useTranslation(
+    "components\\ui\\languageModal\\languageModal"
+  );
   const { addNotifications } = useNotificationsManager();
   const { theme, switchTheme } = useTheme();
   const { allowNotifications } = useNotificationsState();

@@ -28,7 +28,7 @@ noscript > div > hr {
     border-color: black;
 }
 
-noscript > div > p { font-weight: bolder; }
+noscript > div > p { font-weight: bold; }
 
 /* Global styles */
 body { background-color: var(--secondary-background-color); }
@@ -47,7 +47,7 @@ h1 { font-size: 35px; }
 h2 { font-size: 25px; }
 
 hr {
-    margin: 2rem 0;
+    margin: 1.5rem 0;
     border-color: var(--font-color);
 }
 

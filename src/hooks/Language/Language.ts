@@ -3,8 +3,8 @@ import React from "react";
 import generateNotificationID from "@lib/generateNotificationID";
 import { useNotificationsManager } from "@hooks/Notifications";
 import { useTranslation } from "react-i18next";
-import { Language } from "../../store/language/Types";
-import { GlobalState } from "../../store/Types";
+import { Language } from "@store/language";
+import { GlobalState } from "@store/Types";
 import i18n from "../../languages/i18n";
 import changeLanguage from "../../store/language/Actions";
 import { LanguageHook } from "./Types";
@@ -16,7 +16,7 @@ const useLanguage = (): LanguageHook => {
   );
   const { addNotifications } = useNotificationsManager();
   const [languageState, setLanguageState] = React.useState<string>("default");
-  const { t } = useTranslation("components\\navbar");
+  const { t } = useTranslation("components\\ui\\languageModal\\languageModal");
 
   const validateLanguage = React.useCallback(
     async (
@@ -36,14 +36,14 @@ const useLanguage = (): LanguageHook => {
       }
 
       const newLanguage = await import(
-        `../../../public/locales/${languageState}/components/navbar.json`
+        `../../../public/locales/${languageState}/components/ui/languageModal/languageModal.json`
       );
 
       addNotifications([
         {
           id: generateNotificationID(),
           type: "info",
-          body: newLanguage.modal.languageChanged,
+          body: newLanguage.languageChanged,
           time: 5000,
         },
       ]);

@@ -2,14 +2,13 @@ import React from "react";
 import detectMobileDevice from "@lib/detectMobileDevice";
 import {
   FlexContainer,
-  GenericLoader,
   Summary,
   SummaryItem,
   YouTubePlayer,
 } from "@components/ui";
 import globalStyles from "@themes/Global.module.scss";
 import fetchOptions from "@lib/api/fetchOptions";
-import { useTranslation, Trans } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { UseQueryResult, useQuery } from "react-query";
 import {
   ReactMovieElement,
@@ -21,9 +20,10 @@ import {
 import containerStyle from "../../Containers.module.scss";
 import styles from "./Videos.module.scss";
 import SectionEmpty from "../../modules/SectionEmpty/SectionEmpty";
+import { Suspense } from "../../../../components/modules";
 
 const VideosSection: ReactMovieElement = ({ dataResponse }) => {
-  const { t: tRoot } = useTranslation("pages\\moviePrototype\\root");
+  const { t } = useTranslation("pages\\movieTitle\\root");
   const { isFetching, data }: UseQueryResult<VideosGlobalSection> = useQuery(
     `movie-title/${dataResponse.id}/characters`,
     (): Promise<VideosGlobalSection> => {
@@ -40,13 +40,7 @@ const VideosSection: ReactMovieElement = ({ dataResponse }) => {
   });
 
   if (isFetching) {
-    return (
-      <FlexContainer className={containerStyle["is-fetching-root"]}>
-        <GenericLoader className={containerStyle["is-fetching"]}>
-          <Trans t={tRoot} i18nKey="fetchingData" />
-        </GenericLoader>
-      </FlexContainer>
-    );
+    return <Suspense minHeight customText={t("fetchingData")} />;
   }
 
   if (!data) {

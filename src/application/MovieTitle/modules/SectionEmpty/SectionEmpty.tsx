@@ -12,7 +12,7 @@ import {
 import styles from "./SectionEmpty.module.scss";
 
 const SectionEmpty = (): React.ReactElement => {
-  const { t } = useTranslation("pages\\moviePrototype\\root");
+  const { t } = useTranslation("pages\\movieTitle\\root");
 
   return (
     <FlexContainer

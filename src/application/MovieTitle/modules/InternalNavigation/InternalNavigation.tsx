@@ -5,10 +5,10 @@ import { TabBar, tabBarStyles } from "@components/modules";
 import { ReactMovieElement } from "@application/MovieTitle/types";
 import { Trans, useTranslation } from "react-i18next";
 
-const MovieInternalNavigation: ReactMovieElement = ({ dataResponse }) => {
+const InternalNavigation: ReactMovieElement = ({ dataResponse }) => {
   const { url: baseURL } = useRouteMatch();
   const { open, manageTabBar } = useTabBar();
-  const { t } = useTranslation("pages\\moviePrototype\\tabbar");
+  const { t } = useTranslation("pages\\movieTitle\\tabbar");
 
   return (
     <TabBar id="movie-page-navigation" open={open} manageTabBar={manageTabBar}>
@@ -38,4 +38,4 @@ const MovieInternalNavigation: ReactMovieElement = ({ dataResponse }) => {
   );
 };
 
-export default MovieInternalNavigation;
+export default InternalNavigation;

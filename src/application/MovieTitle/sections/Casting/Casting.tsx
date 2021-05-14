@@ -1,14 +1,8 @@
 import React from "react";
-import {
-  FlexContainer,
-  Summary,
-  SummaryItem,
-  Card,
-  GenericLoader,
-} from "@components/ui";
+import { FlexContainer, Summary, SummaryItem, Card } from "@components/ui";
 import bust from "@assets/pictures/bust.png";
 import fetchOptions from "@lib/api/fetchOptions";
-import { useTranslation, Trans } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { UseQueryResult, useQuery } from "react-query";
 import styles from "./Casting.module.scss";
 import containerStyle from "../../Containers.module.scss";
@@ -21,9 +15,10 @@ import {
   SummaryObject,
 } from "../../types";
 import SectionEmpty from "../../modules/SectionEmpty/SectionEmpty";
+import { Suspense } from "../../../../components/modules";
 
 const CastingSection: ReactMovieElement = ({ dataResponse }) => {
-  const { t: tRoot } = useTranslation("pages\\moviePrototype\\root");
+  const { t } = useTranslation("pages\\movieTitle\\root");
   const { isFetching, data }: UseQueryResult<CastingSectionType> = useQuery(
     `movie-title/${dataResponse.id}/casting`,
     (): Promise<CastingSectionType> => {
@@ -35,13 +30,7 @@ const CastingSection: ReactMovieElement = ({ dataResponse }) => {
   );
 
   if (isFetching) {
-    return (
-      <FlexContainer className={containerStyle["is-fetching-root"]}>
-        <GenericLoader className={containerStyle["is-fetching"]}>
-          <Trans t={tRoot} i18nKey="fetchingData" />
-        </GenericLoader>
-      </FlexContainer>
-    );
+    return <Suspense minHeight customText={t("fetchingData")} />;
   }
 
   if (!data) {

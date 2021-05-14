@@ -8,7 +8,7 @@ import i18n from "@languages/i18n";
 import Application from "./application/Application";
 
 // Developer's House API initialization for users and authorizations
-const DevHouseUserAPIInit = new UserAPIApi().withPreMiddleware(
+export const DevHouseUserAPIInit = new UserAPIApi().withPreMiddleware(
   async (context: RequestContext) => {
     const token: string = store.getState().user.user?.token || "";
 
@@ -19,6 +19,7 @@ const DevHouseUserAPIInit = new UserAPIApi().withPreMiddleware(
     return { url: context.url, init: context.init };
   }
 );
+
 // Component which initializes the entire website with routing
 const IMRMain = (): React.ReactElement => {
   React.useEffect((): void => {
@@ -37,4 +38,3 @@ const IMRMain = (): React.ReactElement => {
 };
 
 export default IMRMain;
-export { DevHouseUserAPIInit };
