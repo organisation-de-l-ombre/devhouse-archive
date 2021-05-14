@@ -42,6 +42,7 @@ module.exports = {
         endOfLine: "auto",
       },
     ],
+    " import/no-cycle": "off",
     "import/no-extraneous-dependencies": "off",
   },
 };
