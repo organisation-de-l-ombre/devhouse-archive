@@ -24,6 +24,7 @@ package:
   only:
     changes:
       - openapi.yaml
+      - gen/*
     refs:
       - master
   script:
