@@ -24,12 +24,13 @@
         "start": "yarn build && node dist"
     },
     "dependencies": {
-        "@developers-house/nova-runtime": "^0.2.2",
+        "@developers-house/nova-runtime": "^0.10.0",
+        "chalk": "^4.1.1",
         "reflect-metadata": "^0.1.13",
         "typescript": "^4.2.4"
     },
     "devDependencies": {
-        "@developers-house/nova-cli": "^0.2.2",
+        "@developers-house/nova-cli": "^0.10.0",
         "@types/node": "^15.3.0"
     }
 }
