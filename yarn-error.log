@@ -1,0 +1,70 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add chalk
+
+PATH: 
+  C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\PIGNOLET MATTHIEU\bin;C:\Python38\Scripts;C:\Python38;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files (x86)\Bitvise SSH Client;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs;C:\MinGW\bin;C:\Program Files\LLVM\bin;C:\Program Files (x86)\Yarn\bin;C:\Go\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Ruby26-x64\bin;C:\Users\PIGNOLET MATTHIEU\AppData\Local\Microsoft\WindowsApps;C:\Users\PIGNOLET MATTHIEU\AppData\Local\Programs\IPFS Desktop\resources\app.asar.unpacked\src\ipfs-on-path\scripts\bin-win;C:\Users\PIGNOLET MATTHIEU\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\JetBrains\WebStorm 2020.2.1\bin;C:\Users\PIGNOLET MATTHIEU\AppData\Roaming\npm;C:\Users\PIGNOLET MATTHIEU\AppData\Local\Yarn\bin;C:\Users\PIGNOLET MATTHIEU\go\bin;C:\Users\PIGNOLET MATTHIEU\AppData\Local\Microsoft\WindowsApps;C:\rvm\bin
+
+Yarn version: 
+  1.19.2
+
+Node version: 
+  12.18.4
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://gitlab.com/api/v4/projects/24754217/packages/npm/@developers-house/nova-runtime/-/@developers-house/nova-runtime-0.8.0.tgz: Request failed "404 Not Found"
+      at ResponseError.ExtendableBuiltin (C:\Program Files (x86)\Yarn\lib\cli.js:696:66)
+      at new ResponseError (C:\Program Files (x86)\Yarn\lib\cli.js:802:124)
+      at Request.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:66106:16)
+      at Request.emit (events.js:315:20)
+      at Request.module.exports.Request.onRequestResponse (C:\Program Files (x86)\Yarn\lib\cli.js:141463:10)
+      at ClientRequest.emit (events.js:315:20)
+      at HTTPParser.parserOnIncomingClient [as onIncoming] (_http_client.js:596:27)
+      at HTTPParser.parserOnHeadersComplete (_http_common.js:119:17)
+      at TLSSocket.socketOnData (_http_client.js:469:22)
+      at TLSSocket.emit (events.js:315:20)
+
+npm manifest: 
+  {
+      "name": "@nova-discord/base-project",
+      "description": "A simple project for a nova-powered bot",
+      "homepage": "https://nova.developershouse.xyz",
+      "license": "MIT",
+      "bugs": {
+          "email": "matthieu@developershouse.xyz",
+          "url": "https://gitlab.com/developers-house/dev/nova/framework/-/issues"
+      },
+      "version": "0.0.1",
+      "author": {
+          "name": "Developer's House",
+          "email": "matthieu@developershouse.xyz",
+          "url": "https://www.developershouse.xyz"
+      },
+      "categories": [
+          "Other"
+      ],
+      "displayName": "Discord Nova base project",
+      "scripts": {
+          "build": "tsc -p .",
+          "deploy": "nova deploy --token ${DISCORD_TOKEN}",
+          "publish": "nova publish --docker",
+          "start": "yarn build && node dist"
+      },
+      "dependencies": {
+          "@developers-house/nova-runtime": "^0.8.0",
+          "reflect-metadata": "^0.1.13",
+          "typescript": "^4.2.4"
+      },
+      "devDependencies": {
+          "@developers-house/nova-cli": "^0.8.0",
+          "@types/node": "^15.3.0"
+      }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
