@@ -123,9 +123,11 @@ export default {
 
     void reply.code(200).send({
       statusCode: 200,
-      id: databaseResult.id,
-      title: databaseResult.name,
-      data: movieData
+      body: {
+        id: databaseResult.id,
+        title: databaseResult.name,
+        data: movieData
+      }
     });
   }
 } as RouteOptions;
