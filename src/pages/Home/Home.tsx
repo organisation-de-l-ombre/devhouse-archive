@@ -37,8 +37,8 @@ export default function HomePage(): ReactElement {
         <div className={styles.homeHeader}>
           <Banner className={styles.banner} />
           <h1 className={styles.headerSubtext}>
-            We are young developers who learn to work as a team by developing some
-            nice, diversified and interesting projects.
+            We are young developers who learn to work as a team by developing
+            some nice, diversified and interesting projects.
           </h1>
           <ButtonGroup className={styles["buttons-group"]}>
             <ButtonLink large to="/projects">
