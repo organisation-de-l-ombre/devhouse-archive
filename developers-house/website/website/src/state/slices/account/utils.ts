@@ -71,13 +71,21 @@ export async function retrieveOauthToken(clientId: string): Promise<string> {
   );
   const channel = new BroadcastChannel("callback");
   return new Promise((resolve, reject) => {
+    let timer: NodeJS.Timeout;
     function cancel() {
+      if (!popup.closed) popup.close();
+      clearInterval(timer);
       channel.close();
-      reject();
       reject(new Error("The window was closed or the operation was canceled."));
     }
+    timer = setInterval(() => {
+      if (popup.closed) {
+        clearInterval(timer);
+        cancel();
+      }
+    }, 100);
     const timeout = setTimeout(cancel, 60 * 1000);
-    popup.addEventListener("close", cancel);
+
     async function listener({ data, isTrusted }: MessageEvent): Promise<void> {
       if (isTrusted && data.code && data.state && data.state === state) {
         const form = urlEncodeFormData([
