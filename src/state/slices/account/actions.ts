@@ -2,6 +2,7 @@ import { UserAPIApi } from "@developers-house/abdera";
 import { AppThunk } from "../../redux";
 import { retrieveOauthToken } from "./utils";
 import { setState, setUser } from "./account";
+import { addNotification } from "../notifications/notifications";
 
 export function login(): AppThunk<void> {
   return async (dispatch, getState) => {
@@ -20,7 +21,21 @@ export function login(): AppThunk<void> {
         .selfGet();
       dispatch(setUser({ ...user, token }));
       dispatch(setState("available"));
+      dispatch(
+        addNotification({
+          level: "information",
+          text: `Welcome ${user.username}!`,
+          time: 5000,
+        })
+      );
     } catch (e) {
+      dispatch(
+        addNotification({
+          level: "error",
+          text: `Failed to login using the popup method ${e.message}`,
+          time: 3000,
+        })
+      );
       dispatch(setState("available"));
     }
   };

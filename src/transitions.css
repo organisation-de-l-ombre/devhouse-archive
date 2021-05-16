@@ -28,8 +28,3 @@ button {
   color: var(--foreground-primary);
   text-decoration: none;
 }
-
-cloudflare-app[app="cf-auth-bar"] {
-  top: unset !important;
-  bottom: 0;
-}
