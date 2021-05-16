@@ -3,7 +3,7 @@ openapi: 3.0.0
 info:
   title: Amelia
   description: Amelia is the API which allows to interact with the frontend of IMR & to manage data and users
-  version: 1.1.7
+  version: 1.1.8
 
 servers:
   - url: https://amelia-api.developershouse.xyz
@@ -33,39 +33,7 @@ paths:
           content:
             application/json:
               schema:
-                  type: object
-                  required:
-                    - statusCode
-                    - id
-                    - title
-                    - data
-                  properties:
-                    statusCode:
-                      type: number
-                    id:
-                      type: string
-                    title:
-                      type: string
-                    data:
-                      type: object
-                      required:
-                        - headers
-                        - movie
-                      properties:
-                        headers:
-                          type: string
-                        movie:
-                          type: string
-                        casting:
-                          type: string
-                        characters:
-                          type: string
-                        videos:
-                          type: string
-                        ost:
-                          type: string
-                        technical-specs:
-                          type: string
+                  $ref: "#/components/schemas/movieDataResponse"
         404:
           description: Movie not found on the database
           content:
@@ -144,15 +112,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - statusCode
-                  - body
-                properties:
-                  statusCode:
-                    type: number
-                  body:
-                    type: string
+                $ref: "#/components/schemas/wikiResponse"
         404:
           description: Content not found
           content:
@@ -173,6 +133,48 @@ components:
         message:
           type: number
 
+    movieDataResponse:
+      type: object
+      required:
+        - statusCode
+        - id
+        - title
+        - data
+      properties:
+        statusCode:
+          type: number
+        body:
+          type: object
+          required:
+            - id
+            - title
+            - data
+          properties:
+            id:
+              type: string
+            title:
+              type: string
+            data:
+              type: object
+              required:
+                - headers
+                - movie
+              properties:
+                headers:
+                  type: string
+                movie:
+                  type: string
+                casting:
+                  type: string
+                characters:
+                  type: string
+                videos:
+                  type: string
+                ost:
+                  type: string
+                technical-specs:
+                  type: string
+
     searchResponse:
       type: object
       required:
@@ -188,4 +190,15 @@ components:
         poster:
           type: string
         releaseDate:
+          type: string
+
+    wikiResponse:
+      type: object
+      required:
+        - statusCode
+        - body
+      properties:
+        statusCode:
+          type: number
+        body:
           type: string
