@@ -8,7 +8,6 @@ import { TitleBox } from "../../../components/ui/TitleBox/TitleBox";
 import { Loader } from "../../../components/SuspenseLoader/SuspenseLoader";
 import { Card } from "../../../components/ui/Card/Card";
 import styles from "../settings.module.scss";
-import ButtonGroup from "../../../components/ui/Button/ButtonGroup";
 import { Button } from "../../../components/ui/Button/Button";
 
 const DisplayPlatformSVG: FC<{ platform: string }> = ({ platform }) => {

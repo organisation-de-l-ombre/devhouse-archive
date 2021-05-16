@@ -10,7 +10,7 @@ import { BackgroundSyncPlugin } from "workbox-background-sync";
 export type {};
 declare const self: ServiceWorkerGlobalScope;
 
-// eslint-disable-next-line no-restricted-globals,no-underscore-dangle
+// eslint-disable-next-line no-restricted-globals,no-underscore-dangle, @typescript-eslint/no-explicit-any
 precacheAndRoute((self as any).__WB_MANIFEST);
 
 const bgSyncPlugin = new BackgroundSyncPlugin("myQueueName", {
