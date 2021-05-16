@@ -3,6 +3,7 @@
   display: inline-flex;
   align-items: center;
   border-radius: 5px;
+  word-break: normal;
   background-color: var(--background-primary);
   color: var(--foreground-primary);
   font-size: 16px;
@@ -47,7 +48,7 @@
     border-radius: 0;
     flex: 1;
     .button {
-      width: max-content;
+      width: 100%;
     }
   }
   .button,
