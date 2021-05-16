@@ -15,6 +15,7 @@ import { withNetwork } from "../../hooks/hoc/withNetwork";
 import DataSettings from "./sections/DataSettings";
 import { useUser } from "../../state/slices/account/hooks";
 import { logout } from "../../state/slices/account/actions";
+import LinkedAccounts from "./sections/LinkedAccounts";
 
 const Content: FC = () => {
   const dispatch = useDispatch();
@@ -81,6 +82,11 @@ const Settings = (): ReactElement => {
             exact
             path={`${match}/authorizations`}
             component={Authorizations}
+          />
+          <Route
+            exact
+            path={`${match}/linked-accounts`}
+            component={LinkedAccounts}
           />
           <Route
             exact

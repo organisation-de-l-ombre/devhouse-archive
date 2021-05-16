@@ -40,5 +40,8 @@ export const notificationsSlice = createSlice({
   },
 });
 
-export const { removeNotification, addNotification, setEnabled } =
-  notificationsSlice.actions;
+export const {
+  removeNotification,
+  addNotification,
+  setEnabled,
+} = notificationsSlice.actions;

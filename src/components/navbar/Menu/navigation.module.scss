@@ -58,7 +58,7 @@ $speed: 175ms;
   vertical-align: middle;
   display: flex;
   flex-flow: row;
-  position: fixed;
+  position: sticky;
   box-shadow: black 0 0 5px -1px;
   transition: box-shadow 300ms;
 

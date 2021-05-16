@@ -1,11 +1,22 @@
+.homeHeaderRoot {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .homeHeader {
+  width: 100%;
+  max-width: 75%;
   padding: 5rem 2rem 4rem 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: var(--background-secondary);
   text-align: center;
+
+  @media screen and (max-width: 800px) {
+    max-width: unset;
+  }
 }
 
 .banner {
@@ -32,8 +43,7 @@
 .buttons-group {
   margin-top: 1rem;
 
-  button,
-  a {
+  button, a {
     background-color: var(--background-tertiary);
 
     &:hover {
