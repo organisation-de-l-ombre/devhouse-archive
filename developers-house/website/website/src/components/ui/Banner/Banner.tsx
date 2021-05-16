@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import "./Banner.scss";
 
 export const Banner: FC<{ className?: string }> = ({ className }) => {
   return (

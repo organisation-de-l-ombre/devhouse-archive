@@ -10,7 +10,6 @@ import { BrowserRouter } from "react-router-dom";
 import { I18nextProvider } from "react-i18next";
 import i18next from "i18next";
 import { RequestContext, UserAPIApi } from "@developers-house/abdera";
-import Footer from "components/footer/Footer";
 import ThemeProvider from "./components/ThemeProvider/ThemeProvider";
 import Navigator from "./pages/Navigator";
 import { register } from "./utilities";
@@ -43,7 +42,8 @@ register({
     store.dispatch(
       addNotification({
         level: "information",
-        text: "A new update is available for the website. Would you like to load this new update ?",
+        text:
+          "A new update is available for the website. Would you like to load this new update ?",
         time: -1,
         buttons: [
           {
@@ -87,7 +87,6 @@ export default function Root(): ReactElement {
             <BrowserRouter>
               <Menu />
               <Navigator />
-              <Footer />
             </BrowserRouter>
           </ThemeProvider>
         </I18nextProvider>

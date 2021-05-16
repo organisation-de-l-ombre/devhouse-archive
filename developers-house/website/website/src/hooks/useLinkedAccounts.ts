@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { useQuery, UseQueryResult } from "react-query";
+import { Link } from "@developers-house/abdera";
 import { useNotificationsManager } from "./useNotifications";
 import { UserAPI } from "../Root";
 
@@ -20,7 +21,7 @@ const useCriticalError = (): ((err: Error) => Error) => {
   );
 };
 
-const useLinkedAccounts = (): UseQueryResult<string> => {
+const useLinkedAccounts = (): UseQueryResult<Link[], Error> => {
   const criticalError = useCriticalError();
 
   return useQuery("account/linked-accounts", () => UserAPI.selfLinksGet(), {

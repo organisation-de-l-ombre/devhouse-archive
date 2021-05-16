@@ -33,32 +33,34 @@ export default function HomePage(): ReactElement {
 
   return (
     <FlexContainer className={globalStyles["flex-column"]}>
-      <div className={styles.homeHeader}>
-        <Banner className={styles.banner} />
-        <h1 className={styles.headerSubtext}>
-          We are young developers who learn to work as a team by developing some
-          nice, diversified and interesting projects.
-        </h1>
-        <ButtonGroup full className={styles["buttons-group"]}>
-          <ButtonLink large to="/projects">
-            <ButtonImage>
-              <RiPencilRuler2Line />
-            </ButtonImage>
-            Projects
-          </ButtonLink>
-          <ButtonLink large to="/members">
-            <ButtonImage>
-              <BsPeople />
-            </ButtonImage>
-            Members
-          </ButtonLink>
-          <ButtonExternalLink large href={discordServer} target="blank">
-            <ButtonImage>
-              <FaDiscord />
-            </ButtonImage>
-            Discord server
-          </ButtonExternalLink>
-        </ButtonGroup>
+      <div className={styles.homeHeaderRoot}>
+        <div className={styles.homeHeader}>
+          <Banner className={styles.banner} />
+          <h1 className={styles.headerSubtext}>
+            We are young developers who learn to work as a team by developing some
+            nice, diversified and interesting projects.
+          </h1>
+          <ButtonGroup className={styles["buttons-group"]}>
+            <ButtonLink large to="/projects">
+              <ButtonImage>
+                <RiPencilRuler2Line />
+              </ButtonImage>
+              Projects
+            </ButtonLink>
+            <ButtonLink large to="/members">
+              <ButtonImage>
+                <BsPeople />
+              </ButtonImage>
+              Members
+            </ButtonLink>
+            <ButtonExternalLink large href={discordServer} target="blank">
+              <ButtonImage>
+                <FaDiscord />
+              </ButtonImage>
+              Discord server
+            </ButtonExternalLink>
+          </ButtonGroup>
+        </div>
       </div>
       <div className={styles.content}>
         <PresentationWrapper>
