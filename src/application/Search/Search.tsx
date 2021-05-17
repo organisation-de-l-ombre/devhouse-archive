@@ -7,14 +7,14 @@ import { NavLink } from "react-router-dom";
 import { useLanguage } from "@hooks/Language";
 import { CSSTransition } from "react-transition-group";
 import { SearchAPI } from "@lib/api";
-import { InlineResponse2001, SearchResponse } from "@developers-house/amelia";
+import { InlineResponse200, SearchResponse } from "@developers-house/amelia";
 import { Helmet } from "react-helmet";
 import { useQueryState } from "@hooks/Query";
 import styles from "./Search.module.scss";
 import "./Animations.scss";
 
 const Search = (): React.ReactElement => {
-  const [searchState, setSearchState] = useQueryState<string>("title");
+  const [titleState, setTitleState] = useQueryState<string>("title");
   const { t } = useTranslation("pages\\search\\search");
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [data, setData] = React.useState<SearchResponse[] | undefined>(
@@ -28,8 +28,8 @@ const Search = (): React.ReactElement => {
     setAdvancedSearchEnabled,
   ] = useQueryState<boolean>("advanced-search", false);
   const manageSearch = React.useCallback((): void => {
-    setSearchState(inputRef.current?.value);
-  }, [setSearchState]);
+    setTitleState(inputRef.current?.value);
+  }, [setTitleState]);
   const manageAdvancedSearch = React.useCallback((): void => {
     setAdvancedSearchEnabled(!advancedSearchEnabled);
   }, [advancedSearchEnabled, setAdvancedSearchEnabled]);
@@ -60,13 +60,17 @@ const Search = (): React.ReactElement => {
 
       SearchAPI.getSearchResults({
         title: inputForm.value,
-      }).then((response: InlineResponse2001): void => {
-        if (response.data.length) {
-          setData(response.data);
-        }
-      });
+      })
+        .then((response: InlineResponse200): void => {
+          if (response.data.length) {
+            setData(response.data);
+          }
 
-      setIsFetching(false);
+          setIsFetching(false);
+        })
+        .catch((): void => {
+          setIsFetching(false);
+        });
 
       const container = document.querySelector("#search-page-navigation");
 
@@ -78,11 +82,23 @@ const Search = (): React.ReactElement => {
   );
 
   React.useEffect((): void => {
-    if (searchState?.length) {
+    if (titleState?.length) {
       validateRequest();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (isFetching) {
+    return (
+      <FlexContainer
+        className={`${styles["temp-root"]} ${globalStyles["alignment-full-center"]}`}
+      >
+        <GenericLoader className={styles.temp}>
+          <Trans t={t} i18nKey="body.fetchingData" />
+        </GenericLoader>
+      </FlexContainer>
+    );
+  }
 
   return (
     <FlexContainer className={globalStyles.column}>
@@ -106,7 +122,7 @@ const Search = (): React.ReactElement => {
               placeholder={t("headers.form.input")}
               minLength={3}
               maxLength={32}
-              defaultValue={searchState}
+              defaultValue={titleState}
               onChange={manageSearch}
             />
             <Button className={styles["submit-button"]} type="submit">
@@ -157,18 +173,24 @@ const Search = (): React.ReactElement => {
           </CSSTransition>
         </FlexContainer>
       </div>
-      {isFetching ? (
+      {data === undefined && (
         <FlexContainer
           className={`${styles["temp-root"]} ${globalStyles["alignment-full-center"]}`}
+          id="search-page-navigation"
         >
-          <GenericLoader className={styles.temp}>
-            <Trans t={t} i18nKey="body.fetchingData" />
-          </GenericLoader>
+          <div className={styles["not-found"]}>
+            <AiOutlineFileSearch />
+            <p>
+              {firstTime ? (
+                <Trans t={t} i18nKey="body.noSearch" />
+              ) : (
+                <Trans t={t} i18nKey="body.notFound" />
+              )}
+            </p>
+          </div>
         </FlexContainer>
-      ) : (
-        <></>
       )}
-      {data && typeof data === "object" && !isFetching ? (
+      {data && (
         <FlexContainer
           className={`${styles["page-body"]} ${globalStyles["page-body-width"]}`}
           id="search-page-navigation"
@@ -181,7 +203,9 @@ const Search = (): React.ReactElement => {
               t={t}
               i18nKey="body.success.description"
               values={{
-                search: inputRef.current?.value,
+                search: inputRef.current?.value.length
+                  ? inputRef.current?.value
+                  : titleState,
                 resultsLength: data.length,
               }}
             />
@@ -216,27 +240,6 @@ const Search = (): React.ReactElement => {
             )}
           </FlexContainer>
         </FlexContainer>
-      ) : (
-        <></>
-      )}
-      {data === undefined && !isFetching ? (
-        <FlexContainer
-          className={`${styles["temp-root"]} ${globalStyles["alignment-full-center"]}`}
-          id="search-page-navigation"
-        >
-          <div className={styles["not-found"]}>
-            <AiOutlineFileSearch />
-            <p>
-              {firstTime ? (
-                <Trans t={t} i18nKey="body.noSearch" />
-              ) : (
-                <Trans t={t} i18nKey="body.notFound" />
-              )}
-            </p>
-          </div>
-        </FlexContainer>
-      ) : (
-        <></>
       )}
     </FlexContainer>
   );

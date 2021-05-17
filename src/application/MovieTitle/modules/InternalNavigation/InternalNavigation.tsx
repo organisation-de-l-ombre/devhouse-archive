@@ -12,12 +12,12 @@ const InternalNavigation: ReactMovieElement = ({ dataResponse }) => {
 
   return (
     <TabBar id="movie-page-navigation" open={open} manageTabBar={manageTabBar}>
-      {(Object.keys(dataResponse.data).slice(
+      {(Object.keys(dataResponse.body.data).slice(
         1
-      ) as (keyof typeof dataResponse.data)[])
+      ) as (keyof typeof dataResponse.body.data)[])
         .filter(
-          (item: keyof typeof dataResponse.data): boolean =>
-            dataResponse.data[item] !== undefined
+          (item: keyof typeof dataResponse.body.data): boolean =>
+            dataResponse.body.data[item] !== undefined
         )
         .map(
           (item: string): React.ReactElement => {

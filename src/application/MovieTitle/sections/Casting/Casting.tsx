@@ -1,9 +1,11 @@
 import React from "react";
 import { FlexContainer, Summary, SummaryItem, Card } from "@components/ui";
 import bust from "@assets/pictures/bust.png";
-import fetchOptions from "@lib/api/fetchOptions";
+import { fetchOptions } from "@lib/api";
 import { useTranslation } from "react-i18next";
 import { UseQueryResult, useQuery } from "react-query";
+import { Suspense } from "@components/modules";
+import { useLanguage } from "@hooks/Language";
 import styles from "./Casting.module.scss";
 import containerStyle from "../../Containers.module.scss";
 import globalStyles from "../../../../themes/Global.module.scss";
@@ -15,16 +17,16 @@ import {
   SummaryObject,
 } from "../../types";
 import SectionEmpty from "../../modules/SectionEmpty/SectionEmpty";
-import { Suspense } from "../../../../components/modules";
 
 const CastingSection: ReactMovieElement = ({ dataResponse }) => {
+  const { language } = useLanguage();
   const { t } = useTranslation("pages\\movieTitle\\root");
   const { isFetching, data }: UseQueryResult<CastingSectionType> = useQuery(
-    `movie-title/${dataResponse.id}/casting`,
+    `movie-title_${dataResponse.body.id}_${language}_casting`,
     (): Promise<CastingSectionType> => {
-      return fetch(dataResponse.data.casting || "").then((response: Response) =>
-        response.json()
-      );
+      return fetch(
+        dataResponse.body.data.casting || ""
+      ).then((response: Response) => response.json());
     },
     fetchOptions
   );

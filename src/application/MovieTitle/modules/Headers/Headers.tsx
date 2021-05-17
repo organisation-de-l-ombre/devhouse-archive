@@ -9,11 +9,11 @@ import {
   YouTubePlayer,
   ButtonsGroup,
 } from "@components/ui";
-import globalStyles from "@themes/Global.module.scss";
 import { Trans, useTranslation } from "react-i18next";
 import { useQuery, UseQueryResult } from "react-query";
 import fetchOptions from "@lib/api/fetchOptions";
 import { Suspense } from "@components/modules";
+import { animated, useSpring } from "react-spring";
 import styles from "./Headers.module.scss";
 import containerStyle from "../../Containers.module.scss";
 import {
@@ -28,15 +28,21 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
   );
   const { t } = useTranslation("pages\\movieTitle\\headers");
   const { t: tRoot } = useTranslation("pages\\movieTitle\\root");
+  const { t: tTags } = useTranslation("pages\\movieTitle\\tags");
   const { isFetching, data }: UseQueryResult<MovieHeadersType> = useQuery(
-    `movie-title/${dataResponse.id}/headers`,
+    `movie-title/${dataResponse.body.id}/headers`,
     (): Promise<MovieHeadersType> => {
-      return fetch(dataResponse.data.headers).then((response: Response) =>
+      return fetch(dataResponse.body.data.headers).then((response: Response) =>
         response.json()
       );
     },
     fetchOptions
   );
+  const headersStyles = useSpring({
+    from: { opacity: "0" },
+    to: { opacity: "1" },
+    config: { duration: 500 },
+  });
 
   if (isFetching) {
     return <Suspense customText={tRoot("fetchingData")} />;
@@ -58,8 +64,9 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
           autoClose
         />
       )}
-      <div
-        className={`${styles["headers-background"]} ${globalStyles["opacity-display-animation"]}`}
+      <animated.div
+        style={headersStyles}
+        className={styles["headers-background"]}
       >
         {data.backgroundImage ? (
           <div
@@ -108,10 +115,10 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
             {data.type && (
               <ButtonsGroup minimal>
                 {data.type.map(
-                  (type: string): React.ReactElement => {
+                  (tag: string): React.ReactElement => {
                     return (
-                      <NavLink key={type} to={`/browse?tag=${type}`}>
-                        <Trans t={t} i18nKey={`tags.${type}`} />
+                      <NavLink key={tag} to={`/browse?tag=${tag}`}>
+                        <Trans t={tTags} i18nKey={tag} />
                       </NavLink>
                     );
                   }
@@ -148,7 +155,7 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
             </ButtonsGroup>
           </FlexContainer>
         </FlexContainer>
-      </div>
+      </animated.div>
     </>
   );
 };

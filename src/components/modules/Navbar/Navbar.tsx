@@ -23,10 +23,6 @@ const Navbar = (): React.ReactElement => {
   ] = React.useState<boolean>(false);
   const { pathname } = useLocation();
 
-  React.useEffect((): void => {
-    document.body.style.overflowY = open ? "hidden" : "auto";
-  }, [open]);
-
   if (
     routeWithOnlyContent.navbarBlacklist.filter((route: string): boolean =>
       pathname.startsWith(route)

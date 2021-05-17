@@ -1,13 +1,5 @@
 {
     "trailerWindowTitle": "trailer",
-    "tags": {
-        "entertainment": "Entertainment",
-        "family": "Family",
-        "humor": "Humor",
-        "musical": "Musical",
-        "childrens": "Childrens",
-        "adventure": "Adventure"
-    },
     "watch": "Watch",
     "trailer": "Trailer"
 }

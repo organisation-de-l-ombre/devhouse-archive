@@ -8,9 +8,10 @@ import {
   List,
 } from "@components/ui";
 import { useQuery, UseQueryResult } from "react-query";
-import fetchOptions from "@lib/api/fetchOptions";
+import { fetchOptions } from "@lib/api";
 import { useTranslation } from "react-i18next";
 import { Suspense } from "@components/modules";
+import { useLanguage } from "@hooks/Language";
 import containerStyle from "../../Containers.module.scss";
 import {
   BodyContent,
@@ -21,12 +22,13 @@ import {
 import SectionEmpty from "../../modules/SectionEmpty/SectionEmpty";
 
 const MovieSection: ReactMovieElement = ({ dataResponse }) => {
+  const { language } = useLanguage();
   const { t } = useTranslation("pages\\movieTitle\\root");
   const { isFetching, data }: UseQueryResult<GenericSection> = useQuery(
-    `movie-title/${dataResponse.id}/characters`,
+    `movie-title_${dataResponse.body.id}_${language}_characters`,
     (): Promise<GenericSection> => {
       return fetch(
-        dataResponse.data.characters || ""
+        dataResponse.body.data.characters || ""
       ).then((response: Response) => response.json());
     },
     fetchOptions

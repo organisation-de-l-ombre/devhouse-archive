@@ -1257,10 +1257,10 @@
   resolved "https://gitlab.com/api/v4/projects/22309686/packages/npm/@developers-house/abdera/-/@developers-house/abdera-1.0.0.tgz#deca4d777061fc6af4b756afa0ce9b4a8bea084a"
   integrity sha1-3spNd3Bh/Gr0t1avoM6bSovqCEo=
 
-"@developers-house/amelia@^1.1.6":
-  version "1.1.6"
-  resolved "https://gitlab.com/api/v4/projects/25638828/packages/npm/@developers-house/amelia/-/@developers-house/amelia-1.1.6.tgz#0ea5fd742c7fcc496cbffd961d0cb04185a30d80"
-  integrity sha1-DqX9dCx/zElsv/2WHQywQYWjDYA=
+"@developers-house/amelia@^1.1.9":
+  version "1.1.9"
+  resolved "https://gitlab.com/api/v4/projects/25638828/packages/npm/@developers-house/amelia/-/@developers-house/amelia-1.1.9.tgz#28bdfbe0ad7f99c7cc2141a73915ba40412699fd"
+  integrity sha1-KL374K1/mcfMIUGnORW6QEEmmf0=
 
 "@eslint/eslintrc@^0.4.0":
   version "0.4.0"

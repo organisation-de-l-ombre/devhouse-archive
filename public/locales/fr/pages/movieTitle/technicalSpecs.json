@@ -1,0 +1,36 @@
+{
+  "presentation": {
+    "title": "Titre",
+    "VOTitle": "Titre original",
+    "originalCountry": "Pays d'origine",
+    "duration": "Durée",
+    "type": "Genre",
+    "case": "Classement",
+    "distributors": "Distributeur",
+    "distributor_plural": "Distributeurs",
+    "productionStart": "Année de début de production",
+    "productionRelease": "Année de fin de production",
+    "releaseDate": "Date de sortie",
+    "budget": "Budget",
+    "boxOffice": "Box office",
+    "directors": "Réalisateur",
+    "directors_plural": "Réalisateurs",
+    "producers": "Producteur",
+    "producers_plural": "Producteurs",
+    "screenWriters": "Scénariste",
+    "screenWriter_plural": "Scénaristes",
+    "mainActors": "Acteur principal",
+    "mainActors_plural": "Acteurs principaux",
+    "movieChronologicalFranchise": "Franchise (ordre chronologique)",
+    "movieLogicalFranchise": "Franchise (ordre logique)"
+  },
+  "movieSpecs": {
+    "movieFormat": "Format du film",
+    "cinematographicProcess": "Processus cinématographique",
+    "formatType": "Type de format",
+    "colorimetry": "Colorimétrie",
+    "imageDefinition": "Définition d'image",
+    "soundDefinition": "Définition audio",
+    "aspectRatio": "Aspect ratio"
+  }
+}

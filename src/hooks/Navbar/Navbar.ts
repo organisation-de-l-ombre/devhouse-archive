@@ -5,7 +5,7 @@ const useNavbar = (): NavbarHook => {
   const [open, setOpen] = React.useState<boolean>(false);
 
   const isMobileNavbar = React.useCallback((): boolean => {
-    return window.matchMedia("(max-width: 800px)").matches;
+    return window.matchMedia("(max-width: 900px)").matches;
   }, []);
   const manageNavbar = React.useCallback((): void => {
     if (isMobileNavbar()) {

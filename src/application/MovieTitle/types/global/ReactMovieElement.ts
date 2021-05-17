@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { RootResponse } from "./RootResponse";
+import { MovieDataResponse } from "@developers-house/amelia";
 
 export type ReactMovieElement = FC<{
-  dataResponse: RootResponse;
+  dataResponse: MovieDataResponse;
 }>;

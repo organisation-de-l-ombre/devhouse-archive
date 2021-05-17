@@ -11,9 +11,11 @@ import {
   YouTubePlayer,
   ButtonsGroup,
 } from "@components/ui";
-import fetchOptions from "@lib/api/fetchOptions";
+import { fetchOptions } from "@lib/api";
 import { useTranslation } from "react-i18next";
 import { UseQueryResult, useQuery } from "react-query";
+import { Suspense } from "@components/modules";
+import { useLanguage } from "@hooks/Language";
 import styles from "./OST.module.scss";
 import containerStyle from "../../Containers.module.scss";
 import globalStyles from "../../../../themes/Global.module.scss";
@@ -27,7 +29,6 @@ import {
   VideoObject,
 } from "../../types";
 import SectionEmpty from "../../modules/SectionEmpty/SectionEmpty";
-import { Suspense } from "../../../../components/modules";
 
 const DisplaySVG = ({ type }: { type: string }): React.ReactElement => {
   switch (type) {
@@ -43,13 +44,14 @@ const DisplaySVG = ({ type }: { type: string }): React.ReactElement => {
 };
 
 const OSTSection: ReactMovieElement = ({ dataResponse }) => {
+  const { language } = useLanguage();
   const { t } = useTranslation("pages\\movieTitle\\root");
   const { isFetching, data }: UseQueryResult<OSTSectionType> = useQuery(
-    `movie-title/${dataResponse.id}/ost`,
+    `movie-title_${dataResponse.body.id}_${language}_ost`,
     (): Promise<OSTSectionType> => {
-      return fetch(dataResponse.data.ost || "").then((response: Response) =>
-        response.json()
-      );
+      return fetch(
+        dataResponse.body.data.ost || ""
+      ).then((response: Response) => response.json());
     },
     fetchOptions
   );
@@ -175,39 +177,38 @@ const OSTSection: ReactMovieElement = ({ dataResponse }) => {
                             </q>
                           </p>
                         )}
-                        {track.videoID ||
-                          (track.lyrics && (
-                            <ButtonsGroup minimal>
-                              {track.videoID && (
-                                <Button
-                                  onClick={() => {
-                                    const isMobileDevice: boolean = detectMobileDevice();
+                        {Boolean(track.videoID || track.lyrics) && (
+                          <ButtonsGroup minimal>
+                            {track.videoID && (
+                              <Button
+                                onClick={() => {
+                                  const isMobileDevice: boolean = detectMobileDevice();
 
-                                    if (isMobileDevice) {
-                                      window.open(
-                                        `https://www.youtube.com/watch?v=${track.videoID}`
-                                      );
-                                    } else {
-                                      setVideo({
-                                        title: `${dataResponse.title} - ${track.title}`,
-                                        videoID: track.videoID as string,
-                                      });
-                                      setPlayerOpen(!playerOpen);
-                                    }
-                                  }}
-                                >
-                                  <FaPlay />
-                                  <span>Voir la vidéo</span>
-                                </Button>
-                              )}
-                              {track.lyrics && (
-                                <a href={track.lyrics} target="blank">
-                                  <FaMusic />
-                                  <span>Paroles</span>
-                                </a>
-                              )}
-                            </ButtonsGroup>
-                          ))}
+                                  if (isMobileDevice) {
+                                    window.open(
+                                      `https://www.youtube.com/watch?v=${track.videoID}`
+                                    );
+                                  } else {
+                                    setVideo({
+                                      title: `${dataResponse.body.title} - ${track.title}`,
+                                      videoID: track.videoID as string,
+                                    });
+                                    setPlayerOpen(!playerOpen);
+                                  }
+                                }}
+                              >
+                                <FaPlay />
+                                <span>Voir la vidéo</span>
+                              </Button>
+                            )}
+                            {track.lyrics && (
+                              <a href={track.lyrics} target="blank">
+                                <FaMusic />
+                                <span>Paroles</span>
+                              </a>
+                            )}
+                          </ButtonsGroup>
+                        )}
                       </Card>
                     );
                   }

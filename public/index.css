@@ -51,7 +51,12 @@ hr {
     border-color: var(--font-color);
 }
 
-p, q { word-wrap: break-word; }
+h1, h2, h3, h4, p, span, a, button, q, i { word-wrap: break-word; }
+
+td {
+    font-weight: bold;
+    vertical-align: top;
+}
 
 ::-webkit-scrollbar { width: 8px; }
 

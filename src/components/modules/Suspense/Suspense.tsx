@@ -21,7 +21,6 @@ const Suspense: React.FC<
   > & { minHeight?: boolean; customText?: string }
 > = ({ minHeight, customText }) => {
   const { t } = useTranslation("components\\modules\\suspense\\suspense");
-  console.log(customText);
 
   return (
     <div

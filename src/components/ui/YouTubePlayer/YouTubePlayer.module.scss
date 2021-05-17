@@ -1,9 +1,9 @@
 .modal-root {
   max-width: unset;
   min-height: unset;
-}
 
-.modal-container {
-  padding: 0 !important;
-  margin-bottom: -.25rem;
+  .modal-container {
+    margin-bottom: -.5rem;
+    padding: 0;
+  }
 }

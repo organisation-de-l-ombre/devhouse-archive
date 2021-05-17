@@ -13,7 +13,7 @@ import styles from "./Home.module.scss";
 
 const Home = (): React.ReactElement => {
   const { t } = useTranslation("pages\\home\\home");
-  const headerStyles = useSpring({
+  const headersStyles = useSpring({
     from: { transform: "scale(0)", opacity: "0" },
     to: { transform: "scale(1)", opacity: "1" },
     config: { duration: 500 },
@@ -32,7 +32,7 @@ const Home = (): React.ReactElement => {
           style={{ backgroundImage: `url("${backgroundImage}")` }}
         />
         <animated.div
-          style={headerStyles}
+          style={headersStyles}
           className={styles["headers-content"]}
         >
           <h1>

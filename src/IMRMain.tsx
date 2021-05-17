@@ -22,10 +22,6 @@ export const DevHouseUserAPIInit = new UserAPIApi().withPreMiddleware(
 
 // Component which initializes the entire website with routing
 const IMRMain = (): React.ReactElement => {
-  React.useEffect((): void => {
-    document.body.style.overflowY = "auto";
-  }, []);
-
   return (
     <Provider store={store}>
       <PersistGate persistor={persistedStore}>

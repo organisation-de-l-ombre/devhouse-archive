@@ -35,7 +35,7 @@ const useAuthorizations = (): QueryObserverResult<
 > => {
   useAuthorizationsError();
 
-  return useQuery("account/authorizations", () =>
+  return useQuery("account_authorizations", () =>
     DevHouseUserAPI.selfAuthorizationsGet()
   );
 };
@@ -51,11 +51,11 @@ const useAuthorizationsDeleteMutation = (
   const { removeUser } = useUser();
   const { addNotifications } = useNotificationsManager();
   const { mutate } = useMutation(
-    "delete_authorized_apps",
+    "delete_account_authorizations",
     () => DevHouseUserAPI.selfAuthorizationsDelete({ clientId: id }),
     {
       async onMutate() {
-        await client.cancelQueries("account/authorizations");
+        await client.cancelQueries("account_authorizations");
 
         client.setQueryData<Authorization[]>(
           "account/authorizations",
@@ -95,7 +95,7 @@ const useAuthorizationsDeleteMutation = (
         }
       },
       onError(error, variables, previousValue) {
-        client.setQueryData("account/authorizations", previousValue);
+        client.setQueryData("account_authorizations", previousValue);
 
         if (error) {
           criticalError(new Error(error as string));

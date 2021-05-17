@@ -7,9 +7,11 @@ import {
   YouTubePlayer,
 } from "@components/ui";
 import globalStyles from "@themes/Global.module.scss";
-import fetchOptions from "@lib/api/fetchOptions";
+import { fetchOptions } from "@lib/api";
 import { useTranslation } from "react-i18next";
 import { UseQueryResult, useQuery } from "react-query";
+import { Suspense } from "@components/modules";
+import { useLanguage } from "@hooks/Language";
 import {
   ReactMovieElement,
   SummaryObject,
@@ -20,16 +22,16 @@ import {
 import containerStyle from "../../Containers.module.scss";
 import styles from "./Videos.module.scss";
 import SectionEmpty from "../../modules/SectionEmpty/SectionEmpty";
-import { Suspense } from "../../../../components/modules";
 
 const VideosSection: ReactMovieElement = ({ dataResponse }) => {
+  const { language } = useLanguage();
   const { t } = useTranslation("pages\\movieTitle\\root");
   const { isFetching, data }: UseQueryResult<VideosGlobalSection> = useQuery(
-    `movie-title/${dataResponse.id}/characters`,
+    `movie-title_${dataResponse.body.id}_${language}_videos`,
     (): Promise<VideosGlobalSection> => {
-      return fetch(dataResponse.data.videos || "").then((response: Response) =>
-        response.json()
-      );
+      return fetch(
+        dataResponse.body.data.videos || ""
+      ).then((response: Response) => response.json());
     },
     fetchOptions
   );

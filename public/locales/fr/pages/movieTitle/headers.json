@@ -1,13 +1,5 @@
 {
-    "trailerWindowTitle": "bande annonce",
-    "tags": {
-        "entertainment": "Animation",
-        "family": "Familial",
-        "humor": "Humour",
-        "musical": "Musical",
-        "childrens": "Enfants",
-        "adventure": "Aventure"
-    },
+    "trailerWindowTitle": "Bande annonce",
     "watch": "Regarder",
     "trailer": "Bande annonce"
 }

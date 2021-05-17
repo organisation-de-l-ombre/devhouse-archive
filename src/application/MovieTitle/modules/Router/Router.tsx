@@ -12,6 +12,9 @@ const CharactersSection = React.lazy(
 );
 const VideosSection = React.lazy(() => import("../../sections/Videos/Videos"));
 const OSTSection = React.lazy(() => import("../../sections/OST/OST"));
+const TechnicalSpecsSection = React.lazy(
+  () => import("../../sections/TechnicalSpecs/TechnicalSpecs")
+);
 const NotFound = React.lazy(
   () => import("@components/modules/NotFound/NotFound")
 );
@@ -37,8 +40,8 @@ const Router: ReactMovieElement = ({ dataResponse }) => {
         <Route path={`${baseURL}/ost`} exact>
           <OSTSection dataResponse={dataResponse} />
         </Route>
-        <Route path={`${baseURL}/technical-specs`} exact>
-          <></>
+        <Route path={`${baseURL}/technicalSpecs`} exact>
+          <TechnicalSpecsSection dataResponse={dataResponse} />
         </Route>
         <Route path="*" exact>
           <NotFound />
