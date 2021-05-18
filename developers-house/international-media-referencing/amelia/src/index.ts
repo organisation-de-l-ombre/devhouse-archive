@@ -6,6 +6,7 @@ declare module "fastify" {
 }
 
 import "reflect-metadata";
+import * as Sentry from "@sentry/node";
 import { Connection, createConnection } from "typeorm";
 import Fastify, {
   RouteOptions,
@@ -32,11 +33,15 @@ import { Company } from "@entities/company";
 import { Language } from "@entities/language";
 import { MovieTitle } from "@entities/movie-title";
 import { Tag } from "@entities/tag";
-
 import { MovieTitle1618162709488 } from "./migration/1618162709488-MovieTitle";
 
 const databaseHost: string = process.env.POSTGRES_HOST || "";
 const databaseUsername: string = process.env.POSTGRES_USERNAME || "";
+
+Sentry.init({
+  dsn:
+    "https://91ed16cf487540ec98f941f9f5d03d82@o683578.ingest.sentry.io/5771237"
+});
 
 createConnection({
   type: "postgres",
@@ -79,6 +84,16 @@ createConnection({
         // Adds plugins to Fastify instance
         addPlugins(): void {
           void this.FastifyClient.register(fastifyCors);
+          this.FastifyClient.addHook(
+            "onError",
+            (_request, _reply, error, done) => {
+              if (process.env.NODE_ENV !== "development") {
+                Sentry.captureException(error);
+              }
+              // eslint-disable-next-line promise/no-callback-in-promise
+              done();
+            }
+          );
         }
 
         // Adds decorations to Fastify instance
