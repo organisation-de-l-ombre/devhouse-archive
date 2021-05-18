@@ -39,7 +39,7 @@ $speed: 175ms;
 .drawer {
   display: grid;
   grid-template-columns: 60% auto;
-  width: 100%;
+  overflow: hidden;
 }
 
 .username {
@@ -89,7 +89,6 @@ $speed: 175ms;
       position: absolute;
 
       height: calc(100vh - 2.25rem - 1.15rem);
-      width: 100%;
 
       pointer-events: none;
 
