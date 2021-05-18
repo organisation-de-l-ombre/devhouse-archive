@@ -15,8 +15,11 @@
 }
 
 .color {
-  div { background-color: var(--foreground-primary); }
+  div {
+    background-color: var(--foreground-primary);
+  }
 }
 
-
-#root { height: 100vh; }
+#root {
+  height: 100vh;
+}

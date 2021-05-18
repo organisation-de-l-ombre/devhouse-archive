@@ -45,6 +45,7 @@ const Ripple: React.FC<
     />
   );
 };
+
 const Button: React.FC<
   React.DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -53,7 +54,7 @@ const Button: React.FC<
     large?: boolean;
     margin?: boolean;
   }
-> = ({ className, margin, large, onClick, ...props }) => (
+> = ({ className, large, margin, onClick, ...props }) => (
   <button
     className={[
       className,
@@ -67,12 +68,13 @@ const Button: React.FC<
     {...props}
   />
 );
+
 const ButtonLink: React.FC<
   NavLinkProps & {
     large?: boolean;
     margin?: boolean;
   }
-> = ({ className, margin, large, onClick, ...props }) => (
+> = ({ className, large, margin, onClick, ...props }) => (
   // eslint-disable-next-line jsx-a11y/anchor-has-content,jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
   <NavLink
     className={[
@@ -87,10 +89,34 @@ const ButtonLink: React.FC<
   />
 );
 
+const ButtonExternalLink: React.FC<
+  React.DetailedHTMLProps<
+    React.AllHTMLAttributes<HTMLAnchorElement>,
+    HTMLAnchorElement
+  > & { large?: boolean; margin?: boolean }
+> = ({ className, large, margin, onClick, children, ...props }) => {
+  return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+    <a
+      className={[
+        className,
+        styles.relative,
+        styles.button,
+        large && styles.large,
+        margin && styles.margin,
+      ].join(" ")}
+      onClick={(e) => rippleEvent(e) && onClick && onClick(e)}
+      {...props}
+    >
+      {children}
+    </a>
+  );
+};
+
 const ButtonImage: React.FC<SimplifiedHTMLProperties<HTMLDivElement>> = ({
   className,
   ...props
 }) => <div className={[className, styles.image].join(" ")} {...props} />;
 
 export default Button;
-export { Button, ButtonLink, ButtonImage, Ripple };
+export { Button, ButtonLink, ButtonExternalLink, ButtonImage, Ripple };

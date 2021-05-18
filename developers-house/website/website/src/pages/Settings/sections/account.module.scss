@@ -9,14 +9,18 @@
   flex-flow: column nowrap;
   margin-top: 1rem;
 
-  span { margin-bottom: 0.5rem; }
+  span {
+    margin-bottom: 0.5rem;
+  }
 
   input {
-    margin-bottom: 0.5rem; }
+    margin-bottom: 0.5rem;
+  }
 
-  p { color: #EE0011; }
+  p {
+    color: #ee0011;
+  }
 }
-
 
 .indicator {
   padding: 0.2rem;

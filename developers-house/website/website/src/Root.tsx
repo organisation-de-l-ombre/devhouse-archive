@@ -1,26 +1,22 @@
-/*
- * This component is the Application.
- * It loads the state and Suspense the service worker &
- * the App component.
- */
-import React, { ReactElement } from "react";
+import React, { lazy, ReactElement } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { I18nextProvider } from "react-i18next";
 import i18next from "i18next";
 import { RequestContext, UserAPIApi } from "@developers-house/abdera";
-import ThemeProvider from "./components/ThemeProvider/ThemeProvider";
 import Navigator from "./pages/Navigator";
 import { register } from "./utilities";
 import { Menu } from "./components/navbar";
-import { Logger } from "./utilities/logger";
-import NotificationsArea from "./components/notifications/NotificationsArea";
 import { store } from "./state";
 import { addNotification } from "./state/slices/notifications/notifications";
 
-const logger = new Logger("Root");
-logger.info("~ Loading Developer's House frontend.");
+const ThemeProvider = lazy(
+  () => import("./components/ThemeProvider/ThemeProvider")
+);
+const NotificationsArea = lazy(
+  () => import("./components/notifications/NotificationsArea")
+);
 
 const UserAPI = new UserAPIApi().withPreMiddleware(
   async (context: RequestContext) => {
@@ -38,12 +34,10 @@ const ErrorPage = React.lazy(() => import("pages/ErrorPage"));
 
 register({
   onUpdate(registration) {
-    logger.info("Update callback triggered.");
     store.dispatch(
       addNotification({
         level: "information",
-        text:
-          "A new update is available for the website. Would you like to load this new update ?",
+        text: "A new update is available for the website. Would you like to load this new update ?",
         time: -1,
         buttons: [
           {
@@ -59,7 +53,6 @@ register({
     );
   },
   onSuccess() {
-    logger.info("service worker installed.");
     store.dispatch(
       addNotification({
         level: "information",

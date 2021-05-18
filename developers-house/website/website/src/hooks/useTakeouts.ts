@@ -10,7 +10,7 @@ import { useCriticalError } from "./useAuthorizedApps";
 import { UserAPI } from "../Root";
 
 const useTakeouts = (): QueryObserverResult<Takeout[], Error> => {
-  return useQuery("membersCache", () => UserAPI.selfTakeoutsGet());
+  return useQuery("account/takeouts", () => UserAPI.selfTakeoutsGet());
 };
 
 const useCreateTakeout = (): UseMutateFunction<Takeout, Error> => {
