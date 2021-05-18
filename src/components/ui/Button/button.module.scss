@@ -3,6 +3,7 @@
   display: inline-flex;
   align-items: center;
   border-radius: 5px;
+  word-break: normal;
   background-color: var(--background-primary);
   color: var(--foreground-primary);
   font-size: 16px;
@@ -12,10 +13,12 @@
   &:hover {
     background-color: var(--background-hover-primary);
   }
-  &:disabled { background-color: var(--background-hover-secondary); }
+  &:disabled {
+    background-color: var(--background-hover-secondary);
+  }
 
   &.large {
-    padding: .25rem .25rem .25rem .25rem;
+    padding: 0.25rem 0.25rem 0.25rem 0.25rem;
     .image {
       font-size: 2rem;
     }
@@ -45,10 +48,11 @@
     border-radius: 0;
     flex: 1;
     .button {
-      width: max-content;
+      width: 100%;
     }
   }
-  .button, a .button {
+  .button,
+  a .button {
     position: relative;
     justify-content: center;
     border-radius: 0;

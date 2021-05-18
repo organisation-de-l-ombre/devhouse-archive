@@ -42,3 +42,34 @@
   flex-direction: column;
   display: flex;
 }
+
+.links {
+  padding: 0 2rem 2rem;
+  display: flex;
+
+  .link {
+    max-width: 25rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+
+    .title {
+      display: flex;
+      align-items: center;
+
+      svg {
+        margin-right: 1rem;
+        width: 25px;
+        height: 25px;
+      }
+    }
+
+    button {
+      margin-top: 2rem;
+      width: fit-content;
+      background-color: var(--background-tertiary);
+
+      &:hover { background-color: var(--background-hover-tertiary); }
+    }
+  }
+}

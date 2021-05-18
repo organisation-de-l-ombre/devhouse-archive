@@ -1,64 +1,73 @@
 .text {
-    flex: 1;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    display: flex;
-    flex-direction: column;
+  flex: 1;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .full {
-    flex: 1;
-    margin: 0;
+  flex: 1;
+  margin: 0;
 }
 
 .users {
+  display: flex;
+  align-items: center;
+  svg {
+    pointer-events: all;
+    height: 2.5rem;
+    margin-left: 0.25rem;
+  }
+  .managers {
+    padding: 0.25rem 0.25rem 0;
     display: flex;
+    justify-content: center;
     align-items: center;
-    svg {
-        pointer-events: all;
-        height: 2.5rem;
-        margin-left: 0.25rem;
-    }
-    .managers {
-        padding: 0.25rem 0.25rem 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: var(--background-primary) 3px solid;
-        border-radius: 5px;
-    }
-    .members {
-        border: transparent 3px solid;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-    }
-    margin-top: 1rem;
+    border: var(--background-primary) 3px solid;
+    border-radius: 5px;
+  }
+  .members {
+    border: transparent 3px solid;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+  margin-top: 1rem;
 }
 
-.members-container { margin: 1rem; }
+.members-container {
+  margin: 1rem;
+}
 
-.main { flex: 1; margin-top: 2.5rem; }
+.main {
+  flex: 1;
+  margin-top: 2.5rem;
+}
 
 .header {
-    margin: 0;
-    grid-column: 1/-1;
+  margin: 0;
+  grid-column: 1/-1;
 }
 
 .grid {
-    padding: .5rem;
-    display: grid;
-    grid-gap: .5rem;
-    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-    margin-left: 5vw;
-    margin-right: 5vw;
+  padding: 0.5rem;
+  display: grid;
+  grid-gap: 0.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  margin-left: 5vw;
+  margin-right: 5vw;
 }
 
 .panel {
-    display: flex;
-    padding: 1.75rem;
-    background: var(--image) no-repeat right bottom, linear-gradient(var(--background-secondary), var(--background-hover-secondary));
-    background-size: 50%;
-    background-position-x: 120%;
-    background-position-y: 120%;
+  display: flex;
+  padding: 1.75rem;
+  background: var(--image) no-repeat right bottom,
+    linear-gradient(
+      var(--background-secondary),
+      var(--background-hover-secondary)
+    );
+  background-size: 50%;
+  background-position-x: 120%;
+  background-position-y: 120%;
 }

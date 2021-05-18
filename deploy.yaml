@@ -83,7 +83,7 @@ health:
     command: []
 
 # Defines the schedule requirements and priority for
-# scheduling the pods in the cluster. You can 
+# scheduling the pods in the cluster. You can
 # put maxUnavailable OR minAvailable.
 podDisruption:
   enabled: true
@@ -99,12 +99,12 @@ networkPolicy:
     podSelector:
       matchLabels: {}
     ingress:
-    - from:
-      - podSelector:
-          matchLabels: {}
-      - namespaceSelector:
-          matchLabels:
-            role: ingress
+      - from:
+          - podSelector:
+              matchLabels: {}
+          - namespaceSelector:
+              matchLabels:
+                role: ingress
 
 # The service account of the contaier.
 # Allow access to the kubernetes apis here.
@@ -132,7 +132,7 @@ oauthClient:
     # - token
   scope: "account.* websocket.*"
   audiences:
-   - abdera
+    - abdera
   tokenEndpointAuthMethod: none
 
 storageBucket:

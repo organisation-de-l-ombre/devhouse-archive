@@ -28,3 +28,6 @@ package-lock.json
 # Config folders
 .idea/
 .vscode/
+
+# Related to Eslint
+.eslintcache

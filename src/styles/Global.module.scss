@@ -1,8 +1,14 @@
-.card-margin { margin: .5rem; }
+.card-margin {
+  margin: 0.5rem;
+}
 
 .container-align-full-center {
   justify-content: center;
   align-items: center;
+}
+
+.flex-column {
+  flex-direction: column;
 }
 
 .fit-content {
@@ -43,3 +49,6 @@
   }
 }
 
+.no-margin {
+  margin: 0 !important;
+}
