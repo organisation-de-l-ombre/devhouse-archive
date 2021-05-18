@@ -50,13 +50,7 @@ register({
             text: "Yes",
             click: (): boolean => {
               registration.waiting?.postMessage({ type: "SKIP_WAITING" });
-              if (registration.waiting?.state !== "activated") {
-                registration.waiting?.addEventListener("statechange", () => {
-                  if (registration?.waiting?.state === "activated") {
-                    window.location.reload();
-                  }
-                });
-              }
+              window.location.reload();
               return true;
             },
           },
