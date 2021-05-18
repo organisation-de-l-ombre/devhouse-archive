@@ -25,9 +25,9 @@ const NotificationComponent = (props: {
   useEffect((): NotificationCleanup => {
     if (notification.time !== -1 && !timer) {
       setTimer(
-        setTimeout(() => {
+        (setTimeout(() => {
           destroySelf();
-        }, notification.time) as unknown as number
+        }, notification.time) as unknown) as number
       );
     }
     return () => {

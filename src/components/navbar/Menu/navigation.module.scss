@@ -38,8 +38,9 @@ $speed: 175ms;
 
 .drawer {
   display: grid;
+  width: 100%;
   grid-template-columns: 60% auto;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .username {
