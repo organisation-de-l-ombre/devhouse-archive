@@ -130,51 +130,55 @@ const ProjectDetails: FC<RouteComponentProps> = ({ match }) => {
       <p className={styles.description}>
         <q className={globalStyles.quotes}>{project.longDescription}</q>
       </p>
-      {["managers", "members"].map((category): ReactElement => {
-        return (
-          <div key={category} className={styles.section}>
-            <h2>Project {category}</h2>
-            <div className={styles.cards}>
-              {project[category as Category]?.map(
-                (member: StaffMember): ReactElement => {
-                  return (
-                    <Card key={member.id} className={styles["card-root"]}>
-                      <CardPadding className={styles["card-content"]}>
-                        <UserAvatarStatus
-                          statusColor={statusToColor(member.presence.status)}
-                          avatar={getAvatar(member)}
-                        />
-                        <div className={styles.content}>
-                          <h2>{member.username}</h2>
-                          <h3 style={{ color: member.role.color }}>
-                            {member.role.name}
-                          </h3>
-                          <div>
-                            {member.presence.text && (
-                              <p>
-                                {member.presence.emote &&
-                                  (member.presence.emote.startsWith("http") ? (
-                                    <img
-                                      alt="Discord emoji"
-                                      src={member.presence.emote}
-                                    />
-                                  ) : (
-                                    member.presence.emote
-                                  ))}
-                                {member.presence.text}
-                              </p>
-                            )}
+      {["managers", "members"].map(
+        (category): ReactElement => {
+          return (
+            <div key={category} className={styles.section}>
+              <h2>Project {category}</h2>
+              <div className={styles.cards}>
+                {project[category as Category]?.map(
+                  (member: StaffMember): ReactElement => {
+                    return (
+                      <Card key={member.id} className={styles["card-root"]}>
+                        <CardPadding className={styles["card-content"]}>
+                          <UserAvatarStatus
+                            statusColor={statusToColor(member.presence.status)}
+                            avatar={getAvatar(member)}
+                          />
+                          <div className={styles.content}>
+                            <h2>{member.username}</h2>
+                            <h3 style={{ color: member.role.color }}>
+                              {member.role.name}
+                            </h3>
+                            <div>
+                              {member.presence.text && (
+                                <p>
+                                  {member.presence.emote &&
+                                    (member.presence.emote.startsWith(
+                                      "http"
+                                    ) ? (
+                                      <img
+                                        alt="Discord emoji"
+                                        src={member.presence.emote}
+                                      />
+                                    ) : (
+                                      member.presence.emote
+                                    ))}
+                                  {member.presence.text}
+                                </p>
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      </CardPadding>
-                    </Card>
-                  );
-                }
-              )}
+                        </CardPadding>
+                      </Card>
+                    );
+                  }
+                )}
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        }
+      )}
       <div className={styles.section}>
         <h2>Detailed project information</h2>
         {markdown ? (
