@@ -17,15 +17,19 @@ export default function Consent(): ReactElement {
     if (challenge) {
       fetchConsent(challenge)
         .then((data) => {
-          if (data.redirect) { 
+          if (data.redirect) {
             router.push(data.redirect);
           } else {
             setConsent(data);
           }
+
+          setLoading(false);
         })
-        .then(() => setLoading(false));
+        .catch((error: Error): void => {
+          router.push(`/?error_message=${error.message}`);
+        });
     }
-  }, [router.query.consent_challenge]);
+  }, [router, router.query.consent_challenge]);
 
   const submit = useCallback(
     async (granted: boolean) => {
