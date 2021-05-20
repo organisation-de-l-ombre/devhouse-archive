@@ -23,6 +23,7 @@ const App = ({ Component, pageProps, theme }): ReactElement => {
     <>
       <Head key="app-root">
         <title>Sienna</title>
+        <link rel="icon" href="favicon.ico" />
         <meta name="theme-color" content="#000000" />
         <meta content="website" property="og:type" />
         <meta

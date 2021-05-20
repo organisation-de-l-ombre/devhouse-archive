@@ -1,5 +1,11 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { ReactElement, useCallback, useRef, useState, FormEvent } from "react";
+import React, {
+  ReactElement,
+  useCallback,
+  useRef,
+  useState,
+  FormEvent,
+} from "react";
 import Loader from "react-loaders";
 import { useRouter } from "next/router";
 import Head from "next/head";
@@ -102,7 +108,9 @@ export default function Register(): ReactElement {
             </label>
           </div>
           <ButtonContainer horizontal>
-            <Button type="submit" onClick={() => submit()}>Create account</Button>
+            <Button type="submit" onClick={() => submit()}>
+              Create account
+            </Button>
           </ButtonContainer>
         </form>
       </div>

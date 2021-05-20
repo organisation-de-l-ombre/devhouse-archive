@@ -21,9 +21,11 @@ export default function Login(): ReactElement {
           } else {
             setSession(data);
           }
-        })
-        .then(() => {
+
           setLoading(false);
+        })
+        .catch((error: Error): void => {
+          router.push(`/?error_message=${error.message}`);
         });
     }
   }, [router]);
