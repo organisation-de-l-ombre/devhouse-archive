@@ -25,8 +25,6 @@ embed_migrations!();
 
 #[database("scarlet_db")]
 pub struct ScarletDB(rocket_contrib::databases::diesel::PgConnection);
-#[database("redis")]
-pub struct RedisDB(rocket_contrib::databases::redis::Connection);
 
 macro_rules! map(
     { $($key:expr => $value:expr),+ } => {
@@ -50,16 +48,6 @@ fn rocket() -> Rocket {
         env::var("POSTGRES_DATABASE").expect("You need a POSTGRES_DATABASE.")
     );
 
-    let redis_url = format!(
-        "redis://{}:{}",
-        env::var("REDIS_HOST").expect("You need a REDIS_HOST."),
-        env::var("REDIS_PORT").expect("You need a REDIS_PORT."),
-    );
-
-    let redis_config: HashMap<_, Value> = map! {
-        "url" => redis_url.into()
-    };
-
     let scarlet_db_config: HashMap<_, Value> = map! {
         "url" => postgres_url.into()
     };
@@ -68,7 +56,6 @@ fn rocket() -> Rocket {
         .extra(
             "databases",
             map! {
-                "redis" => redis_config,
                 "scarlet_db" => scarlet_db_config
             },
         )
@@ -86,7 +73,6 @@ fn main() {
 
     rocket()
         .attach(ScarletDB::fairing())
-        .attach(RedisDB::fairing())
         .mount(
             "/",
             routes![
