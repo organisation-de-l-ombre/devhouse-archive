@@ -3,13 +3,7 @@ openapi: 3.0.0
 info:
   title: Cryir
   version: v2
-
-servers:
-  - url: https://{host}:5000
-    variables:
-      host:
-        default: https://unk
-
+  
 paths:
   /takeouts/{user}:
     put:
