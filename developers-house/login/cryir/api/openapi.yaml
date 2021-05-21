@@ -5,6 +5,11 @@ info:
 servers:
 - url: /
 paths:
+  /health:
+    get:
+      responses:
+        "200":
+          description: working
   /takeouts/{user}:
     get:
       description: Gets the list of takeouts available for a user.

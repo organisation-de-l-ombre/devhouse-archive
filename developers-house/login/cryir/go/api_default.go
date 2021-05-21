@@ -42,6 +42,12 @@ func (c *DefaultApiController) Routes() Routes {
 			c.GetTakeouts,
 		},
 		{
+			"HealthGet",
+			strings.ToUpper("Get"),
+			"/health",
+			c.HealthGet,
+		},
+		{
 			"RequestDelete",
 			strings.ToUpper("Put"),
 			"/deletion/{user}",
@@ -72,6 +78,19 @@ func (c *DefaultApiController) GetTakeouts(w http.ResponseWriter, r *http.Reques
 	user := params["user"]
 
 	result, err := c.service.GetTakeouts(r.Context(), user)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		EncodeJSONResponse(err.Error(), &result.Code, w)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
+
+}
+
+// HealthGet -
+func (c *DefaultApiController) HealthGet(w http.ResponseWriter, r *http.Request) {
+	result, err := c.service.HealthGet(r.Context())
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		EncodeJSONResponse(err.Error(), &result.Code, w)

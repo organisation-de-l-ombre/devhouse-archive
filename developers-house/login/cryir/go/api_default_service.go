@@ -66,6 +66,17 @@ func (s *DefaultApiService) GetTakeouts(ctx context.Context, user string) (ImplR
 	return Response(http.StatusNotImplemented, nil), errors.New("GetTakeouts method not implemented")
 }
 
+// HealthGet - 
+func (s *DefaultApiService) HealthGet(ctx context.Context) (ImplResponse, error) {
+	// TODO - update HealthGet with the required logic for this service method.
+	// Add api_default_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+
+	//TODO: Uncomment the next line to return response Response(200, {}) or use other options such as http.Ok ...
+	//return Response(200, nil),nil
+
+	return Response(http.StatusNotImplemented, nil), errors.New("HealthGet method not implemented")
+}
+
 // RequestDelete - 
 func (s *DefaultApiService) RequestDelete(ctx context.Context, user string) (ImplResponse, error) {
 	// TODO - update RequestDelete with the required logic for this service method.
