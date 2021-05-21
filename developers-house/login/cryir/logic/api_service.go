@@ -6,6 +6,11 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
+	"os"
+	"strings"
+	"time"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -15,10 +20,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/streadway/amqp"
 	"go.developers-house.xyz/login-group/cryir/server"
-	"log"
-	"os"
-	"strings"
-	"time"
 )
 
 var ctx = context.Background()

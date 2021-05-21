@@ -1,12 +1,23 @@
+version: "3"
+
 services:
   rabbitmq:
     image: rabbitmq:3-management
     restart: always
-    ports:
-    - 8080:15672
-    - 5672:5672
   redis:
     image: redis
-    ports:
-    - 6379:6379
     restart: always
+  cryir:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
+      - redis
+    links:
+      - rabbitmq
+      - redis
+    environment:
+      RABBITMQ_HOST: amqp://guest:guest@rabbitmq:5672
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
