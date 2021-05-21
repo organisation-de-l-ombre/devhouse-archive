@@ -12,5 +12,5 @@ RUN go build -a -installsuffix cgo -o openapi .
 
 FROM scratch AS runtime
 COPY --from=build /go/src/openapi ./
-EXPOSE 8080/tcp
+EXPOSE 5000/tcp
 ENTRYPOINT ["./openapi"]
