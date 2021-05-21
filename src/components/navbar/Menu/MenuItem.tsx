@@ -3,7 +3,7 @@
  */
 import React from "react";
 import styles from "./navigation.module.scss";
-import { Ripple } from "../../ui/Button/Button";
+import { Ripple } from "../../Button/Button";
 
 export const NavigationItem: React.FC<
   React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>

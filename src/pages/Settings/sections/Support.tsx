@@ -3,7 +3,7 @@
  */
 
 import React, { ReactElement } from "react";
-import { TitleBox } from "../../../components/ui/TitleBox/TitleBox";
+import { TitleBox } from "../../../components/TitleBox/TitleBox";
 
 const Support = (): ReactElement => {
   return (

@@ -56,15 +56,18 @@ const useAuthorizedAppsDeleteMutation = (
     () => UserAPI.selfAuthorizationsDelete({ clientId: authorizedApp }),
     {
       async onMutate() {
-        await client.cancelQueries("authorized_apps");
+        await client.cancelQueries("account/authorized-apps");
 
-        client.setQueryData<Authorization[]>("authorized_apps", (old) => {
-          if (old) {
-            return old.filter((x) => x.client.id !== authorizedApp);
+        client.setQueryData<Authorization[]>(
+          "account/authorized-apps",
+          (old) => {
+            if (old) {
+              return old.filter((x) => x.client.id !== authorizedApp);
+            }
+
+            return [];
           }
-
-          return [];
-        });
+        );
       },
       onSuccess() {
         if (clientId === authorizedApp) {
@@ -72,7 +75,7 @@ const useAuthorizedAppsDeleteMutation = (
         }
       },
       onError(err, variables, previousValue) {
-        client.setQueryData("authorized_apps", previousValue);
+        client.setQueryData("account/authorized-apps", previousValue);
 
         if (err) {
           criticalError(new Error(err as string));
@@ -95,14 +98,14 @@ const useAuthorizedAppsAllDelete = (): UseMutateFunction => {
     () => UserAPI.selfAuthorizationsDelete({ clientId: "" }),
     {
       async onMutate() {
-        await client.cancelQueries("authorized_apps");
+        await client.cancelQueries("account/authorized-apps");
 
-        client.setQueryData<Authorization[]>("authorized_apps", () => {
+        client.setQueryData<Authorization[]>("account/authorized-apps", () => {
           return [];
         });
       },
       onError(err, variables, previousValue) {
-        client.setQueryData("authorized_apps", previousValue);
+        client.setQueryData("account/authorized-apps", previousValue);
 
         if (err) {
           criticalError(new Error(err as string));

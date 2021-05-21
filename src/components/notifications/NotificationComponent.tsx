@@ -2,8 +2,8 @@ import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 import { FaWindowClose } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { Button } from "../ui/Button/Button";
-import ButtonGroup from "../ui/Button/ButtonGroup";
+import { Button } from "../Button/Button";
+import ButtonGroup from "../Button/ButtonGroup";
 import styles from "./notifications.module.scss";
 import {
   removeNotification,

@@ -27,7 +27,11 @@ const preloaded = {} as DeepPartial<{
 save.forEach((key) => {
   const item = localStorage.getItem(`redux-save/${key}`);
   if (item) {
-    preloaded[key] = JSON.parse(item);
+    try {
+      preloaded[key] = JSON.parse(item);
+    } catch (e) {
+      preloaded[key] = undefined;
+    }
   }
 });
 

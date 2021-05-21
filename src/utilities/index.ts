@@ -1,12 +1,10 @@
 export * from "./functions";
 export * from "./serviceWorker";
 
-export function urlEncodeFormData(fd: string[][]): string {
+export function urlEncodeFormData(fd: { [key: string]: string }): string {
   let s = "";
-  fd.forEach((pair) => {
-    if (typeof pair[1] === "string") {
-      s += `${(s ? "&" : "") + encodeURIComponent(pair[0])}=${pair[1]}`;
-    }
+  Object.keys(fd).forEach((pair) => {
+    s += `${(s ? "&" : "") + encodeURIComponent(pair)}=${fd[pair]}`;
   });
   return s;
 }

@@ -32,7 +32,6 @@ $speed: 175ms;
   align-items: center;
   align-content: center;
   display: flex;
-  width: 100%;
   transition: none;
 }
 
@@ -40,7 +39,6 @@ $speed: 175ms;
   display: grid;
   width: 100%;
   grid-template-columns: 60% auto;
-  overflow: visible;
 }
 
 .username {
@@ -68,6 +66,7 @@ $speed: 175ms;
   }
 
   @media screen and (max-width: 700px) {
+    position: fixed;
     flex-flow: column wrap;
     display: inline-block;
 

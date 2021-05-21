@@ -4,15 +4,15 @@
 
 import React, { FC, ReactElement } from "react";
 import { Formik } from "formik";
-import Button from "components/ui/Button/Button";
-import { TitleBox } from "../../../components/ui/TitleBox/TitleBox";
+import Button from "components/Button/Button";
+import { TitleBox } from "../../../components/TitleBox/TitleBox";
 import {
   Card,
   CardHeader,
   CardPadding,
   CardSection,
-} from "../../../components/ui/Card/Card";
-import { Input } from "../../../components/ui/Input/Input";
+} from "../../../components/Card/Card";
+import { Input } from "../../../components/Input/Input";
 import styles from "./account.module.scss";
 import { useUser } from "../../../state/slices/account/hooks";
 
