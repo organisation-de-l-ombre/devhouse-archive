@@ -1,14 +1,14 @@
-import { Card } from "components/ui/Card/Card";
+import { Card } from "components/Card/Card";
 import React, { CSSProperties, ReactElement } from "react";
-import Text from "components/ui/Text/Text";
-import Button, { ButtonLink } from "components/ui/Button/Button";
+import Text from "components/Text/Text";
+import Button, { ButtonLink } from "components/Button/Button";
 import Tooltip from "rc-tooltip";
-import { TitleBox } from "../../components/ui/TitleBox/TitleBox";
+import { TitleBox } from "../../components/TitleBox/TitleBox";
 import styles from "./Projects.module.scss";
-import ButtonGroup from "../../components/ui/Button/ButtonGroup";
+import ButtonGroup from "../../components/Button/ButtonGroup";
 import useProjects from "../../hooks/useProjects";
 import { Loader } from "../../components/SuspenseLoader/SuspenseLoader";
-import UserAvatarStatus from "../../components/ui/UserAvatarStatus/UserAvatarStatus";
+import UserAvatarStatus from "../../components/UserAvatarStatus/UserAvatarStatus";
 import { getAvatar, statusToColor } from "../../utilities";
 import { withNetwork } from "../../hooks/hoc/withNetwork";
 

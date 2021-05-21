@@ -11,7 +11,7 @@ import { NavigationItem } from "./Menu/MenuItem";
 import { NavigationContainer } from "./Menu/MenuContainer";
 import { DrawerContent } from "./Menu/DrawerContent";
 import styles from "./Menu/navigation.module.scss";
-import UserAvatarStatus from "../ui/UserAvatarStatus/UserAvatarStatus";
+import UserAvatarStatus from "../UserAvatarStatus/UserAvatarStatus";
 import globalStyles from "../../styles/Global.module.scss";
 import { useNotificationsManager } from "../../hooks/useNotifications";
 import { useLogin } from "../../state/slices/account/hooks";

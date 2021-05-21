@@ -1,5 +1,3 @@
-/// <reference lib="dom" />
-
 import React, { useCallback, useEffect, useState } from "react";
 import CenteredMessage from "../../components/CenteredMessage/CenteredMessage";
 

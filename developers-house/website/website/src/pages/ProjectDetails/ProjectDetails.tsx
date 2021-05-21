@@ -9,7 +9,7 @@ import { RouteComponentProps, useHistory } from "react-router";
 import useProjects from "hooks/useProjects";
 import { Projects, StaffMember } from "@developers-house/abdera";
 import CenteredMessage from "components/CenteredMessage/CenteredMessage";
-import Button from "components/ui/Button/Button";
+import Button from "components/Button/Button";
 import FlexContainer from "components/FlexContainer/FlexContainer";
 import ReactMarkdown from "react-markdown";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -20,9 +20,9 @@ import { NavLink } from "react-router-dom";
 import styles from "./ProjectDetails.module.scss";
 import globalStyles from "../../styles/Global.module.scss";
 import { Loader } from "../../components/SuspenseLoader/SuspenseLoader";
-import { TitleBox } from "../../components/ui/TitleBox/TitleBox";
-import { Card, CardPadding } from "../../components/ui/Card/Card";
-import UserAvatarStatus from "../../components/ui/UserAvatarStatus/UserAvatarStatus";
+import { TitleBox } from "../../components/TitleBox/TitleBox";
+import { Card, CardPadding } from "../../components/Card/Card";
+import UserAvatarStatus from "../../components/UserAvatarStatus/UserAvatarStatus";
 import { getAvatar, statusToColor } from "../../utilities";
 import { discordServer } from "../../constants";
 

@@ -4,11 +4,11 @@ import { RiGitlabFill } from "react-icons/ri";
 import { BsQuestionCircleFill } from "react-icons/bs";
 import { Link } from "@developers-house/abdera";
 import useLinkedAccounts from "../../../hooks/useLinkedAccounts";
-import { TitleBox } from "../../../components/ui/TitleBox/TitleBox";
+import { TitleBox } from "../../../components/TitleBox/TitleBox";
 import { Loader } from "../../../components/SuspenseLoader/SuspenseLoader";
-import { Card } from "../../../components/ui/Card/Card";
+import { Card } from "../../../components/Card/Card";
 import styles from "../settings.module.scss";
-import { Button } from "../../../components/ui/Button/Button";
+import { Button } from "../../../components/Button/Button";
 
 const DisplayPlatformSVG: FC<{ platform: string }> = ({ platform }) => {
   switch (platform) {

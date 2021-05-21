@@ -6,16 +6,13 @@ import Button, {
   ButtonImage,
   ButtonLink,
   ButtonExternalLink,
-} from "components/ui/Button/Button";
-import ButtonGroup from "components/ui/Button/ButtonGroup";
+} from "components/Button/Button";
+import ButtonGroup from "components/Button/ButtonGroup";
 import { BsPeopleFill, BsPeople, BsLayersFill } from "react-icons/bs";
 import { MdWork } from "react-icons/md";
-import {
-  Banner,
-  PresentationSection,
-  PresentationWrapper,
-} from "components/ui";
 import FlexContainer from "components/FlexContainer/FlexContainer";
+import {PresentationSection, PresentationWrapper} from "components/Presentation/Presentation";
+import { Banner } from "components/Banner/Banner";
 import globalStyles from "../../styles/Global.module.scss";
 import styles from "./Home.module.scss";
 import { discordServer } from "../../constants";

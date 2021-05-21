@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import Button from "components/ui/Button/Button";
+import Button from "components/Button/Button";
 import { useHistory } from "react-router";
 import CenteredMessage from "../../components/CenteredMessage/CenteredMessage";
 

@@ -1,16 +1,12 @@
 import React, { FC, ReactElement, useCallback } from "react";
 import { AiOutlineLoading, BiRefresh } from "react-icons/all";
 import { useCreateTakeout, useTakeouts } from "../../../hooks/useTakeouts";
-import { TitleBox } from "../../../components/ui/TitleBox/TitleBox";
+import { TitleBox } from "../../../components/TitleBox/TitleBox";
 import { Loader } from "../../../components/SuspenseLoader/SuspenseLoader";
-import {
-  Card,
-  CardPadding,
-  CardSection,
-} from "../../../components/ui/Card/Card";
-import ButtonGroup from "../../../components/ui/Button/ButtonGroup";
+import { Card, CardPadding, CardSection } from "../../../components/Card/Card";
+import ButtonGroup from "../../../components/Button/ButtonGroup";
 import styles from "./account.module.scss";
-import { Button } from "../../../components/ui/Button/Button";
+import { Button } from "../../../components/Button/Button";
 
 const Indicator: FC<{ color: string; key: string }> = ({ color, children }) => {
   return (

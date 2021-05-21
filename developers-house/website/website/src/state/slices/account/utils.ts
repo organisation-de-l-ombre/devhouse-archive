@@ -88,13 +88,13 @@ export async function retrieveOauthToken(clientId: string): Promise<string> {
 
     async function listener({ data, isTrusted }: MessageEvent): Promise<void> {
       if (isTrusted && data.code && data.state && data.state === state) {
-        const form = urlEncodeFormData([
-          ["client_id", encodeURIComponent(clientId || "")],
-          ["grant_type", encodeURIComponent("authorization_code")],
-          ["code", encodeURIComponent(data.code)],
-          ["redirect_uri", encodeURIComponent(redirect)],
-          ["code_verifier", verifier],
-        ]);
+        const form = urlEncodeFormData({
+          client_id: encodeURIComponent(clientId || ""),
+          grant_type: encodeURIComponent("authorization_code"),
+          code: encodeURIComponent(data.code),
+          redirect_uri: encodeURIComponent(redirect),
+          code_verifier: verifier,
+        });
         const response = await fetch(
           "https://auth-server.developershouse.xyz/oauth2/token",
           {
