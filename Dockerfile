@@ -1,7 +1,9 @@
-FROM golang:1.10 AS build
+FROM golang AS build
 WORKDIR /go/src
 COPY go ./go
+COPY logic ./logic
 COPY main.go .
+COPY go.mod go.mod
 
 ENV CGO_ENABLED=0
 RUN go get -d -v ./...
