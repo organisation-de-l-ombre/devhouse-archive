@@ -22,6 +22,7 @@ import (
 type DefaultApiRouter interface { 
 	CreateTakeout(http.ResponseWriter, *http.Request)
 	GetTakeouts(http.ResponseWriter, *http.Request)
+	HealthGet(http.ResponseWriter, *http.Request)
 	RequestDelete(http.ResponseWriter, *http.Request)
 }
 
@@ -33,5 +34,6 @@ type DefaultApiRouter interface {
 type DefaultApiServicer interface { 
 	CreateTakeout(context.Context, string) (ImplResponse, error)
 	GetTakeouts(context.Context, string) (ImplResponse, error)
+	HealthGet(context.Context) (ImplResponse, error)
 	RequestDelete(context.Context, string) (ImplResponse, error)
 }

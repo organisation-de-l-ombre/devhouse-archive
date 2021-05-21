@@ -5,6 +5,11 @@ info:
   version: v2
   
 paths:
+  /health:
+    get:
+      responses:
+        200:
+          description: "working"
   /takeouts/{user}:
     put:
       parameters:
