@@ -1,0 +1,202 @@
+openapi: 3.0.0
+
+info:
+  title: Cryir
+  version: v2
+
+servers:
+  - url: https://{host}:5000
+    variables:
+      host:
+        default: https://unk
+
+paths:
+  /takeouts/{user}:
+    put:
+      parameters:
+        - name: user
+          in: path
+          required: true
+          schema:
+            pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+            maxLength: 64
+            type: string
+      operationId: createTakeout
+      description: Requests a takeout from a user.
+      responses:
+        default:
+          description: Unknown error
+          content:
+            application/json:
+              schema:
+                pattern: "string"
+                maxLength: 20
+                type: string
+        200:
+          description: The created takeout
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Takeout"
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                pattern: "string"
+                maxLength: 20
+                type: string
+        415:
+          description: Unsupported media-type
+          content:
+            application/json:
+              schema:
+                pattern: "string"
+                maxLength: 20
+                type: string
+
+    get:
+      parameters:
+        - name: user
+          in: path
+          required: true
+          schema:
+            pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+            maxLength: 64
+            type: string
+      operationId: getTakeouts
+      description: Gets the list of takeouts available for a user.
+      responses:
+        default:
+          description: Unknown error
+          content:
+            application/json:
+              schema:
+                pattern: "string"
+                maxLength: 20
+                type: string
+        200:
+          description: The list of takeouts for the user.
+          content:
+            application/json:
+              schema:
+                maxItems: 5
+                type: array
+                items:
+                  $ref: "#/components/schemas/Takeout"
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                pattern: "string"
+                maxLength: 20
+                type: string
+        415:
+          description: Unsupported media-type
+          content:
+            application/json:
+              schema:
+                pattern: "string"
+                maxLength: 20
+                type: string
+
+  /deletion/{user}:
+    put:
+      parameters:
+        - name: user
+          in: path
+          required: true
+          schema:
+            pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+            maxLength: 64
+            type: string
+      operationId: requestDelete
+      description: Creates a deletion process for a user.
+      responses:
+        default:
+          description: Unknown error
+          content:
+            application/json:
+              schema:
+                pattern: "string"
+                maxLength: 20
+                type: string
+        200:
+          description: The list of takeouts for the user.
+          content:
+            application/json:
+              schema:
+                pattern: "string"
+                maxLength: 20
+                type: string
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                pattern: "string"
+                maxLength: 20
+                type: string
+        415:
+          description: Unsupported media-type
+          content:
+            application/json:
+              schema:
+                pattern: "string"
+                maxLength: 20
+                type: string
+
+components:
+  schemas:
+    Takeout:
+      type: object
+      description: A takeout and his status.
+      required:
+        - id
+        - services
+        - expire
+        - user
+      additionalProperties: false
+      properties:
+        id:
+          pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+          maxLength: 64  
+          type: string
+        link:
+          maxLength: 500
+          type: string
+          pattern: url
+        expire:
+          minimum: 0
+          maximum: 25200
+          type: integer
+          format: int32
+        user:
+          pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+          maxLength: 64  
+          type: string
+        status:
+          type: string
+          enum:
+            - pending
+            - completed
+        services:
+          type: array
+          maxItems: 1000
+          items:
+            additionalProperties: false
+            type: object
+            required:
+              - status
+            properties:
+              status:
+                type: string
+                enum:
+                  - pending
+                  - failed
+                  - completed
+              name:
+                maxLength: 100
+                type: string
+                pattern: "string"
