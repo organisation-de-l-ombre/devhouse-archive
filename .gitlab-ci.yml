@@ -25,7 +25,7 @@ stages:
   - cleanup
 
 test:
-  image: node:12
+  image: node:14
   before_script:
     - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" >> .npmrc
     - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
@@ -35,7 +35,7 @@ test:
     - yarn install
     - yarn test
 node_build:
-  image: node:12
+  image: node:14
 
   script:
     - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" >> .npmrc
