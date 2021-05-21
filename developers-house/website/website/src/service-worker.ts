@@ -15,7 +15,7 @@ precacheAndRoute((self as any).__WB_MANIFEST);
 const runtimecache = ["/locales", "/.oauth.json"];
 registerRoute(
   ({ url }) => runtimecache.filter((u) => url.pathname.startsWith(u))[0],
-  new StaleWhileRevalidate()
+  new StaleWhileRevalidate({})
 );
 
 self.addEventListener("message", (content) => {
