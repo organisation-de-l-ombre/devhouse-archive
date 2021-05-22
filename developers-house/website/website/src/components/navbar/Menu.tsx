@@ -22,13 +22,20 @@ import { useSwitcher } from "../../hooks/useSwitcher";
 import { useStartsWith } from "../../hooks/usePath";
 import { SmallLoader } from "../SmallLoader/SmallLoader";
 
-const UserButton: FC = () => {
+const UserButton: FC<{ padding?: string }> = ({ padding }) => {
   const { login, status, user } = useLogin();
   return (
-    <>
+    <NavigationItem
+      style={{ padding }}
+      onClick={(e) => {
+        e.stopPropagation();
+        if (!user) login();
+      }}
+      className={styles.right}
+    >
       {status === "available" &&
         (user ? (
-          <NavLink to="/settings" className={styles.right}>
+          <NavLink to="/settings">
             <div style={{ display: "flex", alignItems: "center" }}>
               <UserAvatarStatus
                 style={{
@@ -45,22 +52,11 @@ const UserButton: FC = () => {
             </div>
           </NavLink>
         ) : (
-          /* eslint-disable-next-line */
-          <div className={styles.right} onClick={login}>
-            <FaUser />
-          </div>
+          <FaUser />
         ))}
-      {status === "failed" && (
-        <div className={styles.right}>
-          <AiFillWarning />
-        </div>
-      )}
-      {status === "loading" && (
-        <div className={styles.right}>
-          <SmallLoader />
-        </div>
-      )}
-    </>
+      {status === "failed" && <AiFillWarning />}
+      {status === "loading" && <SmallLoader />}
+    </NavigationItem>
   );
 };
 
@@ -88,14 +84,6 @@ export const Menu = (): ReactElement => {
       <div className={`${styles.primed} ${globalStyles.onlyMobiles}`}>
         <NavigationItem onClick={switchOpen}>
           <h3>Developer&rsquo;s House</h3>
-          <div
-            style={{
-              marginLeft: "auto",
-              marginRight: "1rem",
-            }}
-          >
-            <UserButton />
-          </div>
           {open ? (
             <CgClose
               style={{
@@ -137,9 +125,7 @@ export const Menu = (): ReactElement => {
         <NavLink to="/contact" activeClassName={styles.active}>
           <NavigationItem>Contact</NavigationItem>
         </NavLink>
-        <NavigationItem className={styles.right}>
-          <UserButton />
-        </NavigationItem>
+        <UserButton />
         <NavigationItem
           onClick={(e) => {
             e.stopPropagation();
