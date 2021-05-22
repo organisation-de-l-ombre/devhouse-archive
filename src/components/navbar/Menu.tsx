@@ -1,4 +1,4 @@
-import React, { useCallback, ReactElement } from "react";
+import React, { useCallback, ReactElement, FC } from "react";
 import { NavLink } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaSun, FaUser } from "react-icons/fa";
@@ -22,13 +22,53 @@ import { useSwitcher } from "../../hooks/useSwitcher";
 import { useStartsWith } from "../../hooks/usePath";
 import { SmallLoader } from "../SmallLoader/SmallLoader";
 
+const UserButton: FC = () => {
+  const { login, status, user } = useLogin();
+  return (
+    <>
+      {status === "available" &&
+        (user ? (
+          <NavLink to="/settings" className={styles.right}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <UserAvatarStatus
+                style={{
+                  width: "1.25rem",
+                  display: "flex",
+                  transform: "scale(1.35)",
+                }}
+                animate
+                status={false}
+                statusColor="transparent"
+                avatar={`https://imageproxy.developershouse.xyz/120x120/https://s3.developershouse.xyz/${user?.avatar}`}
+              />
+              <span className={styles.username}>{user?.username}</span>
+            </div>
+          </NavLink>
+        ) : (
+          /* eslint-disable-next-line */
+          <div className={styles.right} onClick={login}>
+            <FaUser />
+          </div>
+        ))}
+      {status === "failed" && (
+        <div className={styles.right}>
+          <AiFillWarning />
+        </div>
+      )}
+      {status === "loading" && (
+        <div className={styles.right}>
+          <SmallLoader />
+        </div>
+      )}
+    </>
+  );
+};
+
 export const Menu = (): ReactElement => {
   const [open, switchOpen, setOpen] = useSwitcher();
   const blacklisted = useStartsWith("/settings");
   const transparent = useScrollPosition() === 0 && !blacklisted;
-
   const dispatch = useDispatch();
-  const { login, status, user } = useLogin();
 
   const dark = useTheme() === "light";
   const { addNotification } = useNotificationsManager();
@@ -48,6 +88,14 @@ export const Menu = (): ReactElement => {
       <div className={`${styles.primed} ${globalStyles.onlyMobiles}`}>
         <NavigationItem onClick={switchOpen}>
           <h3>Developer&rsquo;s House</h3>
+          <div
+            style={{
+              marginLeft: "auto",
+              marginRight: "1rem",
+            }}
+          >
+            <UserButton />
+          </div>
           {open ? (
             <CgClose
               style={{
@@ -82,52 +130,16 @@ export const Menu = (): ReactElement => {
           </NavigationItem>
         </NavLink>
         <NavLink to="/about" activeClassName={styles.active}>
-          <NavigationItem onClick={switchOpenClick}>
+          <NavigationItem>
             <Trans t={t} i18nKey="menu.about" />
           </NavigationItem>
         </NavLink>
         <NavLink to="/contact" activeClassName={styles.active}>
           <NavigationItem>Contact</NavigationItem>
         </NavLink>
-
-        {status === "failed" && (
-          <NavigationItem className={styles.right}>
-            <AiFillWarning />
-          </NavigationItem>
-        )}
-        {status === "loading" && (
-          <NavigationItem className={styles.right}>
-            <SmallLoader />
-          </NavigationItem>
-        )}
-
-        {/* eslint-disable-next-line no-nested-ternary */}
-        {status === "available" &&
-          (user ? (
-            <NavLink to="/settings" className={styles.right}>
-              <NavigationItem>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <UserAvatarStatus
-                    style={{
-                      width: "1.25rem",
-                      display: "flex",
-                      transform: "scale(1.35)",
-                    }}
-                    animate
-                    status={false}
-                    statusColor="transparent"
-                    avatar={`https://s3.developershouse.xyz/${user?.avatar}`}
-                  />
-                  <span className={styles.username}>{user?.username}</span>
-                </div>
-              </NavigationItem>
-            </NavLink>
-          ) : (
-            <NavigationItem className={styles.right} onClick={login}>
-              <FaUser />
-              <span className={globalStyles.onlyMobiles}>Login</span>
-            </NavigationItem>
-          ))}
+        <NavigationItem className={styles.right}>
+          <UserButton />
+        </NavigationItem>
         <NavigationItem
           onClick={(e) => {
             e.stopPropagation();
