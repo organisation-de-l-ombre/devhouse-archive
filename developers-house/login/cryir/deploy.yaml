@@ -65,7 +65,7 @@ health:
   # Check if the container if alive.
   # if not, the container will be restarted.
   livenessProbe:
-    path: "/_healz"
+    path: "/health"
     initialDelaySeconds: 15
     timeoutSeconds: 15
     scheme: "HTTP"
@@ -75,7 +75,7 @@ health:
   # The container will not be available if this check
   # is not passing.
   readinessProbe:
-    path: "/_healz"
+    path: "/health"
     initialDelaySeconds: 5
     timeoutSeconds: 3
     scheme: "HTTP"

@@ -1,13 +1,16 @@
 FROM golang AS build
 WORKDIR /go/src
-COPY . .
+COPY go ./go
+COPY logic ./logic
+COPY main.go .
+COPY go.mod go.mod
 
 ENV CGO_ENABLED=0
 RUN go get -d -v ./...
 
-RUN go build -a -installsuffix cgo -o server .
+RUN go build -a -installsuffix cgo -o openapi .
 
-FROM alpine AS runtime
-COPY --from=build /go/src/server ./
-EXPOSE 8080/tcp
-ENTRYPOINT ["./cryir"]
+FROM scratch AS runtime
+COPY --from=build /go/src/openapi ./
+EXPOSE 5000/tcp
+ENTRYPOINT ["./openapi"]
