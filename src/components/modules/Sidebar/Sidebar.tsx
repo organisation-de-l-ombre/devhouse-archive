@@ -97,7 +97,7 @@ const SidebarManager: ButtonComponent = ({ ...props }) => {
 const SidebarContainer: FunctionComponent<
   HTMLDivElement,
   { open: boolean; manageSidebar: () => void }
-> = ({ open, manageSidebar, children, ...props }) => {
+> = ({ open, manageSidebar, wrap, children, ...props }) => {
   return (
     <FlexContainer
       className={`${styles.container}${open ? ` ${styles.open}` : ""}`}

@@ -18,7 +18,6 @@
     "isolatedModules": false,
     "noEmit": true,
     "jsx": "react",
-    "jsxImportSource": "@emotion/react",
     "baseUrl": "./src",
     "paths": {
       "@lib/*": ["./lib/*"],

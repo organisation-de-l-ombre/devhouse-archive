@@ -9,7 +9,6 @@ import {
   Button,
   GenericLoader,
   ButtonsGroup,
-  Card,
 } from "@components/ui";
 import globalStyles from "@themes/Global.module.scss";
 import { FaEdit } from "react-icons/fa";
