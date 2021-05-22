@@ -13,7 +13,7 @@ const getTakeouts = (server: FastifyInstance): RouteOptions => {
     async handler(request: FastifyRequest, response: FastifyReply) {
       const user = request.user;
 
-      void response.send(await getUserTakeouts(user));
+      void response.send((await getUserTakeouts(user)).data);
     },
     url: "/self/takeouts",
     preHandler: server.auth([hydraCheckToken(["account.takeouts.list"])], {})

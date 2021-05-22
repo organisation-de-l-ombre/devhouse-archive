@@ -1101,10 +1101,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@developers-house/scarlet@^1.1.0":
-  version "1.1.0"
-  resolved "https://gitlab.com/api/v4/projects/22198115/packages/npm/@developers-house/scarlet/-/@developers-house/scarlet-1.1.0.tgz#325a032ee72c51c1b74f8fb6c99f1099221f22c6"
-  integrity sha1-MloDLucsUcG3T4+2yZ8QmSIfIsY=
+"@developers-house/scarlet@^1.3.0":
+  version "1.3.0"
+  resolved "https://gitlab.com/api/v4/projects/22198115/packages/npm/@developers-house/scarlet/-/@developers-house/scarlet-1.3.0.tgz#b780e8ee280f635053827493608298f6cbf1b55e"
+  integrity sha1-t4Do7igPY1BTgnSTYIKY9svxtV4=
   dependencies:
     axios "^0.21.1"
 
