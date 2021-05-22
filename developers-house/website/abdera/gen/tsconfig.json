@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "esModuleInterop": true,
+      "moduleResolution": "Node",
+      "outDir": "dist",
+      "target": "ES5"
+    },
+    "include": [
+      "."
+    ],
+    "exclude": [
+      "./node_modules"
+    ]
+  }
+  
