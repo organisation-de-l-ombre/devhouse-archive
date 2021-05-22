@@ -29,7 +29,7 @@ async function getAuthorizations(
       tos: client.consent_request.client.tos_uri,
       image: client.consent_request.client.logo_uri
     },
-    grantedAt: client.handled_at
+    grantedAt: client.handled_at,
   }));
 }
 
