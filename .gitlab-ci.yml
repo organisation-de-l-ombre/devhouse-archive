@@ -33,7 +33,7 @@ test:
     - npm config set -- '//gitlab.com/api/v4/packages/npm/:_authToken' "${NPM_TOKEN}"
   script:
     - yarn install
-    - yarn test
+    - yarn test --passWithNoTests
 node_build:
   image: node:12
 
