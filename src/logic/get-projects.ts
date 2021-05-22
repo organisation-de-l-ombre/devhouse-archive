@@ -17,13 +17,13 @@ async function getProjects(redis: Redis): Promise<Projects[]> {
       ...project,
       members: members
         ? (await Promise.all(members.map(({ id }) => fetcher(id)))).filter(
-            Boolean
-          )
+          Boolean
+        )
         : [],
       managers: managers
         ? (await Promise.all(managers.map(({ id }) => fetcher(id)))).filter(
-            Boolean
-          )
+          Boolean
+        )
         : []
     }))
   );

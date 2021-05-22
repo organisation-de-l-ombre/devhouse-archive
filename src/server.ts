@@ -39,11 +39,8 @@ declare module "fastify" {
   }
 }
 
-
-
 const scarlet =
   "http://review-v2-openapi-2nrasx.scarlet-22198115-review-v2-openapi-2nrasx";
-
 
 export default class Server {
   private readonly server: FastifyInstance = Fastify();

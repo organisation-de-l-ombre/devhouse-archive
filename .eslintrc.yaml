@@ -48,3 +48,4 @@ rules:
   woke/all: 2
   node/no-unsupported-features/es-syntax: 0
   node/no-missing-import: 0
+  "@typescript-eslint/no-unsafe-return": 0
