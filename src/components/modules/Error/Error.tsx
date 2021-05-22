@@ -1,14 +1,14 @@
-import React from "react";
+import React, { FC } from "react";
 import { useTranslation, Trans } from "react-i18next";
 import globalStyles from "@themes/Global.module.scss";
 import { Card, FlexContainer, ButtonsGroup } from "../../ui";
 import styles from "./Error.module.scss";
 
-const Error = (): React.ReactElement => {
+const Error: FC = () => {
   const { t } = useTranslation("components\\error");
 
   return (
-    <FlexContainer className={globalStyles["alignment-full-center"]}>
+    <FlexContainer expand fullCentered>
       <Card className={`${styles.card} ${globalStyles["animation-opacity"]}`}>
         <h1>
           <Trans t={t} i18nKey="title" />

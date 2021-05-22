@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, useRouteMatch } from "react-router-dom";
-import { useTabBar } from "@hooks/TabBar";
+import useTabBar from "@hooks/useTabBar";
 import { TabBar, tabBarStyles } from "@components/modules";
 import { ReactMovieElement } from "@application/MovieTitle/types";
 import { Trans, useTranslation } from "react-i18next";
@@ -11,7 +11,7 @@ const InternalNavigation: ReactMovieElement = ({ dataResponse }) => {
   const { t } = useTranslation("pages\\movieTitle\\tabbar");
 
   return (
-    <TabBar id="movie-page-navigation" open={open} manageTabBar={manageTabBar}>
+    <TabBar open={open} manageTabBar={manageTabBar}>
       {(Object.keys(dataResponse.body.data).slice(
         1
       ) as (keyof typeof dataResponse.body.data)[])

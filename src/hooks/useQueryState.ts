@@ -1,5 +1,9 @@
-import { useEffect, useRef, useState } from "react";
-import { QueryStateHook } from "./Types";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+
+type QueryStateHook<T> = [
+  queryState: T | undefined,
+  setQueryState: Dispatch<SetStateAction<T | undefined>>
+];
 
 const useQueryState = <T>(name: string, query?: T): QueryStateHook<T> => {
   const queryRef = useRef<URLSearchParams>(

@@ -1,6 +1,6 @@
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { useLanguage } from "@hooks/Language";
+import useLanguage from "@hooks/useLanguage";
 import globalStyles from "@themes/Global.module.scss";
 import { supportedLanguages } from "@store/language";
 import { DisplayLanguageSVG } from "@components/modules";

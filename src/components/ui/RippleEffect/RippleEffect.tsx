@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavbar } from "@hooks/Navbar";
+import useNavbar from "@hooks/useNavbar";
 import styles from "./RippleEffect.module.scss";
 
 const RippleEffect: React.FC<

@@ -1,25 +1,27 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import generateNotificationID from "@lib/generateNotificationID";
-import { useNotificationsManager } from "@hooks/Notifications";
-import { useUser } from "@hooks/User";
+import { useNotificationsManager } from "@hooks/useNotifications";
+import useUser from "@hooks/useUser";
 import {
   FlexContainer,
   TextArea,
   Button,
   GenericLoader,
   ButtonsGroup,
+  Card,
 } from "@components/ui";
 import globalStyles from "@themes/Global.module.scss";
 import { FaEdit } from "react-icons/fa";
 import { RiLogoutBoxRLine } from "react-icons/ri";
+import { FunctionComponent } from "@typings/FunctionComponent";
 import containerStyle from "../../Containers.module.scss";
 
-const Account = (): React.ReactElement => {
+const Account: FunctionComponent<HTMLDivElement> = () => {
   const { t } = useTranslation("pages\\account\\sections\\account");
   const { user, removeUser } = useUser();
   const { addNotifications } = useNotificationsManager();
-  const logout = React.useCallback((): void => {
+  const logout = useCallback((): void => {
     removeUser();
     addNotifications([
       {
@@ -32,12 +34,15 @@ const Account = (): React.ReactElement => {
   }, [addNotifications, removeUser, t]);
 
   if (!user) {
-    return <></>;
+    return null;
   }
 
   return (
     <FlexContainer
-      className={`${containerStyle.container} ${globalStyles["page-body-width"]}`}
+      expand
+      column
+      pageBodyWidth
+      className={containerStyle.container}
     >
       <FlexContainer
         className={`${globalStyles["no-margin"]} ${containerStyle.card}`}

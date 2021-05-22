@@ -1,16 +1,15 @@
-import React from "react";
+import React, { FC } from "react";
 import { BsArrowRight } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
-import { NavLink } from "react-router-dom";
+import { NavLink, NavLinkProps } from "react-router-dom";
 import { FlexContainer } from "@components/ui";
 import globalStyles from "@themes/Global.module.scss";
+import { ButtonComponent, FunctionComponent } from "@typings/FunctionComponent";
 import styles from "./Sidebar.module.scss";
 
-const Sidebar: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & {
+const Sidebar: FunctionComponent<
+  HTMLDivElement,
+  {
     open: boolean;
     manageSidebar: () => void;
     picture?: string;
@@ -27,7 +26,7 @@ const Sidebar: React.FC<
   pictureAlt,
   title,
   children,
-}): React.ReactElement => {
+}) => {
   return (
     <div
       className={[
@@ -57,25 +56,19 @@ const Sidebar: React.FC<
   );
 };
 
-const SidebarSection: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  >
-> = ({ className, children }) => {
+const SidebarSection: FunctionComponent<HTMLDivElement> = ({
+  className,
+  ...props
+}) => {
   return (
-    <div className={`${styles.section}${className ? ` ${className}` : ""}`}>
-      {children}
-    </div>
+    <div
+      className={`${styles.section}${className ? ` ${className}` : ""}`}
+      {...props}
+    />
   );
 };
 
-const SidebarItem: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & { to: string }
-> = ({ className, to, children }) => {
+const SidebarItem: FC<NavLinkProps> = ({ className, to, children }) => {
   return (
     <NavLink
       to={to}
@@ -88,12 +81,7 @@ const SidebarItem: React.FC<
   );
 };
 
-const SidebarManager: React.FC<
-  React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  >
-> = ({ ...props }) => {
+const SidebarManager: ButtonComponent = ({ ...props }) => {
   return (
     <button
       type="button"
@@ -106,11 +94,9 @@ const SidebarManager: React.FC<
   );
 };
 
-const SidebarContainer: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & { open: boolean; manageSidebar: () => void }
+const SidebarContainer: FunctionComponent<
+  HTMLDivElement,
+  { open: boolean; manageSidebar: () => void }
 > = ({ open, manageSidebar, children, ...props }) => {
   return (
     <FlexContainer

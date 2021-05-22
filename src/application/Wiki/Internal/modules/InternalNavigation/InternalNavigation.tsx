@@ -7,12 +7,11 @@ import {
 import IMRLogoMinimal from "@assets/pictures/imr/imr-minimal.png";
 import { Trans, useTranslation } from "react-i18next";
 import { useRouteMatch } from "react-router-dom";
+import { FunctionComponent } from "@typings/FunctionComponent";
 
-const InternalNavigation: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & { open: boolean; manageSidebar: () => void }
+const InternalNavigation: FunctionComponent<
+  HTMLDivElement,
+  { open: boolean; manageSidebar: () => void }
 > = ({ open, manageSidebar }) => {
   const { t } = useTranslation("pages\\wiki\\internal\\sidebar");
   const { url: baseURL } = useRouteMatch();

@@ -1,14 +1,13 @@
 import React from "react";
 import { AiOutlineLink } from "react-icons/ai";
 import { Trans, useTranslation } from "react-i18next";
+import { FunctionComponent } from "@typings/FunctionComponent";
 import styles from "./TabBar.module.scss";
 import { Button } from "../../ui";
 
-const TabBar: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & { open: boolean; manageTabBar: () => void }
+const TabBar: FunctionComponent<
+  HTMLDivElement,
+  { open: boolean; manageTabBar: () => void }
 > = ({ className, children, open, manageTabBar, ...props }) => {
   const { t } = useTranslation("components\\modules\\tabBar\\tabBar");
 

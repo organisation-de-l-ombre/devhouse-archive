@@ -4,36 +4,49 @@ import { Trans, useTranslation } from "react-i18next";
 import { BsFillQuestionCircleFill } from "react-icons/bs";
 import { MdWork } from "react-icons/md";
 import { RiMessage2Fill } from "react-icons/ri";
-import { FlexContainer, ButtonsGroup, buttonStyles } from "@components/ui";
+import { FlexContainer, ButtonsGroup } from "@components/ui";
 import globalStyles from "@themes/Global.module.scss";
 import { BackToTop } from "@components/modules";
 import { useSpring, animated } from "react-spring";
 import { Helmet } from "react-helmet";
+import { FunctionComponent } from "@typings/FunctionComponent";
+import fetchImage from "@lib/fetchImage";
 import styles from "./Home.module.scss";
 
-const Home = (): React.ReactElement => {
+const Headers = animated(FlexContainer);
+
+const Home: FunctionComponent<HTMLDivElement> = () => {
   const { t } = useTranslation("pages\\home\\home");
   const headersStyles = useSpring({
     from: { transform: "scale(0)", opacity: "0" },
     to: { transform: "scale(1)", opacity: "1" },
     config: { duration: 500 },
   });
-  const backgroundImage =
-    "https://s3.developershouse.xyz/international-media-referencing/amelia-data-public/website-data/pictures/pages/home/home-headers-background.jpg";
 
   return (
-    <FlexContainer className={globalStyles.column}>
+    <FlexContainer column>
       <Helmet>
         <title>{t("pageTitle")}</title>
       </Helmet>
-      <div className={styles.headers}>
+      <FlexContainer
+        horizontallyCentered
+        className={globalStyles["position-relative"]}
+      >
         <div
+          css={{
+            backgroundImage: `url("${fetchImage(
+              "https://s3.developershouse.xyz/international-media-referencing/amelia-data-public/website-data/pictures/pages/home/home-headers-background.jpg"
+            )}")`,
+          }}
           className={styles["headers-background"]}
-          style={{ backgroundImage: `url("${backgroundImage}")` }}
         />
-        <animated.div
+        <Headers
+          padding
+          pageBodyWidth
+          column
+          verticallyCentered
+          className={styles.headers}
           style={headersStyles}
-          className={styles["headers-content"]}
         >
           <h1>
             <Trans t={t} i18nKey="headers.title" />
@@ -67,31 +80,31 @@ const Home = (): React.ReactElement => {
               </span>
             </NavLink>
           </ButtonsGroup>
-        </animated.div>
-      </div>
+        </Headers>
+      </FlexContainer>
       <BackToTop />
       <FlexContainer
-        className={`${globalStyles.column} ${styles.body} ${globalStyles["page-body-width"]}`}
+        minHeight
+        padding
+        expand
+        pageBodyWidth
+        column
+        verticallyCentered
+        className={styles.body}
       >
-        <div className={`${globalStyles.flex} ${globalStyles.column}`}>
+        <FlexContainer column>
           <h2 style={{ color: "var(--font-color-hover)" }}>
             <Trans t={t} i18nKey="prototypeAccess.title" />
           </h2>
           <ButtonsGroup allowExpand className={styles["buttons-container"]}>
-            <NavLink
-              className={buttonStyles["button-styles"]}
-              to="/movies/title/tangled_994f87ryf.a4"
-            >
+            <NavLink to="/movies/title/tangled_994f87ryf.a4">
               <Trans t={t} i18nKey="prototypeAccess.tangled" />
             </NavLink>
-            <NavLink
-              className={buttonStyles["button-styles"]}
-              to="/movies/title/spirit_untamed_yrsctho8x.l"
-            >
+            <NavLink to="/movies/title/spirit_untamed_yrsctho8x.l">
               <Trans t={t} i18nKey="prototypeAccess.spirit" />
             </NavLink>
           </ButtonsGroup>
-        </div>
+        </FlexContainer>
       </FlexContainer>
     </FlexContainer>
   );

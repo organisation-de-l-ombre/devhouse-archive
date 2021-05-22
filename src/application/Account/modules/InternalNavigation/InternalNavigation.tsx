@@ -6,19 +6,18 @@ import {
   SidebarItem,
   SidebarSection,
 } from "@components/modules/Sidebar";
-import { useUser } from "@hooks/User";
+import useUser from "@hooks/useUser";
 import { getAvatar } from "@lib/manageAuthentication";
+import { FunctionComponent } from "@typings/FunctionComponent";
 
-const InternalNavigation: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & {
+const InternalNavigation: FunctionComponent<
+  HTMLDivElement,
+  {
     open: boolean;
     manageSidebar: () => void;
   }
 > = ({ open, manageSidebar }) => {
-  const baseURL: string = useRouteMatch().path;
+  const { path: baseURL } = useRouteMatch();
   const { user } = useUser();
   const { t } = useTranslation("pages\\account\\sidebar");
 

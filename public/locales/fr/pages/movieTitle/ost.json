@@ -1,0 +1,8 @@
+{
+  "duration": "Durée : {{duration}}",
+  "timeline": "Timeline dans le film : {{timeline}}",
+  "characters": "Personnage : {{characters}}",
+  "characters_plural": "Personnages : {{characters}}",
+  "watchVideo": "Voir la vidéo",
+  "lyrics": "Paroles"
+}

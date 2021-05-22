@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useCallback, Dispatch, SetStateAction } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { GlobalState } from "@store/Types";
@@ -14,10 +14,20 @@ import {
   Notification,
   NotificationsDataState,
 } from "@store/notifications/notificationsData";
-import {
-  NotificationsManagerHook,
-  NotificationsPreferencesHook,
-} from "./Types";
+
+interface NotificationsPreferencesHook {
+  setNotificationsPreferencesState: Dispatch<SetStateAction<string | boolean>>;
+  updatePreference: () => void;
+  validateChoice: (
+    setNotificationsWindowOpen: Dispatch<SetStateAction<boolean>>
+  ) => boolean;
+}
+
+interface NotificationsManagerHook {
+  addNotifications: (notifications: Notification[]) => void;
+  deleteNotification: (id: string) => void;
+  deleteAllNotifications: () => void;
+}
 
 const useNotificationsState = (): NotificationsConfigState &
   NotificationsDataState => {
@@ -30,21 +40,23 @@ const useNotificationsState = (): NotificationsConfigState &
 
   return { ...notificationsConfig, ...notificationsData };
 };
+
 const useNotificationsPreferences = (): NotificationsPreferencesHook => {
   const dispatch = useDispatch();
   const { allowNotifications, firstUse } = useNotificationsState();
   const [
     notificationsPreferencesState,
     setNotificationsPreferencesState,
-  ] = React.useState<string | boolean>(firstUse ? false : "default");
+  ] = useState<string | boolean>(firstUse ? false : "default");
   const { t } = useTranslation("components\\notifications\\notificationsModal");
 
-  const updatePreference = React.useCallback((): void => {
+  const updatePreference = useCallback((): void => {
     dispatch(updateNotificationsPermissions());
   }, [dispatch]);
-  const validateChoice = React.useCallback(
+
+  const validateChoice = useCallback(
     (
-      setNotificationsWindowOpen: React.Dispatch<React.SetStateAction<boolean>>
+      setNotificationsWindowOpen: Dispatch<SetStateAction<boolean>>
     ): boolean => {
       if (
         notificationsPreferencesState === "default" ||
@@ -80,22 +92,25 @@ const useNotificationsPreferences = (): NotificationsPreferencesHook => {
     validateChoice,
   };
 };
+
 const useNotificationsManager = (): NotificationsManagerHook => {
   const dispatch = useDispatch();
 
-  const addNotifications = React.useCallback(
+  const addNotifications = useCallback(
     (notifications: Notification[]): void => {
       dispatch(pushNotifications(notifications));
     },
     [dispatch]
   );
-  const deleteNotification = React.useCallback(
+
+  const deleteNotification = useCallback(
     (id: string): void => {
       dispatch(removeNotification(id));
     },
     [dispatch]
   );
-  const deleteAllNotifications = React.useCallback((): void => {
+
+  const deleteAllNotifications = useCallback((): void => {
     dispatch(removeAllNotifications());
   }, [dispatch]);
 

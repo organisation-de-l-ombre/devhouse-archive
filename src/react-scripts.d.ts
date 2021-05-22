@@ -1,6 +1,7 @@
 /// <reference types="node" />
 /// <reference types="react" />
 /// <reference types="react-dom" />
+/// <reference types="@emotion/react/types/css-prop" />
 
 declare namespace NodeJS {
   interface ProcessEnv {

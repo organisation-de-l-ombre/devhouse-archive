@@ -1,13 +1,20 @@
 import { useDispatch, useSelector } from "react-redux";
-import React from "react";
+import { useCallback, useState, Dispatch, SetStateAction } from "react";
 import generateNotificationID from "@lib/generateNotificationID";
-import { useNotificationsManager } from "@hooks/Notifications";
+import { useNotificationsManager } from "@hooks/useNotifications";
 import { useTranslation } from "react-i18next";
 import { Language } from "@store/language";
 import { GlobalState } from "@store/Types";
-import i18n from "../../languages/i18n";
-import changeLanguage from "../../store/language/Actions";
-import { LanguageHook } from "./Types";
+import i18n from "@languages/i18n";
+import changeLanguage from "@store/language/Actions";
+
+interface LanguageHook {
+  language: string;
+  setLanguageState: Dispatch<SetStateAction<string>>;
+  validateLanguage: (
+    setLanguageWindowOpen?: Dispatch<SetStateAction<boolean>>
+  ) => Promise<void>;
+}
 
 const useLanguage = (): LanguageHook => {
   const dispatch = useDispatch();
@@ -15,12 +22,12 @@ const useLanguage = (): LanguageHook => {
     (state: GlobalState): Language => state.language.language
   );
   const { addNotifications } = useNotificationsManager();
-  const [languageState, setLanguageState] = React.useState<string>("default");
+  const [languageState, setLanguageState] = useState<string>("default");
   const { t } = useTranslation("components\\ui\\languageModal\\languageModal");
 
-  const validateLanguage = React.useCallback(
+  const validateLanguage = useCallback(
     async (
-      setLanguageWindowOpen?: React.Dispatch<React.SetStateAction<boolean>>
+      setLanguageWindowOpen?: Dispatch<SetStateAction<boolean>>
     ): Promise<void> => {
       if (languageState === "default" || languageState === language) {
         alert(t("modal.invalidLanguage"));
@@ -36,7 +43,7 @@ const useLanguage = (): LanguageHook => {
       }
 
       const newLanguage = await import(
-        `../../../public/locales/${languageState}/components/ui/languageModal/languageModal.json`
+        `../../public/locales/${languageState}/components/ui/languageModal/languageModal.json`
       );
 
       addNotifications([

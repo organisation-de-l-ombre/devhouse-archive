@@ -4,15 +4,16 @@ import { AiOutlineLoading } from "react-icons/ai";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdRefresh } from "react-icons/md";
 import { Authorization } from "@developers-house/abdera";
-import { useAuthorizations } from "@hooks/API/Authorizations";
+import { useAuthorizations } from "@hooks/API/useAuthorizations";
 import { FlexContainer, Button, Card, ButtonsGroup } from "@components/ui";
 import { Error } from "@components/modules";
 import globalStyles from "@themes/Global.module.scss";
+import { FunctionComponent } from "@typings/FunctionComponent";
 import AuthorizationCard from "./AuthorizationCard";
 import styles from "./Authorizations.module.scss";
 import containerStyle from "../../Containers.module.scss";
 
-const Authorizations = (): React.ReactElement => {
+const Authorizations: FunctionComponent<HTMLDivElement> = () => {
   const { isError, isLoading, isFetching, data, refetch } = useAuthorizations();
   const { t } = useTranslation("pages\\account\\sections\\authorizations");
 
@@ -20,7 +21,25 @@ const Authorizations = (): React.ReactElement => {
     return <Error />;
   }
 
-  return data ? (
+  if (!data) {
+    return (
+      <FlexContainer
+        className={`${globalStyles["alignment-full-center"]} ${styles["no-data"]}`}
+      >
+        <Card className={`${styles.card} ${globalStyles["animation-opacity"]}`}>
+          <h2>
+            <Trans t={t} i18nKey="noData.title" />
+          </h2>
+          <hr />
+          <p>
+            <Trans t={t} i18nKey="noData.description" />
+          </p>
+        </Card>
+      </FlexContainer>
+    );
+  }
+
+  return (
     <FlexContainer
       className={`${containerStyle.container} ${globalStyles["page-body-width"]}`}
     >
@@ -71,20 +90,6 @@ const Authorizations = (): React.ReactElement => {
             />
           )
         )}
-    </FlexContainer>
-  ) : (
-    <FlexContainer
-      className={`${globalStyles["alignment-full-center"]} ${styles["no-data"]}`}
-    >
-      <Card className={`${styles.card} ${globalStyles["animation-opacity"]}`}>
-        <h2>
-          <Trans t={t} i18nKey="noData.title" />
-        </h2>
-        <hr />
-        <p>
-          <Trans t={t} i18nKey="noData.description" />
-        </p>
-      </Card>
     </FlexContainer>
   );
 };

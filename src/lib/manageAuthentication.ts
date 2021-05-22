@@ -1,16 +1,8 @@
 import { randomBytes } from "crypto";
 import localForage from "localforage";
+import getApplicationID from "./getApplicationID";
 
-let clientIDPromise: Promise<void> | null = null;
-let clientID: unknown;
-
-const fetchClientID = async () => {
-  const { id } = await fetch("/.oauth.json").then((r) => r.json());
-  clientID = id;
-  clientIDPromise = null;
-
-  await localForage.setItem("client-id", clientID);
-};
+const clientID: string = getApplicationID();
 const generateCodeChallenge = async (code: string): Promise<string> => {
   const digest = await crypto.subtle.digest(
     "SHA-256",
@@ -25,27 +17,11 @@ const generateCodeChallenge = async (code: string): Promise<string> => {
     .replace(/\//g, "_");
 };
 
-localForage.getItem("client-id").then(async (res) => {
-  if (!res) {
-    if (process.env.NODE_ENV === "development") {
-      clientID = "5850f912-4654-42c4-9961-6ce577288bdb";
-      await localForage.setItem("client-id", clientID);
-    } else {
-      clientIDPromise = fetchClientID();
-    }
-  } else {
-    clientID = res;
-  }
-});
-
 const manageAuth = async (): Promise<void> => {
   const state = randomBytes(32).toString("hex");
 
   await localForage.setItem("state-oauth", state);
 
-  if (clientIDPromise !== null) {
-    await clientIDPromise;
-  }
   if (!clientID) {
     throw new Error("Failed to get the client ID.");
   }

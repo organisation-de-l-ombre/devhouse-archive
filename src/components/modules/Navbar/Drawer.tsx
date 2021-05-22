@@ -1,28 +1,27 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { NavLink } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
 import { getAvatar } from "@lib/manageAuthentication";
 import { FaBell, FaBellSlash, FaMoon, FaSun, FaUser } from "react-icons/fa";
 import { MdSearch } from "react-icons/md";
 import localForage from "localforage";
-import { useUser } from "@hooks/User";
+import useUser from "@hooks/useUser";
 import generateNotificationID from "@lib/generateNotificationID";
-import { useTheme } from "@hooks/Theme";
+import useTheme from "@hooks/useTheme";
 import {
   useNotificationsManager,
   useNotificationsState,
-} from "@hooks/Notifications";
-import { useLanguage } from "@hooks/Language";
+} from "@hooks/useNotifications";
+import useLanguage from "@hooks/useLanguage";
 import IMRMinimalLogo from "@assets/pictures/imr/imr-minimal.png";
 import { Fade as Hamburger } from "hamburger-react";
+import { FunctionComponent } from "@typings/FunctionComponent";
 import DisplayLanguageSVG from "../DisplayLanguageSVG/DisplayLanguageSVG";
 import styles from "./Navbar.module.scss";
 
-const MobileNavigation: React.FC<
-  React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  > & { open: boolean }
+const MobileNavigation: FunctionComponent<
+  HTMLButtonElement,
+  { open: boolean }
 > = ({ open }) => {
   const { t } = useTranslation("components\\modules\\navbar\\navbar");
 
@@ -46,30 +45,21 @@ const MobileNavigation: React.FC<
   );
 };
 
-const DrawerBackdrop: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & { manageNavbar: () => void }
+const DrawerBackdrop: FunctionComponent<
+  HTMLDivElement,
+  { manageNavbar: () => void }
 > = ({ manageNavbar }) => {
   // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
   return <div className={styles["drawer-backdrop"]} onClick={manageNavbar} />;
 };
 
-const Drawer: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  >
-> = ({ ...props }) => {
+const Drawer: FunctionComponent<HTMLDivElement> = ({ ...props }) => {
   return <div className={styles.drawer} {...props} />;
 };
 
-const DrawerStart: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & { manageNavbar: () => void }
+const DrawerStart: FunctionComponent<
+  HTMLDivElement,
+  { manageNavbar: () => void }
 > = ({ manageNavbar }) => {
   const { t } = useTranslation("components\\modules\\navbar\\navbar");
 
@@ -111,11 +101,9 @@ const DrawerStart: React.FC<
   );
 };
 
-const DrawerEnd: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & {
+const DrawerEnd: FunctionComponent<
+  HTMLDivElement,
+  {
     open: boolean;
     manageNavbar: () => void;
     setLanguageWindowOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -129,14 +117,14 @@ const DrawerEnd: React.FC<
 }) => {
   const { t } = useTranslation("components\\modules\\navbar\\navbar");
   const { user } = useUser();
-  const manageAuth = React.useCallback((): void => {
+  const manageAuth = useCallback((): void => {
     manageNavbar();
     localForage.setItem("redirection", document.location.pathname);
   }, [manageNavbar]);
   const { theme, switchTheme } = useTheme();
   const { allowNotifications } = useNotificationsState();
   const { addNotifications } = useNotificationsManager();
-  const manageTheme = React.useCallback((): void => {
+  const manageTheme = useCallback((): void => {
     switchTheme();
     manageNavbar();
     addNotifications([

@@ -1,17 +1,17 @@
 import {
-  QueryObserverResult,
   UseMutateFunction,
   useMutation,
   useQuery,
   useQueryClient,
+  UseQueryResult,
 } from "react-query";
 import { Authorization } from "@developers-house/abdera";
 import { useTranslation } from "react-i18next";
 import { DevHouseUserAPI } from "@lib/api";
 import generateNotificationID from "@lib/generateNotificationID";
 import getApplicationID from "@lib/getApplicationID";
-import { useNotificationsManager } from "@hooks/Notifications";
-import { useUser } from "@hooks/User";
+import { useNotificationsManager } from "@hooks/useNotifications";
+import useUser from "@hooks/useUser";
 
 const useAuthorizationsError = (): ((error?: Error) => Error) => {
   const { t } = useTranslation("pages\\account\\sections\\authorizations");
@@ -30,15 +30,15 @@ const useAuthorizationsError = (): ((error?: Error) => Error) => {
     return error || Error("Authorization data error");
   };
 };
-const useAuthorizations = (): QueryObserverResult<
-  Authorization[] | undefined
-> => {
+
+const useAuthorizations = (): UseQueryResult<Authorization[] | undefined> => {
   useAuthorizationsError();
 
-  return useQuery("account_authorizations", () =>
+  return useQuery("account/authorizations", () =>
     DevHouseUserAPI.selfAuthorizationsGet()
   );
 };
+
 const useAuthorizationsDeleteMutation = (
   id: string
 ): {
@@ -55,7 +55,7 @@ const useAuthorizationsDeleteMutation = (
     () => DevHouseUserAPI.selfAuthorizationsDelete({ clientId: id }),
     {
       async onMutate() {
-        await client.cancelQueries("account_authorizations");
+        await client.cancelQueries("account/authorizations");
 
         client.setQueryData<Authorization[]>(
           "account/authorizations",
@@ -95,7 +95,7 @@ const useAuthorizationsDeleteMutation = (
         }
       },
       onError(error, variables, previousValue) {
-        client.setQueryData("account_authorizations", previousValue);
+        client.setQueryData("account/authorizations", previousValue);
 
         if (error) {
           criticalError(new Error(error as string));

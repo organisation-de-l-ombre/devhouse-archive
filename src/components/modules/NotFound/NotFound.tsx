@@ -2,10 +2,11 @@ import React from "react";
 import { useTranslation, Trans } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import globalStyles from "@themes/Global.module.scss";
+import { FunctionComponent } from "@typings/FunctionComponent";
 import { Card, FlexContainer, buttonStyles, ButtonsGroup } from "../../ui";
 import styles from "./NotFound.module.scss";
 
-const NotFound = (): React.ReactElement => {
+const NotFound: FunctionComponent<HTMLDivElement> = () => {
   const { t } = useTranslation("components\\notFound");
 
   return (

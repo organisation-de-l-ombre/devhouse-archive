@@ -1,17 +1,18 @@
 import React from "react";
 import { useHistory } from "react-router";
-import { useUser } from "@hooks/User";
+import useUser from "@hooks/useUser";
 import FlexContainer from "@components/ui/FlexContainer/FlexContainer";
 import BackToTop from "@components/modules/BackToTop/BackToTop";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
+import useSidebar from "@hooks/useSidebar";
+import { SidebarContainer } from "@components/modules/Sidebar";
+import { FunctionComponent } from "@typings/FunctionComponent";
 import containerStyle from "./Containers.module.scss";
 import Sidebar from "./modules/InternalNavigation/InternalNavigation";
 import Router from "./modules/Router/Router";
-import { useSidebar } from "../../hooks/Sidebar";
-import { SidebarContainer } from "../../components/modules/Sidebar";
 
-const AccountRoot = (): React.ReactElement => {
+const AccountRoot: FunctionComponent<HTMLDivElement> = () => {
   const { user } = useUser();
   const history = useHistory();
   const { open, manageSidebar } = useSidebar();

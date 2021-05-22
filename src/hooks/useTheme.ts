@@ -1,12 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
-import { GlobalState } from "../../store/Types";
-import { Theme } from "../../store/theme/Types";
-import changeTheme from "../../store/theme/Actions";
-import { ThemeHook } from "./Types";
+import { GlobalState } from "@store/Types";
+import { Theme } from "@store/theme/Types";
+import changeTheme from "@store/theme/Actions";
+
+interface ThemeHook {
+  theme: string;
+  switchTheme: () => void;
+}
 
 const useTheme = (): ThemeHook => {
   const dispatch = useDispatch();
+
   const theme: Theme = useSelector(
     (state: GlobalState): Theme => state.theme.theme
   );

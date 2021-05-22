@@ -4,26 +4,26 @@ import bust from "@assets/pictures/bust.png";
 import { fetchOptions } from "@lib/api";
 import { useTranslation } from "react-i18next";
 import { UseQueryResult, useQuery } from "react-query";
-import { Suspense } from "@components/modules";
-import { useLanguage } from "@hooks/Language";
+import { SuspenseComponent } from "@components/modules";
+import useLanguage from "@hooks/useLanguage";
 import styles from "./Casting.module.scss";
 import containerStyle from "../../Containers.module.scss";
 import globalStyles from "../../../../themes/Global.module.scss";
 import {
   CastingObject,
-  CastingSection as CastingSectionType,
+  CastingSection,
   CharacterObject,
   ReactMovieElement,
   SummaryObject,
 } from "../../types";
 import SectionEmpty from "../../modules/SectionEmpty/SectionEmpty";
 
-const CastingSection: ReactMovieElement = ({ dataResponse }) => {
+const Casting: ReactMovieElement = ({ dataResponse }) => {
   const { language } = useLanguage();
   const { t } = useTranslation("pages\\movieTitle\\root");
-  const { isFetching, data }: UseQueryResult<CastingSectionType> = useQuery(
-    `movie-title_${dataResponse.body.id}_${language}_casting`,
-    (): Promise<CastingSectionType> => {
+  const { isFetching, data }: UseQueryResult<CastingSection> = useQuery(
+    `movie-title/${dataResponse.body.id}/${language}/casting`,
+    (): Promise<CastingSection> => {
       return fetch(
         dataResponse.body.data.casting || ""
       ).then((response: Response) => response.json());
@@ -32,9 +32,8 @@ const CastingSection: ReactMovieElement = ({ dataResponse }) => {
   );
 
   if (isFetching) {
-    return <Suspense minHeight customText={t("fetchingData")} />;
+    return <SuspenseComponent minHeight customText={t("fetchingData")} />;
   }
-
   if (!data) {
     return <SectionEmpty />;
   }
@@ -94,4 +93,4 @@ const CastingSection: ReactMovieElement = ({ dataResponse }) => {
   );
 };
 
-export default CastingSection;
+export default Casting;

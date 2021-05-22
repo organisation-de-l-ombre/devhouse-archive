@@ -10,8 +10,8 @@ import {
 import { useQuery, UseQueryResult } from "react-query";
 import { fetchOptions } from "@lib/api";
 import { useTranslation } from "react-i18next";
-import { Suspense } from "@components/modules";
-import { useLanguage } from "@hooks/Language";
+import { SuspenseComponent } from "@components/modules";
+import useLanguage from "@hooks/useLanguage";
 import containerStyle from "../../Containers.module.scss";
 import {
   BodyContent,
@@ -21,11 +21,11 @@ import {
 } from "../../types";
 import SectionEmpty from "../../modules/SectionEmpty/SectionEmpty";
 
-const MovieSection: ReactMovieElement = ({ dataResponse }) => {
+const Movie: ReactMovieElement = ({ dataResponse }) => {
   const { language } = useLanguage();
   const { t } = useTranslation("pages\\movieTitle\\root");
   const { isFetching, data }: UseQueryResult<GenericSection> = useQuery(
-    `movie-title_${dataResponse.body.id}_${language}_movie`,
+    `movie-title/${dataResponse.body.id}/${language}/movie`,
     (): Promise<GenericSection> => {
       return fetch(dataResponse.body.data.movie).then((response: Response) =>
         response.json()
@@ -35,9 +35,8 @@ const MovieSection: ReactMovieElement = ({ dataResponse }) => {
   );
 
   if (isFetching) {
-    return <Suspense minHeight customText={t("fetchingData")} />;
+    return <SuspenseComponent minHeight customText={t("fetchingData")} />;
   }
-
   if (!data) {
     return <SectionEmpty />;
   }
@@ -186,4 +185,4 @@ const MovieSection: ReactMovieElement = ({ dataResponse }) => {
   );
 };
 
-export default MovieSection;
+export default Movie;

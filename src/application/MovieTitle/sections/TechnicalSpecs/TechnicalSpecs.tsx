@@ -1,15 +1,15 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import {
   ReactMovieElement,
-  TechnicalSpecs as TechnicalSpecsType,
+  TechnicalSpecsSection,
 } from "@application/MovieTitle/types";
 import { FlexContainer } from "@components/ui";
-import { useLanguage } from "@hooks/Language";
+import useLanguage from "@hooks/useLanguage";
 import { Trans, useTranslation } from "react-i18next";
 import { useQuery, UseQueryResult } from "react-query";
 import fetchOptions from "@lib/api/fetchOptions";
-import { Suspense } from "@components/modules";
+import { SuspenseComponent } from "@components/modules";
 import SectionEmpty from "@application/MovieTitle/modules/SectionEmpty/SectionEmpty";
 import styles from "./TechnicalSpecs.module.scss";
 import containerStyle from "../../Containers.module.scss";
@@ -19,9 +19,9 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
   const { t } = useTranslation("pages\\movieTitle\\technicalSpecs");
   const { t: tRoot } = useTranslation("pages\\movieTitle\\root");
   const { t: tTags } = useTranslation("pages\\movieTitle\\tags");
-  const { isFetching, data }: UseQueryResult<TechnicalSpecsType> = useQuery(
+  const { isFetching, data }: UseQueryResult<TechnicalSpecsSection> = useQuery(
     `movie-title/${dataResponse.body.id}/technical-specs`,
-    (): Promise<TechnicalSpecsType> => {
+    (): Promise<TechnicalSpecsSection> => {
       return fetch(
         dataResponse.body.data.technicalSpecs || ""
       ).then((response: Response) => response.json());
@@ -30,9 +30,8 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
   );
 
   if (isFetching) {
-    return <Suspense customText={tRoot("fetchingData")} />;
+    return <SuspenseComponent customText={tRoot("fetchingData")} />;
   }
-
   if (!data) {
     return <SectionEmpty />;
   }
@@ -276,7 +275,7 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
           <table>
             <tbody>
               {Object.keys(movieSpecs).map((rootKey: string):
-                | JSX.Element
+                | ReactElement
                 | undefined => {
                 const key = rootKey as keyof typeof movieSpecs;
 

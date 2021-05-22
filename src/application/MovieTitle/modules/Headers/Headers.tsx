@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FaPlay, MdMovie } from "react-icons/all";
 import detectMobileDevice from "@lib/detectMobileDevice";
-import { useLanguage } from "@hooks/Language";
+import useLanguage from "@hooks/useLanguage";
 import {
   FlexContainer,
   Button,
@@ -12,26 +12,22 @@ import {
 import { Trans, useTranslation } from "react-i18next";
 import { useQuery, UseQueryResult } from "react-query";
 import fetchOptions from "@lib/api/fetchOptions";
-import { Suspense } from "@components/modules";
+import { SuspenseComponent } from "@components/modules";
 import { animated, useSpring } from "react-spring";
+import fetchImage from "@lib/fetchImage";
 import styles from "./Headers.module.scss";
 import containerStyle from "../../Containers.module.scss";
-import {
-  ReactMovieElement,
-  MovieHeaders as MovieHeadersType,
-} from "../../types";
+import { ReactMovieElement, MovieHeadersSection } from "../../types";
 
 const Headers: ReactMovieElement = ({ dataResponse }) => {
   const { language } = useLanguage();
-  const [trailerWindowOpen, setTrailerWindowOpen] = React.useState<boolean>(
-    false
-  );
+  const [trailerWindowOpen, setTrailerWindowOpen] = useState<boolean>(false);
   const { t } = useTranslation("pages\\movieTitle\\headers");
   const { t: tRoot } = useTranslation("pages\\movieTitle\\root");
   const { t: tTags } = useTranslation("pages\\movieTitle\\tags");
-  const { isFetching, data }: UseQueryResult<MovieHeadersType> = useQuery(
-    `movie-title/${dataResponse.body.id}/headers`,
-    (): Promise<MovieHeadersType> => {
+  const { isFetching, data }: UseQueryResult<MovieHeadersSection> = useQuery(
+    `movie-title/${dataResponse.body.id}/${language}/headers`,
+    (): Promise<MovieHeadersSection> => {
       return fetch(dataResponse.body.data.headers).then((response: Response) =>
         response.json()
       );
@@ -45,11 +41,10 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
   });
 
   if (isFetching) {
-    return <Suspense customText={tRoot("fetchingData")} />;
+    return <SuspenseComponent customText={tRoot("fetchingData")} />;
   }
-
   if (!data) {
-    return <></>;
+    return null;
   }
 
   return (
@@ -65,15 +60,15 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
         />
       )}
       <animated.div
-        style={headersStyles}
         className={styles["headers-background"]}
+        style={headersStyles}
       >
         {data.backgroundImage ? (
           <div
-            className={styles["headers-background-image"]}
-            style={{
-              backgroundImage: `url("${data.backgroundImage}")`,
+            css={{
+              backgroundImage: `url("${fetchImage(data.backgroundImage)}")`,
             }}
+            className={styles["headers-background-image"]}
           />
         ) : (
           <div className={styles["headers-no-background-image"]} />

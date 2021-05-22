@@ -40,9 +40,9 @@ interface MovieSpecs {
   aspectRatio?: string[];
 }
 
-interface TechnicalSpecs {
+interface TechnicalSpecsSection {
   presentation: Presentation;
   movieSpecs?: MovieSpecs;
 }
 
-export { TechnicalSpecs };
+export { TechnicalSpecsSection };

@@ -9,9 +9,10 @@ import {
   Button,
   ButtonsGroup,
 } from "@components/ui";
+import { FunctionComponent } from "@typings/FunctionComponent";
 import styles from "./SectionEmpty.module.scss";
 
-const SectionEmpty = (): React.ReactElement => {
+const SectionEmpty: FunctionComponent<HTMLDivElement> = () => {
   const { t } = useTranslation("pages\\movieTitle\\root");
 
   return (

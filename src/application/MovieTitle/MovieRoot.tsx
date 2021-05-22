@@ -1,11 +1,11 @@
-import React from "react";
+import React, { FC, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import { useTranslation } from "react-i18next";
 import generateNotificationID from "@lib/generateNotificationID";
-import { useNotificationsManager } from "@hooks/Notifications";
-import { useLanguage } from "@hooks/Language";
+import { useNotificationsManager } from "@hooks/useNotifications";
+import useLanguage from "@hooks/useLanguage";
 import { FlexContainer } from "@components/ui";
-import { NotFound, BackToTop, Suspense } from "@components/modules";
+import { NotFound, BackToTop, SuspenseComponent } from "@components/modules";
 import { MovieDataAPI, fetchOptions } from "@lib/api";
 import { useQuery, UseQueryResult } from "react-query";
 import { Helmet } from "react-helmet";
@@ -15,7 +15,7 @@ import Headers from "./modules/Headers/Headers";
 import InternalNavigation from "./modules/InternalNavigation/InternalNavigation";
 import Router from "./modules/Router/Router";
 
-const MovieRoot: React.FC<RouteComponentProps> = ({ match }) => {
+const MovieRoot: FC<RouteComponentProps> = ({ match }) => {
   const { language } = useLanguage();
   const { addNotifications, deleteNotification } = useNotificationsManager();
   const { t } = useTranslation("pages\\movieTitle\\root");
@@ -34,7 +34,7 @@ const MovieRoot: React.FC<RouteComponentProps> = ({ match }) => {
     fetchOptions
   );
 
-  React.useEffect((): (() => void) => {
+  useEffect((): (() => void) => {
     const id: string = generateNotificationID();
 
     addNotifications([
@@ -51,7 +51,7 @@ const MovieRoot: React.FC<RouteComponentProps> = ({ match }) => {
   }, []);
 
   if (isFetching) {
-    return <Suspense minHeight customText={t("fetchingData")} />;
+    return <SuspenseComponent minHeight customText={t("fetchingData")} />;
   }
 
   if (data === undefined) {

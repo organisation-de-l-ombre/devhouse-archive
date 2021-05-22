@@ -1,16 +1,16 @@
-import React from "react";
+import React, { FC } from "react";
 import { FlexContainer } from "@components/ui";
 import { BackToTop } from "@components/modules";
 import { SidebarContainer } from "@components/modules/Sidebar";
-import { RouteComponentProps } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet";
-import { useSidebar } from "@hooks/Sidebar";
+import useSidebar from "@hooks/useSidebar";
+import { RouteComponentProps } from "react-router";
 import Sidebar from "./modules/InternalNavigation/InternalNavigation";
 import styles from "./InternalRoot.module.scss";
 import Router from "./modules/Router/Router";
 
-const InternalRoot: React.FC<RouteComponentProps> = () => {
+const InternalRoot: FC<RouteComponentProps> = () => {
   const { open, manageSidebar } = useSidebar();
   const { t } = useTranslation("pages\\wiki\\internal\\root");
 

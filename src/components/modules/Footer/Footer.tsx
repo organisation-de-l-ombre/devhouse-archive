@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { useTranslation, Trans } from "react-i18next";
 import { FaDiscord, FaInstagram, FaTwitter } from "react-icons/fa";
 import { NavLink, useLocation } from "react-router-dom";
@@ -6,7 +6,7 @@ import IMRLogo from "@assets/pictures/imr/imr-full.png";
 import routeWithOnlyContent from "@lib/routeWithOnlyContent";
 import styles from "./Footer.module.scss";
 
-const Footer = (): React.ReactElement => {
+const Footer: FC = () => {
   const { t } = useTranslation("components\\modules\\footer\\footer");
   const { pathname } = useLocation();
 

@@ -4,18 +4,17 @@ import ReactMarkdown from "react-markdown";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import rehypeHighlight from "rehype-highlight";
-import { useLanguage } from "@hooks/Language";
-import { NotFound, Suspense } from "@components/modules";
+import useLanguage from "@hooks/useLanguage";
+import { NotFound, SuspenseComponent } from "@components/modules";
 import { WikiAPI } from "@lib/api";
 import { useQuery } from "react-query";
 import fetchOptions from "@lib/api/fetchOptions";
+import { FunctionComponent } from "@typings/FunctionComponent";
 import styles from "../InternalRoot.module.scss";
 
-const WikiSection: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & { type: string; section: string }
+const WikiSection: FunctionComponent<
+  HTMLDivElement,
+  { type: string; section: string }
 > = ({ type, section }) => {
   const { language } = useLanguage();
   const { isFetching, data } = useQuery(
@@ -31,7 +30,7 @@ const WikiSection: React.FC<
   );
 
   if (isFetching) {
-    return <Suspense />;
+    return <SuspenseComponent />;
   }
 
   if (!data || (data && !data.body)) {

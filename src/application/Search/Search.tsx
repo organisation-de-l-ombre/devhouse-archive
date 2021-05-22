@@ -1,40 +1,46 @@
-import React from "react";
+import React, {
+  useCallback,
+  useRef,
+  useState,
+  useEffect,
+  FormEvent,
+} from "react";
 import globalStyles from "@themes/Global.module.scss";
-import { Button, FlexContainer, GenericLoader } from "@components/ui";
+import { Button, FlexContainer } from "@components/ui";
 import { Trans, useTranslation } from "react-i18next";
 import { AiOutlineFileSearch } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
-import { useLanguage } from "@hooks/Language";
+import useLanguage from "@hooks/useLanguage";
 import { CSSTransition } from "react-transition-group";
 import { SearchAPI } from "@lib/api";
 import { InlineResponse200, SearchResponse } from "@developers-house/amelia";
 import { Helmet } from "react-helmet";
-import { useQueryState } from "@hooks/Query";
+import useQueryState from "@hooks/useQueryState";
+import { FunctionComponent } from "@typings/FunctionComponent";
+import { SuspenseComponent } from "@components/modules";
 import styles from "./Search.module.scss";
 import "./Animations.scss";
 
-const Search = (): React.ReactElement => {
+const Search: FunctionComponent<HTMLDivElement> = () => {
   const [titleState, setTitleState] = useQueryState<string>("title");
   const { t } = useTranslation("pages\\search\\search");
-  const inputRef = React.useRef<HTMLInputElement>(null);
-  const [data, setData] = React.useState<SearchResponse[] | undefined>(
-    undefined
-  );
-  const [isFetching, setIsFetching] = React.useState<boolean>(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [data, setData] = useState<SearchResponse[] | undefined>(undefined);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
   const { language } = useLanguage();
-  const [firstTime, setFirstTime] = React.useState<boolean>(true);
+  const [firstTime, setFirstTime] = useState<boolean>(true);
   const [
     advancedSearchEnabled,
     setAdvancedSearchEnabled,
   ] = useQueryState<boolean>("advanced-search", false);
-  const manageSearch = React.useCallback((): void => {
+  const manageSearch = useCallback((): void => {
     setTitleState(inputRef.current?.value);
   }, [setTitleState]);
-  const manageAdvancedSearch = React.useCallback((): void => {
+  const manageAdvancedSearch = useCallback((): void => {
     setAdvancedSearchEnabled(!advancedSearchEnabled);
   }, [advancedSearchEnabled, setAdvancedSearchEnabled]);
-  const validateRequest = React.useCallback(
-    (event?: React.FormEvent<HTMLFormElement>): void => {
+  const validateRequest = useCallback(
+    (event?: FormEvent<HTMLFormElement>): void => {
       if (event) {
         event.preventDefault();
       }
@@ -81,7 +87,7 @@ const Search = (): React.ReactElement => {
     [t]
   );
 
-  React.useEffect((): void => {
+  useEffect((): void => {
     if (titleState?.length) {
       validateRequest();
     }
@@ -90,13 +96,11 @@ const Search = (): React.ReactElement => {
 
   if (isFetching) {
     return (
-      <FlexContainer
-        className={`${styles["temp-root"]} ${globalStyles["alignment-full-center"]}`}
-      >
-        <GenericLoader className={styles.temp}>
-          <Trans t={t} i18nKey="body.fetchingData" />
-        </GenericLoader>
-      </FlexContainer>
+      <SuspenseComponent
+        className={globalStyles["page-body-width"]}
+        minHeight
+        customText={t("body.fetchingData")}
+      />
     );
   }
 
@@ -175,7 +179,7 @@ const Search = (): React.ReactElement => {
       </div>
       {data === undefined && (
         <FlexContainer
-          className={`${styles["temp-root"]} ${globalStyles["alignment-full-center"]}`}
+          className={`${styles["temp-root"]} ${globalStyles["alignment-full-center"]} ${globalStyles["page-body-width"]}`}
           id="search-page-navigation"
         >
           <div className={styles["not-found"]}>

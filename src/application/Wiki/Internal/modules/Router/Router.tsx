@@ -1,18 +1,18 @@
-import React from "react";
+import React, { lazy, FC, Suspense } from "react";
 import { Switch, Route } from "react-router-dom";
 import { useRouteMatch } from "react-router";
-import { Suspense } from "@components/modules";
+import { SuspenseComponent } from "@components/modules";
 
-const WikiSection = React.lazy(() => import("../../sections/WikiSection"));
-const NotFound = React.lazy(
+const WikiSection = lazy(() => import("../../sections/WikiSection"));
+const NotFound = lazy(
   () => import("../../../../../components/modules/NotFound/NotFound")
 );
 
-const Router = (): React.ReactElement => {
+const Router: FC = () => {
   const { path: baseURL, params } = useRouteMatch();
 
   return (
-    <React.Suspense fallback={<Suspense />}>
+    <Suspense fallback={<SuspenseComponent />}>
       <Switch>
         <Route path={baseURL} exact>
           <WikiSection
@@ -22,7 +22,7 @@ const Router = (): React.ReactElement => {
         </Route>
         <Route path="*" exact component={NotFound} />
       </Switch>
-    </React.Suspense>
+    </Suspense>
   );
 };
 

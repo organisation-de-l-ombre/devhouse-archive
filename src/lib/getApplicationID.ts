@@ -6,7 +6,7 @@ const getApplicationID = (): string => {
   let id = "";
 
   fetch("./oauth.json")
-    .then((response) => response.json())
+    .then((response: Response): Promise<{ id: string }> => response.json())
     .then((response): void => {
       id = response.id;
     });

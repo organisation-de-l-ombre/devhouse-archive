@@ -1,18 +1,17 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Authorization } from "@developers-house/abdera";
 import { Trans, useTranslation } from "react-i18next";
 import { FaRegTrashAlt } from "react-icons/fa";
-import { useLanguage } from "@hooks/Language";
-import { useAuthorizationsDeleteMutation } from "@hooks/API/Authorizations";
+import useLanguage from "@hooks/useLanguage";
+import { useAuthorizationsDeleteMutation } from "@hooks/API/useAuthorizations";
 import { FlexContainer, TextArea, Button, ButtonsGroup } from "@components/ui";
 import globalStyles from "@themes/Global.module.scss";
+import { FunctionComponent } from "@typings/FunctionComponent";
 import containerStyle from "../../Containers.module.scss";
 
-const AuthorizationCard: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & { authorization: Authorization }
+const AuthorizationCard: FunctionComponent<
+  HTMLDivElement,
+  { authorization: Authorization }
 > = ({ authorization }) => {
   const { t } = useTranslation("pages\\account\\sections\\authorizations");
   const { language } = useLanguage();
@@ -26,7 +25,7 @@ const AuthorizationCard: React.FC<
   grantedAt[0] = grantedAt[0].toUpperCase();
 
   const { remove } = useAuthorizationsDeleteMutation(authorization.client.id);
-  const deleteAuthorization = React.useCallback((): void => {
+  const deleteAuthorization = useCallback((): void => {
     const confirmation = window.confirm(t("deleteAuthorization.confirmation"));
 
     if (confirmation) {

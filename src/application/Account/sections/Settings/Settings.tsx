@@ -1,29 +1,30 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React from "react";
+import React, { useCallback } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import Toggle from "react-toggle";
 import { FaSun, FaMoon } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { GoCheck } from "react-icons/go";
 import generateNotificationID from "@lib/generateNotificationID";
-import { useLanguage } from "@hooks/Language";
+import useLanguage from "@hooks/useLanguage";
 import {
   useNotificationsManager,
   useNotificationsPreferences,
   useNotificationsState,
-} from "@hooks/Notifications";
-import { useTheme } from "@hooks/Theme";
+} from "@hooks/useNotifications";
+import useTheme from "@hooks/useTheme";
 import globalStyles from "@themes/Global.module.scss";
 import { FlexContainer, SelectList, Button } from "@components/ui";
 import "@themes/Toggle.scss";
 import { supportedLanguages } from "@store/language";
 import { manageSelection } from "@components/ui/SelectList/SelectList";
 import { DisplayLanguageSVG } from "@components/modules";
+import { FunctionComponent } from "@typings/FunctionComponent";
 import containerStyle from "../../Containers.module.scss";
 import styles from "./Settings.module.scss";
 import "./Toggle.scss";
 
-const Settings = (): React.ReactElement => {
+const Settings: FunctionComponent<HTMLDivElement> = () => {
   const { t } = useTranslation("pages\\account\\sections\\settings");
   const { t: tModal } = useTranslation(
     "components\\ui\\languageModal\\languageModal"
@@ -33,7 +34,7 @@ const Settings = (): React.ReactElement => {
   const { allowNotifications } = useNotificationsState();
   const { updatePreference } = useNotificationsPreferences();
   const { setLanguageState, validateLanguage } = useLanguage();
-  const changeTheme = React.useCallback((): void => {
+  const changeTheme = useCallback((): void => {
     switchTheme();
 
     addNotifications([
@@ -49,8 +50,8 @@ const Settings = (): React.ReactElement => {
       },
     ]);
   }, [addNotifications, switchTheme, t, theme]);
-  const changeNotificationsPreferences = React.useCallback((): void => {
-    updatePreference(!allowNotifications);
+  const changeNotificationsPreferences = useCallback((): void => {
+    updatePreference();
 
     addNotifications([
       {
@@ -60,7 +61,7 @@ const Settings = (): React.ReactElement => {
         time: 5000,
       },
     ]);
-  }, [addNotifications, allowNotifications, t, updatePreference]);
+  }, [addNotifications, t, updatePreference]);
 
   return (
     <FlexContainer

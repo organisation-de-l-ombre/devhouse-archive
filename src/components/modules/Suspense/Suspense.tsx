@@ -1,12 +1,12 @@
 import React from "react";
 import globalStyles from "@themes/Global.module.scss";
 import { useTranslation } from "react-i18next";
-import styles from "./Suspense.module.scss";
+import { FunctionComponent } from "@typings/FunctionComponent";
 import { FlexContainer, GenericLoader } from "../../ui";
 
-const RootSuspense = (): React.ReactElement => {
+const RootSuspense: FunctionComponent<HTMLDivElement> = () => {
   return (
-    <FlexContainer className={styles.suspense}>
+    <FlexContainer minHeight padding expand fullCentered>
       <GenericLoader className={globalStyles["generic-loader"]}>
         Loading the resource you requested...
       </GenericLoader>
@@ -14,25 +14,19 @@ const RootSuspense = (): React.ReactElement => {
   );
 };
 
-const Suspense: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & { minHeight?: boolean; customText?: string }
+const SuspenseComponent: FunctionComponent<
+  HTMLDivElement,
+  { minHeight?: boolean; customText?: string }
 > = ({ minHeight, customText }) => {
   const { t } = useTranslation("components\\modules\\suspense\\suspense");
 
   return (
-    <div
-      className={`${styles.suspense}${
-        minHeight ? ` ${styles["min-height"]}` : ""
-      }`}
-    >
+    <FlexContainer minHeight={minHeight} padding expand fullCentered>
       <GenericLoader className={globalStyles["generic-loader"]}>
         {customText || t("message")}
       </GenericLoader>
-    </div>
+    </FlexContainer>
   );
 };
 
-export { RootSuspense, Suspense };
+export { RootSuspense, SuspenseComponent };

@@ -1,7 +1,8 @@
 const requestParameters: {
   [key: string]: string;
 } = {};
-const search = (hash: string) => {
+
+const search = (hash: string): void => {
   hash.split("&").forEach((hk) => {
     const temp = hk.split("=");
     const [name, value] = temp;

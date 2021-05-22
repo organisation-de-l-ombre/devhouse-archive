@@ -1,6 +1,6 @@
 import React from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { useNotificationsState } from "@hooks/Notifications";
+import { useNotificationsState } from "@hooks/useNotifications";
 import { Notification } from "@store/notifications/notificationsData";
 import styles from "./NotificationsGroup.module.scss";
 import NotificationComponent from "../Notification/Notification";

@@ -1,6 +1,6 @@
 import React from "react";
 import { FaWindowClose } from "react-icons/fa";
-import { useNotificationsManager } from "@hooks/Notifications";
+import { useNotificationsManager } from "@hooks/useNotifications";
 import {
   Notification,
   Button as ButtonType,

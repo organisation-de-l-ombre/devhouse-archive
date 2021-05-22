@@ -1,29 +1,25 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { Switch, useRouteMatch, Route } from "react-router";
-import { Suspense } from "@components/modules";
+import { SuspenseComponent } from "@components/modules";
 import { ReactMovieElement } from "../../types";
 
-const MovieSection = React.lazy(() => import("../../sections/Movie/Movie"));
-const CastingSection = React.lazy(
-  () => import("../../sections/Casting/Casting")
-);
-const CharactersSection = React.lazy(
+const MovieSection = lazy(() => import("../../sections/Movie/Movie"));
+const CastingSection = lazy(() => import("../../sections/Casting/Casting"));
+const CharactersSection = lazy(
   () => import("../../sections/Characters/Characters")
 );
-const VideosSection = React.lazy(() => import("../../sections/Videos/Videos"));
-const OSTSection = React.lazy(() => import("../../sections/OST/OST"));
-const TechnicalSpecsSection = React.lazy(
+const VideosSection = lazy(() => import("../../sections/Videos/Videos"));
+const OSTSection = lazy(() => import("../../sections/OST/OST"));
+const TechnicalSpecsSection = lazy(
   () => import("../../sections/TechnicalSpecs/TechnicalSpecs")
 );
-const NotFound = React.lazy(
-  () => import("@components/modules/NotFound/NotFound")
-);
+const NotFound = lazy(() => import("@components/modules/NotFound/NotFound"));
 
 const Router: ReactMovieElement = ({ dataResponse }) => {
   const { url: baseURL } = useRouteMatch();
 
   return (
-    <React.Suspense fallback={<Suspense minHeight />}>
+    <Suspense fallback={<SuspenseComponent minHeight />}>
       <Switch>
         <Route path={baseURL} exact>
           <MovieSection dataResponse={dataResponse} />
@@ -47,7 +43,7 @@ const Router: ReactMovieElement = ({ dataResponse }) => {
           <NotFound />
         </Route>
       </Switch>
-    </React.Suspense>
+    </Suspense>
   );
 };
 

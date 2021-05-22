@@ -1,4 +1,4 @@
-export interface MovieHeaders {
+export interface MovieHeadersSection {
   id: string;
   title: string;
   internationalTitle: string;

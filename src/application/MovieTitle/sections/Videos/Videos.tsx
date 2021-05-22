@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import detectMobileDevice from "@lib/detectMobileDevice";
 import {
   FlexContainer,
@@ -10,24 +10,24 @@ import globalStyles from "@themes/Global.module.scss";
 import { fetchOptions } from "@lib/api";
 import { useTranslation } from "react-i18next";
 import { UseQueryResult, useQuery } from "react-query";
-import { Suspense } from "@components/modules";
-import { useLanguage } from "@hooks/Language";
+import { SuspenseComponent } from "@components/modules";
+import useLanguage from "@hooks/useLanguage";
 import {
   ReactMovieElement,
   SummaryObject,
   VideoObject,
-  VideosSection as VideosSectionType,
+  VideosSection,
   VideosGlobalSection,
 } from "../../types";
 import containerStyle from "../../Containers.module.scss";
 import styles from "./Videos.module.scss";
 import SectionEmpty from "../../modules/SectionEmpty/SectionEmpty";
 
-const VideosSection: ReactMovieElement = ({ dataResponse }) => {
+const Videos: ReactMovieElement = ({ dataResponse }) => {
   const { language } = useLanguage();
   const { t } = useTranslation("pages\\movieTitle\\root");
   const { isFetching, data }: UseQueryResult<VideosGlobalSection> = useQuery(
-    `movie-title_${dataResponse.body.id}_${language}_videos`,
+    `movie-title/${dataResponse.body.id}/${language}/videos`,
     (): Promise<VideosGlobalSection> => {
       return fetch(
         dataResponse.body.data.videos || ""
@@ -35,16 +35,15 @@ const VideosSection: ReactMovieElement = ({ dataResponse }) => {
     },
     fetchOptions
   );
-  const [playerOpen, setPlayerOpen] = React.useState<boolean>(false);
-  const [videoState, setVideoState] = React.useState<VideoObject>({
+  const [playerOpen, setPlayerOpen] = useState<boolean>(false);
+  const [videoState, setVideoState] = useState<VideoObject>({
     title: "",
     videoID: "",
   });
 
   if (isFetching) {
-    return <Suspense minHeight customText={t("fetchingData")} />;
+    return <SuspenseComponent minHeight customText={t("fetchingData")} />;
   }
-
   if (!data) {
     return <SectionEmpty />;
   }
@@ -78,7 +77,7 @@ const VideosSection: ReactMovieElement = ({ dataResponse }) => {
           )}
         </Summary>
         {data.videos.map(
-          (body: VideosSectionType): React.ReactElement => {
+          (body: VideosSection): React.ReactElement => {
             return (
               <FlexContainer
                 key={body.name}
@@ -128,4 +127,4 @@ const VideosSection: ReactMovieElement = ({ dataResponse }) => {
   );
 };
 
-export default VideosSection;
+export default Videos;

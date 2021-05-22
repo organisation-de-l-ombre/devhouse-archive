@@ -1,22 +1,22 @@
-import React from "react";
+import React, { lazy, FC, Suspense } from "react";
 import { Switch, useRouteMatch, Route } from "react-router";
-import { Suspense } from "@components/modules";
+import { SuspenseComponent } from "@components/modules";
 import containerStyle from "../../Containers.module.scss";
 
-const Account = React.lazy(() => import("../../sections/Account/Account"));
-const Authorizations = React.lazy(
+const Account = lazy(() => import("../../sections/Account/Account"));
+const Authorizations = lazy(
   () => import("../../sections/Authorizations/Authorizations")
 );
-const Settings = React.lazy(() => import("../../sections/Settings/Settings"));
-const NotFound = React.lazy(
-  () => import("@components/modules/NotFound/NotFound")
-);
+const Settings = lazy(() => import("../../sections/Settings/Settings"));
+const NotFound = lazy(() => import("@components/modules/NotFound/NotFound"));
 
-const Router = (): React.ReactElement => {
-  const baseURL: string = useRouteMatch().path;
+const Router: FC = () => {
+  const { path: baseURL } = useRouteMatch();
 
   return (
-    <React.Suspense fallback={<Suspense className={containerStyle.loader} />}>
+    <Suspense
+      fallback={<SuspenseComponent className={containerStyle.loader} />}
+    >
       <Switch>
         <Route path={baseURL} exact component={Account} />
         <Route
@@ -27,7 +27,7 @@ const Router = (): React.ReactElement => {
         <Route path={`${baseURL}/settings`} exact component={Settings} />
         <Route path="*" exact component={NotFound} />
       </Switch>
-    </React.Suspense>
+    </Suspense>
   );
 };
 

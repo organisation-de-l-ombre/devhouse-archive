@@ -1,6 +1,6 @@
-import React from "react";
+import React, { FC, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { useNavbar } from "@hooks/Navbar";
+import useNavbar from "@hooks/useNavbar";
 import routeWithOnlyContent from "@lib/routeWithOnlyContent";
 import {
   Drawer,
@@ -12,15 +12,13 @@ import {
 import { NotificationsModal, LanguageModal, RippleEffect } from "../../ui";
 import styles from "./Navbar.module.scss";
 
-const Navbar = (): React.ReactElement => {
+const Navbar: FC = () => {
   const { open, manageNavbar } = useNavbar();
-  const [languageWindowOpen, setLanguageWindowOpen] = React.useState<boolean>(
-    false
-  );
+  const [languageWindowOpen, setLanguageWindowOpen] = useState<boolean>(false);
   const [
     notificationsWindowOpen,
     setNotificationsWindowOpen,
-  ] = React.useState<boolean>(false);
+  ] = useState<boolean>(false);
   const { pathname } = useLocation();
 
   if (
@@ -28,7 +26,7 @@ const Navbar = (): React.ReactElement => {
       pathname.startsWith(route)
     ).length
   ) {
-    return <></>;
+    return null;
   }
 
   const classes = `${styles.navbar} ${
@@ -46,7 +44,7 @@ const Navbar = (): React.ReactElement => {
         setOpen={setNotificationsWindowOpen}
       />
       <nav className={classes}>
-        <RippleEffect navbar className={styles.ripple} onClick={manageNavbar}>
+        <RippleEffect className={styles.ripple} onClick={manageNavbar}>
           <MobileNavigation open={open} />
         </RippleEffect>
         <div className={styles.separator} />

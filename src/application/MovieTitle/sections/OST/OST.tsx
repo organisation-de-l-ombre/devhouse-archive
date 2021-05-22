@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement, useState } from "react";
 import { SiSpotify, SiDeezer, SiApplemusic } from "react-icons/si";
 import { FaMusic, FaPlay } from "react-icons/fa";
 import detectMobileDevice from "@lib/detectMobileDevice";
@@ -12,15 +12,17 @@ import {
   ButtonsGroup,
 } from "@components/ui";
 import { fetchOptions } from "@lib/api";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { UseQueryResult, useQuery } from "react-query";
-import { Suspense } from "@components/modules";
-import { useLanguage } from "@hooks/Language";
+import { SuspenseComponent } from "@components/modules";
+import useLanguage from "@hooks/useLanguage";
+import { FunctionComponent } from "@typings/FunctionComponent";
+import { IconType } from "react-icons";
 import styles from "./OST.module.scss";
 import containerStyle from "../../Containers.module.scss";
 import globalStyles from "../../../../themes/Global.module.scss";
 import {
-  OSTSection as OSTSectionType,
+  OSTSection,
   ReactMovieElement,
   StreamingObject,
   SummaryObject,
@@ -30,7 +32,9 @@ import {
 } from "../../types";
 import SectionEmpty from "../../modules/SectionEmpty/SectionEmpty";
 
-const DisplaySVG = ({ type }: { type: string }): React.ReactElement => {
+const DisplaySVG: FunctionComponent<IconType, { type: string }> = ({
+  type,
+}) => {
   switch (type) {
     case "Spotify":
       return <SiSpotify />;
@@ -43,12 +47,13 @@ const DisplaySVG = ({ type }: { type: string }): React.ReactElement => {
   }
 };
 
-const OSTSection: ReactMovieElement = ({ dataResponse }) => {
+const OST: ReactMovieElement = ({ dataResponse }) => {
   const { language } = useLanguage();
-  const { t } = useTranslation("pages\\movieTitle\\root");
-  const { isFetching, data }: UseQueryResult<OSTSectionType> = useQuery(
-    `movie-title_${dataResponse.body.id}_${language}_ost`,
-    (): Promise<OSTSectionType> => {
+  const { t } = useTranslation("pages\\movieTitle\\ost");
+  const { t: tRoot } = useTranslation("pages\\movieTitle\\root");
+  const { isFetching, data }: UseQueryResult<OSTSection> = useQuery(
+    `movie-title/${dataResponse.body.id}/${language}/ost`,
+    (): Promise<OSTSection> => {
       return fetch(
         dataResponse.body.data.ost || ""
       ).then((response: Response) => response.json());
@@ -56,16 +61,15 @@ const OSTSection: ReactMovieElement = ({ dataResponse }) => {
     fetchOptions
   );
 
-  const [playerOpen, setPlayerOpen] = React.useState<boolean>(false);
-  const [video, setVideo] = React.useState<VideoObject>({
+  const [playerOpen, setPlayerOpen] = useState<boolean>(false);
+  const [video, setVideo] = useState<VideoObject>({
     title: "",
     videoID: "",
   });
 
   if (isFetching) {
-    return <Suspense minHeight customText={t("fetchingData")} />;
+    return <SuspenseComponent minHeight customText={tRoot("fetchingData")} />;
   }
-
   if (!data) {
     return <SectionEmpty />;
   }
@@ -84,19 +88,17 @@ const OSTSection: ReactMovieElement = ({ dataResponse }) => {
         className={`${styles.container} ${containerStyle.container}`}
       >
         <Summary className={containerStyle.summary}>
-          {data.summary.map(
-            (item: SummaryObject): React.ReactElement => {
-              switch (item.type) {
-                case "item":
-                  return (
-                    <SummaryItem key={item.to} to={item.to} name={item.name} />
-                  );
+          {data.summary.map((item: SummaryObject): ReactElement | null => {
+            switch (item.type) {
+              case "item":
+                return (
+                  <SummaryItem key={item.to} to={item.to} name={item.name} />
+                );
 
-                default:
-                  return <></>;
-              }
+              default:
+                return null;
             }
-          )}
+          })}
         </Summary>
         {data.album && (
           <FlexContainer
@@ -160,14 +162,32 @@ const OSTSection: ReactMovieElement = ({ dataResponse }) => {
                             <i>{track.VOTitle}</i>
                           </h2>
                         )}
-                        <p>Durée : {track.duration}</p>
+                        <p>
+                          <Trans
+                            t={t}
+                            i18nKey="duration"
+                            values={{ duration: track.duration }}
+                          />
+                        </p>
                         {track.timecode && (
-                          <p>Timeline dans le film : {track.timecode}</p>
+                          <p>
+                            <Trans
+                              t={t}
+                              i18nKey="timeline"
+                              values={{ timeline: track.timecode }}
+                            />
+                          </p>
                         )}
                         {track.characters && (
                           <p>
-                            Personnage{track.characters.length > 1 ? "s" : ""} :{" "}
-                            {track.characters.join(", ")}
+                            <Trans
+                              t={t}
+                              i18nKey="characters"
+                              values={{
+                                characters: track.characters.join(", "),
+                                count: track.characters.length,
+                              }}
+                            />
                           </p>
                         )}
                         {track.description && (
@@ -178,7 +198,7 @@ const OSTSection: ReactMovieElement = ({ dataResponse }) => {
                           </p>
                         )}
                         {Boolean(track.videoID || track.lyrics) && (
-                          <ButtonsGroup minimal>
+                          <ButtonsGroup minimal allowExpand>
                             {track.videoID && (
                               <Button
                                 onClick={() => {
@@ -198,13 +218,17 @@ const OSTSection: ReactMovieElement = ({ dataResponse }) => {
                                 }}
                               >
                                 <FaPlay />
-                                <span>Voir la vidéo</span>
+                                <span>
+                                  <Trans t={t} i18nKey="watchVideo" />
+                                </span>
                               </Button>
                             )}
                             {track.lyrics && (
                               <a href={track.lyrics} target="blank">
                                 <FaMusic />
-                                <span>Paroles</span>
+                                <span>
+                                  <Trans t={t} i18nKey="lyrics" />
+                                </span>
                               </a>
                             )}
                           </ButtonsGroup>
@@ -222,4 +246,4 @@ const OSTSection: ReactMovieElement = ({ dataResponse }) => {
   );
 };
 
-export default OSTSection;
+export default OST;
