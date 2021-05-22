@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import { I18nextProvider } from "react-i18next";
 import i18next from "i18next";
 import { RequestContext, UserAPIApi } from "@developers-house/abdera";
+import { SVGDefinitions } from "components/UserAvatarStatus/SVGDefinitions";
 import Navigator from "./pages/Navigator";
 import { register } from "./utilities";
 import { Menu } from "./components/navbar";
@@ -67,6 +68,7 @@ register({
 export default function Root(): ReactElement {
   return (
     <ErrorBoundary FallbackComponent={ErrorPage}>
+      <SVGDefinitions />
       <Provider store={store}>
         <I18nextProvider i18n={i18next}>
           <ThemeProvider>

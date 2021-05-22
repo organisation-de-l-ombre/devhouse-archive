@@ -33,5 +33,5 @@ export function getAvatar(member: StaffMember): string {
       }`
     : `https://cdn.discordapp.com/embed/avatars/${
         parseInt(member.id, 10) % 5
-      }.png`;
+      }.webp`;
 }
