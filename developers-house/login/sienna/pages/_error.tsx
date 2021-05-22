@@ -6,7 +6,7 @@ import styles from "../styles/pages/error.module.scss";
 function Error(): ReactElement {
   const router: NextRouter = useRouter();
   const error =
-    router.query.error_message || router.query.error || router.query.message;
+    router.query.error_message || router.query.error_description || router.query.message;
 
   return (
     <>
