@@ -15,11 +15,12 @@ export default function TwoFa(): ReactElement {
   const router = useRouter();
 
   useEffect(() => {
-    if (!data) return;
-    if (!context.data) {
-      context.setTwoFaData(() => ({ session: data }));
-      return;
-    }
+    context.setTwoFaData(() => ({ session: data }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+
+  useEffect(() => {
+    if (!context.data) return;
     if (data.otp && data.webauth.availableKeys.length === 0) {
       router.push("/otp");
       return;
@@ -31,15 +32,6 @@ export default function TwoFa(): ReactElement {
       setChoose(true);
     }
   }, [data, router, context]);
-
-  if (loading) {
-    return (
-      <div className={styles["loader-root"]}>
-        <Loader type="line-scale" innerClassName={styles.loader} active />
-        <p>Loading the resource you requested...</p>
-      </div>
-    );
-  }
 
   if (error) {
     return <p>{error.message}</p>;
@@ -60,4 +52,10 @@ export default function TwoFa(): ReactElement {
       </div>
     );
   }
+  return (
+    <div className={styles["loader-root"]}>
+      <Loader type="line-scale" innerClassName={styles.loader} active />
+      <p>Loading the resource you requested...</p>
+    </div>
+  );
 }
