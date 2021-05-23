@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
 import { GlobalState } from "@store/Types";
-import { User, UserObject } from "@store/user/Types";
-import { createUser, deleteUser } from "@store/user/Actions";
+import { User, UserObject } from "@store/account/Types";
+import { createUser, deleteUser } from "@store/account/Actions";
 
 interface UserHook {
   user: User;
@@ -10,10 +10,12 @@ interface UserHook {
   removeUser: () => void;
 }
 
-const useUser = (): UserHook => {
+const useAccount = (): UserHook => {
   const dispatch = useDispatch();
 
-  const user: User = useSelector((state: GlobalState): User => state.user.user);
+  const user: User = useSelector(
+    (state: GlobalState): User => state.account.user
+  );
 
   const saveUser = useCallback(
     (payload: UserObject): void => {
@@ -29,4 +31,4 @@ const useUser = (): UserHook => {
   return { user, saveUser, removeUser };
 };
 
-export default useUser;
+export default useAccount;

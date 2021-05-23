@@ -8,7 +8,7 @@ import {
   useNotificationsPreferences,
   useNotificationsState,
 } from "@hooks/useNotifications";
-import globalStyles from "@themes/Global.module.scss";
+import globalStyles from "@styles/Global.module.scss";
 import { Modal, modalStyles, SelectList, Button } from "@components/ui";
 import { manageSelection } from "../../SelectList/SelectList";
 import styles from "./NotificationsModal.module.scss";

@@ -8,7 +8,7 @@ interface LanguageReducerState {
   language: Language;
 }
 
-const LANGUAGE_UPDATED = "LANGUAGE_UPDATED";
+const LANGUAGE_UPDATED = "language/languageUpdated";
 const supportedLanguages = ["en", "fr"];
 
 export {

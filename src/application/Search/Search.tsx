@@ -5,7 +5,7 @@ import React, {
   useEffect,
   FormEvent,
 } from "react";
-import globalStyles from "@themes/Global.module.scss";
+import globalStyles from "@styles/Global.module.scss";
 import { Button, FlexContainer } from "@components/ui";
 import { Trans, useTranslation } from "react-i18next";
 import { AiOutlineFileSearch } from "react-icons/ai";

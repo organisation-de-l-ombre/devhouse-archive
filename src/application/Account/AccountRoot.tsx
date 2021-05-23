@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router";
-import useUser from "@hooks/useUser";
+import useAccount from "@hooks/useAccount";
 import FlexContainer from "@components/ui/FlexContainer/FlexContainer";
 import BackToTop from "@components/modules/BackToTop/BackToTop";
 import { Helmet } from "react-helmet";
@@ -12,7 +12,7 @@ import Sidebar from "./modules/InternalNavigation/InternalNavigation";
 import Router from "./modules/Router/Router";
 
 const AccountRoot: FunctionComponent<HTMLDivElement> = () => {
-  const { user } = useUser();
+  const { user } = useAccount();
   const history = useHistory();
   const { open, manageSidebar } = useSidebar();
   const { t } = useTranslation("pages\\account\\root");

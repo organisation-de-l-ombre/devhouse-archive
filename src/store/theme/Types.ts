@@ -8,6 +8,6 @@ interface ThemeState {
   theme: Theme;
 }
 
-const THEME_UPDATED = "THEME_UPDATED";
+const THEME_UPDATED = "theme/themeUpdated";
 
 export { Theme, ThemePayload, ThemeState, THEME_UPDATED };

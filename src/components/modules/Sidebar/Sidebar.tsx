@@ -3,7 +3,7 @@ import { BsArrowRight } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
 import { NavLink, NavLinkProps } from "react-router-dom";
 import { FlexContainer } from "@components/ui";
-import globalStyles from "@themes/Global.module.scss";
+import globalStyles from "@styles/Global.module.scss";
 import { ButtonComponent, FunctionComponent } from "@typings/FunctionComponent";
 import styles from "./Sidebar.module.scss";
 

@@ -14,7 +14,7 @@ import {
 } from "./notifications/notificationsData";
 import { languageState, LanguageReducer } from "./language/Reducer";
 import { themeState, ThemeReducer } from "./theme/Reducer";
-import { userState, UserReducer } from "./user/Reducer";
+import { accountState, AccountReducer } from "./account/Reducer";
 import { GlobalState } from "./Types";
 import {
   NotificationsConfigReducer,
@@ -49,16 +49,16 @@ const rootReducer = combineReducers({
   notificationsConfig: NotificationsConfigReducer,
   notificationsData: NotificationsDataReducer,
   theme: ThemeReducer,
-  user: UserReducer,
+  account: AccountReducer,
 });
-const reducer = persistReducer(persistConfiguration, rootReducer);
 const globalState: GlobalState = {
   language: languageState,
   notificationsConfig: notificationsConfigState,
   notificationsData: notificationsDataState,
   theme: themeState,
-  user: userState,
+  account: accountState,
 };
+const reducer = persistReducer(persistConfiguration, rootReducer);
 const store = createStore(reducer, globalState, callCompose);
 const persistedStore = persistStore(store);
 

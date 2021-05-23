@@ -13,8 +13,8 @@ import {
   CardContainer,
 } from "@components/ui";
 import { ErrorComponent } from "@components/modules";
-import globalStyles from "@themes/Global.module.scss";
 import { FunctionComponent } from "@typings/FunctionComponent";
+import globalStyles from "@styles/Global.module.scss";
 import AuthorizationCard from "./AuthorizationCard";
 import containerStyle from "../../Containers.module.scss";
 

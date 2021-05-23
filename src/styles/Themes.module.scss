@@ -1,0 +1,51 @@
+$MOVIE_HEADERS_PRIMARY_BACKGROUND: rgb(35, 35, 35);
+$MOVIE_HEADERS_SECONDARY_BACKGROUND: rgb(60, 60, 60);
+$MOVIE_HEADERS_OPACITY: .3;
+
+.light {
+  --website-background-color: rgb(255, 255, 255);
+
+  --primary-background-color: rgb(240, 240, 240);
+  --primary-background-color-hover: rgb(220, 220, 220);
+
+  --secondary-background-color: rgb(200, 200, 200);
+  --secondary-background-color-hover: rgb(180, 180, 180);
+
+  --notification-info-color: rgb(180, 230, 170);
+  --notification-warning-color: rgb(240, 220, 110);
+  --notification-error-color: rgb(250, 170, 170);
+
+  --notification-button-color: rgb(240, 240, 240);
+  --notification-button-color-hover: rgb(220, 220, 220);
+  --notification-button-text-color: black;
+
+  --font-color: black;
+  --link-font-color: rgb(41, 136, 244);
+  --font-color-hover: rgb(230, 85, 85);
+
+  --background-opacity: .5;
+}
+
+.dark {
+  --website-background-color: rgb(35, 35, 35);
+
+  --primary-background-color: rgb(60, 60, 60);
+  --primary-background-color-hover: rgb(80, 80, 80);
+
+  --secondary-background-color: rgb(100, 100, 100);
+  --secondary-background-color-hover: rgb(120, 120, 120);
+
+  --notification-info-color: rgb(130, 200, 120);
+  --notification-warning-color: rgb(240, 220, 110);
+  --notification-error-color: rgb(250, 170, 170);
+
+  --notification-button-color: rgb(240, 240, 240);
+  --notification-button-color-hover: rgb(220, 220, 220);
+  --notification-button-text-color: black;
+
+  --font-color: white;
+  --link-font-color: rgb(41, 136, 244);
+  --font-color-hover: rgb(230, 85, 85);
+
+  --background-opacity: .3;
+}

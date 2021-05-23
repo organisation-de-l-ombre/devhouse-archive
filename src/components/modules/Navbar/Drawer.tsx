@@ -5,7 +5,7 @@ import { getAvatar } from "@lib/manageAuthentication";
 import { FaBell, FaBellSlash, FaMoon, FaSun, FaUser } from "react-icons/fa";
 import { MdSearch } from "react-icons/md";
 import localForage from "localforage";
-import useUser from "@hooks/useUser";
+import useAccount from "@hooks/useAccount";
 import generateNotificationID from "@lib/generateNotificationID";
 import useTheme from "@hooks/useTheme";
 import {
@@ -116,7 +116,7 @@ const DrawerEnd: FunctionComponent<
   setNotificationsWindowOpen,
 }) => {
   const { t } = useTranslation("components\\modules\\navbar\\navbar");
-  const { user } = useUser();
+  const { user } = useAccount();
   const manageAuth = useCallback((): void => {
     manageNavbar();
     localForage.setItem("redirection", document.location.pathname);

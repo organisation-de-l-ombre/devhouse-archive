@@ -13,7 +13,7 @@ import {
   useNotificationsState,
 } from "@hooks/useNotifications";
 import useTheme from "@hooks/useTheme";
-import globalStyles from "@themes/Global.module.scss";
+import globalStyles from "@styles/Global.module.scss";
 import {
   FlexContainer,
   SelectList,
@@ -21,7 +21,7 @@ import {
   CardContainer,
   Card,
 } from "@components/ui";
-import "@themes/Toggle.scss";
+import "../../../../styles/Toggle.scss";
 import { supportedLanguages } from "@store/language";
 import { manageSelection } from "@components/ui/SelectList/SelectList";
 import { DisplayLanguageSVG } from "@components/modules";

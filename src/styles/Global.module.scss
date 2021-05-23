@@ -1,0 +1,146 @@
+.react-query {
+  * {
+    color: white;
+    font-size: 16px;
+  }
+
+  span code {
+    color: black;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+}
+
+.alignment-full-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-full {
+  flex: 1;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.animation-opacity {
+  animation: animate-opacity 0.5s;
+
+  @keyframes animate-opacity {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+.min-height {
+  min-height: 30rem;
+}
+
+.no-margin {
+  margin: 0 !important;
+}
+
+.primary-padding {
+  padding: 1rem;
+}
+
+.secondary-padding {
+  padding: 2rem;
+}
+
+.primary-margin {
+  margin: 1rem;
+}
+
+.generic-margin-top {
+  margin-top: 1rem;
+}
+
+.secondary-margin {
+  margin: 2rem;
+}
+
+.rotate-infinite-animation {
+  animation: animate-rotate-infinite 1s infinite;
+
+  @keyframes animate-rotate-infinite {
+    from {
+      transform: rotate(0);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+.opacity-display-animation {
+  animation: animate-opacity-display 0.5s;
+
+  @keyframes animate-opacity-display {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+.rounded-picture {
+  border-radius: 50%;
+}
+
+.border-radius {
+  border-radius: 5px;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.page-body-width {
+  padding: 2rem;
+  width: calc(100% - 4rem);
+  max-width: 75%;
+
+  @media screen and (max-width: 700px) {
+    max-width: unset;
+  }
+}
+
+.position-relative {
+  position: relative;
+}
+
+.generic-loader {
+  max-width: 40rem;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    text-align: center;
+  }
+}

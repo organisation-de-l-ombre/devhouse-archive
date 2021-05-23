@@ -6,7 +6,7 @@ import {
   Button as ButtonType,
 } from "@store/notifications/notificationsData";
 import styles from "./Notification.module.scss";
-import globalStyles from "../../../../themes/Global.module.scss";
+import globalStyles from "../../../../styles/Global.module.scss";
 import Button from "../../Button/Button";
 import ButtonsGroup from "../../ButtonsGroup/ButtonsGroup";
 

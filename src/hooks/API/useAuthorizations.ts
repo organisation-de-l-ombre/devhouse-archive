@@ -11,7 +11,7 @@ import { DevHouseUserAPI, fetchOptions } from "@lib/api";
 import generateNotificationID from "@lib/generateNotificationID";
 import getApplicationID from "@lib/getApplicationID";
 import { useNotificationsManager } from "@hooks/useNotifications";
-import useUser from "@hooks/useUser";
+import useAccount from "@hooks/useAccount";
 
 const useAuthorizationsError = (): ((error?: Error) => Error) => {
   const { t } = useTranslation("pages\\account\\sections\\authorizations");
@@ -53,7 +53,7 @@ const useAuthorizationsDeleteMutation = (
   const criticalError = useAuthorizationsError();
   const { t } = useTranslation("pages\\account\\sections\\authorizations");
   const { t: tAccount } = useTranslation("pages\\account\\sections\\account");
-  const { removeUser } = useUser();
+  const { removeUser } = useAccount();
   const { addNotifications } = useNotificationsManager();
   const { mutate } = useMutation(
     "delete_account_authorizations",

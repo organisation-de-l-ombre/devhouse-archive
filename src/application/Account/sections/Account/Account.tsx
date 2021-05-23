@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import generateNotificationID from "@lib/generateNotificationID";
 import { useNotificationsManager } from "@hooks/useNotifications";
-import useUser from "@hooks/useUser";
+import useAccount from "@hooks/useAccount";
 import {
   FlexContainer,
   TextArea,
@@ -12,15 +12,15 @@ import {
   CardContainer,
   Card,
 } from "@components/ui";
-import globalStyles from "@themes/Global.module.scss";
 import { FaEdit } from "react-icons/fa";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { FunctionComponent } from "@typings/FunctionComponent";
+import globalStyles from "@styles/Global.module.scss";
 import containerStyle from "../../Containers.module.scss";
 
 const Account: FunctionComponent<HTMLDivElement> = () => {
   const { t } = useTranslation("pages\\account\\sections\\account");
-  const { user, removeUser } = useUser();
+  const { user, removeUser } = useAccount();
   const { addNotifications } = useNotificationsManager();
   const logout = useCallback((): void => {
     removeUser();

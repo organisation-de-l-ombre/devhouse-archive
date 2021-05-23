@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import ReactDOM from "react-dom";
 import { RootSuspense } from "@components/modules";
 import {
@@ -6,13 +6,17 @@ import {
   RequestContext,
   UserAPIApi,
 } from "@developers-house/abdera";
-import { store } from "@store/Store";
+import { persistedStore, store } from "@store/Store";
 import Application from "@application/Application";
 import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { register } from "@lib/serviceWorker";
+
+register();
 
 export const DevHouseUserAPIInit = new UserAPIApi().withPreMiddleware(
   async (context: RequestContext): Promise<void | FetchParams> => {
-    const token: string = store.getState().user.user?.token || "";
+    const token: string = store.getState().account.user?.token || "";
 
     context.init.headers = {
       Authorization: `Bearer ${token}`,
@@ -22,17 +26,19 @@ export const DevHouseUserAPIInit = new UserAPIApi().withPreMiddleware(
   }
 );
 
-const RootComponent = (): React.ReactElement => {
+const RootComponent: FC = () => {
   return (
     <React.Suspense fallback={<RootSuspense />}>
       <Provider store={store}>
-        <Application />
+        <PersistGate persistor={persistedStore}>
+          <Application />
+        </PersistGate>
       </Provider>
     </React.Suspense>
   );
 };
 
-const app = document.createElement("div");
+const app: HTMLDivElement = document.createElement("div");
 app.className = "app";
 document.body.appendChild(app);
 

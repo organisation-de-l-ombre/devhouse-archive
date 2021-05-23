@@ -1,9 +1,9 @@
 import { USER_CREATED, USER_DELETED, UserPayload, UserState } from "./Types";
 
-const userState: UserState = { user: undefined };
+const accountState: UserState = { user: undefined };
 
-const UserReducer = (
-  state: UserState = userState,
+const AccountReducer = (
+  state: UserState = accountState,
   { type, payload: user }: UserPayload
 ): UserState => {
   switch (type) {
@@ -18,4 +18,4 @@ const UserReducer = (
   }
 };
 
-export { userState, UserReducer };
+export { accountState, AccountReducer };

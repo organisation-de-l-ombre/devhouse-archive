@@ -6,7 +6,7 @@ import {
   SummaryItem,
   YouTubePlayer,
 } from "@components/ui";
-import globalStyles from "@themes/Global.module.scss";
+import globalStyles from "@styles/Global.module.scss";
 import { fetchOptions } from "@lib/api";
 import { UseQueryResult, useQuery } from "react-query";
 import useLanguage from "@hooks/useLanguage";

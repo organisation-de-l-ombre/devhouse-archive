@@ -5,12 +5,12 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import useLanguage from "@hooks/useLanguage";
 import useTheme from "@hooks/useTheme";
 import { useNotificationsState } from "@hooks/useNotifications";
-import themes from "@themes/Themes.module.scss";
+import themes from "@styles/Themes.module.scss";
 import { NotificationsGroup, NotificationsModal } from "@components/ui";
 import i18n from "@languages/i18n";
 import { RootError, ApplicationRouter } from "@components/modules";
 import { Helmet } from "react-helmet";
-import globalStyles from "@themes/Global.module.scss";
+import globalStyles from "@styles/Global.module.scss";
 import { I18nextProvider } from "react-i18next";
 
 const queryClient: QueryClient = new QueryClient();

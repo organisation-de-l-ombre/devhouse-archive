@@ -90,7 +90,7 @@ const checkValidServiceWorker = (swUrl: string, config: Config): void => {
   });
 };
 
-const register = (config: Config): void => {
+const register = (config?: Config): void => {
   if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
@@ -107,10 +107,10 @@ const register = (config: Config): void => {
 
       if (isLocalhost) {
         // This is running on localhost. Let's check if a service worker still exists or not.
-        checkValidServiceWorker(swUrl, config);
+        checkValidServiceWorker(swUrl, config || {});
       } else {
         // Is not localhost. Just register service worker
-        registerValidSW(swUrl, config);
+        registerValidSW(swUrl, config || {});
       }
     });
   }

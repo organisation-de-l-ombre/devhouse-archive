@@ -2,7 +2,7 @@ import React from "react";
 import { css } from "@emotion/react";
 import { useTranslation, Trans } from "react-i18next";
 import { NavLink } from "react-router-dom";
-import globalStyles from "@themes/Global.module.scss";
+import globalStyles from "@styles/Global.module.scss";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import { Card, FlexContainer, ButtonsGroup } from "../../ui";
 

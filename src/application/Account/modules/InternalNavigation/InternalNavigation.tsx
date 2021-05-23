@@ -6,7 +6,7 @@ import {
   SidebarItem,
   SidebarSection,
 } from "@components/modules/Sidebar";
-import useUser from "@hooks/useUser";
+import useAccount from "@hooks/useAccount";
 import { getAvatar } from "@lib/manageAuthentication";
 import { FunctionComponent } from "@typings/FunctionComponent";
 
@@ -18,7 +18,7 @@ const InternalNavigation: FunctionComponent<
   }
 > = ({ open, manageSidebar }) => {
   const { path: baseURL } = useRouteMatch();
-  const { user } = useUser();
+  const { user } = useAccount();
   const { t } = useTranslation("pages\\account\\sidebar");
 
   return (

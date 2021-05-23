@@ -20,7 +20,7 @@ interface UserState {
   user: User;
 }
 
-const USER_CREATED = "USER_CREATED";
-const USER_DELETED = "USER_DELETED";
+const USER_CREATED = "account/userCreated";
+const USER_DELETED = "account/userRemoved";
 
 export { UserObject, User, UserPayload, UserState, USER_CREATED, USER_DELETED };

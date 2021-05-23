@@ -1,7 +1,7 @@
 import React, { ComponentType, useCallback } from "react";
 import { css } from "@emotion/react";
 import { useTranslation, Trans } from "react-i18next";
-import globalStyles from "@themes/Global.module.scss";
+import globalStyles from "@styles/Global.module.scss";
 import { FallbackProps } from "react-error-boundary";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import { Card, FlexContainer, ButtonsGroup, Button } from "../../ui";

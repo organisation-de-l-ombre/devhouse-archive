@@ -3,10 +3,10 @@ import localForage from "localforage";
 import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
 import generateNotificationID from "@lib/generateNotificationID";
-import useUser from "@hooks/useUser";
+import useAccount from "@hooks/useAccount";
 import { useNotificationsManager } from "@hooks/useNotifications";
 import getApplicationID from "@lib/getApplicationID";
-import { UserObject } from "@store/user";
+import { UserObject } from "@store/account";
 import { SuspenseComponent } from "@components/modules";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import requestParameters from "./QuerySelector";
@@ -37,7 +37,7 @@ const urlEncodeFormData = (formData: string[][]): string => {
 };
 
 const Callback: FunctionComponent<HTMLDivElement> = () => {
-  const { saveUser } = useUser();
+  const { saveUser } = useAccount();
   const history = useHistory();
   const [callbackState, setCallbackState] = React.useState<CallbackState>({
     error: false,

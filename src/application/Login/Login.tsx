@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import { manageAuth } from "@lib/manageAuthentication";
 import { useTranslation } from "react-i18next";
-import useUser from "@hooks/useUser";
+import useAccount from "@hooks/useAccount";
 import { useHistory } from "react-router";
 import { SuspenseComponent } from "@components/modules";
 import { FunctionComponent } from "@typings/FunctionComponent";
 
 const Login: FunctionComponent<HTMLDivElement> = () => {
   const { t } = useTranslation("pages\\login\\login");
-  const { user } = useUser();
+  const { user } = useAccount();
   const history = useHistory();
 
   useEffect((): void => {

@@ -23,7 +23,7 @@
       "@lib/*": ["./lib/*"],
       "@hooks/*": ["./hooks/*"],
       "@store/*": ["./store/*"],
-      "@themes/*": ["./themes/*"],
+      "@styles/*": ["./styles/*"],
       "@languages/*": ["./languages/*"],
       "@components/*": ["./components/*"],
       "@assets/*": ["./assets/*"],

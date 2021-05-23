@@ -12,7 +12,7 @@ spec:
     - implicit
   hydraAdmin: {}
   redirectUris:
-    - 'http://localhost:3000/callback'
+    - 'http://localhost:3200/callback'
   responseTypes:
     - code
   scope: "account.info account.authorized.*"

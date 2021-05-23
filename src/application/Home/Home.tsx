@@ -5,7 +5,7 @@ import { BsFillQuestionCircleFill } from "react-icons/bs";
 import { MdWork } from "react-icons/md";
 import { RiMessage2Fill } from "react-icons/ri";
 import { FlexContainer, ButtonsGroup } from "@components/ui";
-import globalStyles from "@themes/Global.module.scss";
+import globalStyles from "@styles/Global.module.scss";
 import { BackToTop } from "@components/modules";
 import { useSpring, animated } from "react-spring";
 import { Helmet } from "react-helmet";

@@ -17,9 +17,9 @@ interface NotificationsDataState {
   notifications: Notification[];
 }
 
-const NOTIFICATIONS_PUSH = "NOTIFICATIONS_PUSH";
-const NOTIFICATION_DELETE = "NOTIFICATION_DELETE";
-const NOTIFICATIONS_DELETE_ALL = "NOTIFICATIONS_DELETE_ALL";
+const NOTIFICATIONS_PUSH = "notifications/push";
+const NOTIFICATION_DELETE = "notifications/delete";
+const NOTIFICATIONS_DELETE_ALL = "notifications/deleteAll";
 
 interface NotificationPushPayload {
   type: typeof NOTIFICATIONS_PUSH;

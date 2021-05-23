@@ -1,5 +1,5 @@
 import React from "react";
-import globalStyles from "@themes/Global.module.scss";
+import globalStyles from "@styles/Global.module.scss";
 import { useTranslation } from "react-i18next";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import { FlexContainer, GenericLoader } from "../../ui";
