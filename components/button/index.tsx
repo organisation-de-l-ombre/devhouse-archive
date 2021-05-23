@@ -43,11 +43,7 @@ const Button: React.FC<
       {...props}
       type="button"
       className={styles.button}
-<<<<<<< HEAD
-      onClick={event(onClick)}
-=======
       onClick={onButtonClick(onClick)}
->>>>>>> 5788435a3b55b841915a3f3ac00164d91b14be9c
     />
   );
 };
