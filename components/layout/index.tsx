@@ -1,29 +1,40 @@
-import { FC } from "react";
+import React, { FC, useCallback, useContext } from "react";
 import styles from "./Layout.module.scss";
-import { Warning } from "../warning";
+import { ThemeContext } from "../../contexts/Theme";
+import { DevHouseLogo } from "./logo";
 
-export const Layout: FC = ({ children }) => {
+const Layout: FC = ({ children }) => {
+  const changeLanguage = useCallback((): void => {
+    alert("This feature is not impelemented yet. It will come soon.");
+  }, []);
+  const { switchTheme } = useContext(ThemeContext);
+
   return (
     <div className={styles.app}>
-      <div className={styles.card}>
-        <div className={styles.header}>
-          <h1>Login</h1>
-        </div>
-        <div className={styles.content}>
-          <Warning>
-            <p>⚠ This website is an early version of the final product.</p>
-          </Warning>
-          {children}
+      <div className={styles["card-root"]}>
+        <div className={styles.card}>
+          <div className={styles.banner}>
+            <DevHouseLogo />
+          </div>
+          <div className={styles.content}>{children}</div>
         </div>
         <div className={styles.footer}>
-          <p>
-            This website uses cookies 🍪 <br />
-            <a href="https://www.developershouse.xyz/terms" target="blank">
-              Learn more
-            </a>
-          </p>
+          <div className={styles["footer-left"]}>
+            <button type="button" onClick={changeLanguage}>
+              Change language
+            </button>
+            <button type="button" onClick={switchTheme}>
+              Change theme
+            </button>
+          </div>
+          <div className={styles["footer-right"]}>
+            <a href="/help">Help</a>
+            <a href="https://developershouse.xyz/terms">Terms of service</a>
+          </div>
         </div>
       </div>
     </div>
   );
 };
+
+export default Layout;
