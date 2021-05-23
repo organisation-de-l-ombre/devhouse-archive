@@ -1,24 +1,28 @@
-import React, { ReactElement, useCallback, useEffect, useState } from "react";
+import React, { ReactElement, useCallback } from "react";
 import Loader from "react-loaders";
 import { useRouter } from "next/router";
 import { Button, ButtonContainer } from "../components/button";
 import styles from "../styles/pages/consent.module.scss";
 import globalStyles from "../styles/generic.module.scss";
 import { ConsentFetchResponse, fetchConsent } from "../lib/consent";
+import { usePageState } from "../lib/usePageState";
 
 export default function Consent(): ReactElement {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [consent, setConsent] = useState<ConsentFetchResponse>(null);
   const router = useRouter();
-
-  useEffect(() => {
+  const fetchingFunction = useCallback(async () => {
     const challenge = router.query.consent_challenge as string;
     if (challenge) {
-      fetchConsent(challenge)
-        .then(setConsent)
-        .then(() => setLoading(false));
+      return fetchConsent(challenge);
     }
+    throw new Error("No challenge specified.");
   }, [router.query.consent_challenge]);
+
+  const {
+    error,
+    data,
+    loading,
+    setLoading,
+  } = usePageState<ConsentFetchResponse>(fetchingFunction);
 
   const submit = useCallback(
     async (granted: boolean) => {
@@ -31,9 +35,9 @@ export default function Consent(): ReactElement {
         credentials: "same-origin",
         body: JSON.stringify({
           granted,
-          challenge: consent.challenge,
-          scopes: consent.scopes,
-          audiences: consent.audiences,
+          challenge: data.challenge,
+          scopes: data.scopes,
+          audiences: data.audiences,
         }),
       });
       if (response.ok) {
@@ -41,8 +45,12 @@ export default function Consent(): ReactElement {
         await router.push(json.redirect);
       }
     },
-    [consent, router]
+    [data, setLoading, router]
   );
+
+  if (error) {
+    return <p>{error.message}</p>;
+  }
 
   if (loading) {
     return (
@@ -56,7 +64,7 @@ export default function Consent(): ReactElement {
   return (
     <div className={styles.consent}>
       <h2>Consent page</h2>
-      <h3>{consent.clientName}</h3>
+      <h3>{data.clientName}</h3>
       <p>
         This application needs some kind of access to your account and needs
         your consent, if you do not trust this application, feel free to reject
@@ -65,7 +73,7 @@ export default function Consent(): ReactElement {
       </p>
 
       <div className={styles.scopes}>
-        {consent.scopes.map((val) => (
+        {data.scopes.map((val) => (
           <code key={val}>{val}</code>
         ))}
       </div>

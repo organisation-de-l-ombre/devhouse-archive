@@ -32,12 +32,13 @@ export const Button: React.FC<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   >
-> = (props) => {
+> = ({ onClick, ...props }) => {
   return (
     <button
       {...props}
+      type="button"
       className={styles.button}
-      onClick={event(props.onClick)}
+      onClick={event(onClick)}
     />
   );
 };

@@ -1,25 +1,25 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useCallback } from "react";
 import { useRouter } from "next/router";
 import Loader from "react-loaders";
 import { Button, ButtonContainer } from "../components/button";
-import { fetchLogin, LoginFetchResponse } from "../lib/login";
+import { fetchLogin, LoginFetchResponse } from "../lib/api/login";
 import styles from "../styles/pages/consent.module.scss";
+import { usePageState } from "../lib/usePageState";
 
 export default function Login(): ReactElement {
-  const [loginSession, setSession] = useState<LoginFetchResponse>();
-  const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
 
-  useEffect(() => {
+  const fetchingFunction = useCallback(async () => {
     const challenge = router.query.login_challenge as string;
     if (challenge) {
-      fetchLogin(challenge)
-        .then(setSession)
-        .then(() => {
-          setLoading(false);
-        });
+      return fetchLogin(challenge);
     }
-  }, [router]);
+    throw new Error("No challenge specified.");
+  }, [router.query.login_challenge]);
+
+  const { error, data, loading } = usePageState<LoginFetchResponse>(
+    fetchingFunction
+  );
 
   if (loading) {
     return (
@@ -28,6 +28,10 @@ export default function Login(): ReactElement {
         <p>Loading the resource you requested...</p>
       </div>
     );
+  }
+
+  if (error) {
+    return <p>{error.message}</p>;
   }
 
   return (
@@ -39,10 +43,10 @@ export default function Login(): ReactElement {
         login to your account or create one. Our system does not accepts
         password / email login for security reasons and we propose a variety of
         login providers available to you. You must login to continue to{" "}
-        <u>{loginSession.clientName}</u>
+        <u>{data.clientName}</u>
       </p>
       <ButtonContainer>
-        {loginSession.platforms.map((platform) => (
+        {data.platforms.map((platform) => (
           <a href={platform.url}>
             <Button style={{ background: platform.color }} key={platform.name}>
               {platform.name}
