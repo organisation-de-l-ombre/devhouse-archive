@@ -29,9 +29,8 @@ stages:
 
 
 rust_build:
-  image: rustlang/rust:nightly
+  image: rustlang/rust@sha256:d73ff45159dc1fb61582e4c251b8695002face55b530a58375435bf2c2496fec
   script:
-    - rustup default nightly
     - cargo update
     - cargo build --release
   cache:
