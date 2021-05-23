@@ -34,6 +34,17 @@ export const loginStart: RouteOptions = {
     }: AxiosResponse<ConsentRequest> = await Admin.getLoginRequest(challenge);
     const state = randomBytes(32).toString("base64");
     if (status === 200) {
+      if (data.skip) {
+        const { data: redirect } = await Admin.acceptLoginRequest(challenge, {
+          subject: data.subject as string,
+          context: {
+            platform: "allg",
+            autoLogin: true
+          }
+        });
+        void response.code(200).send({ redirect: redirect.redirect_to });
+        return;
+      }
       request.session.login = {
         challenge,
         state: state
@@ -42,7 +53,7 @@ export const loginStart: RouteOptions = {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         platforms: [...Providers.values()].map((x) => ({
           ...x.meta(),
-          url: x.getRedirectUri(state, `http://${request.headers.host || ""}`)
+          url: x.getRedirectUri(state, `https://${request.headers.host || ""}`)
         })),
         clientName: data.client?.client_name
       });
