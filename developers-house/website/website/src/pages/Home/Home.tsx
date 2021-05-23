@@ -2,12 +2,12 @@
 import React, { ReactElement, useCallback } from "react";
 import { FaDiscord } from "react-icons/fa";
 import { RiMessage2Fill, RiPencilRuler2Line } from "react-icons/ri";
-import Button, {
-  ButtonImage,
+import {
+  Button,
   ButtonLink,
-  ButtonExternalLink,
-} from "components/Button/Button";
-import ButtonGroup from "components/Button/ButtonGroup";
+  NavLinkButton,
+} from "components/new/Button/Button";
+import ButtonGroup from "components/new/Button/ButtonGroup";
 import { BsPeopleFill, BsPeople, BsLayersFill } from "react-icons/bs";
 import { MdWork } from "react-icons/md";
 import FlexContainer from "components/FlexContainer/FlexContainer";
@@ -37,25 +37,19 @@ export default function HomePage(): ReactElement {
             We are young developers who learn to work as a team by developing
             some nice, diversified and interesting projects.
           </h1>
-          <ButtonGroup className={styles["buttons-group"]}>
-            <ButtonLink large to="/projects">
-              <ButtonImage>
+          <ButtonGroup outline flexWrap>
+            <NavLinkButton to="/projects">
                 <RiPencilRuler2Line />
-              </ButtonImage>
               Projects
-            </ButtonLink>
-            <ButtonLink large to="/members">
-              <ButtonImage>
+            </NavLinkButton>
+            <NavLinkButton to="/members">
                 <BsPeople />
-              </ButtonImage>
               Members
-            </ButtonLink>
-            <ButtonExternalLink large href={discordServer} target="blank">
-              <ButtonImage>
+            </NavLinkButton>
+            <NavLinkButton to={discordServer} target="blank">
                 <FaDiscord />
-              </ButtonImage>
               Discord server
-            </ButtonExternalLink>
+            </NavLinkButton>
           </ButtonGroup>
         </div>
       </div>
@@ -96,7 +90,7 @@ export default function HomePage(): ReactElement {
               entertainment/fun. To know more, click on the button below.
             </p>
             <ButtonGroup className={styles["buttons-group"]}>
-              <ButtonLink to="/projects">View projects</ButtonLink>
+              <ButtonLink href="/projects">View projects</ButtonLink>
             </ButtonGroup>
           </PresentationSection>
           <PresentationSection type="picture">
@@ -159,9 +153,9 @@ export default function HomePage(): ReactElement {
               A minimum of willpower and having basics, you wan join us to
               participate to an awesome project!
             </p>
-            <ButtonGroup className={styles["buttons-group"]}>
-              <ButtonLink to="/members">View members</ButtonLink>
-              <ButtonLink to="/recruitments/apply">Join us now</ButtonLink>
+            <ButtonGroup flexWrap>
+              <ButtonLink href="/members">View members</ButtonLink>
+              <ButtonLink href="/recruitments/apply">Join us now</ButtonLink>
             </ButtonGroup>
           </PresentationSection>
           <PresentationSection type="picture">
@@ -178,15 +172,15 @@ export default function HomePage(): ReactElement {
               demand, we are opened and ready to listen you. Below you find all
               you need to contact us, hoping it will help you 👀
             </p>
-            <ButtonGroup className={styles["buttons-group"]}>
-              <ButtonLink to="/about">Learn more</ButtonLink>
-              <ButtonLink to="/contact">Contact form</ButtonLink>
-              <ButtonExternalLink href="mailto:contact.developershouse.xyz">
+            <ButtonGroup flexWrap>
+              <ButtonLink href="/about">Learn more</ButtonLink>
+              <ButtonLink href="/contact">Contact form</ButtonLink>
+              <ButtonLink href="mailto:contact.developershouse.xyz">
                 E-mail
-              </ButtonExternalLink>
-              <ButtonExternalLink href={discordServer} target="blank">
+              </ButtonLink>
+              <ButtonLink href={discordServer} target="blank">
                 Discord server
-              </ButtonExternalLink>
+              </ButtonLink>
               {shareAvailable && (
                 <Button onClick={share}>Share the project</Button>
               )}

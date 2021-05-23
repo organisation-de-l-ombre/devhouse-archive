@@ -4,14 +4,9 @@
 
 import React, { FC, ReactElement } from "react";
 import { Formik } from "formik";
-import Button from "components/Button/Button";
+import { Button } from "components/new/Button/Button";
 import { TitleBox } from "../../../components/TitleBox/TitleBox";
-import {
-  Card,
-  CardHeader,
-  CardPadding,
-  CardSection,
-} from "../../../components/Card/Card";
+import { Card } from "../../../components/new/Card/Card";
 import { Input } from "../../../components/Input/Input";
 import styles from "./account.module.scss";
 import { useUser } from "../../../state/slices/account/hooks";
@@ -83,11 +78,11 @@ const AccountUpdateForm: FC = () => {
                   value={values.dataCollection ? "true" : "false"}
                 />
               </label>
-              <CardSection>
+              <div>
                 <Button type="submit" disabled={isSubmitting}>
                   Submit
                 </Button>
-              </CardSection>
+              </div>
             </div>
           </form>
         );
@@ -103,16 +98,12 @@ const Account = (): ReactElement => {
         <h2>Account settings</h2>
         <p>Here, you can manage your account settings</p>
       </TitleBox>
-      <CardPadding>
-        <Card>
-          <CardPadding>
-            <CardHeader>
-              <h4>Profile info</h4>
-            </CardHeader>
-            <AccountUpdateForm />
-          </CardPadding>
-        </Card>
-      </CardPadding>
+      <Card>
+        <div>
+          <h4>Profile info</h4>
+        </div>
+        <AccountUpdateForm />
+      </Card>
     </div>
   );
 };

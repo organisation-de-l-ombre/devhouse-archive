@@ -1,11 +1,12 @@
-import { Card } from "components/Card/Card";
+import { Card } from "components/new/Card/Card";
 import React, { CSSProperties, ReactElement } from "react";
 import Text from "components/Text/Text";
-import Button, { ButtonLink } from "components/Button/Button";
+import { Button, NavLinkButton } from "components/new/Button/Button";
 import Tooltip from "rc-tooltip";
+import { Stack } from "components/new/Stack/Stack";
 import { TitleBox } from "../../components/TitleBox/TitleBox";
 import styles from "./Projects.module.scss";
-import ButtonGroup from "../../components/Button/ButtonGroup";
+import ButtonGroup from "../../components/new/Button/ButtonGroup";
 import useProjects from "../../hooks/useProjects";
 import { Loader } from "../../components/SuspenseLoader/SuspenseLoader";
 import UserAvatarStatus from "../../components/UserAvatarStatus/UserAvatarStatus";
@@ -31,7 +32,7 @@ const ProjectsPage = (): ReactElement => {
 
   return (
     <div className={styles.main}>
-      <div className={styles.grid}>
+      <Stack>
         <TitleBox className={styles.header}>
           <h1>About our projects</h1>
           <Text className={styles["top-text-margin"]}>
@@ -40,101 +41,106 @@ const ProjectsPage = (): ReactElement => {
             found all information you need.
           </Text>
         </TitleBox>
-        {data
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .map((project) => {
-            return (
-              <Card
-                className={styles.panel}
-                key={project.name}
-                style={{ "--image": `url("${project.logo}")` } as CSSProperties}
-              >
-                <h2>{project.name}</h2>
-                <div className={styles.text}>
-                  <p className={styles.full}>{project.shortDescription}</p>
-                  <div className={styles.users}>
-                    <div className={styles.managers}>
-                      {project.managers.map((member) => {
-                        return (
-                          <Tooltip
-                            key={member.id}
-                            overlay={
-                              <div
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                }}
-                              >
-                                <p style={{ margin: "0" }}>
-                                  <b style={{ marginBottom: "0.125rem" }}>
-                                    {member.username}
-                                  </b>
-                                  <br />
-                                  This member is a manager on this project{" "}
-                                  <br />
-                                  and a <b>{member.role.name}</b> on
-                                  Developer&rsquo;s House
-                                </p>
-                              </div>
-                            }
-                          >
-                            <UserAvatarStatus
-                              statusColor={statusToColor(
-                                member.presence.status
-                              )}
-                              avatar={getAvatar(member)}
-                            />
-                          </Tooltip>
-                        );
-                      })}
-                    </div>
-                    <div className={styles.members}>
-                      {project.members?.map((member) => {
-                        return (
-                          <Tooltip
-                            placement="top"
-                            overlay={
-                              <div
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                }}
-                              >
-                                <p style={{ margin: "0" }}>
-                                  <b style={{ marginBottom: "0.125rem" }}>
-                                    {member.username}
-                                  </b>
-                                  <br />
-                                  This member is a member on this project <br />
-                                  and a <b>{member.role.name}</b> on
-                                  Developer&rsquo;s House
-                                </p>
-                              </div>
-                            }
-                            key={member.id}
-                          >
-                            <UserAvatarStatus
-                              statusColor={statusToColor(
-                                member.presence.status
-                              )}
-                              avatar={getAvatar(member)}
-                            />
-                          </Tooltip>
-                        );
-                      })}
+        <Stack direction="row" wrap>
+          {data
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map((project) => {
+              return (
+                <Card
+                  className={styles.panel}
+                  key={project.name}
+                  style={
+                    { "--image": `url("${project.logo}")` } as CSSProperties
+                  }
+                >
+                  <h2>{project.name}</h2>
+                  <div className={styles.text}>
+                    <p className={styles.full}>{project.shortDescription}</p>
+                    <div className={styles.users}>
+                      <div className={styles.managers}>
+                        {project.managers.map((member) => {
+                          return (
+                            <Tooltip
+                              key={member.id}
+                              overlay={
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                  }}
+                                >
+                                  <p style={{ margin: "0" }}>
+                                    <b style={{ marginBottom: "0.125rem" }}>
+                                      {member.username}
+                                    </b>
+                                    <br />
+                                    This member is a manager on this project{" "}
+                                    <br />
+                                    and a <b>{member.role.name}</b> on
+                                    Developer&rsquo;s House
+                                  </p>
+                                </div>
+                              }
+                            >
+                              <UserAvatarStatus
+                                statusColor={statusToColor(
+                                  member.presence.status
+                                )}
+                                avatar={getAvatar(member)}
+                              />
+                            </Tooltip>
+                          );
+                        })}
+                      </div>
+                      <div className={styles.members}>
+                        {project.members?.map((member) => {
+                          return (
+                            <Tooltip
+                              placement="top"
+                              overlay={
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                  }}
+                                >
+                                  <p style={{ margin: "0" }}>
+                                    <b style={{ marginBottom: "0.125rem" }}>
+                                      {member.username}
+                                    </b>
+                                    <br />
+                                    This member is a member on this project{" "}
+                                    <br />
+                                    and a <b>{member.role.name}</b> on
+                                    Developer&rsquo;s House
+                                  </p>
+                                </div>
+                              }
+                              key={member.id}
+                            >
+                              <UserAvatarStatus
+                                statusColor={statusToColor(
+                                  member.presence.status
+                                )}
+                                avatar={getAvatar(member)}
+                              />
+                            </Tooltip>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
-                </div>
-                <ButtonGroup className={styles["buttons-group"]}>
-                  <ButtonLink to={`/projects/${project.normalizedName}`}>
-                    More information
-                  </ButtonLink>
-                  <Button margin>Visit the project</Button>
-                </ButtonGroup>
-              </Card>
-            );
-          })}
-      </div>
+                  <ButtonGroup className={styles["buttons-group"]}>
+                    <NavLinkButton to={`/projects/${project.normalizedName}`}>
+                      More information
+                    </NavLinkButton>
+                    <Button>Visit the project</Button>
+                  </ButtonGroup>
+                </Card>
+              );
+            })}
+        </Stack>
+      </Stack>
     </div>
   );
 };
