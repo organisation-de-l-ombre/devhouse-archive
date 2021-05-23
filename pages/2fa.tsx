@@ -9,24 +9,27 @@ import { usePageState } from "../lib/usePageState";
 import { TwoFAContext } from "../contexts/2FAContext";
 
 export default function TwoFa(): ReactElement {
-  const { error, data, loading } = usePageState(fetchTwoFaSession);
+  const { error, data } = usePageState(fetchTwoFaSession);
   const [choose, setChoose] = useState<boolean>(false);
   const context = useContext(TwoFAContext);
   const router = useRouter();
 
   useEffect(() => {
     context.setTwoFaData(() => ({ session: data }));
+    console.log("Context updated");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   useEffect(() => {
-    if (!context.data) return;
+    if (!context.data.session) return;
     if (data.otp && data.webauth.availableKeys.length === 0) {
+      console.log("Redirect updated");
       router.push("/otp");
       return;
     }
     if (!data.otp && data.webauth.availableKeys.length > 0) {
-      router.push("/2fa");
+      console.log("Redirect updated");
+      router.push("/webauth");
     }
     if (data.otp && data.webauth.availableKeys.length > 0) {
       setChoose(true);
