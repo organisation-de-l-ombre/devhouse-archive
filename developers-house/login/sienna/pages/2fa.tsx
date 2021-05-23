@@ -30,8 +30,7 @@ export default function TwoFa(): ReactElement {
     if (data.otp && data.webauth.availableKeys.length > 0) {
       setChoose(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, router]);
+  }, [data, router, context]);
 
   if (loading) {
     return (
