@@ -16,7 +16,10 @@ export default function TwoFa(): ReactElement {
 
   useEffect(() => {
     if (!data) return;
-    context.setTwoFaData(() => ({ session: data }));
+    if (!context.data) {
+      context.setTwoFaData(() => ({ session: data }));
+      return;
+    }
     if (data.otp && data.webauth.availableKeys.length === 0) {
       router.push("/otp");
       return;
