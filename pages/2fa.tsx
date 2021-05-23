@@ -18,11 +18,11 @@ export default function TwoFa(): ReactElement {
     if (!data) return;
     context.setTwoFaData(() => ({ session: data }));
     if (data.otp && data.webauth.availableKeys.length === 0) {
-      router.push("/dialog/otp");
+      router.push("/otp");
       return;
     }
     if (!data.otp && data.webauth.availableKeys.length > 0) {
-      router.push("/dialog/2fa");
+      router.push("/2fa");
     }
     if (data.otp && data.webauth.availableKeys.length > 0) {
       setChoose(true);
