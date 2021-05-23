@@ -45,7 +45,8 @@ button,
 p,
 span,
 li,
-code {
+code,
+label {
   font-size: 18px;
 }
 

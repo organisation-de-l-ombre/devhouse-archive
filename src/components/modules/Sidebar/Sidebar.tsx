@@ -100,6 +100,8 @@ const SidebarContainer: FunctionComponent<
 > = ({ open, manageSidebar, wrap, children, ...props }) => {
   return (
     <FlexContainer
+      expand
+      column
       className={`${styles.container}${open ? ` ${styles.open}` : ""}`}
       onClick={(): void => {
         if (open) {

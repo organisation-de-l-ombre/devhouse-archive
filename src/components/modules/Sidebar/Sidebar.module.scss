@@ -1,6 +1,6 @@
 .sidebar {
   padding: 2rem;
-  width: 18rem;
+  width: 15rem;
   display: flex;
   flex-direction: column;
   background-color: var(--primary-background-color);
@@ -9,7 +9,9 @@
   position: relative;
   bottom: 0;
 
-  button { display: none; }
+  button {
+    display: none;
+  }
 
   .headers {
     display: flex;
@@ -42,15 +44,17 @@
     }
 
     .section-item {
-      margin-top: .5rem;
-      padding: .5rem 1rem;
+      margin-top: 0.5rem;
+      padding: 0.5rem 1rem;
       text-align: start;
-      transition: color .5s, background-color .5s;
+      transition: color 0.5s, background-color 0.5s;
       border-radius: 5px;
 
-      &:hover { color: var(--font-color-hover); }
-
-      &.active { background-color: var(--primary-background-color-hover); }
+      &:hover,
+      &.active {
+        color: var(--font-color-hover);
+        background-color: var(--primary-background-color-hover);
+      }
     }
   }
 
@@ -72,11 +76,13 @@
 
       svg {
         transform: scale(1.5);
-        transition: fill .5s;
+        transition: fill 0.5s;
       }
 
       &:hover {
-        svg { fill: var(--font-color-hover); }
+        svg {
+          fill: var(--font-color-hover);
+        }
       }
     }
 
@@ -107,25 +113,32 @@
     outline: 0;
     cursor: pointer;
     background-color: var(--primary-background-color);
-    transition: background-color .5s;
+    transition: background-color 0.5s;
     display: flex;
     align-items: center;
 
-    svg { transform: scale(2); }
+    svg {
+      transform: scale(2);
+    }
 
-    &:hover { background-color: var(--primary-background-color-hover); }
+    &:hover {
+      background-color: var(--primary-background-color-hover);
+    }
   }
 }
 
 .container {
   position: relative;
-  flex-direction: column;
   overflow-y: auto;
   transition: opacity 300ms;
 
-  &.open { transition: opacity 300ms; }
+  &.open {
+    transition: opacity 300ms;
+  }
 
   @media screen and (max-width: 1100px) {
-    &.open {opacity: .1; }
+    &.open {
+      opacity: 0.1;
+    }
   }
 }

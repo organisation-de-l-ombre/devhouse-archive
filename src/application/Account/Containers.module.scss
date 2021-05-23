@@ -1,45 +1,57 @@
-.loader {
-  min-height: 30rem;
-  align-items: center;
-}
+.container {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
 
-.container-root {
-  max-height: calc(100vh - 3.5rem);
+  .card {
+    margin-top: 4rem;
 
-  .container {
-    padding: 6rem 2rem;
-    align-self: center;
+    h2 {
+      color: var(--font-color-hover);
+    }
 
-    .generic-margin-top { margin-top: 1rem; }
+    .forms-container {
+      margin-top: 1rem;
 
-    .card {
-      margin-top: 4rem;
-      flex-direction: column;
-
-      h2 { color: var(--font-color-hover); }
-
-      .forms-container {
-        margin-top: 1rem;
-        display: flex;
-        flex-wrap: wrap;
-
-        .form-container {
-          flex: 1 20rem;
-
-          span { cursor: default; }
-        }
+      > div {
+        flex: 1 20rem;
       }
     }
 
-    @media screen and (max-width: 700px) {
-      padding: 2rem;
+    .control-items > form,
+    .control-items > div {
+      margin-top: 1.5rem;
+    }
+
+    .control-items > form {
+      display: flex;
+      flex-direction: column;
+      flex: 1 30rem;
+
+      label {
+        width: fit-content;
+        margin-bottom: 1rem;
+      }
+    }
+
+    .control-items > div .language-button {
+      margin: 1rem 1rem 0 0;
+      flex-grow: 1;
+      border-radius: 5px;
+      background-color: var(--primary-background-color);
+
+      div,
+      ul {
+        background-color: var(--primary-background-color);
+      }
+    }
+
+    &:first-of-type {
+      margin-top: 3rem;
     }
   }
 
-  .buttons-root {
-    display: flex;
-    flex-direction: column;
-
-    h2 { color: var(--font-color-hover); }
+  @media screen and (max-width: 700px) {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
   }
 }

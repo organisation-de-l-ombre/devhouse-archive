@@ -1,23 +1,28 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { AiOutlineLoading } from "react-icons/ai";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdRefresh } from "react-icons/md";
 import { Authorization } from "@developers-house/abdera";
 import { useAuthorizations } from "@hooks/API/useAuthorizations";
-import { FlexContainer, Button, Card, ButtonsGroup } from "@components/ui";
+import {
+  FlexContainer,
+  Button,
+  Card,
+  ButtonsGroup,
+  CardContainer,
+} from "@components/ui";
 import { ErrorComponent } from "@components/modules";
 import globalStyles from "@themes/Global.module.scss";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import AuthorizationCard from "./AuthorizationCard";
-import styles from "./Authorizations.module.scss";
 import containerStyle from "../../Containers.module.scss";
 
 const Authorizations: FunctionComponent<HTMLDivElement> = () => {
-  const { error, isLoading, isFetching, data, refetch } = useAuthorizations();
+  const { isError, isFetching, data, refetch } = useAuthorizations();
   const { t } = useTranslation("pages\\account\\sections\\authorizations");
 
-  if (error) {
+  if (isError) {
     return (
       <ErrorComponent errorMessage="Failed to fetch authorizations from the server. Try to reload the page, or to log you in again." />
     );
@@ -25,10 +30,12 @@ const Authorizations: FunctionComponent<HTMLDivElement> = () => {
 
   if (!data) {
     return (
-      <FlexContainer
-        className={`${globalStyles["alignment-full-center"]} ${styles["no-data"]}`}
-      >
-        <Card className={`${styles.card} ${globalStyles["animation-opacity"]}`}>
+      <FlexContainer padding expand pageBodyWidth fullCentered>
+        <Card
+          noPadding
+          transparent
+          className={globalStyles["animation-opacity"]}
+        >
           <h2>
             <Trans t={t} i18nKey="noData.title" />
           </h2>
@@ -43,18 +50,19 @@ const Authorizations: FunctionComponent<HTMLDivElement> = () => {
 
   return (
     <FlexContainer
-      className={`${containerStyle.container} ${globalStyles["page-body-width"]}`}
+      padding
+      expand
+      column
+      pageBodyWidth
+      className={containerStyle.container}
     >
-      <div className={containerStyle["buttons-root"]}>
-        <h2>
+      <FlexContainer column>
+        <h2 css={{ color: "var(--font-color-hover)" }}>
           <Trans t={t} i18nKey="statusTitle" />
         </h2>
-        <ButtonsGroup
-          allowExpand
-          className={globalStyles["generic-margin-top"]}
-        >
+        <ButtonsGroup allowExpand>
           <Button>
-            {isLoading || isFetching ? (
+            {isFetching ? (
               <>
                 <AiOutlineLoading
                   className={globalStyles["rotate-infinite-animation"]}
@@ -79,19 +87,21 @@ const Authorizations: FunctionComponent<HTMLDivElement> = () => {
             </span>
           </Button>
         </ButtonsGroup>
-      </div>
-      {data
-        .filter((authorization: Authorization): boolean =>
-          authorization.audiences.includes("imr")
-        )
-        .map(
-          (authorization: Authorization): React.ReactElement => (
-            <AuthorizationCard
-              key={authorization.client.id}
-              authorization={authorization}
-            />
+      </FlexContainer>
+      <CardContainer direction="column">
+        {data
+          .filter((authorization: Authorization): boolean =>
+            authorization.audiences.includes("imr")
           )
-        )}
+          .map(
+            (authorization: Authorization): ReactElement => (
+              <AuthorizationCard
+                key={authorization.client.id}
+                authorization={authorization}
+              />
+            )
+          )}
+      </CardContainer>
     </FlexContainer>
   );
 };

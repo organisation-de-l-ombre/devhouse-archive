@@ -5,12 +5,15 @@ import { FunctionComponent } from "@typings/FunctionComponent";
 
 const CardContainer: FunctionComponent<
   HTMLDivElement,
-  { direction: "inline" | "column" }
-> = ({ direction, className, ...props }) => {
+  {
+    noMargin?: boolean;
+    direction: "inline" | "column";
+  }
+> = ({ noMargin, direction, className, ...props }) => {
   return (
     <div
       css={css`
-        margin-top: 1rem;
+        ${!noMargin && "margin-top: 1rem;"}
         display: flex;
         ${direction === "inline" && "flex-wrap: wrap;"}
         ${direction === "column" && "flex-direction: column;"}
@@ -21,6 +24,12 @@ const CardContainer: FunctionComponent<
           `
             margin-right: 1rem;
             flex: 1;
+          `}
+          ${noMargin &&
+          `
+            &:first-of-type {
+              margin-top: 0 !important;
+            }
           `}
         }
       `}

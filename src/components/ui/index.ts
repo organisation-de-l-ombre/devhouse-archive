@@ -1,6 +1,7 @@
 export * from "./Button";
 export { default as ButtonsGroup } from "./ButtonsGroup/ButtonsGroup";
 export { default as Card } from "./Card/Card";
+export { default as CardContainer } from "./CardContainer/CardContainer";
 export { default as DetailedText } from "./DetailedText/DetailedText";
 export { default as FlexContainer } from "./FlexContainer/FlexContainer";
 export { default as GenericLoader } from "./GenericLoader/GenericLoader";

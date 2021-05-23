@@ -1,7 +1,6 @@
 import React, { lazy, FC, Suspense } from "react";
 import { Switch, useRouteMatch, Route } from "react-router";
 import { SuspenseComponent } from "@components/modules";
-import containerStyle from "../../Containers.module.scss";
 
 const Account = lazy(() => import("../../sections/Account/Account"));
 const Authorizations = lazy(
@@ -14,9 +13,7 @@ const Router: FC = () => {
   const { path: baseURL } = useRouteMatch();
 
   return (
-    <Suspense
-      fallback={<SuspenseComponent className={containerStyle.loader} />}
-    >
+    <Suspense fallback={<SuspenseComponent />}>
       <Switch>
         <Route path={baseURL} exact component={Account} />
         <Route

@@ -8,6 +8,7 @@ import { useNotificationsManager } from "@hooks/useNotifications";
 import getApplicationID from "@lib/getApplicationID";
 import { UserObject } from "@store/user";
 import { SuspenseComponent } from "@components/modules";
+import { FunctionComponent } from "@typings/FunctionComponent";
 import requestParameters from "./QuerySelector";
 
 interface CallbackState {
@@ -35,8 +36,8 @@ const urlEncodeFormData = (formData: string[][]): string => {
   return s;
 };
 
-const Callback = (): React.ReactElement => {
-  const { user, saveUser } = useUser();
+const Callback: FunctionComponent<HTMLDivElement> = () => {
+  const { saveUser } = useUser();
   const history = useHistory();
   const [callbackState, setCallbackState] = React.useState<CallbackState>({
     error: false,
@@ -147,7 +148,7 @@ const Callback = (): React.ReactElement => {
 
         return;
       }
-      if (user) {
+      if (callbackState.accountUsername) {
         addNotifications([
           {
             id: generateNotificationID(),

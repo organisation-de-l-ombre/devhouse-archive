@@ -8,7 +8,6 @@ import { useTranslation } from "react-i18next";
 import useSidebar from "@hooks/useSidebar";
 import { SidebarContainer } from "@components/modules/Sidebar";
 import { FunctionComponent } from "@typings/FunctionComponent";
-import containerStyle from "./Containers.module.scss";
 import Sidebar from "./modules/InternalNavigation/InternalNavigation";
 import Router from "./modules/Router/Router";
 
@@ -25,11 +24,11 @@ const AccountRoot: FunctionComponent<HTMLDivElement> = () => {
   }, [history, user]);
 
   if (!user) {
-    return <></>;
+    return null;
   }
 
   return (
-    <FlexContainer className={containerStyle["container-root"]}>
+    <FlexContainer maxHeight expand>
       <Helmet>
         <title>{t("pageTitle")}</title>
       </Helmet>

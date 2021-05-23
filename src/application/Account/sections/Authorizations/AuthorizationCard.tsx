@@ -4,7 +4,13 @@ import { Trans, useTranslation } from "react-i18next";
 import { FaRegTrashAlt } from "react-icons/fa";
 import useLanguage from "@hooks/useLanguage";
 import { useAuthorizationsDeleteMutation } from "@hooks/API/useAuthorizations";
-import { FlexContainer, TextArea, Button, ButtonsGroup } from "@components/ui";
+import {
+  FlexContainer,
+  TextArea,
+  Button,
+  ButtonsGroup,
+  Card,
+} from "@components/ui";
 import globalStyles from "@themes/Global.module.scss";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import containerStyle from "../../Containers.module.scss";
@@ -34,10 +40,10 @@ const AuthorizationCard: FunctionComponent<
   }, [remove, t]);
 
   return (
-    <FlexContainer className={containerStyle.card}>
+    <Card noPadding transparent className={containerStyle.card}>
       <h2>{authorization.client.name}</h2>
-      <FlexContainer className={containerStyle["forms-container"]}>
-        <TextArea className={containerStyle["form-container"]}>
+      <FlexContainer allowWrap className={containerStyle["forms-container"]}>
+        <TextArea>
           <h3>
             <Trans t={t} i18nKey="authorization.grantedAt" />
           </h3>
@@ -49,13 +55,13 @@ const AuthorizationCard: FunctionComponent<
             )}
           </span>
         </TextArea>
-        <TextArea className={containerStyle["form-container"]}>
+        <TextArea>
           <h3>
             <Trans t={t} i18nKey="authorization.scopes" />
           </h3>
           <span>{authorization.scopes.join(", ")}</span>
         </TextArea>
-        <TextArea className={containerStyle["form-container"]}>
+        <TextArea>
           <h3>
             <Trans t={t} i18nKey="authorization.audiences" />
           </h3>
@@ -70,7 +76,7 @@ const AuthorizationCard: FunctionComponent<
           </span>
         </Button>
       </ButtonsGroup>
-    </FlexContainer>
+    </Card>
   );
 };
 

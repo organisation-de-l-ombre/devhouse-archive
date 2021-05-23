@@ -9,11 +9,12 @@ const FlexContainer: FunctionComponent<
     widthFull?: boolean;
     heightFull?: boolean;
     minHeight?: boolean;
+    maxHeight?: boolean;
     padding?: boolean;
     expand?: boolean;
     pageBodyWidth?: boolean;
     column?: boolean;
-    wrap?: boolean;
+    allowWrap?: boolean;
     fullCentered?: boolean;
     horizontallyCentered?: boolean;
     verticallyCentered?: boolean;
@@ -22,11 +23,12 @@ const FlexContainer: FunctionComponent<
   widthFull,
   heightFull,
   minHeight,
+  maxHeight,
   padding,
   expand,
   pageBodyWidth,
   column,
-  wrap,
+  allowWrap,
   fullCentered,
   horizontallyCentered,
   verticallyCentered,
@@ -39,6 +41,7 @@ const FlexContainer: FunctionComponent<
         ${widthFull && `width: ${padding ? "calc(100% - 4rem)" : "100%"};`}
         ${heightFull && `height: ${padding ? "calc(100% - 4rem)" : "100%"};`}
         ${minHeight && "min-height: 30rem;"}
+        ${maxHeight && "max-height: calc(100vh - 3.5rem);"}
         ${padding && "padding: 2rem;"}
         display: flex;
         ${expand && "flex: 1;"}
@@ -53,7 +56,7 @@ const FlexContainer: FunctionComponent<
           }
         `}
         ${column && "flex-direction: column;"}
-        ${wrap && "flex-wrap: wrap;"}
+        ${allowWrap && "flex-wrap: wrap;"}
         ${fullCentered &&
         `
           justify-content: center;
