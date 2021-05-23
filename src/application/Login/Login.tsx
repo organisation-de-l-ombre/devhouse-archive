@@ -4,8 +4,9 @@ import { useTranslation } from "react-i18next";
 import useUser from "@hooks/useUser";
 import { useHistory } from "react-router";
 import { SuspenseComponent } from "@components/modules";
+import { FunctionComponent } from "@typings/FunctionComponent";
 
-const Login = (): React.ReactElement => {
+const Login: FunctionComponent<HTMLDivElement> = () => {
   const { t } = useTranslation("pages\\login\\login");
   const { user } = useUser();
   const history = useHistory();

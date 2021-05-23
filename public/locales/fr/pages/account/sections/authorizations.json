@@ -1,4 +1,5 @@
 {
+  "error": "Echec de récupération des autorisations depuis le serveur. Le serveur a retourné une erreur {{statusCode}}.",
   "statusTitle": "Statut des données",
   "buttons": {
     "status": {

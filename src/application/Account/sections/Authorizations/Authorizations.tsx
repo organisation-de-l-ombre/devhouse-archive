@@ -19,12 +19,12 @@ import AuthorizationCard from "./AuthorizationCard";
 import containerStyle from "../../Containers.module.scss";
 
 const Authorizations: FunctionComponent<HTMLDivElement> = () => {
-  const { isError, isFetching, data, refetch } = useAuthorizations();
+  const { error, isFetching, data, refetch } = useAuthorizations();
   const { t } = useTranslation("pages\\account\\sections\\authorizations");
 
-  if (isError) {
+  if (error) {
     return (
-      <ErrorComponent errorMessage="Failed to fetch authorizations from the server. Try to reload the page, or to log you in again." />
+      <ErrorComponent errorMessage={t("error", { statusCode: error.status })} />
     );
   }
 
@@ -60,7 +60,7 @@ const Authorizations: FunctionComponent<HTMLDivElement> = () => {
         <h2 css={{ color: "var(--font-color-hover)" }}>
           <Trans t={t} i18nKey="statusTitle" />
         </h2>
-        <ButtonsGroup allowExpand>
+        <ButtonsGroup expand>
           <Button>
             {isFetching ? (
               <>

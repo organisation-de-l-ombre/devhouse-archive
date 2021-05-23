@@ -8,7 +8,7 @@ interface AlbumSection {
   name: string;
   id: string;
   albumName: string;
-  coverURL: string;
+  coverURL?: string;
   interpreters: string[];
   streaming: StreamingObject[];
 }

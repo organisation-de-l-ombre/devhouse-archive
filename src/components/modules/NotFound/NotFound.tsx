@@ -25,9 +25,7 @@ const NotFound: FunctionComponent<HTMLDivElement> = () => {
         </p>
         <ButtonsGroup
           css={css`
-            a {
-              margin-top: 1.5rem;
-            }
+            margin-top: 0.5rem;
           `}
         >
           <NavLink to="/">

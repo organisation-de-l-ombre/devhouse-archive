@@ -9,17 +9,20 @@ import useLanguage from "@hooks/useLanguage";
 import { Trans, useTranslation } from "react-i18next";
 import { useQuery, UseQueryResult } from "react-query";
 import fetchOptions from "@lib/api/fetchOptions";
-import { SuspenseComponent } from "@components/modules";
-import SectionEmpty from "@application/MovieTitle/modules/SectionEmpty/SectionEmpty";
+import HandleData from "@application/MovieTitle/modules/HandleData/HandleData";
+import classnames from "classnames";
 import styles from "./TechnicalSpecs.module.scss";
 import containerStyle from "../../Containers.module.scss";
 
 const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
   const { language } = useLanguage();
   const { t } = useTranslation("pages\\movieTitle\\technicalSpecs");
-  const { t: tRoot } = useTranslation("pages\\movieTitle\\root");
   const { t: tTags } = useTranslation("pages\\movieTitle\\tags");
-  const { isFetching, data }: UseQueryResult<TechnicalSpecsSection> = useQuery(
+  const {
+    isFetching,
+    error,
+    data,
+  }: UseQueryResult<TechnicalSpecsSection, Response> = useQuery(
     `movie-title/${dataResponse.body.id}/technical-specs`,
     (): Promise<TechnicalSpecsSection> => {
       return fetch(
@@ -30,17 +33,33 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
   );
 
   if (isFetching) {
-    return <SuspenseComponent customText={tRoot("fetchingData")} />;
+    return (
+      <HandleData
+        isFetching={isFetching}
+        section={dataResponse.body.data.technicalSpecs}
+        error={error}
+      />
+    );
   }
+
   if (!data) {
-    return <SectionEmpty />;
+    return null;
   }
 
   const { presentation, movieSpecs } = data;
 
   return (
-    <FlexContainer className={containerStyle.container}>
-      <div className={styles.presentation}>
+    <FlexContainer
+      padding
+      pageBodyWidth
+      column
+      className={containerStyle.container}
+    >
+      <FlexContainer
+        column
+        horizontallyCentered
+        className={styles.presentation}
+      >
         {presentation.movieLogo && (
           <div className={styles.logo}>
             <img
@@ -201,77 +220,95 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
           </tbody>
         </table>
         {presentation.movieChronologicalFranchise && (
-          <div className={styles.franchise}>
+          <div>
             <h1>
               <Trans t={t} i18nKey="presentation.movieChronologicalFranchise" />
             </h1>
-            <div className={styles.elements}>
+            <FlexContainer>
               {presentation.movieChronologicalFranchise.previous && (
-                <div className={`${styles.element} ${styles.previous}`}>
-                  <div>
+                <FlexContainer
+                  verticallyCentered
+                  className={`${styles.element} ${styles.previous}`}
+                >
+                  <FlexContainer fullCentered>
                     <MdKeyboardArrowLeft />
-                  </div>
+                  </FlexContainer>
                   <span>
                     {presentation.movieChronologicalFranchise.previous.title}
                     {presentation.movieChronologicalFranchise.previous.year &&
                       ` (${presentation.movieChronologicalFranchise.previous.year})`}
                   </span>
-                </div>
+                </FlexContainer>
               )}
               {presentation.movieChronologicalFranchise.next && (
-                <div className={`${styles.element} ${styles.next}`}>
+                <FlexContainer
+                  verticallyCentered
+                  className={`${styles.element} ${styles.next}`}
+                >
                   <span>
                     {presentation.movieChronologicalFranchise.next.title}
                     {presentation.movieChronologicalFranchise.next.year &&
                       ` (${presentation.movieChronologicalFranchise.next.year})`}
                   </span>
-                  <div>
+                  <FlexContainer fullCentered>
                     <MdKeyboardArrowRight />
-                  </div>
-                </div>
+                  </FlexContainer>
+                </FlexContainer>
               )}
-            </div>
+            </FlexContainer>
           </div>
         )}
         {presentation.movieLogicalFranchise && (
-          <div className={styles.franchise}>
+          <FlexContainer column>
             <h1>
               <Trans t={t} i18nKey="presentation.movieLogicalFranchise" />
             </h1>
-            <div className={styles.elements}>
+            <FlexContainer>
               {presentation.movieLogicalFranchise.previous && (
-                <div className={`${styles.element} ${styles.previous}`}>
-                  <div>
+                <FlexContainer
+                  verticallyCentered
+                  className={`${styles.element} ${styles.previous}`}
+                >
+                  <FlexContainer fullCentered>
                     <MdKeyboardArrowLeft />
-                  </div>
+                  </FlexContainer>
                   <span>
                     {presentation.movieLogicalFranchise.previous.title}
                     {presentation.movieLogicalFranchise.previous.year &&
                       ` (${presentation.movieLogicalFranchise.previous.year})`}
                   </span>
-                </div>
+                </FlexContainer>
               )}
               {presentation.movieLogicalFranchise.next && (
-                <div className={`${styles.element} ${styles.next}`}>
+                <FlexContainer
+                  verticallyCentered
+                  className={`${styles.element} ${styles.next}`}
+                >
                   <span>
                     {presentation.movieLogicalFranchise.next.title}
                     {presentation.movieLogicalFranchise.next.year &&
                       ` (${presentation.movieLogicalFranchise.next.year})`}
                   </span>
-                  <div>
+                  <FlexContainer fullCentered>
                     <MdKeyboardArrowRight />
-                  </div>
-                </div>
+                  </FlexContainer>
+                </FlexContainer>
               )}
-            </div>
-          </div>
+            </FlexContainer>
+          </FlexContainer>
         )}
-      </div>
+      </FlexContainer>
       {movieSpecs && (
         <FlexContainer
-          className={`${containerStyle["generic-margin-top"]} ${styles["movie-specs"]}`}
+          column
+          className={classnames(
+            containerStyle["generic-margin-top"],
+            styles["movie-specs"]
+          )}
         >
-          <h1>Spécifications cinématographiques</h1>
+          <h1>
+            <Trans t={t} i18nKey="movieSpecs.sectionTitle" />
+          </h1>
           <table>
             <tbody>
               {Object.keys(movieSpecs).map((rootKey: string):
@@ -288,7 +325,7 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
                       <td>
                         <ul>
                           {movieSpecs[key]?.map(
-                            (item: string): React.ReactElement => {
+                            (item: string): ReactElement => {
                               return <li key={item}>{item}</li>;
                             }
                           )}

@@ -5,14 +5,16 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position-x: center;
-  opacity: .3;
+  opacity: 0.3;
 }
 
 .headers {
   padding-top: 8rem;
   padding-bottom: 8rem;
 
-  h1 { margin-bottom: 1rem; }
+  h1 {
+    margin-bottom: 1rem;
+  }
 
   h2 {
     margin-top: 1rem;

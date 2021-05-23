@@ -1,7 +1,9 @@
-import React from "react";
+import React, { FC } from "react";
 import { AiOutlineLink } from "react-icons/ai";
 import { Trans, useTranslation } from "react-i18next";
 import { FunctionComponent } from "@typings/FunctionComponent";
+import classnames from "classnames";
+import { NavLink, NavLinkProps } from "react-router-dom";
 import styles from "./TabBar.module.scss";
 import { Button } from "../../ui";
 
@@ -12,27 +14,32 @@ const TabBar: FunctionComponent<
   const { t } = useTranslation("components\\modules\\tabBar\\tabBar");
 
   return (
-    <div
-      className={`${styles["navigation-container"]}${
-        className ? ` ${className}` : ""
-      }`}
-      {...props}
-    >
+    <div className={classnames(styles.container, className)} {...props}>
       <Button onClick={manageTabBar}>
         <AiOutlineLink />
         <span>
           <Trans t={t} i18nKey="accessNavigation" />
         </span>
       </Button>
-      <div
-        className={`${styles["navigation-items"]}${
-          open ? ` ${styles.open}` : ""
-        }`}
-      >
+      <div className={classnames(styles.items, { [styles.open]: open })}>
         {children}
       </div>
     </div>
   );
 };
 
-export default TabBar;
+const TabBarItem: FC<NavLinkProps> = ({
+  className,
+  activeClassName,
+  ...props
+}) => {
+  return (
+    <NavLink
+      className={classnames(styles.item, className)}
+      activeClassName={classnames(styles.active, activeClassName)}
+      {...props}
+    />
+  );
+};
+
+export { TabBar, TabBarItem };

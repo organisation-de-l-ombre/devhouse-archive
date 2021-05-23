@@ -68,16 +68,13 @@ const SidebarSection: FunctionComponent<HTMLDivElement> = ({
   );
 };
 
-const SidebarItem: FC<NavLinkProps> = ({ className, to, children }) => {
+const SidebarItem: FC<NavLinkProps> = ({ className, ...props }) => {
   return (
     <NavLink
-      to={to}
       className={`${styles["section-item"]}${className ? ` ${className}` : ""}`}
       activeClassName={styles.active}
-      exact
-    >
-      {children}
-    </NavLink>
+      {...props}
+    />
   );
 };
 

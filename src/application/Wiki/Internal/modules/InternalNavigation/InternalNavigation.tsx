@@ -28,7 +28,7 @@ const InternalNavigation: FunctionComponent<
         <h3>
           <Trans t={t} i18nKey="sections.0.title" />
         </h3>
-        <SidebarItem to={baseURL}>
+        <SidebarItem to={baseURL} exact>
           <Trans t={t} i18nKey="sections.0.intro" />
         </SidebarItem>
       </SidebarSection>

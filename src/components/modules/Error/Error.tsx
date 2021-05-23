@@ -7,10 +7,7 @@ import { FunctionComponent } from "@typings/FunctionComponent";
 import { Card, FlexContainer, ButtonsGroup, Button } from "../../ui";
 
 const buttonStyles = css`
-  a,
-  button {
-    margin-top: 1.5rem;
-  }
+  margin-top: 0.5rem;
 `;
 
 const RootError: ComponentType<FallbackProps> = () => {

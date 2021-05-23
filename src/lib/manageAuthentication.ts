@@ -2,7 +2,6 @@ import { randomBytes } from "crypto";
 import localForage from "localforage";
 import getApplicationID from "./getApplicationID";
 
-const clientID: string = getApplicationID();
 const generateCodeChallenge = async (code: string): Promise<string> => {
   const digest = await crypto.subtle.digest(
     "SHA-256",
@@ -18,12 +17,13 @@ const generateCodeChallenge = async (code: string): Promise<string> => {
 };
 
 const manageAuth = async (): Promise<void> => {
+  const clientID: string = await getApplicationID();
   const state = randomBytes(32).toString("hex");
 
   await localForage.setItem("state-oauth", state);
 
-  if (!clientID) {
-    throw new Error("Failed to get the client ID.");
+  if (clientID === "Invalid client ID") {
+    throw new Error("Failed to fetch client ID.");
   }
 
   const scopes = ["account.info", "account.authorized.*"];
@@ -35,7 +35,7 @@ const manageAuth = async (): Promise<void> => {
   const codeChallenge = await generateCodeChallenge(codeVerifier);
 
   document.location.href = `https://auth-server.developershouse.xyz/oauth2/auth?response_type=code&client_id=${encodeURIComponent(
-    clientID as string
+    clientID
   )}&scope=${encodeURIComponent(
     scopes.join(" ")
   )}&redirect_uri=${encodeURIComponent(
@@ -44,6 +44,7 @@ const manageAuth = async (): Promise<void> => {
     audience
   )}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
 };
+
 const getAvatar = (path: string): string =>
   `https://s3.developershouse.xyz/${path}`;
 

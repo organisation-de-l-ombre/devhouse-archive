@@ -7,7 +7,7 @@ import {
 } from "react-query";
 import { Authorization } from "@developers-house/abdera";
 import { useTranslation } from "react-i18next";
-import { DevHouseUserAPI } from "@lib/api";
+import { DevHouseUserAPI, fetchOptions } from "@lib/api";
 import generateNotificationID from "@lib/generateNotificationID";
 import getApplicationID from "@lib/getApplicationID";
 import { useNotificationsManager } from "@hooks/useNotifications";
@@ -37,8 +37,10 @@ const useAuthorizations = (): UseQueryResult<
 > => {
   useAuthorizationsError();
 
-  return useQuery("account/authorizations", () =>
-    DevHouseUserAPI.selfAuthorizationsGet()
+  return useQuery(
+    "account/authorizations",
+    () => DevHouseUserAPI.selfAuthorizationsGet(),
+    fetchOptions
   );
 };
 
@@ -73,7 +75,7 @@ const useAuthorizationsDeleteMutation = (
           }
         );
       },
-      onSuccess() {
+      async onSuccess() {
         addNotifications([
           {
             id: generateNotificationID(),
@@ -83,9 +85,12 @@ const useAuthorizationsDeleteMutation = (
           },
         ]);
 
-        const applicationID: string = getApplicationID();
+        const clientID: string = await getApplicationID();
 
-        if (applicationID === id) {
+        if (clientID === "Invalid client ID") {
+          return;
+        }
+        if (clientID === id) {
           removeUser();
           addNotifications([
             {

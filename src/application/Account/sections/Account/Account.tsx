@@ -92,10 +92,7 @@ const Account: FunctionComponent<HTMLDivElement> = () => {
               </span>
             </TextArea>
           </FlexContainer>
-          <ButtonsGroup
-            allowExpand
-            className={globalStyles["generic-margin-top"]}
-          >
+          <ButtonsGroup genericMarginTop expand>
             <a href="https://developershouse.xyz/settings/" target="blank">
               <FaEdit />
               <span>

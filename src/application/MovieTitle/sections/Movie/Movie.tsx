@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import {
   FlexContainer,
   Summary,
@@ -9,9 +9,8 @@ import {
 } from "@components/ui";
 import { useQuery, UseQueryResult } from "react-query";
 import { fetchOptions } from "@lib/api";
-import { useTranslation } from "react-i18next";
-import { SuspenseComponent } from "@components/modules";
 import useLanguage from "@hooks/useLanguage";
+import HandleData from "@application/MovieTitle/modules/HandleData/HandleData";
 import containerStyle from "../../Containers.module.scss";
 import {
   BodyContent,
@@ -19,12 +18,14 @@ import {
   ReactMovieElement,
   SummaryObject,
 } from "../../types";
-import SectionEmpty from "../../modules/SectionEmpty/SectionEmpty";
 
 const Movie: ReactMovieElement = ({ dataResponse }) => {
   const { language } = useLanguage();
-  const { t } = useTranslation("pages\\movieTitle\\root");
-  const { isFetching, data }: UseQueryResult<GenericSection> = useQuery(
+  const {
+    isFetching,
+    error,
+    data,
+  }: UseQueryResult<GenericSection, Response> = useQuery(
     `movie-title/${dataResponse.body.id}/${language}/movie`,
     (): Promise<GenericSection> => {
       return fetch(dataResponse.body.data.movie).then((response: Response) =>
@@ -34,18 +35,30 @@ const Movie: ReactMovieElement = ({ dataResponse }) => {
     fetchOptions
   );
 
-  if (isFetching) {
-    return <SuspenseComponent minHeight customText={t("fetchingData")} />;
+  if (isFetching || error) {
+    return (
+      <HandleData
+        isFetching={isFetching}
+        section={dataResponse.body.data.movie}
+        error={error}
+      />
+    );
   }
+
   if (!data) {
-    return <SectionEmpty />;
+    return null;
   }
 
   return (
-    <FlexContainer className={containerStyle.container}>
+    <FlexContainer
+      padding
+      pageBodyWidth
+      column
+      className={containerStyle.container}
+    >
       <Summary className={containerStyle.summary}>
         {data.summary.map(
-          (item: SummaryObject): React.ReactElement => {
+          (item: SummaryObject): ReactElement => {
             switch (item.type) {
               case "item":
                 return (
@@ -56,7 +69,7 @@ const Movie: ReactMovieElement = ({ dataResponse }) => {
                 return (
                   <SubSummary key={item.to} to={item.to} name={item.name}>
                     {item.items.map(
-                      (subItem: SummaryObject): React.ReactElement => {
+                      (subItem: SummaryObject): ReactElement => {
                         switch (subItem.type) {
                           case "item":
                             return (
@@ -82,7 +95,7 @@ const Movie: ReactMovieElement = ({ dataResponse }) => {
         )}
       </Summary>
       {data.body.map(
-        (item: BodyContent): React.ReactElement => {
+        (item: BodyContent): ReactElement => {
           switch (item.type) {
             case "text":
               return (
@@ -97,7 +110,7 @@ const Movie: ReactMovieElement = ({ dataResponse }) => {
                 <DetailedText key={item.name}>
                   <h1 id={item.id}>{item.name}</h1>
                   {item.texts.map(
-                    (text: string): React.ReactElement => (
+                    (text: string): ReactElement => (
                       <p key={text}>{text}</p>
                     )
                   )}
@@ -110,7 +123,7 @@ const Movie: ReactMovieElement = ({ dataResponse }) => {
                   <h1 id={item.id}>{item.name}</h1>
                   <List className={containerStyle.list}>
                     {item.items.map(
-                      (listItem: string): React.ReactElement => (
+                      (listItem: string): ReactElement => (
                         <li key={listItem}>{listItem}</li>
                       )
                     )}
@@ -123,7 +136,7 @@ const Movie: ReactMovieElement = ({ dataResponse }) => {
                 <DetailedText key={item.name}>
                   <h1 id={item.id}>{item.name}</h1>
                   {item.body.map(
-                    (subItem: BodyContent): React.ReactElement => {
+                    (subItem: BodyContent): ReactElement => {
                       switch (subItem.type) {
                         case "text":
                           return (
@@ -144,7 +157,7 @@ const Movie: ReactMovieElement = ({ dataResponse }) => {
                             >
                               <h2 id={subItem.id}>{subItem.name}</h2>
                               {subItem.texts.map(
-                                (text: string): React.ReactElement => (
+                                (text: string): ReactElement => (
                                   <p key={text}>{text}</p>
                                 )
                               )}
@@ -160,7 +173,7 @@ const Movie: ReactMovieElement = ({ dataResponse }) => {
                               <h2 id={subItem.id}>{subItem.name}</h2>
                               <List className={containerStyle.list}>
                                 {subItem.items.map(
-                                  (listItem: string): React.ReactElement => (
+                                  (listItem: string): ReactElement => (
                                     <li key={listItem}>{listItem}</li>
                                   )
                                 )}

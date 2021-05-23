@@ -1,34 +1,35 @@
-.navigation-container {
+.container {
   z-index: 8;
   height: 3.5rem;
   position: sticky;
   top: 0;
 
-  button { display: none; }
+  button {
+    display: none;
+  }
 
-  .navigation-items {
+  .items {
     width: calc(100% - 2rem);
     height: 100%;
-    padding: 0 1rem 0 1rem;
+    padding: 0 1rem;
     background-color: var(--primary-background-color);
     display: flex;
     justify-content: center;
 
-    a {
-      padding: 1rem 2rem;
-      border-top: .150rem solid transparent;
-      transition: .5s;
+    .item {
+      padding: 1rem 1.5rem;
+      border-top: 0.15rem solid transparent;
+      transition: color 500ms, border-top 500ms, border-left 500ms, background-color 500ms;
 
       &.active {
-        border-top: .150rem solid var(--font-color-hover);
+        border-top: 0.15rem solid var(--font-color-hover);
         color: var(--font-color-hover);
         background-color: var(--website-background-color);
-        transition: .5s;
       }
 
       &:hover {
         background-color: var(--primary-background-color-hover);
-        border-top: .150rem solid var(--font-color-hover);
+        border-top: 0.15rem solid var(--font-color-hover);
         color: var(--font-color-hover);
       }
     }
@@ -44,25 +45,25 @@
       svg {
         margin-right: 1rem;
         transform: scale(1.5);
-        transition: .5s;
+        transition: fill 500ms;
       }
 
-      span { transition: .5s; }
+      span {
+        transition: color 500ms;
+      }
 
       &:hover {
         svg {
           fill: var(--font-color-hover);
-          transition: .5s;
         }
 
         span {
           color: var(--font-color-hover);
-          transition: .5s;
         }
       }
     }
 
-    .navigation-items {
+    .items {
       display: none;
 
       &.open {
@@ -72,14 +73,14 @@
         display: flex;
         flex-direction: column;
 
-        a {
+        .item {
           border-top: none;
-          border-left: .2rem solid transparent;
-          transition: .5s;
+          border-left: 0.2rem solid transparent;
           text-align: left;
 
-          &:hover, &.active {
-            border-left: .2rem solid var(--font-color-hover);
+          &:hover,
+          &.active {
+            border-left: 0.2rem solid var(--font-color-hover);
             color: var(--font-color-hover);
             background-color: var(--primary-background-color-hover);
           }

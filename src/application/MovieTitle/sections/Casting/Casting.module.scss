@@ -1,23 +1,13 @@
-.cards-container {
-  margin-top: 1rem;
-  flex-wrap: wrap;
+.card {
+  flex: 1 15rem !important;
 
-  .card-container {
-    margin: 1rem 1rem 0 0;
-    flex: 1 15rem;
-    flex-direction: column;
+  img {
+    width: 80px;
+    height: 80px;
+  }
 
-    img {
-      pointer-events: none;
-      width: 80px;
-      height: 80px;
-    }
-
-    div {
-      display: flex;
-      flex-direction: column;
-
-      h2, p { margin-top: 1rem; }
-    }
+  > div h2,
+  > div p {
+    margin-top: 1rem;
   }
 }

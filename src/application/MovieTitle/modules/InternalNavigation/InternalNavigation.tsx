@@ -1,7 +1,7 @@
 import React from "react";
-import { NavLink, useRouteMatch } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 import useTabBar from "@hooks/useTabBar";
-import { TabBar, tabBarStyles } from "@components/modules";
+import { TabBar, TabBarItem } from "@components/modules";
 import { ReactMovieElement } from "@application/MovieTitle/types";
 import { Trans, useTranslation } from "react-i18next";
 
@@ -22,15 +22,14 @@ const InternalNavigation: ReactMovieElement = ({ dataResponse }) => {
         .map(
           (item: string): React.ReactElement => {
             return (
-              <NavLink
+              <TabBarItem
                 key={item}
                 to={`${baseURL}${item !== "movie" ? `/${item}` : ""}`}
                 exact
-                activeClassName={tabBarStyles.active}
                 onClick={manageTabBar}
               >
                 <Trans t={t} i18nKey={item} />
-              </NavLink>
+              </TabBarItem>
             );
           }
         )}

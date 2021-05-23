@@ -46,9 +46,22 @@ const Callback: FunctionComponent<HTMLDivElement> = () => {
   const { t } = useTranslation("pages\\callback\\callback");
 
   const doLogin = useCallback(async () => {
-    const clientID: string = getApplicationID();
+    const clientID: string = await getApplicationID();
     const [state, redirection, codeVerifier] = await getItems();
-    const redirectionPath = redirection;
+    const redirectionPath = redirection as string;
+
+    if (clientID === "Inavlid client ID") {
+      setCallbackState(
+        (previousState: CallbackState): CallbackState => {
+          return {
+            ...previousState,
+            error: true,
+            errorMessage: "Failed to fetch client ID",
+          };
+        }
+      );
+      history.push(redirectionPath || "/");
+    }
 
     if (requestParameters.code && requestParameters.state) {
       if (state === requestParameters.state) {
@@ -126,7 +139,7 @@ const Callback: FunctionComponent<HTMLDivElement> = () => {
       }
     }
 
-    history.push((redirectionPath as string) || "");
+    history.push(redirectionPath || "/");
   }, [history, saveUser]);
 
   useEffect(() => {

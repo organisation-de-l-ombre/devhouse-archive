@@ -87,7 +87,6 @@ li {
 }
 
 td {
-  font-weight: bold;
   vertical-align: top;
 }
 
@@ -111,6 +110,7 @@ code {
 
 img {
   font-size: 12px;
+  pointer-events: none;
 }
 
 .app {

@@ -25,6 +25,7 @@
     "movieLogicalFranchise": "Franchise (ordre logique)"
   },
   "movieSpecs": {
+    "sectionTitle": "Spécifications cinématographiques",
     "movieFormat": "Format du film",
     "cinematographicProcess": "Processus cinématographique",
     "formatType": "Type de format",

@@ -31,13 +31,13 @@ const InternalNavigation: FunctionComponent<
       manageSidebar={manageSidebar}
     >
       <SidebarSection>
-        <SidebarItem to={baseURL}>
+        <SidebarItem to={baseURL} exact>
           <Trans t={t} i18nKey="items.account" />
         </SidebarItem>
-        <SidebarItem to={`${baseURL}/authorizations`}>
+        <SidebarItem to={`${baseURL}/authorizations`} exact>
           <Trans t={t} i18nKey="items.authorizations" />
         </SidebarItem>
-        <SidebarItem to={`${baseURL}/settings`}>
+        <SidebarItem to={`${baseURL}/settings`} exact>
           <Trans t={t} i18nKey="items.settings" />
         </SidebarItem>
       </SidebarSection>

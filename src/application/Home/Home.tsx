@@ -13,7 +13,7 @@ import { FunctionComponent } from "@typings/FunctionComponent";
 import fetchImage from "@lib/fetchImage";
 import styles from "./Home.module.scss";
 
-const Headers = animated(FlexContainer);
+const HeadersContainer = animated(FlexContainer);
 
 const Home: FunctionComponent<HTMLDivElement> = () => {
   const { t } = useTranslation("pages\\home\\home");
@@ -34,13 +34,15 @@ const Home: FunctionComponent<HTMLDivElement> = () => {
       >
         <div
           css={{
-            backgroundImage: `url("${fetchImage(
-              "https://s3.developershouse.xyz/international-media-referencing/amelia-data-public/website-data/pictures/pages/home/home-headers-background.jpg"
-            )}")`,
+            backgroundImage: `url("${fetchImage({
+              type: "background",
+              image:
+                "https://s3.developershouse.xyz/international-media-referencing/amelia-data-public/website-data/pictures/pages/home/home-headers-background.jpg",
+            })}")`,
           }}
           className={styles["headers-background"]}
         />
-        <Headers
+        <HeadersContainer
           padding
           pageBodyWidth
           column
@@ -57,10 +59,7 @@ const Home: FunctionComponent<HTMLDivElement> = () => {
           <h2>
             <Trans t={t} i18nKey="headers.presentation.1" />
           </h2>
-          <ButtonsGroup
-            allowExpand
-            className={globalStyles["generic-margin-top"]}
-          >
+          <ButtonsGroup genericMarginTop expand>
             <NavLink to="/about">
               <MdWork />
               <span>
@@ -80,7 +79,7 @@ const Home: FunctionComponent<HTMLDivElement> = () => {
               </span>
             </NavLink>
           </ButtonsGroup>
-        </Headers>
+        </HeadersContainer>
       </FlexContainer>
       <BackToTop />
       <FlexContainer
@@ -96,7 +95,7 @@ const Home: FunctionComponent<HTMLDivElement> = () => {
           <h2 style={{ color: "var(--font-color-hover)" }}>
             <Trans t={t} i18nKey="prototypeAccess.title" />
           </h2>
-          <ButtonsGroup allowExpand className={styles["buttons-container"]}>
+          <ButtonsGroup genericMarginTop expand>
             <NavLink to="/movies/title/tangled_994f87ryf.a4">
               <Trans t={t} i18nKey="prototypeAccess.tangled" />
             </NavLink>

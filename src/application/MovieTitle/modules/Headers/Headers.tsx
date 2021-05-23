@@ -19,13 +19,19 @@ import styles from "./Headers.module.scss";
 import containerStyle from "../../Containers.module.scss";
 import { ReactMovieElement, MovieHeadersSection } from "../../types";
 
+const HeadersContainer = animated(FlexContainer);
+
 const Headers: ReactMovieElement = ({ dataResponse }) => {
   const { language } = useLanguage();
   const [trailerWindowOpen, setTrailerWindowOpen] = useState<boolean>(false);
   const { t } = useTranslation("pages\\movieTitle\\headers");
   const { t: tRoot } = useTranslation("pages\\movieTitle\\root");
   const { t: tTags } = useTranslation("pages\\movieTitle\\tags");
-  const { isFetching, data }: UseQueryResult<MovieHeadersSection> = useQuery(
+  const {
+    isFetching,
+    error,
+    data,
+  }: UseQueryResult<MovieHeadersSection, Response> = useQuery(
     `movie-title/${dataResponse.body.id}/${language}/headers`,
     (): Promise<MovieHeadersSection> => {
       return fetch(dataResponse.body.data.headers).then((response: Response) =>
@@ -43,7 +49,8 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
   if (isFetching) {
     return <SuspenseComponent customText={tRoot("fetchingData")} />;
   }
-  if (!data) {
+
+  if (error || !data) {
     return null;
   }
 
@@ -59,21 +66,25 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
           autoClose
         />
       )}
-      <animated.div
+      <HeadersContainer
+        horizontallyCentered
         className={styles["headers-background"]}
         style={headersStyles}
       >
         {data.backgroundImage ? (
           <div
             css={{
-              backgroundImage: `url("${fetchImage(data.backgroundImage)}")`,
+              backgroundImage: `url("${fetchImage({
+                type: "background",
+                image: data.backgroundImage,
+              })}")`,
             }}
             className={styles["headers-background-image"]}
           />
         ) : (
           <div className={styles["headers-no-background-image"]} />
         )}
-        <FlexContainer className={styles.headers}>
+        <FlexContainer pageBodyWidth allowWrap className={styles.headers}>
           {data.moviePoster && (
             <div className={styles["movie-poster"]}>
               <img
@@ -83,7 +94,7 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
               />
             </div>
           )}
-          <FlexContainer className={styles["headers-container"]}>
+          <FlexContainer column className={styles["headers-content"]}>
             <h1>{data.title}</h1>
             <h2>
               <i>{data.companies.join(", ")}</i>
@@ -150,7 +161,7 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
             </ButtonsGroup>
           </FlexContainer>
         </FlexContainer>
-      </animated.div>
+      </HeadersContainer>
     </>
   );
 };

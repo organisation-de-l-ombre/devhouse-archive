@@ -1,36 +1,37 @@
-.container {
-  .headers-margin, p { margin-top: 1rem; }
+.album-cover {
+  max-width: 256px;
+  max-height: 256px;
+  margin: 2rem 2rem 0 0;
 
-  .album-container {
-    display: flex;
-    flex-wrap: wrap;
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    box-shadow: 0 0 0.3rem black;
+  }
+}
 
-    .album-headers-margin { margin-top: 2rem; }
+.album-headers {
+  margin-top: 2rem;
 
-    img {
-      margin-right: 2rem;
-      height: 256px;
-      pointer-events: none;
-      border-radius: 5px;
-      box-shadow: 0 0 .3rem black;
-    }
+  p, a {
+    margin-top: 1.5rem;
+  }
+}
 
-    .album-headers {
-      display: flex;
-      flex-direction: column;
+.card {
+  margin: 2rem 0 0 0;
+  flex-direction: column;
 
-      .album-headers-margin-top { margin-top: 1.5rem; }
+  .vo-title {
+    margin-top: 0.5rem;
+
+    i {
+      color: var(--font-color-hover);
     }
   }
 
-  .card-container {
-    margin: 2rem 0 0 0;
-    flex-direction: column;
-
-    .vo-title {
-      margin-top: .5rem;
-
-      i { color: var(--font-color-hover); }
-    }
+  p {
+    margin-top: 1rem;
   }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ReactElement } from "react";
 import detectMobileDevice from "@lib/detectMobileDevice";
 import {
   FlexContainer,
@@ -8,10 +8,10 @@ import {
 } from "@components/ui";
 import globalStyles from "@themes/Global.module.scss";
 import { fetchOptions } from "@lib/api";
-import { useTranslation } from "react-i18next";
 import { UseQueryResult, useQuery } from "react-query";
-import { SuspenseComponent } from "@components/modules";
 import useLanguage from "@hooks/useLanguage";
+import HandleData from "@application/MovieTitle/modules/HandleData/HandleData";
+import classnames from "classnames";
 import {
   ReactMovieElement,
   SummaryObject,
@@ -21,12 +21,14 @@ import {
 } from "../../types";
 import containerStyle from "../../Containers.module.scss";
 import styles from "./Videos.module.scss";
-import SectionEmpty from "../../modules/SectionEmpty/SectionEmpty";
 
 const Videos: ReactMovieElement = ({ dataResponse }) => {
   const { language } = useLanguage();
-  const { t } = useTranslation("pages\\movieTitle\\root");
-  const { isFetching, data }: UseQueryResult<VideosGlobalSection> = useQuery(
+  const {
+    isFetching,
+    error,
+    data,
+  }: UseQueryResult<VideosGlobalSection, Response> = useQuery(
     `movie-title/${dataResponse.body.id}/${language}/videos`,
     (): Promise<VideosGlobalSection> => {
       return fetch(
@@ -41,11 +43,18 @@ const Videos: ReactMovieElement = ({ dataResponse }) => {
     videoID: "",
   });
 
-  if (isFetching) {
-    return <SuspenseComponent minHeight customText={t("fetchingData")} />;
+  if (isFetching || error) {
+    return (
+      <HandleData
+        isFetching={isFetching}
+        section={dataResponse.body.data.videos}
+        error={error}
+      />
+    );
   }
+
   if (!data) {
-    return <SectionEmpty />;
+    return null;
   }
 
   return (
@@ -59,11 +68,14 @@ const Videos: ReactMovieElement = ({ dataResponse }) => {
         autoClose
       />
       <FlexContainer
-        className={`${styles.container} ${containerStyle.container}`}
+        padding
+        pageBodyWidth
+        column
+        className={containerStyle.container}
       >
         <Summary className={containerStyle.summary}>
           {data.summary.map(
-            (item: SummaryObject): React.ReactElement => {
+            (item: SummaryObject): ReactElement => {
               switch (item.type) {
                 case "item":
                   return (
@@ -77,20 +89,22 @@ const Videos: ReactMovieElement = ({ dataResponse }) => {
           )}
         </Summary>
         {data.videos.map(
-          (body: VideosSection): React.ReactElement => {
+          (body: VideosSection): ReactElement => {
             return (
               <FlexContainer
+                column
                 key={body.name}
-                className={styles["videos-container-root"]}
+                className={containerStyle["generic-margin-top"]}
               >
                 <h1 id={body.id}>{body.name}</h1>
-                <FlexContainer className={styles["videos-container"]}>
+                <FlexContainer allowWrap>
                   {body.videos.map(
-                    (video: VideoObject): React.ReactElement => {
+                    (video: VideoObject): ReactElement => {
                       return (
                         <FlexContainer
+                          column
                           key={video.title}
-                          className={styles["video-container"]}
+                          className={styles.video}
                           onClick={() => {
                             const isMobileDevice: boolean = detectMobileDevice();
 
@@ -105,14 +119,17 @@ const Videos: ReactMovieElement = ({ dataResponse }) => {
                           }}
                         >
                           <div
-                            className={`${globalStyles["overflow-hidden"]} ${globalStyles["border-radius"]}`}
+                            className={classnames(
+                              globalStyles["overflow-hidden"],
+                              globalStyles["border-radius"]
+                            )}
                           >
                             <img
                               src={`https://img.youtube.com/vi/${video.videoID}/mqdefault.jpg`}
                               alt={video.title}
                             />
                           </div>
-                          <h3>{video.title}</h3>
+                          <h1>{video.title}</h1>
                         </FlexContainer>
                       );
                     }

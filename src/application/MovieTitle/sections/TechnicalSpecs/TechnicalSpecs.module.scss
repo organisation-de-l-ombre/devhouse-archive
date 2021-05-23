@@ -1,120 +1,117 @@
 .presentation {
   max-width: 25rem;
   padding: 1rem;
-  border: .15rem solid var(--font-color-hover);
+  border: 0.15rem solid var(--font-color-hover);
   border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 
   .logo {
     max-width: 270px;
     max-height: 155px;
+    margin-top: 0;
     margin-bottom: 2rem;
 
     img {
       width: 100%;
       height: 100%;
-      pointer-events: none;
     }
   }
 
   table {
     width: 100%;
-    border: none;
 
     td {
-      padding: .5rem 0;
+      padding: 0.5rem 0;
 
-      &:first-child {
+      &:first-of-type {
         padding-right: 1.5rem;
         color: var(--font-color-hover);
       }
     }
   }
 
-  .franchise {
+  > div {
     width: 100%;
     margin-top: 2rem;
 
-    h1 { font-size: 18px; }
+    h1 {
+      font-size: 18px;
+    }
 
-    .elements {
-      display: flex;
+    .element {
+      max-width: 50%;
+      margin-top: 1rem;
+      flex: 1 50%;
+      cursor: pointer;
 
-      .element {
-        max-width: 50%;
-        margin-top: 1rem;
-        display: flex;
-        flex: 1 50%;
-        align-items: center;
-        cursor: pointer;
+      div {
+        width: 50px;
+        height: 50px;
 
-        div {
-          width: 50px;
-          height: 50px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
+        svg {
+          transition: fill 0.5s;
+          transform: scale(2);
+        }
+      }
 
-          svg {
-            transition: fill .5s;
-            transform: scale(2);
-          }
+      span {
+        font-size: 16px;
+        line-height: 1.5;
+        transition: color 0.5s;
+      }
+
+      &.previous {
+        margin-right: 2rem;
+
+        span {
+          margin-left: 0.5rem;
+        }
+      }
+
+      &.next {
+        margin-left: auto;
+
+        span {
+          margin-right: 0.5rem;
+        }
+      }
+
+      &:hover {
+        div svg {
+          fill: var(--font-color-hover);
         }
 
         span {
-          font-size: 16px;
-          line-height: 1.5;
-          transition: color .5s;
-        }
-
-        &.previous {
-          margin-right: 2rem;
-
-          span { margin-left: .5rem; }
-        }
-
-        &.next {
-          margin-left: auto;
-
-          span { margin-right: .5rem; }
-        }
-
-        &:hover {
-          div svg { fill: var(--font-color-hover); }
-
-          span { color: var(--font-color-hover); }
+          color: var(--font-color-hover);
         }
       }
     }
   }
 }
 
-.movie-specs {
-  flex-direction: column;
+.movie-specs table {
+  width: fit-content;
+  margin-top: 2rem;
+  table-layout: auto;
+  border: 0.15rem solid var(--font-color-hover);
+  border-collapse: collapse;
+  font-size: 18px;
 
-  table {
-    max-width: 40rem;
-    margin-top: 2rem;
-    border: .15rem solid var(--font-color);
-    border-radius: 5px;
-    border-collapse: collapse;
-    font-size: 18px;
+  td {
+    padding: 1rem;
+    border: 0.15rem solid var(--font-color-hover);
 
-    td {
-      padding: 1rem;
-      border: .15rem solid var(--font-color-hover);
+    &:first-of-type {
+      color: var(--font-color-hover);
+    }
 
-      &:first-child { color: var(--font-color-hover); }
+    &:last-of-type ul {
+      list-style: inside;
 
-      ul {
-        list-style: inside;
+      li {
+        margin-top: 0.25rem;
 
-        li {
-          margin-top: .25rem;
-
-          &:first-child { margin: 0; }
+        &:first-child {
+          margin: 0;
         }
       }
     }

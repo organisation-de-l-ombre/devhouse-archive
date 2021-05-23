@@ -10,17 +10,18 @@ import {
   Card,
   YouTubePlayer,
   ButtonsGroup,
+  CardContainer,
 } from "@components/ui";
 import { fetchOptions } from "@lib/api";
 import { Trans, useTranslation } from "react-i18next";
 import { UseQueryResult, useQuery } from "react-query";
-import { SuspenseComponent } from "@components/modules";
 import useLanguage from "@hooks/useLanguage";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import { IconType } from "react-icons";
+import HandleData from "@application/MovieTitle/modules/HandleData/HandleData";
+import fetchImage from "@lib/fetchImage";
 import styles from "./OST.module.scss";
 import containerStyle from "../../Containers.module.scss";
-import globalStyles from "../../../../themes/Global.module.scss";
 import {
   OSTSection,
   ReactMovieElement,
@@ -30,7 +31,6 @@ import {
   TracksSection,
   VideoObject,
 } from "../../types";
-import SectionEmpty from "../../modules/SectionEmpty/SectionEmpty";
 
 const DisplaySVG: FunctionComponent<IconType, { type: string }> = ({
   type,
@@ -50,8 +50,11 @@ const DisplaySVG: FunctionComponent<IconType, { type: string }> = ({
 const OST: ReactMovieElement = ({ dataResponse }) => {
   const { language } = useLanguage();
   const { t } = useTranslation("pages\\movieTitle\\ost");
-  const { t: tRoot } = useTranslation("pages\\movieTitle\\root");
-  const { isFetching, data }: UseQueryResult<OSTSection> = useQuery(
+  const {
+    isFetching,
+    error,
+    data,
+  }: UseQueryResult<OSTSection, Response> = useQuery(
     `movie-title/${dataResponse.body.id}/${language}/ost`,
     (): Promise<OSTSection> => {
       return fetch(
@@ -67,11 +70,18 @@ const OST: ReactMovieElement = ({ dataResponse }) => {
     videoID: "",
   });
 
-  if (isFetching) {
-    return <SuspenseComponent minHeight customText={tRoot("fetchingData")} />;
+  if (isFetching || error) {
+    return (
+      <HandleData
+        isFetching={isFetching}
+        section={dataResponse.body.data.ost}
+        error={error}
+      />
+    );
   }
+
   if (!data) {
-    return <SectionEmpty />;
+    return null;
   }
 
   return (
@@ -85,7 +95,10 @@ const OST: ReactMovieElement = ({ dataResponse }) => {
         autoClose
       />
       <FlexContainer
-        className={`${styles.container} ${containerStyle.container}`}
+        padding
+        pageBodyWidth
+        column
+        className={containerStyle.container}
       >
         <Summary className={containerStyle.summary}>
           {data.summary.map((item: SummaryObject): ReactElement | null => {
@@ -102,32 +115,36 @@ const OST: ReactMovieElement = ({ dataResponse }) => {
         </Summary>
         {data.album && (
           <FlexContainer
+            column
             id={data.album.id}
-            className={`${globalStyles.column} ${containerStyle["generic-margin-top"]}`}
+            className={containerStyle["generic-margin-top"]}
           >
             <h1>{data.album.name}</h1>
-            <div className={styles["album-container"]}>
-              <img
-                src={data.album.coverURL}
-                alt={data.album.albumName}
-                className={styles["album-headers-margin"]}
-              />
-              <div
-                className={`${styles["album-headers"]} ${styles["album-headers-margin"]}`}
-              >
+            <FlexContainer allowWrap>
+              {data.album.coverURL && (
+                <div className={styles["album-cover"]}>
+                  <img
+                    src={fetchImage({
+                      type: "image",
+                      width: "256",
+                      height: "256",
+                      image: data.album.coverURL,
+                    })}
+                    alt={data.album.albumName}
+                  />
+                </div>
+              )}
+              <FlexContainer column className={styles["album-headers"]}>
                 <h2>{data.album.albumName}</h2>
-                <p className={styles["album-headers-margin-top"]}>
-                  {data.album.interpreters.join(", ")}
-                </p>
+                <p>{data.album.interpreters.join(", ")}</p>
                 <ButtonsGroup minimal>
                   {data.album.streaming.map(
-                    (streaming: StreamingObject): React.ReactElement => {
+                    (streaming: StreamingObject): ReactElement => {
                       return (
                         <a
                           key={streaming.service}
                           href={streaming.album}
                           target="blank"
-                          className={styles["album-headers-margin-top"]}
                         >
                           <DisplaySVG type={streaming.service} />
                           <span>{streaming.service}</span>
@@ -136,107 +153,107 @@ const OST: ReactMovieElement = ({ dataResponse }) => {
                     }
                   )}
                 </ButtonsGroup>
-              </div>
-            </div>
+              </FlexContainer>
+            </FlexContainer>
           </FlexContainer>
         )}
         {data.body.map(
-          (body: TracksSection): React.ReactElement => {
+          (body: TracksSection): ReactElement => {
             return (
               <FlexContainer
+                column
                 key={body.name}
                 id={body.id}
-                className={`${globalStyles.column} ${containerStyle["generic-margin-top"]}`}
+                className={containerStyle["generic-margin-top"]}
               >
                 <h1>{body.name}</h1>
-                {body.tracks.map(
-                  (track: TrackInformationObject): React.ReactElement => {
-                    return (
-                      <Card
-                        key={track.title}
-                        className={styles["card-container"]}
-                      >
-                        <h2>{track.title}</h2>
-                        {track.VOTitle && (
-                          <h2 className={styles["vo-title"]}>
-                            <i>{track.VOTitle}</i>
-                          </h2>
-                        )}
-                        <p>
-                          <Trans
-                            t={t}
-                            i18nKey="duration"
-                            values={{ duration: track.duration }}
-                          />
-                        </p>
-                        {track.timecode && (
+                <CardContainer direction="column">
+                  {body.tracks.map(
+                    (track: TrackInformationObject): ReactElement => {
+                      return (
+                        <Card key={track.title} className={styles.card}>
+                          <h2>{track.title}</h2>
+                          {track.VOTitle && (
+                            <h2 className={styles["vo-title"]}>
+                              <i>{track.VOTitle}</i>
+                            </h2>
+                          )}
                           <p>
                             <Trans
                               t={t}
-                              i18nKey="timeline"
-                              values={{ timeline: track.timecode }}
+                              i18nKey="duration"
+                              values={{ duration: track.duration }}
                             />
                           </p>
-                        )}
-                        {track.characters && (
-                          <p>
-                            <Trans
-                              t={t}
-                              i18nKey="characters"
-                              values={{
-                                characters: track.characters.join(", "),
-                                count: track.characters.length,
-                              }}
-                            />
-                          </p>
-                        )}
-                        {track.description && (
-                          <p>
-                            <q className={containerStyle.quotes}>
-                              {track.description}
-                            </q>
-                          </p>
-                        )}
-                        {Boolean(track.videoID || track.lyrics) && (
-                          <ButtonsGroup minimal allowExpand>
-                            {track.videoID && (
-                              <Button
-                                onClick={() => {
-                                  const isMobileDevice: boolean = detectMobileDevice();
-
-                                  if (isMobileDevice) {
-                                    window.open(
-                                      `https://www.youtube.com/watch?v=${track.videoID}`
-                                    );
-                                  } else {
-                                    setVideo({
-                                      title: `${dataResponse.body.title} - ${track.title}`,
-                                      videoID: track.videoID as string,
-                                    });
-                                    setPlayerOpen(!playerOpen);
-                                  }
+                          {track.timecode && (
+                            <p>
+                              <Trans
+                                t={t}
+                                i18nKey="timeline"
+                                values={{ timeline: track.timecode }}
+                              />
+                            </p>
+                          )}
+                          {track.characters && (
+                            <p>
+                              <Trans
+                                t={t}
+                                i18nKey="characters"
+                                values={{
+                                  characters: track.characters.join(", "),
+                                  count: track.characters.length,
                                 }}
-                              >
-                                <FaPlay />
-                                <span>
-                                  <Trans t={t} i18nKey="watchVideo" />
-                                </span>
-                              </Button>
-                            )}
-                            {track.lyrics && (
-                              <a href={track.lyrics} target="blank">
-                                <FaMusic />
-                                <span>
-                                  <Trans t={t} i18nKey="lyrics" />
-                                </span>
-                              </a>
-                            )}
-                          </ButtonsGroup>
-                        )}
-                      </Card>
-                    );
-                  }
-                )}
+                              />
+                            </p>
+                          )}
+                          {track.description && (
+                            <p>
+                              <q className={containerStyle.quotes}>
+                                {track.description}
+                              </q>
+                            </p>
+                          )}
+                          {Boolean(track.videoID || track.lyrics) && (
+                            <ButtonsGroup minimal expand>
+                              {track.videoID && (
+                                <Button
+                                  onClick={() => {
+                                    const isMobileDevice: boolean = detectMobileDevice();
+
+                                    if (isMobileDevice) {
+                                      window.open(
+                                        `https://www.youtube.com/watch?v=${track.videoID}`
+                                      );
+                                    } else {
+                                      setVideo({
+                                        title: `${dataResponse.body.title} - ${track.title}`,
+                                        videoID: track.videoID as string,
+                                      });
+                                      setPlayerOpen(!playerOpen);
+                                    }
+                                  }}
+                                >
+                                  <FaPlay />
+                                  <span>
+                                    <Trans t={t} i18nKey="watchVideo" />
+                                  </span>
+                                </Button>
+                              )}
+                              {track.lyrics && (
+                                <a href={track.lyrics} target="blank">
+                                  <FaMusic />
+                                  <span>
+                                    <Trans t={t} i18nKey="lyrics" />
+                                  </span>
+                                </a>
+                              )}
+                            </ButtonsGroup>
+                          )}
+                        </Card>
+                      );
+                    }
+                  )}
+                </CardContainer>
               </FlexContainer>
             );
           }

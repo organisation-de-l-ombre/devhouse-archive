@@ -11,7 +11,6 @@ import {
   ButtonsGroup,
   Card,
 } from "@components/ui";
-import globalStyles from "@themes/Global.module.scss";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import containerStyle from "../../Containers.module.scss";
 
@@ -68,7 +67,7 @@ const AuthorizationCard: FunctionComponent<
           <span>{authorization.audiences.join(", ")}</span>
         </TextArea>
       </FlexContainer>
-      <ButtonsGroup allowExpand className={globalStyles["generic-margin-top"]}>
+      <ButtonsGroup genericMarginTop expand>
         <Button onClick={deleteAuthorization}>
           <FaRegTrashAlt />
           <span>
