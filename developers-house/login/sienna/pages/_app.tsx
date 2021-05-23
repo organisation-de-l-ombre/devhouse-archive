@@ -6,11 +6,7 @@ import "loaders.css";
 import { Theme, ThemeContext } from "../contexts/Theme";
 import themes from "../styles/themes.module.scss";
 import parseCookies from "../lib/cookies/parseCookies";
-import {
-  TwoFAContext,
-  TwoFAContextData,
-  TwoFAContextObject,
-} from "../contexts/2FAContext";
+import { TwoFAContext, TwoFAContextData } from "../contexts/2FAContext";
 
 /**
  * Main react component dedicated to the login system.
