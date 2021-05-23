@@ -1,6 +1,3 @@
-/**
- * Starts a consent session using a consent_challenge.
- */
 import { FastifyReply, FastifyRequest, RouteOptions } from "fastify";
 import { Providers } from "../../providers";
 import { Admin, LoginAPI } from "../../utils/apis";
@@ -67,7 +64,9 @@ export const loginCallback: RouteOptions = {
         );
         break;
       case InlineResponse200CodeEnum.NUMBER_2: // Bad request
-        break;
+        return response
+          .code(500)
+          .send({ code: 500, message: "Internal server error." });
       case InlineResponse200CodeEnum.NUMBER_4: // 2FA Required.
         if (data.user) {
           request.session.twoFa = {
