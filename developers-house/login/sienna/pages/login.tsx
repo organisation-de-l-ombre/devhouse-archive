@@ -13,10 +13,13 @@ export default function Login(): ReactElement {
   const fetchingFunction = useCallback(async () => {
     const challenge = router.query.login_challenge as string;
     if (challenge) {
-      return fetchLogin(challenge);
+      const fetch = await fetchLogin(challenge);
+      if (fetch.redirect) {
+        await router.push(fetch.redirect);
+      }
     }
     throw new Error("No challenge specified.");
-  }, [router.query.login_challenge]);
+  }, [router]);
 
   const { error, data, loading } = usePageState<LoginFetchResponse>(
     fetchingFunction
