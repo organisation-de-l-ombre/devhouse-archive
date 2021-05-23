@@ -26,7 +26,7 @@ const UserButton: FC<{ padding?: string }> = ({ padding }) => {
   const { login, status, user } = useLogin();
   return (
     <NavigationItem
-      style={{ padding }}
+      css={{ padding }}
       onClick={(e) => {
         e.stopPropagation();
         if (!user) login();

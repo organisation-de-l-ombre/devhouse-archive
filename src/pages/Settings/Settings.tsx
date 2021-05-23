@@ -1,10 +1,9 @@
 import React, { ReactElement, useCallback, FC, useMemo } from "react";
 import { Route, Switch } from "react-router";
-import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AiFillLock } from "react-icons/all";
-import { Button, ButtonImage } from "../../components/Button/Button";
-import ButtonGroup from "../../components/Button/ButtonGroup";
+import { Button, NavLinkButton } from "../../components/new/Button/Button";
+import ButtonGroup from "../../components/new/Button/ButtonGroup";
 import Authorizations from "./sections/Authorizations";
 import Account from "./sections/Account";
 import Support from "./sections/Support";
@@ -31,26 +30,20 @@ const Content: FC = () => {
   }, [dispatch]);
 
   return (
-    <ButtonGroup className={styles.list} full>
-      <NavLink to={`${match.path}`}>
-        <Button>Account</Button>
-      </NavLink>
-      <NavLink to={`${match.path}/authorizations`}>
-        <Button>Manage authorizations</Button>
-      </NavLink>
-      <NavLink to={`${match.path}/linked-accounts`}>
-        <Button>Linked accounts</Button>
-      </NavLink>
-      <NavLink to={`${match.path}/privacy-settings`}>
-        <Button>Privacy settings</Button>
-      </NavLink>
-      <NavLink to={`${match.path}/support`}>
-        <Button>Support</Button>
-      </NavLink>
+    <ButtonGroup orientation="column">
+      <NavLinkButton to={`${match.path}`}>Account</NavLinkButton>
+      <NavLinkButton to={`${match.path}/authorizations`}>
+        Manage authorizations
+      </NavLinkButton>
+      <NavLinkButton to={`${match.path}/linked-accounts`}>
+        Linked accounts
+      </NavLinkButton>
+      <NavLinkButton to={`${match.path}/privacy-settings`}>
+        Privacy settings
+      </NavLinkButton>
+      <NavLinkButton to={`${match.path}/support`}>Support</NavLinkButton>
       <Button onClick={doLogout}>
-        <ButtonImage>
-          <AiFillLock />
-        </ButtonImage>
+        <AiFillLock />
         Logout
       </Button>
     </ButtonGroup>

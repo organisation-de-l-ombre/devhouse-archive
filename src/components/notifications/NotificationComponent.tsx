@@ -2,8 +2,8 @@ import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 import { FaWindowClose } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { Button } from "../Button/Button";
-import ButtonGroup from "../Button/ButtonGroup";
+import { Button } from "../new/Button/Button";
+import ButtonGroup from "../new/Button/ButtonGroup";
 import styles from "./notifications.module.scss";
 import {
   removeNotification,
@@ -25,9 +25,9 @@ const NotificationComponent = (props: {
   useEffect((): NotificationCleanup => {
     if (notification.time !== -1 && !timer) {
       setTimer(
-        setTimeout(() => {
+        (setTimeout(() => {
           destroySelf();
-        }, notification.time) as unknown as number
+        }, notification.time) as unknown) as number
       );
     }
     return () => {
@@ -59,7 +59,7 @@ const NotificationComponent = (props: {
           )}
         </div>
         <FaWindowClose
-          style={{ color: "red", width: "100%", alignSelf: "top" }}
+          css={{ color: "red", width: "100%", alignSelf: "top" }}
           onClick={destroySelf}
         />
       </div>

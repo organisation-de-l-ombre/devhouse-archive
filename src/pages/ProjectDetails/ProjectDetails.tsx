@@ -9,7 +9,7 @@ import { RouteComponentProps, useHistory } from "react-router";
 import useProjects from "hooks/useProjects";
 import { Projects, StaffMember } from "@developers-house/abdera";
 import CenteredMessage from "components/CenteredMessage/CenteredMessage";
-import Button from "components/Button/Button";
+import { Button } from "components/new/Button/Button";
 import FlexContainer from "components/FlexContainer/FlexContainer";
 import ReactMarkdown from "react-markdown";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -21,7 +21,7 @@ import styles from "./ProjectDetails.module.scss";
 import globalStyles from "../../styles/Global.module.scss";
 import { Loader } from "../../components/SuspenseLoader/SuspenseLoader";
 import { TitleBox } from "../../components/TitleBox/TitleBox";
-import { Card, CardPadding } from "../../components/Card/Card";
+import { Card } from "../../components/new/Card/Card";
 import UserAvatarStatus from "../../components/UserAvatarStatus/UserAvatarStatus";
 import { getAvatar, statusToColor } from "../../utilities";
 import { discordServer } from "../../constants";
@@ -130,16 +130,16 @@ const ProjectDetails: FC<RouteComponentProps> = ({ match }) => {
       <p className={styles.description}>
         <q className={globalStyles.quotes}>{project.longDescription}</q>
       </p>
-      {["managers", "members"].map((category): ReactElement => {
-        return (
-          <div key={category} className={styles.section}>
-            <h2>Project {category}</h2>
-            <div className={styles.cards}>
-              {project[category as Category]?.map(
-                (member: StaffMember): ReactElement => {
-                  return (
-                    <Card key={member.id} className={styles["card-root"]}>
-                      <CardPadding className={styles["card-content"]}>
+      {["managers", "members"].map(
+        (category): ReactElement => {
+          return (
+            <div key={category} className={styles.section}>
+              <h2>Project {category}</h2>
+              <div className={styles.cards}>
+                {project[category as Category]?.map(
+                  (member: StaffMember): ReactElement => {
+                    return (
+                      <Card key={member.id} className={styles["card-root"]}>
                         <UserAvatarStatus
                           statusColor={statusToColor(member.presence.status)}
                           avatar={getAvatar(member)}
@@ -166,15 +166,15 @@ const ProjectDetails: FC<RouteComponentProps> = ({ match }) => {
                             )}
                           </div>
                         </div>
-                      </CardPadding>
-                    </Card>
-                  );
-                }
-              )}
+                      </Card>
+                    );
+                  }
+                )}
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        }
+      )}
       <div className={styles.section}>
         <h2>Detailed project information</h2>
         {markdown ? (
