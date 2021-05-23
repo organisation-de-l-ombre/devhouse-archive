@@ -28,7 +28,7 @@ export const twoFaSubmit: RouteOptions = {
 
         const data: Login = { with_platform: twoFa.login };
 
-        if (type == "otp") {
+        if (type === "otp") {
             const { code } = request.body as { code: number };
             data.with_otp = { code };
         } else if (type === "webauth") {
@@ -37,6 +37,7 @@ export const twoFaSubmit: RouteOptions = {
             throw new Error("Invalid.");
         }
         const { data: responseData } = await LoginAPI.doLogin(data);
+        console.log(responseData);
         if (responseData.user) {
             const { data: redirect } = await Admin.acceptLoginRequest(
                 twoFa.challenge,
