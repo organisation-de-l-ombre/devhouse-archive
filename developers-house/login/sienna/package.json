@@ -11,6 +11,8 @@
     "test": "echo 0"
   },
   "dependencies": {
+    "@babel/helper-builder-react-jsx": "^7.12.13",
+    "@babel/helper-builder-react-jsx-experimental": "^7.12.11",
     "@babel/preset-typescript": "^7.12.1",
     "@ory/hydra-client": "^1.9.2",
     "@types/jsonwebtoken": "^8.5.1",

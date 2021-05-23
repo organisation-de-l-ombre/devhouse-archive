@@ -4,6 +4,12 @@
 
     p { margin-top: 1rem; }
 
+    a {
+        color: var(--link-color);
+
+        &:hover { text-decoration: underline; }
+    }
+
 
     .form {
         margin-top: 2rem;
@@ -14,14 +20,6 @@
             margin-top: 1rem;
             display: flex;
             align-items: center;
-
-            label {
-                a {
-                    color: var(--link-color);
-
-                    &:hover { text-decoration: underline; }
-                }
-            }
 
             input[type="text"] {
                 padding: .75rem;

@@ -7,6 +7,8 @@ export interface ConsentFetchResponse {
   owner: string;
   scopes: string[];
   contact: string[];
+
+  redirect?: string;
 }
 export const PREFIX =
   process.env.NODE_ENV === "development"

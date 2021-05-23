@@ -8,14 +8,6 @@ import themes from "../styles/themes.module.scss";
 import parseCookies from "../lib/cookies/parseCookies";
 import { TwoFAContext, TwoFAContextData } from "../contexts/2FAContext";
 
-/**
- * Main react component dedicated to the login system.
- * This one handles
- * @param Component Page component from Next
- * @param pageProps Page properties
- * @param theme Theme from the initial props.
- * @constructor
- */
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const App = ({ Component, pageProps, theme }): ReactElement => {
   const [cookies, setCookie] = useCookies(["theme"]);
