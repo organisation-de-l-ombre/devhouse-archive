@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { CookiesProvider, useCookies } from "react-cookie";
 import Layout from "../components/layout";
 import "../styles/globals.scss";
@@ -6,6 +6,11 @@ import "loaders.css";
 import { Theme, ThemeContext } from "../contexts/Theme";
 import themes from "../styles/themes.module.scss";
 import parseCookies from "../lib/cookies/parseCookies";
+import {
+  TwoFAContext,
+  TwoFAContextData,
+  TwoFAContextObject,
+} from "../contexts/2FAContext";
 
 /**
  * Main react component dedicated to the login system.
@@ -26,15 +31,19 @@ const App = ({ Component, pageProps, theme }): ReactElement => {
     setCookie("theme", themeValue.theme === "light" ? "dark" : "light");
   }, [setCookie, themeValue.theme]);
 
+  const [data, setTwoFaData] = useState<TwoFAContextData>(null);
+
   return (
     <CookiesProvider>
-      <ThemeContext.Provider value={{ theme: themeValue, switchTheme }}>
-        <div className={`${themes[themeValue.theme]} provider`}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </div>
-      </ThemeContext.Provider>
+      <TwoFAContext.Provider value={{ setTwoFaData, data }}>
+        <ThemeContext.Provider value={{ theme: themeValue, switchTheme }}>
+          <div className={`${themes[themeValue.theme]} provider`}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </div>
+        </ThemeContext.Provider>
+      </TwoFAContext.Provider>
     </CookiesProvider>
   );
 };

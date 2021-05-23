@@ -12,6 +12,7 @@ export const PREFIX =
   process.env.NODE_ENV === "development"
     ? "https://auth-server.matthieu-dev.xyz"
     : "";
+
 export async function fetchConsent(
   challenge: string
 ): Promise<ConsentFetchResponse> {
