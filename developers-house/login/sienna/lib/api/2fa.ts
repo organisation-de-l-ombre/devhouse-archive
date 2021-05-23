@@ -7,6 +7,11 @@ export interface TwoFASessionReponse {
 }
 
 export async function fetchTwoFaSession(): Promise<TwoFASessionReponse> {
+  return {
+    webauth: { challenge: "", availableKeys: [] },
+    otp: true,
+    username: "matthieu",
+  };
   const response = await fetch(`${PREFIX}/dialog/api/2fa`);
   return response.json();
 }

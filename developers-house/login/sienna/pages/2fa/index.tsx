@@ -2,11 +2,11 @@ import React, { ReactElement, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Loader from "react-loaders";
-import styles from "../styles/pages/consent.module.scss";
-import { Button, ButtonContainer } from "../components/button";
-import { fetchTwoFaSession } from "../lib/api/2fa";
-import { usePageState } from "../lib/usePageState";
-import { TwoFAContext } from "../contexts/2FAContext";
+import styles from "../../styles/pages/consent.module.scss";
+import { Button, ButtonContainer } from "../../components/button";
+import { fetchTwoFaSession } from "../../lib/api/2fa";
+import { usePageState } from "../../lib/usePageState";
+import { TwoFAContext } from "../../contexts/2FAContext";
 
 export default function TwoFa(): ReactElement {
   const { error, data } = usePageState(fetchTwoFaSession);
@@ -24,12 +24,12 @@ export default function TwoFa(): ReactElement {
     if (!context.data.session) return;
     if (data.otp && data.webauth.availableKeys.length === 0) {
       console.log("Redirect updated");
-      router.push("/otp");
+      router.push("/2fa/otp");
       return;
     }
     if (!data.otp && data.webauth.availableKeys.length > 0) {
       console.log("Redirect updated");
-      router.push("/webauth");
+      router.push("/2fa/webauth");
     }
     if (data.otp && data.webauth.availableKeys.length > 0) {
       setChoose(true);
@@ -45,10 +45,10 @@ export default function TwoFa(): ReactElement {
       <div>
         <p>2fa_required</p>
         <ButtonContainer>
-          <Link href="/webauth">
+          <Link href="/2fa/webauth">
             <Button>private_key</Button>
           </Link>
-          <Link href="/otp">
+          <Link href="/2fa/otp">
             <Button>otp</Button>
           </Link>
         </ButtonContainer>

@@ -26,7 +26,7 @@ const App = ({ Component, pageProps, theme }): ReactElement => {
     setCookie("theme", themeValue.theme === "light" ? "dark" : "light");
   }, [setCookie, themeValue.theme]);
 
-  const [data, setTwoFaData] = useState<TwoFAContextData>(null);
+  const [data, setTwoFaData] = useState<TwoFAContextData>({ session: null });
 
   return (
     <CookiesProvider>

@@ -6,10 +6,10 @@ import React, {
   useState,
 } from "react";
 import Loader from "react-loaders";
-import styles from "../styles/pages/consent.module.scss";
-import { askWebAuthLogin } from "../lib/api/webauth";
-import { Button } from "../components/button";
-import { TwoFAContext } from "../contexts/2FAContext";
+import styles from "../../styles/pages/consent.module.scss";
+import { askWebAuthLogin } from "../../lib/api/webauth";
+import { Button } from "../../components/button";
+import { TwoFAContext } from "../../contexts/2FAContext";
 
 export default function Login(): ReactElement {
   const { data } = useContext(TwoFAContext);
