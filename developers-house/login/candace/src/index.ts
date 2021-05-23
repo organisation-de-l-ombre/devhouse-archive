@@ -11,6 +11,7 @@ import { RegisterSession } from "./routes/register/types";
 import { TwoFASession } from "./routes/2fa/types";
 import { registerSubmit } from "./routes/register/submit";
 import { twoFaStart } from "./routes/2fa/start";
+import { twoFaSubmit } from "./routes/2fa/submit";
 const server = fastify({
   logger: true
 });
@@ -37,6 +38,7 @@ server.route(loginStart);
 server.route(loginCallback);
 server.route(registerSubmit);
 server.route(twoFaStart);
+server.route(twoFaSubmit);
 
 server.get("/_healz", (request, response) => {
   void response.code(200).send();

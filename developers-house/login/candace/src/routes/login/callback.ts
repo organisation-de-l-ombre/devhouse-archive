@@ -71,7 +71,8 @@ export const loginCallback: RouteOptions = {
         if (data.user) {
           request.session.twoFa = {
             user: data.user,
-            challenge: login.challenge
+            challenge: login.challenge,
+            login: { platform_id: user.id, platform_name: provider },
           };
           delete request.session.login;
           return response.redirect("/dialog/2fa");
