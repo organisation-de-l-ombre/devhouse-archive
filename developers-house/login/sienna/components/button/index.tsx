@@ -27,15 +27,18 @@ const event = (
   }
 };
 
-export const Button: React.FC<React.DetailedHTMLProps<
-  React.ButtonHTMLAttributes<HTMLButtonElement>,
-  HTMLButtonElement
->> = (props) => {
+export const Button: React.FC<
+  React.DetailedHTMLProps<
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  >
+> = ({ onClick, ...props }) => {
   return (
     <button
       {...props}
+      type="button"
       className={styles.button}
-      onClick={event(props.onClick)}
+      onClick={event(onClick)}
     />
   );
 };

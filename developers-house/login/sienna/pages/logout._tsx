@@ -1,0 +1,49 @@
+import React, { ReactElement, useCallback, useState } from "react";
+import { useRouter } from "next/router";
+import { Button, ButtonContainer } from "../components/button";
+
+export default function Logout(): ReactElement {
+  const router = useRouter();
+  const [done, setDone] = useState(false);
+
+  const submit = useCallback(async () => {
+    const response = await fetch("/dialog/api/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "same-origin",
+      body: JSON.stringify({
+        challenge: logoutChallenge,
+      }),
+    });
+    if (response.ok) {
+      const json = await response.json();
+      if (json.code === 200) {
+        await router.push(json.redirect);
+      }
+    }
+  }, [logoutChallenge, router]);
+
+  if (done) {
+    window.close();
+    return <p>You can close this window.</p>;
+  }
+
+  return (
+    <div>
+      <h2>Logout</h2>
+      <br />
+      <p>
+        Are you sure you want to logout ?
+        <i>
+          This will <u>not</u> revoke the authorizations.
+        </i>
+      </p>
+      <ButtonContainer horizontal>
+        <Button onClick={submit}>Accept</Button>
+        <Button onClick={() => setDone(true)}>Reject</Button>
+      </ButtonContainer>
+    </div>
+  );
+}

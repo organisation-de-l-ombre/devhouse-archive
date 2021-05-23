@@ -1,103 +1,59 @@
-import {GetServerSidePropsContext, GetServerSidePropsResult} from "next";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useCallback } from "react";
+import { useRouter } from "next/router";
+import Loader from "react-loaders";
 import { Button, ButtonContainer } from "../components/button";
-import {AdminAPI, validateHydraResponse} from "../lib/service/hydra";
-import {Providers} from "../lib/service/providers";
+import { fetchLogin, LoginFetchResponse } from "../lib/api/login";
+import styles from "../styles/pages/consent.module.scss";
+import { usePageState } from "../lib/usePageState";
 
-type Props = {
-  platforms: string[];
-  client: {
-    name: string;
-  };
-  loginChallenge: string;
-  htmlClass: string;
-};
+export default function Login(): ReactElement {
+  const router = useRouter();
 
-export default function Login(props: Props): ReactElement {
+  const fetchingFunction = useCallback(async () => {
+    const challenge = router.query.login_challenge as string;
+    if (challenge) {
+      return fetchLogin(challenge);
+    }
+    throw new Error("No challenge specified.");
+  }, [router.query.login_challenge]);
 
-  const {
-    client,
-      loginChallenge,
-      platforms,
-  } = props;
+  const { error, data, loading } = usePageState<LoginFetchResponse>(
+    fetchingFunction
+  );
+
+  if (loading) {
+    return (
+      <div className={styles["loader-root"]}>
+        <Loader type="line-scale" innerClassName={styles.loader} active />
+        <p>Loading the resource you requested...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <p>{error.message}</p>;
+  }
 
   return (
     <div>
       <h2>Login page</h2>
+      <br />
       <p>
-        Welcome to <b>Developer's House!</b> To continue, you need to login to
-        your account or create one. Our system does not accepts password / email
-        login for security reasons and we propose a variety of login providers
-        available to you. You must login to continue to <b>{ client.name }</b>
+        Welcome to <b>Developer&rsquo;s House!</b> To continue, you need to
+        login to your account or create one. Our system does not accepts
+        password / email login for security reasons and we propose a variety of
+        login providers available to you. You must login to continue to{" "}
+        <u>{data.clientName}</u>
       </p>
       <ButtonContainer>
-        {platforms.map((name) => {
-          return (
-            <a
-              key={name}
-              href={`/dialog/api/auth/initialize/${loginChallenge}/${name.toLowerCase()}`}
-            >
-              <Button>{name}</Button>
-            </a>
-          );
-        })}
+        {data.platforms.map((platform) => (
+          <a href={platform.url}>
+            <Button style={{ background: platform.color }} key={platform.name}>
+              {platform.name}
+            </Button>
+          </a>
+        ))}
       </ButtonContainer>
     </div>
   );
-}
-
-/*
- * The props rendered in the server.
- */
-export async function getServerSideProps(context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<Props>> {
-  // Unpack
-  const {
-    query,
-  } = context;
-
-  let loginChallenge: string | string[] = query.login_challenge;
-  if (Array.isArray(loginChallenge)) {
-    loginChallenge = loginChallenge[0];
-  }
-  // Get the requested login request & the information related to it.
-  if (loginChallenge) {
-
-    const {
-      client: { client_name, client_id },
-      request_url,
-        skip,
-        subject
-    } = await AdminAPI.getLoginRequest(
-      context.query.login_challenge as string
-    ).then(validateHydraResponse);
-
-    if (skip) {
-      const data = await AdminAPI.acceptLoginRequest(loginChallenge, {
-        subject,
-      }).then(validateHydraResponse);
-
-      return {
-        redirect: {
-          destination: data.redirect_to,
-          permanent: false,
-        },
-      };
-    }
-
-    const colorScheme = new URL(request_url).searchParams.get('cs');
-
-    return {
-      props: {
-        client: {
-          name: client_name || client_id,
-        },
-        htmlClass: colorScheme === 'dark' ? 'dark' : 'light',
-        platforms: Array.from(Providers.keys()),
-        loginChallenge: loginChallenge,
-      },
-    };
-  }
-  return {
-    notFound: true,
-  };
 }

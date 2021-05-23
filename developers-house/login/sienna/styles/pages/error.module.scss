@@ -1,0 +1,14 @@
+.error {
+  display: flex;
+  flex-direction: column;
+
+  p, code { margin-top: 1rem; }
+
+  p a {
+    color: var(--link-color);
+
+    &:hover { text-decoration: underline; }
+  }
+
+  code { padding: .5rem; }
+}
