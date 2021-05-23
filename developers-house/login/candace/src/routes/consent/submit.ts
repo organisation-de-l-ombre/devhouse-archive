@@ -38,6 +38,8 @@ export const consentSubmit: RouteOptions = {
         ? {
             grant_access_token_audience: consent.audiences,
             grant_scope: consent.scopes,
+            remember: true,
+            remember_for: 0,
             session: {
               id_token: {
                 ...user,
@@ -49,7 +51,7 @@ export const consentSubmit: RouteOptions = {
         : {}
     );
     if (status === 200) {
-      delete request.session.consent;
+      await new Promise((resolve) => request.destroySession(resolve));
       void response.code(200).send({ redirect: data.redirect_to });
       return;
     }

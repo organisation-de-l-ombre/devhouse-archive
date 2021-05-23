@@ -2,7 +2,7 @@
  * Starts a consent session using a consent_challenge.
  */
 import { FastifyReply, FastifyRequest, RouteOptions } from "fastify";
-import { Admin } from "../../utils/apis";
+import { Admin, UserAPI } from "../../utils/apis";
 import { AxiosResponse } from "axios";
 import { ConsentRequest } from "@ory/hydra-client";
 
@@ -39,6 +39,20 @@ export const consentStart: RouteOptions = {
       status
     }: AxiosResponse<ConsentRequest> = await Admin.getConsentRequest(challenge);
     if (status === 200) {
+      if (data.skip) {
+        const { data: user } = await UserAPI.getUser(data.subject as string);
+        await Admin.acceptConsentRequest(challenge, {
+          grant_access_token_audience: data.requested_access_token_audience,
+          grant_scope: data.requested_scope,
+          session: {
+            id_token: {
+              ...user,
+              _private: undefined,
+              private: user._private
+            }
+          }
+        });
+      }
       request.session.consent = {
         audiences: data.requested_access_token_audience as string[],
         scopes: data.requested_scope as string[],
