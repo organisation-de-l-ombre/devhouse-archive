@@ -12,7 +12,7 @@ export interface ConsentFetchResponse {
 }
 export const PREFIX =
   process.env.NODE_ENV === "development"
-    ? "https://auth-server.matthieu-dev.xyz"
+    ? "https://auth-server.developershouse.xyz"
     : "";
 
 export async function fetchConsent(
