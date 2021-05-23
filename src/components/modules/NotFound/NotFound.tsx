@@ -1,19 +1,21 @@
 import React from "react";
+import { css } from "@emotion/react";
 import { useTranslation, Trans } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import globalStyles from "@themes/Global.module.scss";
 import { FunctionComponent } from "@typings/FunctionComponent";
-import { Card, FlexContainer, buttonStyles, ButtonsGroup } from "../../ui";
-import styles from "./NotFound.module.scss";
+import { Card, FlexContainer, ButtonsGroup } from "../../ui";
 
 const NotFound: FunctionComponent<HTMLDivElement> = () => {
   const { t } = useTranslation("components\\notFound");
 
   return (
-    <FlexContainer
-      className={`${globalStyles["min-height"]} ${globalStyles["secondary-padding"]} ${globalStyles["alignment-full-center"]}`}
-    >
-      <Card className={`${styles.card} ${globalStyles["animation-opacity"]}`}>
+    <FlexContainer minHeight padding expand fullCentered>
+      <Card
+        maxWidth
+        transparent
+        className={globalStyles["opacity-display-animation"]}
+      >
         <h1>
           <Trans t={t} i18nKey="title" />
         </h1>
@@ -21,11 +23,17 @@ const NotFound: FunctionComponent<HTMLDivElement> = () => {
         <p>
           <Trans t={t} i18nKey="description" />
         </p>
-        <ButtonsGroup>
-          <NavLink className={buttonStyles["button-styles"]} to="/">
+        <ButtonsGroup
+          css={css`
+            a {
+              margin-top: 1.5rem;
+            }
+          `}
+        >
+          <NavLink to="/">
             <Trans t={t} i18nKey="homePage" />
           </NavLink>
-          <NavLink className={buttonStyles["button-styles"]} to="/support">
+          <NavLink to="/support">
             <Trans t={t} i18nKey="supportPage" />
           </NavLink>
         </ButtonsGroup>

@@ -31,7 +31,10 @@ const useAuthorizationsError = (): ((error?: Error) => Error) => {
   };
 };
 
-const useAuthorizations = (): UseQueryResult<Authorization[] | undefined> => {
+const useAuthorizations = (): UseQueryResult<
+  Authorization[] | undefined,
+  Response
+> => {
   useAuthorizationsError();
 
   return useQuery("account/authorizations", () =>

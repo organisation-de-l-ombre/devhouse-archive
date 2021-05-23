@@ -8,7 +8,7 @@ import { useNotificationsState } from "@hooks/useNotifications";
 import themes from "@themes/Themes.module.scss";
 import { NotificationsGroup, NotificationsModal } from "@components/ui";
 import i18n from "@languages/i18n";
-import { Error, ApplicationRouter } from "@components/modules";
+import { RootError, ApplicationRouter } from "@components/modules";
 import { Helmet } from "react-helmet";
 import globalStyles from "@themes/Global.module.scss";
 import { I18nextProvider } from "react-i18next";
@@ -35,7 +35,7 @@ const Application: FC = () => {
 
   return (
     <I18nextProvider i18n={i18n}>
-      <ErrorBoundary FallbackComponent={Error}>
+      <ErrorBoundary FallbackComponent={RootError}>
         <Helmet htmlAttributes={{ lang: language }}>
           <title>IMR</title>
         </Helmet>

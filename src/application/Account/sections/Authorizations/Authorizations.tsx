@@ -6,7 +6,7 @@ import { MdRefresh } from "react-icons/md";
 import { Authorization } from "@developers-house/abdera";
 import { useAuthorizations } from "@hooks/API/useAuthorizations";
 import { FlexContainer, Button, Card, ButtonsGroup } from "@components/ui";
-import { Error } from "@components/modules";
+import { ErrorComponent } from "@components/modules";
 import globalStyles from "@themes/Global.module.scss";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import AuthorizationCard from "./AuthorizationCard";
@@ -14,11 +14,13 @@ import styles from "./Authorizations.module.scss";
 import containerStyle from "../../Containers.module.scss";
 
 const Authorizations: FunctionComponent<HTMLDivElement> = () => {
-  const { isError, isLoading, isFetching, data, refetch } = useAuthorizations();
+  const { error, isLoading, isFetching, data, refetch } = useAuthorizations();
   const { t } = useTranslation("pages\\account\\sections\\authorizations");
 
-  if (isError) {
-    return <Error />;
+  if (error) {
+    return (
+      <ErrorComponent errorMessage="Failed to fetch authorizations from the server. Try to reload the page, or to log you in again." />
+    );
   }
 
   if (!data) {

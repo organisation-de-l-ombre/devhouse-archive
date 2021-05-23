@@ -112,6 +112,7 @@
   "scripts": {
     "format": "prettier --write src/**/*.ts{,x}",
     "lint": "tsc --noEmit && eslint src/**/*.ts{,x} --fix",
+    "csslint": "stylelint src/**/.{s}css",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js"
@@ -160,11 +161,13 @@
     "eslint-plugin-woke": "^1.0.0",
     "jest-environment-jsdom-fourteen": "^1.0.1",
     "prettier": "^2.2.1",
+    "stylelint": "^13.13.1",
+    "stylelint-config-sass-guidelines": "^8.0.0",
+    "stylelint-config-standard": "^22.0.0",
+    "stylelint-order": "^4.1.0",
+    "stylelint-scss": "^3.19.0",
     "tsconfig-paths-webpack-plugin": "^3.5.1",
     "typescript": "^4.2.3",
     "webpack-bundle-analyzer": "^4.4.0"
-  },
-  "resolutions": {
-    "styled-components": "^5"
   }
 }
