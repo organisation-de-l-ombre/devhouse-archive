@@ -1,0 +1,23 @@
+.loader-root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+    .loader {
+      div { background-color: var(--text-color-button); }
+    }
+  
+    p { margin-top: 1rem; }
+  }
+
+.login {
+    display: flex;
+    flex-direction: column;
+
+    p { margin-top: 1rem; }
+
+    a {
+        color: white;
+        text-align: center;
+    }
+}

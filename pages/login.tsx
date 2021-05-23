@@ -1,7 +1,8 @@
 import React, { ReactElement, useCallback } from "react";
 import { useRouter } from "next/router";
 import Loader from "react-loaders";
-import { Button, ButtonContainer } from "../components/button";
+import Head from "next/head";
+import { ButtonContainer, ButtonLink } from "../components/button";
 import { fetchLogin, LoginFetchResponse } from "../lib/api/login";
 import styles from "../styles/pages/consent.module.scss";
 import { usePageState } from "../lib/usePageState";
@@ -36,6 +37,9 @@ export default function Login(): ReactElement {
 
   return (
     <div>
+      <Head key="login-page">
+        <title>Sienna - Login</title>
+      </Head>
       <h2>Login page</h2>
       <br />
       <p>
@@ -47,11 +51,13 @@ export default function Login(): ReactElement {
       </p>
       <ButtonContainer>
         {data.platforms.map((platform) => (
-          <a href={platform.url}>
-            <Button style={{ background: platform.color }} key={platform.name}>
-              {platform.name}
-            </Button>
-          </a>
+          <ButtonLink
+            href={platform.url}
+            style={{ background: platform.color }}
+            key={platform.name}
+          >
+            {platform.name}
+          </ButtonLink>
         ))}
       </ButtonContainer>
     </div>

@@ -1,0 +1,10 @@
+{
+    "short_name": "Sienna",
+    "name": "Sienna",
+    "description": "The authentication system for Developer's House services.",
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#ffffff"
+  }
+  
