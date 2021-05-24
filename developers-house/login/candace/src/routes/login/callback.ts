@@ -65,11 +65,6 @@ export const loginCallback: RouteOptions = {
           "/dialog/error?error_message=" +
           encodeURIComponent("Couldn't access this account.")
         );
-      case InlineResponse200StatusEnum.UnknownUser: // Bad request
-        return response.redirect(
-          "/dialog/error?error_message=" +
-          encodeURIComponent("internal: Scarlet returned unknown user.")
-        );
       case InlineResponse200StatusEnum.TwoFactorRequired: // 2FA Required.
         if (data.user) {
           request.session.twoFa = {
