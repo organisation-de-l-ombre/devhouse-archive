@@ -29,15 +29,16 @@ paths:
         500:
           description: The service contains a problem.
 
-  "/user/{id}":
+  "/user/{user}":
     parameters:
       - in: path
         required: true
         name: id
         schema:
           type: string
-          pattern: uuidv4
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     get:
+      description: Fetch a user using his id.
       operationId: getUser
       tags:
         - user
@@ -49,13 +50,15 @@ paths:
               schema:
                 $ref: "#/components/schemas/User"
         404:
-          description: The user is banned or not existent.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          description: Unable to find the user ressource.
+        403:
+          description: You are not authorized.
+        500:
+          description: An internal error occured.
+
     patch:
-      operationId: patchUser
+      operationId: editUser
+      description: Edits a user.
       tags:
         - user
       requestBody:
@@ -64,31 +67,25 @@ paths:
             schema:
               $ref: "#/components/schemas/UserUpdate"
       responses:
-        200:
-          description: Edits a user
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
+        202:
+          description: The user was edited.
         404:
-          description: The user is banned or not existent.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          description: Unable to find the user ressource.
+        500:
+          description: An internal error occured.
+
     delete:
       operationId: deleteUser
+      description: Delete a user DO NOT USE. CALL CRYIR.
       tags:
         - user
       responses:
         200:
-          description: User deleted.
+          description: User was deleted.
         404:
-          description: The user is banned or not existent.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          description: Unable to find the user ressource.
+        500:
+          description: An internal error occured.
 
   "/user":
     post:
@@ -108,11 +105,34 @@ paths:
               schema:
                 $ref: "#/components/schemas/User"
         500:
-          description: The service contains a problem.
+          description: An internal error occured.
+
+  "/user/{user}/totp":
+    parameters:
+      - in: path
+        name: user
+        required: true
+        schema:
+          type: string
+    put:
+      tags:
+        - links
+      description: Generate a TOTP key and link it to the account.
+      operationId: generateTOTP
+      responses:
+        200:
+          description: The TOTP account key was generated.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                title: GenerateTotpResponse
+                properties:
+                  secret:
+                    type: string
+        404:
+          description: Unable to find the user ressource.
+        500:
+          description: An internal error occured.
 
   "/user/{user}/links":
     parameters:
@@ -124,6 +144,7 @@ paths:
 
     get:
       operationId: getUserLinks
+      description: Gets the user linked accounts.
       tags:
         - links
       responses:
@@ -135,8 +156,14 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Link"
+        404:
+          description: Unable to find the user ressource.
+        500:
+          description: An internal error occured.
+
     put:
       operationId: addUserLink
+      description: Add a link to the user. DO NOT USE, USE CANDACE INSTEAD.
       tags:
         - links
       requestBody:
@@ -151,6 +178,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Link"
+        404:
+          description: Unable to find the user ressource.
+        500:
+          description: An internal error occured.
+
   "/user/{user}/links/{link}":
     parameters:
       - in: path
@@ -165,11 +197,16 @@ paths:
           type: string
     delete:
       operationId: deleteUserLink
+      description: Deleta a linked account by id.
       tags:
         - links
       responses:
         200:
           description: Succesfully deleted the link
+        404:
+          description: The user does not exists.
+        500:
+          description: Internal server error.
 
   "/user/{user}/webauth":
     parameters:
@@ -179,7 +216,8 @@ paths:
         schema:
           type: string
     get:
-      operationId: getUserWebAuth
+      operationId: getUserWebAuthKeys
+      description: List all the linked public keys of the user.
       tags:
         - webauth
       responses:
@@ -191,8 +229,14 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/WebAuthKey"
+        404:
+          description: The user does not exists.
+        500:
+          description: Internal server error.
+
     put:
-      operationId: addUserWebauth
+      operationId: addUserWebAuthKey
+      description: Add all the linked public keys of the user.
       tags:
         - webauth
       requestBody:
@@ -201,12 +245,13 @@ paths:
             schema:
               $ref: "#/components/schemas/WebAuthCreate"
       responses:
-        200:
+        202:
           description: Created a webauth key.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/WebAuthKey"
+        404:
+          description: The user does not exists.
+        500:
+          description: Internal server error.
+
   "/user/{user}/webauth/{key}":
     parameters:
       - in: path
@@ -220,30 +265,17 @@ paths:
         schema:
           type: string
     delete:
-      operationId: deleteUserWebAuth
+      operationId: deleteUserWebAuthKey
+      description: Delete a webauth key by id.
       tags:
         - webauth
       responses:
-        200:
+        202:
           description: Deleted a key.
-  "/user/{user}/totp":
-    parameters:
-      - in: path
-        name: user
-        required: true
-        schema:
-          type: string
-    put:
-      operationId: enableTOTP
-      responses:
-        200:
-          description: Enabled the totp on this account.
-          content:
-            application/json:
-              schema:
-                properties:
-                  secret:
-                    type: string
+        404:
+          description: The user does not exists.
+        500:
+          description: Internal server error.
 
   "/login":
     post:
@@ -263,21 +295,22 @@ paths:
               schema:
                 type: object
                 properties:
-                  code:
-                    type: number
+                  status:
+                    type: string
+                    title: LoginStatus
                     enum:
-                      - 1
-                      - 2
-                      - 3
-                      - 4
-                      - 5
-                      - 6
-                      - 153
-                      - 200
+                      - UNKNOWN_USER
+                      - TWO_FACTOR_REQUIRED
+                      - SUCCESS
+                      - FAILED
                   user:
                     $ref: "#/components/schemas/User"
                 required:
-                  - code
+                  - status
+        404:
+          description: The user does not exists.
+        500:
+          description: Internal server error.
 
 components:
   schemas:
@@ -332,7 +365,7 @@ components:
       required:
         - id
         - username
-        - private
+        - pub
         - roles
         - avatar
         - a2f
@@ -345,7 +378,7 @@ components:
         username:
           type: string
           description: The username of the user.
-        private:
+        pub:
           type: boolean
           description: Is the user account a private account?
         roles:
@@ -376,7 +409,7 @@ components:
         - platform
         - platform_id
         - username
-        - private
+        - pub
         - avatar
       properties:
         platform:
@@ -388,7 +421,7 @@ components:
         username:
           description: The username of the new user.
           type: string
-        private:
+        pub:
           description: Is the account public by default
           type: boolean
         avatar:
@@ -402,9 +435,9 @@ components:
         username:
           description: The new username of the user.
           type: string
-        private:
+        pub:
           description: The new private setting of the user.
-          type: string
+          type: boolean
         roles:
           description: The new role of the user.
           type: integer
@@ -483,10 +516,3 @@ components:
           properties:
             code:
               type: integer
-    Error:
-      type: object
-      properties:
-        code:
-          type: number
-        message:
-          type: string

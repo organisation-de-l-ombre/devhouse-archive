@@ -2,11 +2,13 @@ use crate::database::schema::users;
 use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
+use serde;
 
 #[derive(Queryable, Identifiable, Serialize, Deserialize, Clone)]
 pub struct User {
     pub id: Uuid,
     pub username: String,
+    #[serde(rename = "pub")]
     pub private: bool,
     pub roles: i32,
     pub ban: Option<String>,
@@ -22,6 +24,7 @@ pub struct User {
 #[table_name = "users"]
 pub struct UserUpdate {
     pub username: Option<String>,
+    #[serde(rename = "pub")]
     pub private: Option<bool>,
     pub ban: Option<Option<String>>,
     pub roles: Option<i32>,
