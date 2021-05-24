@@ -35,8 +35,7 @@ export const registerSubmit: RouteOptions = {
     if (user.term && user.name.length > 3 && user.name.length < 33) {
       await new Promise((resolve) => request.destroySession(resolve));
       const resp = await fetch(
-        `${
-          process.env.ELLIE_ENDPOINT as string
+        `${process.env.ELLIE_ENDPOINT as string
         }/avatar-link?link=${encodeURIComponent(register.user.avatarURL)}`
       );
       if (resp.ok) {
@@ -61,7 +60,10 @@ export const registerSubmit: RouteOptions = {
           }
         );
 
-        return response.send({ redirect: redirect.redirect_to });
+        return response.send({
+          redirect: redirect.redirect_to,
+          error: false,
+        });
       }
       throw new CandaceError("500", "ELLIE_FAIL", "Ellie failed to process the user profile picture.");
     } else {

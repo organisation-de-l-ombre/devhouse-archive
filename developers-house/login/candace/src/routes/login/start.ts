@@ -43,7 +43,10 @@ export const loginStart: RouteOptions = {
             autoLogin: true
           }
         });
-        void response.code(200).send({ redirect: redirect.redirect_to });
+        void response.code(200).send({
+          redirect: redirect.redirect_to,
+          error: false,
+        });
         return;
       }
       request.session.login = {
@@ -56,7 +59,8 @@ export const loginStart: RouteOptions = {
           ...x.meta(),
           url: x.getRedirectUri(state, `https://${request.headers.host || ""}`)
         })),
-        clientName: data.client?.client_name
+        clientName: data.client?.client_name,
+        error: false,
       });
       return;
     }

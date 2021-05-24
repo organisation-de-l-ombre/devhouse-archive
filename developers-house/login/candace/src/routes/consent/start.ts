@@ -59,7 +59,10 @@ export const consentStart: RouteOptions = {
             id_token: user,
           }
         });
-        void response.code(200).send({ redirect: redirect.data.redirect_to });
+        void response.code(200).send({
+          redirect: redirect.data.redirect_to,
+          error: false,
+        });
       }
       request.session.consent = {
         audiences: data.requested_access_token_audience as string[],
@@ -74,7 +77,8 @@ export const consentStart: RouteOptions = {
         tos: data.client?.tos_uri,
         image: data.client?.logo_uri,
         owner: data.client?.owner,
-        contact: data.client?.contacts
+        contact: data.client?.contacts,
+        error: false,
       });
       return;
     }

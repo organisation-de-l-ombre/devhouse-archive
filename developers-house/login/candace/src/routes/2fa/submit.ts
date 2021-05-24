@@ -58,7 +58,10 @@ export const twoFaSubmit: RouteOptions = {
                     remember_for: 3600
                 }
             );
-            void response.code(200).send({ redirect: redirect.redirect_to });
+            void response.code(200).send({
+                redirect: redirect.redirect_to,
+                error: false,
+            });
             return;
         }
         throw new CandaceError("400", "FAILED_2FA_C_LOGIN", "Failed to login-in using the provided user & credentials.");

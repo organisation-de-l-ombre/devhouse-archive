@@ -26,14 +26,14 @@ export const loginCallback: RouteOptions = {
     if (!login) {
       return response.redirect(
         "/dialog/error?error_message=" +
-          encodeURIComponent("Invalid session.")
+        encodeURIComponent("Invalid session.")
       );
     }
 
     if (login.state !== state) {
       return response.redirect(
         "/dialog/error?error_message=" +
-          encodeURIComponent("Failed to validate state.")
+        encodeURIComponent("Failed to validate state.")
       );
     }
 
@@ -41,7 +41,7 @@ export const loginCallback: RouteOptions = {
     if (!instance) {
       return response.redirect(
         "/dialog/error?error_message=" +
-          encodeURIComponent("Invalid loginn provider specified.")
+        encodeURIComponent("Invalid loginn provider specified.")
       );
     }
 
@@ -63,12 +63,12 @@ export const loginCallback: RouteOptions = {
       case InlineResponse200StatusEnum.Failed: // Banned account
         return response.redirect(
           "/dialog/error?error_message=" +
-            encodeURIComponent("Couldn't access this account.")
+          encodeURIComponent("Couldn't access this account.")
         );
       case InlineResponse200StatusEnum.UnknownUser: // Bad request
         return response.redirect(
           "/dialog/error?error_message=" +
-            encodeURIComponent("internal: Scarlet returned unknown user.")
+          encodeURIComponent("internal: Scarlet returned unknown user.")
         );
       case InlineResponse200StatusEnum.TwoFactorRequired: // 2FA Required.
         if (data.user) {
@@ -81,7 +81,7 @@ export const loginCallback: RouteOptions = {
         } else {
           return response.redirect(
             "/dialog/error?error_message=" +
-              encodeURIComponent("internal: Scarlet returned invalid response for 2fa user.")
+            encodeURIComponent("internal: Scarlet returned invalid response for 2fa user.")
           );
         }
         break;
@@ -93,9 +93,9 @@ export const loginCallback: RouteOptions = {
         delete request.session.login;
         return response.redirect(
           "/dialog/register?username=" +
-            encodeURIComponent(user.username) +
-            "&avatar=" +
-            encodeURIComponent(user.avatarURL)
+          encodeURIComponent(user.username) +
+          "&avatar=" +
+          encodeURIComponent(user.avatarURL)
         );
       case InlineResponse200StatusEnum.Success: // User successful
         if (data.user) {
@@ -115,7 +115,7 @@ export const loginCallback: RouteOptions = {
         } else {
           return response.redirect(
             "/dialog/error?error_message=" +
-              encodeURIComponent("internal: Scarlet returned invalid response for 2fa user.")
+            encodeURIComponent("internal: Scarlet returned invalid response for 2fa user.")
           );
         }
         break;
