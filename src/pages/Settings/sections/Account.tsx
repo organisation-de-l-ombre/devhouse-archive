@@ -1,15 +1,7 @@
-/*
- * The Error page displayed to the user when the website crashes.
- */
-
 import React, { FC, useCallback, useState } from "react";
 import { Formik } from "formik";
 import { Button } from "components/new/Button/Button";
-import {
-  arrayBufferToBase64,
-  base64ToArrayBuffer,
-  requestKeyAdd,
-} from "utilities/webauthn";
+import { arrayBufferToBase64, requestKeyAdd } from "utilities/webauthn";
 import { Stack } from "components/new/Stack/Stack";
 import { SmallLoader } from "components/SmallLoader/SmallLoader";
 import { randomBytes } from "crypto";
@@ -108,14 +100,17 @@ const WebAuthn: FC = () => {
     setAddLoading(true);
     // Reteive id from server.
     const id = randomBytes(256).toString("base64");
-    const key = await requestKeyAdd(id, user);
+    const key = await requestKeyAdd(id, user).catch(() => null);
 
     if (!key) {
+      // eslint-disable-next-line no-alert
       alert("Failed to register the key.");
       setAddLoading(false);
+      return;
     }
 
-    const data = key?.response as AuthenticatorAttestationResponse;
+    const data = key.response as AuthenticatorAttestationResponse;
+    // eslint-disable-next-line no-console
     console.log({
       key: key?.id,
       clientData: JSON.parse(new TextDecoder().decode(data.clientDataJSON)),
@@ -137,6 +132,8 @@ const WebAuthn: FC = () => {
           </div>
         )}
       </Button>
+
+      <Stack />
     </Card>
   );
 };

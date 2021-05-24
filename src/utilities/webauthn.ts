@@ -24,7 +24,7 @@ export const requestKeyAdd = (
   }) as Promise<PublicKeyCredential | null>;
 };
 
-export function arrayBufferToBase64(buffer: Buffer | ArrayBuffer) {
+export function arrayBufferToBase64(buffer: ArrayBufferLike): string {
   let binary = "";
   const bytes = new Uint8Array(buffer);
   const len = bytes.byteLength;
@@ -34,7 +34,7 @@ export function arrayBufferToBase64(buffer: Buffer | ArrayBuffer) {
   return window.btoa(binary);
 }
 
-export function base64ToArrayBuffer(base64: string) {
+export function base64ToArrayBuffer(base64: string): ArrayBufferLike {
   const binaryString = window.atob(base64);
   const len = binaryString.length;
   const bytes = new Uint8Array(len);

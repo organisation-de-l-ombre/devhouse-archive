@@ -6,7 +6,7 @@
     "dependencies": {
         "@babel/core": "7.12.3",
         "@babel/eslint-parser": "^7.13.14",
-        "@developers-house/abdera": "^1.4.0",
+        "@developers-house/abdera": "^1.5.0",
         "@developers-house/react-components": "^0.0.7",
         "@emotion/babel-plugin": "^11.3.0",
         "@emotion/babel-preset-css-prop": "^11.2.0",
