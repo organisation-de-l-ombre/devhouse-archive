@@ -4,7 +4,6 @@ use crate::database::schema::users::dsl::{id, users};
 use crate::database::user::{NewUser, User, UserUpdate, UserOtpKeyUpdate};
 use crate::diesel::RunQueryDsl;
 use crate::types::db_error::db_error;
-use crate::types::ScarletError;
 use crate::ScarletDB;
 use diesel::result::Error;
 use diesel::{ExpressionMethods, QueryDsl};
@@ -20,7 +19,7 @@ use base32::{ encode, Alphabet };
 /// Get a user information by id.
 /// Returns 403 if the user is banned.
 #[get("/user/<user>")]
-pub fn get_user_by_id(conn: ScarletDB, user: Uuid) -> Result<Json<User>, Json<ScarletError>> {
+pub fn get_user_by_id(conn: ScarletDB, user: Uuid) -> Result<Json<User>, Status> {
     let result: Result<User, diesel::result::Error> = users
         .filter(id.eq(uuid::Uuid::from_bytes(user.as_bytes()).unwrap()))
         .first::<User>(&*conn);
@@ -28,22 +27,11 @@ pub fn get_user_by_id(conn: ScarletDB, user: Uuid) -> Result<Json<User>, Json<Sc
     match result {
         Ok(user) => {
             if user.ban.is_some() {
-                return Err(Json(ScarletError {
-                    code: 0,
-                    message: "This user does not exists.".to_string(),
-                }));
+                return Err(Status::Unauthorized);
             }
             Ok(Json(user))
         }
-        Err(e) => {
-            match e {
-                Error::NotFound => Err(Json(ScarletError {
-                    code: 0,
-                    message: "This user does not exists.".to_string(),
-                })),
-                e => Err(Json(db_error(e)))
-            }
-        },
+        Err(e) => Err(db_error(e)),
     }
 }
 
@@ -55,7 +43,7 @@ pub fn patch_user_by_id(
     conn: ScarletDB,
     user: Uuid,
     update: Json<UserUpdate>,
-) -> Result<Status, Json<ScarletError>> {
+) -> Result<Status, Status> {
     let result: Result<usize, Error> = diesel::update(users)
         .filter(id.eq(uuid::Uuid::from_bytes(user.as_bytes()).unwrap()))
         .set(update.0)
@@ -63,17 +51,13 @@ pub fn patch_user_by_id(
 
     if result.is_ok() {
         if result.unwrap() == 0 {
-            return Err(Json(ScarletError{ code: 0, message: "This user does not exists".to_string() }))
+            return Err(Status::NotFound)
         }
         return Ok(Status::Accepted);
     }
     return
         match result.err().unwrap() {
-            Error::NotFound => Err(Json(ScarletError {
-                code: 0,
-                message: "This user does not exists.".to_string(),
-            })),
-            e => Err(Json(db_error(e)))
+            e => Err(db_error(e))
         }
 }
 
@@ -82,7 +66,7 @@ pub fn patch_user_by_id(
 /// call the cryir service to handle this
 /// kind of stuff.
 #[delete("/user/<user>")]
-pub fn delete_user_by_id(conn: ScarletDB, user: Uuid) -> Result<Status, Json<ScarletError>> {
+pub fn delete_user_by_id(conn: ScarletDB, user: Uuid) -> Result<Status, Status> {
     let result =
         diesel::delete(users.filter(id.eq(uuid::Uuid::from_bytes(user.as_bytes()).unwrap())))
             .execute(&*conn);
@@ -91,11 +75,7 @@ pub fn delete_user_by_id(conn: ScarletDB, user: Uuid) -> Result<Status, Json<Sca
         Ok(_) => Ok(Status::Ok),
         Err(e) => {
             match e {
-                Error::NotFound => Err(Json(ScarletError {
-                    code: 0,
-                    message: "This user does not exists.".to_string(),
-                })),
-                _ => Err(Json(db_error(e)))
+                e => Err(db_error(e))
             }
         },
     }
@@ -153,7 +133,7 @@ pub fn post_user(conn: ScarletDB, user: Json<CreateUserPayload>) -> Result<Json<
 }
 
 #[put("/user/<user>/totp")]
-pub fn enable_totp(conn: ScarletDB, user: Uuid) -> Result<Json<UserOtpKeyUpdate>, Json<ScarletError>> {
+pub fn enable_totp(conn: ScarletDB, user: Uuid) -> Result<Json<UserOtpKeyUpdate>, Status> {
     let random_bytes = rand::thread_rng().gen::<[u8; 20]>();
     let code: String = encode(Alphabet::RFC4648 { padding: false }, &random_bytes);
     let update = UserOtpKeyUpdate{ otpkey: Some(code) };
@@ -165,17 +145,13 @@ pub fn enable_totp(conn: ScarletDB, user: Uuid) -> Result<Json<UserOtpKeyUpdate>
 
     if result.is_ok() {        
         if result.unwrap() == 0 {
-            return Err(Json(ScarletError{ code: 0, message: "This user does not exists".to_string() }))
+            return Err(Status::NotFound)
         }
         return Ok(Json(update));
     }
     return
         match result.err().unwrap() {
-            Error::NotFound => Err(Json(ScarletError {
-                code: 0,
-                message: "This user does not exists.".to_string(),
-            })),
-            e => Err(Json(db_error(e)))
+            e => Err(db_error(e))
         }
 
 }
