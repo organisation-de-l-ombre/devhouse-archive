@@ -4,22 +4,28 @@
   z-index: 7;
   width: calc(100% - 1rem);
   height: 3.5rem;
-  padding: 0 .5rem;
+  padding: 0 0.5rem;
   display: flex;
   align-items: center;
   background-color: var(--primary-background-color);
-  box-shadow: 0 0 .3rem black;
+  box-shadow: 0 0 0.3rem black;
   position: sticky;
   top: 0;
 
   &.force-dark-mode {
     background-color: $MOVIE_HEADERS_SECONDARY_BACKGROUND;
 
-    * { color: white; }
+    * {
+      color: white;
+    }
 
-    .separator { background-color: white; }
+    .separator {
+      background-color: white;
+    }
 
-    .drawer { background-color: $MOVIE_HEADERS_SECONDARY_BACKGROUND; }
+    .drawer {
+      background-color: $MOVIE_HEADERS_SECONDARY_BACKGROUND;
+    }
   }
 
   .ripple {
@@ -38,7 +44,7 @@
       background-color: transparent;
 
       .branding {
-        margin-left: .5rem;
+        margin-left: 0.5rem;
         height: 100%;
         display: flex;
         align-items: center;
@@ -54,18 +60,22 @@
         }
       }
 
-      .hamburger { display: none; }
+      .hamburger {
+        display: none;
+      }
     }
   }
 
   .separator {
-    width: .15rem;
+    width: 0.15rem;
     height: 2rem;
     background-color: var(--font-color);
     border-radius: 5px;
   }
 
-  .drawer-backdrop { display: none; }
+  .drawer-backdrop {
+    display: none;
+  }
 
   .drawer {
     width: 100%;
@@ -81,9 +91,12 @@
         padding: 1rem;
         text-align: center;
         text-decoration: none;
-        transition: color .5s;
+        transition: color 0.5s;
 
-        &:hover, &.active { color: var(--font-color-hover); }
+        &:hover,
+        &.active {
+          color: var(--font-color-hover);
+        }
       }
     }
 
@@ -97,9 +110,13 @@
           transform: scale(1.25);
         }
 
-        span { transition: color .5s; }
+        span {
+          transition: color 0.5s;
+        }
 
-        &:hover span { color: var(--font-color-hover); }
+        &:hover span {
+          color: var(--font-color-hover);
+        }
       }
 
       .buttons {
@@ -111,14 +128,27 @@
         cursor: pointer;
         background-color: transparent;
 
-        svg, img {
+        svg {
+          transition: fill 500ms;
+        }
+
+        svg,
+        img {
           width: 25px;
           height: 25px;
         }
 
-        .search { transform: scale(1.25); }
+        .search {
+          transform: scale(1.25);
+        }
 
-        .switcher-span { display: none; }
+        .switcher-span {
+          display: none;
+        }
+
+        &:hover svg {
+          fill: var(--font-color-hover);
+        }
       }
     }
   }
@@ -137,15 +167,23 @@
         width: 100%;
         height: 100%;
 
-        .branding span { transition: .5s; }
+        .branding span {
+          transition: 0.5s;
+        }
 
-        .hamburger { display: unset;  }
+        .hamburger {
+          display: unset;
+        }
 
-        &:hover span { color: var(--font-color-hover); }
+        &:hover span {
+          color: var(--font-color-hover);
+        }
       }
     }
 
-    .separator { display: none; }
+    .separator {
+      display: none;
+    }
 
     .drawer-backdrop {
       display: unset;
@@ -165,7 +203,8 @@
       transform: translateX(-100%);
       transition: transform 300ms;
 
-      .start, .end {
+      .start,
+      .end {
         flex-direction: column;
         align-items: flex-start;
       }
@@ -177,32 +216,41 @@
       .drawer-backdrop {
         width: 100%;
         height: 100%;
-        opacity: .5;
+        opacity: 0.5;
         background-color: black;
       }
 
       .drawer {
         transform: translateX(0);
 
-        .start, .end {
-          a, button { width: 100%; }
+        .start,
+        .end {
+          a,
+          button {
+            width: 100%;
+          }
 
-          a { text-align: left; }
+          a {
+            text-align: left;
+          }
 
           .buttons {
             text-align: left;
 
             .switcher-span {
               display: unset;
-              transition: color .5s;
+              transition: color 0.5s;
             }
 
-            &:hover .switcher-span { color: var(--font-color-hover); }
+            &:hover .switcher-span {
+              color: var(--font-color-hover);
+            }
           }
         }
 
-        .end {
-          img, svg { margin-right: 1rem; }
+        .end img,
+        .end svg {
+          margin-right: 1rem;
         }
       }
     }

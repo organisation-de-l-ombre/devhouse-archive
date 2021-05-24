@@ -9,6 +9,7 @@ import {
   DrawerStart,
   MobileNavigation,
 } from "@components/modules/Navbar/Drawer";
+import classnames from "classnames";
 import { NotificationsModal, LanguageModal, RippleEffect } from "../../ui";
 import styles from "./Navbar.module.scss";
 
@@ -29,10 +30,6 @@ const Navbar: FC = () => {
     return null;
   }
 
-  const classes = `${styles.navbar} ${
-    pathname.startsWith("/movies/title") ? styles["force-dark-mode"] : ""
-  }${open ? ` ${styles.open}` : ""}`;
-
   return (
     <>
       <LanguageModal
@@ -43,7 +40,12 @@ const Navbar: FC = () => {
         open={notificationsWindowOpen}
         setOpen={setNotificationsWindowOpen}
       />
-      <nav className={classes}>
+      <nav
+        className={classnames(styles.navbar, {
+          [styles["force-dark-mode"]]: pathname.startsWith("/movies/title"),
+          [styles.open]: open,
+        })}
+      >
         <RippleEffect className={styles.ripple} onClick={manageNavbar}>
           <MobileNavigation open={open} />
         </RippleEffect>

@@ -1,61 +1,61 @@
 import React from "react";
 import { useTranslation, Trans } from "react-i18next";
+import classnames from "classnames";
+import { FunctionComponent } from "@typings/FunctionComponent";
 import styles from "./Summary.module.scss";
+import FlexContainer from "../FlexContainer/FlexContainer";
 
-const Summary: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLUListElement>,
-    HTMLUListElement
-  >
-> = ({ className, children }) => {
-  const { t } = useTranslation("components\\summary");
+const Summary: FunctionComponent<HTMLDivElement> = ({
+  className,
+  children,
+}) => {
+  const { t } = useTranslation("components\\ui\\summary\\summary");
   const [summaryOpen, setSummaryOpen] = React.useState<boolean>(true);
 
   return (
-    <div className={`${styles.summary}${className ? ` ${className}` : ""}`}>
-      <h2>
-        <Trans t={t} i18nKey="title" />
-      </h2>
-      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
-      <span onClick={() => setSummaryOpen(!summaryOpen)}>
-        {summaryOpen ? (
-          <Trans t={t} i18nKey="hide" />
-        ) : (
-          <Trans t={t} i18nKey="show" />
-        )}
-      </span>
+    <FlexContainer column className={classnames(styles.summary, className)}>
+      <FlexContainer verticallyCentered>
+        <h2>
+          <Trans t={t} i18nKey="title" />
+        </h2>
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+        <span onClick={() => setSummaryOpen(!summaryOpen)}>
+          [
+          {summaryOpen ? (
+            <Trans t={t} i18nKey="hide" />
+          ) : (
+            <Trans t={t} i18nKey="show" />
+          )}
+          ]
+        </span>
+      </FlexContainer>
       <ul
-        className={`${styles["summary-items"]}${
-          summaryOpen ? "" : ` ${styles.close}`
-        }`}
+        className={classnames(styles.items, { [styles.close]: !summaryOpen })}
       >
         {children}
       </ul>
-    </div>
+    </FlexContainer>
   );
 };
 
-const SubSummary: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLUListElement>,
-    HTMLUListElement
-  > & { to: string; name: string }
+const SubSummary: FunctionComponent<
+  HTMLLIElement,
+  {
+    to: string;
+    name: string;
+  }
 > = ({ className, to, name, children }) => {
   return (
-    <li
-      className={`${styles["sub-summary"]}${className ? ` ${className}` : ""}`}
-    >
+    <li className={classnames(styles["sub-summary"], className)}>
       <a href={to}>{name}</a>
       <ul>{children}</ul>
     </li>
   );
 };
 
-const SummaryItem: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLLIElement>,
-    HTMLLIElement
-  > & { to: string; name: string }
+const SummaryItem: FunctionComponent<
+  HTMLLIElement,
+  { to: string; name: string }
 > = ({ className, to, name }) => {
   return (
     <li className={className}>
