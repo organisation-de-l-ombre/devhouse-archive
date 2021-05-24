@@ -1,15 +1,13 @@
 {
-    "compilerOptions": {
-      "esModuleInterop": true,
-      "moduleResolution": "Node",
-      "outDir": "dist",
-      "target": "ES5"
-    },
-    "include": [
-      "."
-    ],
-    "exclude": [
-      "./node_modules"
-    ]
-  }
-  
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "declaration": true,
+    "outDir": "./dist",
+    "strict": true,
+    "lib": ["dom"],
+    "esModuleInterop": true
+  },
+  "include": ["."],
+  "exclude": ["node_modules", "**/__tests__/*"]
+}
