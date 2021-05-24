@@ -98,12 +98,12 @@ pub fn do_user_login(data: LoginDataPost, db: ScarletDB) -> Result<LoginStatusRe
                         } else if with_webauthn.is_some() {
                             Ok(LoginStatusReponse {
                                 user: Some(user.clone()),
-                                status: LoginStatus::TwoFactorRequired
+                                status: LoginStatus::Failed
                             })
                         } else {
                             Ok(LoginStatusReponse {
                                 user: Some(user.clone()),
-                                status: LoginStatus::Success
+                                status: LoginStatus::TwoFactorRequired
                             })
                         }
                     } else {
