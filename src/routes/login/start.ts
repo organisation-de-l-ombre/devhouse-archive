@@ -7,6 +7,7 @@ import { AxiosResponse } from "axios";
 import { ConsentRequest } from "@ory/hydra-client";
 import { randomBytes } from "crypto";
 import { Providers } from "../../providers";
+import { CandaceError } from "../../utils/error";
 
 export const loginStart: RouteOptions = {
   schema: {
@@ -59,6 +60,6 @@ export const loginStart: RouteOptions = {
       });
       return;
     }
-    void response.code(404).send({ code: 404, message: "No challenge." });
+    throw new CandaceError("400", "INVALID_CHALLENGE_LOGIN", "Invalid login challenge was specified.");
   }
 };
