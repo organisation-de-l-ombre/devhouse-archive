@@ -2,9 +2,17 @@
  * The Error page displayed to the user when the website crashes.
  */
 
-import React, { FC, ReactElement } from "react";
+import React, { FC, useCallback, useState } from "react";
 import { Formik } from "formik";
 import { Button } from "components/new/Button/Button";
+import {
+  arrayBufferToBase64,
+  base64ToArrayBuffer,
+  requestKeyAdd,
+} from "utilities/webauthn";
+import { Stack } from "components/new/Stack/Stack";
+import { SmallLoader } from "components/SmallLoader/SmallLoader";
+import { randomBytes } from "crypto";
 import { TitleBox } from "../../../components/TitleBox/TitleBox";
 import { Card } from "../../../components/new/Card/Card";
 import { Input } from "../../../components/Input/Input";
@@ -91,9 +99,51 @@ const AccountUpdateForm: FC = () => {
   );
 };
 
-const Account = (): ReactElement => {
+const WebAuthn: FC = () => {
+  const user = useUser();
+
+  const [addLoading, setAddLoading] = useState<boolean>(false);
+  const add = useCallback(async () => {
+    if (!user) return;
+    setAddLoading(true);
+    // Reteive id from server.
+    const id = randomBytes(256).toString("base64");
+    const key = await requestKeyAdd(id, user);
+
+    if (!key) {
+      alert("Failed to register the key.");
+      setAddLoading(false);
+    }
+
+    const data = key?.response as AuthenticatorAttestationResponse;
+    console.log({
+      key: key?.id,
+      clientData: JSON.parse(new TextDecoder().decode(data.clientDataJSON)),
+      attestationObject: arrayBufferToBase64(data.attestationObject),
+    });
+    setAddLoading(false);
+  }, [user]);
+
+  if (!user) return null;
+
   return (
-    <div>
+    <Card>
+      <h2>WebAuth</h2>
+      <Button disabled={addLoading} onClick={add}>
+        Add auth
+        {addLoading && (
+          <div css={{ margin: "0.5rem" }}>
+            <SmallLoader />
+          </div>
+        )}
+      </Button>
+    </Card>
+  );
+};
+
+const Account: FC = () => {
+  return (
+    <Stack>
       <TitleBox>
         <h2>Account settings</h2>
         <p>Here, you can manage your account settings</p>
@@ -104,7 +154,8 @@ const Account = (): ReactElement => {
         </div>
         <AccountUpdateForm />
       </Card>
-    </div>
+      <WebAuthn />
+    </Stack>
   );
 };
 
