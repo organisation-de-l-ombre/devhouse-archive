@@ -2,7 +2,6 @@
 import React from "react";
 import { MdClose } from "react-icons/md";
 import { CSSTransition } from "react-transition-group";
-import { Button } from "../Button";
 import FlexContainer from "../FlexContainer/FlexContainer";
 import styles from "./Modal.module.scss";
 import "./Animations.scss";
@@ -52,9 +51,7 @@ const Modal: React.FC<
         >
           <div className={styles.headers}>
             <h2>{windowTitle}</h2>
-            <Button onClick={() => setOpen(!open)}>
-              <MdClose />
-            </Button>
+            <MdClose onClick={() => setOpen(!open)} />
           </div>
           <FlexContainer
             className={`${styles.container}${

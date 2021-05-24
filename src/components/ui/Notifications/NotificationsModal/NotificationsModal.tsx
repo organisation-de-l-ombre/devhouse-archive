@@ -8,10 +8,11 @@ import {
   useNotificationsPreferences,
   useNotificationsState,
 } from "@hooks/useNotifications";
+import { css } from "@emotion/react";
 import globalStyles from "@styles/Global.module.scss";
-import { Modal, modalStyles, SelectList, Button } from "@components/ui";
+import { Modal, SelectList, Button } from "@components/ui";
+import FlexContainer from "@components/ui/FlexContainer/FlexContainer";
 import { manageSelection } from "../../SelectList/SelectList";
-import styles from "./NotificationsModal.module.scss";
 
 const NotificationsModal: React.FC<
   React.DetailedHTMLProps<
@@ -41,9 +42,17 @@ const NotificationsModal: React.FC<
       >
         <Trans t={t} i18nKey="description" />
       </p>
-      <div className={modalStyles["buttons-container"]}>
+      <FlexContainer allowWrap fullCentered>
         <SelectList
-          className={styles.items}
+          css={css`
+            li {
+              justify-content: space-between;
+
+              svg {
+                transform: scale(1.5);
+              }
+            }
+          `}
           defaultTitle={<Trans t={t} i18nKey="options.default" />}
           id="select-notifications-choice"
         >
@@ -71,6 +80,7 @@ const NotificationsModal: React.FC<
           </li>
         </SelectList>
         <Button
+          css={{ backgroundColor: "var(--secondary-background-color)" }}
           onClick={() => {
             const validation: boolean = validateChoice(setOpen);
 
@@ -90,7 +100,7 @@ const NotificationsModal: React.FC<
         >
           <Trans t={t} i18nKey="savePreference" />
         </Button>
-      </div>
+      </FlexContainer>
     </Modal>
   );
 };

@@ -22,8 +22,8 @@
     "fetchingData": "Fetching data from the database... Please wait few seconds.",
     "success": {
       "title": "Results",
-      "description": "{{resultsLength}} result was found for the search \"{{search}}\". It's up to you to choose what interests you!",
-      "description_plural": "{{resultsLength}} results were found for the search \"{{search}}\". It's up to you to choose what interests you!"
+      "description": "{{resultsLength}} result was found for your search. It's up to you to choose what interests you!",
+      "description_plural": "{{resultsLength}} results were found for your search. It's up to you to choose what interests you!"
     },
     "noSearch": "Start by doing a search.",
     "notFound": "No result was found for your search. Please try again being more precise."

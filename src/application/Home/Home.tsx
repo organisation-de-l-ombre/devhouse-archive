@@ -1,10 +1,9 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
 import { BsFillQuestionCircleFill } from "react-icons/bs";
 import { MdWork } from "react-icons/md";
 import { RiMessage2Fill } from "react-icons/ri";
-import { FlexContainer, ButtonsGroup } from "@components/ui";
+import { FlexContainer, ButtonsGroup, ButtonLink } from "@components/ui";
 import globalStyles from "@styles/Global.module.scss";
 import { BackToTop } from "@components/modules";
 import { useSpring, animated } from "react-spring";
@@ -60,24 +59,24 @@ const Home: FunctionComponent<HTMLDivElement> = () => {
             <Trans t={t} i18nKey="headers.presentation.1" />
           </h2>
           <ButtonsGroup genericMarginTop expand>
-            <NavLink to="/about">
+            <ButtonLink to="/about">
               <MdWork />
               <span>
                 <Trans t={t} i18nKey="headers.buttons.about" />
               </span>
-            </NavLink>
-            <NavLink to="/contact">
+            </ButtonLink>
+            <ButtonLink to="/contact">
               <RiMessage2Fill />
               <span>
                 <Trans t={t} i18nKey="headers.buttons.contact" />
               </span>
-            </NavLink>
-            <NavLink to="/support">
+            </ButtonLink>
+            <ButtonLink to="/support">
               <BsFillQuestionCircleFill />
               <span>
                 <Trans t={t} i18nKey="headers.buttons.support" />
               </span>
-            </NavLink>
+            </ButtonLink>
           </ButtonsGroup>
         </HeadersContainer>
       </FlexContainer>
@@ -96,12 +95,12 @@ const Home: FunctionComponent<HTMLDivElement> = () => {
             <Trans t={t} i18nKey="prototypeAccess.title" />
           </h2>
           <ButtonsGroup genericMarginTop expand>
-            <NavLink to="/movies/title/tangled_994f87ryf.a4">
+            <ButtonLink to="/movies/title/tangled_994f87ryf.a4">
               <Trans t={t} i18nKey="prototypeAccess.tangled" />
-            </NavLink>
-            <NavLink to="/movies/title/spirit_untamed_yrsctho8x.l">
+            </ButtonLink>
+            <ButtonLink to="/movies/title/spirit_untamed_yrsctho8x.l">
               <Trans t={t} i18nKey="prototypeAccess.spirit" />
-            </NavLink>
+            </ButtonLink>
           </ButtonsGroup>
         </FlexContainer>
       </FlexContainer>

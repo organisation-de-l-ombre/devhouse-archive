@@ -4,7 +4,14 @@ import { useTranslation, Trans } from "react-i18next";
 import globalStyles from "@styles/Global.module.scss";
 import { FallbackProps } from "react-error-boundary";
 import { FunctionComponent } from "@typings/FunctionComponent";
-import { Card, FlexContainer, ButtonsGroup, Button } from "../../ui";
+import {
+  Card,
+  FlexContainer,
+  ButtonsGroup,
+  Button,
+  ButtonLink,
+  ButtonExternalLink,
+} from "../../ui";
 
 const buttonStyles = css`
   margin-top: 0.5rem;
@@ -28,12 +35,12 @@ const RootError: ComponentType<FallbackProps> = () => {
           <Trans t={t} i18nKey="description" />
         </p>
         <ButtonsGroup css={buttonStyles}>
-          <a href={document.location.origin}>
+          <ButtonExternalLink href={document.location.origin}>
             <Trans t={t} i18nKey="reloadWebsite" />
-          </a>
-          <a href={`${document.location.origin}/support`}>
+          </ButtonExternalLink>
+          <ButtonExternalLink href={`${document.location.origin}/support`}>
             <Trans t={t} i18nKey="support" />
-          </a>
+          </ButtonExternalLink>
         </ButtonsGroup>
       </Card>
     </FlexContainer>
@@ -70,9 +77,9 @@ const ErrorComponent: FunctionComponent<
           <Button onClick={reload}>
             <Trans t={t} i18nKey="reloadPage" />
           </Button>
-          <a href={`${document.location.origin}/support`}>
+          <ButtonLink to="support">
             <Trans t={t} i18nKey="support" />
-          </a>
+          </ButtonLink>
         </ButtonsGroup>
       </Card>
     </FlexContainer>

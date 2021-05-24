@@ -10,7 +10,7 @@ import { WikiAPI } from "@lib/api";
 import { useQuery } from "react-query";
 import fetchOptions from "@lib/api/fetchOptions";
 import { FunctionComponent } from "@typings/FunctionComponent";
-import styles from "../InternalRoot.module.scss";
+import styles from "./WikiSection.module.scss";
 
 const WikiSection: FunctionComponent<
   HTMLDivElement,
@@ -38,7 +38,13 @@ const WikiSection: FunctionComponent<
   }
 
   return (
-    <FlexContainer className={styles.content}>
+    <FlexContainer
+      padding
+      pageBodyWidth
+      expand
+      column
+      className={styles.markdown}
+    >
       <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
         {data.body}
       </ReactMarkdown>

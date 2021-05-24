@@ -22,8 +22,8 @@
     "fetchingData": "Récupération des données depuis la base de données... Veuillez patienter quelques instants.",
     "success": {
       "title": "Résultats",
-      "description": "{{resultsLength}} résultat a été trouvé pour la recherche \"{{search}}\". C'est à vous de choisir ce qui vous intéresse !",
-      "description_plural": "{{resultsLength}} résultats ont été trouvés pour la recherche \"{{search}}\". C'est à vous de choisir ce qui vous intéresse !"
+      "description": "{{resultsLength}} résultat a été trouvé pour votre recherche. C'est à vous de choisir ce qui vous intéresse !",
+      "description_plural": "{{resultsLength}} résultats ont été trouvés pour votre recherche. C'est à vous de choisir ce qui vous intéresse !"
     },
     "noSearch": "Commencez par effectuer une recherche.",
     "notFound": "Aucun résultat n'a été trouvé pour votre recherche. Veuillez réessayer en étant plus précis."

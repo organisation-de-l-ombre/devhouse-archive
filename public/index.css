@@ -31,6 +31,7 @@ noscript > div > hr {
 /* Global styles */
 body {
   background-color: var(--secondary-background-color);
+  overflow-x: hidden;
 }
 
 h1,

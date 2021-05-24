@@ -1,4 +1,4 @@
-export * from "./Button";
+export * from "./Button/Button";
 export { default as ButtonsGroup } from "./ButtonsGroup/ButtonsGroup";
 export { default as Card } from "./Card/Card";
 export { default as CardContainer } from "./CardContainer/CardContainer";
@@ -7,7 +7,7 @@ export { default as FlexContainer } from "./FlexContainer/FlexContainer";
 export { default as GenericLoader } from "./GenericLoader/GenericLoader";
 export { default as LanguageModal } from "./LanguageModal/LanguageModal";
 export { default as List } from "./List/List";
-export * from "./Modal";
+export { default as Modal } from "./Modal/Modal";
 export * from "./Notifications";
 export { default as RippleEffect } from "./RippleEffect/RippleEffect";
 export { default as SelectList } from "./SelectList/SelectList";

@@ -4,6 +4,7 @@ import React, {
   useState,
   useEffect,
   FormEvent,
+  ReactElement,
 } from "react";
 import globalStyles from "@styles/Global.module.scss";
 import { Button, FlexContainer } from "@components/ui";
@@ -18,6 +19,7 @@ import { Helmet } from "react-helmet";
 import useQueryState from "@hooks/useQueryState";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import { SuspenseComponent } from "@components/modules";
+import classnames from "classnames";
 import styles from "./Search.module.scss";
 import "./Animations.scss";
 
@@ -94,32 +96,23 @@ const Search: FunctionComponent<HTMLDivElement> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (isFetching) {
-    return (
-      <SuspenseComponent
-        className={globalStyles["page-body-width"]}
-        minHeight
-        customText={t("body.fetchingData")}
-      />
-    );
-  }
-
   return (
-    <FlexContainer className={globalStyles.column}>
+    <FlexContainer column>
       <Helmet>
         <title>{t("pageTitle")}</title>
       </Helmet>
-      <div className={styles.background}>
-        <FlexContainer
-          className={`${styles.headers} ${globalStyles["page-body-width"]}`}
-        >
+      <FlexContainer
+        horizontallyCentered
+        css={{ backgroundColor: "var(--primary-background-color)" }}
+      >
+        <FlexContainer padding column pageBodyWidth className={styles.headers}>
           <h1>
             <Trans t={t} i18nKey="headers.title" />
           </h1>
-          <h3>
+          <h2>
             <Trans t={t} i18nKey="headers.description" />
-          </h3>
-          <form className={styles["form-root"]} onSubmit={validateRequest}>
+          </h2>
+          <form className={styles.search} onSubmit={validateRequest}>
             <input
               ref={inputRef}
               type="text"
@@ -129,11 +122,11 @@ const Search: FunctionComponent<HTMLDivElement> = () => {
               defaultValue={titleState}
               onChange={manageSearch}
             />
-            <Button className={styles["submit-button"]} type="submit">
+            <Button type="submit">
               <Trans t={t} i18nKey="headers.form.button" />
             </Button>
           </form>
-          <div className={styles["search-selector"]}>
+          <form className={styles["search-selector"]}>
             <input
               type="checkbox"
               id="advanced-search"
@@ -145,15 +138,15 @@ const Search: FunctionComponent<HTMLDivElement> = () => {
             <label htmlFor="advanced-search">
               <Trans t={t} i18nKey="headers.advancedSearch.label" />
             </label>
-          </div>
+          </form>
           <CSSTransition
             in={advancedSearchEnabled}
             timeout={300}
             unmountOnExit
             classNames="advanced-search-transitions"
           >
-            <FlexContainer className={styles["advanced-search"]}>
-              <div className={styles["search-selector"]}>
+            <FlexContainer genericMarginTop spaceBetween>
+              <form className={styles["search-selector"]}>
                 <input type="checkbox" id="type-movie" name="type-movie" />
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label htmlFor="type-movie">
@@ -162,8 +155,8 @@ const Search: FunctionComponent<HTMLDivElement> = () => {
                     i18nKey="headers.advancedSearch.selectors.movie"
                   />
                 </label>
-              </div>
-              <div className={styles["search-selector"]}>
+              </form>
+              <form className={styles["search-selector"]}>
                 <input type="checkbox" id="type-series" name="type-series" />
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label htmlFor="type-series">
@@ -172,31 +165,50 @@ const Search: FunctionComponent<HTMLDivElement> = () => {
                     i18nKey="headers.advancedSearch.selectors.series"
                   />
                 </label>
-              </div>
+              </form>
             </FlexContainer>
           </CSSTransition>
         </FlexContainer>
-      </div>
-      {data === undefined && (
+      </FlexContainer>
+      {!data && isFetching && (
+        <SuspenseComponent
+          minHeight
+          pageBodyWidth
+          customText={t("body.fetchingData")}
+        />
+      )}
+      {!data && !isFetching && (
         <FlexContainer
-          className={`${styles["temp-root"]} ${globalStyles["alignment-full-center"]} ${globalStyles["page-body-width"]}`}
+          minHeight
+          padding
+          pageBodyWidth
+          fullCentered
           id="search-page-navigation"
         >
-          <div className={styles["not-found"]}>
-            <AiOutlineFileSearch />
-            <p>
+          <FlexContainer column horizontallyCentered>
+            <AiOutlineFileSearch
+              css={{
+                width: "64px",
+                height: "64px",
+              }}
+            />
+            <p css={{ marginTop: "1rem" }}>
               {firstTime ? (
                 <Trans t={t} i18nKey="body.noSearch" />
               ) : (
                 <Trans t={t} i18nKey="body.notFound" />
               )}
             </p>
-          </div>
+          </FlexContainer>
         </FlexContainer>
       )}
       {data && (
         <FlexContainer
-          className={`${styles["page-body"]} ${globalStyles["page-body-width"]}`}
+          minHeight
+          padding
+          column
+          pageBodyWidth
+          className={styles.results}
           id="search-page-navigation"
         >
           <h1>
@@ -207,24 +219,25 @@ const Search: FunctionComponent<HTMLDivElement> = () => {
               t={t}
               i18nKey="body.success.description"
               values={{
-                search: inputRef.current?.value.length
-                  ? inputRef.current?.value
-                  : titleState,
                 resultsLength: data.length,
               }}
             />
           </p>
-          <FlexContainer className={styles["container-root"]}>
+          <FlexContainer genericMarginTop allowWrap>
             {data.map(
-              (movie: SearchResponse): React.ReactElement => {
+              (movie: SearchResponse): ReactElement => {
                 return (
                   <NavLink
                     key={movie.id}
                     to={`/movies/title/${movie.id}`}
-                    className={styles["movie-container"]}
+                    className={styles.media}
                   >
                     <div
-                      className={`${globalStyles["overflow-hidden"]} ${globalStyles["border-radius"]}`}
+                      className={classnames(
+                        globalStyles["overflow-hidden"],
+                        globalStyles["border-radius"],
+                        globalStyles["box-shadow"]
+                      )}
                     >
                       <img
                         src={movie.poster}

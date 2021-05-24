@@ -11,6 +11,7 @@ import { useQuery, UseQueryResult } from "react-query";
 import fetchOptions from "@lib/api/fetchOptions";
 import HandleData from "@application/MovieTitle/modules/HandleData/HandleData";
 import classnames from "classnames";
+import fetchImage from "@lib/fetchImage";
 import styles from "./TechnicalSpecs.module.scss";
 import containerStyle from "../../Containers.module.scss";
 
@@ -63,7 +64,12 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
         {presentation.movieLogo && (
           <div className={styles.logo}>
             <img
-              src={presentation.movieLogo}
+              src={fetchImage({
+                type: "image",
+                width: "270",
+                height: "155",
+                image: presentation.movieLogo,
+              })}
               alt={`Movie logo of ${presentation.title}`}
               draggable={false}
             />

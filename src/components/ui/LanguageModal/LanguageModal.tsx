@@ -5,8 +5,9 @@ import globalStyles from "@styles/Global.module.scss";
 import { supportedLanguages } from "@store/language";
 import { DisplayLanguageSVG } from "@components/modules";
 import SelectList, { manageSelection } from "../SelectList/SelectList";
-import { Button } from "../Button";
-import { Modal, modalStyles } from "../Modal";
+import { Button } from "../Button/Button";
+import Modal from "../Modal/Modal";
+import FlexContainer from "../FlexContainer/FlexContainer";
 
 const LanguageModal: React.FC<
   React.DetailedHTMLProps<
@@ -35,7 +36,7 @@ const LanguageModal: React.FC<
           values={{ language: t(`select.languages.${language}`) }}
         />
       </p>
-      <div className={modalStyles["buttons-container"]}>
+      <FlexContainer allowWrap fullCentered>
         <SelectList
           defaultTitle={<Trans t={t} i18nKey="select.default" />}
           id="select-language"
@@ -58,10 +59,13 @@ const LanguageModal: React.FC<
             );
           })}
         </SelectList>
-        <Button onClick={() => validateLanguage(setLanguageWindowOpen)}>
+        <Button
+          css={{ backgroundColor: "var(--secondary-background-color)" }}
+          onClick={() => validateLanguage(setLanguageWindowOpen)}
+        >
           <Trans t={t} i18nKey="saveLanguage" />
         </Button>
-      </div>
+      </FlexContainer>
     </Modal>
   );
 };

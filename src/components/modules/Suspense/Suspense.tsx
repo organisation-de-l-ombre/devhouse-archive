@@ -16,12 +16,22 @@ const RootSuspense: FunctionComponent<HTMLDivElement> = () => {
 
 const SuspenseComponent: FunctionComponent<
   HTMLDivElement,
-  { minHeight?: boolean; customText?: string }
-> = ({ minHeight, customText }) => {
+  {
+    minHeight?: boolean;
+    pageBodyWidth?: boolean;
+    customText?: string;
+  }
+> = ({ minHeight, pageBodyWidth, customText }) => {
   const { t } = useTranslation("components\\modules\\suspense\\suspense");
 
   return (
-    <FlexContainer minHeight={minHeight} padding expand fullCentered>
+    <FlexContainer
+      minHeight={minHeight}
+      padding
+      expand
+      pageBodyWidth={pageBodyWidth}
+      fullCentered
+    >
       <GenericLoader className={globalStyles["generic-loader"]}>
         {customText || t("message")}
       </GenericLoader>

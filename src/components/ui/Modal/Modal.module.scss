@@ -36,24 +36,13 @@
       font-size: 1.2rem;
     }
 
-    button {
-      padding: 0;
-      margin-left: 1rem;
-      display: flex;
-      align-items: center;
-      background-color: transparent;
-
-      svg {
-        transform: scale(1.75);
-        transition: .5s;
-        fill: var(--font-color);
-      }
+    svg {
+      transform: scale(1.75);
+      cursor: pointer;
+      transition: fill 500ms;
 
       &:hover {
-        svg {
-          transition: .5s;
-          fill: var(--font-color-hover);
-        }
+        fill: var(--font-color-hover);
       }
     }
   }
@@ -64,15 +53,6 @@
     flex: 1;
     flex-direction: column;
     align-items: center;
-
-    .buttons-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-
-      button { background-color: var(--secondary-background-color); }
-    }
   }
 
   @media screen and (max-width: 700px) {

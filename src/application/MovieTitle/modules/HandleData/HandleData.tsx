@@ -15,7 +15,13 @@ const HandleData: FunctionComponent<
   const { t } = useTranslation("pages\\movieTitle\\root");
 
   if (isFetching) {
-    return <SuspenseComponent minHeight customText={t("fetchingData")} />;
+    return (
+      <SuspenseComponent
+        minHeight
+        pageBodyWidth
+        customText={t("fetchingData")}
+      />
+    );
   }
 
   if (!error) {

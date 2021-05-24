@@ -5,16 +5,15 @@ import {
   Notification,
   Button as ButtonType,
 } from "@store/notifications/notificationsData";
-import styles from "./Notification.module.scss";
-import globalStyles from "../../../../styles/Global.module.scss";
-import Button from "../../Button/Button";
+import { css } from "@emotion/react";
+import { FunctionComponent } from "@typings/FunctionComponent";
+import FlexContainer from "../../FlexContainer/FlexContainer";
+import { Button } from "../../Button/Button";
 import ButtonsGroup from "../../ButtonsGroup/ButtonsGroup";
 
-const NotificationComponent: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & { notification: Notification }
+const NotificationComponent: FunctionComponent<
+  HTMLDivElement,
+  { notification: Notification }
 > = ({ notification }) => {
   const { deleteNotification } = useNotificationsManager();
   const [notificationTimer, setNotificationTimer] = React.useState<
@@ -50,17 +49,30 @@ const NotificationComponent: React.FC<
   ]);
 
   return (
-    <div
-      className={`${styles.notification}${
-        styles[notification.type] ? ` ${styles[notification.type]}` : ""
-      }`}
+    <FlexContainer
+      verticallyCentered
+      spaceBetween
+      css={css`
+        margin: 0.25rem 0;
+        padding: 1rem;
+        width: calc(100% - 2rem);
+        border-radius: 5px;
+        background-color: var(--notification-${notification.type}-color);
+
+        p,
+        span {
+          color: black;
+        }
+
+        svg {
+          fill: black;
+        }
+      `}
     >
       {notification.buttons?.length ? (
-        <div
-          className={`${globalStyles.flex} ${globalStyles.column} ${styles["margin-right"]}`}
-        >
+        <FlexContainer column css={{ marginRight: "1rem" }}>
           <p>{notification.body}</p>
-          <ButtonsGroup className={styles["buttons-container"]}>
+          <ButtonsGroup genericMarginTop>
             {notification.buttons.map(
               (b: ButtonType): React.ReactElement => {
                 return (
@@ -72,18 +84,23 @@ const NotificationComponent: React.FC<
               }
             )}
           </ButtonsGroup>
-        </div>
+        </FlexContainer>
       ) : (
-        <p className={styles["margin-right"]}>{notification.body}</p>
+        <p css={{ marginRight: "1rem" }}>{notification.body}</p>
       )}
-      <Button
-        aria-label="Close notification"
-        className={styles.close}
+      <FaWindowClose
+        css={css`
+          margin-left: 1rem;
+          cursor: pointer;
+          transition: fill 500ms;
+
+          &:hover {
+            fill: var(--font-color-hover);
+          }
+        `}
         onClick={() => deleteNotification(notification.id)}
-      >
-        <FaWindowClose />
-      </Button>
-    </div>
+      />
+    </FlexContainer>
   );
 };
 

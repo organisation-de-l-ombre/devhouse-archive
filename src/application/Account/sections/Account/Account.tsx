@@ -7,6 +7,7 @@ import {
   FlexContainer,
   TextArea,
   Button,
+  ButtonExternalLink,
   GenericLoader,
   ButtonsGroup,
   CardContainer,
@@ -93,12 +94,15 @@ const Account: FunctionComponent<HTMLDivElement> = () => {
             </TextArea>
           </FlexContainer>
           <ButtonsGroup genericMarginTop expand>
-            <a href="https://developershouse.xyz/settings/" target="blank">
+            <ButtonExternalLink
+              href="https://developershouse.xyz/settings/"
+              target="blank"
+            >
               <FaEdit />
               <span>
                 <Trans t={t} i18nKey="devHouse.editAccount" />
               </span>
-            </a>
+            </ButtonExternalLink>
             <Button onClick={logout}>
               <RiLogoutBoxRLine />
               <span>

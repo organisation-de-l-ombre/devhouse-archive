@@ -10,6 +10,7 @@ import {
   Card,
   YouTubePlayer,
   ButtonsGroup,
+  ButtonExternalLink,
   CardContainer,
 } from "@components/ui";
 import { fetchOptions } from "@lib/api";
@@ -141,14 +142,14 @@ const OST: ReactMovieElement = ({ dataResponse }) => {
                   {data.album.streaming.map(
                     (streaming: StreamingObject): ReactElement => {
                       return (
-                        <a
+                        <ButtonExternalLink
                           key={streaming.service}
                           href={streaming.album}
                           target="blank"
                         >
                           <DisplaySVG type={streaming.service} />
                           <span>{streaming.service}</span>
-                        </a>
+                        </ButtonExternalLink>
                       );
                     }
                   )}
@@ -240,12 +241,15 @@ const OST: ReactMovieElement = ({ dataResponse }) => {
                                 </Button>
                               )}
                               {track.lyrics && (
-                                <a href={track.lyrics} target="blank">
+                                <ButtonExternalLink
+                                  href={track.lyrics}
+                                  target="blank"
+                                >
                                   <FaMusic />
                                   <span>
                                     <Trans t={t} i18nKey="lyrics" />
                                   </span>
-                                </a>
+                                </ButtonExternalLink>
                               )}
                             </ButtonsGroup>
                           )}

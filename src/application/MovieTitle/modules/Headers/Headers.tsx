@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
 import { FaPlay, MdMovie } from "react-icons/all";
 import detectMobileDevice from "@lib/detectMobileDevice";
 import useLanguage from "@hooks/useLanguage";
 import {
   FlexContainer,
+  ButtonLink,
   Button,
   YouTubePlayer,
   ButtonsGroup,
@@ -123,9 +123,9 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
                 {data.type.map(
                   (tag: string): React.ReactElement => {
                     return (
-                      <NavLink key={tag} to={`/browse?tag=${tag}`}>
+                      <ButtonLink key={tag} to={`/browse?tag=${tag}`}>
                         <Trans t={tTags} i18nKey={tag} />
-                      </NavLink>
+                      </ButtonLink>
                     );
                   }
                 )}

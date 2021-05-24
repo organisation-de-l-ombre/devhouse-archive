@@ -10,6 +10,7 @@ const FlexContainer: FunctionComponent<
     heightFull?: boolean;
     minHeight?: boolean;
     maxHeight?: boolean;
+    genericMarginTop?: boolean;
     padding?: boolean;
     expand?: boolean;
     pageBodyWidth?: boolean;
@@ -18,12 +19,14 @@ const FlexContainer: FunctionComponent<
     fullCentered?: boolean;
     horizontallyCentered?: boolean;
     verticallyCentered?: boolean;
+    spaceBetween?: boolean;
   }
 > = ({
   widthFull,
   heightFull,
   minHeight,
   maxHeight,
+  genericMarginTop,
   padding,
   expand,
   pageBodyWidth,
@@ -32,6 +35,7 @@ const FlexContainer: FunctionComponent<
   fullCentered,
   horizontallyCentered,
   verticallyCentered,
+  spaceBetween,
   className,
   ...props
 }) => {
@@ -42,6 +46,7 @@ const FlexContainer: FunctionComponent<
         ${heightFull && `height: ${padding ? "calc(100% - 4rem)" : "100%"};`}
         ${minHeight && "min-height: 30rem;"}
         ${maxHeight && "max-height: calc(100vh - 3.5rem);"}
+        ${genericMarginTop && "margin-top: 1rem;"}
         ${padding && "padding: 2rem;"}
         display: flex;
         ${expand && "flex: 1;"}
@@ -66,6 +71,7 @@ const FlexContainer: FunctionComponent<
         (column ? "align-items: center;" : "justify-content: center;")}
         ${verticallyCentered &&
         (column ? "justify-content: center;" : "align-items: center;")}
+        ${spaceBetween && "justify-content: space-between;"}
       `}
       className={classnames(className)}
       {...props}

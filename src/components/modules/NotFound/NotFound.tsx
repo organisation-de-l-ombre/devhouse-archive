@@ -1,10 +1,9 @@
 import React from "react";
 import { css } from "@emotion/react";
 import { useTranslation, Trans } from "react-i18next";
-import { NavLink } from "react-router-dom";
 import globalStyles from "@styles/Global.module.scss";
 import { FunctionComponent } from "@typings/FunctionComponent";
-import { Card, FlexContainer, ButtonsGroup } from "../../ui";
+import { Card, FlexContainer, ButtonsGroup, ButtonLink } from "../../ui";
 
 const NotFound: FunctionComponent<HTMLDivElement> = () => {
   const { t } = useTranslation("components\\notFound");
@@ -28,12 +27,12 @@ const NotFound: FunctionComponent<HTMLDivElement> = () => {
             margin-top: 0.5rem;
           `}
         >
-          <NavLink to="/">
+          <ButtonLink to="/">
             <Trans t={t} i18nKey="homePage" />
-          </NavLink>
-          <NavLink to="/support">
+          </ButtonLink>
+          <ButtonLink to="/support">
             <Trans t={t} i18nKey="supportPage" />
-          </NavLink>
+          </ButtonLink>
         </ButtonsGroup>
       </Card>
     </FlexContainer>
