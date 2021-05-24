@@ -33,7 +33,7 @@ paths:
     parameters:
       - in: path
         required: true
-        name: id
+        name: user
         schema:
           type: string
           pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
