@@ -1,5 +1,6 @@
 import { FastifyReply, FastifyRequest, RouteOptions } from "fastify";
 import fetch from "node-fetch";
+import { internalS3ClientEndpoint } from "../..";
 
 interface RequestParameters {
   type: string;
@@ -26,7 +27,9 @@ export default {
     const path = requestPath.replace(/_/gi, "/");
 
     let baseResponse = await fetch(
-      `https://s3.developershouse.xyz/international-media-referencing/amelia-data-public/wiki/${type}/${language}/${path}.md`
+      `${internalS3ClientEndpoint}/${process.env.S3_BUCKET_NAME || ""}/${
+        process.env.S3_PUBLIC || ""
+      }/wiki/${type}/${language}/${path}.md`
     );
 
     if (language === "en" && baseResponse.status === 404) {
@@ -39,7 +42,9 @@ export default {
     }
     if (language !== "en" && baseResponse.status === 404) {
       baseResponse = await fetch(
-        `https://s3.developershouse.xyz/international-media-referencing/amelia-data-public/wiki/${type}/en/${path}.md`
+        `${internalS3ClientEndpoint}/${process.env.S3_BUCKET_NAME || ""}/${
+          process.env.S3_PUBLIC || ""
+        }/wiki/${type}/en/${path}.md`
       );
 
       if (baseResponse.status === 404) {
