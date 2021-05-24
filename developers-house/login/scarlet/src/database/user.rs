@@ -37,3 +37,9 @@ pub struct NewUser<'a> {
     pub private: &'a bool,
     pub avatar: &'a String,
 }
+
+#[derive(AsChangeset, Serialize)]
+#[table_name = "users"]
+pub struct UserOtpKeyUpdate {
+    pub otpkey: Option<String>,
+}
