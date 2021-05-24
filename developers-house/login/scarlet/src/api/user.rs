@@ -62,6 +62,9 @@ pub fn patch_user_by_id(
         .execute(&*conn);
 
     if result.is_ok() {
+        if result.unwrap() == 0 {
+            return Err(Json(ScarletError{ code: 0, message: "This user does not exists".to_string() }))
+        }
         return Ok(Status::Accepted);
     }
     return
@@ -160,7 +163,10 @@ pub fn enable_totp(conn: ScarletDB, user: Uuid) -> Result<Json<UserOtpKeyUpdate>
         .set(&update)
         .execute(&*conn);
 
-    if result.is_ok() {
+    if result.is_ok() {        
+        if result.unwrap() == 0 {
+            return Err(Json(ScarletError{ code: 0, message: "This user does not exists".to_string() }))
+        }
         return Ok(Json(update));
     }
     return
