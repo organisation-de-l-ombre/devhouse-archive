@@ -78,7 +78,7 @@ pub fn do_user_login(data: LoginDataPost, db: ScarletDB) -> Result<LoginStatusRe
                     if user.ban.is_some() {
                         return Ok(LoginStatusReponse {
                             user: None,
-                            status: LoginStatus::UnknownUser
+                            status: LoginStatus::Failed
                         });
                     }
 
