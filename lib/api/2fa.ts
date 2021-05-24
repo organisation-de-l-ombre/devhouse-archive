@@ -29,7 +29,7 @@ export async function submitTwoFaSessionOTP(
     },
     body: JSON.stringify({
       type: "otp",
-      otp,
+      code: otp,
     }),
   })
     .then((x) => x.json())
