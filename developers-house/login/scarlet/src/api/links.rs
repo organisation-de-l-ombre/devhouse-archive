@@ -2,7 +2,6 @@ use crate::database::link::{Link, NewLink};
 use crate::database::schema::links::dsl::{id, links, user_id};
 use crate::diesel::RunQueryDsl;
 use crate::types::db_error::db_error;
-use crate::types::*;
 use crate::ScarletDB;
 use diesel::result::Error;
 use diesel::{ExpressionMethods, QueryDsl};
@@ -17,14 +16,14 @@ use rocket_contrib::uuid::Uuid;
 pub fn get_user_links_by_id(
     conn: ScarletDB,
     user: Uuid,
-) -> Result<Json<Vec<Link>>, Json<ScarletError>> {
+) -> Result<Json<Vec<Link>>, Status> {
     let link: Result<Vec<Link>, Error> = links
         .filter(user_id.eq(uuid::Uuid::from_bytes(user.as_bytes()).unwrap()))
         .load::<Link>(&*conn);
 
     match link {
         Ok(data) => Ok(Json(data)),
-        Err(error) => Err(Json(db_error(error))),
+        Err(error) => Err(db_error(error)),
     }
 }
 
@@ -35,7 +34,7 @@ pub fn put_link_for_id(
     conn: ScarletDB,
     user: Uuid,
     data: Json<NewLink>,
-) -> Result<Status, Json<ScarletError>> {
+) -> Result<Status, Status> {
     let uuid = uuid::Uuid::new(uuid::UuidVersion::Random).unwrap();
     let new_platform = data.clone();
     match diesel::insert_into(links)
@@ -48,7 +47,7 @@ pub fn put_link_for_id(
         .execute(&*conn)
     {
         Ok(_) => Ok(Status::Created),
-        Err(error) => Err(Json(db_error(error))),
+        Err(error) => Err(db_error(error)),
     }
 }
 
@@ -59,7 +58,7 @@ pub fn delete_link_for_user(
     conn: ScarletDB,
     user: Uuid,
     link: Uuid,
-) -> Result<Status, Json<ScarletError>> {
+) -> Result<Status, Status> {
     let user = uuid::Uuid::from_bytes(user.as_bytes()).unwrap();
     let link = uuid::Uuid::from_bytes(link.as_bytes()).unwrap();
 
@@ -69,6 +68,6 @@ pub fn delete_link_for_user(
         .execute(&*conn)
     {
         Ok(_) => Ok(Status::Accepted),
-        Err(error) => Err(Json(db_error(error))),
+        Err(error) => Err(db_error(error)),
     }
 }

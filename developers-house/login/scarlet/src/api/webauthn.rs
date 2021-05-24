@@ -2,7 +2,6 @@ use crate::database::schema::webauthn_keys::dsl::{id, user_id, webauthn_keys};
 use crate::database::webauth_key::{NewWebAuthnKey, WebAuthKey};
 use crate::diesel::RunQueryDsl;
 use crate::types::db_error::db_error;
-use crate::types::ScarletError;
 use crate::ScarletDB;
 use diesel::result::Error;
 use diesel::{ExpressionMethods, QueryDsl};
@@ -34,7 +33,7 @@ pub fn put_webauth_key(
     data: Json<NewWebAuthnKey>,
     conn: ScarletDB,
     user: Uuid,
-) -> Result<Status, Json<ScarletError>> {
+) -> Result<Status, Status> {
     let uuid = uuid::Uuid::new(uuid::UuidVersion::Random).unwrap();
     let new_platform = data.clone();
     match diesel::insert_into(webauthn_keys)
@@ -47,7 +46,7 @@ pub fn put_webauth_key(
         .execute(&*conn)
     {
         Ok(_) => Ok(Status::Created),
-        Err(e) => Err(Json(db_error(e))),
+        Err(e) => Err(db_error(e)),
     }
 }
 
@@ -58,7 +57,7 @@ pub fn delete_webauthn_for_user(
     conn: ScarletDB,
     user: Uuid,
     key: Uuid,
-) -> Result<Status, Json<ScarletError>> {
+) -> Result<Status, Status> {
     let user = uuid::Uuid::from_bytes(user.as_bytes()).unwrap();
     let key_id = uuid::Uuid::from_bytes(key.as_bytes()).unwrap();
 
@@ -68,6 +67,6 @@ pub fn delete_webauthn_for_user(
         .execute(&*conn)
     {
         Ok(_) => Ok(Status::Accepted),
-        Err(e) => Err(Json(db_error(e))),
+        Err(e) => Err(db_error(e)),
     }
 }
