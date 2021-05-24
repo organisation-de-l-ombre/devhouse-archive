@@ -6,17 +6,18 @@ import React, {
   useState,
   FormEvent,
 } from "react";
-import Loader from "react-loaders";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { Button, ButtonContainer } from "../components/button";
 import styles from "../styles/pages/register.module.scss";
+import { ErrorGate } from "../components/ErrorGate";
 
 export default function Register(): ReactElement {
   const username = useRef<HTMLInputElement>(null);
   const privateAccount = useRef<HTMLInputElement>(null);
   const terms = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Error>(null);
   const router = useRouter();
   const { query } = router;
 
@@ -25,53 +26,47 @@ export default function Register(): ReactElement {
       if (event) {
         event.preventDefault();
       }
+      try {
+        const name = username.current.value;
 
-      const name = username.current.value;
+        if (name.length < 3 || name.length > 32) {
+          alert(
+            "Your name must have at least 3 characters and least than 32 characters."
+          );
+          return;
+        }
+        if (!terms.current.checked) {
+          alert("You must agree to the terms and conditions.");
+          return;
+        }
+        setLoading(true);
+        const response = await fetch("/dialog/api/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            name,
+            private: privateAccount.current.checked,
+            term: terms.current.checked,
+          }),
+        });
 
-      if (name.length < 3 || name.length > 32) {
-        alert(
-          "Your name must have at least 3 characters and least than 32 characters."
-        );
-        return;
-      }
-      if (!terms.current.checked) {
-        alert("You must agree to the terms and conditions.");
-        return;
-      }
-      setLoading(true);
-      const response = await fetch("/dialog/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          name,
-          private: privateAccount.current.checked,
-          term: terms.current.checked,
-        }),
-      });
-
-      if (response.ok) {
-        const json = await response.json();
-
-        await router.push(json.redirect);
+        if (response.ok) {
+          const json = await response.json();
+          await router.push(json.redirect);
+        }
+        setLoading(false);
+      } catch (e) {
+        setError(e);
       }
     },
     [router]
   );
 
-  if (loading) {
-    return (
-      <div className={styles["loader-root"]}>
-        <Loader type="line-scale" innerClassName={styles.loader} active />
-        <p>Loading the resource you requested...</p>
-      </div>
-    );
-  }
-
   return (
-    <>
+    <ErrorGate loading={loading} error={error}>
       <Head key="register-page">
         <title>Sienna - Registration</title>
       </Head>
@@ -114,6 +109,6 @@ export default function Register(): ReactElement {
           </ButtonContainer>
         </form>
       </div>
-    </>
+    </ErrorGate>
   );
 }

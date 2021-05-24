@@ -1,4 +1,5 @@
-import { PREFIX } from "./consent";
+import { PREFIX } from "./endpoint";
+import { OrError } from "./error";
 
 export interface LoginFetchResponse {
   platforms: {
@@ -12,9 +13,8 @@ export interface LoginFetchResponse {
 
 export async function fetchLogin(
   challenge: string
-): Promise<LoginFetchResponse> {
-  const response = await fetch(
-    `${PREFIX}/dialog/api/login?challenge=${challenge}`
-  );
-  return response.json();
+): Promise<OrError<LoginFetchResponse>> {
+  return fetch(`${PREFIX}/dialog/api/login?challenge=${challenge}`)
+    .then((x) => x.json())
+    .catch((e) => ({ error: true, message: e.message }));
 }

@@ -1,4 +1,5 @@
-import { PREFIX } from "./consent";
+import { PREFIX } from "./endpoint";
+import { OrError } from "./error";
 
 export interface TwoFASessionReponse {
   webauth: { challenge: string; availableKeys: string[] };
@@ -6,12 +7,31 @@ export interface TwoFASessionReponse {
   username: string;
 }
 
-export async function fetchTwoFaSession(): Promise<TwoFASessionReponse> {
-  return {
-    webauth: { challenge: "", availableKeys: [] },
-    otp: true,
-    username: "matthieu",
-  };
-  const response = await fetch(`${PREFIX}/dialog/api/2fa`);
-  return response.json();
+export interface TwoFaSubmit {
+  redirect: string;
+}
+
+export async function fetchTwoFaSession(): Promise<
+  OrError<TwoFASessionReponse>
+> {
+  return fetch(`${PREFIX}/dialog/api/2fa`)
+    .then((x) => x.json())
+    .catch((e) => ({ error: true, message: e.message }));
+}
+
+export async function submitTwoFaSessionOTP(
+  otp: number
+): Promise<OrError<TwoFaSubmit>> {
+  return fetch(`${PREFIX}/dialog/api/2fa`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      type: "otp",
+      otp,
+    }),
+  })
+    .then((x) => x.json())
+    .catch((e) => ({ error: true, message: e.message }));
 }

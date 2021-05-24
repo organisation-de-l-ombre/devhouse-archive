@@ -6,11 +6,11 @@ import React, {
   useRef,
   useState,
 } from "react";
-import Loader from "react-loaders";
 import { useRouter } from "next/router";
-import styles from "../../styles/pages/consent.module.scss";
 import { Button } from "../../components/button";
 import { TwoFAContext } from "../../contexts/2FAContext";
+import { submitTwoFaSessionOTP } from "../../lib/api/2fa";
+import { ErrorGate } from "../../components/ErrorGate";
 
 export default function Login(): ReactElement {
   const { data } = useContext(TwoFAContext);
@@ -22,21 +22,11 @@ export default function Login(): ReactElement {
   const validate = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await fetch("/dialog/api/2fa", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "same-origin",
-        body: JSON.stringify({
-          type: "otp",
-          code: Number(element.current.value),
-        }),
-      });
-
-      if (response.ok) {
-        const json = await response.json();
-        await router.push(json.redirect);
+      const response = await submitTwoFaSessionOTP(
+        Number(element.current.value)
+      );
+      if (response.error === false) {
+        await router.push(response.redirect);
       }
     } catch (e) {
       setError(e);
@@ -50,25 +40,12 @@ export default function Login(): ReactElement {
     }
   }, [data]);
 
-  if (error) {
-    return <p>{error.message}</p>;
-  }
-
-  if (loading) {
-    return (
-      <div className={styles["loader-root"]}>
-        <Loader type="line-scale" innerClassName={styles.loader} active />
-        <p>Loading the resource you requested...</p>
-      </div>
-    );
-  }
-
   return (
-    <div>
+    <ErrorGate loading={loading} error={error}>
       <p>You need a code from your phone lmao</p>
       <input min={0} max={9999} ref={element} type="number" />
       <br />
       <Button onClick={validate}>Validate</Button>
-    </div>
+    </ErrorGate>
   );
 }
