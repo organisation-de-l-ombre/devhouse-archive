@@ -3,7 +3,6 @@ use crate::database::schema::links::dsl::{links, platform, platform_id, user_id}
 use crate::database::schema::users::dsl::{users, id};
 use crate::database::user::User;
 use crate::diesel::RunQueryDsl;
-use crate::types::ScarletError;
 use crate::ScarletDB;
 use diesel::associations::HasTable;
 use diesel::result::Error;
@@ -11,6 +10,7 @@ use diesel::{BoolExpressionMethods, ExpressionMethods, JoinOnDsl, QueryDsl};
 use otp::make_totp;
 use rocket_contrib::json::Json;
 use serde::{Deserialize, Serialize};
+use rocket::http::Status;
 
 #[derive(Serialize, Deserialize)]
 pub struct WithPlatform {
@@ -34,12 +34,24 @@ pub struct LoginDataPost {
 }
 
 #[derive(Serialize)]
-pub struct ScarletResponse {
-    code: u32,
-    user: User,
+pub enum LoginStatus {
+    #[serde(rename = "UNKNOWN_USER")]
+    UnknownUser,
+    #[serde(rename = "TWO_FACTOR_REQUIRED")]
+    TwoFactorRequired,
+    #[serde(rename = "SUCCESS")]
+    Success,
+    #[serde(rename = "FAILED")]
+    Failed
 }
 
-pub fn do_user_login(data: LoginDataPost, db: ScarletDB) -> Result<ScarletResponse, ScarletError> {
+#[derive(Serialize)]
+pub struct LoginStatusReponse {
+    status: LoginStatus,
+    user: Option<User>
+} 
+
+pub fn do_user_login(data: LoginDataPost, db: ScarletDB) -> Result<LoginStatusReponse, Status> {
     let with_otp = data.with_otp.as_ref();
     let with_platform = data.with_platform.as_ref();
     let with_webauthn = data.with_webauthn.as_ref();
@@ -64,74 +76,64 @@ pub fn do_user_login(data: LoginDataPost, db: ScarletDB) -> Result<ScarletRespon
                     let user: &User = count.get(0).unwrap();
 
                     if user.ban.is_some() {
-                        return Err(ScarletError {
-                            code: 0x01,
-                            message: "Cannot login using this account: This user is banned."
-                                .to_string(),
+                        return Ok(LoginStatusReponse {
+                            user: None,
+                            status: LoginStatus::UnknownUser
                         });
                     }
 
                     if user.a2f && (user.otpkey.is_some()) {
                         if with_otp.is_some() {
                             if check_otp(with_otp.unwrap(), user) {
-                                Ok(ScarletResponse {
-                                    code: 200,
-                                    user: user.clone()
+                                Ok(LoginStatusReponse {
+                                    user: Some(user.clone()),
+                                    status: LoginStatus::Success
                                 })
                             } else {
-                                Err(ScarletError {
-                                    code: 0x02,
-                                    message: "Cannot login using this TOTP: Invalid TOTP code."
-                                        .to_string(),
+                                Ok(LoginStatusReponse {
+                                    user: None,
+                                    status: LoginStatus::Failed
                                 })
                             }
                         } else if with_webauthn.is_some() {
-                            Err(ScarletError {
-                                code: 0x99,
-                                message: "Webauthn is not implemented.".to_string(),
+                            Ok(LoginStatusReponse {
+                                user: Some(user.clone()),
+                                status: LoginStatus::TwoFactorRequired
                             })
                         } else {
-                            Ok(ScarletResponse {
-                                code: 0x04,
-                                user: user.clone(),
+                            Ok(LoginStatusReponse {
+                                user: Some(user.clone()),
+                                status: LoginStatus::Success
                             })
                         }
                     } else {
-                        Ok(ScarletResponse {
-                            code: 200,
-                            user: user.clone()
+                        Ok(LoginStatusReponse {
+                            user: Some(user.clone()),
+                            status: LoginStatus::Success
                         })
                     }
                 } else {
-                    Err(ScarletError {
-                        code: 0x05,
-                        message: "This user does not exists.".to_string(),
+                    Ok(LoginStatusReponse {
+                        user: None,
+                        status: LoginStatus::UnknownUser
                     })
                 }
             }
-            Err(_) => Err(ScarletError {
-                code: 0x06,
-                message: "Internal error.".to_string(),
-            }),
+            Err(_) => Err(Status::InternalServerError),
         };
     } else {
-        Err(ScarletError {
-            code: 0x7,
-            message: "No login platform specified.".to_string(),
-        })
+        Err(Status::BadRequest)
     }
 }
 
 pub fn check_otp(data: &WithOTP, user: &User) -> bool {
     if user.otpkey.is_some() {
-        let totp = make_totp(user.otpkey.as_ref().unwrap(), 30, 0);
+        let totp = make_totp(user.otpkey.as_ref().unwrap(), 30, -5);
         match totp {
             Ok(processed_code) => {
-                println!("Expected code {}", processed_code);
                 data.code == processed_code
             },
             Err(_) => {
-                println!("Failed.");
                 false
             },
         }
@@ -145,9 +147,9 @@ pub fn check_otp(data: &WithOTP, user: &User) -> bool {
 pub fn start_login_session(
     conn: ScarletDB,
     data: Json<LoginDataPost>,
-) -> Result<Json<ScarletResponse>, Json<ScarletError>> {
+) -> Result<Json<LoginStatusReponse>, Status> {
     match do_user_login(data.0, conn) {
         Ok(user) => Ok(Json(user)),
-        Err(err) => Err(Json(err)),
+        Err(err) => Err(err),
     }
 }

@@ -72,7 +72,7 @@ pub fn delete_user_by_id(conn: ScarletDB, user: Uuid) -> Result<Status, Status> 
             .execute(&*conn);
 
     match result {
-        Ok(_) => Ok(Status::Ok),
+        Ok(_) => Ok(Status::Accepted),
         Err(e) => {
             match e {
                 e => Err(db_error(e))
@@ -86,6 +86,7 @@ pub struct CreateUserPayload {
     platform: String,
     platform_id: String,
     username: String,
+    #[serde(rename = "pub")]
     private: bool,
     avatar: String,
 }

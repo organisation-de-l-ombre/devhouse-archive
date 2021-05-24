@@ -45,7 +45,7 @@ pub fn put_webauth_key(
         })
         .execute(&*conn)
     {
-        Ok(_) => Ok(Status::Created),
+        Ok(_) => Ok(Status::Accepted),
         Err(e) => Err(db_error(e)),
     }
 }

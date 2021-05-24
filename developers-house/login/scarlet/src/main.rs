@@ -8,8 +8,9 @@ extern crate rocket;
 extern crate diesel_migrations;
 #[macro_use]
 extern crate rocket_contrib;
-extern crate serde;
 extern crate rand;
+extern crate serde;
+extern crate serde_json;
 extern crate base32;
 
 use crate::database::establish_connection;
@@ -19,9 +20,10 @@ use rocket::{Rocket};
 use std::collections::HashMap;
 use std::env;
 
+mod types;
 mod api;
 mod database;
-mod types;
+
 
 embed_migrations!();
 

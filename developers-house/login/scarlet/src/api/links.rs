@@ -67,7 +67,12 @@ pub fn delete_link_for_user(
         .filter(user_id.eq(user))
         .execute(&*conn)
     {
-        Ok(_) => Ok(Status::Accepted),
+        Ok(amount) => {
+            if amount > 0 {
+                return Ok(Status::Accepted)
+            }
+            Err(Status::NotFound)
+        },
         Err(error) => Err(db_error(error)),
     }
 }
