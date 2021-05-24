@@ -30,9 +30,9 @@ export const consentSubmit: RouteOptions = {
     }
     const function_ = (granted
       ? // eslint-disable-next-line @typescript-eslint/unbound-method
-        Admin.acceptConsentRequest
+      Admin.acceptConsentRequest
       : // eslint-disable-next-line @typescript-eslint/unbound-method
-        Admin.rejectConsentRequest
+      Admin.rejectConsentRequest
     ).bind(Admin);
 
     const { data: user } = await UserAPI.getUser(consent.sub);
@@ -40,19 +40,22 @@ export const consentSubmit: RouteOptions = {
       consent.challenge,
       granted
         ? {
-            grant_access_token_audience: consent.audiences,
-            grant_scope: consent.scopes,
-            remember: true,
-            remember_for: 0,
-            session: {
-              id_token: user,
-            }
+          grant_access_token_audience: consent.audiences,
+          grant_scope: consent.scopes,
+          remember: true,
+          remember_for: 0,
+          session: {
+            id_token: user,
           }
+        }
         : {}
     );
     if (status === 200) {
       await new Promise((resolve) => request.destroySession(resolve));
-      void response.code(200).send({ redirect: data.redirect_to });
+      void response.code(200).send({
+        redirect: data.redirect_to,
+        error: false,
+      });
       return;
     }
 
