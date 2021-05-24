@@ -1,6 +1,7 @@
 declare module "fastify" {
   export interface FastifyRequest {
-    S3Client: () => S3ClientBuilder;
+    internalS3Client: () => S3ClientBuilder;
+    externalS3Client: () => S3ClientBuilder;
     databaseConnection: () => Connection;
   }
 }
@@ -35,6 +36,10 @@ import { Tag } from "@entities/tag";
 
 import { MovieTitle1618162709488 } from "./migration/1618162709488-MovieTitle";
 
+export const internalS3ClientEndpoint: string =
+  process.env.NODE_ENV === "development"
+    ? "https://s3.developershouse.xyz"
+    : "http://minio.minio";
 const databaseHost: string = process.env.POSTGRES_HOST || "";
 const databaseUsername: string = process.env.POSTGRES_USERNAME || "";
 
@@ -58,7 +63,16 @@ createConnection({
 
       new (class AmeliaAPI {
         FastifyClient: FastifyInstance = Fastify();
-        S3Client: S3ClientBuilder = new S3ClientBuilder({
+        internalS3Client: S3ClientBuilder = new S3ClientBuilder({
+          endpoint: internalS3ClientEndpoint,
+          region: "eu",
+          credentials: {
+            accessKeyId: process.env.S3_ACCESS_KEY || "",
+            secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || ""
+          },
+          forcePathStyle: true
+        });
+        externalS3Client: S3ClientBuilder = new S3ClientBuilder({
           endpoint: "https://s3.developershouse.xyz",
           region: "eu",
           credentials: {
@@ -84,8 +98,12 @@ createConnection({
         // Adds decorations to Fastify instance
         addDecorators(): void {
           this.FastifyClient.decorateRequest(
-            "S3Client",
-            (): S3ClientBuilder => this.S3Client
+            "internalS3Client",
+            (): S3ClientBuilder => this.internalS3Client
+          );
+          this.FastifyClient.decorateRequest(
+            "externalS3Client",
+            (): S3ClientBuilder => this.externalS3Client
           );
           this.FastifyClient.decorateRequest(
             "databaseConnection",

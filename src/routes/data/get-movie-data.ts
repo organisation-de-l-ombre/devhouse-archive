@@ -59,7 +59,7 @@ export default {
       return;
     }
 
-    const files = await request.S3Client().listObjects({
+    const files = await request.internalS3Client().listObjects({
       Bucket: process.env.S3_BUCKET_NAME || "",
       Prefix: `${
         process.env.S3_PRIVATE || ""
@@ -114,7 +114,7 @@ export default {
           indexes[section]
         }_${section}.json`
       });
-      const dataURL = await getSignedUrl(request.S3Client(), command, {
+      const dataURL = await getSignedUrl(request.externalS3Client(), command, {
         expiresIn: 1800
       });
 
