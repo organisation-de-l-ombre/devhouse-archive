@@ -3,8 +3,8 @@
  */
 import { FastifyReply, FastifyRequest, RouteOptions } from "fastify";
 import { Admin, UserAPI } from "../../utils/apis";
-import { UserCreate } from "@developers-house/scarlet";
 import fetch from "node-fetch";
+import { CandaceError } from "../../utils/error";
 
 export const registerSubmit: RouteOptions = {
   schema: {
@@ -29,9 +29,7 @@ export const registerSubmit: RouteOptions = {
       name: string;
     };
     if (!register) {
-      return response
-        .code(400)
-        .send({ code: 400, message: "Missing session." });
+      throw new CandaceError("400", "MISSING_SESSION_REGISTER", "No register session was specified.");
     }
 
     if (user.term && user.name.length > 3 && user.name.length < 33) {
@@ -43,13 +41,13 @@ export const registerSubmit: RouteOptions = {
       );
       if (resp.ok) {
         const { link } = await resp.json();
-        const { data } = await UserAPI.createUser(({
+        const { data } = await UserAPI.createUser({
           platform: register.user.provider,
           platform_id: register.user.id,
-          private: user.private,
+          pub: user.private,
           username: user.name,
           avatar: link
-        } as unknown) as UserCreate);
+        });
 
         const { data: redirect } = await Admin.acceptLoginRequest(
           register.challenge,
@@ -62,12 +60,12 @@ export const registerSubmit: RouteOptions = {
             remember_for: 3600
           }
         );
-        delete request.session.register;
 
         return response.send({ redirect: redirect.redirect_to });
       }
+      throw new CandaceError("500", "ELLIE_FAIL", "Ellie failed to process the user profile picture.");
     } else {
-      return response.code(400).send({ code: 400, message: "Invalid user." });
+      throw new CandaceError("400", "INVALID_USER", "Invalid user creation detected.");
     }
   }
 };

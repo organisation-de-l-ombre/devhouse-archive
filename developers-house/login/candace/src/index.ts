@@ -40,6 +40,12 @@ server.route(registerSubmit);
 server.route(twoFaStart);
 server.route(twoFaSubmit);
 
+server.setErrorHandler((error, _, response) => {
+  response
+    .code(error.statusCode || 500)
+    .send({ error: true, message: error.message });
+})
+
 server.get("/_healz", (request, response) => {
   void response.code(200).send();
 });

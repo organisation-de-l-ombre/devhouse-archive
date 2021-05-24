@@ -3,8 +3,7 @@ import { Providers } from "../../providers";
 import { Admin, LoginAPI } from "../../utils/apis";
 import { AxiosResponse } from "axios";
 import {
-  InlineResponse200,
-  InlineResponse200CodeEnum
+  InlineResponse200, InlineResponse200StatusEnum,
 } from "@developers-house/scarlet";
 
 export const loginCallback: RouteOptions = {
@@ -25,24 +24,28 @@ export const loginCallback: RouteOptions = {
     const { code, state } = request.query as { code: string; state: string };
     const { provider } = request.params as { provider: string };
     if (!login) {
-      return response
-        .code(400)
-        .send({ code: 400, message: "Missing session." });
+      return response.redirect(
+        "/dialog/error?error_message=" +
+          encodeURIComponent("Invalid session.")
+      );
     }
 
     if (login.state !== state) {
-      return response
-        .code(400)
-        .send({ code: 400, message: "Invalid session." });
+      return response.redirect(
+        "/dialog/error?error_message=" +
+          encodeURIComponent("Failed to validate state.")
+      );
     }
 
     const instance = Providers.get(provider.toLowerCase());
     if (!instance) {
-      return response
-        .code(400)
-        .send({ code: 400, message: "Invalid provider." });
+      return response.redirect(
+        "/dialog/error?error_message=" +
+          encodeURIComponent("Invalid loginn provider specified.")
+      );
     }
 
+    delete request.session.login;
     const token = await instance.exchangeCode(
       code,
       `https://${request.headers.host as string}`
@@ -56,29 +59,33 @@ export const loginCallback: RouteOptions = {
       }
     });
 
-    switch (data.code) {
-      case InlineResponse200CodeEnum.NUMBER_1: // Banned account
-        void response.redirect(
+    switch (data.status) {
+      case InlineResponse200StatusEnum.Failed: // Banned account
+        return response.redirect(
           "/dialog/error?error_message=" +
-            encodeURIComponent("This account is banned.")
+            encodeURIComponent("Couldn't access this account.")
         );
-        break;
-      case InlineResponse200CodeEnum.NUMBER_2: // Bad request
-        return response
-          .code(500)
-          .send({ code: 500, message: "Internal server error." });
-      case InlineResponse200CodeEnum.NUMBER_4: // 2FA Required.
+      case InlineResponse200StatusEnum.UnknownUser: // Bad request
+        return response.redirect(
+          "/dialog/error?error_message=" +
+            encodeURIComponent("internal: Scarlet returned unknown user.")
+        );
+      case InlineResponse200StatusEnum.TwoFactorRequired: // 2FA Required.
         if (data.user) {
           request.session.twoFa = {
             user: data.user,
             challenge: login.challenge,
             login: { platform_id: user.id, platform_name: provider },
           };
-          delete request.session.login;
           return response.redirect("/dialog/2fa");
+        } else {
+          return response.redirect(
+            "/dialog/error?error_message=" +
+              encodeURIComponent("internal: Scarlet returned invalid response for 2fa user.")
+          );
         }
         break;
-      case InlineResponse200CodeEnum.NUMBER_5: // Register
+      case InlineResponse200StatusEnum.UnknownUser: // Register
         request.session.register = {
           user,
           challenge: login.challenge
@@ -90,14 +97,7 @@ export const loginCallback: RouteOptions = {
             "&avatar=" +
             encodeURIComponent(user.avatarURL)
         );
-      case InlineResponse200CodeEnum.NUMBER_153: // Internal error
-        void response.redirect(
-          "/dialog/error?error_message=" +
-            encodeURIComponent("An internal error occured.")
-        );
-        delete request.session.login;
-        break;
-      case InlineResponse200CodeEnum.NUMBER_200: // User successful
+      case InlineResponse200StatusEnum.Success: // User successful
         if (data.user) {
           const { data: redirect } = await Admin.acceptLoginRequest(
             login.challenge,
@@ -112,6 +112,11 @@ export const loginCallback: RouteOptions = {
           );
           delete request.session.login;
           void response.redirect(redirect.redirect_to);
+        } else {
+          return response.redirect(
+            "/dialog/error?error_message=" +
+              encodeURIComponent("internal: Scarlet returned invalid response for 2fa user.")
+          );
         }
         break;
     }

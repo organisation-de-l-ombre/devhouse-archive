@@ -16,7 +16,7 @@ export const twoFaStart: RouteOptions = {
 
     const {
       data
-    }: AxiosResponse<WebAuthKey[]> = await WebAuthAPI.getUserWebAuth(
+    }: AxiosResponse<WebAuthKey[]> = await WebAuthAPI.getUserWebAuthKeys(
       twoFa.user.id
     );
 
