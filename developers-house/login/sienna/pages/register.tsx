@@ -55,10 +55,11 @@ export default function Register(): ReactElement {
 
         if (response.ok) {
           const json = await response.json();
+          setLoading(false);
           await router.push(json.redirect);
         }
-        setLoading(false);
       } catch (e) {
+        setLoading(false);
         setError(e);
       }
     },

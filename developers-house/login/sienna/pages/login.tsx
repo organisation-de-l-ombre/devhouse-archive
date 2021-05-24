@@ -23,7 +23,6 @@ export default function Login(): ReactElement {
         }
         return fetch;
       }
-      throw new Error(fetch.message);
     }
     return null;
   }, [router]);
@@ -33,7 +32,7 @@ export default function Login(): ReactElement {
   );
 
   return (
-    <ErrorGate error={error} loading={loading}>
+    <ErrorGate error={error} loading={loading || !data}>
       {data && (
         <>
           <Head key="login-page">

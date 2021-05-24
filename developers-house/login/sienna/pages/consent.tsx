@@ -57,7 +57,7 @@ export default function Consent(): ReactElement {
   );
 
   return (
-    <ErrorGate loading={loading} error={error}>
+    <ErrorGate loading={loading || !data} error={error}>
       {data && (
         <div className={styles.consent}>
           <h2>Consent page</h2>
