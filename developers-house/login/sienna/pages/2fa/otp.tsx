@@ -16,6 +16,8 @@ export default function Login(): ReactElement {
   const { data } = useContext(TwoFAContext);
   const [error, setError] = useState<Error>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>(null);
+
   const element = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
@@ -27,6 +29,9 @@ export default function Login(): ReactElement {
       );
       if (response.error === false) {
         await router.push(response.redirect);
+      } else {
+        setMessage(response.message);
+        setLoading(false);
       }
     } catch (e) {
       setError(e);
@@ -45,6 +50,7 @@ export default function Login(): ReactElement {
       <p>You need a code from your phone lmao</p>
       <input min={0} max={9999} ref={element} type="number" />
       <br />
+      <p>{message}</p>
       <Button onClick={validate}>Validate</Button>
     </ErrorGate>
   );
