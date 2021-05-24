@@ -38,8 +38,7 @@ register({
     store.dispatch(
       addNotification({
         level: "information",
-        text:
-          "A new update is available for the website. Would you like to load this new update ?",
+        text: "A new update is available for the website. Would you like to load this new update ?",
         time: -1,
         buttons: [
           {

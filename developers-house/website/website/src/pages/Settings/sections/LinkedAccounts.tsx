@@ -54,21 +54,19 @@ const LinkedAccounts: FC = () => {
 
   return (
     <div className={styles.links}>
-      {data.map(
-        (link: Link): ReactElement => {
-          return (
-            <Card key={link.platformId} className={styles.link}>
-              <div className={styles.title}>
-                <DisplayPlatformSVG platform={link.platform} />
-                <span>
-                  {getPlatformName(link.platform as keyof typeof platforms)}
-                </span>
-              </div>
-              <Button>Remove link</Button>
-            </Card>
-          );
-        }
-      )}
+      {data.map((link: Link): ReactElement => {
+        return (
+          <Card key={link.platformId} className={styles.link}>
+            <div className={styles.title}>
+              <DisplayPlatformSVG platform={link.platform} />
+              <span>
+                {getPlatformName(link.platform as keyof typeof platforms)}
+              </span>
+            </div>
+            <Button>Remove link</Button>
+          </Card>
+        );
+      })}
     </div>
   );
 };
