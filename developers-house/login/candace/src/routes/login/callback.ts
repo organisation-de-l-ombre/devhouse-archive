@@ -84,7 +84,6 @@ export const loginCallback: RouteOptions = {
             encodeURIComponent("internal: Scarlet returned invalid response for 2fa user.")
           );
         }
-        break;
       case InlineResponse200StatusEnum.UnknownUser: // Register
         request.session.register = {
           user,
@@ -111,14 +110,13 @@ export const loginCallback: RouteOptions = {
             }
           );
           delete request.session.login;
-          void response.redirect(redirect.redirect_to);
+          return response.redirect(redirect.redirect_to);
         } else {
           return response.redirect(
             "/dialog/error?error_message=" +
-            encodeURIComponent("internal: Scarlet returned invalid response for 2fa user.")
+            encodeURIComponent("internal: Scarlet returned invalid response for user.")
           );
         }
-        break;
     }
   }
 };
