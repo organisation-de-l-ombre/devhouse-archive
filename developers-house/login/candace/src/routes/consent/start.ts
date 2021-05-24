@@ -5,6 +5,17 @@ import { FastifyReply, FastifyRequest, RouteOptions } from "fastify";
 import { Admin, UserAPI } from "../../utils/apis";
 import { AxiosResponse } from "axios";
 import { ConsentRequest } from "@ory/hydra-client";
+import { CandaceError } from "../../utils/error";
+
+type ConsentResponse = { redirect: string; } | {
+  audiences: string[];
+  scopes: string[];
+  clientName: string;
+  tos?: string;
+  image?: string;
+  owner?: string;
+  contact?: string;
+};
 
 export const consentStart: RouteOptions = {
   schema: {
@@ -41,17 +52,14 @@ export const consentStart: RouteOptions = {
     if (status === 200) {
       if (data.skip) {
         const { data: user } = await UserAPI.getUser(data.subject as string);
-        await Admin.acceptConsentRequest(challenge, {
+        const redirect = await Admin.acceptConsentRequest(challenge, {
           grant_access_token_audience: data.requested_access_token_audience,
           grant_scope: data.requested_scope,
           session: {
-            id_token: {
-              ...user,
-              _private: undefined,
-              private: user._private
-            }
+            id_token: user,
           }
         });
+        void response.code(200).send({ redirect: redirect.data.redirect_to });
       }
       request.session.consent = {
         audiences: data.requested_access_token_audience as string[],
@@ -66,11 +74,10 @@ export const consentStart: RouteOptions = {
         tos: data.client?.tos_uri,
         image: data.client?.logo_uri,
         owner: data.client?.owner,
-        contact: data.client?.contacts,
-        challenge
+        contact: data.client?.contacts
       });
       return;
     }
-    void response.code(404).send({ code: 404, message: "No challenge." });
+    throw new CandaceError("400", "INVALID_CHALLENGE_CONSENT", "Invalid consent challenge provided.");
   }
 };
