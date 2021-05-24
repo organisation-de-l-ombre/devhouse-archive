@@ -13,13 +13,25 @@ import { ErrorGate } from "../components/ErrorGate";
 
 export default function Consent(): ReactElement {
   const router = useRouter();
+
   const fetchingFunction = useCallback(async () => {
     const challenge = router.query.consent_challenge as string;
     if (challenge) {
-      return fetchConsent(challenge);
+      const fetch = await fetchConsent(challenge);
+      if (fetch.error === true) {
+        throw new Error(fetch.message);
+      }
+      if (fetch.error === false) {
+        if (fetch.redirect) {
+          await router.push(fetch.redirect);
+          return null;
+        }
+        return fetch;
+      }
     }
     return null;
-  }, [router.query.consent_challenge]);
+  }, [router]);
+
 
   const {
     error,

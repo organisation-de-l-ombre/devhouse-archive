@@ -16,7 +16,7 @@ export interface ConsentFetchResponse {
 
 export async function fetchConsent(
   challenge: string
-): Promise<ConsentFetchResponse> {
+): Promise<OrError<ConsentFetchResponse>> {
   return fetch(`${PREFIX}/dialog/api/consent?challenge=${challenge}`)
     .then((x) => x.json())
     .catch((e) => ({ error: true, message: e.message }));
