@@ -9,6 +9,8 @@ extern crate diesel_migrations;
 #[macro_use]
 extern crate rocket_contrib;
 extern crate serde;
+extern crate rand;
+extern crate base32;
 
 use crate::database::establish_connection;
 use dotenv::dotenv;
@@ -84,6 +86,7 @@ fn main() {
                 api::user::get_user_by_id,
                 api::user::patch_user_by_id,
                 api::user::post_user,
+                api::user::enable_totp,
                 api::webauthn::delete_webauthn_for_user,
                 api::webauthn::put_webauth_key,
                 api::webauthn::get_webauth_keys_for_user,

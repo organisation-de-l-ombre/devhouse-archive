@@ -1,7 +1,7 @@
 use crate::database::link::NewLink;
 use crate::database::schema::links::dsl::links;
 use crate::database::schema::users::dsl::{id, users};
-use crate::database::user::{NewUser, User, UserUpdate};
+use crate::database::user::{NewUser, User, UserUpdate, UserOtpKeyUpdate};
 use crate::diesel::RunQueryDsl;
 use crate::types::db_error::db_error;
 use crate::types::ScarletError;
@@ -11,8 +11,10 @@ use diesel::{ExpressionMethods, QueryDsl};
 use rocket::http::Status;
 use rocket_contrib::json::Json;
 use rocket_contrib::uuid::Uuid;
-use serde::Deserialize;
+use serde::{ Deserialize };
 use uuid::UuidVersion;
+use rand::Rng;
+use base32::{ encode, Alphabet };
 
 /// get_user_by_id - GET /user/:id
 /// Get a user information by id.
@@ -145,4 +147,29 @@ pub fn post_user(conn: ScarletDB, user: Json<CreateUserPayload>) -> Result<Json<
         }
         Err(_) => Err(Status::InternalServerError),
     }
+}
+
+#[put("/user/<user>/totp")]
+pub fn enable_totp(conn: ScarletDB, user: Uuid) -> Result<Json<UserOtpKeyUpdate>, Json<ScarletError>> {
+    let random_bytes = rand::thread_rng().gen::<[u8; 20]>();
+    let code: String = encode(Alphabet::RFC4648 { padding: false }, &random_bytes);
+    let update = UserOtpKeyUpdate{ otpkey: Some(code) };
+
+    let result: Result<usize, Error> = diesel::update(users)
+        .filter(id.eq(uuid::Uuid::from_bytes(user.as_bytes()).unwrap()))
+        .set(&update)
+        .execute(&*conn);
+
+    if result.is_ok() {
+        return Ok(Json(update));
+    }
+    return
+        match result.err().unwrap() {
+            Error::NotFound => Err(Json(ScarletError {
+                code: 0,
+                message: "This user does not exists.".to_string(),
+            })),
+            e => Err(Json(db_error(e)))
+        }
+
 }

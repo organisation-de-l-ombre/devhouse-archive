@@ -226,7 +226,24 @@ paths:
       responses:
         200:
           description: Deleted a key.
-
+  "/user/{user}/totp":
+    parameters:
+      - in: path
+        name: user
+        required: true
+        schema:
+          type: string
+    put:
+      operationId: enableTOTP
+      responses:
+        200:
+          description: Enabled the totp on this account.
+          content:
+            application/json:
+              schema:
+                properties:
+                  secret:
+                    type: string
 
   "/login":
     post:
