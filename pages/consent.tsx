@@ -48,10 +48,10 @@ export default function Consent(): ReactElement {
         if (e.error === false) {
           await router.push(e.redirect);
         } else {
-          setError(new Error(e.message));
+          setError(new Error(e.message))
+          setLoading(false);
         }
       });
-      setLoading(false);
     },
     [setLoading, router, setError]
   );
