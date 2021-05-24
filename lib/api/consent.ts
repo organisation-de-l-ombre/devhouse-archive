@@ -1,3 +1,6 @@
+import { PREFIX } from "./endpoint";
+import { OrError } from "./error";
+
 export interface ConsentFetchResponse {
   audiences: string[];
   challenge: string;
@@ -10,16 +13,27 @@ export interface ConsentFetchResponse {
 
   redirect?: string;
 }
-export const PREFIX =
-  process.env.NODE_ENV === "development"
-    ? "https://auth-server.developershouse.xyz"
-    : "";
 
 export async function fetchConsent(
   challenge: string
 ): Promise<ConsentFetchResponse> {
-  const response = await fetch(
-    `${PREFIX}/dialog/api/consent?challenge=${challenge}`
-  );
-  return response.json();
+  return fetch(`${PREFIX}/dialog/api/consent?challenge=${challenge}`)
+    .then((x) => x.json())
+    .catch((e) => ({ error: true, message: e.message }));
+}
+
+export async function validateConsent(
+  granted: boolean
+): Promise<OrError<{ redirect: string }>> {
+  return fetch("/dialog/api/consent", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      granted,
+    }),
+  })
+    .then((x) => x.json())
+    .catch((e) => ({ error: true, message: e.message }));
 }

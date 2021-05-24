@@ -1,64 +1,57 @@
 import React, { ReactElement, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import Loader from "react-loaders";
-import styles from "../../styles/pages/consent.module.scss";
 import { Button, ButtonContainer } from "../../components/button";
 import { fetchTwoFaSession } from "../../lib/api/2fa";
 import { usePageState } from "../../lib/usePageState";
 import { TwoFAContext } from "../../contexts/2FAContext";
+import { ErrorGate } from "../../components/ErrorGate";
 
 export default function TwoFa(): ReactElement {
-  const { error, data } = usePageState(fetchTwoFaSession);
+  const { error, data, loading, setError } = usePageState(fetchTwoFaSession);
   const [choose, setChoose] = useState<boolean>(false);
   const context = useContext(TwoFAContext);
   const router = useRouter();
 
   useEffect(() => {
-    context.setTwoFaData(() => ({ session: data }));
-    console.log("Context updated");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (data && data.error === false)
+      context.setTwoFaData(() => ({ session: data }));
+    // eslint-disable-next-line
   }, [data]);
 
   useEffect(() => {
-    if (!context.data.session) return;
-    if (data.otp && data.webauth.availableKeys.length === 0) {
-      console.log("Redirect updated");
-      router.push("/2fa/otp");
-      return;
+    if (!data) return;
+    if (data.error === false) {
+      if (data.otp && data.webauth.availableKeys.length === 0) {
+        router.push("/2fa/otp");
+        return;
+      }
+      if (!data.otp && data.webauth.availableKeys.length > 0) {
+        router.push("/2fa/webauth");
+      }
+      if (data.otp && data.webauth.availableKeys.length > 0) {
+        setChoose(true);
+      }
+    } else {
+      setError(new Error(data.message));
     }
-    if (!data.otp && data.webauth.availableKeys.length > 0) {
-      console.log("Redirect updated");
-      router.push("/2fa/webauth");
-    }
-    if (data.otp && data.webauth.availableKeys.length > 0) {
-      setChoose(true);
-    }
-  }, [data, router, context]);
+  }, [data, router, context, setError]);
 
-  if (error) {
-    return <p>{error.message}</p>;
-  }
-
-  if (choose) {
-    return (
-      <div>
-        <p>2fa_required</p>
-        <ButtonContainer>
-          <Link href="/2fa/webauth">
-            <Button>private_key</Button>
-          </Link>
-          <Link href="/2fa/otp">
-            <Button>otp</Button>
-          </Link>
-        </ButtonContainer>
-      </div>
-    );
-  }
   return (
-    <div className={styles["loader-root"]}>
-      <Loader type="line-scale" innerClassName={styles.loader} active />
-      <p>Loading the resource you requested...</p>
-    </div>
+    <ErrorGate loading={loading} error={error}>
+      {choose && (
+        <>
+          <p>2fa_required</p>
+          <ButtonContainer>
+            <Link href="/2fa/webauth">
+              <Button>private_key</Button>
+            </Link>
+            <Link href="/2fa/otp">
+              <Button>otp</Button>
+            </Link>
+          </ButtonContainer>
+        </>
+      )}
+    </ErrorGate>
   );
 }

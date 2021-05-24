@@ -1,11 +1,15 @@
 import React, { ReactElement, useCallback } from "react";
-import Loader from "react-loaders";
 import { useRouter } from "next/router";
 import { Button, ButtonContainer } from "../components/button";
 import styles from "../styles/pages/consent.module.scss";
 import globalStyles from "../styles/generic.module.scss";
-import { ConsentFetchResponse, fetchConsent } from "../lib/api/consent";
+import {
+  ConsentFetchResponse,
+  fetchConsent,
+  validateConsent,
+} from "../lib/api/consent";
 import { usePageState } from "../lib/usePageState";
+import { ErrorGate } from "../components/ErrorGate";
 
 export default function Consent(): ReactElement {
   const router = useRouter();
@@ -14,7 +18,7 @@ export default function Consent(): ReactElement {
     if (challenge) {
       return fetchConsent(challenge);
     }
-    throw new Error("No challenge specified.");
+    return null;
   }, [router.query.consent_challenge]);
 
   const {
@@ -22,68 +26,51 @@ export default function Consent(): ReactElement {
     data,
     loading,
     setLoading,
+    setError,
   } = usePageState<ConsentFetchResponse>(fetchingFunction);
 
   const submit = useCallback(
     async (granted: boolean) => {
       setLoading(true);
-      const response = await fetch("/dialog/api/consent", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "same-origin",
-        body: JSON.stringify({
-          granted,
-          challenge: data.challenge,
-          scopes: data.scopes,
-          audiences: data.audiences,
-        }),
+      await validateConsent(granted).then(async (e) => {
+        if (e.error === false) {
+          await router.push(e.redirect);
+        } else {
+          setError(new Error(e.message));
+        }
       });
-      if (response.ok) {
-        const json = await response.json();
-        await router.push(json.redirect);
-      }
+      setLoading(false);
     },
-    [data, setLoading, router]
+    [setLoading, router, setError]
   );
 
-  if (error) {
-    return <p>{error.message}</p>;
-  }
-
-  if (loading) {
-    return (
-      <div className={styles["loader-root"]}>
-        <Loader type="line-scale" innerClassName={styles.loader} active />
-        <p>Loading the resource you requested...</p>
-      </div>
-    );
-  }
-
   return (
-    <div className={styles.consent}>
-      <h2>Consent page</h2>
-      <h3>{data.clientName}</h3>
-      <p>
-        This application needs some kind of access to your account and needs
-        your consent, if you do not trust this application, feel free to reject
-        the consent request. This application requires the following
-        permissions:
-      </p>
+    <ErrorGate loading={loading} error={error}>
+      {data && (
+        <div className={styles.consent}>
+          <h2>Consent page</h2>
+          <h3>{data.clientName}</h3>
+          <p>
+            This application needs some kind of access to your account and needs
+            your consent, if you do not trust this application, feel free to
+            reject the consent request. This application requires the following
+            permissions:
+          </p>
 
-      <div className={styles.scopes}>
-        {data.scopes.map((val) => (
-          <code key={val}>{val}</code>
-        ))}
-      </div>
-      <ButtonContainer
-        horizontal
-        className={globalStyles["alignment-full-center"]}
-      >
-        <Button onClick={() => submit(true)}>Accept</Button>
-        <Button onClick={() => submit(false)}>Reject</Button>
-      </ButtonContainer>
-    </div>
+          <div className={styles.scopes}>
+            {data.scopes.map((val) => (
+              <code key={val}>{val}</code>
+            ))}
+          </div>
+          <ButtonContainer
+            horizontal
+            className={globalStyles["alignment-full-center"]}
+          >
+            <Button onClick={() => submit(true)}>Accept</Button>
+            <Button onClick={() => submit(false)}>Reject</Button>
+          </ButtonContainer>
+        </div>
+      )}
+    </ErrorGate>
   );
 }

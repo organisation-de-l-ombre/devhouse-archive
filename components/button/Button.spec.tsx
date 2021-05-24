@@ -1,7 +1,7 @@
 import React from "react";
 import { render, RenderResult } from "@testing-library/react";
-import { Button } from ".";
 import { randomBytes } from "crypto";
+import { Button } from ".";
 
 const key = randomBytes(255).toString("hex");
 

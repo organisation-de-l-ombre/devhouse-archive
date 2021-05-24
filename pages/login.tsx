@@ -1,11 +1,10 @@
 import React, { ReactElement, useCallback } from "react";
 import { useRouter } from "next/router";
-import Loader from "react-loaders";
 import Head from "next/head";
 import { ButtonContainer, ButtonLink } from "../components/button";
 import { fetchLogin, LoginFetchResponse } from "../lib/api/login";
-import styles from "../styles/pages/consent.module.scss";
 import { usePageState } from "../lib/usePageState";
+import { ErrorGate } from "../components/ErrorGate";
 
 export default function Login(): ReactElement {
   const router = useRouter();
@@ -14,55 +13,54 @@ export default function Login(): ReactElement {
     const challenge = router.query.login_challenge as string;
     if (challenge) {
       const fetch = await fetchLogin(challenge);
-      if (fetch.redirect) {
-        await router.push(fetch.redirect);
+      if (fetch.error) {
+        throw new Error(fetch.message);
       }
+      if (fetch.error === false) {
+        if (fetch.redirect) {
+          await router.push(fetch.redirect);
+          return null;
+        }
+        return fetch;
+      }
+      throw new Error(fetch.message);
     }
-    throw new Error("No challenge specified.");
+    return null;
   }, [router]);
 
   const { error, data, loading } = usePageState<LoginFetchResponse>(
     fetchingFunction
   );
 
-  if (loading) {
-    return (
-      <div className={styles["loader-root"]}>
-        <Loader type="line-scale" innerClassName={styles.loader} active />
-        <p>Loading the resource you requested...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return <p>{error.message}</p>;
-  }
-
   return (
-    <div>
-      <Head key="login-page">
-        <title>Sienna - Login</title>
-      </Head>
-      <h2>Login page</h2>
-      <br />
-      <p>
-        Welcome to <b>Developer&rsquo;s House!</b> To continue, you need to
-        login to your account or create one. Our system does not accepts
-        password / email login for security reasons and we propose a variety of
-        login providers available to you. You must login to continue to{" "}
-        <u>{data.clientName}</u>
-      </p>
-      <ButtonContainer>
-        {data.platforms.map((platform) => (
-          <ButtonLink
-            href={platform.url}
-            style={{ background: platform.color }}
-            key={platform.name}
-          >
-            {platform.name}
-          </ButtonLink>
-        ))}
-      </ButtonContainer>
-    </div>
+    <ErrorGate error={error} loading={loading}>
+      {data && (
+        <>
+          <Head key="login-page">
+            <title>Sienna - Login</title>
+          </Head>
+          <h2>Login page</h2>
+          <br />
+          <p>
+            Welcome to <b>Developer&rsquo;s House!</b> To continue, you need to
+            login to your account or create one. Our system does not accepts
+            password / email login for security reasons and we propose a variety
+            of login providers available to you. You must login to continue to{" "}
+            <u>{data.clientName}</u>
+          </p>
+          <ButtonContainer>
+            {data.platforms.map((platform) => (
+              <ButtonLink
+                href={platform.url}
+                style={{ background: platform.color }}
+                key={platform.name}
+              >
+                {platform.name}
+              </ButtonLink>
+            ))}
+          </ButtonContainer>
+        </>
+      )}
+    </ErrorGate>
   );
 }

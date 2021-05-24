@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "format": "prettier --write {src,pages,lib,components}/**/*.ts{,x}",
-        "lint": "tsc --noEmit && eslint {src,pages,lib,components}/**/*.ts{,x} --fix",
+        "lint": "eslint {src,pages,lib,components}/**/*.ts{,x} --fix",
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
