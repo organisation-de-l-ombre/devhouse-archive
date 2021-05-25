@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { Button, ButtonContainer } from "../components/button";
 import styles from "../styles/pages/register.module.scss";
 import { ErrorGate } from "../components/ErrorGate";
@@ -16,17 +17,32 @@ export default function Register(): ReactElement {
   const username = useRef<HTMLInputElement>(null);
   const privateAccount = useRef<HTMLInputElement>(null);
   const terms = useRef<HTMLInputElement>(null);
+  const captchaRef = useRef<HCaptcha>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error>(null);
   const router = useRouter();
   const { query } = router;
 
-  const submit = useCallback(
-    async (event?: FormEvent<HTMLFormElement>): Promise<void> => {
+  const captchaExec = useCallback(
+    async (event?: FormEvent<HTMLFormElement>) => {
       if (event) {
         event.preventDefault();
       }
+      setLoading(true);
+      captchaRef.current.execute();
+    },
+    []
+  );
+
+  const captchaError = useCallback(() => {
+    setLoading(false);
+    setError(new Error("Failed captcha."));
+  }, []);
+
+  const submit = useCallback(
+    async (token: string): Promise<void> => {
       try {
+        if (!loading) return;
         const name = username.current.value;
 
         if (name.length < 3 || name.length > 32) {
@@ -50,6 +66,7 @@ export default function Register(): ReactElement {
             name,
             private: privateAccount.current.checked,
             term: terms.current.checked,
+            captcha: token,
           }),
         });
 
@@ -63,7 +80,7 @@ export default function Register(): ReactElement {
         setError(e);
       }
     },
-    [router]
+    [router, loading]
   );
 
   return (
@@ -78,7 +95,7 @@ export default function Register(): ReactElement {
           to create an account and accept our <a href="#a">terms of service</a>{" "}
           in order to continue.
         </p>
-        <form onSubmit={submit} className={styles.form}>
+        <form onSubmit={captchaExec} className={styles.form}>
           <div className={`${styles["form-element"]} ${styles.column}`}>
             <label htmlFor="register-username">Username</label>
             <input
@@ -103,8 +120,14 @@ export default function Register(): ReactElement {
               </a>
             </label>
           </div>
+          <HCaptcha
+            ref={captchaRef}
+            onVerify={submit}
+            onError={captchaError}
+            sitekey="e064279d-2004-485f-bbd8-6e5c5b2db934"
+          />
           <ButtonContainer horizontal>
-            <Button type="submit" onClick={() => submit()}>
+            <Button type="submit" onClick={() => captchaExec()}>
               Create account
             </Button>
           </ButtonContainer>
