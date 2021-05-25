@@ -1,4 +1,4 @@
-import { useState, useCallback, Dispatch, SetStateAction } from "react";
+import { useCallback, Dispatch, SetStateAction } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { GlobalState } from "@store/Types";
@@ -16,9 +16,9 @@ import {
 } from "@store/notifications/notificationsData";
 
 interface NotificationsPreferencesHook {
-  setNotificationsPreferencesState: Dispatch<SetStateAction<string | boolean>>;
   updatePreference: () => void;
   validateChoice: (
+    choice: boolean,
     setNotificationsWindowOpen: Dispatch<SetStateAction<boolean>>
   ) => boolean;
 }
@@ -44,11 +44,9 @@ const useNotificationsState = (): NotificationsConfigState &
 const useNotificationsPreferences = (): NotificationsPreferencesHook => {
   const dispatch = useDispatch();
   const { allowNotifications, firstUse } = useNotificationsState();
-  const [
-    notificationsPreferencesState,
-    setNotificationsPreferencesState,
-  ] = useState<string | boolean>(firstUse ? false : "default");
-  const { t } = useTranslation("components\\notifications\\notificationsModal");
+  const { t } = useTranslation(
+    "components\\ui\\notifications\\notificationsModal"
+  );
 
   const updatePreference = useCallback((): void => {
     dispatch(updateNotificationsPermissions());
@@ -56,12 +54,10 @@ const useNotificationsPreferences = (): NotificationsPreferencesHook => {
 
   const validateChoice = useCallback(
     (
+      choice,
       setNotificationsWindowOpen: Dispatch<SetStateAction<boolean>>
     ): boolean => {
-      if (
-        notificationsPreferencesState === "default" ||
-        (notificationsPreferencesState === allowNotifications && !firstUse)
-      ) {
+      if (choice === allowNotifications && !firstUse) {
         alert(t("invalidPreference"));
         return false;
       }
@@ -71,23 +67,14 @@ const useNotificationsPreferences = (): NotificationsPreferencesHook => {
       }
 
       updatePreference();
-      setNotificationsPreferencesState("default");
       setNotificationsWindowOpen(false);
 
       return true;
     },
-    [
-      allowNotifications,
-      dispatch,
-      firstUse,
-      notificationsPreferencesState,
-      t,
-      updatePreference,
-    ]
+    [allowNotifications, dispatch, firstUse, t, updatePreference]
   );
 
   return {
-    setNotificationsPreferencesState,
     updatePreference,
     validateChoice,
   };

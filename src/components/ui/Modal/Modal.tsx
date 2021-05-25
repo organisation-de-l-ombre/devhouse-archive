@@ -1,32 +1,33 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-import React from "react";
+import React, { Dispatch, ReactNode, SetStateAction, useEffect } from "react";
 import { MdClose } from "react-icons/md";
 import { CSSTransition } from "react-transition-group";
+import { FunctionComponent } from "@typings/FunctionComponent";
+import classnames from "classnames";
 import FlexContainer from "../FlexContainer/FlexContainer";
 import styles from "./Modal.module.scss";
 import "./Animations.scss";
 
-const Modal: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & {
-    containerClassName?: string;
+const Modal: FunctionComponent<
+  HTMLDivElement,
+  {
     modalClassName?: string;
-    windowTitle: React.ReactNode;
+    containerClassName?: string;
+    windowsIcon?: ReactNode;
+    windowTitle: ReactNode;
     open: boolean;
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    setOpen: Dispatch<SetStateAction<boolean>>;
   }
 > = ({
   children,
-  containerClassName,
   modalClassName,
+  containerClassName,
+  windowsIcon,
   windowTitle,
   open,
   setOpen,
-  ...props
 }) => {
-  React.useEffect(() => {
+  useEffect(() => {
     if (open) {
       document.body.style.overflowY = "hidden";
     } else {
@@ -41,27 +42,39 @@ const Modal: React.FC<
       unmountOnExit
       classNames="modal-transitions"
     >
-      <div className={styles.background} onClick={() => setOpen(!open)}>
-        <div
-          className={`${styles.modal}${
-            modalClassName ? ` ${modalClassName}` : ""
-          }`}
+      <FlexContainer
+        widthFull
+        heightFull
+        fullCentered
+        className={styles.background}
+        onClick={() => setOpen(!open)}
+      >
+        <FlexContainer
+          column
+          className={classnames(styles.modal, modalClassName)}
           onClick={(event) => event.stopPropagation()}
-          {...props}
         >
-          <div className={styles.headers}>
-            <h2>{windowTitle}</h2>
-            <MdClose onClick={() => setOpen(!open)} />
-          </div>
           <FlexContainer
-            className={`${styles.container}${
-              containerClassName ? ` ${containerClassName}` : ""
-            }`}
+            verticallyCentered
+            spaceBetween
+            className={styles.headers}
+          >
+            <FlexContainer fullCentered>
+              {windowsIcon && windowsIcon}
+              <h1>{windowTitle}</h1>
+            </FlexContainer>
+            <MdClose onClick={() => setOpen(!open)} />
+          </FlexContainer>
+          <FlexContainer
+            column
+            expand
+            css={{ padding: "1rem" }}
+            className={containerClassName}
           >
             {children}
           </FlexContainer>
-        </div>
-      </div>
+        </FlexContainer>
+      </FlexContainer>
     </CSSTransition>
   );
 };

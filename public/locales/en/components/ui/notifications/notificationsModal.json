@@ -1,0 +1,10 @@
+{
+  "title": "Notifications preferences",
+  "description": "To offer you a better experience on the website, we invite you to choose if you wish receive notifications or not. Please choose an option bellow:",
+  "options": {
+    "yes": "Consent",
+    "no": "Reject"
+  },
+  "invalidPreference": "This parameter is invalid, please choose a parameter different as current.",
+  "preferencesUpdated": "Your preferences have been updated."
+}

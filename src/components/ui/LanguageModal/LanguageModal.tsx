@@ -1,21 +1,20 @@
-import React from "react";
+import React, { Dispatch, SetStateAction, ReactElement } from "react";
+import { MdLanguage } from "react-icons/md";
 import { Trans, useTranslation } from "react-i18next";
 import useLanguage from "@hooks/useLanguage";
-import globalStyles from "@styles/Global.module.scss";
 import { supportedLanguages } from "@store/language";
 import { DisplayLanguageSVG } from "@components/modules";
-import SelectList, { manageSelection } from "../SelectList/SelectList";
-import { Button } from "../Button/Button";
+import { FunctionComponent } from "@typings/FunctionComponent";
+import { css } from "@emotion/react";
 import Modal from "../Modal/Modal";
 import FlexContainer from "../FlexContainer/FlexContainer";
+import { Button } from "../Button/Button";
 
-const LanguageModal: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & {
+const LanguageModal: FunctionComponent<
+  HTMLDivElement,
+  {
     languageWindowOpen: boolean;
-    setLanguageWindowOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    setLanguageWindowOpen: Dispatch<SetStateAction<boolean>>;
   }
 > = ({ languageWindowOpen, setLanguageWindowOpen }) => {
   const { language, setLanguageState, validateLanguage } = useLanguage();
@@ -23,44 +22,73 @@ const LanguageModal: React.FC<
 
   return (
     <Modal
+      windowsIcon={<MdLanguage />}
       windowTitle={<Trans t={t} i18nKey="title" />}
       open={languageWindowOpen}
       setOpen={setLanguageWindowOpen}
     >
-      <p
-        className={`${globalStyles["primary-margin"]} ${globalStyles["text-align-center"]}`}
-      >
+      <p css={{ lineHeight: "1.5" }}>
         <Trans
           t={t}
           i18nKey="description"
-          values={{ language: t(`select.languages.${language}`) }}
+          values={{ language: t(`languages.${language}`) }}
         />
       </p>
-      <FlexContainer allowWrap fullCentered>
-        <SelectList
-          defaultTitle={<Trans t={t} i18nKey="select.default" />}
-          id="select-language"
-        >
-          {supportedLanguages.sort().map((lang) => {
-            return (
-              // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
-              <li
-                key={lang}
-                onClick={() => {
-                  setLanguageState(lang);
-                  manageSelection("select-language", "none");
-                }}
-              >
-                <DisplayLanguageSVG lang={lang} alt={`lang-${lang}`} />
-                <span>
-                  <Trans t={t} i18nKey={`select.languages.${lang}`} />
-                </span>
-              </li>
-            );
-          })}
-        </SelectList>
+      <FlexContainer column>
+        <FlexContainer expand allowWrap css={{ marginTop: "1.25rem" }}>
+          {supportedLanguages.map(
+            (lang: string): ReactElement => {
+              return (
+                <button
+                  type="button"
+                  key={lang}
+                  css={css`
+                    max-width: 10rem;
+                    margin: 0.75rem 0.75rem 0 0;
+                    padding: 0.75rem;
+                    display: flex;
+                    flex: 1;
+                    align-items: center;
+                    cursor: pointer;
+                    background-color: ${lang === language
+                      ? "var(--primary-background-color-hover)"
+                      : "transparent"};
+                    border: 0.15rem solid transparent;
+                    border-radius: 5px;
+                    outline: none;
+                    transition: border 300ms, background-color 300ms;
+
+                    img {
+                      width: 25px;
+                      height: 25px;
+                      margin-right: 0.75rem;
+                    }
+
+                    &:focus {
+                      border: 0.15rem solid var(--font-color-hover);
+                    }
+
+                    &:hover {
+                      background-color: var(--primary-background-color-hover);
+                    }
+                  `}
+                  onClick={(): void => setLanguageState(lang)}
+                >
+                  <DisplayLanguageSVG lang={lang} alt={`language-${lang}`} />
+                  <span>
+                    <Trans t={t} i18nKey={`languages.${lang}`} />
+                  </span>
+                </button>
+              );
+            }
+          )}
+        </FlexContainer>
         <Button
-          css={{ backgroundColor: "var(--secondary-background-color)" }}
+          css={{
+            marginTop: "2rem",
+            alignSelf: "center",
+            backgroundColor: "var(--primary-background-color-hover)",
+          }}
           onClick={() => validateLanguage(setLanguageWindowOpen)}
         >
           <Trans t={t} i18nKey="saveLanguage" />

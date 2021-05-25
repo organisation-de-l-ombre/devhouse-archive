@@ -30,7 +30,7 @@ const useLanguage = (): LanguageHook => {
       setLanguageWindowOpen?: Dispatch<SetStateAction<boolean>>
     ): Promise<void> => {
       if (languageState === "default" || languageState === language) {
-        alert(t("modal.invalidLanguage"));
+        alert(t("invalidLanguage"));
         return;
       }
 
