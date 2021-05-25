@@ -24,7 +24,6 @@ export default function Register(): ReactElement {
 
   const submit = useCallback(async (): Promise<void> => {
     try {
-      if (!loading) return;
       const name = username.current.value;
       if (!token) {
         alert("You need to do the captcha.");
