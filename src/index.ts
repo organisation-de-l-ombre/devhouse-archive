@@ -39,7 +39,7 @@ import { MovieTitle1618162709488 } from "./migration/1618162709488-MovieTitle";
 export const internalS3ClientEndpoint: string =
   process.env.NODE_ENV === "development"
     ? "https://s3.developershouse.xyz"
-    : "http://minio.minio";
+    : "https://minio.minio";
 const databaseHost: string = process.env.POSTGRES_HOST || "";
 const databaseUsername: string = process.env.POSTGRES_USERNAME || "";
 
