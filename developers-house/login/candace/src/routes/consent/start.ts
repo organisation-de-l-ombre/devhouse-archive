@@ -1,21 +1,11 @@
 /**
  * Starts a consent session using a consent_challenge.
  */
-import { FastifyReply, FastifyRequest, RouteOptions } from "fastify";
+import { FastifyRequest, RouteOptions } from "fastify";
 import { Admin, UserAPI } from "../../utils/apis";
 import { AxiosResponse } from "axios";
 import { ConsentRequest } from "@ory/hydra-client";
 import { CandaceError } from "../../utils/error";
-
-type ConsentResponse = { redirect: string; } | {
-  audiences: string[];
-  scopes: string[];
-  clientName: string;
-  tos?: string;
-  image?: string;
-  owner?: string;
-  contact?: string;
-};
 
 export const consentStart: RouteOptions = {
   schema: {
@@ -43,12 +33,10 @@ export const consentStart: RouteOptions = {
   },
   url: "/dialog/api/consent",
   method: "GET",
-  async handler(request: FastifyRequest, response: FastifyReply) {
+  async handler(request: FastifyRequest) {
     const { challenge } = request.query as { challenge: string };
-    const {
-      data,
-      status
-    }: AxiosResponse<ConsentRequest> = await Admin.getConsentRequest(challenge);
+    const { data, status }: AxiosResponse<ConsentRequest> =
+      await Admin.getConsentRequest(challenge);
     if (status === 200) {
       if (data.skip) {
         const { data: user } = await UserAPI.getUser(data.subject as string);
@@ -56,13 +44,13 @@ export const consentStart: RouteOptions = {
           grant_access_token_audience: data.requested_access_token_audience,
           grant_scope: data.requested_scope,
           session: {
-            id_token: user,
+            id_token: user
           }
         });
-        void response.code(200).send({
+        return {
           redirect: redirect.data.redirect_to,
-          error: false,
-        });
+          error: false
+        };
       }
       request.session.consent = {
         audiences: data.requested_access_token_audience as string[],
@@ -70,7 +58,7 @@ export const consentStart: RouteOptions = {
         challenge,
         sub: data.subject as string
       };
-      void response.code(200).send({
+      return {
         audiences: data.requested_access_token_audience,
         scopes: data.requested_scope,
         clientName: data.client?.client_name,
@@ -78,10 +66,13 @@ export const consentStart: RouteOptions = {
         image: data.client?.logo_uri,
         owner: data.client?.owner,
         contact: data.client?.contacts,
-        error: false,
-      });
-      return;
+        error: false
+      };
     }
-    throw new CandaceError("400", "INVALID_CHALLENGE_CONSENT", "Invalid consent challenge provided.");
+    throw new CandaceError(
+      "400",
+      "INVALID_CHALLENGE_CONSENT",
+      "Invalid consent challenge provided."
+    );
   }
 };

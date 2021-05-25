@@ -1,4 +1,4 @@
-import { FastifyReply, FastifyRequest, RouteOptions } from "fastify";
+import { FastifyRequest, RouteOptions } from "fastify";
 import { WebAuthAPI } from "../../utils/apis";
 import { AxiosResponse } from "axios";
 import { WebAuthKey } from "@developers-house/scarlet";
@@ -8,18 +8,19 @@ import { CandaceError } from "../../utils/error";
 export const twoFaStart: RouteOptions = {
   url: "/dialog/api/2fa",
   method: "GET",
-  async handler(request: FastifyRequest, response: FastifyReply) {
+  async handler(request: FastifyRequest) {
     const { twoFa } = request.session;
 
     if (!twoFa) {
-      throw new CandaceError("400", "MISSING_SESSION_2fa", "No 2fa session was specified.");
+      throw new CandaceError(
+        "400",
+        "MISSING_SESSION_2fa",
+        "No 2fa session was specified."
+      );
     }
 
-    const {
-      data
-    }: AxiosResponse<WebAuthKey[]> = await WebAuthAPI.getUserWebAuthKeys(
-      twoFa.user.id
-    );
+    const { data }: AxiosResponse<WebAuthKey[]> =
+      await WebAuthAPI.getUserWebAuthKeys(twoFa.user.id);
 
     let webauthChallenge;
     if (data.length > 0) {
@@ -34,7 +35,7 @@ export const twoFaStart: RouteOptions = {
       },
       otp: twoFa.user.a2f,
       username: twoFa.user.username,
-      error: false,
+      error: false
     };
   }
 };

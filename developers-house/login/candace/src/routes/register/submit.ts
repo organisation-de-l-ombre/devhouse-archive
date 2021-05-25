@@ -1,7 +1,4 @@
-/**
- * Starts a consent session using a consent_challenge.
- */
-import { FastifyReply, FastifyRequest, RouteOptions } from "fastify";
+import { FastifyRequest, RouteOptions } from "fastify";
 import { Admin, UserAPI } from "../../utils/apis";
 import fetch from "node-fetch";
 import { CandaceError } from "../../utils/error";
@@ -9,33 +6,58 @@ import { CandaceError } from "../../utils/error";
 export const registerSubmit: RouteOptions = {
   schema: {
     body: {
-      required: ["term", "private", "name"],
+      required: ["term", "private", "name", "captcha"],
       type: "object",
       properties: {
         term: { type: "boolean" },
         private: { type: "boolean" },
-        name: { type: "string" }
+        name: { type: "string" },
+        captcha: { type: "string" }
       }
     },
     response: {}
   },
   url: "/dialog/api/register",
   method: "POST",
-  async handler(request: FastifyRequest, response: FastifyReply) {
+  async handler(request: FastifyRequest) {
     const { register } = request.session;
     const user = request.body as {
       term: boolean;
       private: boolean;
       name: string;
+      captcha: string;
     };
     if (!register) {
-      throw new CandaceError("400", "MISSING_SESSION_REGISTER", "No register session was specified.");
+      throw new CandaceError(
+        "400",
+        "MISSING_SESSION_REGISTER",
+        "No register session was specified."
+      );
     }
 
     if (user.term && user.name.length > 3 && user.name.length < 33) {
+      const response = await fetch(`https://hcaptcha.com/siteverify`, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+        },
+        body: `response=${user.captcha}&secret=${
+          process.env.HCAPTCHA_SECRET_KEY as string
+        }`,
+        method: "POST"
+      });
+      const validation = await response.json();
+
+      if (!validation.success) {
+        throw new CandaceError(
+          "400",
+          "CAPTCHA_INVALID",
+          "Invalid captcha supplied."
+        );
+      }
       await new Promise((resolve) => request.destroySession(resolve));
       const resp = await fetch(
-        `${process.env.ELLIE_ENDPOINT as string
+        `${
+          process.env.ELLIE_ENDPOINT as string
         }/avatar-link?link=${encodeURIComponent(register.user.avatarURL)}`
       );
       if (resp.ok) {
@@ -60,14 +82,22 @@ export const registerSubmit: RouteOptions = {
           }
         );
 
-        return response.send({
+        return {
           redirect: redirect.redirect_to,
-          error: false,
-        });
+          error: false
+        };
       }
-      throw new CandaceError("500", "ELLIE_FAIL", "Ellie failed to process the user profile picture.");
+      throw new CandaceError(
+        "500",
+        "ELLIE_FAIL",
+        "Ellie failed to process the user profile picture."
+      );
     } else {
-      throw new CandaceError("400", "INVALID_USER", "Invalid user creation detected.");
+      throw new CandaceError(
+        "400",
+        "INVALID_USER",
+        "Invalid user creation detected."
+      );
     }
   }
 };
