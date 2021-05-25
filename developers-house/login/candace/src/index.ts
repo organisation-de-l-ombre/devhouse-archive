@@ -15,7 +15,8 @@ import { twoFaSubmit } from "./routes/2fa/submit";
 import connectRedis from "connect-redis";
 import CreateRedis from "ioredis";
 const server = fastify({
-  logger: true
+  logger: true,
+  trustProxy: 1
 });
 
 const Redis = new CreateRedis({
@@ -45,10 +46,13 @@ void server.register(fastifySession, {
   secret: process.env.SECRET_KEY as string,
   store: new RedisStore({ client: Redis, ttl: 3600 }),
   cookie: {
-    secure: process.env.NOVA_ENV === "production",
-    maxAge: 360
+    secure: process.env.NODE_ENV === "production",
+    sameSite: true,
+    maxAge: 3060,
+    expires: 3600
   }
 });
+
 server.route(consentStart);
 server.route(consentSubmit);
 server.route(loginStart);
