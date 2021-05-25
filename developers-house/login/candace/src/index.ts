@@ -47,8 +47,8 @@ void server.register(fastifySession, {
   store: new RedisStore({ client: Redis, ttl: 3600 }),
   cookie: {
     secure: process.env.NODE_ENV === "production",
-    sameSite: "Lax",
-    maxAge: 3060
+    sameSite: true,
+    maxAge: 3060 * 1000
   }
 });
 
