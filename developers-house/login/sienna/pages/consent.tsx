@@ -32,7 +32,6 @@ export default function Consent(): ReactElement {
     return null;
   }, [router]);
 
-
   const {
     error,
     data,
@@ -48,7 +47,7 @@ export default function Consent(): ReactElement {
         if (e.error === false) {
           await router.push(e.redirect);
         } else {
-          setError(new Error(e.message))
+          setError(new Error(e.message));
           setLoading(false);
         }
       });
@@ -57,7 +56,7 @@ export default function Consent(): ReactElement {
   );
 
   return (
-    <ErrorGate loading={loading || !data} error={error}>
+    <ErrorGate loading={loading || !data} error={error}>
       {data && (
         <div className={styles.consent}>
           <h2>Consent page</h2>
