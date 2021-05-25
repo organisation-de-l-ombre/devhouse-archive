@@ -8,7 +8,9 @@ import { TwoFAContext } from "../../contexts/2FAContext";
 import { ErrorGate } from "../../components/ErrorGate";
 
 export default function TwoFa(): ReactElement {
-  const { error, data, loading, setError, setLoading } = usePageState(fetchTwoFaSession);
+  const { error, data, loading, setError, setLoading } = usePageState(
+    fetchTwoFaSession
+  );
   const [choose, setChoose] = useState<boolean>(false);
   const context = useContext(TwoFAContext);
   const router = useRouter();
@@ -38,7 +40,7 @@ export default function TwoFa(): ReactElement {
     } else {
       setError(new Error(data.message));
     }
-  }, [data, router, context, setError]);
+  }, [data, router, context, setError, setLoading]);
 
   return (
     <ErrorGate loading={loading} error={error}>
