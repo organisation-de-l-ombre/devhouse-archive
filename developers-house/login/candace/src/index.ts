@@ -48,8 +48,7 @@ void server.register(fastifySession, {
   cookie: {
     secure: process.env.NODE_ENV === "production",
     sameSite: true,
-    maxAge: 3060,
-    expires: 3600
+    maxAge: 3060
   }
 });
 
