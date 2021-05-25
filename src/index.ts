@@ -7,7 +7,7 @@ declare module "fastify" {
 }
 
 import "reflect-metadata";
-import * as Sentry from "@sentry/node";
+import Sentry from "@sentry/node";
 import { Connection, createConnection } from "typeorm";
 import Fastify, {
   RouteOptions,
@@ -36,17 +36,19 @@ import { MovieTitle } from "@entities/movie-title";
 import { Tag } from "@entities/tag";
 import { MovieTitle1618162709488 } from "./migration/1618162709488-MovieTitle";
 
+Sentry.init({
+  dsn:
+    "https://91ed16cf487540ec98f941f9f5d03d82@o683578.ingest.sentry.io/5771237"
+});
+
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
+
 export const internalS3ClientEndpoint: string =
   process.env.NODE_ENV === "development"
     ? "https://s3.developershouse.xyz"
     : "https://minio.minio";
 const databaseHost: string = process.env.POSTGRES_HOST || "";
 const databaseUsername: string = process.env.POSTGRES_USERNAME || "";
-
-Sentry.init({
-  dsn:
-    "https://91ed16cf487540ec98f941f9f5d03d82@o683578.ingest.sentry.io/5771237"
-});
 
 createConnection({
   type: "postgres",
