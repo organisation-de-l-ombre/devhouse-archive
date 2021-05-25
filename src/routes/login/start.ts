@@ -1,7 +1,4 @@
-/**
- * Starts a consent session using a consent_challenge.
- */
-import { FastifyReply, FastifyRequest, RouteOptions } from "fastify";
+import { FastifyRequest, RouteOptions } from "fastify";
 import { Admin } from "../../utils/apis";
 import { AxiosResponse } from "axios";
 import { ConsentRequest } from "@ory/hydra-client";
@@ -27,12 +24,10 @@ export const loginStart: RouteOptions = {
   },
   url: "/dialog/api/login",
   method: "GET",
-  async handler(request: FastifyRequest, response: FastifyReply) {
+  async handler(request: FastifyRequest) {
     const { challenge } = request.query as { challenge: string };
-    const {
-      data,
-      status
-    }: AxiosResponse<ConsentRequest> = await Admin.getLoginRequest(challenge);
+    const { data, status }: AxiosResponse<ConsentRequest> =
+      await Admin.getLoginRequest(challenge);
     const state = randomBytes(32).toString("base64");
     if (status === 200) {
       if (data.skip) {
@@ -43,27 +38,29 @@ export const loginStart: RouteOptions = {
             autoLogin: true
           }
         });
-        void response.code(200).send({
+        return {
           redirect: redirect.redirect_to,
-          error: false,
-        });
-        return;
+          error: false
+        };
       }
       request.session.login = {
         challenge,
         state: state
       };
-      void response.code(200).send({
+      return {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         platforms: [...Providers.values()].map((x) => ({
           ...x.meta(),
           url: x.getRedirectUri(state, `https://${request.headers.host || ""}`)
         })),
         clientName: data.client?.client_name,
-        error: false,
-      });
-      return;
+        error: false
+      };
     }
-    throw new CandaceError("400", "INVALID_CHALLENGE_LOGIN", "Invalid login challenge was specified.");
+    throw new CandaceError(
+      "400",
+      "INVALID_CHALLENGE_LOGIN",
+      "Invalid login challenge was specified."
+    );
   }
 };

@@ -12,8 +12,21 @@ import { TwoFASession } from "./routes/2fa/types";
 import { registerSubmit } from "./routes/register/submit";
 import { twoFaStart } from "./routes/2fa/start";
 import { twoFaSubmit } from "./routes/2fa/submit";
+import connectRedis from "connect-redis";
+import CreateRedis from "ioredis";
 const server = fastify({
   logger: true
+});
+
+const Redis = new CreateRedis({
+  sentinels: [
+    {
+      host: process.env.REDIS_HOST as string,
+      port: Number.parseInt(process.env.REDIS_PORT || "6379")
+    }
+  ],
+  sentinelPassword: process.env.REDIS_PASSWORD,
+  name: "mymaster"
 });
 
 declare module "fastify" {
@@ -25,11 +38,15 @@ declare module "fastify" {
   }
 }
 
+const RedisStore = connectRedis(fastifySession as never);
+
 void server.register(fastifyCookie);
 void server.register(fastifySession, {
-  secret: "shfvjkdshvkjsdhvkshvkdsjhvkshvksjdhvkshdkhj",
+  secret: process.env.SECRET_KEY as string,
+  store: new RedisStore({ client: Redis, ttl: 3600 }),
   cookie: {
-    secure: false
+    secure: process.env.NOVA_ENV === "production",
+    maxAge: 360
   }
 });
 server.route(consentStart);
@@ -41,10 +58,10 @@ server.route(twoFaStart);
 server.route(twoFaSubmit);
 
 server.setErrorHandler((error, _, response) => {
-  response
+  void response
     .code(error.statusCode || 500)
     .send({ error: true, message: error.message });
-})
+});
 
 server.get("/_healz", (request, response) => {
   void response.code(200).send();
