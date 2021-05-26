@@ -7,7 +7,7 @@ declare module "fastify" {
 }
 
 import "reflect-metadata";
-import Sentry from "@sentry/node";
+import * as Sentry from "@sentry/node";
 import { Connection, createConnection } from "typeorm";
 import Fastify, {
   RouteOptions,
