@@ -1,15 +1,12 @@
-.loader-container {
-  display: flex;
-  flex-direction: column;
+.loader {
+  width: 40px;
+  height: 40px;
 
-  .loader {
-    width: 40px;
-    height: 40px;
-
-    div { background-color: var(--font-color); }
+  div {
+    background-color: var(--font-color);
   }
-
-  p { margin-top: 1rem; }
 }
 
-.loader-active { display: block; }
+.loader-active {
+  display: unset;
+}

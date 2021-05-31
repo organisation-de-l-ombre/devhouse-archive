@@ -4,7 +4,7 @@ const DisplayLanguageSVG: React.FC<
   React.ImgHTMLAttributes<HTMLImageElement> & { lang: string }
 > = ({ alt, lang, ...props }) => {
   const { default: image } = React.useMemo(
-    () => require(`../../../assets/pictures/locales/${lang}.svg`),
+    () => require(`../../../../public/pictures/locales/${lang}.svg`),
     [lang]
   );
 

@@ -11,11 +11,17 @@
     },
     "search": "Rechercher",
     "changeLanguage": "Changer la langue",
-    "notifications": "Paramètres de notifications",
+    "notifications": "Paramètres des notifications",
     "theme": {
       "light": "Passer au thème clair",
       "dark": "Passer au thème sombre"
     }
+  },
+  "acronyms": {
+    "search": "Rechercher du contenu",
+    "changeLanguage": "Changer la langue",
+    "notifications": "Paramètres des notifications",
+    "theme": "Changer le thème de couleurs"
   },
   "notifications": {
     "userLogout": "Vous avez été déconnecté avec succès.",

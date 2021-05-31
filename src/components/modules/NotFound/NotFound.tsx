@@ -23,6 +23,7 @@ const NotFound: FunctionComponent<HTMLDivElement> = () => {
           <Trans t={t} i18nKey="description" />
         </p>
         <ButtonsGroup
+          expand
           css={css`
             margin-top: 0.5rem;
           `}

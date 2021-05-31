@@ -8,8 +8,8 @@
     color: var(--font-color-hover),
   }
 
-  span {
-    cursor: pointer;
+  button {
+    background-color: transparent;
     color: var(--font-color-hover);
 
     &:hover {
@@ -25,7 +25,7 @@
       margin-bottom: 0.25rem;
 
       a {
-        transition: color 0.5s;
+        transition: color 500ms;
 
         &:hover {
           color: var(--font-color-hover);

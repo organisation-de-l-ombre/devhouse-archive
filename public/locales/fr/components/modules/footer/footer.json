@@ -1,6 +1,6 @@
 {
   "left": {
-    "imr": "Copyright ©️ {{year}} IMR. Tous droits réservés."
+    "imr": "Copyright © {{year}} IMR. Tous droits réservés."
   },
   "right": {
     "mainTitle": "International Media Referencing, un projet Developer's House.",

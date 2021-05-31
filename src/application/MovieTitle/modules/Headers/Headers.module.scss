@@ -12,7 +12,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position-x: center;
-    opacity: $MOVIE_HEADERS_OPACITY;
+    opacity: $MOVIE_HEADERS_BACKGROUND_OPACITY;
   }
 
   .headers-no-background-image {
@@ -24,14 +24,14 @@
   }
 
   .headers {
-    padding: 0 2rem 2rem 2rem;
+    padding: 0 2rem 4rem 2rem;
     width: calc(100% - 4rem);
     position: relative;
 
     .movie-poster {
       max-width: 270px;
       max-height: 400px;
-      margin: 2rem 2rem 0 0;
+      margin: 4rem 2rem 0 0;
 
       img {
         width: 100%;
@@ -42,7 +42,7 @@
     }
 
     .headers-content {
-      margin-top: 2rem;
+      margin-top: 4rem;
       flex: 1 30rem;
 
       h1,
@@ -87,6 +87,15 @@
 
       p {
         line-height: 1.5;
+      }
+    }
+
+    @media screen and (max-width: 700px) {
+      padding-bottom: 2rem;
+
+      .movie-poster,
+      .headers-content {
+        margin-top: 2rem;
       }
     }
   }

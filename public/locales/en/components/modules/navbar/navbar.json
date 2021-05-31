@@ -17,6 +17,12 @@
       "dark": "Switch to dark theme"
     }
   },
+  "acronyms": {
+    "search": "Search media",
+    "changeLanguage": "Change language",
+    "notifications": "Notifications settings",
+    "theme": "Change colors theme"
+  },
   "notifications": {
     "userLogout": "You have been logged out successfully.",
     "themeChanged": {

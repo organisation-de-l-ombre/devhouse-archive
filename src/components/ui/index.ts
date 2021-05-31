@@ -9,7 +9,6 @@ export { default as LanguageModal } from "./LanguageModal/LanguageModal";
 export { default as List } from "./List/List";
 export { default as Modal } from "./Modal/Modal";
 export * from "./Notifications";
-export { default as RippleEffect } from "./RippleEffect/RippleEffect";
 export { default as SelectList } from "./SelectList/SelectList";
 export * from "./Summary/Summary";
 export { default as TextArea } from "./TextArea/TextArea";

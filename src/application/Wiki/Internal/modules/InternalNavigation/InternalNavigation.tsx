@@ -4,7 +4,6 @@ import {
   SidebarSection,
   SidebarItem,
 } from "@components/modules/Sidebar";
-import IMRLogoMinimal from "@assets/pictures/imr/imr-minimal.png";
 import { Trans, useTranslation } from "react-i18next";
 import { useRouteMatch } from "react-router-dom";
 import { FunctionComponent } from "@typings/FunctionComponent";
@@ -20,7 +19,7 @@ const InternalNavigation: FunctionComponent<
     <Sidebar
       open={open}
       manageSidebar={manageSidebar}
-      picture={IMRLogoMinimal}
+      picture="/icons/logo128.png"
       pictureAlt="IMR logo"
       title={t("title")}
     >

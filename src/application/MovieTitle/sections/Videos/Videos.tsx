@@ -105,6 +105,7 @@ const Videos: ReactMovieElement = ({ dataResponse }) => {
                           column
                           key={video.title}
                           className={styles.video}
+                          title={video.title}
                           onClick={() => {
                             const isMobileDevice: boolean = detectMobileDevice();
 

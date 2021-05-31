@@ -231,6 +231,9 @@ const Search: FunctionComponent<HTMLDivElement> = () => {
                     key={movie.id}
                     to={`/movies/title/${movie.id}`}
                     className={styles.media}
+                    title={`${movie.name} (${new Date(
+                      movie.releaseDate
+                    ).getFullYear()})`}
                   >
                     <div
                       className={classnames(
@@ -245,12 +248,12 @@ const Search: FunctionComponent<HTMLDivElement> = () => {
                         draggable={false}
                       />
                     </div>
-                    <h4>{movie.name}</h4>
-                    <h4>
+                    <h1>{movie.name}</h1>
+                    <h1>
                       {new Intl.DateTimeFormat(language).format(
                         new Date(movie.releaseDate)
                       )}
-                    </h4>
+                    </h1>
                   </NavLink>
                 );
               }

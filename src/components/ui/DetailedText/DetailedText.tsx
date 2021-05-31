@@ -1,38 +1,22 @@
+import { FunctionComponent } from "@typings/FunctionComponent";
 import React from "react";
-import styles from "./DetailedText.module.scss";
+import { css } from "@emotion/react";
+import FlexContainer from "../FlexContainer/FlexContainer";
 
-const DetailedText: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & { title?: string; text?: string | string[] }
-> = ({ className, children, title, text, ...props }) => {
+const DetailedText: FunctionComponent<HTMLDivElement> = ({ ...props }) => {
   return (
-    <div
-      className={`${styles.container}${className ? ` ${className}` : ""}`}
+    <FlexContainer
+      column
+      css={css`
+        margin-top: 4rem;
+
+        p {
+          margin-top: 2rem;
+          line-height: 1.5;
+        }
+      `}
       {...props}
-    >
-      {/* eslint-disable-next-line no-nested-ternary */}
-      {title && text ? (
-        typeof text === "string" ? (
-          <>
-            <h1>{title}</h1>
-            <p>{text}</p>
-          </>
-        ) : (
-          <>
-            <h1>{title}</h1>
-            {text.map(
-              (t: string): React.ReactElement => {
-                return <p key={t}>{t}</p>;
-              }
-            )}
-          </>
-        )
-      ) : (
-        children
-      )}
-    </div>
+    />
   );
 };
 

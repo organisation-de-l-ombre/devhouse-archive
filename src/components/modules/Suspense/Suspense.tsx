@@ -1,5 +1,4 @@
 import React from "react";
-import globalStyles from "@styles/Global.module.scss";
 import { useTranslation } from "react-i18next";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import { FlexContainer, GenericLoader } from "../../ui";
@@ -7,7 +6,7 @@ import { FlexContainer, GenericLoader } from "../../ui";
 const RootSuspense: FunctionComponent<HTMLDivElement> = () => {
   return (
     <FlexContainer minHeight padding expand fullCentered>
-      <GenericLoader className={globalStyles["generic-loader"]}>
+      <GenericLoader centered>
         Loading the resource you requested...
       </GenericLoader>
     </FlexContainer>
@@ -32,9 +31,7 @@ const SuspenseComponent: FunctionComponent<
       pageBodyWidth={pageBodyWidth}
       fullCentered
     >
-      <GenericLoader className={globalStyles["generic-loader"]}>
-        {customText || t("message")}
-      </GenericLoader>
+      <GenericLoader centered>{customText || t("message")}</GenericLoader>
     </FlexContainer>
   );
 };

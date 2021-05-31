@@ -14,7 +14,7 @@
 
     input, button {
       border: 0.15rem solid var(--font-color-hover);
-      background-color: var(--primary-background-color);
+      background-color: var(--primary-background-color-hover);
     }
 
     input {
@@ -33,12 +33,6 @@
 
     button {
       margin: 1rem 0 0 0;
-      transition: background-color 500ms;
-
-      &:hover {
-        background-color: var(--primary-background-color-hover);
-        color: var(--font-color);
-      }
     }
 
     @media screen and(max-width: 500px) {
@@ -84,7 +78,7 @@
   padding-top: 4rem;
   padding-bottom: 4rem;
 
-  h1 {
+  > h1 {
     color: var(--font-color-hover);
   }
 
@@ -106,9 +100,14 @@
       transition: transform 500ms;
     }
 
-    h4 {
+    h1 {
+      max-width: 180px;
       margin-top: 0.5rem;
       transition: color 500ms;
+      overflow: hidden;
+      font-size: 18px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     &:hover {
@@ -116,7 +115,7 @@
         transform: scale(1.15);
       }
 
-      h4 {
+      h1 {
         color: var(--font-color-hover);
       }
     }

@@ -6,7 +6,6 @@ import {
   Card,
   CardContainer,
 } from "@components/ui";
-import bust from "@assets/pictures/bust.png";
 import { fetchOptions } from "@lib/api";
 import { UseQueryResult, useQuery } from "react-query";
 import useLanguage from "@hooks/useLanguage";
@@ -92,7 +91,11 @@ const Casting: ReactMovieElement = ({ dataResponse }) => {
                         className={styles.card}
                       >
                         <img
-                          src={character.imageURL ? character.imageURL : bust}
+                          src={
+                            character.imageURL
+                              ? character.imageURL
+                              : "/pictures/referencing/cast-bust.png"
+                          }
                           alt={character.name}
                         />
                         <FlexContainer column>

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { css } from "@emotion/react";
+import { css, SerializedStyles } from "@emotion/react";
 import { ButtonComponent, FunctionComponent } from "@typings/FunctionComponent";
 import { NavLink, NavLinkProps } from "react-router-dom";
 
@@ -7,7 +7,7 @@ interface ButtonProps {
   minimal?: boolean;
 }
 
-const styles = (minimal?: boolean) => {
+const styles = (minimal?: boolean): SerializedStyles => {
   return css`
     padding: ${minimal ? "0.5rem" : "0.75rem"};
     border: 0.15rem solid var(--font-color-hover);
@@ -16,7 +16,6 @@ const styles = (minimal?: boolean) => {
     align-items: center;
     background-color: var(--primary-background-color);
     transition: color 500ms;
-    cursor: pointer;
 
     svg {
       margin-right: ${minimal ? "0.5rem" : "0.75rem"};

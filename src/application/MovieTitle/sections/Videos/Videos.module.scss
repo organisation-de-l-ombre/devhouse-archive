@@ -10,10 +10,14 @@
   }
 
   h1 {
+    max-width: 300px;
     margin-top: 0.5rem;
     transition: color 500ms;
-    font-size: 20px;
+    overflow: hidden;
+    font-size: 18px;
     color: var(--font-color);
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &:hover {

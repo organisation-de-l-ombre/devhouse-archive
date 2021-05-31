@@ -96,6 +96,12 @@ code {
     border-radius: 5px;
 }
 
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;

@@ -7,6 +7,7 @@ const FlexContainer: FunctionComponent<
   HTMLDivElement,
   {
     widthFull?: boolean;
+    maxWidth?: boolean;
     heightFull?: boolean;
     minHeight?: boolean;
     maxHeight?: boolean;
@@ -23,6 +24,7 @@ const FlexContainer: FunctionComponent<
   }
 > = ({
   widthFull,
+  maxWidth,
   heightFull,
   minHeight,
   maxHeight,
@@ -43,6 +45,7 @@ const FlexContainer: FunctionComponent<
     <div
       css={css`
         ${widthFull && `width: ${padding ? "calc(100% - 4rem)" : "100%"};`}
+        ${maxWidth && "maw-width: 40rem;"}
         ${heightFull && `height: ${padding ? "calc(100% - 4rem)" : "100%"};`}
         ${minHeight && "min-height: 30rem;"}
         ${maxHeight && "max-height: calc(100vh - 3.5rem);"}

@@ -18,8 +18,7 @@ const Summary: FunctionComponent<HTMLDivElement> = ({
         <h2>
           <Trans t={t} i18nKey="title" />
         </h2>
-        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
-        <span onClick={() => setSummaryOpen(!summaryOpen)}>
+        <button type="button" onClick={() => setSummaryOpen(!summaryOpen)}>
           [
           {summaryOpen ? (
             <Trans t={t} i18nKey="hide" />
@@ -27,7 +26,7 @@ const Summary: FunctionComponent<HTMLDivElement> = ({
             <Trans t={t} i18nKey="show" />
           )}
           ]
-        </span>
+        </button>
       </FlexContainer>
       <ul
         className={classnames(styles.items, { [styles.close]: !summaryOpen })}

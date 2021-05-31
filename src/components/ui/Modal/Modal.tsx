@@ -4,6 +4,7 @@ import { MdClose } from "react-icons/md";
 import { CSSTransition } from "react-transition-group";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import classnames from "classnames";
+import { SerializedStyles } from "@emotion/react";
 import FlexContainer from "../FlexContainer/FlexContainer";
 import styles from "./Modal.module.scss";
 import "./Animations.scss";
@@ -11,7 +12,9 @@ import "./Animations.scss";
 const Modal: FunctionComponent<
   HTMLDivElement,
   {
+    modalCSS?: SerializedStyles;
     modalClassName?: string;
+    containerCSS?: SerializedStyles;
     containerClassName?: string;
     windowsIcon?: ReactNode;
     windowTitle: ReactNode;
@@ -20,7 +23,9 @@ const Modal: FunctionComponent<
   }
 > = ({
   children,
+  modalCSS,
   modalClassName,
+  containerCSS,
   containerClassName,
   windowsIcon,
   windowTitle,
@@ -43,14 +48,13 @@ const Modal: FunctionComponent<
       classNames="modal-transitions"
     >
       <FlexContainer
-        widthFull
-        heightFull
         fullCentered
         className={styles.background}
         onClick={() => setOpen(!open)}
       >
         <FlexContainer
           column
+          css={modalCSS}
           className={classnames(styles.modal, modalClassName)}
           onClick={(event) => event.stopPropagation()}
         >
@@ -68,7 +72,7 @@ const Modal: FunctionComponent<
           <FlexContainer
             column
             expand
-            css={{ padding: "1rem" }}
+            css={containerCSS}
             className={containerClassName}
           >
             {children}

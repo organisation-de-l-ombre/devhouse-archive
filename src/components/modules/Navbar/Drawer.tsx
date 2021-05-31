@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { Dispatch, SetStateAction, useCallback } from "react";
 import { NavLink } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
 import { getAvatar } from "@lib/manageAuthentication";
@@ -13,7 +13,6 @@ import {
   useNotificationsState,
 } from "@hooks/useNotifications";
 import useLanguage from "@hooks/useLanguage";
-import IMRMinimalLogo from "@assets/pictures/imr/imr-minimal.png";
 import { Fade as Hamburger } from "hamburger-react";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import DisplayLanguageSVG from "../DisplayLanguageSVG/DisplayLanguageSVG";
@@ -21,14 +20,21 @@ import styles from "./Navbar.module.scss";
 
 const MobileNavigation: FunctionComponent<
   HTMLButtonElement,
-  { open: boolean }
-> = ({ open }) => {
+  {
+    open: boolean;
+    manageNavbar: () => void;
+  }
+> = ({ open, manageNavbar }) => {
   const { t } = useTranslation("components\\modules\\navbar\\navbar");
 
   return (
-    <button type="button" className={styles["navbar-logo"]}>
+    <button
+      type="button"
+      className={styles["only-mobiles"]}
+      onClick={manageNavbar}
+    >
       <div className={styles.branding}>
-        <img src={IMRMinimalLogo} alt="IMR logo" draggable={false} />
+        <img src="/icons/logo32.png" alt="IMR logo" draggable={false} />
         <span>
           <Trans t={t} i18nKey="mobileMenu" />
         </span>
@@ -106,8 +112,8 @@ const DrawerEnd: FunctionComponent<
   {
     open: boolean;
     manageNavbar: () => void;
-    setLanguageWindowOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    setNotificationsWindowOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    setLanguageWindowOpen: Dispatch<SetStateAction<boolean>>;
+    setNotificationsWindowOpen: Dispatch<SetStateAction<boolean>>;
   }
 > = ({
   open,
@@ -145,14 +151,13 @@ const DrawerEnd: FunctionComponent<
       <NavLink
         to={user ? "/account" : "/auth/login"}
         exact
-        className={`${styles.buttons} ${styles.user}`}
+        className={styles.account}
         onClick={manageAuth}
       >
         {user ? (
           <>
             {user ? (
               <img
-                className={styles.avatar}
                 src={getAvatar(user.avatar)}
                 alt={`Avatar of ${user.username}`}
                 draggable={false}
@@ -173,8 +178,8 @@ const DrawerEnd: FunctionComponent<
       <NavLink
         to="/search"
         exact
-        className={styles.buttons}
         onClick={manageNavbar}
+        title={t("acronyms.search")}
         aria-label="Do a search"
       >
         <MdSearch className={styles.search} />
@@ -184,7 +189,6 @@ const DrawerEnd: FunctionComponent<
       </NavLink>
       <button
         type="button"
-        className={styles.buttons}
         onClick={() => {
           if (open) {
             manageNavbar();
@@ -192,6 +196,7 @@ const DrawerEnd: FunctionComponent<
 
           setLanguageWindowOpen(true);
         }}
+        title={t("acronyms.changeLanguage")}
         aria-label="Change website language"
       >
         <DisplayLanguageSVG lang={language} alt={`lang-${language}`} />
@@ -201,7 +206,6 @@ const DrawerEnd: FunctionComponent<
       </button>
       <button
         type="button"
-        className={styles.buttons}
         onClick={() => {
           if (open) {
             manageNavbar();
@@ -209,6 +213,7 @@ const DrawerEnd: FunctionComponent<
 
           setNotificationsWindowOpen(true);
         }}
+        title={t("acronyms.notifications")}
         aria-label="Manage notifications preferences"
       >
         {allowNotifications ? <FaBell /> : <FaBellSlash />}
@@ -218,8 +223,8 @@ const DrawerEnd: FunctionComponent<
       </button>
       <button
         type="button"
-        className={styles.buttons}
         onClick={manageTheme}
+        title={t("acronyms.theme")}
         aria-label="Change website color theme"
       >
         {theme === "light" ? <FaMoon /> : <FaSun />}

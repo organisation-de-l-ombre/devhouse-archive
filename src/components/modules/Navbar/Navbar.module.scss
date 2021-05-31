@@ -28,41 +28,32 @@
     }
   }
 
-  .ripple {
+  .only-mobiles {
     height: 100%;
-    overflow: unset;
-    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
 
-    .navbar-logo {
+    .branding {
+      margin-left: 0.5rem;
       height: 100%;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      border: none;
-      outline: none;
-      cursor: pointer;
-      background-color: transparent;
 
-      .branding {
-        margin-left: 0.5rem;
-        height: 100%;
-        display: flex;
-        align-items: center;
-
-        img {
-          width: 32px;
-          height: 32px;
-        }
-
-        span {
-          height: calc(100% - 2rem);
-          padding: 1rem;
-        }
+      img {
+        width: 32px;
+        height: 32px;
       }
 
-      .hamburger {
-        display: none;
+      span {
+        height: calc(100% - 2rem);
+        padding: 1rem;
       }
+    }
+
+    .hamburger {
+      display: none;
     }
   }
 
@@ -103,8 +94,8 @@
     .end {
       display: flex;
 
-      .user {
-        .avatar {
+      .account {
+        img {
           margin-right: 1rem;
           border-radius: 50%;
           transform: scale(1.25);
@@ -119,13 +110,11 @@
         }
       }
 
-      .buttons {
+      a,
+      button {
         padding: 1rem;
         display: flex;
         align-items: center;
-        border: none;
-        outline: none;
-        cursor: pointer;
         background-color: transparent;
 
         svg {
@@ -158,25 +147,20 @@
     padding: 0;
     flex-direction: column;
 
-    .ripple {
+    .only-mobiles {
       width: 100%;
-      overflow: hidden;
+      height: 100%;
 
-      .navbar-logo {
-        width: 100%;
-        height: 100%;
+      .branding span {
+        transition: 0.5s;
+      }
 
-        .branding span {
-          transition: 0.5s;
-        }
+      &:hover span {
+        color: var(--font-color-hover);
+      }
 
-        .hamburger {
-          display: unset;
-        }
-
-        &:hover span {
-          color: var(--font-color-hover);
-        }
+      .hamburger {
+        display: unset;
       }
     }
 
@@ -193,12 +177,14 @@
 
     .drawer {
       width: fit-content;
-      flex-direction: column;
-      justify-content: flex-start;
+      max-height: calc(100vh - 3.5rem);
       position: fixed;
       top: 3.5rem;
       bottom: 0;
       left: 0;
+      overflow-y: auto;
+      flex-direction: column;
+      justify-content: flex-start;
       transform: translateX(-100%);
       transition: transform 300ms;
 
@@ -206,6 +192,10 @@
       .end {
         flex-direction: column;
         align-items: flex-start;
+      }
+
+      &::-webkit-scrollbar {
+        width: 0;
       }
     }
 
@@ -224,27 +214,35 @@
 
         .start,
         .end {
-          a {
+          a,
+          button {
             text-align: left;
           }
 
-          .buttons {
-            text-align: left;
+          a {
+            width: calc(100% - 2rem);
+          }
 
-            .switcher-span {
-              display: unset;
-              transition: color 0.5s;
-            }
-
-            &:hover .switcher-span {
-              color: var(--font-color-hover);
-            }
+          button {
+            width: 100%;
           }
         }
 
-        .end img,
-        .end svg {
-          margin-right: 1rem;
+        .end a,
+        .end button {
+          .switcher-span {
+            display: unset;
+            transition: color 0.5s;
+          }
+
+          &:hover .switcher-span {
+            color: var(--font-color-hover);
+          }
+
+          img,
+          svg {
+            margin-right: 1rem;
+          }
         }
       }
     }

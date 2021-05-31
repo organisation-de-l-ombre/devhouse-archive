@@ -2,7 +2,6 @@ import React, { FC } from "react";
 import { useTranslation, Trans } from "react-i18next";
 import { FaDiscord, FaInstagram, FaTwitter } from "react-icons/fa";
 import { NavLink, useLocation } from "react-router-dom";
-import IMRLogo from "@assets/pictures/imr/imr-full.png";
 import routeWithOnlyContent from "@lib/routeWithOnlyContent";
 import styles from "./Footer.module.scss";
 
@@ -15,18 +14,15 @@ const Footer: FC = () => {
       pathname.startsWith(route)
     ).length
   ) {
-    return <></>;
+    return null;
   }
 
   return (
     <footer className={styles.footer}>
       <div className={styles.left}>
-        <img
-          src={IMRLogo}
-          className={styles.logo}
-          alt="IMR logo"
-          draggable={false}
-        />
+        <div className={styles.logo}>
+          <img src="/icons/logo-full128.png" alt="IMR logo" draggable={false} />
+        </div>
         <h1>
           <Trans
             t={t}
@@ -38,14 +34,25 @@ const Footer: FC = () => {
           <a
             href="https://discord.com/invite/QECkmy8TqC"
             target="blank"
+            title="Discord"
             aria-label="Discord"
           >
             <FaDiscord />
           </a>
-          <a href="https://instagram.com" target="blank" aria-label="Instagram">
+          <a
+            href="https://instagram.com"
+            target="blank"
+            title="Instagram"
+            aria-label="Instagram"
+          >
             <FaInstagram />
           </a>
-          <a href="https://twitter.com" target="blank" aria-label="Twitter">
+          <a
+            href="https://twitter.com"
+            target="blank"
+            title="Twitter"
+            aria-label="Twitter"
+          >
             <FaTwitter />
           </a>
         </div>
@@ -55,8 +62,8 @@ const Footer: FC = () => {
           <Trans t={t} i18nKey="right.mainTitle" />
         </h1>
         <hr />
-        <div className={styles.container}>
-          <div className={styles.items}>
+        <div className={styles.sections}>
+          <div>
             <h1>
               <Trans t={t} i18nKey="right.containers.0.title" />
             </h1>
@@ -76,7 +83,7 @@ const Footer: FC = () => {
               <Trans t={t} i18nKey="right.containers.0.status" />
             </a>
           </div>
-          <div className={styles.items}>
+          <div>
             <h1>
               <Trans t={t} i18nKey="right.containers.1.title" />
             </h1>
@@ -90,7 +97,7 @@ const Footer: FC = () => {
               <Trans t={t} i18nKey="right.containers.1.discord" />
             </a>
           </div>
-          <div className={styles.items}>
+          <div>
             <h1>
               <Trans t={t} i18nKey="right.containers.2.title" />
             </h1>
@@ -110,7 +117,7 @@ const Footer: FC = () => {
               <Trans t={t} i18nKey="right.containers.2.developers" />
             </NavLink>
           </div>
-          <div className={styles.items}>
+          <div>
             <h1>
               <Trans t={t} i18nKey="right.containers.3.title" />
             </h1>

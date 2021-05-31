@@ -16,7 +16,6 @@ import {
 import { FaEdit } from "react-icons/fa";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { FunctionComponent } from "@typings/FunctionComponent";
-import globalStyles from "@styles/Global.module.scss";
 import containerStyle from "../../Containers.module.scss";
 
 const Account: FunctionComponent<HTMLDivElement> = () => {
@@ -115,7 +114,7 @@ const Account: FunctionComponent<HTMLDivElement> = () => {
           <h2>
             <Trans t={t} i18nKey="imr.title" />
           </h2>
-          <GenericLoader className={globalStyles["generic-margin-top"]}>
+          <GenericLoader genericMarginTop>
             <Trans t={t} i18nKey="imr.notImplemented" />
           </GenericLoader>
         </Card>

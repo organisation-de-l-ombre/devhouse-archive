@@ -1,28 +1,34 @@
 import React from "react";
 import Loader, { LoaderType } from "react-loaders";
-import styles from "./GenericLoader.module.scss";
 import "loaders.css/src/animations/line-scale.scss";
+import { FunctionComponent } from "@typings/FunctionComponent";
+import styles from "./GenericLoader.module.scss";
+import FlexContainer from "../FlexContainer/FlexContainer";
 
-const GenericLoader: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & { loaderType?: LoaderType }
-> = ({ className, loaderType, children, ...props }) => {
+const GenericLoader: FunctionComponent<
+  HTMLDivElement,
+  {
+    genericMarginTop?: boolean;
+    centered?: boolean;
+    loaderType?: LoaderType;
+  }
+> = ({ genericMarginTop, centered, loaderType, children, ...props }) => {
   return (
-    <div
-      className={`${styles["loader-container"]}${
-        className ? ` ${className}` : ""
-      }`}
+    <FlexContainer
+      maxWidth
+      genericMarginTop={genericMarginTop}
+      column
+      fullCentered={centered}
+      css={{ width: "fit-content" }}
       {...props}
     >
       <Loader
-        innerClassName={styles.loader}
         type={loaderType || "line-scale"}
         active
+        innerClassName={styles.loader}
       />
-      <p>{children}</p>
-    </div>
+      <p css={{ marginTop: "1rem" }}>{children}</p>
+    </FlexContainer>
   );
 };
 

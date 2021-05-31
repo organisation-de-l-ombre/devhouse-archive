@@ -10,7 +10,7 @@ import {
   MobileNavigation,
 } from "@components/modules/Navbar/Drawer";
 import classnames from "classnames";
-import { NotificationsModal, LanguageModal, RippleEffect } from "../../ui";
+import { NotificationsModal, LanguageModal } from "../../ui";
 import styles from "./Navbar.module.scss";
 
 const Navbar: FC = () => {
@@ -46,9 +46,7 @@ const Navbar: FC = () => {
           [styles.open]: open,
         })}
       >
-        <RippleEffect className={styles.ripple} onClick={manageNavbar}>
-          <MobileNavigation open={open} />
-        </RippleEffect>
+        <MobileNavigation open={open} manageNavbar={manageNavbar} />
         <div className={styles.separator} />
         <DrawerBackdrop manageNavbar={manageNavbar} />
         <Drawer>

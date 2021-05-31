@@ -34,7 +34,7 @@ const RootError: ComponentType<FallbackProps> = () => {
         <p>
           <Trans t={t} i18nKey="description" />
         </p>
-        <ButtonsGroup css={buttonStyles}>
+        <ButtonsGroup expand css={buttonStyles}>
           <ButtonExternalLink href={document.location.origin}>
             <Trans t={t} i18nKey="reloadWebsite" />
           </ButtonExternalLink>
@@ -73,7 +73,7 @@ const ErrorComponent: FunctionComponent<
         {errorMessage && (
           <code css={{ marginTop: "1.5rem" }}>{errorMessage}</code>
         )}
-        <ButtonsGroup css={buttonStyles}>
+        <ButtonsGroup expand css={buttonStyles}>
           <Button onClick={reload}>
             <Trans t={t} i18nKey="reloadPage" />
           </Button>

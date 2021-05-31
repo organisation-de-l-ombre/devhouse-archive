@@ -5,7 +5,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position-x: center;
-  opacity: 0.3;
+  opacity: var(--background-opacity);
 }
 
 .headers {

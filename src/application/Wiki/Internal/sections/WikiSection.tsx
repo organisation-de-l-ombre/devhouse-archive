@@ -1,9 +1,6 @@
 import React from "react";
 import { FlexContainer } from "@components/ui";
 import ReactMarkdown from "react-markdown";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import rehypeHighlight from "rehype-highlight";
 import useLanguage from "@hooks/useLanguage";
 import { NotFound, SuspenseComponent } from "@components/modules";
 import { WikiAPI } from "@lib/api";
@@ -45,9 +42,7 @@ const WikiSection: FunctionComponent<
       column
       className={styles.markdown}
     >
-      <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
-        {data.body}
-      </ReactMarkdown>
+      <ReactMarkdown>{data.body}</ReactMarkdown>
     </FlexContainer>
   );
 };
