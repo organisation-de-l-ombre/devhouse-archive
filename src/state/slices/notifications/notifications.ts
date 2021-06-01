@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { randomBytes } from "crypto";
+import { randomString } from "@utilities/index";
 
 export type Notification = {
   level: "warning" | "error" | "information";
@@ -28,7 +28,7 @@ export const notificationsSlice = createSlice({
     ) {
       state.notifications.push({
         ...payload,
-        id: randomBytes(32).toString("hex"),
+        id: randomString(),
       });
     },
     removeNotification(state, { payload }: PayloadAction<string>) {

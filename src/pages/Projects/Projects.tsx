@@ -1,17 +1,17 @@
-import { Card } from "components/new/Card/Card";
+import { Card } from "@components/new/Card/Card";
 import React, { CSSProperties, ReactElement } from "react";
-import Text from "components/Text/Text";
-import { Button, NavLinkButton } from "components/new/Button/Button";
+import Text from "@components/Text/Text";
+import { Button, NavLinkButton } from "@components/new/Button/Button";
 import Tooltip from "rc-tooltip";
-import { Stack } from "components/new/Stack/Stack";
-import { TitleBox } from "../../components/TitleBox/TitleBox";
+import { Stack } from "@components/new/Stack/Stack";
+import { TitleBox } from "@components/TitleBox/TitleBox";
 import styles from "./Projects.module.scss";
-import ButtonGroup from "../../components/new/Button/ButtonGroup";
-import useProjects from "../../hooks/useProjects";
-import { Loader } from "../../components/SuspenseLoader/SuspenseLoader";
-import UserAvatarStatus from "../../components/UserAvatarStatus/UserAvatarStatus";
-import { getAvatar, statusToColor } from "../../utilities";
-import { withNetwork } from "../../hooks/hoc/withNetwork";
+import ButtonGroup from "@components/new/Button/ButtonGroup";
+import useProjects from "@hooks/useProjects";
+import { Loader } from "@components/SuspenseLoader/SuspenseLoader";
+import UserAvatarStatus from "@components/UserAvatarStatus/UserAvatarStatus";
+import { getAvatar, statusToColor } from "@utilities/index";
+import { withNetwork } from "@hooks/hoc/withNetwork";
 
 const ProjectsPage = (): ReactElement => {
   const { data, isLoading, error } = useProjects({

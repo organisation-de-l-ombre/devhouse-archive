@@ -1,5 +1,4 @@
-import { randomBytes } from "crypto";
-import { urlEncodeFormData } from "../../../utilities";
+import { randomString, urlEncodeFormData } from "../../../utilities";
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 /**
@@ -27,9 +26,7 @@ async function centeredPopup(url: string): Promise<Window> {
     );
   return popup;
 }
-function randomHex() {
-  return randomBytes(32).toString("hex");
-}
+
 async function generateCodeChallenge(codeVerifier: string) {
   const digest = await crypto.subtle.digest(
     "SHA-256",
@@ -60,8 +57,8 @@ function getURL(
   )}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
 }
 export async function retrieveOauthToken(clientId: string): Promise<string> {
-  const state = randomHex();
-  const verifier = encodeURIComponent(randomHex());
+  const state = randomString();
+  const verifier = encodeURIComponent(randomString());
   const challenge = await generateCodeChallenge(verifier);
   const scopes = ["account.*", "websocket.*"];
   const audiences = "abdera";

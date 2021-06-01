@@ -1,18 +1,18 @@
 import React, { ReactElement } from "react";
 import { AiOutlineLoading, BiRefresh, BiTrash } from "react-icons/all";
 import { Authorization } from "@developers-house/abdera";
-import { Stack } from "components/new/Stack/Stack";
-import { Section } from "components/new/Section/Section";
-import { TitleBox } from "../../../components/TitleBox/TitleBox";
-import { Button } from "../../../components/new/Button/Button";
-import { Loader } from "../../../components/SuspenseLoader/SuspenseLoader";
-import { Card } from "../../../components/new/Card/Card";
+import { Stack } from "@components/new/Stack/Stack";
+import { Section } from "@components/new/Section/Section";
+import { TitleBox } from "@components/TitleBox/TitleBox";
+import { Button } from "@components/new/Button/Button";
+import { Loader } from "@components/SuspenseLoader/SuspenseLoader";
+import { Card } from "@components/new/Card/Card";
 import {
   useAuthorizedApps,
   useAuthorizedAppsAllDelete,
   useAuthorizedAppsDeleteMutation,
-} from "../../../hooks/useAuthorizedApps";
-import ButtonGroup from "../../../components/new/Button/ButtonGroup";
+} from "@hooks/useAuthorizedApps";
+import ButtonGroup from "@components/new/Button/ButtonGroup";
 
 const AuthorizationsCard: React.FC<{
   client: Authorization;

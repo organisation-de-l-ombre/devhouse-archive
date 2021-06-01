@@ -1,17 +1,17 @@
 import React, { AllHTMLAttributes, DetailedHTMLProps, FC } from "react";
-import UserAvatarStatus from "components/UserAvatarStatus/UserAvatarStatus";
+import UserAvatarStatus from "@components/UserAvatarStatus/UserAvatarStatus";
 import {
   StaffMember,
   StaffMemberSocialsIconEnum,
 } from "@developers-house/abdera";
-import { ButtonLink } from "components/new/Button/Button";
+import { ButtonLink } from "@components/new/Button/Button";
 import { FaGithub, FaGitlab, FaStackOverflow, GiClick } from "react-icons/all";
 import { FaDiscord } from "react-icons/fa";
 import { IconType } from "react-icons";
 import Tooltip from "rc-tooltip";
 import { getAvatar, statusToColor } from "../../utilities";
 import styles from "./member.module.scss";
-import ButtonGroup from "../../components/new/Button/ButtonGroup";
+import ButtonGroup from "@components/new/Button/ButtonGroup";
 
 const socialIcons: { icon: IconType; name: StaffMemberSocialsIconEnum }[] = [
   { icon: FaStackOverflow, name: StaffMemberSocialsIconEnum.Stackoverflow },

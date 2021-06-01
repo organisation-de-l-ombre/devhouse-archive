@@ -1,15 +1,15 @@
 import React, { FC, useCallback, useState } from "react";
 import { Formik } from "formik";
-import { Button } from "components/new/Button/Button";
-import { arrayBufferToBase64, requestKeyAdd } from "utilities/webauthn";
-import { Stack } from "components/new/Stack/Stack";
-import { SmallLoader } from "components/SmallLoader/SmallLoader";
-import { randomBytes } from "crypto";
-import { TitleBox } from "../../../components/TitleBox/TitleBox";
-import { Card } from "../../../components/new/Card/Card";
-import { Input } from "../../../components/Input/Input";
+import { Button } from "@components/new/Button/Button";
+import { arrayBufferToBase64, requestKeyAdd } from "@utilities/webauthn";
+import { Stack } from "@components/new/Stack/Stack";
+import { SmallLoader } from "@components/SmallLoader/SmallLoader";
+import { TitleBox } from "@components/TitleBox/TitleBox";
+import { Card } from "@components/new/Card/Card";
+import { Input } from "@components/Input/Input";
 import styles from "./account.module.scss";
-import { useUser } from "../../../state/slices/account/hooks";
+import { useUser } from "@state/slices/account/hooks";
+import { randomString } from "@utilities/index";
 
 type Form = { username: string; dataCollection: boolean };
 
@@ -99,7 +99,7 @@ const WebAuthn: FC = () => {
     if (!user) return;
     setAddLoading(true);
     // Reteive id from server.
-    const id = randomBytes(256).toString("base64");
+    const id = randomString();
     const key = await requestKeyAdd(id, user).catch(() => null);
 
     if (!key) {

@@ -6,14 +6,14 @@ import {
   Button,
   ButtonLink,
   NavLinkButton,
-} from "components/new/Button/Button";
-import ButtonGroup from "components/new/Button/ButtonGroup";
+} from "@components/new/Button/Button";
+import ButtonGroup from "@components/new/Button/ButtonGroup";
 import { BsPeopleFill, BsPeople, BsLayersFill } from "react-icons/bs";
 import { MdWork } from "react-icons/md";
-import FlexContainer from "components/FlexContainer/FlexContainer";
-import {PresentationSection, PresentationWrapper} from "components/Presentation/Presentation";
-import { Banner } from "components/Banner/Banner";
-import globalStyles from "../../styles/Global.module.scss";
+import FlexContainer from "@components/FlexContainer/FlexContainer";
+import {PresentationSection, PresentationWrapper} from "@components/Presentation/Presentation";
+import { Banner } from "@components/Banner/Banner";
+import globalStyles from "@styles/Global.module.scss";
 import styles from "./Home.module.scss";
 import { discordServer } from "../../constants";
 
