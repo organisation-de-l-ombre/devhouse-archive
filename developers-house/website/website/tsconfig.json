@@ -15,7 +15,15 @@
     "noEmit": true,
     "jsx": "react",
     "baseUrl": "./src",
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "paths": {
+      "@components/*": ["components/*"],
+      "@hooks/*": ["hooks/*"],
+      "@state/*": ["state/*"],
+      "@styles/*": ["styles/*"],
+      "@utilities/*": ["utilities/*"],
+      "@pages/*": ["pages/*"],
+    }
   },
   "include": ["src"]
 }

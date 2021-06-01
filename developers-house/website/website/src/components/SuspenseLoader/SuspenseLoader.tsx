@@ -8,7 +8,6 @@ import React, {
   useState,
 } from "react";
 import ReactLoaders from "react-loaders";
-import "loaders.css/src/animations/line-scale.scss";
 import styles from "./loader.module.scss";
 
 const messages = [

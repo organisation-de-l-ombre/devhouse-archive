@@ -6,24 +6,21 @@ import React, {
   useState,
 } from "react";
 import { RouteComponentProps, useHistory } from "react-router";
-import useProjects from "hooks/useProjects";
+import useProjects from "@hooks/useProjects";
 import { Projects, StaffMember } from "@developers-house/abdera";
-import CenteredMessage from "components/CenteredMessage/CenteredMessage";
-import { Button } from "components/new/Button/Button";
-import FlexContainer from "components/FlexContainer/FlexContainer";
+import CenteredMessage from "@components/CenteredMessage/CenteredMessage";
+import { Button } from "@components/new/Button/Button";
+import FlexContainer from "@components/FlexContainer/FlexContainer";
 import ReactMarkdown from "react-markdown";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import rehypeHighlight from "rehype-highlight";
 import { BsArrowLeft } from "react-icons/bs";
 import { NavLink } from "react-router-dom";
 import styles from "./ProjectDetails.module.scss";
-import globalStyles from "../../styles/Global.module.scss";
-import { Loader } from "../../components/SuspenseLoader/SuspenseLoader";
-import { TitleBox } from "../../components/TitleBox/TitleBox";
-import { Card } from "../../components/new/Card/Card";
-import UserAvatarStatus from "../../components/UserAvatarStatus/UserAvatarStatus";
-import { getAvatar, statusToColor } from "../../utilities";
+import globalStyles from "@styles/Global.module.scss";
+import { Loader } from "@components/SuspenseLoader/SuspenseLoader";
+import { TitleBox } from "@components/TitleBox/TitleBox";
+import { Card } from "@components/new/Card/Card";
+import UserAvatarStatus from "@components/UserAvatarStatus/UserAvatarStatus";
+import { getAvatar, statusToColor } from "@utilities/index";
 import { discordServer } from "../../constants";
 
 type Category = "managers" | "members";
@@ -177,7 +174,7 @@ const ProjectDetails: FC<RouteComponentProps> = ({ match }) => {
         <h2>Detailed project information</h2>
         {markdown ? (
           <div className={styles.markdown}>
-            <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+            <ReactMarkdown>
               {markdown}
             </ReactMarkdown>
           </div>

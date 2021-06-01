@@ -1,13 +1,13 @@
 import React, { FC, ReactElement, useCallback } from "react";
 import { AiOutlineLoading, BiRefresh } from "react-icons/all";
-import { Stack } from "components/new/Stack/Stack";
-import { useCreateTakeout, useTakeouts } from "../../../hooks/useTakeouts";
-import { TitleBox } from "../../../components/TitleBox/TitleBox";
-import { Loader } from "../../../components/SuspenseLoader/SuspenseLoader";
-import { Card } from "../../../components/new/Card/Card";
-import ButtonGroup from "../../../components/new/Button/ButtonGroup";
+import { Stack } from "@components/new/Stack/Stack";
+import { useCreateTakeout, useTakeouts } from "@hooks/useTakeouts";
+import { TitleBox } from "@components/TitleBox/TitleBox";
+import { Loader } from "@components/SuspenseLoader/SuspenseLoader";
+import { Card } from "@components/new/Card/Card";
+import ButtonGroup from "@components/new/Button/ButtonGroup";
 import styles from "./account.module.scss";
-import { Button } from "../../../components/new/Button/Button";
+import { Button } from "@components/new/Button/Button";
 
 const Indicator: FC<{ color: string; key: string }> = ({ color, children }) => {
   return (

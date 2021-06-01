@@ -1,12 +1,12 @@
 import React, { ReactElement } from "react";
-import { TitleBox } from "components/TitleBox/TitleBox";
+import { TitleBox } from "@components/TitleBox/TitleBox";
 import MemberDisplay from "./MemberDisplay";
 import "../transitions.css";
 import styles from "./member.module.scss";
-import { Loader } from "../../components/SuspenseLoader/SuspenseLoader";
-import useMembers from "../../hooks/useMembers";
-import FlexContainer from "../../components/FlexContainer/FlexContainer";
-import { withNetwork } from "../../hooks/hoc/withNetwork";
+import { Loader } from "@components/SuspenseLoader/SuspenseLoader";
+import useMembers from "@hooks/useMembers";
+import FlexContainer from "@components/FlexContainer/FlexContainer";
+import { withNetwork } from "@hooks/hoc/withNetwork";
 
 const MembersPage = (): ReactElement => {
   const { isLoading, isError, data } = useMembers();

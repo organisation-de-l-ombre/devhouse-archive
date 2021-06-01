@@ -5,18 +5,18 @@ import { BrowserRouter } from "react-router-dom";
 import { I18nextProvider } from "react-i18next";
 import i18next from "i18next";
 import { RequestContext, UserAPIApi } from "@developers-house/abdera";
-import { SVGDefinitions } from "components/UserAvatarStatus/SVGDefinitions";
-import Navigator from "./pages/Navigator";
-import { register } from "./utilities";
-import { Menu } from "./components/navbar";
-import { store } from "./state";
-import { addNotification } from "./state/slices/notifications/notifications";
+import { SVGDefinitions } from "@components/UserAvatarStatus/SVGDefinitions";
+import Navigator from "@pages/Navigator";
+import { register } from "@utilities/index";
+import { Menu } from "@components/navbar";
+import { store } from "@state/index";
+import { addNotification } from "@state/slices/notifications/notifications";
 
 const ThemeProvider = lazy(
-  () => import("./components/ThemeProvider/ThemeProvider")
+  () => import("@components/ThemeProvider/ThemeProvider")
 );
 const NotificationsArea = lazy(
-  () => import("./components/notifications/NotificationsArea")
+  () => import("@components/notifications/NotificationsArea")
 );
 
 const UserAPI = new UserAPIApi().withPreMiddleware(
@@ -31,7 +31,7 @@ const UserAPI = new UserAPIApi().withPreMiddleware(
   }
 );
 
-const ErrorPage = React.lazy(() => import("pages/ErrorPage"));
+const ErrorPage = React.lazy(() => import("@pages/ErrorPage"));
 
 register({
   onUpdate(registration) {

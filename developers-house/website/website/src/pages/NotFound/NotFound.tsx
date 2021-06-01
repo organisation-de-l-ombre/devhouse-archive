@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
-import { Button } from "components/new/Button/Button";
+import { Button } from "@components/new/Button/Button";
 import { useHistory } from "react-router";
-import CenteredMessage from "../../components/CenteredMessage/CenteredMessage";
+import CenteredMessage from "@components/CenteredMessage/CenteredMessage";
 
 export default function NotFound(): ReactElement {
   const nav = useHistory();
