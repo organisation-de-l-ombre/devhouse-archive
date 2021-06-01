@@ -1,1 +1,0 @@
-import{c as t}from"./Root.4a122768.js";const a=t("div",{target:"e1sfp5j90",label:"Stack"})("display:flex;width:100%;height:100%;flex-flow:",(t=>t.wrap?"wrap":"")," ",(t=>t.direction||"column"),";>*{margin-top:1rem;}*:first-child{margin-top:0;}*:last-child{margin-bottom:0;}");export{a as S};

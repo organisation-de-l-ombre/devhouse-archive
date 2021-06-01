@@ -1,1 +1,0 @@
-System.register(["./constants-legacy.56cf1265.js","./vendor-legacy.780b8642.js"],(function(e){"use strict";var t,n;return{setters:[function(e){t=e.D},function(e){n=e.z}],execute:function(){e("u",(function(e){return n("developers-house/projects",(function(){return t.dataProjectsGet()}),e)}))}}}));
