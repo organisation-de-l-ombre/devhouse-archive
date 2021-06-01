@@ -1,0 +1,1 @@
+import{j as l,a as e}from"./vendor.55145a9c.js";import{T as a}from"./TitleBox.d6b38f10.js";function o(){return l(e.Fragment,null,l(a,null,l("h1",null,"About us"),l("p",null,"We are a small team of developers #TODO")))}export default o;

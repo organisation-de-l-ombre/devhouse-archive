@@ -1,0 +1,1 @@
+System.register(["./vendor-legacy.780b8642.js","./TitleBox-legacy.6f0f1d71.js"],(function(e){"use strict";var t,n,u;return{setters:[function(e){t=e.j,n=e.a},function(e){u=e.T}],execute:function(){e("default",(function(){return t(n.Fragment,null,t(u,null,t("h1",null,"About us"),t("p",null,"We are a small team of developers #TODO")))}))}}}));
