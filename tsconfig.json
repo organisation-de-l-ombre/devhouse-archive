@@ -69,7 +69,8 @@
       "forceConsistentCasingInFileNames": true,        /* Disallow inconsistently-cased references to the same file. */
       "paths": {
          "@entities/*": ["./entity/*"],
-         "@migrations/*": ["./migrations/*"]
+         "@typings/*": ["./types/*"],
+         "@providers/*": ["./providers/*"]
       }
    },
    "include": ["src", "openapi-gen"],

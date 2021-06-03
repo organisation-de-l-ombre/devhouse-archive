@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest, RouteOptions } from "fastify";
 import fetch from "node-fetch";
-import { internalS3ClientEndpoint } from "../..";
+import { internalS3ClientEndpoint } from "../../server";
 
 interface RequestParameters {
   type: string;
@@ -8,7 +8,7 @@ interface RequestParameters {
   path: string;
 }
 
-export default {
+const getWiki: RouteOptions = {
   method: "GET",
   url: "/data/wiki/:type/:language/:path",
   /* schema: {
@@ -64,4 +64,6 @@ export default {
       body: response
     });
   }
-} as RouteOptions;
+};
+
+export default getWiki;
