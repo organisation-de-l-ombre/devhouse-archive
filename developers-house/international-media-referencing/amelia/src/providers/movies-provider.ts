@@ -1,12 +1,8 @@
-import { FastifyReply, FastifyRequest, RouteOptions } from "fastify";
+import { FastifyReply, FastifyRequest } from "fastify";
+import { MovieTitle } from "@entities/movie-title";
+import { Language } from "@entities/localized-movie";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { MovieTitle } from "@entities/movie-title";
-
-interface RequestParameters {
-  movieTitle: string;
-  language: string;
-}
 
 interface MovieData {
   headers?: string;
@@ -25,21 +21,22 @@ type Section =
   | "ost"
   | "technical-specs";
 
-export default {
-  method: "GET",
-  url: "/data/movies/title/:movieTitle/:language",
-  schema: {
-    params: {
-      movieTitle: { type: "string" },
-      language: { type: "string" }
-    }
-  },
-  async handler(request: FastifyRequest, reply: FastifyReply): Promise<void> {
-    const { movieTitle, language } = request.params as RequestParameters;
-    const repository = request.databaseConnection().getRepository(MovieTitle);
+export class MoviesProvider {
+  request: FastifyRequest;
+  reply: FastifyReply;
+
+  constructor(request: FastifyRequest, reply: FastifyReply) {
+    this.request = request;
+    this.reply = reply;
+  }
+
+  async getMovieData(id: string, language: string): Promise<void> {
+    const repository = this.request
+      .databaseConnection()
+      .getRepository(MovieTitle);
     const databaseRequest: MovieTitle[] = await repository.find({
       where: {
-        id: movieTitle
+        id
       },
       relations: ["availableLanguages"]
     });
@@ -48,28 +45,26 @@ export default {
     if (
       databaseRequest.length === 0 ||
       databaseResult.availableLanguages.findIndex(
-        (lang): boolean => lang.language === language
+        (lang: Language): boolean => lang.language === language
       ) === -1
     ) {
-      void reply.code(404).send({
-        statusCode: 404,
-        message: `Movie not found.`
+      void this.reply.code(404).send({
+        sttusCode: 404,
+        message: "Movie not found."
       });
 
       return;
     }
 
-    const files = await request.internalS3Client().listObjects({
+    const files = await this.request.internalS3Client().listObjects({
       Bucket: process.env.S3_BUCKET_NAME || "",
-      Prefix: `${
-        process.env.S3_PRIVATE || ""
-      }/movies/title/${movieTitle}/${language}`
+      Prefix: `${process.env.S3_PRIVATE || ""}/movies/title/${id}/${language}`
     });
 
     if (!files.Contents || (files.Contents && files.Contents.length === 0)) {
-      void reply.code(404).send({
-        statusCode: 404,
-        message: `Movie not found.`
+      void this.reply.code(404).send({
+        sttusCode: 404,
+        message: "Movie not found."
       });
 
       return;
@@ -107,27 +102,28 @@ export default {
     for (const section of sections) {
       const command: GetObjectCommand = new GetObjectCommand({
         Bucket: process.env.S3_BUCKET_NAME || "",
-        Key: `${
-          process.env.S3_PRIVATE || ""
-        }/movies/title/${movieTitle}/${language}/${
-          // eslint-disable-next-line security/detect-object-injection
-          indexes[section]
+        Key: `${process.env.S3_PRIVATE || ""}/movies/title/${id}/${language}/${
+          indexes[section as keyof typeof indexes]
         }_${section}.json`
       });
-      const dataURL = await getSignedUrl(request.externalS3Client(), command, {
-        expiresIn: 1800
-      });
+      const dataURL = await getSignedUrl(
+        this.request.externalS3Client(),
+        command,
+        {
+          expiresIn: 1800
+        }
+      );
 
       Object.assign(movieData, { [section]: dataURL });
     }
 
-    void reply.code(200).send({
+    void this.reply.send({
       statusCode: 200,
-      body: {
+      data: {
         id: databaseResult.id,
         title: databaseResult.name,
-        data: movieData
+        links: movieData
       }
     });
   }
-} as RouteOptions;
+}
