@@ -48,11 +48,11 @@ node_build:
     key: node-modules
     paths:
       - node_modules
-  stage: build
+  stage: dist
   artifacts:
     name: "React build"
     paths:
-      - build
+      - dist
 
 build:
   stage: docker
