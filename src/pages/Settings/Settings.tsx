@@ -1,25 +1,106 @@
-/*
- * The Error page displayed to the user when the website crashes.
- */
+import React, { ReactElement, useCallback, FC, useMemo } from "react";
+import { Route, Switch } from "react-router";
+import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { AiFillLock } from "react-icons/all";
+import { Button, ButtonImage } from "../../components/Button/Button";
+import ButtonGroup from "../../components/Button/ButtonGroup";
+import Authorizations from "./sections/Authorizations";
+import Account from "./sections/Account";
+import Support from "./sections/Support";
+import styles from "./settings.module.scss";
+import NotFound from "../NotFound/NotFound";
+import UserAvatarStatus from "../../components/UserAvatarStatus/UserAvatarStatus";
+import { withNetwork } from "../../hooks/hoc/withNetwork";
+import DataSettings from "./sections/DataSettings";
+import { useUser } from "../../state/slices/account/hooks";
+import { logout } from "../../state/slices/account/actions";
+import LinkedAccounts from "./sections/LinkedAccounts";
 
-import React, {ReactElement, useCallback} from 'react';
-import {TitleBox} from "../../components/ui/TitleBox";
-import Button from "../../components/ui/Button";
-import {useDispatch} from "react-redux";
-import {logoutUser} from "../../state/modules/user/actions";
+const Content: FC = () => {
+  const dispatch = useDispatch();
+  const match = useMemo(
+    () => ({
+      path: "/settings",
+    }),
+    []
+  );
 
-const Settings = (): ReactElement => {
-    const dispatch = useDispatch();
-    const logout = useCallback(() => {
-        dispatch(logoutUser());
-    }, [dispatch]);
+  const doLogout = useCallback(() => {
+    dispatch(logout());
+  }, [dispatch]);
 
-    return <TitleBox>
-        We are working on this feature! <br/>
-        <Button onClick={logout}>
-            Logout
-        </Button>
-    </TitleBox>;
+  return (
+    <ButtonGroup className={styles.list} full>
+      <NavLink to={`${match.path}`}>
+        <Button>Account</Button>
+      </NavLink>
+      <NavLink to={`${match.path}/authorizations`}>
+        <Button>Manage authorizations</Button>
+      </NavLink>
+      <NavLink to={`${match.path}/linked-accounts`}>
+        <Button>Linked accounts</Button>
+      </NavLink>
+      <NavLink to={`${match.path}/privacy-settings`}>
+        <Button>Privacy settings</Button>
+      </NavLink>
+      <NavLink to={`${match.path}/support`}>
+        <Button>Support</Button>
+      </NavLink>
+      <Button onClick={doLogout}>
+        <ButtonImage>
+          <AiFillLock />
+        </ButtonImage>
+        Logout
+      </Button>
+    </ButtonGroup>
+  );
 };
 
-export default Settings;
+const Settings = (): ReactElement => {
+  const match = useMemo(() => "/settings", []);
+  const user = useUser();
+
+  return (
+    <div className={styles.main}>
+      <div className={styles.navigation}>
+        <div className={styles.navigationHeader}>
+          <UserAvatarStatus
+            width="7rem"
+            statusColor="grey"
+            avatar={`https://imageproxy.developershouse.xyz/250x250/https://s3.developershouse.xyz/${user?.avatar}`}
+            animate
+          />
+          <h3>{user?.username}</h3>
+        </div>
+        <Content />
+      </div>
+      <div className={styles.content}>
+        <Switch>
+          <Route exact path={`${match}`} component={Account} />
+          <Route
+            exact
+            path={`${match}/authorizations`}
+            component={Authorizations}
+          />
+          <Route
+            exact
+            path={`${match}/linked-accounts`}
+            component={LinkedAccounts}
+          />
+          <Route
+            exact
+            path={`${match}/privacy-settings`}
+            component={DataSettings}
+          />
+          <Route exact path={`${match}/support`} component={Support} />
+          <Route path="*" exact>
+            <NotFound />
+          </Route>
+        </Switch>
+      </div>
+    </div>
+  );
+};
+
+export default withNetwork(Settings);

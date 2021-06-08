@@ -1,98 +1,106 @@
-import React, {FC, useCallback} from 'react';
-import {Route, Switch, useHistory, withRouter} from 'react-router-dom';
-import 'transitions.css';
-import {RouteProps} from "react-router";
-import styled from "styled-components";
-import {ErrorBoundary} from "react-error-boundary";
-import {useDispatch, useSelector} from "react-redux";
-import {pushNotification} from "../state/modules/notifications";
-import SuspenseLoader from "../components/SuspenseLoader";
-import NotFound from './NotFound/NotFound';
+import React, { FC, useEffect, Suspense, ReactElement } from "react";
+import {
+  Route,
+  Switch,
+  useHistory,
+  useLocation,
+  withRouter,
+} from "react-router-dom";
+import "./transitions.css";
+import { RouteProps, RouteComponentProps } from "react-router";
+import { ErrorBoundary } from "react-error-boundary";
+import { Loader } from "../components/SuspenseLoader/SuspenseLoader";
+import NotFound from "./NotFound/NotFound";
+import styles from "./navigator.module.scss";
+import { useNotificationsManager } from "../hooks/useNotifications";
+import { useHasUser } from "../state/slices/account/hooks";
 
-const Wrapper = styled.div`
-    .slide-enter {
-        opacity: 0;
+const AboutPage = React.lazy(() => import("./About/About"));
+const HomePage = React.lazy(() => import("./Home/Home"));
+const ProjectsPage = React.lazy(() => import("./Projects/Projects"));
+const ProjectDetailsPage = React.lazy(
+  () => import("./ProjectDetails/ProjectDetails")
+);
+const ErrorPage = React.lazy(() => import("./ErrorPage"));
+const Callback = React.lazy(() => import("./Settings/Callback"));
+const Settings = React.lazy(() => import("./Settings/Settings"));
+const MembersPage = React.lazy(() => import("./Members/Members"));
+
+const PrivateRoute: FC<{ component: FC<unknown> } & RouteProps> = ({
+  component: Component,
+  ...rest
+}) => {
+  const auth = useHasUser();
+  const history = useHistory();
+  const { addNotification } = useNotificationsManager();
+  useEffect(() => {
+    if (!auth) {
+      addNotification({
+        level: "warning",
+        text: "You need to be logged in to view this page.",
+        time: 3000,
+      });
+      history.push("/");
     }
-    .slide-enter-active {
-        opacity: 1;
-        transition: opacity 300ms ease-in-out;
-    }
-    .slide-exit {
-        opacity: 0;
-    }
-    .slide-exit-active {
-        opacity: 0;
-        transition: opacity 300ms 300ms ease-in-out;
-    }
-    .ignore-overflow {
-        overflow: hidden;
-    }
-`;
-
-
-const AboutPage = React.lazy(() => import('./About/About')),
-    HomePage = React.lazy(() => import('./Home/Home')),
-    MembersPage = React.lazy(() => import('./Members/Members')),
-    ProjectsPage = React.lazy(() => import('./Projects/Projects')),
-    ErrorPage = React.lazy(() => import('./ErrorPage')),
-    Callback = React.lazy(() => import('./Settings/Callback')),
-    Settings = React.lazy(() => import('./Settings/Settings'));
-
-
-const PrivateRoute: FC<{ component: FC<any> } & RouteProps> = ({component: Component, ...rest}) => {
-    const auth = useSelector((s) => s.user.loggedIn);
-    const dispatch = useDispatch();
-    const displayNotification = useCallback(() => {
-        dispatch(pushNotification({
-            level: "warning", text: "You need to be logged in to view this page.", time: 3000
-
-        }));
-    }, [dispatch]);
-    const history = useHistory();
-    return <Route {...rest} render={(props) => {
-        if (!auth) {
-            history.goBack();
-            displayNotification();
-            return <></>;
+  }, [addNotification, auth, history]);
+  return (
+    <Route
+      {...rest}
+      render={(props) => {
+        if (auth) {
+          return <Component {...props} />;
         }
-        return <Component {...props} />;
-    }}/>
+        return null;
+      }}
+    />
+  );
 };
 
+const GA: FC = () => {
+  const route = useLocation();
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).gtag("event", "page_view", {
+      page_title: route.pathname,
+      page_location: route.hash,
+      page_path: route.pathname,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      send_to: (window as any).GA_TAG,
+    });
+  }, [route]);
+
+  return null;
+};
 
 const Navigator = () => {
-    return (
-        <Wrapper>
-            <ErrorBoundary FallbackComponent={ErrorPage}>
-                <div style={{ height: '100%', width: '100%' }}>
-
-                <Switch>
-
-                    <SuspenseLoader>
-                        <Route path="/" exact>
-                            <HomePage/>
-                        </Route>
-                        <Route path="/about" exact>
-                            <AboutPage/>
-                        </Route>
-                        <Route path="/projects" exact>
-                            <ProjectsPage/>
-                        </Route>
-                        <Route path="/members" exact>
-                            <MembersPage/>
-                        </Route>
-                        <Route path="/callback" exact>
-                            <Callback/>
-                        </Route>
-                        <PrivateRoute path="/settings" component={Settings} exact/>
-                    </SuspenseLoader>
-                    <Route path="*" exact>
-                        <NotFound/>
-                    </Route>
-                </Switch>
-            </div>
-            </ErrorBoundary>
-        </Wrapper>);
-}
+  return (
+    <ErrorBoundary FallbackComponent={ErrorPage}>
+      <div className={styles.wrapper}>
+        <GA />
+        <div className={styles.content}>
+          <Suspense fallback={<Loader />}>
+            <Switch>
+              <Route path="/members" exact component={MembersPage} />
+              <Route path="/" exact component={HomePage} />
+              <Route path="/about" exact component={AboutPage} />
+              <Route path="/projects" exact component={ProjectsPage} />
+              <Route
+                path="/projects/:id"
+                exact
+                render={(props: RouteComponentProps): ReactElement => {
+                  return <ProjectDetailsPage {...props} />;
+                }}
+              />
+              <Route path="/callback" exact component={Callback} />
+              <PrivateRoute path="/settings" component={Settings} />
+              <Route path="*" exact component={NotFound} />
+            </Switch>
+          </Suspense>
+        </div>
+      </div>
+    </ErrorBoundary>
+  );
+};
 
 export default withRouter(Navigator);

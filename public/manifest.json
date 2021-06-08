@@ -1,4 +1,6 @@
 {
+  "author": "Developer's House",
+  "description": "Developer's House website",
   "short_name": "Developer's House",
   "name": "Developer's House",
   "icons": [
@@ -11,6 +13,44 @@
       "src": "icons/logo512.png",
       "type": "image/png",
       "sizes": "512x512"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Manage account",
+      "short_name": "Account",
+      "description": "Manage your account.",
+      "url": "/settings",
+      "icons": [
+        {
+          "src": "/icons/account.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Our Members",
+      "short_name": "Members",
+      "description": "List of our members.",
+      "icons": [
+        {
+          "src": "/icons/members.png",
+          "sizes": "192x192"
+        }
+      ],
+      "url": "/members"
+    },
+    {
+      "name": "Our Projects",
+      "short_name": "Projects",
+      "description": "List of our projects.",
+      "icons": [
+        {
+          "src": "/icons/projects.png",
+          "sizes": "192x192"
+        }
+      ],
+      "url": "/projects"
     }
   ],
   "start_url": ".",

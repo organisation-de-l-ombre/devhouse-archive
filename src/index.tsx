@@ -1,23 +1,21 @@
-/*
- * This is the entry point of the react application.
- * In this file, we setup some logic, such as the sentry
- * error reporting & performance monitoring.
- */
-
-import React, {ReactElement} from "react";
+import "./utilities/i18n";
+import React, { ReactElement } from "react";
 import ReactDOM from "react-dom";
-import SuspenseLoader from "./components/SuspenseLoader";
-import './transitions.css';
+import { QueryClient, QueryClientProvider } from "react-query";
+import SuspenseLoader from "./components/SuspenseLoader/SuspenseLoader";
+import "./transitions.css";
+import "rc-tooltip/assets/bootstrap.css";
 
-const Root = React.lazy(() => import('Root'));
+const queryClient = new QueryClient();
+
+const Root = React.lazy(() => import("./Root"));
 
 const MainComponent = (): ReactElement => (
-    <SuspenseLoader>
-        <Root/>
-    </SuspenseLoader>
+  <SuspenseLoader>
+    <QueryClientProvider client={queryClient}>
+      <Root />
+    </QueryClientProvider>
+  </SuspenseLoader>
 );
 
-/*
- * We mount the react application in the root element of the page.
- */
-ReactDOM.render(<MainComponent/>, document.getElementById("root"));
+ReactDOM.render(<MainComponent />, document.getElementById("root"));

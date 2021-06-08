@@ -1,81 +1,151 @@
-import React, {ReactElement, useState} from 'react';
-import {NavigationItem} from "./Menu/MenuItem";
-import {NavLink} from "react-router-dom";
-import OnlyMobiles from "./Menu/OnlyMobiles";
-import {GiHamburgerMenu} from 'react-icons/gi';
-import {useDispatch, useSelector} from 'react-redux';
-import {updateTheme} from 'state/modules/theme';
-import {loginUser} from "../../state/modules/user/actions";
-import {NavigationContainer} from './Menu/MenuContainer';
-import {DrawerContent} from "./Menu/DrawerContent";
+import React, { useCallback, ReactElement, FC } from "react";
+import { NavLink } from "react-router-dom";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { FaSun, FaUser } from "react-icons/fa";
+import { BsMoon } from "react-icons/bs";
+import { Trans, useTranslation } from "react-i18next";
+import { CgClose } from "react-icons/cg";
+import { useDispatch } from "react-redux";
+import { AiFillWarning } from "react-icons/ai";
+import { NavigationItem } from "./Menu/MenuItem";
+import { NavigationContainer } from "./Menu/MenuContainer";
+import { DrawerContent } from "./Menu/DrawerContent";
 import styles from "./Menu/navigation.module.scss";
-import UserAvatarStatus from "../ui/UserAvatarStatus";
+import UserAvatarStatus from "../UserAvatarStatus/UserAvatarStatus";
+import globalStyles from "../../styles/Global.module.scss";
+import { useNotificationsManager } from "../../hooks/useNotifications";
+import { useLogin } from "../../state/slices/account/hooks";
+import { setTheme } from "../../state/slices/theme/theme";
+import { useTheme } from "../../state/slices/theme/hooks";
+import { useScrollPosition } from "../../hooks/useScroll";
+import { useSwitcher } from "../../hooks/useSwitcher";
+import { useStartsWith } from "../../hooks/usePath";
+import { SmallLoader } from "../SmallLoader/SmallLoader";
 
-export function Menu(): ReactElement {
-    const [open, setOpen] = useState<boolean>(false);
-    const switchOpen = (): void => setOpen(!open);
-    const dispatch = useDispatch();
-    const dark = useSelector((e) => e.theme.theme === 'light');
-    const globalClick = () => open && setOpen(false);
+const UserButton: FC<{ padding?: string }> = ({ padding }) => {
+  const { login, status, user } = useLogin();
+  return (
+    <NavigationItem
+      style={{ padding }}
+      onClick={(e) => {
+        e.stopPropagation();
+        if (!user) login();
+      }}
+      className={styles.right}
+    >
+      {status === "available" &&
+        (user ? (
+          <NavLink to="/settings">
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <UserAvatarStatus
+                style={{
+                  width: "1.25rem",
+                  display: "flex",
+                  transform: "scale(1.35)",
+                }}
+                animate
+                status={false}
+                statusColor="transparent"
+                avatar={`https://imageproxy.developershouse.xyz/120x120/https://s3.developershouse.xyz/${user?.avatar}`}
+              />
+              <span className={styles.username}>{user?.username}</span>
+            </div>
+          </NavLink>
+        ) : (
+          <FaUser />
+        ))}
+      {status === "failed" && <AiFillWarning />}
+      {status === "loading" && <SmallLoader />}
+    </NavigationItem>
+  );
+};
 
-    const switchOpenClick = () => {
-        if (open)
-            setOpen(false);
-        return true;
-    };
+export const Menu = (): ReactElement => {
+  const [open, switchOpen, setOpen] = useSwitcher();
+  const blacklisted = useStartsWith("/settings");
+  const transparent = useScrollPosition() === 0 && !blacklisted;
+  const dispatch = useDispatch();
 
-    const userState = useSelector((s) => s.user);
+  const dark = useTheme() === "light";
+  const { addNotification } = useNotificationsManager();
 
-    return (
-        <NavigationContainer open={open} onClick={globalClick}>
-            <OnlyMobiles className={styles.primed}>
-                <NavigationItem onClick={switchOpen}>
-                    <h3>
-                        Developer's House
-                    </h3>
-                        <GiHamburgerMenu
-                            style={{transform: `rotate(${open ? '90' : '0'}deg)`, scale: 2, transition: 'all 250ms'}}/>
-                </NavigationItem>
-            </OnlyMobiles>
-            <DrawerContent>
-                <NavLink to={'/'} exact>
-                    <NavigationItem onClick={switchOpenClick}>
-                        Home
-                    </NavigationItem>
-                </NavLink>
-                <NavLink to={'/members'}>
-                    <NavigationItem onClick={switchOpenClick}>
-                        Members
-                    </NavigationItem>
-                </NavLink>
-                <NavLink to={'/about'}>
+  const switchOpenClick = useCallback(() => {
+    if (open) setOpen(false);
+    return true;
+  }, [setOpen, open]);
+  const { t } = useTranslation("layout");
 
-                    <NavigationItem onClick={switchOpenClick}>
-                        About
-                    </NavigationItem>
-                </NavLink>
-                <NavigationItem onClick={() => switchOpenClick && dispatch(updateTheme(dark ? 'dark' : 'light'))}>
-                    Switch to {dark ? 'dark' : 'light'} theme
-                </NavigationItem>
-                {
-                    !userState.loggedIn &&
-                    <NavigationItem className={styles.bottom} onClick={() => dispatch(loginUser())}>
-                        Login
-                    </NavigationItem>
-                }
-                {
-                    userState.loggedIn && (
-                        <NavLink to={"/settings"}>
-                            <NavigationItem style={{ padding: '0.8em', }}>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <UserAvatarStatus style={{ paddingRight: '1em', width: '2em', height: '2em', display: 'inline' }} animate statusColor="gray" avatar={`https://s3.developershouse.xyz/${userState.user?.avatar}`} />
-                                    { userState.user?.username }
-                                </div>
-                            </NavigationItem>
-                        </NavLink>
-                    )
-                }
-            </DrawerContent>
-        </NavigationContainer>
-    );
-}
+  return (
+    <NavigationContainer
+      open={open}
+      className={transparent ? styles.transparent : ""}
+      onClick={switchOpen}
+    >
+      <div className={`${styles.primed} ${globalStyles.onlyMobiles}`}>
+        <NavigationItem onClick={switchOpen}>
+          <h3>Developer&rsquo;s House</h3>
+          {open ? (
+            <CgClose
+              style={{
+                scale: 2,
+                transition: "all 250ms",
+              }}
+            />
+          ) : (
+            <GiHamburgerMenu
+              style={{
+                scale: 2,
+                transition: "all 250ms",
+              }}
+            />
+          )}
+        </NavigationItem>
+      </div>
+      <DrawerContent className={styles.links} onClick={switchOpenClick}>
+        <NavLink to="/" exact activeClassName={styles.active}>
+          <NavigationItem>
+            <Trans t={t} i18nKey="menu.home" />
+          </NavigationItem>
+        </NavLink>
+        <NavLink to="/projects" activeClassName={styles.active}>
+          <NavigationItem>
+            <Trans t={t} i18nKey="menu.projects" />
+          </NavigationItem>
+        </NavLink>
+        <NavLink to="/members" activeClassName={styles.active}>
+          <NavigationItem>
+            <Trans t={t} i18nKey="menu.members" />
+          </NavigationItem>
+        </NavLink>
+        <NavLink to="/about" activeClassName={styles.active}>
+          <NavigationItem>
+            <Trans t={t} i18nKey="menu.about" />
+          </NavigationItem>
+        </NavLink>
+        <NavLink to="/contact" activeClassName={styles.active}>
+          <NavigationItem>Contact</NavigationItem>
+        </NavLink>
+        <UserButton />
+        <NavigationItem
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch(setTheme(dark ? "dark" : "light"));
+            addNotification({
+              level: "information",
+              text: `Switched to ${dark ? "dark" : "light"} theme.`,
+              time: 5000,
+            });
+          }}
+        >
+          {dark ? <BsMoon /> : <FaSun />}
+          <div className={globalStyles.onlyMobiles}>
+            <Trans
+              t={t}
+              i18nKey={`menu.theme.text.${!dark ? "light" : "dark"}`}
+            />
+          </div>
+        </NavigationItem>
+      </DrawerContent>
+    </NavigationContainer>
+  );
+};

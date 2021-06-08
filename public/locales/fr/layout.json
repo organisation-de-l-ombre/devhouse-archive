@@ -1,0 +1,19 @@
+{
+  "menu": {
+    "home": "Accueil",
+    "projects": "Projets",
+    "members": "Membres",
+    "contact": "Contact",
+    "about": "A propos",
+    "login": {
+      "tooltip": "Se connecter"
+    },
+    "theme": {
+      "tooltip": "Changer de thème",
+      "text": {
+        "dark": "Passer au thème foncé",
+        "light": "Passer au thème clair"
+      }
+    }
+  }
+}

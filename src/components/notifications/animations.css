@@ -1,27 +1,21 @@
 .notification-enter {
-    opacity: 0;
-    overflow: hidden;
-    height: 0;
-    transform: translateY(100%);
+  opacity: 0;
+  overflow: hidden;
+  transform: translateY(100%);
 }
 
-.notification-enter-enter-active {
-    opacity: 1;
-    height: 100%;
-    overflow: hidden;
-    transform: translateY(0);
-    transition: opacity 500ms, transform 300ms cubic-bezier(0.165, 0.84, 0.44, 1);
+.notification-enter-active {
+  opacity: 1;
+  overflow: hidden;
+  transform: translateY(0);
 }
 
-.notification-enter-exit {
-    opacity: 1;
-    height: 100%;
+.notification-exit {
+  opacity: 1;
+  transition: transform 300ms, position 0ms 300ms;
 }
 
 .notification-exit-active {
-    overflow: hidden;
-    opacity: 0;
-    height: 0;
-    transform: translateY(100%);
-    transition: opacity 500ms, height 500ms, transform 300ms;
+  overflow: hidden;
+  transform: translateX(-150%);
 }

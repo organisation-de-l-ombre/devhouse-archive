@@ -1,7 +1,10 @@
-export * from './functions';
-export * from './account';
-export * from './members';
-export * from './projects';
-export * from './statistics';
-export * from './types';
-export * from './serviceWorker';
+export * from "./functions";
+export * from "./serviceWorker";
+
+export function urlEncodeFormData(fd: { [key: string]: string }): string {
+  let s = "";
+  Object.keys(fd).forEach((pair) => {
+    s += `${(s ? "&" : "") + encodeURIComponent(pair)}=${fd[pair]}`;
+  });
+  return s;
+}

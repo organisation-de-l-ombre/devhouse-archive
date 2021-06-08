@@ -12,7 +12,7 @@ stages:
   - build
   - docker
   - test
-  - deploy  # dummy stage to follow the template guidelines
+  - deploy # dummy stage to follow the template guidelines
   - review
   - dast
   - staging
@@ -25,10 +25,24 @@ stages:
   - performance
   - cleanup
 
-
-node_build:
-  image: node
+test:
+  image: node:14
+  before_script:
+    - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" >> .npmrc
+    - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+    - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+    - npm config set -- '//gitlab.com/api/v4/packages/npm/:_authToken' "${NPM_TOKEN}"
   script:
+    - yarn install
+    - yarn test
+node_build:
+  image: node:14
+
+  script:
+    - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" >> .npmrc
+    - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+    - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+    - npm config set -- '//gitlab.com/api/v4/packages/npm/:_authToken' "${NPM_TOKEN}"
     - yarn install
     - yarn build
   cache:
@@ -37,7 +51,7 @@ node_build:
       - node_modules
   stage: build
   artifacts:
-    name: 'React build'
+    name: "React build"
     paths:
       - build
 
