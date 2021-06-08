@@ -1,23 +1,25 @@
 /* eslint-disable prettier/prettier */
-import React, { ReactElement, useCallback } from "react";
+import React, { FC, ReactElement, useCallback } from "react";
 import { FaDiscord } from "react-icons/fa";
 import { RiMessage2Fill, RiPencilRuler2Line } from "react-icons/ri";
-import Button, {
-  ButtonImage,
+import {
+  Button,
   ButtonLink,
-  ButtonExternalLink,
-} from "components/Button/Button";
-import ButtonGroup from "components/Button/ButtonGroup";
+  NavLinkButton,
+} from "@components/new/Button/Button";
+import ButtonGroup from "@components/new/Button/ButtonGroup";
 import { BsPeopleFill, BsPeople, BsLayersFill } from "react-icons/bs";
 import { MdWork } from "react-icons/md";
-import FlexContainer from "components/FlexContainer/FlexContainer";
-import {PresentationSection, PresentationWrapper} from "components/Presentation/Presentation";
-import { Banner } from "components/Banner/Banner";
-import globalStyles from "../../styles/Global.module.scss";
-import styles from "./Home.module.scss";
+import { Banner } from "@components/Banner/Banner";
+import { Flex } from "@components/new/Flex/FlexContainer";
+import { Stack } from "@components/new/Stack/Stack";
+import { Gate } from "@components/FeatureGate/FeatureGateProvider";
 import { discordServer } from "../../constants";
+import styles from "./Home.module.scss";
 
 const shareAvailable = !!navigator.share;
+
+const Section: FC = (props) => <Flex {...props} justifyContent="space-evenly" justifyItems="center" alignItems="center" flexDirection="row" flexWrap className={styles.section} />;
 
 export default function HomePage(): ReactElement {
   const share = useCallback(() => {
@@ -29,40 +31,39 @@ export default function HomePage(): ReactElement {
   }, []);
 
   return (
-    <FlexContainer className={globalStyles["flex-column"]}>
-      <div className={styles.homeHeaderRoot}>
-        <div className={styles.homeHeader}>
-          <Banner className={styles.banner} />
-          <h1 className={styles.headerSubtext}>
-            We are young developers who learn to work as a team by developing
-            some nice, diversified and interesting projects.
-          </h1>
-          <ButtonGroup className={styles["buttons-group"]}>
-            <ButtonLink large to="/projects">
-              <ButtonImage>
+    <Flex flexDirection="column">
+      <Flex justifyItems="center" flexDirection="column" alignItems="center" className={styles.homeHeader}>
+        <Banner className={styles.banner} />
+        <h1 css={{ marginBottom: "2rem" }}>
+          We are young developers who learn to work as a team by developing
+          some nice, diversified and interesting projects.
+        </h1>
+        <ButtonGroup outline flexWrap>
+          <Gate gate="feature_projects">
+            {() => (
+              <NavLinkButton to="/projects">
                 <RiPencilRuler2Line />
-              </ButtonImage>
               Projects
-            </ButtonLink>
-            <ButtonLink large to="/members">
-              <ButtonImage>
+              </NavLinkButton>)}
+          </Gate>
+          <Gate gate="feature_members">
+            {() => (
+              <NavLinkButton to="/members">
                 <BsPeople />
-              </ButtonImage>
-              Members
-            </ButtonLink>
-            <ButtonExternalLink large href={discordServer} target="blank">
-              <ButtonImage>
-                <FaDiscord />
-              </ButtonImage>
+                  Members
+              </NavLinkButton>
+            )}
+          </Gate>
+          <ButtonLink href={discordServer} target="blank">
+            <FaDiscord />
               Discord server
-            </ButtonExternalLink>
-          </ButtonGroup>
-        </div>
-      </div>
-      <div className={styles.content}>
-        <PresentationWrapper>
-          <PresentationSection type="text">
-            <h1 className={globalStyles["no-margin"]}>Who are we?</h1>
+            </ButtonLink>
+        </ButtonGroup>
+      </Flex>
+      <Flex flexDirection="column" className={styles.coloring}>
+        <Section>
+          <Stack className={styles.text}>
+            <h1>Who are we?</h1>
             <p>
               We are yound developers who learn progressively development in
               different programming languages and with different
@@ -71,14 +72,12 @@ export default function HomePage(): ReactElement {
               projects to learn but also to propose alternatives to existing
               projects or useful functionnalities for you.
             </p>
-          </PresentationSection>
-          <PresentationSection type="picture">
-            <BsPeopleFill />
-          </PresentationSection>
-        </PresentationWrapper>
-        <PresentationWrapper reversed>
-          <PresentationSection type="text">
-            <h1 className={globalStyles["no-margin"]}>Our projects</h1>
+          </Stack>
+          <BsPeopleFill className={styles.image} />
+        </Section>
+        <Section>
+          <Stack className={styles.text}>
+            <h1>Our projects</h1>
             <p>
               All the Developer&#39;s House projects are issued from members who
               want to build their project with the team. Another of our goals is
@@ -95,18 +94,20 @@ export default function HomePage(): ReactElement {
               projects around image manipulation & edition, cinematography and
               entertainment/fun. To know more, click on the button below.
             </p>
-            <ButtonGroup className={styles["buttons-group"]}>
-              <ButtonLink to="/projects">View projects</ButtonLink>
-            </ButtonGroup>
-          </PresentationSection>
-          <PresentationSection type="picture">
-            <MdWork />
-          </PresentationSection>
-        </PresentationWrapper>
-        <PresentationWrapper>
-          <PresentationSection type="text">
-            <h1 className={globalStyles["no-margin"]}>
-              Technologies/tools usage
+            <Gate gate="feature_projects" >
+              {() => (
+                <ButtonGroup className={styles["buttons-group"]}>
+                  <NavLinkButton to="/projects">View projects</NavLinkButton>
+                </ButtonGroup>
+              )}
+            </Gate>
+          </Stack>
+          <MdWork className={styles.image} />
+        </Section>
+        <Section>
+          <Stack className={styles.text}>
+            <h1>
+              Technologies and tools used
             </h1>
             <p>
               As we learn the job of developers, for a good begenning we decided
@@ -138,14 +139,12 @@ export default function HomePage(): ReactElement {
               <li>Golang</li>
               <li>Rust</li>
             </ul>
-          </PresentationSection>
-          <PresentationSection type="picture">
-            <BsLayersFill />
-          </PresentationSection>
-        </PresentationWrapper>
-        <PresentationWrapper reversed>
-          <PresentationSection type="text">
-            <h1 className={globalStyles["no-margin"]}>Our members</h1>
+          </Stack>
+          <BsLayersFill className={styles.image} />
+        </Section>
+        <Section>
+          <Stack className={styles.text}>
+            <h1>Our members</h1>
             <p>
               One of the main goals of Developer&#39;s House is to learn
               development and to work in team. This is why this project exists.
@@ -159,17 +158,23 @@ export default function HomePage(): ReactElement {
               A minimum of willpower and having basics, you wan join us to
               participate to an awesome project!
             </p>
-            <ButtonGroup className={styles["buttons-group"]}>
-              <ButtonLink to="/members">View members</ButtonLink>
-              <ButtonLink to="/recruitments/apply">Join us now</ButtonLink>
+            <ButtonGroup flexWrap>
+              <Gate gate="feature_members" >
+                {() => (
+                  <NavLinkButton to="/members">View members</NavLinkButton>
+                )}
+              </Gate>
+              <Gate gate="feature_join" >
+                {() => (
+                  <NavLinkButton to="/recruitments/apply">Join us now</NavLinkButton>
+                )}
+              </Gate>
             </ButtonGroup>
-          </PresentationSection>
-          <PresentationSection type="picture">
-            <BsPeople />
-          </PresentationSection>
-        </PresentationWrapper>
-        <PresentationWrapper>
-          <PresentationSection type="text">
+          </Stack>
+          <BsPeople className={styles.image} />
+        </Section>
+        <Section>
+          <Stack className={styles.text}>
             <h1>Stay in contact with Developer&#39;s House</h1>
             <p>
               You are curious to know more about us, or you need more precision
@@ -178,25 +183,31 @@ export default function HomePage(): ReactElement {
               demand, we are opened and ready to listen you. Below you find all
               you need to contact us, hoping it will help you 👀
             </p>
-            <ButtonGroup className={styles["buttons-group"]}>
-              <ButtonLink to="/about">Learn more</ButtonLink>
-              <ButtonLink to="/contact">Contact form</ButtonLink>
-              <ButtonExternalLink href="mailto:contact.developershouse.xyz">
+            <ButtonGroup flexWrap>
+              <Gate gate="feature_about" >
+                {() => (
+                  <NavLinkButton to="/about">Learn more</NavLinkButton>
+                )}
+              </Gate>
+              <Gate gate="feature_contact" >
+                {() => (
+                  <NavLinkButton to="/contact">Contact form</NavLinkButton>
+                )}
+              </Gate>
+              <ButtonLink href="mailto:matthieu@developershouse.xyz">
                 E-mail
-              </ButtonExternalLink>
-              <ButtonExternalLink href={discordServer} target="blank">
+              </ButtonLink>
+              <ButtonLink href={discordServer} target="blank">
                 Discord server
-              </ButtonExternalLink>
+              </ButtonLink>
               {shareAvailable && (
                 <Button onClick={share}>Share the project</Button>
               )}
             </ButtonGroup>
-          </PresentationSection>
-          <PresentationSection type="picture">
-            <RiMessage2Fill />
-          </PresentationSection>
-        </PresentationWrapper>
-      </div>
-    </FlexContainer>
+          </Stack>
+          <RiMessage2Fill className={styles.image} />
+        </Section>
+      </Flex>
+    </Flex>
   );
 }

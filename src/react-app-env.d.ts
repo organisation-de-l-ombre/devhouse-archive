@@ -4,6 +4,7 @@
 /// <reference types="react" />
 /// <reference types="react-dom" />
 /// <reference lib="dom" />
+/// <reference types="@emotion/react/types/css-prop" />
 
 declare interface GlobalFetch {
   fetch(input: RequestInfo, init?: RequestInit): Promise<Response>;

@@ -1,23 +1,18 @@
 import React, { ReactElement } from "react";
 import { AiOutlineLoading, BiRefresh, BiTrash } from "react-icons/all";
 import { Authorization } from "@developers-house/abdera";
-import { TitleBox } from "../../../components/TitleBox/TitleBox";
-import { Button } from "../../../components/Button/Button";
-import { Loader } from "../../../components/SuspenseLoader/SuspenseLoader";
-import {
-  Card,
-  CardFlexContainer,
-  CardHeader,
-  CardPadding,
-  CardSection,
-} from "../../../components/Card/Card";
+import { Stack } from "@components/new/Stack/Stack";
+import { Section } from "@components/new/Section/Section";
+import { Button } from "@components/new/Button/Button";
+import { Loader } from "@components/SuspenseLoader/SuspenseLoader";
+import { Card } from "@components/new/Card/Card";
 import {
   useAuthorizedApps,
   useAuthorizedAppsAllDelete,
   useAuthorizedAppsDeleteMutation,
-} from "../../../hooks/useAuthorizedApps";
-import ButtonGroup from "../../../components/Button/ButtonGroup";
-import globalStyles from "../../../styles/Global.module.scss";
+} from "@hooks/useAuthorizedApps";
+import ButtonGroup from "@components/new/Button/ButtonGroup";
+import { Header } from "@components/Header";
 
 const AuthorizationsCard: React.FC<{
   client: Authorization;
@@ -27,20 +22,18 @@ const AuthorizationsCard: React.FC<{
   const date = new Date(client.grantedAt);
   const dateString = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
   return (
-    <Card className={globalStyles["card-margin"]}>
-      <CardPadding>
-        <CardHeader>
-          <b>{client.client.name || client.client.id}</b>
-        </CardHeader>
-        <CardSection>
-          The permission was accorded on {dateString} for the audiences{" "}
-          <code>{(client.audiences || []).join(" ")}</code> with the
-          authorizations <code>{(client.scopes || []).join(" ")}</code>
-        </CardSection>
-        <CardSection>
-          <Button onClick={() => remove()}>Revoke</Button>
-        </CardSection>
-      </CardPadding>
+    <Card>
+      <div>
+        <b>{client.client.name || client.client.id}</b>
+      </div>
+      <div>
+        The permission was accorded on {dateString} for the audiences{" "}
+        <code>{(client.audiences || []).join(" ")}</code> with the
+        authorizations <code>{(client.scopes || []).join(" ")}</code>
+      </div>
+      <div>
+        <Button onClick={() => remove()}>Revoke</Button>
+      </div>
     </Card>
   );
 };
@@ -50,25 +43,19 @@ const Authorizations = (): ReactElement => {
   const deleteAll = useAuthorizedAppsAllDelete();
 
   if (isLoading) {
-    return (
-      <TitleBox>
-        <Loader />
-      </TitleBox>
-    );
+    return <Loader />;
   }
   if (error) {
     return (
-      <TitleBox>
-        <p>
-          {error.name}: {error.message} <br /> {error.stack}
-        </p>
-      </TitleBox>
+      <p>
+        {error.name}: {error.message} <br /> {error.stack}
+      </p>
     );
   }
   return (
-    <>
-      <CardPadding>
-        <TitleBox>
+    <Stack>
+      <Header>
+        <Section>
           <h3>
             Authorizations manager{" "}
             {isFetching && <AiOutlineLoading className="rotate" />}
@@ -77,7 +64,7 @@ const Authorizations = (): ReactElement => {
             This is the list of the authorized applications in your account (
             {data?.length})
           </p>
-        </TitleBox>
+        </Section>
         <ButtonGroup>
           <Button onClick={() => !isFetching && refetch()}>
             Refresh <BiRefresh />
@@ -86,13 +73,11 @@ const Authorizations = (): ReactElement => {
             Revoke all <BiTrash />
           </Button>
         </ButtonGroup>
-      </CardPadding>
-      <CardFlexContainer>
-        {data?.map((client) => {
-          return <AuthorizationsCard client={client} key={client.client.id} />;
-        })}
-      </CardFlexContainer>
-    </>
+      </Header>
+      {data?.map((client) => {
+        return <AuthorizationsCard client={client} key={client.client.id} />;
+      })}
+    </Stack>
   );
 };
 

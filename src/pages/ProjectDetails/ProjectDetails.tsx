@@ -6,25 +6,23 @@ import React, {
   useState,
 } from "react";
 import { RouteComponentProps, useHistory } from "react-router";
-import useProjects from "hooks/useProjects";
+import useProjects from "@hooks/useProjects";
 import { Projects, StaffMember } from "@developers-house/abdera";
-import CenteredMessage from "components/CenteredMessage/CenteredMessage";
-import Button from "components/Button/Button";
-import FlexContainer from "components/FlexContainer/FlexContainer";
+import CenteredMessage from "@components/CenteredMessage/CenteredMessage";
+import { Button } from "@components/new/Button/Button";
+import FlexContainer from "@components/FlexContainer/FlexContainer";
 import ReactMarkdown from "react-markdown";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import rehypeHighlight from "rehype-highlight";
 import { BsArrowLeft } from "react-icons/bs";
 import { NavLink } from "react-router-dom";
-import styles from "./ProjectDetails.module.scss";
-import globalStyles from "../../styles/Global.module.scss";
-import { Loader } from "../../components/SuspenseLoader/SuspenseLoader";
-import { TitleBox } from "../../components/TitleBox/TitleBox";
-import { Card, CardPadding } from "../../components/Card/Card";
-import UserAvatarStatus from "../../components/UserAvatarStatus/UserAvatarStatus";
-import { getAvatar, statusToColor } from "../../utilities";
+import globalStyles from "@styles/Global.module.scss";
+import { Loader } from "@components/SuspenseLoader/SuspenseLoader";
+import { Card } from "@components/new/Card/Card";
+import UserAvatarStatus from "@components/UserAvatarStatus/UserAvatarStatus";
+import { getAvatar, statusToColor } from "@utilities/index";
+import { Header } from "@components/Header";
+import { withGate } from "@components/FeatureGate/FeatureGateProvider";
 import { discordServer } from "../../constants";
+import styles from "./ProjectDetails.module.scss";
 
 type Category = "managers" | "members";
 
@@ -50,17 +48,18 @@ const ProjectDetails: FC<RouteComponentProps> = ({ match }) => {
   const projectID = (match.params as Record<string, unknown>).id as string;
   const history = useHistory();
   const [markdown, setMarkdown] = useState<string | undefined>(undefined);
-  const fetchMarkdown = useCallback(async (url: string): Promise<
-    string | undefined
-  > => {
-    const request = await fetch(url);
+  const fetchMarkdown = useCallback(
+    async (url: string): Promise<string | undefined> => {
+      const request = await fetch(url);
 
-    if (request.status !== 200) {
-      return undefined;
-    }
+      if (request.status !== 200) {
+        return undefined;
+      }
 
-    return request.text();
-  }, []);
+      return request.text();
+    },
+    []
+  );
 
   useEffect((): void => {
     if (!data) {
@@ -96,7 +95,7 @@ const ProjectDetails: FC<RouteComponentProps> = ({ match }) => {
   }
 
   if (error) {
-    return <TitleBox>{error.message}</TitleBox>;
+    return <Header>{error.message}</Header>;
   }
 
   if (!project) {
@@ -139,34 +138,33 @@ const ProjectDetails: FC<RouteComponentProps> = ({ match }) => {
                 (member: StaffMember): ReactElement => {
                   return (
                     <Card key={member.id} className={styles["card-root"]}>
-                      <CardPadding className={styles["card-content"]}>
-                        <UserAvatarStatus
-                          statusColor={statusToColor(member.presence.status)}
-                          avatar={getAvatar(member)}
-                        />
-                        <div className={styles.content}>
-                          <h2>{member.username}</h2>
-                          <h3 style={{ color: member.role.color }}>
-                            {member.role.name}
-                          </h3>
-                          <div>
-                            {member.presence.text && (
-                              <p>
-                                {member.presence.emote &&
-                                  (member.presence.emote.startsWith("http") ? (
-                                    <img
-                                      alt="Discord emoji"
-                                      src={member.presence.emote}
-                                    />
-                                  ) : (
-                                    member.presence.emote
-                                  ))}
-                                {member.presence.text}
-                              </p>
-                            )}
-                          </div>
+                      <UserAvatarStatus
+                        css={{ width: "25%" }}
+                        statusColor={statusToColor(member.presence.status)}
+                        avatar={getAvatar(member)}
+                      />
+                      <div className={styles.content}>
+                        <h2>{member.username}</h2>
+                        <h3 style={{ color: member.role.color }}>
+                          {member.role.name}
+                        </h3>
+                        <div>
+                          {member.presence.text && (
+                            <p>
+                              {member.presence.emote &&
+                                (member.presence.emote.startsWith("http") ? (
+                                  <img
+                                    alt="Discord emoji"
+                                    src={member.presence.emote}
+                                  />
+                                ) : (
+                                  member.presence.emote
+                                ))}
+                              {member.presence.text}
+                            </p>
+                          )}
                         </div>
-                      </CardPadding>
+                      </div>
                     </Card>
                   );
                 }
@@ -179,9 +177,7 @@ const ProjectDetails: FC<RouteComponentProps> = ({ match }) => {
         <h2>Detailed project information</h2>
         {markdown ? (
           <div className={styles.markdown}>
-            <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
-              {markdown}
-            </ReactMarkdown>
+            <ReactMarkdown>{markdown}</ReactMarkdown>
           </div>
         ) : (
           <p>
@@ -200,4 +196,4 @@ const ProjectDetails: FC<RouteComponentProps> = ({ match }) => {
   );
 };
 
-export default ProjectDetails;
+export default withGate(ProjectDetails, "feature_projects");

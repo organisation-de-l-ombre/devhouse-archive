@@ -3,7 +3,7 @@
 }
 
 .content {
-  margin-top: 3rem;
+  margin: 1rem;
   flex: 1;
 }
 
@@ -32,6 +32,9 @@
   .navigation {
     min-width: 17rem;
     flex: 0;
+  }
+  .content {
+    margin-top: 4rem;
   }
 }
 

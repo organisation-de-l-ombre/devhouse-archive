@@ -7,6 +7,7 @@ import { Trans, useTranslation } from "react-i18next";
 import { CgClose } from "react-icons/cg";
 import { useDispatch } from "react-redux";
 import { AiFillWarning } from "react-icons/ai";
+import { Gate } from "@components/FeatureGate/FeatureGateProvider";
 import { NavigationItem } from "./Menu/MenuItem";
 import { NavigationContainer } from "./Menu/MenuContainer";
 import { DrawerContent } from "./Menu/DrawerContent";
@@ -20,23 +21,16 @@ import { useTheme } from "../../state/slices/theme/hooks";
 import { useScrollPosition } from "../../hooks/useScroll";
 import { useSwitcher } from "../../hooks/useSwitcher";
 import { useStartsWith } from "../../hooks/usePath";
-import { SmallLoader } from "../SmallLoader/SmallLoader";
+import { Loader } from "../new/Loader";
 
-const UserButton: FC<{ padding?: string }> = ({ padding }) => {
+const UserButton: FC = () => {
   const { login, status, user } = useLogin();
   return (
-    <NavigationItem
-      style={{ padding }}
-      onClick={(e) => {
-        e.stopPropagation();
-        if (!user) login();
-      }}
-      className={styles.right}
-    >
+    <>
       {status === "available" &&
         (user ? (
           <NavLink to="/settings">
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <NavigationItem style={{ display: "flex", alignItems: "center" }}>
               <UserAvatarStatus
                 style={{
                   width: "1.25rem",
@@ -49,14 +43,24 @@ const UserButton: FC<{ padding?: string }> = ({ padding }) => {
                 avatar={`https://imageproxy.developershouse.xyz/120x120/https://s3.developershouse.xyz/${user?.avatar}`}
               />
               <span className={styles.username}>{user?.username}</span>
-            </div>
+            </NavigationItem>
           </NavLink>
         ) : (
-          <FaUser />
+          <NavigationItem onClick={login}>
+            <FaUser />
+          </NavigationItem>
         ))}
-      {status === "failed" && <AiFillWarning />}
-      {status === "loading" && <SmallLoader />}
-    </NavigationItem>
+      {status === "failed" && (
+        <NavigationItem>
+          <AiFillWarning />
+        </NavigationItem>
+      )}
+      {status === "loading" && (
+        <NavigationItem>
+          <Loader />
+        </NavigationItem>
+      )}
+    </>
   );
 };
 
@@ -107,44 +111,67 @@ export const Menu = (): ReactElement => {
             <Trans t={t} i18nKey="menu.home" />
           </NavigationItem>
         </NavLink>
-        <NavLink to="/projects" activeClassName={styles.active}>
-          <NavigationItem>
-            <Trans t={t} i18nKey="menu.projects" />
-          </NavigationItem>
-        </NavLink>
-        <NavLink to="/members" activeClassName={styles.active}>
-          <NavigationItem>
-            <Trans t={t} i18nKey="menu.members" />
-          </NavigationItem>
-        </NavLink>
-        <NavLink to="/about" activeClassName={styles.active}>
-          <NavigationItem>
-            <Trans t={t} i18nKey="menu.about" />
-          </NavigationItem>
-        </NavLink>
-        <NavLink to="/contact" activeClassName={styles.active}>
-          <NavigationItem>Contact</NavigationItem>
-        </NavLink>
-        <UserButton />
-        <NavigationItem
-          onClick={(e) => {
-            e.stopPropagation();
-            dispatch(setTheme(dark ? "dark" : "light"));
-            addNotification({
-              level: "information",
-              text: `Switched to ${dark ? "dark" : "light"} theme.`,
-              time: 5000,
-            });
-          }}
+
+        <Gate gate="feature_projects">
+          {() => (
+            <NavLink to="/projects" activeClassName={styles.active}>
+              <NavigationItem>
+                <Trans t={t} i18nKey="menu.projects" />
+              </NavigationItem>
+            </NavLink>
+          )}
+        </Gate>
+        <Gate gate="feature_members">
+          {() => (
+            <NavLink to="/members" activeClassName={styles.active}>
+              <NavigationItem>
+                <Trans t={t} i18nKey="menu.members" />
+              </NavigationItem>
+            </NavLink>
+          )}
+        </Gate>
+        <Gate gate="feature_about">
+          {() => (
+            <NavLink to="/about" activeClassName={styles.active}>
+              <NavigationItem>
+                <Trans t={t} i18nKey="menu.about" />
+              </NavigationItem>
+            </NavLink>
+          )}
+        </Gate>
+
+        <Gate gate="feature_contact">
+          {() => (
+            <NavLink to="/contact" activeClassName={styles.active}>
+              <NavigationItem>Contact</NavigationItem>
+            </NavLink>
+          )}
+        </Gate>
+
+        <div
+          css={{ marginLeft: "auto", display: "flex", flexDirection: "row" }}
         >
-          {dark ? <BsMoon /> : <FaSun />}
-          <div className={globalStyles.onlyMobiles}>
-            <Trans
-              t={t}
-              i18nKey={`menu.theme.text.${!dark ? "light" : "dark"}`}
-            />
-          </div>
-        </NavigationItem>
+          <Gate gate="feature_login">{UserButton}</Gate>
+          <NavigationItem
+            onClick={(e) => {
+              e.stopPropagation();
+              dispatch(setTheme(dark ? "dark" : "light"));
+              addNotification({
+                level: "information",
+                text: `Switched to ${dark ? "dark" : "light"} theme.`,
+                time: 5000,
+              });
+            }}
+          >
+            {dark ? <BsMoon /> : <FaSun />}
+            <div className={globalStyles.onlyMobiles}>
+              <Trans
+                t={t}
+                i18nKey={`menu.theme.text.${!dark ? "light" : "dark"}`}
+              />
+            </div>
+          </NavigationItem>
+        </div>
       </DrawerContent>
     </NavigationContainer>
   );

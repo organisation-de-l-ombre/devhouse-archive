@@ -1,11 +1,12 @@
 .wrapper {
   display: flex;
   flex-flow: column;
-  min-height: 100vh;
+  flex: 1;
+  min-height: 100%;
 }
 .content {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 100vh;
+  flex: 1;
 }
