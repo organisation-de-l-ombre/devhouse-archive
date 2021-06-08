@@ -48,7 +48,7 @@ node_build:
     key: node-modules
     paths:
       - node_modules
-  stage: dist
+  stage: build
   artifacts:
     name: "React build"
     paths:
