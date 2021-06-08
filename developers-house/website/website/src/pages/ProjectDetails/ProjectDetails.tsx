@@ -14,14 +14,15 @@ import FlexContainer from "@components/FlexContainer/FlexContainer";
 import ReactMarkdown from "react-markdown";
 import { BsArrowLeft } from "react-icons/bs";
 import { NavLink } from "react-router-dom";
-import styles from "./ProjectDetails.module.scss";
 import globalStyles from "@styles/Global.module.scss";
 import { Loader } from "@components/SuspenseLoader/SuspenseLoader";
-import { TitleBox } from "@components/TitleBox/TitleBox";
 import { Card } from "@components/new/Card/Card";
 import UserAvatarStatus from "@components/UserAvatarStatus/UserAvatarStatus";
 import { getAvatar, statusToColor } from "@utilities/index";
+import { Header } from "@components/Header";
+import { withGate } from "@components/FeatureGate/FeatureGateProvider";
 import { discordServer } from "../../constants";
+import styles from "./ProjectDetails.module.scss";
 
 type Category = "managers" | "members";
 
@@ -47,17 +48,18 @@ const ProjectDetails: FC<RouteComponentProps> = ({ match }) => {
   const projectID = (match.params as Record<string, unknown>).id as string;
   const history = useHistory();
   const [markdown, setMarkdown] = useState<string | undefined>(undefined);
-  const fetchMarkdown = useCallback(async (url: string): Promise<
-    string | undefined
-  > => {
-    const request = await fetch(url);
+  const fetchMarkdown = useCallback(
+    async (url: string): Promise<string | undefined> => {
+      const request = await fetch(url);
 
-    if (request.status !== 200) {
-      return undefined;
-    }
+      if (request.status !== 200) {
+        return undefined;
+      }
 
-    return request.text();
-  }, []);
+      return request.text();
+    },
+    []
+  );
 
   useEffect((): void => {
     if (!data) {
@@ -93,7 +95,7 @@ const ProjectDetails: FC<RouteComponentProps> = ({ match }) => {
   }
 
   if (error) {
-    return <TitleBox>{error.message}</TitleBox>;
+    return <Header>{error.message}</Header>;
   }
 
   if (!project) {
@@ -137,6 +139,7 @@ const ProjectDetails: FC<RouteComponentProps> = ({ match }) => {
                   return (
                     <Card key={member.id} className={styles["card-root"]}>
                       <UserAvatarStatus
+                        css={{ width: "25%" }}
                         statusColor={statusToColor(member.presence.status)}
                         avatar={getAvatar(member)}
                       />
@@ -174,9 +177,7 @@ const ProjectDetails: FC<RouteComponentProps> = ({ match }) => {
         <h2>Detailed project information</h2>
         {markdown ? (
           <div className={styles.markdown}>
-            <ReactMarkdown>
-              {markdown}
-            </ReactMarkdown>
+            <ReactMarkdown>{markdown}</ReactMarkdown>
           </div>
         ) : (
           <p>
@@ -195,4 +196,4 @@ const ProjectDetails: FC<RouteComponentProps> = ({ match }) => {
   );
 };
 
-export default ProjectDetails;
+export default withGate(ProjectDetails, "feature_projects");

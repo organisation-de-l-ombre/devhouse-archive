@@ -1,17 +1,18 @@
 import { Card } from "@components/new/Card/Card";
 import React, { CSSProperties, ReactElement } from "react";
-import Text from "@components/Text/Text";
 import { Button, NavLinkButton } from "@components/new/Button/Button";
 import Tooltip from "rc-tooltip";
-import { Stack } from "@components/new/Stack/Stack";
-import { TitleBox } from "@components/TitleBox/TitleBox";
-import styles from "./Projects.module.scss";
 import ButtonGroup from "@components/new/Button/ButtonGroup";
 import useProjects from "@hooks/useProjects";
 import { Loader } from "@components/SuspenseLoader/SuspenseLoader";
 import UserAvatarStatus from "@components/UserAvatarStatus/UserAvatarStatus";
 import { getAvatar, statusToColor } from "@utilities/index";
 import { withNetwork } from "@hooks/hoc/withNetwork";
+import { Flex } from "@components/new/Flex/FlexContainer";
+import { Stack } from "@components/new/Stack/Stack";
+import { Header } from "@components/Header";
+import { withGate } from "@components/FeatureGate/FeatureGateProvider";
+import styles from "./Projects.module.scss";
 
 const ProjectsPage = (): ReactElement => {
   const { data, isLoading, error } = useProjects({
@@ -27,21 +28,21 @@ const ProjectsPage = (): ReactElement => {
   }
 
   if (error) {
-    return <TitleBox>{error.message}</TitleBox>;
+    return <Header>{error.message}</Header>;
   }
 
   return (
     <div className={styles.main}>
       <Stack>
-        <TitleBox className={styles.header}>
+        <Header>
           <h1>About our projects</h1>
-          <Text className={styles["top-text-margin"]}>
+          <p>
             We are much more than you think! That is why this webpage exist on
             the website. Here are displayed each projects of our team. You can
             found all information you need.
-          </Text>
-        </TitleBox>
-        <Stack direction="row" wrap>
+          </p>
+        </Header>
+        <Flex flexDirection="row" flexWrap>
           {data
             .sort((a, b) => a.name.localeCompare(b.name))
             .map((project) => {
@@ -139,10 +140,10 @@ const ProjectsPage = (): ReactElement => {
                 </Card>
               );
             })}
-        </Stack>
+        </Flex>
       </Stack>
     </div>
   );
 };
 
-export default withNetwork(ProjectsPage);
+export default withGate(withNetwork(ProjectsPage), "feature_projects");

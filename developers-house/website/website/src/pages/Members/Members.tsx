@@ -1,12 +1,13 @@
 import React, { ReactElement } from "react";
-import { TitleBox } from "@components/TitleBox/TitleBox";
-import MemberDisplay from "./MemberDisplay";
 import "../transitions.css";
-import styles from "./member.module.scss";
 import { Loader } from "@components/SuspenseLoader/SuspenseLoader";
 import useMembers from "@hooks/useMembers";
 import FlexContainer from "@components/FlexContainer/FlexContainer";
 import { withNetwork } from "@hooks/hoc/withNetwork";
+import { Header } from "@components/Header";
+import { withGate } from "@components/FeatureGate/FeatureGateProvider";
+import MemberDisplay from "./MemberDisplay";
+import styles from "./member.module.scss";
 
 const MembersPage = (): ReactElement => {
   const { isLoading, isError, data } = useMembers();
@@ -18,17 +19,17 @@ const MembersPage = (): ReactElement => {
   if (isError) {
     return (
       <FlexContainer className={styles.error}>
-        <TitleBox>
+        <Header>
           <h1>Failed to load the member list.</h1>
           <p>Try again later or try to check our status page.</p>
-        </TitleBox>
+        </Header>
       </FlexContainer>
     );
   }
 
   return (
     <div>
-      <TitleBox className={styles.title}>
+      <Header>
         <h1>Our members</h1>
         <h2>
           <p>
@@ -37,7 +38,7 @@ const MembersPage = (): ReactElement => {
             wouldn&rsquo;t exist.
           </p>
         </h2>
-      </TitleBox>
+      </Header>
 
       <div className={styles.grid}>
         {data &&
@@ -57,4 +58,4 @@ const MembersPage = (): ReactElement => {
   );
 };
 
-export default withNetwork(MembersPage);
+export default withGate(withNetwork(MembersPage), "feature_members");

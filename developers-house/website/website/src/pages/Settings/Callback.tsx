@@ -3,6 +3,7 @@
  */
 
 import React, { ReactElement, useEffect, useState } from "react";
+import { withGate } from "@components/FeatureGate/FeatureGateProvider";
 import { RequestParams } from "../../constants";
 import { Loader } from "../../components/SuspenseLoader/SuspenseLoader";
 
@@ -27,4 +28,4 @@ const Callback = (): ReactElement => {
   return <Loader />;
 };
 
-export default Callback;
+export default withGate(Callback, "feature_login");

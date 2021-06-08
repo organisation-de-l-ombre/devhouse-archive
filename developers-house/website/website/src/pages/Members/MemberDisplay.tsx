@@ -9,9 +9,9 @@ import { FaGithub, FaGitlab, FaStackOverflow, GiClick } from "react-icons/all";
 import { FaDiscord } from "react-icons/fa";
 import { IconType } from "react-icons";
 import Tooltip from "rc-tooltip";
+import ButtonGroup from "@components/new/Button/ButtonGroup";
 import { getAvatar, statusToColor } from "../../utilities";
 import styles from "./member.module.scss";
-import ButtonGroup from "@components/new/Button/ButtonGroup";
 
 const socialIcons: { icon: IconType; name: StaffMemberSocialsIconEnum }[] = [
   { icon: FaStackOverflow, name: StaffMemberSocialsIconEnum.Stackoverflow },

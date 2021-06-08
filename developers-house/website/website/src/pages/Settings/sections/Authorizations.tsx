@@ -3,7 +3,6 @@ import { AiOutlineLoading, BiRefresh, BiTrash } from "react-icons/all";
 import { Authorization } from "@developers-house/abdera";
 import { Stack } from "@components/new/Stack/Stack";
 import { Section } from "@components/new/Section/Section";
-import { TitleBox } from "@components/TitleBox/TitleBox";
 import { Button } from "@components/new/Button/Button";
 import { Loader } from "@components/SuspenseLoader/SuspenseLoader";
 import { Card } from "@components/new/Card/Card";
@@ -13,6 +12,7 @@ import {
   useAuthorizedAppsDeleteMutation,
 } from "@hooks/useAuthorizedApps";
 import ButtonGroup from "@components/new/Button/ButtonGroup";
+import { Header } from "@components/Header";
 
 const AuthorizationsCard: React.FC<{
   client: Authorization;
@@ -54,7 +54,7 @@ const Authorizations = (): ReactElement => {
   }
   return (
     <Stack>
-      <TitleBox>
+      <Header>
         <Section>
           <h3>
             Authorizations manager{" "}
@@ -73,7 +73,7 @@ const Authorizations = (): ReactElement => {
             Revoke all <BiTrash />
           </Button>
         </ButtonGroup>
-      </TitleBox>
+      </Header>
       {data?.map((client) => {
         return <AuthorizationsCard client={client} key={client.client.id} />;
       })}
