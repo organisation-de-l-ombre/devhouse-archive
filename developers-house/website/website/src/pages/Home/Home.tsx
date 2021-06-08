@@ -32,36 +32,33 @@ export default function HomePage(): ReactElement {
 
   return (
     <Flex flexDirection="column">
-      <Flex justifyItems="center" alignItems="center" className={styles.homeHeader}>
-        <Stack css={{ justifyItems: "center", alignItems: "center" }}>
-          <Banner className={styles.banner} />
-          <h1 className={styles.headerSubtext}>
-            We are young developers who learn to work as a team by developing
-            some nice, diversified and interesting projects.
-          </h1>
-          <ButtonGroup outline flexWrap>
-            <Gate gate="feature_projects">
-              {() => (
-                <NavLinkButton to="/projects">
-                  <RiPencilRuler2Line />
+      <Flex justifyItems="center" flexDirection="column" alignItems="center" className={styles.homeHeader}>
+        <Banner className={styles.banner} />
+        <h1 css={{ marginBottom: "2rem" }}>
+          We are young developers who learn to work as a team by developing
+          some nice, diversified and interesting projects.
+        </h1>
+        <ButtonGroup outline flexWrap>
+          <Gate gate="feature_projects">
+            {() => (
+              <NavLinkButton to="/projects">
+                <RiPencilRuler2Line />
               Projects
-                </NavLinkButton>)}
-            </Gate>
-            <Gate gate="feature_members">
-              {() => (
-                <NavLinkButton to="/members">
-                  <BsPeople />
+              </NavLinkButton>)}
+          </Gate>
+          <Gate gate="feature_members">
+            {() => (
+              <NavLinkButton to="/members">
+                <BsPeople />
                   Members
-                </NavLinkButton>
-              )}
-            </Gate>
-            <NavLinkButton to={discordServer} target="blank">
-              <FaDiscord />
+              </NavLinkButton>
+            )}
+          </Gate>
+          <NavLinkButton to={discordServer} target="blank">
+            <FaDiscord />
               Discord server
             </NavLinkButton>
-          </ButtonGroup>
-
-        </Stack>
+        </ButtonGroup>
       </Flex>
       <Flex flexDirection="column" className={styles.coloring}>
         <Section>
