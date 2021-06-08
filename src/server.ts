@@ -22,6 +22,7 @@ import postLogoutAll from "./routes/user/post-logout-all";
 import postTakeouts from "./routes/user/post-takeouts";
 import getLinksRoute from "./routes/user/get-links";
 import getSelfRoute from "./routes/user/get-self";
+import { getFeatureFlags } from "./routes/data/get-feature-gates";
 
 interface Scarlet {
   user: UserApi;
@@ -78,6 +79,7 @@ export default class Server {
       this.server.route(postTakeouts(this.server));
       this.server.route(getLinksRoute(this.server));
       this.server.route(getSelfRoute(this.server));
+      this.server.route(getFeatureFlags);
 
       this.server.setErrorHandler(Server.errorHandler);
       this.server.setNotFoundHandler(Server.notFound);

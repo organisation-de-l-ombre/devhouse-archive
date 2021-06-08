@@ -1,7 +1,7 @@
 node_modules/
 dist/
 .idea/
-gen/
+gen/*
 !gen/package.json
 !gen/tsconfig.json
 !gen/global-fetch.ts
