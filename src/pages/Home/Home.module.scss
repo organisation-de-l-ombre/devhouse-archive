@@ -36,10 +36,9 @@
 }
 
 .text {
-    width: 100%;
-    min-width: 250px;
-    max-width: 50%;
+    width: 50%;
     flex: 1;
+    min-width: 15rem;
     p {
         line-height: 1.5;
         font-size: 18px;
