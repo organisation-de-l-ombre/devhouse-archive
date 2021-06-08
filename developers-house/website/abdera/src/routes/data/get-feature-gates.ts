@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest, RouteOptions } from "fastify";
-import unleash from "unleash-client";
+import * as unleash from "unleash-client";
 
 unleash.initialize({
   url: "https://gitlab.com/api/v4/feature_flags/unleash/21654973",
