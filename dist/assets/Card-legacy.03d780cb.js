@@ -1,1 +1,0 @@
-System.register(["./Root-legacy.65e1a379.js"],(function(e){"use strict";var r;return{setters:[function(e){r=e.c}],execute:function(){e("C",r("div",{target:"ewibbc80",label:"Card"})({name:"v0zglu",styles:"background-color:var(--background-secondary);border-radius:5px;padding:1.5rem;display:flex;flex-direction:column"}))}}}));

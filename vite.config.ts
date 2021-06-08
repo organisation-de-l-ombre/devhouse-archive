@@ -1,8 +1,8 @@
 import { defineConfig, Plugin } from 'vite';
 import reactRefresh from '@vitejs/plugin-react-refresh';
 import { getAliases } from 'vite-aliases';
-import legacy from "@vitejs/plugin-legacy";
 import { transformAsync } from "@babel/core";
+import { generateSW } from "rollup-plugin-workbox";
 
 const alias = getAliases();
 
@@ -15,7 +15,7 @@ export const emotionBabel: Plugin = {
                 presets: [["@emotion/babel-preset-css-prop", { autoLabel: "always" }]],
                 plugins: [["@emotion/babel-plugin", { autoLabel: "always" }]],
             });
-    
+
             return result.code;
         }
         return code;
@@ -26,9 +26,13 @@ export const emotionBabel: Plugin = {
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
-        legacy(),
         reactRefresh(),
         emotionBabel,
+
+        generateSW({
+            swDest: 'dist/service-worker.js',
+            globDirectory: 'dist',
+        }) as unknown as Plugin
     ],
     resolve: {
         alias,
@@ -40,5 +44,5 @@ export default defineConfig({
     publicDir: "public",
     define: {
         global: 'globalThis'
-    },
+    }
 });

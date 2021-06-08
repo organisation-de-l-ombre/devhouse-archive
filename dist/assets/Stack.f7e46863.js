@@ -1,1 +1,0 @@
-import{c as t}from"./Root.9d1190ee.js";const o=t("div",{target:"e1sfp5j90",label:"Stack"})({name:"1xqwaeu",styles:">*{margin-top:1rem;}*:first-of-child{margin-top:0;}*:last-of-child{margin-bottom:0;}"});export{o as S};
