@@ -1,1 +1,0 @@
-import{c as r}from"./Root.9d1190ee.js";const e=r("div",{target:"ewibbc80",label:"Card"})({name:"v0zglu",styles:"background-color:var(--background-secondary);border-radius:5px;padding:1.5rem;display:flex;flex-direction:column"});export{e as C};

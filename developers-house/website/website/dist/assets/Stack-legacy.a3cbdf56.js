@@ -1,1 +1,0 @@
-System.register(["./Root-legacy.65e1a379.js"],(function(t){"use strict";var e;return{setters:[function(t){e=t.c}],execute:function(){t("S",e("div",{target:"e1sfp5j90",label:"Stack"})({name:"1xqwaeu",styles:">*{margin-top:1rem;}*:first-of-child{margin-top:0;}*:last-of-child{margin-bottom:0;}"}))}}}));
