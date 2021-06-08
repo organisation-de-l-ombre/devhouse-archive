@@ -54,10 +54,10 @@ export default function HomePage(): ReactElement {
               </NavLinkButton>
             )}
           </Gate>
-          <NavLinkButton to={discordServer} target="blank">
+          <ButtonLink href={discordServer} target="blank">
             <FaDiscord />
               Discord server
-            </NavLinkButton>
+            </ButtonLink>
         </ButtonGroup>
       </Flex>
       <Flex flexDirection="column" className={styles.coloring}>
