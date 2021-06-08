@@ -1,6 +1,12 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { shallow } from "enzyme";
 import React from "react";
+import Root from "Root";
 
-// Need more tests.
-it("renders without crashing", () => {
-    expect(5).toEqual(5);
+/*
+ * Test if the component rendered poperly compared to the stored snapshot.
+ */
+test("Should render correctly", () => {
+  const wrapper = shallow(<Root />);
 });

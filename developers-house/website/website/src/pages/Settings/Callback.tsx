@@ -2,32 +2,29 @@
  * The Error page displayed to the user when the website crashes.
  */
 
-import React, {ReactElement, useEffect} from 'react';
+import React, { ReactElement, useEffect, useState } from "react";
+import { RequestParams } from "../../constants";
+import { Loader } from "../../components/SuspenseLoader/SuspenseLoader";
 
 const Callback = (): ReactElement => {
-    useEffect(() => {
-        const hash = window.location.hash.substring(1);
-        const params: {
-            [key: string]: string;
-        } = {};
-        hash.split('&').forEach(hk => {
-            let temp = hk.split('=');
-            params[temp[0]] = temp[1]
-        });
+  const [message, setMessage] = useState<string>();
+  useEffect(() => {
+    if (RequestParams.code && RequestParams.state) {
+      const channel = new BroadcastChannel("callback");
+      channel.postMessage({
+        code: RequestParams.code,
+        state: RequestParams.state,
+      });
+    } else {
+      setMessage("An error occured.");
+    }
+  }, [setMessage]);
 
-        if (params['access_token'] && params['state']) {
-            if (localStorage.getItem('state-oauth') === params['state']) {
-                localStorage.removeItem('state-oauth');
-                const channel = new BroadcastChannel('callback');
-                channel.postMessage({
-                    token: params['access_token'],
-                    state: params['state'],
-                });
-            }
-        }
-    });
+  if (message) {
+    return <p>{message}</p>;
+  }
 
-    return <></>;
+  return <Loader />;
 };
 
 export default Callback;

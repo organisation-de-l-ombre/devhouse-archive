@@ -1,0 +1,54 @@
+.card-margin {
+  margin: 0.5rem;
+}
+
+.container-align-full-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.fit-content {
+  max-width: fit-content;
+}
+
+.picture-rounded {
+  user-select: none;
+  border-radius: 50%;
+}
+
+.onlyMobiles {
+  display: none;
+}
+
+@media screen and (max-width: 700px) {
+  .onlyMobiles {
+    display: block;
+  }
+
+  .exceptMobile {
+    display: none !important;
+  }
+}
+
+.quotes {
+  font-style: italic;
+  font-size: 20px !important;
+  line-height: 1.5;
+
+  &:before {
+    content: "\201F";
+    font-family: sans-serif;
+  }
+  &:after {
+    content: "\201D";
+    font-family: sans-serif;
+  }
+}
+
+.no-margin {
+  margin: 0 !important;
+}

@@ -1,69 +1,76 @@
-/*
- * New redux interface.
- */
+import { configureStore, DeepPartial } from "@reduxjs/toolkit";
+import { ThunkAction } from "redux-thunk";
+import { Action, AnyAction } from "redux";
+import pick from "lodash.pick";
+import throttle from "lodash.throttle";
+import {
+  accountSlice,
+  setClientId,
+  setState,
+  UserState,
+} from "./slices/account/account";
+import { themeSlice, ThemeState } from "./slices/theme/theme";
+import {
+  notificationsSlice,
+  NotificationsState,
+} from "./slices/notifications/notifications";
+import { fetchClient } from "./slices/account/utils";
 
-import {applyMiddleware, combineReducers, createStore, Store} from 'redux';
-import reduxThunk from 'redux-thunk';
-import axios, {AxiosRequestConfig} from 'axios';
-import {createStateSyncMiddleware, initStateWithPrevTab} from 'redux-state-sync';
-import {Persistor, persistReducer, persistStore} from 'redux-persist';
+const save: ("account" | "theme")[] = ["account", "theme"];
 
-import {env} from "process";
-import localforage from 'localforage';
-import modules from './modules';
-import {DefaultRootState} from 'react-redux';
-import {composeWithDevTools} from 'redux-devtools-extension';
-import {PersistConfig} from "redux-persist/es/types";
+const preloaded = {} as DeepPartial<{
+  account: UserState;
+  theme: ThemeState;
+  notifications: NotificationsState;
+}>;
 
-const persistConfig: PersistConfig<DefaultRootState> = {
-    key: 'root',
-    storage: localforage,
-    blacklist: ['notifications']
-
-}
-
-const buildDefaults = (): { defaultState: Partial<DefaultRootState>, reducers: { [T: string]: (...args: any[]) => unknown } } => {
-    const reducers: { [T: string]: (...args: any[]) => unknown } = {};
-    const state: DefaultRootState = {} as DefaultRootState;
-
-    for (const module of Object.keys(modules)) {
-        const mod = module as keyof typeof modules;
-        state[mod] = modules[mod].defaultState as any;
-        reducers[mod] = modules[mod].default;
+save.forEach((key) => {
+  const item = localStorage.getItem(`redux-save/${key}`);
+  if (item) {
+    try {
+      preloaded[key] = JSON.parse(item);
+    } catch (e) {
+      preloaded[key] = undefined;
     }
+  }
+});
 
-    return {
-        defaultState: state,
-        reducers: reducers
-    };
-};
+export const store = configureStore({
+  reducer: {
+    account: accountSlice.reducer,
+    theme: themeSlice.reducer,
+    notifications: notificationsSlice.reducer,
+  },
+  preloadedState: preloaded,
+});
+export type AppThunk<R, A extends Action = AnyAction> = ThunkAction<
+  R,
+  RootState,
+  never,
+  A
+>;
 
-export function createState(): { store: Store, persistor: Persistor } {
-    const {defaultState, reducers} = buildDefaults();
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
-    let callCompose = applyMiddleware(...[reduxThunk, createStateSyncMiddleware({
-        blacklist: [
-            'persist/PERSIST', 'persist/REHYDRATE', 'notifications'
-        ],
-    })]);
+// Load the client id.
+fetchClient()
+  .then((id) => {
+    store.dispatch(setClientId(id));
+    store.dispatch(setState("available"));
+  })
+  .catch(() => {
+    store.dispatch(setState("failed"));
+  });
 
-    if (env.NODE_ENV !== 'production') {
-        callCompose = composeWithDevTools(callCompose);
-    }
-
-    const store = createStore(persistReducer(persistConfig, combineReducers(reducers) as any), defaultState as DefaultRootState, callCompose);
-
-    initStateWithPrevTab(store);
-
-    axios.interceptors.request.use((request): AxiosRequestConfig => {
-        request.headers['Authorization'] = `Bearer ${store.getState().user.token}`;
-        return request;
+store.subscribe(
+  throttle(() => {
+    const state = store.getState();
+    const obj = pick(state, save);
+    Object.keys(obj).forEach((key) => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      localStorage.setItem(`redux-save/${key}`, JSON.stringify(obj[key]));
     });
-
-    let persistor = persistStore(store);
-
-    return {
-        store,
-        persistor
-    };
-}
+  }, 500)
+);

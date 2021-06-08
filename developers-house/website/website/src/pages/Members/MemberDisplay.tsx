@@ -1,97 +1,103 @@
-import React, {ComponentProps, ReactElement} from "react";
-import {Card, CardPadding} from "components/ui/Card";
-import UserAvatarStatus from "components/ui/UserAvatarStatus";
-import {getAvatar, statusToColor} from "../../utilities";
-import {CachedUser} from "./Members";
-import styled from "styled-components";
-import ButtonGroup from "components/ui/ButtonGroup";
-import {Button} from "components/ui/Button";
-import {AiFillGithub} from "react-icons/all";
+import React, { AllHTMLAttributes, DetailedHTMLProps, FC } from "react";
+import UserAvatarStatus from "components/UserAvatarStatus/UserAvatarStatus";
+import {
+  StaffMember,
+  StaffMemberSocialsIconEnum,
+} from "@developers-house/abdera";
+import Button, { ButtonImage } from "components/Button/Button";
+import { FaGithub, FaGitlab, FaStackOverflow, GiClick } from "react-icons/all";
+import { FaDiscord } from "react-icons/fa";
+import { IconType } from "react-icons";
+import Tooltip from "rc-tooltip";
+import { getAvatar, statusToColor } from "../../utilities";
+import styles from "./member.module.scss";
+import ButtonGroup from "../../components/Button/ButtonGroup";
 
-const CardHeader = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    grid-template-rows: 1fr auto;
-    grid-gap: 10px;
-    width: 100%;
-    align-items: center;
-    div h2, p {
-        word-break: break-word;
-    }
-`;
+const socialIcons: { icon: IconType; name: StaffMemberSocialsIconEnum }[] = [
+  { icon: FaStackOverflow, name: StaffMemberSocialsIconEnum.Stackoverflow },
+  { icon: FaDiscord, name: StaffMemberSocialsIconEnum.Discord },
+  { icon: FaGithub, name: StaffMemberSocialsIconEnum.Github },
+  { icon: FaGitlab, name: StaffMemberSocialsIconEnum.Gitlab },
+  { icon: GiClick, name: StaffMemberSocialsIconEnum.Website },
+];
 
-const RoleLabel = styled.p`
-    color: ${(props) => props.color};
-`;
+const MemberDisplay: FC<
+  DetailedHTMLProps<AllHTMLAttributes<HTMLDivElement>, HTMLDivElement> & {
+    member: StaffMember;
+  }
+> = ({ className, member }) => {
+  return (
+    <div className={className}>
+      <div className={styles.header}>
+        <div className={styles.svgContainer}>
+          <UserAvatarStatus
+            height="7rem"
+            animate={member.presence.status !== "offline"}
+            statusColor={statusToColor(member.presence.status || "offline")}
+            avatar={getAvatar(member)}
+          />
+        </div>
+        <Tooltip
+          placement="top"
+          overlay={`${member.username}#${member.discriminator}`}
+        >
+          <div className={styles.name}>
+            <h2>{member.username}</h2>
+            <p style={{ color: member.role.color }}>{member.role.name}</p>
+            <div>
+              {member.presence.text && (
+                <p>
+                  {member.presence.emote &&
+                    (member.presence.emote.startsWith("http") ? (
+                      <img
+                        alt="Discord emoji"
+                        className={styles.emote}
+                        src={member.presence.emote}
+                      />
+                    ) : (
+                      member.presence.emote
+                    ))}
+                  {member.presence.text}
+                </p>
+              )}
+            </div>
+          </div>
+        </Tooltip>
+      </div>
+      <p className={styles.text} />
 
-const Emote = styled.img`
-    height: 32px;
-    display: inline-block;
-    transform: translateY(8px);
-`;
-
-const Image = styled.div`
-  min-width: 7rem;
-  height: 7rem;
-`;
-
-function MemberDisplay(props: ComponentProps<'section'> & { member: CachedUser }): ReactElement {
-    return (
-        <Card className={props.className}>
-            <CardPadding>
-                <CardHeader>
-                        <Image>
-
-                            <UserAvatarStatus
-                                animate={props.member.presence?.status !== "offline"}
-                                statusColor={statusToColor(props.member.presence?.status || 'offline')}
-                                avatar={getAvatar(props.member)}
-                            />
-
-                        </Image>
-                    <div>
-                        <h2>
-                            {props.member.username} <sub>#{props.member.discriminator}</sub>
-                        </h2>
-                        <RoleLabel color={props.member.hoistRole.color}>
-                            {props.member.hoistRole.name}
-                        </RoleLabel>
-                        <div>
-                            {
-                                props.member.presence?.presenceText && <p>
-                                    {
-                                        props.member.presence?.emote && (
-                                            props.member.presence.emote.startsWith('http') ?
-                                                <Emote src={props.member.presence.emote}/> : props.member.presence.emote
-                                        )
-                                    }
-                                    {'   ' + props.member.presence?.presenceText}
-                                </p>
-                            }
-                        </div>
-
-
-                    </div>
-
-                    <ButtonGroup style={{gridColumn: '1 / 3'}}>
-                        <Button>
-                            <AiFillGithub size={20}/>
-                        </Button>
-                        <Button>
-                            <AiFillGithub size={20}/>
-                        </Button>
-                        <Button>
-                            <AiFillGithub size={20}/>
-                        </Button>
-                    </ButtonGroup>
-                </CardHeader>
-
-                <CardPadding>
-                    {'No description for now.'}
-                </CardPadding>
-            </CardPadding>
-        </Card>
-    );
-}
+      <ButtonGroup className={styles.links}>
+        {member.socials &&
+          member.socials
+            .map((icon) => {
+              const { icon: IconComponent } = socialIcons.filter(
+                (other) => other.name === icon.icon
+              )[0] || {
+                icon: null,
+              };
+              return (
+                <a
+                  key={`${icon.name}${icon.link}`}
+                  referrerPolicy="no-referrer"
+                  target="_blank"
+                  href={icon.link}
+                  rel="noreferrer"
+                >
+                  <Button>
+                    {IconComponent && (
+                      <ButtonImage>
+                        <IconComponent />
+                      </ButtonImage>
+                    )}
+                    {icon.name}
+                  </Button>
+                </a>
+              );
+            })
+            .filter(Boolean)}
+      </ButtonGroup>
+    </div>
+  );
+};
 
 export default MemberDisplay;
