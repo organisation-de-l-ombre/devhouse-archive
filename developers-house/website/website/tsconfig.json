@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es3",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -15,7 +15,15 @@
     "noEmit": true,
     "jsx": "react",
     "baseUrl": "./src",
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "paths": {
+      "@components/*": ["components/*"],
+      "@hooks/*": ["hooks/*"],
+      "@state/*": ["state/*"],
+      "@styles/*": ["styles/*"],
+      "@utilities/*": ["utilities/*"],
+      "@pages/*": ["pages/*"],
+    }
   },
   "include": ["src"]
 }

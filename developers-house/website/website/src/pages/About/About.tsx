@@ -1,14 +1,13 @@
+import { withGate } from "@components/FeatureGate/FeatureGateProvider";
+import { Header } from "@components/Header";
 import React, { ReactElement } from "react";
-import { TitleBox } from "components/TitleBox/TitleBox";
 
-export default function AboutPage(): ReactElement {
+export default withGate(function AboutPage(): ReactElement {
   return (
-    <>
-      <TitleBox>
-        <h1>About us</h1>
+    <Header>
+      <h1>About us</h1>
 
-        <p>We are a small team of developers #TODO</p>
-      </TitleBox>
-    </>
+      <p>We are a small team of developers #TODO</p>
+    </Header>
   );
-}
+}, "feature_about");

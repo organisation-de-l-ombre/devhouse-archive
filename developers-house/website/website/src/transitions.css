@@ -16,7 +16,6 @@ button {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   overflow: hidden;
 }
 
@@ -25,7 +24,6 @@ button {
   margin: 0;
   box-sizing: border-box;
   transition: background 250ms;
-
   color: var(--foreground-primary);
   text-decoration: none;
 }

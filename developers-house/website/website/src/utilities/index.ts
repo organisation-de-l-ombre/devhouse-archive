@@ -1,5 +1,6 @@
 export * from "./functions";
 export * from "./serviceWorker";
+export * from "./randomString";
 
 export function urlEncodeFormData(fd: { [key: string]: string }): string {
   let s = "";

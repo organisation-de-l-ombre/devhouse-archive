@@ -1,17 +1,17 @@
 import React, { AllHTMLAttributes, DetailedHTMLProps, FC } from "react";
-import UserAvatarStatus from "components/UserAvatarStatus/UserAvatarStatus";
+import UserAvatarStatus from "@components/UserAvatarStatus/UserAvatarStatus";
 import {
   StaffMember,
   StaffMemberSocialsIconEnum,
 } from "@developers-house/abdera";
-import Button, { ButtonImage } from "components/Button/Button";
+import { ButtonLink } from "@components/new/Button/Button";
 import { FaGithub, FaGitlab, FaStackOverflow, GiClick } from "react-icons/all";
 import { FaDiscord } from "react-icons/fa";
 import { IconType } from "react-icons";
 import Tooltip from "rc-tooltip";
+import ButtonGroup from "@components/new/Button/ButtonGroup";
 import { getAvatar, statusToColor } from "../../utilities";
 import styles from "./member.module.scss";
-import ButtonGroup from "../../components/Button/ButtonGroup";
 
 const socialIcons: { icon: IconType; name: StaffMemberSocialsIconEnum }[] = [
   { icon: FaStackOverflow, name: StaffMemberSocialsIconEnum.Stackoverflow },
@@ -25,9 +25,9 @@ const MemberDisplay: FC<
   DetailedHTMLProps<AllHTMLAttributes<HTMLDivElement>, HTMLDivElement> & {
     member: StaffMember;
   }
-> = ({ className, member }) => {
+> = ({ member, ...props }) => {
   return (
-    <div className={className}>
+    <div {...props}>
       <div className={styles.header}>
         <div className={styles.svgContainer}>
           <UserAvatarStatus
@@ -66,7 +66,7 @@ const MemberDisplay: FC<
       </div>
       <p className={styles.text} />
 
-      <ButtonGroup className={styles.links}>
+      <ButtonGroup flexWrap>
         {member.socials &&
           member.socials
             .map((icon) => {
@@ -76,22 +76,16 @@ const MemberDisplay: FC<
                 icon: null,
               };
               return (
-                <a
+                <ButtonLink
                   key={`${icon.name}${icon.link}`}
                   referrerPolicy="no-referrer"
                   target="_blank"
                   href={icon.link}
                   rel="noreferrer"
                 >
-                  <Button>
-                    {IconComponent && (
-                      <ButtonImage>
-                        <IconComponent />
-                      </ButtonImage>
-                    )}
-                    {icon.name}
-                  </Button>
-                </a>
+                  {IconComponent && <IconComponent />}
+                  {icon.name}
+                </ButtonLink>
               );
             })
             .filter(Boolean)}

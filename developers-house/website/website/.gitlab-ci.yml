@@ -53,7 +53,7 @@ node_build:
   artifacts:
     name: "React build"
     paths:
-      - build
+      - dist
 
 build:
   stage: docker

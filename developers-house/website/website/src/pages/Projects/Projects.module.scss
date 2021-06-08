@@ -42,7 +42,8 @@
 
 .main {
   flex: 1;
-  margin-top: 2.5rem;
+  margin: 1rem;
+  margin-top: 4rem;
 }
 
 .header {
@@ -51,7 +52,6 @@
 }
 
 .grid {
-  padding: 0.5rem;
   display: grid;
   grid-gap: 0.5rem;
   grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
@@ -60,8 +60,9 @@
 }
 
 .panel {
-  display: flex;
+  flex: 1;
   padding: 1.75rem;
+  margin: 0.5rem !important;
   background: var(--image) no-repeat right bottom,
     linear-gradient(
       var(--background-secondary),

@@ -1,20 +1,15 @@
-/*
- * The Error page displayed to the user when the website crashes.
- */
-
-import React, { FC, ReactElement } from "react";
+import React, { FC, useCallback, useState } from "react";
 import { Formik } from "formik";
-import Button from "components/Button/Button";
-import { TitleBox } from "../../../components/TitleBox/TitleBox";
-import {
-  Card,
-  CardHeader,
-  CardPadding,
-  CardSection,
-} from "../../../components/Card/Card";
-import { Input } from "../../../components/Input/Input";
+import { Button } from "@components/new/Button/Button";
+import { arrayBufferToBase64, requestKeyAdd } from "@utilities/webauthn";
+import { Stack } from "@components/new/Stack/Stack";
+import { Loader } from "@components/new/Loader";
+import { Card } from "@components/new/Card/Card";
+import { Input } from "@components/Input/Input";
+import { useUser } from "@state/slices/account/hooks";
+import { randomString } from "@utilities/index";
+import { Header } from "@components/Header";
 import styles from "./account.module.scss";
-import { useUser } from "../../../state/slices/account/hooks";
 
 type Form = { username: string; dataCollection: boolean };
 
@@ -83,11 +78,11 @@ const AccountUpdateForm: FC = () => {
                   value={values.dataCollection ? "true" : "false"}
                 />
               </label>
-              <CardSection>
+              <div>
                 <Button type="submit" disabled={isSubmitting}>
                   Submit
                 </Button>
-              </CardSection>
+              </div>
             </div>
           </form>
         );
@@ -96,24 +91,68 @@ const AccountUpdateForm: FC = () => {
   );
 };
 
-const Account = (): ReactElement => {
+const WebAuthn: FC = () => {
+  const user = useUser();
+
+  const [addLoading, setAddLoading] = useState<boolean>(false);
+  const add = useCallback(async () => {
+    if (!user) return;
+    setAddLoading(true);
+    // Reteive id from server.
+    const id = randomString();
+    const key = await requestKeyAdd(id, user).catch(() => null);
+
+    if (!key) {
+      // eslint-disable-next-line no-alert
+      alert("Failed to register the key.");
+      setAddLoading(false);
+      return;
+    }
+
+    const data = key.response as AuthenticatorAttestationResponse;
+    // eslint-disable-next-line no-console
+    console.log({
+      key: key?.id,
+      clientData: JSON.parse(new TextDecoder().decode(data.clientDataJSON)),
+      attestationObject: arrayBufferToBase64(data.attestationObject),
+    });
+    setAddLoading(false);
+  }, [user]);
+
+  if (!user) return null;
+
   return (
-    <div>
-      <TitleBox>
+    <Card>
+      <h2>WebAuth</h2>
+      <Button disabled={addLoading} onClick={add}>
+        Add auth
+        {addLoading && (
+          <div css={{ margin: "0.5rem" }}>
+            <Loader />
+          </div>
+        )}
+      </Button>
+
+      <Stack />
+    </Card>
+  );
+};
+
+const Account: FC = () => {
+  return (
+    <Stack>
+      <Header>
         <h2>Account settings</h2>
         <p>Here, you can manage your account settings</p>
-      </TitleBox>
-      <CardPadding>
-        <Card>
-          <CardPadding>
-            <CardHeader>
-              <h4>Profile info</h4>
-            </CardHeader>
-            <AccountUpdateForm />
-          </CardPadding>
-        </Card>
-      </CardPadding>
-    </div>
+      </Header>
+      <Card>
+        <div>
+          <h4>Profile info</h4>
+        </div>
+        <AccountUpdateForm />
+      </Card>
+      <WebAuthn />
+    </Stack>
   );
 };
 
