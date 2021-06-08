@@ -2,6 +2,7 @@ import React, { ReactElement, useCallback, FC, useMemo } from "react";
 import { Route, Switch } from "react-router";
 import { useDispatch } from "react-redux";
 import { AiFillLock } from "react-icons/all";
+import { withGate } from "@components/FeatureGate/FeatureGateProvider";
 import { Button, NavLinkButton } from "../../components/new/Button/Button";
 import ButtonGroup from "../../components/new/Button/ButtonGroup";
 import Authorizations from "./sections/Authorizations";
@@ -96,4 +97,4 @@ const Settings = (): ReactElement => {
   );
 };
 
-export default withNetwork(Settings);
+export default withGate(withNetwork(Settings), "feature_login");

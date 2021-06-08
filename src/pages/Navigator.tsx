@@ -1,4 +1,4 @@
-import React, { FC, useEffect, Suspense, ReactElement } from "react";
+import React, { FC, useEffect, Suspense } from "react";
 import {
   Route,
   Switch,
@@ -7,8 +7,7 @@ import {
   withRouter,
 } from "react-router-dom";
 import "./transitions.css";
-import { RouteProps, RouteComponentProps } from "react-router";
-import { ErrorBoundary } from "react-error-boundary";
+import { RouteProps } from "react-router";
 import { Loader } from "../components/SuspenseLoader/SuspenseLoader";
 import NotFound from "./NotFound/NotFound";
 import styles from "./navigator.module.scss";
@@ -21,7 +20,6 @@ const ProjectsPage = React.lazy(() => import("./Projects/Projects"));
 const ProjectDetailsPage = React.lazy(
   () => import("./ProjectDetails/ProjectDetails")
 );
-const ErrorPage = React.lazy(() => import("./ErrorPage"));
 const Callback = React.lazy(() => import("./Settings/Callback"));
 const Settings = React.lazy(() => import("./Settings/Settings"));
 const MembersPage = React.lazy(() => import("./Members/Members"));
@@ -73,33 +71,35 @@ const GA: FC = () => {
   return null;
 };
 
+const Scroller: FC = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
+
 const Navigator = () => {
   return (
-    <ErrorBoundary FallbackComponent={ErrorPage}>
-      <div className={styles.wrapper}>
-        <GA />
-        <div className={styles.content}>
-          <Suspense fallback={<Loader />}>
-            <Switch>
-              <Route path="/members" exact component={MembersPage} />
-              <Route path="/" exact component={HomePage} />
-              <Route path="/about" exact component={AboutPage} />
-              <Route path="/projects" exact component={ProjectsPage} />
-              <Route
-                path="/projects/:id"
-                exact
-                render={(props: RouteComponentProps): ReactElement => {
-                  return <ProjectDetailsPage {...props} />;
-                }}
-              />
-              <Route path="/callback" exact component={Callback} />
-              <PrivateRoute path="/settings" component={Settings} />
-              <Route path="*" exact component={NotFound} />
-            </Switch>
-          </Suspense>
-        </div>
+    <div className={styles.wrapper}>
+      <GA />
+      <Scroller />
+      <div className={styles.content}>
+        <Suspense fallback={<Loader />}>
+          <Switch>
+            <Route path="/members" exact component={MembersPage} />
+            <Route path="/" exact component={HomePage} />
+            <Route path="/about" exact component={AboutPage} />
+            <Route path="/projects" exact component={ProjectsPage} />
+            <Route path="/projects/:id" exact component={ProjectDetailsPage} />
+            <Route path="/callback" exact component={Callback} />
+            <PrivateRoute path="/settings" component={Settings} />
+            <Route path="*" exact component={NotFound} />
+          </Switch>
+        </Suspense>
       </div>
-    </ErrorBoundary>
+    </div>
   );
 };
 

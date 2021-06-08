@@ -9,4 +9,3 @@ i18n.use(I18NextHttpBackend).init({
 });
 
 export default i18n;
-

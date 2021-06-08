@@ -3,13 +3,13 @@ import { Formik } from "formik";
 import { Button } from "@components/new/Button/Button";
 import { arrayBufferToBase64, requestKeyAdd } from "@utilities/webauthn";
 import { Stack } from "@components/new/Stack/Stack";
-import { SmallLoader } from "@components/SmallLoader/SmallLoader";
-import { TitleBox } from "@components/TitleBox/TitleBox";
+import { Loader } from "@components/new/Loader";
 import { Card } from "@components/new/Card/Card";
 import { Input } from "@components/Input/Input";
-import styles from "./account.module.scss";
 import { useUser } from "@state/slices/account/hooks";
 import { randomString } from "@utilities/index";
+import { Header } from "@components/Header";
+import styles from "./account.module.scss";
 
 type Form = { username: string; dataCollection: boolean };
 
@@ -128,7 +128,7 @@ const WebAuthn: FC = () => {
         Add auth
         {addLoading && (
           <div css={{ margin: "0.5rem" }}>
-            <SmallLoader />
+            <Loader />
           </div>
         )}
       </Button>
@@ -141,10 +141,10 @@ const WebAuthn: FC = () => {
 const Account: FC = () => {
   return (
     <Stack>
-      <TitleBox>
+      <Header>
         <h2>Account settings</h2>
         <p>Here, you can manage your account settings</p>
-      </TitleBox>
+      </Header>
       <Card>
         <div>
           <h4>Profile info</h4>

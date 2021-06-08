@@ -1,12 +1,5 @@
-.homeHeaderRoot {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
 .homeHeader {
   width: 100%;
-  max-width: 75%;
   padding: 5rem 2rem 4rem 2rem;
   display: flex;
   flex-direction: column;
@@ -24,30 +17,67 @@
   max-height: 200px;
 }
 
-.headerSubtext {
-  font-size: 25px;
-  line-height: 1.5;
-  margin-bottom: 2rem;
-}
-
 .generic-margin-top {
   margin-top: 1rem;
-}
-
-.content {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
 }
 
 .buttons-group {
   margin-top: 1rem;
 
-  button, a {
+  button,
+  a {
     background-color: var(--background-tertiary);
 
     &:hover {
       background-color: var(--background-hover-tertiary);
     }
   }
+}
+.text, .image { 
+  padding: 4rem 2rem;
+}
+
+.text {
+  min-width: 250px;
+  flex: 1;
+  p {
+    line-height: 1.5;
+    font-size: 18px;
+  }
+
+  ul {
+    list-style: inside;
+
+    li {
+      margin-top: 0.25rem;
+      font-size: 18px;
+    }
+  }
+
+  p a,
+  li a {
+    color: var(--link-color);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.image {
+  min-width: 250px;
+  height: 15%;
+  width: 15%;
+}
+
+.coloring {
+  >:nth-child(odd) {
+    background-color: var(--background-secondary);
+    flex-direction: row-reverse;
+  }
+}
+
+.section {
+  padding-left: 7vw;
+  padding-right: 7vw;
 }

@@ -23,9 +23,10 @@ export const outlined = `
 `;
 
 const Button = styled("button")<ButtonProps>`
-  border-radius: 5px;
+  border-radius: 3px;
   background-color: var(--background-primary);
   color: var(--foreground-primary);
+  border: solid 1px var(--background-hover-primary);
 
   display: flex;
   justify-content: center;

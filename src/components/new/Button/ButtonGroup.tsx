@@ -23,6 +23,7 @@ const ButtonGroup = styled("div")<ButtonGroupProps>`
     flex: 1;
     border-radius: 0;
     margin: 0 1px 1px 0;
+    border: none;
   }
 `;
 

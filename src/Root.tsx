@@ -11,6 +11,7 @@ import { register } from "@utilities/index";
 import { Menu } from "@components/navbar";
 import { store } from "@state/index";
 import { addNotification } from "@state/slices/notifications/notifications";
+import { FeatureGateProvider } from "@components/FeatureGate/FeatureGateProvider";
 
 const ThemeProvider = lazy(
   () => import("@components/ThemeProvider/ThemeProvider")
@@ -68,18 +69,20 @@ register({
 export default function Root(): ReactElement {
   return (
     <ErrorBoundary FallbackComponent={ErrorPage}>
-      <SVGDefinitions />
-      <Provider store={store}>
-        <I18nextProvider i18n={i18next}>
-          <ThemeProvider>
-            <NotificationsArea />
-            <BrowserRouter>
-              <Menu />
-              <Navigator />
-            </BrowserRouter>
-          </ThemeProvider>
-        </I18nextProvider>
-      </Provider>
+      <FeatureGateProvider>
+        <SVGDefinitions />
+        <Provider store={store}>
+          <I18nextProvider i18n={i18next}>
+            <ThemeProvider>
+              <NotificationsArea />
+              <BrowserRouter>
+                <Menu />
+                <Navigator />
+              </BrowserRouter>
+            </ThemeProvider>
+          </I18nextProvider>
+        </Provider>
+      </FeatureGateProvider>
     </ErrorBoundary>
   );
 }
