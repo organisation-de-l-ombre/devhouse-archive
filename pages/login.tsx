@@ -23,6 +23,8 @@ export default function Login(): ReactElement {
         }
         return fetch;
       }
+    } else {
+      router.push("/error?message=Login challenge should be specified.");
     }
     return null;
   }, [router]);
