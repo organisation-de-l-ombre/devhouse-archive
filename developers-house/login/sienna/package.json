@@ -8,7 +8,8 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "test": "echo 0"
+        "cypress:open": "cypress open",
+        "cypress:run": "cypress run"
     },
     "dependencies": {
         "@babel/helper-builder-react-jsx": "^7.12.13",
@@ -20,6 +21,7 @@
         "axios": "^0.21.1",
         "babel": "^6.23.0",
         "cookie": "^0.4.1",
+        "cypress": "^7.5.0",
         "jest-css-modules": "^2.1.0",
         "jsonwebtoken": "^8.5.1",
         "loaders.css": "^0.1.2",

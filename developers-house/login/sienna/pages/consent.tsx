@@ -28,6 +28,8 @@ export default function Consent(): ReactElement {
         }
         return fetch;
       }
+    } else {
+      router.push("/error?message=Consent challenge should be specified.");
     }
     return null;
   }, [router]);
