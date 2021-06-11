@@ -1,6 +1,6 @@
 {
     "name": "@developers-house/scarlet",
-    "version": "1.5.1",
+    "version": "2.0.0",
     "description": "Th library responsible for the data management & takeout.",
     "main": "lib/index.js",
     "files": [
