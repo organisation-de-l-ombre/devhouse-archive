@@ -14,7 +14,7 @@ export const Admin = new AdminApi(
 );
 
 const scarlet =
-  "http://review-v2-openapi-2nrasx.scarlet-22198115-review-v2-openapi-2nrasx";
+  "http://production.scarlet-22198115-production";
 export const LoginAPI = new LoginApi(undefined, scarlet);
 export const UserAPI = new UserApi(undefined, scarlet);
 export const WebAuthAPI = new WebauthApi(undefined, scarlet);
