@@ -8,10 +8,11 @@ context("Consent", () => {
     });
 
     it("Displays the returned data from the API and redirected to the right place.", () => {
-        cy.visit("/consent?consent_challenge=123");
         cy.intercept("GET", "**/api/consent*", {
-            fixture: "consent_init.json",
+            fixture: "consent_init",
         }).as("getLoginSession");
+        cy.visit("/consent?consent_challenge=123");
+        cy.wait("@getLoginSession");
 
         cy.contains("fakeClient")
             .should("exist");
@@ -23,13 +24,14 @@ context("Consent", () => {
     });
 
     it("Rejects the request on clicked", () => {
-        cy.visit("/consent?consent_challenge=123");
         cy.intercept("GET", "**/api/consent*", {
-            fixture: "consent_init.json",
+            fixture: "consent_init",
         }).as("getLoginSession");
+        cy.visit("/consent?consent_challenge=123");
 
+        cy.wait("@getLoginSession");
         cy.intercept("POST", "**/api/consent*", {
-            fixture: "consent_accept.json",
+            fixture: "consent_accept",
         }).as("postResult");
 
         cy.contains("Reject")
@@ -45,13 +47,14 @@ context("Consent", () => {
     });
 
     it("Accept the request on clicked", () => {
-        cy.visit("/consent?consent_challenge=123");
         cy.intercept("GET", "**/api/consent*", {
-            fixture: "consent_init.json",
+            fixture: "consent_init",
         }).as("getLoginSession");
+        cy.visit("/consent?consent_challenge=123");
+        cy.wait("@getLoginSession");
 
         cy.intercept("POST", "**/api/consent*", {
-            fixture: "consent_accept.json",
+            fixture: "consent_accept",
         }).as("postResult");
 
         cy.contains("Accept")

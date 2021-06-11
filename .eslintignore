@@ -19,3 +19,4 @@ x/
 # Editors/IDE
 .idea/
 .vscode/
+cypress
