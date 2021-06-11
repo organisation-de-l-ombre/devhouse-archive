@@ -30,7 +30,7 @@ cypress:
   image: cypress/browsers:node12.14.1-chrome85-ff81
   stage: test
   variables:
-    RUNNER: [firefox, chrome]
+    RUNNER: chrome
   parallel: 2
   script:
     - npm ci
