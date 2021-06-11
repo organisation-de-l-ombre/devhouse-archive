@@ -8,10 +8,12 @@ context("Login", () => {
     });
 
     it("Displays the returned data from the API and redirected to the right place.", () => {
-        cy.visit("/login?login_challenge=123");
         cy.intercept("GET", "**/api/login*", {
-            fixture: "login_init.json",
+            fixture: "login_init",
         }).as("getLoginSession");
+        cy.visit("/login?login_challenge=123");
+
+        cy.wait("@getLoginSession");
 
         cy.contains("fake cypress")
             .should("exist");
@@ -22,10 +24,13 @@ context("Login", () => {
     });
 
     it("Redirect when the user is logged in", () => {
-        cy.visit("/login?login_challenge=123");
         cy.intercept("GET", "**/api/login*", {
-            fixture: "login_continue.json",
+            fixture: "login_continue",
         }).as("getLoginSession");
+        cy.visit("/login?login_challenge=123");
+
+        cy.wait("@getLoginSession");
+
         cy.location('pathname').should('eq', '/dialog/__test/success');
     });
 });
