@@ -1,3 +1,4 @@
 {
-    "baseUrl": "http://localhost:3000/dialog"
+    "baseUrl": "http://localhost:3000/dialog",
+    "projectId": "x2k1zs"
 }
