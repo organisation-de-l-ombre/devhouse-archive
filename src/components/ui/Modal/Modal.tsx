@@ -1,10 +1,17 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-import React, { Dispatch, ReactNode, SetStateAction, useEffect } from "react";
+import React, {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useContext,
+  useEffect,
+} from "react";
 import { MdClose } from "react-icons/md";
 import { CSSTransition } from "react-transition-group";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import classnames from "classnames";
 import { SerializedStyles } from "@emotion/react";
+import BodyContext from "@contexts/body";
 import FlexContainer from "../FlexContainer/FlexContainer";
 import styles from "./Modal.module.scss";
 import "./Animations.scss";
@@ -32,13 +39,11 @@ const Modal: FunctionComponent<
   open,
   setOpen,
 }) => {
+  const { setScroll } = useContext(BodyContext);
+
   useEffect(() => {
-    if (open) {
-      document.body.style.overflowY = "hidden";
-    } else {
-      document.body.style.overflowY = "visible";
-    }
-  }, [open]);
+    setScroll(!open);
+  }, [open, setScroll]);
 
   return (
     <CSSTransition

@@ -2,8 +2,8 @@ import { ThunkAction } from "redux-thunk";
 import { User } from "@store/account";
 import { Theme } from "@store/theme";
 import { Language } from "@store/language";
-import { NotificationsConfigState } from "./notifications/notificationsConfig";
 import { NotificationsDataState } from "@store/notifications/notificationsData";
+import { NotificationsConfigState } from "./notifications/notificationsConfig";
 
 interface GlobalState {
   language: { language: Language };

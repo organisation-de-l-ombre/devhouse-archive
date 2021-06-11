@@ -21,19 +21,16 @@ import {
 
 const Movie: ReactMovieElement = ({ dataResponse }) => {
   const { language } = useLanguage();
-  const {
-    isFetching,
-    error,
-    data,
-  }: UseQueryResult<GenericSection, Response> = useQuery(
-    `movie-title/${dataResponse.body.id}/${language}/movie`,
-    (): Promise<GenericSection> => {
-      return fetch(dataResponse.body.data.movie).then((response: Response) =>
-        response.json()
-      );
-    },
-    fetchOptions
-  );
+  const { isFetching, error, data }: UseQueryResult<GenericSection, Response> =
+    useQuery(
+      `movie-title/${dataResponse.body.id}/${language}/movie`,
+      (): Promise<GenericSection> => {
+        return fetch(dataResponse.body.data.movie).then((response: Response) =>
+          response.json()
+        );
+      },
+      fetchOptions
+    );
 
   if (isFetching || error) {
     return (
@@ -57,143 +54,135 @@ const Movie: ReactMovieElement = ({ dataResponse }) => {
       className={containerStyle.container}
     >
       <Summary className={containerStyle.summary}>
-        {data.summary.map(
-          (item: SummaryObject): ReactElement => {
-            switch (item.type) {
-              case "item":
-                return (
-                  <SummaryItem key={item.to} to={item.to} name={item.name} />
-                );
-
-              case "subitem":
-                return (
-                  <SubSummary key={item.to} to={item.to} name={item.name}>
-                    {item.items.map(
-                      (subItem: SummaryObject): ReactElement => {
-                        switch (subItem.type) {
-                          case "item":
-                            return (
-                              <SummaryItem
-                                key={subItem.to}
-                                to={subItem.to}
-                                name={subItem.name}
-                              />
-                            );
-
-                          default:
-                            return <></>;
-                        }
-                      }
-                    )}
-                  </SubSummary>
-                );
-
-              default:
-                return <></>;
-            }
-          }
-        )}
-      </Summary>
-      {data.body.map(
-        (item: BodyContent): ReactElement => {
+        {data.summary.map((item: SummaryObject): ReactElement => {
           switch (item.type) {
-            case "text":
+            case "item":
               return (
-                <DetailedText key={item.name}>
-                  <h1 id={item.id}>{item.name}</h1>
-                  <p>{item.text}</p>
-                </DetailedText>
+                <SummaryItem key={item.to} to={item.to} name={item.name} />
               );
 
-            case "textlist":
+            case "subitem":
               return (
-                <DetailedText key={item.name}>
-                  <h1 id={item.id}>{item.name}</h1>
-                  {item.texts.map(
-                    (text: string): ReactElement => (
-                      <p key={text}>{text}</p>
-                    )
-                  )}
-                </DetailedText>
-              );
+                <SubSummary key={item.to} to={item.to} name={item.name}>
+                  {item.items.map((subItem: SummaryObject): ReactElement => {
+                    switch (subItem.type) {
+                      case "item":
+                        return (
+                          <SummaryItem
+                            key={subItem.to}
+                            to={subItem.to}
+                            name={subItem.name}
+                          />
+                        );
 
-            case "list":
-              return (
-                <DetailedText key={item.name}>
-                  <h1 id={item.id}>{item.name}</h1>
-                  <List className={containerStyle.list}>
-                    {item.items.map(
-                      (listItem: string): ReactElement => (
-                        <li key={listItem}>{listItem}</li>
-                      )
-                    )}
-                  </List>
-                </DetailedText>
-              );
-
-            case "subsection":
-              return (
-                <DetailedText key={item.name}>
-                  <h1 id={item.id}>{item.name}</h1>
-                  {item.body.map(
-                    (subItem: BodyContent): ReactElement => {
-                      switch (subItem.type) {
-                        case "text":
-                          return (
-                            <DetailedText
-                              key={subItem.name}
-                              className={containerStyle["sub-groups"]}
-                            >
-                              <h2 id={subItem.id}>{subItem.name}</h2>
-                              <p>{subItem.text}</p>
-                            </DetailedText>
-                          );
-
-                        case "textlist":
-                          return (
-                            <DetailedText
-                              key={subItem.name}
-                              className={containerStyle["sub-groups"]}
-                            >
-                              <h2 id={subItem.id}>{subItem.name}</h2>
-                              {subItem.texts.map(
-                                (text: string): ReactElement => (
-                                  <p key={text}>{text}</p>
-                                )
-                              )}
-                            </DetailedText>
-                          );
-
-                        case "list":
-                          return (
-                            <DetailedText
-                              key={item.name}
-                              className={containerStyle["sub-groups"]}
-                            >
-                              <h2 id={subItem.id}>{subItem.name}</h2>
-                              <List className={containerStyle.list}>
-                                {subItem.items.map(
-                                  (listItem: string): ReactElement => (
-                                    <li key={listItem}>{listItem}</li>
-                                  )
-                                )}
-                              </List>
-                            </DetailedText>
-                          );
-
-                        default:
-                          return <></>;
-                      }
+                      default:
+                        return <></>;
                     }
-                  )}
-                </DetailedText>
+                  })}
+                </SubSummary>
               );
 
             default:
               return <></>;
           }
+        })}
+      </Summary>
+      {data.body.map((item: BodyContent): ReactElement => {
+        switch (item.type) {
+          case "text":
+            return (
+              <DetailedText key={item.name}>
+                <h1 id={item.id}>{item.name}</h1>
+                <p>{item.text}</p>
+              </DetailedText>
+            );
+
+          case "textlist":
+            return (
+              <DetailedText key={item.name}>
+                <h1 id={item.id}>{item.name}</h1>
+                {item.texts.map(
+                  (text: string): ReactElement => (
+                    <p key={text}>{text}</p>
+                  )
+                )}
+              </DetailedText>
+            );
+
+          case "list":
+            return (
+              <DetailedText key={item.name}>
+                <h1 id={item.id}>{item.name}</h1>
+                <List className={containerStyle.list}>
+                  {item.items.map(
+                    (listItem: string): ReactElement => (
+                      <li key={listItem}>{listItem}</li>
+                    )
+                  )}
+                </List>
+              </DetailedText>
+            );
+
+          case "subsection":
+            return (
+              <DetailedText key={item.name}>
+                <h1 id={item.id}>{item.name}</h1>
+                {item.body.map((subItem: BodyContent): ReactElement => {
+                  switch (subItem.type) {
+                    case "text":
+                      return (
+                        <DetailedText
+                          key={subItem.name}
+                          className={containerStyle["sub-groups"]}
+                        >
+                          <h2 id={subItem.id}>{subItem.name}</h2>
+                          <p>{subItem.text}</p>
+                        </DetailedText>
+                      );
+
+                    case "textlist":
+                      return (
+                        <DetailedText
+                          key={subItem.name}
+                          className={containerStyle["sub-groups"]}
+                        >
+                          <h2 id={subItem.id}>{subItem.name}</h2>
+                          {subItem.texts.map(
+                            (text: string): ReactElement => (
+                              <p key={text}>{text}</p>
+                            )
+                          )}
+                        </DetailedText>
+                      );
+
+                    case "list":
+                      return (
+                        <DetailedText
+                          key={item.name}
+                          className={containerStyle["sub-groups"]}
+                        >
+                          <h2 id={subItem.id}>{subItem.name}</h2>
+                          <List className={containerStyle.list}>
+                            {subItem.items.map(
+                              (listItem: string): ReactElement => (
+                                <li key={listItem}>{listItem}</li>
+                              )
+                            )}
+                          </List>
+                        </DetailedText>
+                      );
+
+                    default:
+                      return <></>;
+                  }
+                })}
+              </DetailedText>
+            );
+
+          default:
+            return <></>;
         }
-      )}
+      })}
     </FlexContainer>
   );
 };

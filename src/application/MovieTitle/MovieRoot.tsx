@@ -20,7 +20,7 @@ import Router from "./modules/Router/Router";
 const MovieRoot: FC<RouteComponentProps> = ({ match }) => {
   const { language } = useLanguage();
   const { t } = useTranslation("pages\\movieTitle\\root");
-  const params = (match.params as unknown) as Record<string, string>;
+  const params = match.params as unknown as Record<string, string>;
   const {
     error,
     isFetching,

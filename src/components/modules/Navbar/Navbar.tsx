@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import useNavbar from "@hooks/useNavbar";
 import routeWithOnlyContent from "@lib/routeWithOnlyContent";
@@ -10,17 +10,21 @@ import {
   MobileNavigation,
 } from "@components/modules/Navbar/Drawer";
 import classnames from "classnames";
+import BodyContext from "@contexts/body";
 import { NotificationsModal, LanguageModal } from "../../ui";
 import styles from "./Navbar.module.scss";
 
 const Navbar: FC = () => {
   const { open, manageNavbar } = useNavbar();
+  const { setScroll } = useContext(BodyContext);
   const [languageWindowOpen, setLanguageWindowOpen] = useState<boolean>(false);
-  const [
-    notificationsWindowOpen,
-    setNotificationsWindowOpen,
-  ] = useState<boolean>(false);
+  const [notificationsWindowOpen, setNotificationsWindowOpen] =
+    useState<boolean>(false);
   const { pathname } = useLocation();
+
+  useEffect((): void => {
+    setScroll(!open);
+  }, [open, setScroll]);
 
   if (
     routeWithOnlyContent.navbarBlacklist.filter((route: string): boolean =>

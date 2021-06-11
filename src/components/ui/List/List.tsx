@@ -13,11 +13,9 @@ const List: React.FC<
       {...props}
     >
       {items
-        ? items.map(
-            (item: string): React.ReactElement => {
-              return <li key={item}>{item}</li>;
-            }
-          )
+        ? items.map((item: string): React.ReactElement => {
+            return <li key={item}>{item}</li>;
+          })
         : children}
     </ul>
   );

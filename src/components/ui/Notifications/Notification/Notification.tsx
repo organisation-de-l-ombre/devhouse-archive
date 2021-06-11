@@ -29,10 +29,10 @@ const NotificationComponent: FunctionComponent<
     }
 
     setNotificationTimer(
-      (setTimeout(
+      setTimeout(
         () => deleteNotification(notification.id),
         notification.time
-      ) as unknown) as number
+      ) as unknown as number
     );
 
     // eslint-disable-next-line consistent-return
@@ -73,16 +73,14 @@ const NotificationComponent: FunctionComponent<
         <FlexContainer column css={{ marginRight: "1rem" }}>
           <p>{notification.body}</p>
           <ButtonsGroup genericMarginTop>
-            {notification.buttons.map(
-              (b: ButtonType): React.ReactElement => {
-                return (
-                  <Button key={b.text} onClick={() => b.onClick()}>
-                    {b.icon ? b.icon : <></>}
-                    <span>{b.text}</span>
-                  </Button>
-                );
-              }
-            )}
+            {notification.buttons.map((b: ButtonType): React.ReactElement => {
+              return (
+                <Button key={b.text} onClick={() => b.onClick()}>
+                  {b.icon ? b.icon : <></>}
+                  <span>{b.text}</span>
+                </Button>
+              );
+            })}
           </ButtonsGroup>
         </FlexContainer>
       ) : (

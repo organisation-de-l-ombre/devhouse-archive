@@ -1,7 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useState, Dispatch, SetStateAction } from "react";
-import generateNotificationID from "@lib/generateNotificationID";
-import { useNotificationsManager } from "@hooks/useNotifications";
 import { useTranslation } from "react-i18next";
 import { Language } from "@store/language";
 import { GlobalState } from "@store/Types";
@@ -21,7 +19,6 @@ const useLanguage = (): LanguageHook => {
   const language: string = useSelector(
     (state: GlobalState): Language => state.language.language
   );
-  const { addNotifications } = useNotificationsManager();
   const [languageState, setLanguageState] = useState<string>("default");
   const { t } = useTranslation("components\\ui\\languageModal\\languageModal");
 
@@ -41,21 +38,8 @@ const useLanguage = (): LanguageHook => {
       if (setLanguageWindowOpen) {
         setLanguageWindowOpen(false);
       }
-
-      const newLanguage = await import(
-        `../../public/locales/${languageState}/components/ui/languageModal/languageModal.json`
-      );
-
-      addNotifications([
-        {
-          id: generateNotificationID(),
-          type: "info",
-          body: newLanguage.languageChanged,
-          time: 5000,
-        },
-      ]);
     },
-    [addNotifications, dispatch, language, languageState, t]
+    [dispatch, language, languageState, t]
   );
 
   return {

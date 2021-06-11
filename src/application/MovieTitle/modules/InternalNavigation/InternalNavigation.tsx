@@ -12,27 +12,27 @@ const InternalNavigation: ReactMovieElement = ({ dataResponse }) => {
 
   return (
     <TabBar open={open} manageTabBar={manageTabBar}>
-      {(Object.keys(dataResponse.body.data).slice(
-        1
-      ) as (keyof typeof dataResponse.body.data)[])
+      {(
+        Object.keys(dataResponse.body.data).slice(
+          1
+        ) as (keyof typeof dataResponse.body.data)[]
+      )
         .filter(
           (item: keyof typeof dataResponse.body.data): boolean =>
             dataResponse.body.data[item] !== undefined
         )
-        .map(
-          (item: string): React.ReactElement => {
-            return (
-              <TabBarItem
-                key={item}
-                to={`${baseURL}${item !== "movie" ? `/${item}` : ""}`}
-                exact
-                onClick={manageTabBar}
-              >
-                <Trans t={t} i18nKey={item} />
-              </TabBarItem>
-            );
-          }
-        )}
+        .map((item: string): React.ReactElement => {
+          return (
+            <TabBarItem
+              key={item}
+              to={`${baseURL}${item !== "movie" ? `/${item}` : ""}`}
+              exact
+              onClick={manageTabBar}
+            >
+              <Trans t={t} i18nKey={item} />
+            </TabBarItem>
+          );
+        })}
     </TabBar>
   );
 };

@@ -6,10 +6,9 @@ import {
   RequestContext,
   UserAPIApi,
 } from "@developers-house/abdera";
-import { persistedStore, store } from "@store/Store";
+import store from "@store/Store";
 import Application from "@application/Application";
 import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
 import { register } from "@lib/serviceWorker";
 
 register();
@@ -30,16 +29,10 @@ const RootComponent: FC = () => {
   return (
     <React.Suspense fallback={<RootSuspense />}>
       <Provider store={store}>
-        <PersistGate persistor={persistedStore}>
-          <Application />
-        </PersistGate>
+        <Application />
       </Provider>
     </React.Suspense>
   );
 };
 
-const app: HTMLDivElement = document.createElement("div");
-app.className = "app";
-document.body.appendChild(app);
-
-ReactDOM.render(<RootComponent />, app);
+ReactDOM.render(<RootComponent />, document.querySelector(".app"));

@@ -26,9 +26,9 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
   }: UseQueryResult<TechnicalSpecsSection, Response> = useQuery(
     `movie-title/${dataResponse.body.id}/technical-specs`,
     (): Promise<TechnicalSpecsSection> => {
-      return fetch(
-        dataResponse.body.data.technicalSpecs || ""
-      ).then((response: Response) => response.json());
+      return fetch(dataResponse.body.data.technicalSpecs || "").then(
+        (response: Response) => response.json()
+      );
     },
     fetchOptions
   );
@@ -317,30 +317,30 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
           </h1>
           <table>
             <tbody>
-              {Object.keys(movieSpecs).map((rootKey: string):
-                | ReactElement
-                | undefined => {
-                const key = rootKey as keyof typeof movieSpecs;
+              {Object.keys(movieSpecs).map(
+                (rootKey: string): ReactElement | undefined => {
+                  const key = rootKey as keyof typeof movieSpecs;
 
-                return (
-                  movieSpecs[key] && (
-                    <tr key={key}>
-                      <td>
-                        <Trans t={t} i18nKey={`movieSpecs.${key}`} />
-                      </td>
-                      <td>
-                        <ul>
-                          {movieSpecs[key]?.map(
-                            (item: string): ReactElement => {
-                              return <li key={item}>{item}</li>;
-                            }
-                          )}
-                        </ul>
-                      </td>
-                    </tr>
-                  )
-                );
-              })}
+                  return (
+                    movieSpecs[key] && (
+                      <tr key={key}>
+                        <td>
+                          <Trans t={t} i18nKey={`movieSpecs.${key}`} />
+                        </td>
+                        <td>
+                          <ul>
+                            {movieSpecs[key]?.map(
+                              (item: string): ReactElement => {
+                                return <li key={item}>{item}</li>;
+                              }
+                            )}
+                          </ul>
+                        </td>
+                      </tr>
+                    )
+                  );
+                }
+              )}
             </tbody>
           </table>
         </FlexContainer>

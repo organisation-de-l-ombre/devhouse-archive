@@ -13,7 +13,7 @@
   top: 0;
 
   &.force-dark-mode {
-    background-color: $MOVIE_HEADERS_SECONDARY_BACKGROUND;
+    background-color: var(--media-headers-primary-background-color);
 
     * {
       color: white;
@@ -24,7 +24,7 @@
     }
 
     .drawer {
-      background-color: $MOVIE_HEADERS_SECONDARY_BACKGROUND;
+      background-color: var(--media-headers-primary-background-color);
     }
   }
 

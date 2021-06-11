@@ -9,7 +9,6 @@ import { BackToTop } from "@components/modules";
 import { useSpring, animated } from "react-spring";
 import { Helmet } from "react-helmet";
 import { FunctionComponent } from "@typings/FunctionComponent";
-import fetchImage from "@lib/fetchImage";
 import styles from "./Home.module.scss";
 
 const HeadersContainer = animated(FlexContainer);
@@ -33,11 +32,7 @@ const Home: FunctionComponent<HTMLDivElement> = () => {
       >
         <div
           css={{
-            backgroundImage: `url("${fetchImage({
-              type: "background",
-              image:
-                "https://s3.developershouse.xyz/international-media-referencing/amelia-data-public/website-data/pictures/pages/home/home-headers-background.jpg",
-            })}")`,
+            backgroundImage: `url("https://s3.developershouse.xyz/international-media-referencing/amelia-data-public/website-data/pictures/pages/home/home-headers-background.jpg")`,
           }}
           className={styles["headers-background"]}
         />

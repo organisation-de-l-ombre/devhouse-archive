@@ -6,8 +6,8 @@ import {
   initMessageListener,
   initStateWithPrevTab,
 } from "redux-state-sync";
-import storage from "localforage";
-import { persistReducer, persistStore } from "redux-persist";
+import localforage from "localforage";
+import throttle from "lodash.throttle";
 import {
   NotificationsDataReducer,
   notificationsDataState,
@@ -21,36 +21,14 @@ import {
   notificationsConfigState,
 } from "./notifications/notificationsConfig";
 
-const persistConfiguration = {
-  key: "root",
-  storage,
-  blacklist: ["notificationsData"],
-};
-const syncConfiguration = {
-  blacklist: [
-    "persist/PERSIST",
-    "persist/REHYDRATE",
-    "USER_FIRST_USE",
-    "UPDATE_NOTIFICATIONS_PERMISSIONS",
-    "NOTIFICATIONS_PUSH",
-    "NOTIFICATION_DELETE",
-    "NOTIFICATIONS_DELETE_ALL",
-  ],
-};
-const middlewares = [reduxThunk, createStateSyncMiddleware(syncConfiguration)];
+const middlewares = [reduxThunk, createStateSyncMiddleware()];
 let callCompose = applyMiddleware(...middlewares);
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV === "development") {
   callCompose = composeWithDevTools(callCompose);
 }
 
-const rootReducer = combineReducers({
-  language: LanguageReducer,
-  notificationsConfig: NotificationsConfigReducer,
-  notificationsData: NotificationsDataReducer,
-  theme: ThemeReducer,
-  account: AccountReducer,
-});
+const persistBlacklist: string[] = ["notificationsData"];
 const globalState: GlobalState = {
   language: languageState,
   notificationsConfig: notificationsConfigState,
@@ -58,11 +36,42 @@ const globalState: GlobalState = {
   theme: themeState,
   account: accountState,
 };
-const reducer = persistReducer(persistConfiguration, rootReducer);
+
+localforage.getItem("redux/save").then((save): void => {
+  if (!save) {
+    return;
+  }
+
+  const persistedState: GlobalState = JSON.parse(save as string);
+  const keys: string[] = Object.keys(persistedState).filter(
+    (key: string): boolean => !persistBlacklist.includes(key)
+  );
+
+  for (const key of keys) {
+    const item = key as keyof GlobalState;
+
+    globalState[item] = persistedState[item] as never;
+  }
+});
+
+const reducer = combineReducers({
+  language: LanguageReducer,
+  notificationsConfig: NotificationsConfigReducer,
+  notificationsData: NotificationsDataReducer,
+  theme: ThemeReducer,
+  account: AccountReducer,
+});
 const store = createStore(reducer, globalState, callCompose);
-const persistedStore = persistStore(store);
+
+store.subscribe(
+  throttle(() => {
+    const state: GlobalState = store.getState();
+
+    localforage.setItem("redux/save", JSON.stringify(state));
+  }, 500)
+);
 
 initMessageListener(store as never);
 initStateWithPrevTab(store as never);
 
-export { store, persistedStore };
+export default store;

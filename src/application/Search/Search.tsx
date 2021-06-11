@@ -31,10 +31,8 @@ const Search: FunctionComponent<HTMLDivElement> = () => {
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const { language } = useLanguage();
   const [firstTime, setFirstTime] = useState<boolean>(true);
-  const [
-    advancedSearchEnabled,
-    setAdvancedSearchEnabled,
-  ] = useQueryState<boolean>("advanced-search", false);
+  const [advancedSearchEnabled, setAdvancedSearchEnabled] =
+    useQueryState<boolean>("advanced-search", false);
   const manageSearch = useCallback((): void => {
     setTitleState(inputRef.current?.value);
   }, [setTitleState]);
@@ -219,45 +217,43 @@ const Search: FunctionComponent<HTMLDivElement> = () => {
               t={t}
               i18nKey="body.success.description"
               values={{
-                resultsLength: data.length,
+                count: data.length,
               }}
             />
           </p>
           <FlexContainer genericMarginTop allowWrap>
-            {data.map(
-              (movie: SearchResponse): ReactElement => {
-                return (
-                  <NavLink
-                    key={movie.id}
-                    to={`/movies/title/${movie.id}`}
-                    className={styles.media}
-                    title={`${movie.name} (${new Date(
-                      movie.releaseDate
-                    ).getFullYear()})`}
+            {data.map((movie: SearchResponse): ReactElement => {
+              return (
+                <NavLink
+                  key={movie.id}
+                  to={`/movies/title/${movie.id}`}
+                  className={styles.media}
+                  title={`${movie.name} (${new Date(
+                    movie.releaseDate
+                  ).getFullYear()})`}
+                >
+                  <div
+                    className={classnames(
+                      globalStyles["overflow-hidden"],
+                      globalStyles["border-radius"],
+                      globalStyles["box-shadow"]
+                    )}
                   >
-                    <div
-                      className={classnames(
-                        globalStyles["overflow-hidden"],
-                        globalStyles["border-radius"],
-                        globalStyles["box-shadow"]
-                      )}
-                    >
-                      <img
-                        src={movie.poster}
-                        alt={`Movie poster of ${movie.name}`}
-                        draggable={false}
-                      />
-                    </div>
-                    <h1>{movie.name}</h1>
-                    <h1>
-                      {new Intl.DateTimeFormat(language).format(
-                        new Date(movie.releaseDate)
-                      )}
-                    </h1>
-                  </NavLink>
-                );
-              }
-            )}
+                    <img
+                      src={movie.poster}
+                      alt={`Movie poster of ${movie.name}`}
+                      draggable={false}
+                    />
+                  </div>
+                  <h1>{movie.name}</h1>
+                  <h1>
+                    {new Intl.DateTimeFormat(language).format(
+                      new Date(movie.releaseDate)
+                    )}
+                  </h1>
+                </NavLink>
+              );
+            })}
           </FlexContainer>
         </FlexContainer>
       )}

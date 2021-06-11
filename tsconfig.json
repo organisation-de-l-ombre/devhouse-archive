@@ -28,7 +28,8 @@
       "@components/*": ["./components/*"],
       "@assets/*": ["./assets/*"],
       "@application/*": ["./application/*"],
-      "@typings/*": ["./types/*"]
+      "@typings/*": ["./types/*"],
+      "@contexts/*": ["./contexts/*"]
     }
   },
   "include": [

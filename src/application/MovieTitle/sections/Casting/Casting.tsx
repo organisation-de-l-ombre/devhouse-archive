@@ -22,19 +22,16 @@ import {
 
 const Casting: ReactMovieElement = ({ dataResponse }) => {
   const { language } = useLanguage();
-  const {
-    isFetching,
-    error,
-    data,
-  }: UseQueryResult<CastingSection, Response> = useQuery(
-    `movie-title/${dataResponse.body.id}/${language}/casting`,
-    (): Promise<CastingSection> => {
-      return fetch(
-        dataResponse.body.data.casting || ""
-      ).then((response: Response) => response.json());
-    },
-    fetchOptions
-  );
+  const { isFetching, error, data }: UseQueryResult<CastingSection, Response> =
+    useQuery(
+      `movie-title/${dataResponse.body.id}/${language}/casting`,
+      (): Promise<CastingSection> => {
+        return fetch(dataResponse.body.data.casting || "").then(
+          (response: Response) => response.json()
+        );
+      },
+      fetchOptions
+    );
 
   if (isFetching || error) {
     return (
@@ -58,59 +55,53 @@ const Casting: ReactMovieElement = ({ dataResponse }) => {
       className={containerStyle.container}
     >
       <Summary className={containerStyle.summary}>
-        {data.summary.map(
-          (item: SummaryObject): ReactElement => {
-            switch (item.type) {
-              case "item":
-                return (
-                  <SummaryItem key={item.to} to={item.to} name={item.name} />
-                );
+        {data.summary.map((item: SummaryObject): ReactElement => {
+          switch (item.type) {
+            case "item":
+              return (
+                <SummaryItem key={item.to} to={item.to} name={item.name} />
+              );
 
-              default:
-                return <></>;
-            }
+            default:
+              return <></>;
           }
-        )}
+        })}
       </Summary>
-      {data.body.map(
-        (section: CastingObject): ReactElement => {
-          return (
-            <FlexContainer
-              column
-              key={section.name}
-              id={section.id}
-              className={containerStyle["generic-margin-top"]}
-            >
-              <h1>{section.name}</h1>
-              <CardContainer direction="inline">
-                {section.items.map(
-                  (character: CharacterObject): ReactElement => {
-                    return (
-                      <Card
-                        key={`${character.name}-${character.role}`}
-                        className={styles.card}
-                      >
-                        <img
-                          src={
-                            character.imageURL
-                              ? character.imageURL
-                              : "/pictures/referencing/cast-bust.png"
-                          }
-                          alt={character.name}
-                        />
-                        <FlexContainer column>
-                          <h2>{character.name}</h2>
-                          <p>{character.role}</p>
-                        </FlexContainer>
-                      </Card>
-                    );
-                  }
-                )}
-              </CardContainer>
-            </FlexContainer>
-          );
-        }
-      )}
+      {data.body.map((section: CastingObject): ReactElement => {
+        return (
+          <FlexContainer
+            column
+            key={section.name}
+            id={section.id}
+            className={containerStyle["generic-margin-top"]}
+          >
+            <h1>{section.name}</h1>
+            <CardContainer direction="inline">
+              {section.items.map((character: CharacterObject): ReactElement => {
+                return (
+                  <Card
+                    key={`${character.name}-${character.role}`}
+                    className={styles.card}
+                  >
+                    <img
+                      src={
+                        character.imageURL
+                          ? character.imageURL
+                          : "/pictures/referencing/cast-bust.png"
+                      }
+                      alt={character.name}
+                    />
+                    <FlexContainer column>
+                      <h2>{character.name}</h2>
+                      <p>{character.role}</p>
+                    </FlexContainer>
+                  </Card>
+                );
+              })}
+            </CardContainer>
+          </FlexContainer>
+        );
+      })}
     </FlexContainer>
   );
 };

@@ -14,7 +14,6 @@ import { useQuery, UseQueryResult } from "react-query";
 import fetchOptions from "@lib/api/fetchOptions";
 import { SuspenseComponent } from "@components/modules";
 import { animated, useSpring } from "react-spring";
-import fetchImage from "@lib/fetchImage";
 import styles from "./Headers.module.scss";
 import containerStyle from "../../Containers.module.scss";
 import { ReactMovieElement, MovieHeadersSection } from "../../types";
@@ -74,10 +73,7 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
         {data.backgroundImage ? (
           <div
             css={{
-              backgroundImage: `url("${fetchImage({
-                type: "background",
-                image: data.backgroundImage,
-              })}")`,
+              backgroundImage: `url("${data.backgroundImage}")`,
             }}
             className={styles["headers-background-image"]}
           />
@@ -120,15 +116,13 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
             )}
             {data.type && (
               <ButtonsGroup minimal>
-                {data.type.map(
-                  (tag: string): React.ReactElement => {
-                    return (
-                      <ButtonLink key={tag} to={`/browse?tag=${tag}`}>
-                        <Trans t={tTags} i18nKey={tag} />
-                      </ButtonLink>
-                    );
-                  }
-                )}
+                {data.type.map((tag: string): React.ReactElement => {
+                  return (
+                    <ButtonLink key={tag} to={`/browse?tag=${tag}`}>
+                      <Trans t={tTags} i18nKey={tag} />
+                    </ButtonLink>
+                  );
+                })}
               </ButtonsGroup>
             )}
             <ButtonsGroup minimal>

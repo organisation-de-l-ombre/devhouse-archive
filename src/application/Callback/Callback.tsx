@@ -72,15 +72,13 @@ const Callback: FunctionComponent<HTMLDivElement> = () => {
     const redirectionPath = redirection as string;
 
     if (clientID === "Inavlid client ID") {
-      setCallbackState(
-        (previousState: CallbackState): CallbackState => {
-          return {
-            ...previousState,
-            error: true,
-            errorMessage: "Failed to fetch client ID",
-          };
-        }
-      );
+      setCallbackState((previousState: CallbackState): CallbackState => {
+        return {
+          ...previousState,
+          error: true,
+          errorMessage: "Failed to fetch client ID",
+        };
+      });
       history.push(redirectionPath || "/");
     }
 
@@ -129,32 +127,26 @@ const Callback: FunctionComponent<HTMLDivElement> = () => {
           ).then((response: Response): Promise<UserObject> => response.json());
 
           saveUser({ ...userData, token });
-          setCallbackState(
-            (previousState: CallbackState): CallbackState => {
-              return { ...previousState, accountUsername: userData.username };
-            }
-          );
+          setCallbackState((previousState: CallbackState): CallbackState => {
+            return { ...previousState, accountUsername: userData.username };
+          });
         } catch (error) {
-          setCallbackState(
-            (previousState: CallbackState): CallbackState => {
-              return {
-                ...previousState,
-                error: true,
-                errorMessage: (error as Error).message,
-              };
-            }
-          );
-        }
-      } catch (error) {
-        setCallbackState(
-          (previousState: CallbackState): CallbackState => {
+          setCallbackState((previousState: CallbackState): CallbackState => {
             return {
               ...previousState,
               error: true,
               errorMessage: (error as Error).message,
             };
-          }
-        );
+          });
+        }
+      } catch (error) {
+        setCallbackState((previousState: CallbackState): CallbackState => {
+          return {
+            ...previousState,
+            error: true,
+            errorMessage: (error as Error).message,
+          };
+        });
       }
     }
 

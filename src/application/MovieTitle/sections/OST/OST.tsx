@@ -51,19 +51,16 @@ const DisplaySVG: FunctionComponent<IconType, { type: string }> = ({
 const OST: ReactMovieElement = ({ dataResponse }) => {
   const { language } = useLanguage();
   const { t } = useTranslation("pages\\movieTitle\\ost");
-  const {
-    isFetching,
-    error,
-    data,
-  }: UseQueryResult<OSTSection, Response> = useQuery(
-    `movie-title/${dataResponse.body.id}/${language}/ost`,
-    (): Promise<OSTSection> => {
-      return fetch(
-        dataResponse.body.data.ost || ""
-      ).then((response: Response) => response.json());
-    },
-    fetchOptions
-  );
+  const { isFetching, error, data }: UseQueryResult<OSTSection, Response> =
+    useQuery(
+      `movie-title/${dataResponse.body.id}/${language}/ost`,
+      (): Promise<OSTSection> => {
+        return fetch(dataResponse.body.data.ost || "").then(
+          (response: Response) => response.json()
+        );
+      },
+      fetchOptions
+    );
 
   const [playerOpen, setPlayerOpen] = useState<boolean>(false);
   const [video, setVideo] = useState<VideoObject>({
@@ -158,110 +155,109 @@ const OST: ReactMovieElement = ({ dataResponse }) => {
             </FlexContainer>
           </FlexContainer>
         )}
-        {data.body.map(
-          (body: TracksSection): ReactElement => {
-            return (
-              <FlexContainer
-                column
-                key={body.name}
-                id={body.id}
-                className={containerStyle["generic-margin-top"]}
-              >
-                <h1>{body.name}</h1>
-                <CardContainer direction="column">
-                  {body.tracks.map(
-                    (track: TrackInformationObject): ReactElement => {
-                      return (
-                        <Card key={track.title} className={styles.card}>
-                          <h2>{track.title}</h2>
-                          {track.VOTitle && (
-                            <h2 className={styles["vo-title"]}>
-                              <i>{track.VOTitle}</i>
-                            </h2>
-                          )}
+        {data.body.map((body: TracksSection): ReactElement => {
+          return (
+            <FlexContainer
+              column
+              key={body.name}
+              id={body.id}
+              className={containerStyle["generic-margin-top"]}
+            >
+              <h1>{body.name}</h1>
+              <CardContainer direction="column">
+                {body.tracks.map(
+                  (track: TrackInformationObject): ReactElement => {
+                    return (
+                      <Card key={track.title} className={styles.card}>
+                        <h2>{track.title}</h2>
+                        {track.VOTitle && (
+                          <h2 className={styles["vo-title"]}>
+                            <i>{track.VOTitle}</i>
+                          </h2>
+                        )}
+                        <p>
+                          <Trans
+                            t={t}
+                            i18nKey="duration"
+                            values={{ duration: track.duration }}
+                          />
+                        </p>
+                        {track.timecode && (
                           <p>
                             <Trans
                               t={t}
-                              i18nKey="duration"
-                              values={{ duration: track.duration }}
+                              i18nKey="timeline"
+                              values={{ timeline: track.timecode }}
                             />
                           </p>
-                          {track.timecode && (
-                            <p>
-                              <Trans
-                                t={t}
-                                i18nKey="timeline"
-                                values={{ timeline: track.timecode }}
-                              />
-                            </p>
-                          )}
-                          {track.characters && (
-                            <p>
-                              <Trans
-                                t={t}
-                                i18nKey="characters"
-                                values={{
-                                  characters: track.characters.join(", "),
-                                  count: track.characters.length,
-                                }}
-                              />
-                            </p>
-                          )}
-                          {track.description && (
-                            <p>
-                              <q className={containerStyle.quotes}>
-                                {track.description}
-                              </q>
-                            </p>
-                          )}
-                          {Boolean(track.videoID || track.lyrics) && (
-                            <ButtonsGroup minimal expand>
-                              {track.videoID && (
-                                <Button
-                                  onClick={() => {
-                                    const isMobileDevice: boolean = detectMobileDevice();
+                        )}
+                        {track.characters && (
+                          <p>
+                            <Trans
+                              t={t}
+                              i18nKey="characters"
+                              values={{
+                                characters: track.characters.join(", "),
+                                count: track.characters.length,
+                              }}
+                            />
+                          </p>
+                        )}
+                        {track.description && (
+                          <p>
+                            <q className={containerStyle.quotes}>
+                              {track.description}
+                            </q>
+                          </p>
+                        )}
+                        {Boolean(track.videoID || track.lyrics) && (
+                          <ButtonsGroup minimal expand>
+                            {track.videoID && (
+                              <Button
+                                onClick={() => {
+                                  const isMobileDevice: boolean =
+                                    detectMobileDevice();
 
-                                    if (isMobileDevice) {
-                                      window.open(
-                                        `https://www.youtube.com/watch?v=${track.videoID}`
-                                      );
-                                    } else {
-                                      setVideo({
-                                        title: `${dataResponse.body.title} - ${track.title}`,
-                                        videoID: track.videoID as string,
-                                      });
-                                      setPlayerOpen(!playerOpen);
-                                    }
-                                  }}
-                                >
-                                  <FaPlay />
-                                  <span>
-                                    <Trans t={t} i18nKey="watchVideo" />
-                                  </span>
-                                </Button>
-                              )}
-                              {track.lyrics && (
-                                <ButtonExternalLink
-                                  href={track.lyrics}
-                                  target="blank"
-                                >
-                                  <FaMusic />
-                                  <span>
-                                    <Trans t={t} i18nKey="lyrics" />
-                                  </span>
-                                </ButtonExternalLink>
-                              )}
-                            </ButtonsGroup>
-                          )}
-                        </Card>
-                      );
-                    }
-                  )}
-                </CardContainer>
-              </FlexContainer>
-            );
-          }
-        )}
+                                  if (isMobileDevice) {
+                                    window.open(
+                                      `https://www.youtube.com/watch?v=${track.videoID}`
+                                    );
+                                  } else {
+                                    setVideo({
+                                      title: `${dataResponse.body.title} - ${track.title}`,
+                                      videoID: track.videoID as string,
+                                    });
+                                    setPlayerOpen(!playerOpen);
+                                  }
+                                }}
+                              >
+                                <FaPlay />
+                                <span>
+                                  <Trans t={t} i18nKey="watchVideo" />
+                                </span>
+                              </Button>
+                            )}
+                            {track.lyrics && (
+                              <ButtonExternalLink
+                                href={track.lyrics}
+                                target="blank"
+                              >
+                                <FaMusic />
+                                <span>
+                                  <Trans t={t} i18nKey="lyrics" />
+                                </span>
+                              </ButtonExternalLink>
+                            )}
+                          </ButtonsGroup>
+                        )}
+                      </Card>
+                    );
+                  }
+                )}
+              </CardContainer>
+            </FlexContainer>
+          );
+        })}
       </FlexContainer>
     </>
   );
