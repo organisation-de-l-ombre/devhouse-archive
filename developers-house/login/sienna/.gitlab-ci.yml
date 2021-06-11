@@ -29,9 +29,11 @@ cypress:
       - .npm/
   image: cypress/browsers:node12.14.1-chrome85-ff81
   stage: test
+
   parallel:
     matrix:
-      - RUNNER: [firefox, chrome]
+      - RUNNER: [chrome]
+      
   script:
     - yarn
     - yarn run build

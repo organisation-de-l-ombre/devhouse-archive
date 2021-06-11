@@ -53,20 +53,4 @@ context("Theme changer", () => {
                 expect(className).to.match(/dark/)
             });
     });
-
-    it('Works a random amount of time', () => {
-        const number = Math.floor(Math.random() * 10);
-        const a = cy.contains("Change theme")
-            .should("exist")
-        for (let i = 0; i < number; i++) {
-            a.click();
-        }
-        cy.get('#__next > div')
-            .should(($div) => {
-                expect($div).to.have.length(1)
-                const className = $div[0].className;
-                expect(className).to.match(number % 2 !== 0 ? /dark/ : /light/)
-            });
-    });
-
 });
