@@ -31,7 +31,6 @@ cypress:
   stage: test
   variables:
     RUNNER: chrome
-  parallel: 2
   script:
     - npm ci
     - npm run build
