@@ -3,19 +3,75 @@ include:
   - project: 'developers-house/dev/gitlab-ci-collection'
     ref: master
     file: 'kaniko.gitlab-ci.yml'
-
+  - project: 'developers-house/dev/gitlab-ci-collection'
+    ref: master
+    file: 'helm.gitlab-ci.yml'
 
 variables:
-  AUTO_DEVOPS_BUILD_IMAGE_EXTRA_ARGS: "--build-arg CI_JOB_TOKEN"
+  TEST_DISABLED: 'true'
 
-test:
-  before_script:
-    - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}">>.npmrc
+stages:
+  - build
+  - docker
+  - test
+  - deploy  # dummy stage to follow the template guidelines
+  - review
+  - dast
+  - staging
+  - canary
+  - production
+  - incremental rollout 10%
+  - incremental rollout 25%
+  - incremental rollout 50%
+  - incremental rollout 100%
+  - performance
+  - cleanup
 
-.auto-deploy:
-  image: registry.gitlab.com/gitlab-org/cluster-integration/auto-deploy-image/v2-3-1:latest
-  variables:
-    AUTO_DEVOPS_FORCE_DEPLOY_V2: 1
-    AUTO_DEVOPS_CHART: devhouse/developers-house-deploy
-    AUTO_DEVOPS_CHART_REPOSITORY: https://developers-house-dev-deploy-chart.matthieu-dev.xyz/
-    AUTO_DEVOPS_CHART_REPOSITORY_NAME: devhouse
+
+rust_build:
+  image: rustlang/rust@sha256:d73ff45159dc1fb61582e4c251b8695002face55b530a58375435bf2c2496fec
+  script:
+    - cargo update
+    - cargo build --release
+  cache:
+    key: cargo
+    paths:
+      - target
+  stage: build
+  artifacts:
+    name: 'target'
+    paths:
+      - target
+
+build:
+  stage: docker
+  needs:
+    - rust_build
+  dependencies:
+    - rust_build
+
+package:
+  stage: build
+  image: timbru31/java-node
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .npm/
+  only:
+    changes:
+      - gen/*
+  script:
+    - apt-get update -y
+    - apt-get install jq -y
+    - npx @openapitools/openapi-generator-cli generate -i openapi.yaml -g typescript-axios -o gen
+    - cd gen
+    - yarn
+    - yarn build
+    - |
+      {
+        echo "@${CI_PROJECT_ROOT_NAMESPACE}:registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/"
+        echo "${CI_API_V4_URL#https?}/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=\${CI_JOB_TOKEN}"
+      } | tee --append .npmrc
+    - VERSION=$(jq .version package.json)
+    - echo "${VERSION:1:${#VERSION}-2}"
+    - yarn publish --new-version "${VERSION:1:${#VERSION}-2}"
