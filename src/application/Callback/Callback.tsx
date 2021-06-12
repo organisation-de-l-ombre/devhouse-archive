@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect } from "react";
-import localForage from "localforage";
 import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
 import generateNotificationID from "@lib/generateNotificationID";
 import useAccount from "@hooks/useAccount";
 import { useNotificationsManager } from "@hooks/useNotifications";
-import getApplicationID from "@lib/getApplicationID";
 import { UserObject } from "@store/account/types";
 import { SuspenseComponent } from "@components/modules";
 import { FunctionComponent } from "@typings/FunctionComponent";
+import { useClient } from "@hooks/useInternal";
 
 interface AuthParameters {
   code: string | undefined;
@@ -28,9 +27,9 @@ const authParameters: AuthParameters = {
 
 const getItems = async (): Promise<unknown[]> => {
   return Promise.all([
-    localForage.getItem("state-oauth"),
-    localForage.getItem("redirection"),
-    localForage.getItem("code-verifier"),
+    localStorage.getItem("state-oauth"),
+    localStorage.getItem("redirection"),
+    localStorage.getItem("code-verifier"),
   ]);
 };
 
@@ -47,6 +46,7 @@ const urlEncodeFormData = (formData: string[][]): string => {
 };
 
 const Callback: FunctionComponent<HTMLDivElement> = () => {
+  const { clientID } = useClient();
   const { saveUser } = useAccount();
   const history = useHistory();
   const [callbackState, setCallbackState] = React.useState<CallbackState>({
@@ -56,8 +56,6 @@ const Callback: FunctionComponent<HTMLDivElement> = () => {
   const { t } = useTranslation("pages\\callback\\callback");
 
   const doLogin = useCallback(async () => {
-    const clientID: string = await getApplicationID();
-
     window.location.search
       .substring(1)
       .split("&")
@@ -69,7 +67,6 @@ const Callback: FunctionComponent<HTMLDivElement> = () => {
       });
 
     const [state, redirection, codeVerifier] = await getItems();
-    const redirectionPath = redirection as string;
 
     if (clientID === "Inavlid client ID") {
       setCallbackState((previousState: CallbackState): CallbackState => {
@@ -79,15 +76,12 @@ const Callback: FunctionComponent<HTMLDivElement> = () => {
           errorMessage: "Failed to fetch client ID",
         };
       });
-      history.push(redirectionPath || "/");
+      history.push((redirection as string) || "/");
     }
 
     const { code: authCode, state: authState } = authParameters;
 
     if (authCode && authState && state === authState) {
-      await localForage.removeItem("state-oauth");
-      await localForage.removeItem("redirection");
-
       const formEncoder = urlEncodeFormData([
         ["client_id", encodeURIComponent(clientID || "")],
         ["grant_type", encodeURIComponent("authorization_code")],
@@ -150,8 +144,11 @@ const Callback: FunctionComponent<HTMLDivElement> = () => {
       }
     }
 
-    history.push(redirectionPath || "/");
-  }, [history, saveUser]);
+    history.push((redirection as string) || "/");
+    localStorage.removeItem("state-oauth");
+    localStorage.removeItem("redirection");
+    localStorage.removeItem("code-verifier");
+  }, [clientID, history, saveUser]);
 
   useEffect(() => {
     doLogin();

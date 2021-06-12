@@ -1,5 +1,4 @@
 import { randomBytes } from "crypto";
-import localForage from "localforage";
 import getApplicationID from "./getApplicationID";
 
 const generateCodeChallenge = async (code: string): Promise<string> => {
@@ -20,7 +19,7 @@ const manageAuth = async (): Promise<void> => {
   const clientID: string = await getApplicationID();
   const state = randomBytes(32).toString("hex");
 
-  await localForage.setItem("state-oauth", state);
+  localStorage.setItem("state-oauth", state);
 
   if (clientID === "Invalid client ID") {
     throw new Error("Failed to fetch client ID.");
@@ -30,7 +29,7 @@ const manageAuth = async (): Promise<void> => {
   const audience = "imr abdera";
   const codeVerifier = randomBytes(32).toString("hex");
 
-  await localForage.setItem("code-verifier", codeVerifier);
+  localStorage.setItem("code-verifier", codeVerifier);
 
   const codeChallenge = await generateCodeChallenge(codeVerifier);
 
