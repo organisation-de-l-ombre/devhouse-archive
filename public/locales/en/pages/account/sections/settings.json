@@ -8,14 +8,19 @@
         "light": "The website has been switched to light mode."
       }
     },
+    "contrastMode": {
+      "title": "High contrast",
+      "error": "High contrast mode does not exist for this colors theme.",
+      "enabled": "High contrast mode has been enabled.",
+      "disabled": "High contrast mode has been disabled."
+    },
     "notifications": {
       "title": "Notifications activation",
       "preferencesUpdated": "Your preferences have been updated."
     },
     "language": {
-      "title": "Language",
-      "defaultSelect": "Select language",
-      "changeLanguage": "Save language"
+      "title": "Language preference",
+      "button": "Change language language"
     }
   }
 }

@@ -4,7 +4,7 @@ import { useNotificationsManager } from "@hooks/useNotifications";
 import {
   Notification,
   Button as ButtonType,
-} from "@store/notifications/notificationsData";
+} from "@store/notifications/notificationsData/types";
 import { css } from "@emotion/react";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import FlexContainer from "../../FlexContainer/FlexContainer";

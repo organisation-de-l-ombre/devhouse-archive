@@ -1,10 +1,10 @@
 import { ThunkAction } from "redux-thunk";
-import { User } from "@store/account";
-import { Theme } from "@store/theme";
-import { Language } from "@store/language";
-import { NotificationsDataState } from "@store/notifications/notificationsData";
-import { NotificationsConfigState } from "./notifications/notificationsConfig";
+import { User } from "./account/types";
+import { Language } from "./language/types";
+import { NotificationsDataState } from "./notifications/notificationsData/types";
+import { NotificationsConfigState } from "./notifications/notificationsConfig/types";
 import { InternalState } from "./internal/types";
+import { ThemeState } from "./theme/types";
 
 interface GlobalState {
   account: { user: User };
@@ -12,7 +12,7 @@ interface GlobalState {
   internal: InternalState;
   notificationsConfig: NotificationsConfigState;
   notificationsData: NotificationsDataState;
-  theme: { theme: Theme };
+  theme: ThemeState;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

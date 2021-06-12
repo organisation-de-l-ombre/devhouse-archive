@@ -1,7 +1,7 @@
 import React from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { useNotificationsState } from "@hooks/useNotifications";
-import { Notification } from "@store/notifications/notificationsData";
+import { Notification } from "@store/notifications/notificationsData/types";
 import styles from "./NotificationsGroup.module.scss";
 import NotificationComponent from "../Notification/Notification";
 import "./Animations.scss";

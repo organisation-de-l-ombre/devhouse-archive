@@ -1,26 +1,31 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
-import { GlobalState } from "@store/Types";
-import { Theme } from "@store/theme/Types";
-import changeTheme from "@store/theme/Actions";
+import { GlobalState } from "@store/types";
+import { Theme, ThemeState } from "@store/theme/types";
+import { updateContrastMode, updateTheme } from "@store/theme/actions";
 
 interface ThemeHook {
-  theme: string;
+  theme: Theme;
+  contrastMode: boolean;
   switchTheme: () => void;
+  toggleContrastMode: () => void;
 }
 
 const useTheme = (): ThemeHook => {
   const dispatch = useDispatch();
-
-  const theme: Theme = useSelector(
-    (state: GlobalState): Theme => state.theme.theme
+  const { theme, contrastMode } = useSelector(
+    (state: GlobalState): ThemeState => state.theme
   );
 
   const switchTheme = useCallback((): void => {
-    dispatch(changeTheme(theme === "light" ? "dark" : "light"));
+    dispatch(updateTheme(theme === "light" ? "dark" : "light"));
   }, [dispatch, theme]);
 
-  return { theme, switchTheme };
+  const toggleContrastMode = useCallback((): void => {
+    dispatch(updateContrastMode(!contrastMode));
+  }, [contrastMode, dispatch]);
+
+  return { theme, contrastMode, switchTheme, toggleContrastMode };
 };
 
 export default useTheme;

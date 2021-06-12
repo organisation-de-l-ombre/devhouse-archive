@@ -1,4 +1,4 @@
-import { Action } from "@store/Types";
+import { Action } from "@store/types";
 import { Dispatch } from "redux";
 import { CLIENT_UPDATED, FEATURES_FLAGS_ADDED } from "./types";
 

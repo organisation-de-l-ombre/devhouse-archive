@@ -1,12 +1,11 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import Toggle from "react-toggle";
 import { FaSun, FaMoon } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { GoCheck } from "react-icons/go";
 import generateNotificationID from "@lib/generateNotificationID";
-import useLanguage from "@hooks/useLanguage";
 import {
   useNotificationsManager,
   useNotificationsPreferences,
@@ -16,29 +15,23 @@ import useTheme from "@hooks/useTheme";
 import globalStyles from "@styles/Global.module.scss";
 import {
   FlexContainer,
-  SelectList,
   Button,
   CardContainer,
   Card,
+  LanguageModal,
 } from "@components/ui";
 import "../../../../styles/Toggle.scss";
-import { supportedLanguages } from "@store/language";
-import { manageSelection } from "@components/ui/SelectList/SelectList";
-import { DisplayLanguageSVG } from "@components/modules";
 import { FunctionComponent } from "@typings/FunctionComponent";
+import themes from "@styles/Themes.module.scss";
 import containerStyle from "../../Containers.module.scss";
 import "./Toggle.scss";
 
 const Settings: FunctionComponent<HTMLDivElement> = () => {
   const { t } = useTranslation("pages\\account\\sections\\settings");
-  const { t: tModal } = useTranslation(
-    "components\\ui\\languageModal\\languageModal"
-  );
   const { addNotifications } = useNotificationsManager();
-  const { theme, switchTheme } = useTheme();
+  const { theme, contrastMode, switchTheme, toggleContrastMode } = useTheme();
   const { allowNotifications } = useNotificationsState();
   const { updatePreference } = useNotificationsPreferences();
-  const { setLanguageState, validateLanguage } = useLanguage();
   const changeTheme = useCallback((): void => {
     switchTheme();
 
@@ -55,6 +48,27 @@ const Settings: FunctionComponent<HTMLDivElement> = () => {
       },
     ]);
   }, [addNotifications, switchTheme, t, theme]);
+  const changeThemeContrast = useCallback((): void => {
+    if (!themes[`${theme}-contrast`]) {
+      alert(t("websiteParameters.contrastMode.error"));
+
+      return;
+    }
+
+    toggleContrastMode();
+    addNotifications([
+      {
+        id: generateNotificationID(),
+        type: "info",
+        body: t(
+          `websiteParameters.contrastMode.${
+            !contrastMode ? "enabled" : "disabled"
+          }`
+        ),
+        time: 5000,
+      },
+    ]);
+  }, [addNotifications, contrastMode, t, theme, toggleContrastMode]);
   const changeNotificationsPreferences = useCallback((): void => {
     updatePreference();
 
@@ -67,105 +81,94 @@ const Settings: FunctionComponent<HTMLDivElement> = () => {
       },
     ]);
   }, [addNotifications, t, updatePreference]);
+  const [languageModalOpen, setlanguageModalOpen] = useState<boolean>(false);
 
   return (
-    <FlexContainer
-      padding
-      expand
-      pageBodyWidth
-      column
-      className={containerStyle.container}
-    >
-      <CardContainer noMargin direction="column">
-        <Card noPadding transparent className={containerStyle.card}>
-          <h2>
-            <Trans t={t} i18nKey="websiteParameters.title" />
-          </h2>
-          <FlexContainer allowWrap className={containerStyle["control-items"]}>
-            <form>
-              <label htmlFor="theme-toggle">
-                <Trans t={t} i18nKey="websiteParameters.theme.title" />
-              </label>
-              <Toggle
-                id="theme-toggle"
-                checked={theme === "light"}
-                className="settings-toggle"
-                icons={{
-                  checked: <FaSun />,
-                  unchecked: <FaMoon />,
-                }}
-                onChange={changeTheme}
-              />
-            </form>
-            <form>
-              <label htmlFor="notifications-toggle">
-                <Trans t={t} i18nKey="websiteParameters.notifications.title" />
-              </label>
-              <Toggle
-                id="notifications-toggle"
-                checked={allowNotifications}
-                className="settings-toggle"
-                icons={{
-                  checked: <GoCheck />,
-                  unchecked: <IoClose />,
-                }}
-                onChange={changeNotificationsPreferences}
-              />
-            </form>
-            <FlexContainer column>
-              <h3 className={globalStyles["no-margin"]}>
-                <Trans t={t} i18nKey="websiteParameters.language.title" />
-              </h3>
-              <FlexContainer allowWrap>
-                <SelectList
-                  className={containerStyle["language-button"]}
-                  defaultTitle={
-                    <Trans
-                      t={t}
-                      i18nKey="websiteParameters.language.defaultSelect"
-                    />
-                  }
-                  id="select-language-website-settings"
-                >
-                  {supportedLanguages.sort().map((lang) => {
-                    return (
-                      // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
-                      <li
-                        key={lang}
-                        onClick={() => {
-                          setLanguageState(lang);
-                          manageSelection(
-                            "select-language-website-settings",
-                            "none"
-                          );
-                        }}
-                      >
-                        <DisplayLanguageSVG lang={lang} alt={`lang-${lang}`} />
-                        <span>
-                          <Trans
-                            t={tModal}
-                            i18nKey={`select.languages.${lang}`}
-                          />
-                        </span>
-                      </li>
-                    );
-                  })}
-                </SelectList>
-                <Button
-                  className={containerStyle["language-button"]}
-                  onClick={() => validateLanguage()}
-                >
+    <>
+      <LanguageModal
+        languageWindowOpen={languageModalOpen}
+        setLanguageWindowOpen={setlanguageModalOpen}
+      />
+      <FlexContainer
+        padding
+        expand
+        pageBodyWidth
+        column
+        className={containerStyle.container}
+      >
+        <CardContainer noMargin direction="column">
+          <Card noPadding transparent className={containerStyle.card}>
+            <h2>
+              <Trans t={t} i18nKey="websiteParameters.title" />
+            </h2>
+            <FlexContainer
+              allowWrap
+              className={containerStyle["control-items"]}
+            >
+              <form>
+                <label htmlFor="theme-toggle">
+                  <Trans t={t} i18nKey="websiteParameters.theme.title" />
+                </label>
+                <Toggle
+                  id="theme-toggle"
+                  checked={theme === "light"}
+                  className="settings-toggle"
+                  icons={{
+                    checked: <FaSun />,
+                    unchecked: <FaMoon />,
+                  }}
+                  onChange={changeTheme}
+                />
+              </form>
+              <form>
+                <label htmlFor="theme-contrast-toggle">
+                  <Trans t={t} i18nKey="websiteParameters.contrastMode.title" />
+                </label>
+                <Toggle
+                  id="theme-contrast-toggle"
+                  checked={contrastMode}
+                  className="settings-toggle"
+                  icons={{
+                    checked: <GoCheck />,
+                    unchecked: <IoClose />,
+                  }}
+                  onChange={changeThemeContrast}
+                />
+              </form>
+              <form>
+                <label htmlFor="notifications-toggle">
                   <Trans
                     t={t}
-                    i18nKey="websiteParameters.language.changeLanguage"
+                    i18nKey="websiteParameters.notifications.title"
                   />
+                </label>
+                <Toggle
+                  id="notifications-toggle"
+                  checked={allowNotifications}
+                  className="settings-toggle"
+                  icons={{
+                    checked: <GoCheck />,
+                    unchecked: <IoClose />,
+                  }}
+                  onChange={changeNotificationsPreferences}
+                />
+              </form>
+              <form>
+                <h3 className={globalStyles["no-margin"]}>
+                  <Trans t={t} i18nKey="websiteParameters.language.title" />
+                </h3>
+                <Button
+                  css={{ width: "fit-content", marginTop: "1rem" }}
+                  onClick={() => setlanguageModalOpen(true)}
+                >
+                  <Trans t={t} i18nKey="websiteParameters.language.button" />
                 </Button>
-              </FlexContainer>
+              </form>
             </FlexContainer>
-          </FlexContainer>
-        </Card>
-      </CardContainer>
-    </FlexContainer>
+          </Card>
+        </CardContainer>
+      </FlexContainer>
+    </>
   );
 };
 

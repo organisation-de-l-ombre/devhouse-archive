@@ -3,7 +3,7 @@ import {
   NotificationsConfigState,
   UPDATE_NOTIFICATIONS_PERMISSIONS,
   USER_FIRST_USE,
-} from "./Types";
+} from "./types";
 
 const notificationsConfigState: NotificationsConfigState = {
   firstUse: true,

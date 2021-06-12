@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useState, Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
-import { Language } from "@store/language";
-import { GlobalState } from "@store/Types";
-import i18n from "@languages/i18n";
-import changeLanguage from "@store/language/Actions";
+import { Language } from "@store/language/types";
+import { GlobalState } from "@store/types";
+import i18n from "@lib/i18n";
+import changeLanguage from "@store/language/actions";
 
 interface LanguageHook {
   language: string;

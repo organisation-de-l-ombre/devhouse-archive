@@ -24,12 +24,11 @@
       "@hooks/*": ["./hooks/*"],
       "@store/*": ["./store/*"],
       "@styles/*": ["./styles/*"],
-      "@languages/*": ["./languages/*"],
       "@components/*": ["./components/*"],
-      "@assets/*": ["./assets/*"],
       "@application/*": ["./application/*"],
       "@typings/*": ["./types/*"],
-      "@contexts/*": ["./contexts/*"]
+      "@contexts/*": ["./contexts/*"],
+      "@svg/*": ["./svg/*"]
     }
   },
   "include": [

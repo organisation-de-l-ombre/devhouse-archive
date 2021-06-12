@@ -1,19 +1,21 @@
 import { useCallback, Dispatch, SetStateAction } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { GlobalState } from "@store/Types";
+import { GlobalState } from "@store/types";
 import {
   setFirstUse,
   updateNotificationsPermissions,
-  NotificationsConfigState,
-} from "@store/notifications/notificationsConfig";
+} from "@store/notifications/notificationsConfig/actions";
+import { NotificationsConfigState } from "@store/notifications/notificationsConfig/types";
 import {
   pushNotifications,
   removeNotification,
   removeAllNotifications,
+} from "@store/notifications/notificationsData/actions";
+import {
   Notification,
   NotificationsDataState,
-} from "@store/notifications/notificationsData";
+} from "@store/notifications/notificationsData/types";
 import generateNotificationID from "@lib/generateNotificationID";
 
 interface NotificationsPreferencesHook {

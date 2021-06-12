@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
-import { GlobalState } from "@store/Types";
-import { User, UserObject } from "@store/account/Types";
-import { createUser, deleteUser } from "@store/account/Actions";
+import { GlobalState } from "@store/types";
+import { User, UserObject } from "@store/account/types";
+import { createUser, deleteUser } from "@store/account/actions";
 
 interface UserHook {
   user: User;

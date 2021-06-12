@@ -3,6 +3,8 @@ import {
   ButtonHTMLAttributes,
   DetailedHTMLProps,
   FC,
+  FunctionComponent as ReactFunctionComponent,
+  SVGProps,
 } from "react";
 
 type FunctionComponent<Element, Props = unknown> = FC<
@@ -13,4 +15,8 @@ type ButtonComponent<Props = unknown> = FC<
   ButtonHTMLAttributes<HTMLButtonElement> & Props
 >;
 
-export { FunctionComponent, ButtonComponent };
+type SVGComponent<Props = unknown> = ReactFunctionComponent<
+  SVGProps<SVGSVGElement> & Props
+>;
+
+export { FunctionComponent, ButtonComponent, SVGComponent };

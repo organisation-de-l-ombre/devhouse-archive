@@ -1,4 +1,4 @@
-import { USER_CREATED, USER_DELETED, UserPayload, UserState } from "./Types";
+import { USER_CREATED, USER_DELETED, UserPayload, UserState } from "./types";
 
 const accountState: UserState = { user: undefined };
 

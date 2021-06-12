@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
-import { Action } from "../Types";
-import { Language, LANGUAGE_UPDATED } from "./Types";
+import { Action } from "../types";
+import { Language, LANGUAGE_UPDATED } from "./types";
 
 const updateLanguage = (language: Language): Action => {
   return (dispatch: Dispatch): void => {

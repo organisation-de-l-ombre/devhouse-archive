@@ -5,7 +5,7 @@ import {
   NOTIFICATIONS_PUSH,
   NotificationsDataPayload,
   NotificationsDataState,
-} from "./Types";
+} from "./types";
 
 const notificationsDataState: NotificationsDataState = {
   notifications: [],

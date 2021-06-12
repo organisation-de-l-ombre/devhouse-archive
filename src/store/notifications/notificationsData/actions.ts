@@ -1,11 +1,11 @@
 import { Dispatch } from "redux";
-import { Action, GetState } from "@store/Types";
+import { Action, GetState } from "@store/types";
 import {
   Notification,
   NOTIFICATION_DELETE,
   NOTIFICATIONS_DELETE_ALL,
   NOTIFICATIONS_PUSH,
-} from "./Types";
+} from "./types";
 
 const pushNotifications = (notifications: Notification[]): Action => {
   return (dispatch: Dispatch, getState: GetState): void => {

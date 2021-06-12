@@ -15,6 +15,7 @@ import {
 import useLanguage from "@hooks/useLanguage";
 import { Fade as Hamburger } from "hamburger-react";
 import { FunctionComponent } from "@typings/FunctionComponent";
+import MinimalIcon from "@svg/icons/Minimal";
 import DisplayLanguageSVG from "../DisplayLanguageSVG/DisplayLanguageSVG";
 import styles from "./Navbar.module.scss";
 
@@ -34,7 +35,7 @@ const MobileNavigation: FunctionComponent<
       onClick={manageNavbar}
     >
       <div className={styles.branding}>
-        <img src="/icons/logo32.png" alt="IMR logo" draggable={false} />
+        <MinimalIcon width="40" height="40" />
         <span>
           <Trans t={t} i18nKey="mobileMenu" />
         </span>

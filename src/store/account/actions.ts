@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
-import { UserObject, USER_CREATED, USER_DELETED } from "./Types";
-import { Action } from "../Types";
+import { UserObject, USER_CREATED, USER_DELETED } from "./types";
+import { Action } from "../types";
 
 const createUser = (payload: UserObject): Action => {
   return (dispatch: Dispatch): void => {

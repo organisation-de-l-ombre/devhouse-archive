@@ -3,7 +3,7 @@ import {
   LanguagePayload,
   LanguageReducerState,
   supportedLanguages,
-} from "./Types";
+} from "./types";
 
 const detectLanguage = (): string => {
   const language = navigator.language.split("-")[0];

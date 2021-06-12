@@ -1,7 +1,7 @@
 import getApplicationID from "@lib/getApplicationID";
 import { updateClient } from "@store/internal/actions";
 import { InternalState } from "@store/internal/types";
-import { GlobalState } from "@store/Types";
+import { GlobalState } from "@store/types";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 

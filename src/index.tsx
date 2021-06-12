@@ -6,7 +6,7 @@ import {
   RequestContext,
   UserAPIApi,
 } from "@developers-house/abdera";
-import store from "@store/Store";
+import store from "@store/store";
 import Application from "@application/Application";
 import { Provider } from "react-redux";
 import { register } from "@lib/serviceWorker";

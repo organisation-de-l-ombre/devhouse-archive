@@ -10,15 +10,15 @@ import throttle from "lodash.throttle";
 import {
   NotificationsDataReducer,
   notificationsDataState,
-} from "./notifications/notificationsData";
-import { languageState, LanguageReducer } from "./language/Reducer";
-import { themeState, ThemeReducer } from "./theme/Reducer";
-import { accountState, AccountReducer } from "./account/Reducer";
-import { GlobalState } from "./Types";
+} from "./notifications/notificationsData/reducer";
+import { languageState, LanguageReducer } from "./language/reducer";
+import { themeState, ThemeReducer } from "./theme/reducer";
+import { accountState, AccountReducer } from "./account/reducer";
+import { GlobalState } from "./types";
 import {
   NotificationsConfigReducer,
   notificationsConfigState,
-} from "./notifications/notificationsConfig";
+} from "./notifications/notificationsConfig/reducer";
 import { InternalReducer, internalState } from "./internal/reducer";
 
 const middlewares = [reduxThunk, createStateSyncMiddleware()];

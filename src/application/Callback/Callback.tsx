@@ -6,7 +6,7 @@ import generateNotificationID from "@lib/generateNotificationID";
 import useAccount from "@hooks/useAccount";
 import { useNotificationsManager } from "@hooks/useNotifications";
 import getApplicationID from "@lib/getApplicationID";
-import { UserObject } from "@store/account";
+import { UserObject } from "@store/account/types";
 import { SuspenseComponent } from "@components/modules";
 import { FunctionComponent } from "@typings/FunctionComponent";
 

@@ -10,7 +10,7 @@ import {
 } from "@hooks/useNotifications";
 import themes from "@styles/Themes.module.scss";
 import { NotificationsGroup, NotificationsModal } from "@components/ui";
-import i18n from "@languages/i18n";
+import i18n from "@lib/i18n";
 import { RootError, ApplicationRouter } from "@components/modules";
 import { Helmet } from "react-helmet";
 import globalStyles from "@styles/Global.module.scss";
@@ -29,7 +29,7 @@ const Application: FC = () => {
   const { addNotifications } = useNotificationsManager();
   const { t } = useTranslation("components\\ui\\languageModal\\languageModal");
   const [scroll, setScroll] = useState<boolean>(true);
-  const { theme } = useTheme();
+  const { theme, contrastMode } = useTheme();
   const { firstUse } = useNotificationsState();
   const [open, setOpen] = useState<boolean>(firstUse);
 
@@ -61,10 +61,13 @@ const Application: FC = () => {
   }, [language]);
 
   useEffect(() => {
-    document.body.className = classnames(themes[theme], {
-      [globalStyles["overflow-hidden"]]: !scroll,
-    });
-  }, [scroll, theme]);
+    document.body.className = classnames(
+      themes[`${theme}${contrastMode ? "-contrast" : ""}`],
+      {
+        [globalStyles["overflow-hidden"]]: !scroll,
+      }
+    );
+  }, [contrastMode, scroll, theme]);
 
   return (
     <I18nextProvider i18n={i18n}>
