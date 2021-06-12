@@ -18,10 +18,12 @@ import { I18nextProvider, useTranslation } from "react-i18next";
 import generateNotificationID from "@lib/generateNotificationID";
 import BodyContext from "@contexts/body";
 import classnames from "classnames";
+import { useClient } from "@hooks/useInternal";
 
 const queryClient: QueryClient = new QueryClient();
 
 const Application: FC = () => {
+  const { setClientID } = useClient();
   const [pageLoaded, setPageLoaded] = useState<boolean>(false);
   const { language } = useLanguage();
   const { addNotifications } = useNotificationsManager();
@@ -30,6 +32,11 @@ const Application: FC = () => {
   const { theme } = useTheme();
   const { firstUse } = useNotificationsState();
   const [open, setOpen] = useState<boolean>(firstUse);
+
+  useEffect((): void => {
+    setClientID();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect((): void => {
     setPageLoaded(true);

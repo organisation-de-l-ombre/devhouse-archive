@@ -14,13 +14,15 @@ import {
   Notification,
   NotificationsDataState,
 } from "@store/notifications/notificationsData";
+import generateNotificationID from "@lib/generateNotificationID";
 
 interface NotificationsPreferencesHook {
+  toggleFirstUse: () => void;
   updatePreference: () => void;
   validateChoice: (
     choice: boolean,
     setNotificationsWindowOpen: Dispatch<SetStateAction<boolean>>
-  ) => boolean;
+  ) => void;
 }
 
 interface NotificationsManagerHook {
@@ -44,9 +46,14 @@ const useNotificationsState = (): NotificationsConfigState &
 const useNotificationsPreferences = (): NotificationsPreferencesHook => {
   const dispatch = useDispatch();
   const { allowNotifications, firstUse } = useNotificationsState();
+  const { addNotifications } = useNotificationsManager();
   const { t } = useTranslation(
     "components\\ui\\notifications\\notificationsModal"
   );
+
+  const toggleFirstUse = useCallback((): void => {
+    dispatch(setFirstUse());
+  }, [dispatch]);
 
   const updatePreference = useCallback((): void => {
     dispatch(updateNotificationsPermissions());
@@ -56,25 +63,39 @@ const useNotificationsPreferences = (): NotificationsPreferencesHook => {
     (
       choice,
       setNotificationsWindowOpen: Dispatch<SetStateAction<boolean>>
-    ): boolean => {
+    ): void => {
       if (choice === allowNotifications && !firstUse) {
         alert(t("invalidPreference"));
-        return false;
+        return;
       }
 
       if (firstUse) {
-        dispatch(setFirstUse());
+        toggleFirstUse();
       }
 
       updatePreference();
+      addNotifications([
+        {
+          type: "info",
+          id: generateNotificationID(),
+          body: t("preferencesUpdated"),
+          time: 5000,
+        },
+      ]);
       setNotificationsWindowOpen(false);
-
-      return true;
     },
-    [allowNotifications, dispatch, firstUse, t, updatePreference]
+    [
+      addNotifications,
+      allowNotifications,
+      firstUse,
+      t,
+      toggleFirstUse,
+      updatePreference,
+    ]
   );
 
   return {
+    toggleFirstUse,
     updatePreference,
     validateChoice,
   };

@@ -1,10 +1,9 @@
 import React, { Dispatch, SetStateAction, useCallback } from "react";
 import { useTranslation, Trans } from "react-i18next";
 import { FaBell } from "react-icons/fa";
-import generateNotificationID from "@lib/generateNotificationID";
 import {
-  useNotificationsManager,
   useNotificationsPreferences,
+  useNotificationsState,
 } from "@hooks/useNotifications";
 import { Modal, Button, ButtonsGroup } from "@components/ui";
 import { FunctionComponent } from "@typings/FunctionComponent";
@@ -23,24 +22,20 @@ const NotificationsModal: FunctionComponent<
   const { t } = useTranslation(
     "components\\ui\\notifications\\notificationsModal"
   );
-  const { validateChoice } = useNotificationsPreferences();
-  const { addNotifications } = useNotificationsManager();
+  const { firstUse, allowNotifications } = useNotificationsState();
+  const { toggleFirstUse, validateChoice } = useNotificationsPreferences();
   const validate = useCallback(
     (choice: boolean): void => {
-      const success = validateChoice(choice, setOpen);
+      if (firstUse && !allowNotifications) {
+        toggleFirstUse();
+        setOpen(false);
 
-      if (success) {
-        addNotifications([
-          {
-            type: "info",
-            id: generateNotificationID(),
-            body: t("preferencesUpdated"),
-            time: 5000,
-          },
-        ]);
+        return;
       }
+
+      validateChoice(choice, setOpen);
     },
-    [addNotifications, setOpen, t, validateChoice]
+    [allowNotifications, firstUse, setOpen, toggleFirstUse, validateChoice]
   );
 
   return (

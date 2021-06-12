@@ -1,23 +1,25 @@
 "use strict";
 
-const { readFile } = require("fs/promises");
+const { readFileSync } = require("fs");
 const chalk = require("react-dev-utils/chalk");
 const { exec } = require("child_process");
 
-readFile(".eslintcache")
-  .then(() => {
-    console.log(chalk.yellow("Cleaning Eslint cache..."));
+try {
+  readFile(".eslintcache");
 
-    exec("rm .eslintcache", (error) => {
-      if (error) {
-        console.log(chalk.red("Failed to clean Eslint cache."));
+  console.log(chalk.yellow("Cleaning Eslint cache..."));
 
-        return;
-      }
+  exec("rm .eslintcache", (error) => {
+    if (error) {
+      console.log(chalk.red("Failed to clean Eslint cache."));
 
-      console.log(chalk.green("Cleaned Eslint cache."));
-    });
-  })
-  .catch(() => {
-    console.log(chalk.yellow("No Eslint cache found."));
+      return;
+    }
+
+    console.log(chalk.green("Cleaned Eslint cache."));
   });
+
+  console.log(chalk.yellow("No Eslint cache found."));
+} catch {
+  console.log(chalk.red("Failed to clean Eslint cache."));
+}
