@@ -7,7 +7,8 @@
     "series": "Séries",
     "user": {
       "login": "Se connecter",
-      "manageAccount": "Gérer le compte"
+      "manageAccount": "Gérer le compte",
+      "authError": "Connexion impossible"
     },
     "search": "Rechercher",
     "changeLanguage": "Changer la langue",
@@ -18,6 +19,7 @@
     }
   },
   "acronyms": {
+    "authError": "Authentification par compte impossible",
     "search": "Rechercher du contenu",
     "changeLanguage": "Changer la langue",
     "notifications": "Paramètres des notifications",

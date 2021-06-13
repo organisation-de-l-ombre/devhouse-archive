@@ -3,12 +3,13 @@ import { useCallback } from "react";
 import { GlobalState } from "@store/types";
 import { Theme, ThemeState } from "@store/theme/types";
 import { updateContrastMode, updateTheme } from "@store/theme/actions";
+import themes from "@styles/Themes.module.scss";
 
 interface ThemeHook {
   theme: Theme;
   contrastMode: boolean;
-  switchTheme: () => void;
   toggleContrastMode: () => void;
+  switchTheme: () => void;
 }
 
 const useTheme = (): ThemeHook => {
@@ -17,15 +18,21 @@ const useTheme = (): ThemeHook => {
     (state: GlobalState): ThemeState => state.theme
   );
 
-  const switchTheme = useCallback((): void => {
-    dispatch(updateTheme(theme === "light" ? "dark" : "light"));
-  }, [dispatch, theme]);
-
   const toggleContrastMode = useCallback((): void => {
     dispatch(updateContrastMode(!contrastMode));
   }, [contrastMode, dispatch]);
 
-  return { theme, contrastMode, switchTheme, toggleContrastMode };
+  const switchTheme = useCallback((): void => {
+    const newTheme: Theme = theme === "light" ? "dark" : "light";
+
+    if (contrastMode && !themes[`${newTheme}-contrast`]) {
+      toggleContrastMode();
+    }
+
+    dispatch(updateTheme(newTheme));
+  }, [contrastMode, dispatch, theme, toggleContrastMode]);
+
+  return { theme, contrastMode, toggleContrastMode, switchTheme };
 };
 
 export default useTheme;

@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useCallback } from "react";
+import React, { Dispatch, FC, SetStateAction, useCallback } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
 import { getAvatar } from "@lib/manageAuthentication";
@@ -15,6 +15,8 @@ import useLanguage from "@hooks/useLanguage";
 import { Fade as Hamburger } from "hamburger-react";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import MinimalIcon from "@svg/icons/Minimal";
+import { useClient } from "@hooks/useInternal";
+import { AiFillWarning } from "react-icons/ai";
 import DisplayLanguageSVG from "../DisplayLanguageSVG/DisplayLanguageSVG";
 import styles from "./Navbar.module.scss";
 
@@ -107,6 +109,74 @@ const DrawerStart: FunctionComponent<
   );
 };
 
+const UserManagement: FC<{
+  manageNavbar: () => void;
+  avatar: string | undefined;
+  username: string | undefined;
+}> = ({ manageNavbar, avatar, username }) => {
+  const { t } = useTranslation("components\\modules\\navbar\\navbar");
+  const { pathname } = useLocation();
+  const { clientID } = useClient();
+  const manageAuth = useCallback((): void => {
+    manageNavbar();
+    localStorage.setItem("redirection", pathname);
+  }, [manageNavbar, pathname]);
+
+  if (!avatar && !username && clientID === "Invalid client ID") {
+    return (
+      <button
+        type="button"
+        className={styles.account}
+        onClick={manageNavbar}
+        title={t("acronyms.authError")}
+        aria-label="Login unavailable"
+      >
+        <AiFillWarning />
+        <span className={styles["switcher-span"]}>
+          <Trans t={t} i18nKey="items.user.authError" />
+        </span>
+      </button>
+    );
+  }
+
+  if (!avatar && !username) {
+    return (
+      <NavLink
+        to="/auth/login"
+        exact
+        className={styles.account}
+        onClick={manageAuth}
+      >
+        <span>
+          <Trans t={t} i18nKey="items.user.login" />
+        </span>
+      </NavLink>
+    );
+  }
+
+  return (
+    <NavLink
+      to="/account"
+      exact
+      className={styles.account}
+      onClick={manageAuth}
+    >
+      {avatar ? (
+        <img
+          src={getAvatar(avatar)}
+          alt={`Avatar of ${username}`}
+          draggable={false}
+        />
+      ) : (
+        <FaUser />
+      )}
+      <span>
+        <Trans t={t} i18nKey="items.user.manageAccount" />
+      </span>
+    </NavLink>
+  );
+};
+
 const DrawerEnd: FunctionComponent<
   HTMLDivElement,
   {
@@ -122,12 +192,7 @@ const DrawerEnd: FunctionComponent<
   setNotificationsWindowOpen,
 }) => {
   const { t } = useTranslation("components\\modules\\navbar\\navbar");
-  const { pathname } = useLocation();
   const { user } = useAccount();
-  const manageAuth = useCallback((): void => {
-    manageNavbar();
-    localStorage.setItem("redirection", pathname);
-  }, [manageNavbar, pathname]);
   const { theme, switchTheme } = useTheme();
   const { allowNotifications } = useNotificationsState();
   const { addNotifications } = useNotificationsManager();
@@ -149,33 +214,11 @@ const DrawerEnd: FunctionComponent<
 
   return (
     <div className={styles.end}>
-      <NavLink
-        to={user ? "/account" : "/auth/login"}
-        exact
-        className={styles.account}
-        onClick={manageAuth}
-      >
-        {user ? (
-          <>
-            {user ? (
-              <img
-                src={getAvatar(user.avatar)}
-                alt={`Avatar of ${user.username}`}
-                draggable={false}
-              />
-            ) : (
-              <FaUser />
-            )}
-            <span>
-              <Trans t={t} i18nKey="items.user.manageAccount" />
-            </span>
-          </>
-        ) : (
-          <span>
-            <Trans t={t} i18nKey="items.user.login" />
-          </span>
-        )}
-      </NavLink>
+      <UserManagement
+        manageNavbar={manageNavbar}
+        avatar={user?.avatar}
+        username={user?.username}
+      />
       <NavLink
         to="/search"
         exact

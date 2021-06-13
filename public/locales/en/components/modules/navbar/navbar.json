@@ -7,7 +7,8 @@
     "series": "Series",
     "user": {
       "manageAccount": "Manage account",
-      "login": "Login"
+      "login": "Login",
+      "authError": "Login unavailabe"
     },
     "search": "Search",
     "changeLanguage": "Change language",
@@ -18,6 +19,7 @@
     }
   },
   "acronyms": {
+    "authError": "Account authentication unavailable",
     "search": "Search media",
     "changeLanguage": "Change language",
     "notifications": "Notifications settings",
