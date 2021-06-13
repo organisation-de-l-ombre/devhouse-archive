@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { FlexContainer } from "@components/ui";
-import { BackToTop } from "@components/modules";
+import { BackToTop, withNetwork } from "@components/modules";
 import { SidebarContainer } from "@components/modules/Sidebar";
 import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet";
@@ -27,4 +27,4 @@ const InternalRoot: FC<RouteComponentProps> = () => {
   );
 };
 
-export default InternalRoot;
+export default withNetwork(InternalRoot);

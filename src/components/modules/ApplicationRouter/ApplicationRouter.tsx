@@ -13,7 +13,6 @@ const InternalWiki = lazy(
   () => import("@application/Wiki/Internal/InternalRoot")
 );
 const NotFound = lazy(() => import("../NotFound/NotFound"));
-const Footer = lazy(() => import("../Footer/Footer"));
 
 const ApplicationRouter: FC = () => {
   return (
@@ -42,8 +41,6 @@ const ApplicationRouter: FC = () => {
         />
         <Route path="*" component={NotFound} />
       </Switch>
-
-      <Footer />
     </BrowserRouter>
   );
 };

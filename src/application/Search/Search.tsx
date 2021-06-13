@@ -18,7 +18,7 @@ import { InlineResponse200, SearchResponse } from "@developers-house/amelia";
 import { Helmet } from "react-helmet";
 import useQueryState from "@hooks/useQueryState";
 import { FunctionComponent } from "@typings/FunctionComponent";
-import { SuspenseComponent } from "@components/modules";
+import { SuspenseComponent, withNetwork } from "@components/modules";
 import classnames from "classnames";
 import styles from "./Search.module.scss";
 import "./Animations.scss";
@@ -261,4 +261,4 @@ const Search: FunctionComponent<HTMLDivElement> = () => {
   );
 };
 
-export default Search;
+export default withNetwork(Search);

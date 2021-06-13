@@ -3,7 +3,7 @@ import { manageAuth } from "@lib/manageAuthentication";
 import { useTranslation } from "react-i18next";
 import useAccount from "@hooks/useAccount";
 import { useHistory } from "react-router";
-import { SuspenseComponent } from "@components/modules";
+import { SuspenseComponent, withNetwork } from "@components/modules";
 import { FunctionComponent } from "@typings/FunctionComponent";
 
 const Login: FunctionComponent<HTMLDivElement> = () => {
@@ -23,4 +23,4 @@ const Login: FunctionComponent<HTMLDivElement> = () => {
   return <SuspenseComponent customText={t("message")} />;
 };
 
-export default Login;
+export default withNetwork(Login);

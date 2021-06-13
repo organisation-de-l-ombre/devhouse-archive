@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { FaPlay } from "react-icons/fa";
 import { IoMdPause } from "react-icons/io";
 import YouTube from "react-youtube";
-import { useTranslation } from "react-i18next";
 import { css } from "@emotion/react";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import Modal from "../Modal/Modal";
@@ -40,7 +39,6 @@ const YouTubePlayer: FunctionComponent<
     autoClose?: boolean;
   }
 > = ({ title, videoID, autoPlay, open, setOpen, autoClose }) => {
-  const { t } = useTranslation("components\\ui\\youtubePlayer\\youtubePlayer");
   const { width, height } = getPlayerDimensions();
   const [dimensions, setDimensions] = useState<PlayerDimensions>({
     width,
@@ -54,18 +52,6 @@ const YouTubePlayer: FunctionComponent<
       height: newHeight,
     });
   }, []);
-
-  useEffect((): void => {
-    if (!open) {
-      return;
-    }
-
-    if (!window.navigator.onLine) {
-      setOpen(!open);
-      alert(t("deviceOffline"));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, window.navigator.onLine]);
 
   useEffect((): (() => void) => {
     window.addEventListener("resize", handleResize);
@@ -92,10 +78,6 @@ const YouTubePlayer: FunctionComponent<
   const handleStateChange = useCallback((playing: boolean): void => {
     setIsPlaying(playing);
   }, []);
-
-  if (!window.navigator.onLine) {
-    return null;
-  }
 
   return (
     <Modal

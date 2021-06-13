@@ -8,6 +8,7 @@ import {
   BackToTop,
   SuspenseComponent,
   ErrorComponent,
+  withNetwork,
 } from "@components/modules";
 import { MovieDataAPI, fetchOptions } from "@lib/api";
 import { useQuery, UseQueryResult } from "react-query";
@@ -63,4 +64,4 @@ const MovieRoot: FC<RouteComponentProps> = ({ match }) => {
   );
 };
 
-export default MovieRoot;
+export default withNetwork(MovieRoot);

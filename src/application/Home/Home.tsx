@@ -5,7 +5,7 @@ import { MdWork } from "react-icons/md";
 import { RiMessage2Fill } from "react-icons/ri";
 import { FlexContainer, ButtonsGroup, ButtonLink } from "@components/ui";
 import globalStyles from "@styles/Global.module.scss";
-import { BackToTop } from "@components/modules";
+import { BackToTop, withFooter } from "@components/modules";
 import { useSpring, animated } from "react-spring";
 import { Helmet } from "react-helmet";
 import { FunctionComponent } from "@typings/FunctionComponent";
@@ -103,4 +103,4 @@ const Home: FunctionComponent<HTMLDivElement> = () => {
   );
 };
 
-export default Home;
+export default withFooter(Home);

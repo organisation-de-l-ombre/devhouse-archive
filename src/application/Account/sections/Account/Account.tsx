@@ -16,6 +16,7 @@ import {
 import { FaEdit } from "react-icons/fa";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { FunctionComponent } from "@typings/FunctionComponent";
+import { withNetwork } from "@components/modules";
 import containerStyle from "../../Containers.module.scss";
 
 const Account: FunctionComponent<HTMLDivElement> = () => {
@@ -123,4 +124,4 @@ const Account: FunctionComponent<HTMLDivElement> = () => {
   );
 };
 
-export default Account;
+export default withNetwork(Account);

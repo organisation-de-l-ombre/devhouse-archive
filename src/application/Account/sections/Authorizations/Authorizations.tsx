@@ -12,7 +12,7 @@ import {
   ButtonsGroup,
   CardContainer,
 } from "@components/ui";
-import { ErrorComponent } from "@components/modules";
+import { ErrorComponent, withNetwork } from "@components/modules";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import globalStyles from "@styles/Global.module.scss";
 import AuthorizationCard from "./AuthorizationCard";
@@ -106,4 +106,4 @@ const Authorizations: FunctionComponent<HTMLDivElement> = () => {
   );
 };
 
-export default Authorizations;
+export default withNetwork(Authorizations);
