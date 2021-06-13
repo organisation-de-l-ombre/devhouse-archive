@@ -66,16 +66,19 @@ const useNotificationsPreferences = (): NotificationsPreferencesHook => {
       choice,
       setNotificationsWindowOpen: Dispatch<SetStateAction<boolean>>
     ): void => {
+      if (firstUse) {
+        toggleFirstUse();
+      }
+
       if (choice === allowNotifications && !firstUse) {
         alert(t("invalidPreference"));
         return;
       }
 
-      if (firstUse) {
-        toggleFirstUse();
+      if (choice !== allowNotifications) {
+        updatePreference();
       }
 
-      updatePreference();
       addNotifications([
         {
           type: "info",

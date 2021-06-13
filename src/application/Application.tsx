@@ -19,6 +19,8 @@ import generateNotificationID from "@lib/generateNotificationID";
 import BodyContext from "@contexts/body";
 import classnames from "classnames";
 import { useClient } from "@hooks/useInternal";
+import { Globals } from "react-spring";
+import useReducedMotion from "@hooks/useReducedMotion";
 
 const queryClient: QueryClient = new QueryClient();
 
@@ -28,6 +30,7 @@ const Application: FC = () => {
   const { language } = useLanguage();
   const { addNotifications } = useNotificationsManager();
   const { t } = useTranslation("components\\ui\\languageModal\\languageModal");
+  const prefersReducedMotion = useReducedMotion();
   const [scroll, setScroll] = useState<boolean>(true);
   const { theme, contrastMode } = useTheme();
   const { firstUse } = useNotificationsState();
@@ -35,17 +38,16 @@ const Application: FC = () => {
 
   useEffect((): void => {
     setClientID();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect((): void => {
     setPageLoaded(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     i18n.changeLanguage(language).then((): void => {
       if (pageLoaded) {
-        window.scrollTo({ top: 0 });
+        if (process.env.NODE_ENV === "production") {
+          window.scrollTo({ top: 0 });
+        }
 
         addNotifications([
           {
@@ -59,6 +61,12 @@ const Application: FC = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [language]);
+
+  useEffect(() => {
+    Globals.assign({
+      skipAnimation: prefersReducedMotion,
+    });
+  }, [prefersReducedMotion]);
 
   useEffect(() => {
     document.body.className = classnames(

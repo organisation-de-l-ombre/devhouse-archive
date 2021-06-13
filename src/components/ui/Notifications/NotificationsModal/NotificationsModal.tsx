@@ -1,10 +1,7 @@
-import React, { Dispatch, SetStateAction, useCallback } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { useTranslation, Trans } from "react-i18next";
 import { FaBell } from "react-icons/fa";
-import {
-  useNotificationsPreferences,
-  useNotificationsState,
-} from "@hooks/useNotifications";
+import { useNotificationsPreferences } from "@hooks/useNotifications";
 import { Modal, Button, ButtonsGroup } from "@components/ui";
 import { FunctionComponent } from "@typings/FunctionComponent";
 
@@ -22,21 +19,7 @@ const NotificationsModal: FunctionComponent<
   const { t } = useTranslation(
     "components\\ui\\notifications\\notificationsModal"
   );
-  const { firstUse, allowNotifications } = useNotificationsState();
-  const { toggleFirstUse, validateChoice } = useNotificationsPreferences();
-  const validate = useCallback(
-    (choice: boolean): void => {
-      if (firstUse && !allowNotifications) {
-        toggleFirstUse();
-        setOpen(false);
-
-        return;
-      }
-
-      validateChoice(choice, setOpen);
-    },
-    [allowNotifications, firstUse, setOpen, toggleFirstUse, validateChoice]
-  );
+  const { validateChoice } = useNotificationsPreferences();
 
   return (
     <Modal
@@ -49,10 +32,16 @@ const NotificationsModal: FunctionComponent<
         <Trans t={t} i18nKey="description" />
       </p>
       <ButtonsGroup expand css={{ alignSelf: "center" }}>
-        <Button css={buttonStyles} onClick={() => validate(true)}>
+        <Button
+          css={buttonStyles}
+          onClick={() => validateChoice(true, setOpen)}
+        >
           <Trans t={t} i18nKey="options.yes" />
         </Button>
-        <Button css={buttonStyles} onClick={() => validate(false)}>
+        <Button
+          css={buttonStyles}
+          onClick={() => validateChoice(false, setOpen)}
+        >
           <Trans t={t} i18nKey="options.no" />
         </Button>
       </ButtonsGroup>
