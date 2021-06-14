@@ -1,11 +1,7 @@
 import React from "react";
 import { useRouteMatch } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
-import {
-  Sidebar,
-  SidebarItem,
-  SidebarSection,
-} from "@components/modules/Sidebar";
+import { Sidebar, SidebarItem, SidebarSection } from "@components/modules";
 import useAccount from "@hooks/useAccount";
 import { getAvatar } from "@lib/manageAuthentication";
 import { FunctionComponent } from "@typings/FunctionComponent";

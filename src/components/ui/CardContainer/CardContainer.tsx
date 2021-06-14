@@ -1,15 +1,17 @@
 import React from "react";
 import { css } from "@emotion/react";
-import classnames from "classnames";
 import { FunctionComponent } from "@typings/FunctionComponent";
 
-const CardContainer: FunctionComponent<
-  HTMLDivElement,
-  {
-    noMargin?: boolean;
-    direction: "inline" | "column";
-  }
-> = ({ noMargin, direction, className, ...props }) => {
+interface CardContainerProps {
+  noMargin?: boolean;
+  direction: "inline" | "column";
+}
+
+const CardContainer: FunctionComponent<HTMLDivElement, CardContainerProps> = ({
+  noMargin,
+  direction,
+  ...props
+}) => {
   return (
     <div
       css={css`
@@ -33,7 +35,6 @@ const CardContainer: FunctionComponent<
           `}
         }
       `}
-      className={classnames(className)}
       {...props}
     />
   );

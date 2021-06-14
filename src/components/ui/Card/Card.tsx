@@ -1,16 +1,19 @@
 import React from "react";
 import { css } from "@emotion/react";
-import classnames from "classnames";
 import { FunctionComponent } from "@typings/FunctionComponent";
 
-const Card: FunctionComponent<
-  HTMLDivElement,
-  {
-    maxWidth?: boolean;
-    noPadding?: boolean;
-    transparent?: boolean;
-  }
-> = ({ maxWidth, noPadding, transparent, className, ...props }) => {
+interface CardProps {
+  maxWidth?: boolean;
+  noPadding?: boolean;
+  transparent?: boolean;
+}
+
+const Card: FunctionComponent<HTMLDivElement, CardProps> = ({
+  maxWidth,
+  noPadding,
+  transparent,
+  ...props
+}) => {
   return (
     <div
       css={css`
@@ -33,7 +36,6 @@ const Card: FunctionComponent<
             : "var(--secondary-background-color)"};
         }
       `}
-      className={classnames(className)}
       {...props}
     />
   );

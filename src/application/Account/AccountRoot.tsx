@@ -6,7 +6,7 @@ import BackToTop from "@components/modules/BackToTop/BackToTop";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import useSidebar from "@hooks/useSidebar";
-import { SidebarContainer } from "@components/modules/Sidebar";
+import { SidebarContainer } from "@components/modules";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import Sidebar from "./modules/InternalNavigation/InternalNavigation";
 import Router from "./modules/Router/Router";

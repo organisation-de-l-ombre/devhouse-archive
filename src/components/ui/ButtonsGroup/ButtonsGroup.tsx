@@ -2,14 +2,18 @@ import React from "react";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import { css } from "@emotion/react";
 
-const ButtonsGroup: FunctionComponent<
-  HTMLDivElement,
-  {
-    genericMarginTop?: boolean;
-    minimal?: boolean;
-    expand?: boolean;
-  }
-> = ({ genericMarginTop, minimal, expand, ...props }) => {
+interface ButtonsGroupProps {
+  genericMarginTop?: boolean;
+  minimal?: boolean;
+  expand?: boolean;
+}
+
+const ButtonsGroup: FunctionComponent<HTMLDivElement, ButtonsGroupProps> = ({
+  genericMarginTop,
+  minimal,
+  expand,
+  ...props
+}) => {
   return (
     <div
       css={css`

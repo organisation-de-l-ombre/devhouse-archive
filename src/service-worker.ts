@@ -9,7 +9,7 @@ declare const self: ServiceWorkerGlobalScope;
 // eslint-disable-next-line no-restricted-globals,no-underscore-dangle,@typescript-eslint/no-explicit-any
 precacheAndRoute((self as any).__WB_MANIFEST);
 
-const runtimeCache: string[] = ["/locales", "/fonts"];
+const runtimeCache: string[] = ["/locales", "/fonts", "/favicon.ico"];
 
 registerRoute(
   ({ url }) =>

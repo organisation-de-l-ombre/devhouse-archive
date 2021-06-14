@@ -1,23 +1,23 @@
 import React from "react";
-import styles from "./List.module.scss";
+import { css } from "@emotion/react";
+import { FunctionComponent } from "@typings/FunctionComponent";
 
-const List: React.FC<
-  React.DetailedHTMLProps<
-    React.AllHTMLAttributes<HTMLUListElement>,
-    HTMLUListElement
-  > & { items?: string[] }
-> = ({ className, children, items, ...props }) => {
+interface ListOptions {
+  genericMarginTop?: boolean;
+}
+
+const List: FunctionComponent<HTMLUListElement, ListOptions> = ({
+  genericMarginTop,
+  ...props
+}) => {
   return (
     <ul
-      className={`${styles.list}${className ? ` ${className}` : ""}`}
+      css={css`
+        ${genericMarginTop && "margin-top: 1rem;"}
+        list-style: inside;
+      `}
       {...props}
-    >
-      {items
-        ? items.map((item: string): React.ReactElement => {
-            return <li key={item}>{item}</li>;
-          })
-        : children}
-    </ul>
+    />
   );
 };
 

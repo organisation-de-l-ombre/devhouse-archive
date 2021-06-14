@@ -1,28 +1,26 @@
 import React from "react";
 import { css } from "@emotion/react";
 import { FunctionComponent } from "@typings/FunctionComponent";
-import classnames from "classnames";
 
-const FlexContainer: FunctionComponent<
-  HTMLDivElement,
-  {
-    widthFull?: boolean;
-    maxWidth?: boolean;
-    heightFull?: boolean;
-    minHeight?: boolean;
-    maxHeight?: boolean;
-    genericMarginTop?: boolean;
-    padding?: boolean;
-    expand?: boolean;
-    pageBodyWidth?: boolean;
-    column?: boolean;
-    allowWrap?: boolean;
-    fullCentered?: boolean;
-    horizontallyCentered?: boolean;
-    verticallyCentered?: boolean;
-    spaceBetween?: boolean;
-  }
-> = ({
+interface FlexContainerProps {
+  widthFull?: boolean;
+  maxWidth?: boolean;
+  heightFull?: boolean;
+  minHeight?: boolean;
+  maxHeight?: boolean;
+  genericMarginTop?: boolean;
+  padding?: boolean;
+  expand?: boolean;
+  pageBodyWidth?: boolean;
+  column?: boolean;
+  allowWrap?: boolean;
+  fullCentered?: boolean;
+  horizontallyCentered?: boolean;
+  verticallyCentered?: boolean;
+  spaceBetween?: boolean;
+}
+
+const FlexContainer: FunctionComponent<HTMLDivElement, FlexContainerProps> = ({
   widthFull,
   maxWidth,
   heightFull,
@@ -38,7 +36,6 @@ const FlexContainer: FunctionComponent<
   horizontallyCentered,
   verticallyCentered,
   spaceBetween,
-  className,
   ...props
 }) => {
   return (
@@ -76,7 +73,6 @@ const FlexContainer: FunctionComponent<
         (column ? "justify-content: center;" : "align-items: center;")}
         ${spaceBetween && "justify-content: space-between;"}
       `}
-      className={classnames(className)}
       {...props}
     />
   );

@@ -5,7 +5,6 @@ import styles from "./BackToTop.module.scss";
 
 const BackToTop: FunctionComponent<HTMLAnchorElement> = ({ href }) => {
   return (
-    // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <a
       className={styles.button}
       href={href || "#"}

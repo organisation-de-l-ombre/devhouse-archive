@@ -5,6 +5,7 @@ export * from "./Error/Error";
 export { default as withFooter } from "./withFooter/withFooter";
 export { default as Navbar } from "./Navbar/Navbar";
 export { default as NotFound } from "./NotFound/NotFound";
+export * from "./Sidebar/Sidebar";
 export * from "./Suspense/Suspense";
-export * from "./TabBar";
+export * from "./TabBar/TabBar";
 export { default as withNetwork } from "./WithNetwork/WithNetwork";

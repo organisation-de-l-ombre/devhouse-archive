@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import { FlexContainer } from "@components/ui";
-import { BackToTop, withNetwork } from "@components/modules";
-import { SidebarContainer } from "@components/modules/Sidebar";
+import { BackToTop, SidebarContainer, withNetwork } from "@components/modules";
 import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet";
 import useSidebar from "@hooks/useSidebar";

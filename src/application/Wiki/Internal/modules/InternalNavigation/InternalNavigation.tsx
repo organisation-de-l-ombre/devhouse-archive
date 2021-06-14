@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  Sidebar,
-  SidebarSection,
-  SidebarItem,
-} from "@components/modules/Sidebar";
+import { Sidebar, SidebarSection, SidebarItem } from "@components/modules";
 import { Trans, useTranslation } from "react-i18next";
 import { useRouteMatch } from "react-router-dom";
 import { FunctionComponent } from "@typings/FunctionComponent";
