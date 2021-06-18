@@ -2,9 +2,9 @@
    "type": "postgres",
    "host": "192.168.1.80",
    "port": 5432,
-   "username": "kylian",
-   "password": "Aglae2008#",
-   "database": "imr",
+   "username": "test",
+   "password": "test",
+   "database": "test",
    "synchronize": true,
    "logging": false,
    "entities": [
