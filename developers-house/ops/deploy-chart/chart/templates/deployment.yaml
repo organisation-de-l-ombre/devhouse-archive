@@ -20,7 +20,7 @@ spec:
         'consul.hashicorp.com/connect-inject': 'true'
         consul.hashicorp.com/connect-service-port: {{ .Values.service.internalPort }}
         consul.hashicorp.com/service-tags: {{ .Values.gitlab.env | quote }}
-        consul.hashicorp.com/connect-service: {{ .Values.gitlab.app | quote }}-{{ .Values.gitlab.env | quote }}
+        consul.hashicorp.com/connect-service: "{{ .Values.gitlab.app }}-{{ .Values.gitlab.env }}"
         app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
         app.gitlab.com/env: {{ .Values.gitlab.env | quote }}
         checksum/application-secrets: "{{ .Values.application.secretChecksum }}"
