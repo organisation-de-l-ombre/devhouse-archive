@@ -18,6 +18,9 @@ spec:
     metadata:
       annotations:
         'consul.hashicorp.com/connect-inject': 'true'
+        consul.hashicorp.com/connect-service-port: {{ .Values.service.internalPort }}
+        consul.hashicorp.com/service-tags: {{ .Values.gitlab.env | quote }}
+        consul.hashicorp.com/connect-service: {{ .Values.gitlab.app | quote }}-{{ .Values.gitlab.env | quote }}
         app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
         app.gitlab.com/env: {{ .Values.gitlab.env | quote }}
         checksum/application-secrets: "{{ .Values.application.secretChecksum }}"
@@ -33,7 +36,7 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ include "..fullname" . }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
