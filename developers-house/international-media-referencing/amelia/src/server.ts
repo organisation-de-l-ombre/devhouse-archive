@@ -62,7 +62,7 @@ new (class Amelia {
     forcePathStyle: true
   });
   externalS3Client: S3ClientBuilder = new S3ClientBuilder({
-    endpoint: "https://cdn.developershouse.xyz",
+    endpoint: "https://s3.developershouse.xyz",
     region: "eu",
     credentials: {
       accessKeyId: process.env.S3_ACCESS_KEY || "",
