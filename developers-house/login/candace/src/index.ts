@@ -70,4 +70,4 @@ server.get("/_healz", (request, response) => {
   void response.code(200).send();
 });
 
-void server.listen(5000);
+void server.listen(5000, "0.0.0.0");
