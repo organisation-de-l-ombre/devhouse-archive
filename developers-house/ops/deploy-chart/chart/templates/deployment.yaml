@@ -17,11 +17,7 @@ spec:
   template:
     metadata:
       annotations:
-        linkerd.io/inject: enabled
-        config.linkerd.io/proxy-cpu-limit: "1"
-        config.linkerd.io/proxy-cpu-request: "0.2"
-        config.linkerd.io/proxy-memory-limit: 2Gi
-        config.linkerd.io/proxy-memory-request: 128Mi
+        'consul.hashicorp.com/connect-inject': 'true'
         app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
         app.gitlab.com/env: {{ .Values.gitlab.env | quote }}
         checksum/application-secrets: "{{ .Values.application.secretChecksum }}"
