@@ -1,15 +1,21 @@
-import { ErrorComponent, SuspenseComponent } from "@components/modules";
 import { FunctionComponent } from "@typings/FunctionComponent";
-import React from "react";
+import React, { lazy } from "react";
 import { useTranslation } from "react-i18next";
-import SectionEmpty from "../SectionEmpty/SectionEmpty";
+
+const SuspenseComponent = lazy(
+  () => import("@components/modules/Suspense/SuspenseComponent")
+);
+const ErrorComponent = lazy(
+  () => import("@components/modules/Error/ErrorComponent")
+);
+const SectionEmpty = lazy(() => import("../SectionEmpty/SectionEmpty"));
 
 const HandleData: FunctionComponent<
   HTMLDivElement,
   {
     isFetching: boolean;
     section: string | undefined;
-    error: Response | null;
+    error: TypeError | Response | null;
   }
 > = ({ isFetching, section, error }) => {
   const { t } = useTranslation("pages\\movieTitle\\root");
@@ -28,11 +34,17 @@ const HandleData: FunctionComponent<
     return null;
   }
 
-  if (error && !section) {
+  if (error && error instanceof TypeError) {
+    return (
+      <ErrorComponent errorMessage={t("error.generic", { statusCode: 503 })} />
+    );
+  }
+
+  if (!section) {
     return <SectionEmpty />;
   }
 
-  if (error && error.status === 401) {
+  if (error && error instanceof Response && error.status === 401) {
     return <ErrorComponent errorMessage={t("error.unauthorized")} />;
   }
 

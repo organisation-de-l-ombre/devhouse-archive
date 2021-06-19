@@ -1,11 +1,14 @@
 export { default as ApplicationRouter } from "./ApplicationRouter/ApplicationRouter";
 export { default as BackToTop } from "./BackToTop/BackToTop";
 export { default as DisplayLanguageSVG } from "./DisplayLanguageSVG/DisplayLanguageSVG";
-export * from "./Error/Error";
+export { default as ErrorComponent } from "./Error/ErrorComponent";
+export { default as RootError } from "./Error/RootError";
+export { default as Image } from "./Image/Image";
 export { default as withFooter } from "./withFooter/withFooter";
 export { default as Navbar } from "./Navbar/Navbar";
 export { default as NotFound } from "./NotFound/NotFound";
 export * from "./Sidebar/Sidebar";
-export * from "./Suspense/Suspense";
+export { default as RootSuspense } from "./Suspense/RootSuspense";
+export { default as SuspenseComponent } from "./Suspense/SuspenseComponent";
 export * from "./TabBar/TabBar";
 export { default as withNetwork } from "./WithNetwork/WithNetwork";

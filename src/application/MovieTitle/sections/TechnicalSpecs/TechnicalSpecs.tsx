@@ -23,7 +23,7 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
     isFetching,
     error,
     data,
-  }: UseQueryResult<TechnicalSpecsSection, Response> = useQuery(
+  }: UseQueryResult<TechnicalSpecsSection, TypeError | Response> = useQuery(
     `movie-title/${dataResponse.body.id}/technical-specs`,
     (): Promise<TechnicalSpecsSection> => {
       return fetch(dataResponse.body.data.technicalSpecs || "").then(
@@ -66,8 +66,8 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
             <img
               src={fetchImage({
                 type: "image",
-                width: "270",
-                height: "155",
+                width: 270,
+                height: 155,
                 image: presentation.movieLogo,
               })}
               alt={`Movie logo of ${presentation.title}`}

@@ -51,16 +51,19 @@ const DisplaySVG: FunctionComponent<IconType, { type: string }> = ({
 const OST: ReactMovieElement = ({ dataResponse }) => {
   const { language } = useLanguage();
   const { t } = useTranslation("pages\\movieTitle\\ost");
-  const { isFetching, error, data }: UseQueryResult<OSTSection, Response> =
-    useQuery(
-      `movie-title/${dataResponse.body.id}/${language}/ost`,
-      (): Promise<OSTSection> => {
-        return fetch(dataResponse.body.data.ost || "").then(
-          (response: Response) => response.json()
-        );
-      },
-      fetchOptions
-    );
+  const {
+    isFetching,
+    error,
+    data,
+  }: UseQueryResult<OSTSection, TypeError | Response> = useQuery(
+    `movie-title/${dataResponse.body.id}/${language}/ost`,
+    (): Promise<OSTSection> => {
+      return fetch(dataResponse.body.data.ost || "").then(
+        (response: Response) => response.json()
+      );
+    },
+    fetchOptions
+  );
 
   const [playerOpen, setPlayerOpen] = useState<boolean>(false);
   const [video, setVideo] = useState<VideoObject>({
@@ -124,8 +127,8 @@ const OST: ReactMovieElement = ({ dataResponse }) => {
                   <img
                     src={fetchImage({
                       type: "image",
-                      width: "256",
-                      height: "256",
+                      width: 256,
+                      height: 256,
                       image: data.album.coverURL,
                     })}
                     alt={data.album.albumName}

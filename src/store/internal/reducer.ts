@@ -6,7 +6,7 @@ import {
 } from "./types";
 
 const internalState: InternalState = {
-  clientID: "",
+  clientID: "Invalid client ID",
   featuresFlags: [],
 };
 

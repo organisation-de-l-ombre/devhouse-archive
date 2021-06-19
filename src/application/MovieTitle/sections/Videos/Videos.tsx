@@ -28,7 +28,7 @@ const Videos: ReactMovieElement = ({ dataResponse }) => {
     isFetching,
     error,
     data,
-  }: UseQueryResult<VideosGlobalSection, Response> = useQuery(
+  }: UseQueryResult<VideosGlobalSection, TypeError | Response> = useQuery(
     `movie-title/${dataResponse.body.id}/${language}/videos`,
     (): Promise<VideosGlobalSection> => {
       return fetch(dataResponse.body.data.videos || "").then(

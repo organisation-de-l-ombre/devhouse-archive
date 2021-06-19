@@ -5,8 +5,8 @@ interface FetchImageBackground {
 
 interface FetchImage {
   type: "image";
-  width: string;
-  height: string;
+  width: number;
+  height: number;
   image: string;
 }
 

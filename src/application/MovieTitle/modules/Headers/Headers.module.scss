@@ -3,16 +3,6 @@
   position: relative;
   background-color: var(--media-headers-background-color);
 
-  .headers-background-image {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position-x: center;
-    opacity: var(--media-headers-background-opacity);
-  }
-
   .headers-no-background-image {
     width: 100%;
     height: 100%;
@@ -27,16 +17,7 @@
     position: relative;
 
     .movie-poster {
-      max-width: 270px;
-      max-height: 400px;
       margin: 4rem 2rem 0 0;
-
-      img {
-        width: 100%;
-        height: 100%;
-        border-radius: 5px;
-        box-shadow: 0 0 0.3rem black;
-      }
     }
 
     .headers-content {

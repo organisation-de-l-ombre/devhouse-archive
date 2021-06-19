@@ -1,15 +1,9 @@
-import React, { FC } from "react";
+import React, { FC, lazy } from "react";
 import { RouteComponentProps } from "react-router";
 import { useTranslation } from "react-i18next";
 import useLanguage from "@hooks/useLanguage";
 import { FlexContainer } from "@components/ui";
-import {
-  NotFound,
-  BackToTop,
-  SuspenseComponent,
-  ErrorComponent,
-  withNetwork,
-} from "@components/modules";
+import { BackToTop, withNetwork } from "@components/modules";
 import { MovieDataAPI, fetchOptions } from "@lib/api";
 import { useQuery, UseQueryResult } from "react-query";
 import { Helmet } from "react-helmet";
@@ -17,6 +11,14 @@ import { MovieDataResponse } from "@developers-house/amelia";
 import Headers from "./modules/Headers/Headers";
 import InternalNavigation from "./modules/InternalNavigation/InternalNavigation";
 import Router from "./modules/Router/Router";
+
+const SuspenseComponent = lazy(
+  () => import("@components/modules/Suspense/SuspenseComponent")
+);
+const ErrorComponent = lazy(
+  () => import("@components/modules/Error/ErrorComponent")
+);
+const NotFound = lazy(() => import("@components/modules/NotFound/NotFound"));
 
 const MovieRoot: FC<RouteComponentProps> = ({ match }) => {
   const { language } = useLanguage();
@@ -26,7 +28,7 @@ const MovieRoot: FC<RouteComponentProps> = ({ match }) => {
     error,
     isFetching,
     data,
-  }: UseQueryResult<MovieDataResponse, Response> = useQuery(
+  }: UseQueryResult<MovieDataResponse, TypeError | Response> = useQuery(
     `movie-title/${params.title}/${language}/root`,
     (): Promise<MovieDataResponse> => {
       return MovieDataAPI.getMovieData({
@@ -41,13 +43,19 @@ const MovieRoot: FC<RouteComponentProps> = ({ match }) => {
     return <SuspenseComponent minHeight customText={t("fetchingData")} />;
   }
 
-  if (error && error.status !== 404) {
+  if (error && error instanceof TypeError) {
+    return (
+      <ErrorComponent errorMessage={t("error.generic", { statusCode: 503 })} />
+    );
+  }
+
+  if (error && error instanceof Response && error.status !== 404) {
     return (
       <ErrorComponent errorMessage={t("error", { statusCode: error.status })} />
     );
   }
 
-  if ((error && error.status === 404) || !data) {
+  if ((error && error instanceof Response && error.status === 404) || !data) {
     return <NotFound />;
   }
 

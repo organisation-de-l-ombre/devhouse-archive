@@ -21,16 +21,19 @@ import {
 
 const Movie: ReactMovieElement = ({ dataResponse }) => {
   const { language } = useLanguage();
-  const { isFetching, error, data }: UseQueryResult<GenericSection, Response> =
-    useQuery(
-      `movie-title/${dataResponse.body.id}/${language}/movie`,
-      (): Promise<GenericSection> => {
-        return fetch(dataResponse.body.data.movie).then((response: Response) =>
-          response.json()
-        );
-      },
-      fetchOptions
-    );
+  const {
+    isFetching,
+    error,
+    data,
+  }: UseQueryResult<GenericSection, TypeError | Response> = useQuery(
+    `movie-title/${dataResponse.body.id}/${language}/movie`,
+    (): Promise<GenericSection> => {
+      return fetch(dataResponse.body.data.movie).then((response: Response) =>
+        response.json()
+      );
+    },
+    fetchOptions
+  );
 
   if (isFetching || error) {
     return (

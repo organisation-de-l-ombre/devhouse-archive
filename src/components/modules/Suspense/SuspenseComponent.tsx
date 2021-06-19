@@ -3,16 +3,6 @@ import { useTranslation } from "react-i18next";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import { FlexContainer, GenericLoader } from "../../ui";
 
-const RootSuspense: FunctionComponent<HTMLDivElement> = () => {
-  return (
-    <FlexContainer minHeight padding expand fullCentered>
-      <GenericLoader centered>
-        Loading the resource you requested...
-      </GenericLoader>
-    </FlexContainer>
-  );
-};
-
 const SuspenseComponent: FunctionComponent<
   HTMLDivElement,
   {
@@ -36,4 +26,4 @@ const SuspenseComponent: FunctionComponent<
   );
 };
 
-export { RootSuspense, SuspenseComponent };
+export default SuspenseComponent;
