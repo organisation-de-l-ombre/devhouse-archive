@@ -20,7 +20,7 @@ spec:
         'consul.hashicorp.com/connect-inject': 'true'
         consul.hashicorp.com/connect-service-port: "{{ .Values.service.internalPort }}"
         consul.hashicorp.com/service-tags: {{ .Values.gitlab.env | quote }}
-        consul.hashicorp.com/connect-service: "{{ .Values.gitlab.app }}-{{ .Values.gitlab.env }}"
+        consul.hashicorp.com/connect-service: "{{ .Values.gitlab.app }}"
         app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
         app.gitlab.com/env: {{ .Values.gitlab.env | quote }}
         checksum/application-secrets: "{{ .Values.application.secretChecksum }}"
@@ -55,12 +55,6 @@ spec:
           {{- if .Values.oauthClient.enabled }}
             - secretRef:
                 name: oauth-client-{{ include "..fullname" . }}
-          {{- end }}
-          {{- if .Values.storageBucket.enabled }}
-            - secretRef:
-                name: bucket-{{ include "..fullname" . }}
-            - configMapRef:
-                name: bucket-{{ include "..fullname" . }}
           {{- end }}
           ports:
             - name: {{ .Values.service.name }}
