@@ -7,6 +7,7 @@ include:
     ref: master
     file: 'kaniko.gitlab-ci.yml'
 variables:
+  AUTO_DEVOPS_CHART_REPOSITORY: 'https://charts.helm.sh/stable'
   HELM_UPGRADE_VALUES_FILE: 'deploy.yaml'
   TEST_DISABLED: 'true'
   PERFORMANCE_DISABLED: 'true'
