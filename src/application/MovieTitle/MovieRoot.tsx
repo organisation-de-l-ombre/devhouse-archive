@@ -3,14 +3,11 @@ import { RouteComponentProps } from "react-router";
 import { useTranslation } from "react-i18next";
 import useLanguage from "@hooks/useLanguage";
 import { FlexContainer } from "@components/ui";
-import { BackToTop, withNetwork } from "@components/modules";
+import { withNetwork } from "@components/modules";
 import { MovieDataAPI, fetchOptions } from "@lib/api";
 import { useQuery, UseQueryResult } from "react-query";
 import { Helmet } from "react-helmet";
 import { MovieDataResponse } from "@developers-house/amelia";
-import Headers from "./modules/Headers/Headers";
-import InternalNavigation from "./modules/InternalNavigation/InternalNavigation";
-import Router from "./modules/Router/Router";
 
 const SuspenseComponent = lazy(
   () => import("@components/modules/Suspense/SuspenseComponent")
@@ -19,6 +16,12 @@ const ErrorComponent = lazy(
   () => import("@components/modules/Error/ErrorComponent")
 );
 const NotFound = lazy(() => import("@components/modules/NotFound/NotFound"));
+const Headers = lazy(() => import("./modules/Headers/Headers"));
+const InternalNavigation = lazy(
+  () => import("./modules/InternalNavigation/InternalNavigation")
+);
+const BackToTop = lazy(() => import("@components/modules/BackToTop/BackToTop"));
+const Router = lazy(() => import("./modules/Router/Router"));
 
 const MovieRoot: FC<RouteComponentProps> = ({ match }) => {
   const { language } = useLanguage();

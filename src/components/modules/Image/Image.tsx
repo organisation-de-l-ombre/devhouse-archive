@@ -44,6 +44,7 @@ const Image: FunctionComponent<HTMLDivElement, ImageProps> = ({
         img {
           width: 100%;
           height: 100%;
+          font-size: 18px;
         }
       `}
       {...props}
@@ -52,11 +53,13 @@ const Image: FunctionComponent<HTMLDivElement, ImageProps> = ({
         src={placeholder}
         alt={alt}
         ref={placeholderRef}
+        onError={loadSuccessful}
         css={{ filter: "blur(5px)" }}
       />
       <img
         src={image}
         alt={alt}
+        onError={loadSuccessful}
         onLoad={loadSuccessful}
         css={css`
           ${!loaded && "filter: blur(5px);"}

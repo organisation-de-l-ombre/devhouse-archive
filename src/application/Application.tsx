@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, lazy, useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
@@ -9,9 +9,9 @@ import {
   useNotificationsState,
 } from "@hooks/useNotifications";
 import themes from "@styles/Themes.module.scss";
-import { NotificationsGroup, NotificationsModal } from "@components/ui";
+import { NotificationsGroup } from "@components/ui";
 import i18n from "@lib/i18n";
-import { RootError, ApplicationRouter } from "@components/modules";
+import { ApplicationRouter } from "@components/modules";
 import { Helmet } from "react-helmet";
 import globalStyles from "@styles/Global.module.scss";
 import { I18nextProvider, useTranslation } from "react-i18next";
@@ -21,6 +21,12 @@ import classnames from "classnames";
 import { useClient } from "@hooks/useInternal";
 import { Globals } from "react-spring";
 import useReducedMotion from "@hooks/useReducedMotion";
+
+const RootError = lazy(() => import("@components/modules/Error/RootError"));
+const NotificationsModal = lazy(
+  () =>
+    import("@components/ui/Notifications/NotificationsModal/NotificationsModal")
+);
 
 const queryClient: QueryClient = new QueryClient();
 
@@ -85,11 +91,7 @@ const Application: FC = () => {
             <title>IMR</title>
           </Helmet>
           <QueryClientProvider client={queryClient}>
-            {firstUse ? (
-              <NotificationsModal open={open} setOpen={setOpen} />
-            ) : (
-              <></>
-            )}
+            {firstUse && <NotificationsModal open={open} setOpen={setOpen} />}
             <NotificationsGroup />
             <ApplicationRouter />
             <ReactQueryDevtools

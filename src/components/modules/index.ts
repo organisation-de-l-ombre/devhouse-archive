@@ -11,4 +11,4 @@ export * from "./Sidebar/Sidebar";
 export { default as RootSuspense } from "./Suspense/RootSuspense";
 export { default as SuspenseComponent } from "./Suspense/SuspenseComponent";
 export * from "./TabBar/TabBar";
-export { default as withNetwork } from "./WithNetwork/WithNetwork";
+export { default as withNetwork } from "./withNetwork/withNetwork";

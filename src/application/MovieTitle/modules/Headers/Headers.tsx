@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { lazy, useState } from "react";
 import { FaPlay, MdMovie } from "react-icons/all";
 import detectMobileDevice from "@lib/detectMobileDevice";
 import useLanguage from "@hooks/useLanguage";
@@ -6,26 +6,43 @@ import {
   FlexContainer,
   ButtonLink,
   Button,
-  YouTubePlayer,
   ButtonsGroup,
 } from "@components/ui";
 import { Trans, useTranslation } from "react-i18next";
 import { useQuery, UseQueryResult } from "react-query";
 import fetchOptions from "@lib/api/fetchOptions";
-import {
-  SuspenseComponent,
-  Image as ImageComponent,
-} from "@components/modules";
+import { SuspenseComponent } from "@components/modules";
 import fetchImage from "@lib/fetchImage";
 import { css } from "@emotion/react";
 import styles from "./Headers.module.scss";
 import containerStyle from "../../Containers.module.scss";
 import { ReactMovieElement, MovieHeadersSection } from "../../types";
 
-interface PosterDimensions {
-  width: number;
-  height: number;
+const YouTubePlayer = lazy(
+  () => import("@components/ui/YouTubePlayer/YouTubePlayer")
+);
+const ImageComponent = lazy(() => import("@components/modules/Image/Image"));
+
+interface BackgroundDimensions {
+  backgroundWidth?: number;
+  backgroundHeight?: number;
 }
+
+interface PosterDimensions {
+  posterWidth: number;
+  posterHeight: number;
+}
+
+const calculateBackgroundDimensions = (): BackgroundDimensions => {
+  if (window.innerWidth > 400) {
+    return {};
+  }
+
+  return {
+    backgroundWidth: 400,
+    backgroundHeight: 1000,
+  };
+};
 
 const calculatePosterDimensions = (): PosterDimensions => {
   const initialWidth = 270;
@@ -33,14 +50,14 @@ const calculatePosterDimensions = (): PosterDimensions => {
   const ratio = 270 / 400;
 
   if (window.innerWidth > 400) {
-    return { width: initialWidth, height: initialHeight };
+    return { posterWidth: initialWidth, posterHeight: initialHeight };
   }
 
-  const width = Math.ceil((40 / 100) * window.innerWidth);
+  const posterWidth = Math.ceil((40 / 100) * window.innerWidth);
 
   return {
-    width,
-    height: Math.ceil(width * (1 / ratio)),
+    posterWidth,
+    posterHeight: Math.ceil(posterWidth * (1 / ratio)),
   };
 };
 
@@ -63,8 +80,10 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
     },
     fetchOptions
   );
-  const { width, height } = calculatePosterDimensions();
   const [backgroundLoaded, setBackgoundLoaded] = useState<boolean>(false);
+  const [backgroundError, setBackgroundError] = useState<boolean>(false);
+  const { backgroundWidth, backgroundHeight } = calculateBackgroundDimensions();
+  const { posterWidth, posterHeight } = calculatePosterDimensions();
 
   if (isFetching) {
     return <SuspenseComponent customText={tRoot("fetchingData")} />;
@@ -78,7 +97,16 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
 
   if (data.backgroundImage) {
     background = new Image();
-    background.src = data.backgroundImage;
+    background.src = fetchImage({
+      type: "background",
+      width: backgroundWidth,
+      height: backgroundHeight,
+      image: data.backgroundImage,
+    });
+    background.onerror = (): void => {
+      setBackgoundLoaded(true);
+      setBackgroundError(true);
+    };
     background.onload = (): void => {
       setBackgoundLoaded(true);
     };
@@ -111,8 +139,13 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
               background-repeat: no-repeat;
               background-position-x: center;
               opacity: var(--media-headers-background-opacity);
+              ${Boolean(backgroundError && backgroundLoaded) &&
+              `
+                background-color: var(--media-headers-primary-background-color);
+                opacity: 0.6;
+              `}
               ${!backgroundLoaded && "filter: blur(5px);"}
-              transition: filter 0.5s;
+              transition: background-color 0.5s, opacity 0.5s, filter 0.5s;
             `}
           />
         ) : (
@@ -133,18 +166,18 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
               placeholder={fetchImage({
                 type: "image",
                 image: data.moviePoster,
-                width: width / 5,
-                height: height / 5,
+                width: Math.ceil(posterWidth / 5),
+                height: Math.ceil(posterHeight / 5),
               })}
               image={fetchImage({
                 type: "image",
                 image: data.moviePoster,
-                width,
-                height,
+                width: posterWidth,
+                height: posterHeight,
               })}
               alt={dataResponse.body.title}
-              width={width}
-              height={height}
+              width={posterWidth}
+              height={posterHeight}
               className={styles["movie-poster"]}
             />
           )}
