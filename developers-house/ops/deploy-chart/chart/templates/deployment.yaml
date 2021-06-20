@@ -32,7 +32,7 @@ spec:
     spec:
       imagePullSecrets:
 {{ toYaml .Values.image.secrets | indent 10 }}
-      serviceAccountName: {{ include "..serviceAccountName" . }}
+      serviceAccountName: {{ .Values.gitlab.app }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
