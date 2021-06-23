@@ -11,7 +11,7 @@ import {
 import { FunctionComponent } from "@typings/FunctionComponent";
 
 const SectionEmpty: FunctionComponent<HTMLDivElement> = () => {
-  const { t } = useTranslation("pages\\movieTitle\\root");
+  const { t } = useTranslation("pages\\movieTitle\\movieTitle");
 
   return (
     <FlexContainer minHeight padding pageBodyWidth fullCentered>

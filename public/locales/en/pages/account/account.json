@@ -1,0 +1,81 @@
+{
+  "pageTitle": "User account - IMR",
+  "sidebar": {
+    "account": "Account",
+    "authorizations": "Authorizations",
+    "settings": "Settings"
+  },
+  "account": {
+    "yes": "Yes",
+    "no": "No",
+    "devHouse": {
+      "title": "Developer's House account",
+      "username": "Username",
+      "id": "ID",
+      "dataCollection": "Data collection",
+      "premiumAccess": "Premium access",
+      "editAccount": "Edit account",
+      "logout": "Logout",
+      "loggedOut": "You have been successfully logged out."
+    },
+    "imr": {
+      "title": "IMR account",
+      "notImplemented": "This website is a preview of the final version. All functionalities are not implemented yet, please be patient!"
+    }
+  },
+  "authorizations": {
+    "error": "Failed to fetch authorizations from the server. The server returned an error with status code {{statusCode}}.",
+    "statusTitle": "Data status",
+    "buttons": {
+      "status": {
+        "fetching": "Fetching...",
+        "fetched": "Fetched"
+      },
+      "refresh": "Refresh"
+    },
+    "authorization": {
+      "grantedAt": "Authorization creation date",
+      "unknownDate": "Unknown date",
+      "scopes": "Scopes",
+      "audiences": "Audiences"
+    },
+    "deleteAuthorization": {
+      "button": "Revoke",
+      "confirmation": "Are you sure to want to delete this authorization?"
+    },
+    "noData": {
+      "title": "No data available",
+      "description": "Your data are not reachable... Please reload the page or check your internet connection."
+    },
+    "hooks": {
+      "error": "An error occurred, please try again.",
+      "authorizationDeleted": "The authorization has been removed."
+    }
+  },
+  "settings": {
+    "websiteParameters": {
+      "title": "Website preferences",
+      "theme": {
+        "title": "Colors theme",
+        "themeChanged": {
+          "dark": "The website has been switched to dark mode.",
+          "light": "The website has been switched to light mode."
+        }
+      },
+      "contrastMode": {
+        "title": "High contrast",
+        "error": "High contrast mode does not exist for this colors theme.",
+        "enabled": "High contrast mode has been enabled.",
+        "disabled": "High contrast mode has been disabled."
+      },
+      "notifications": {
+        "title": "Notifications activation",
+        "preferencesUpdated": "Your preferences have been updated."
+      },
+      "language": {
+        "title": "Language preference",
+        "button": "Change language language"
+      }
+    }
+  }
+}

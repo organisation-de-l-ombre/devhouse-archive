@@ -1,0 +1,68 @@
+{
+  "tabBar": {
+    "movie": "Movie",
+    "casting": "Casting",
+    "characters": "Characters",
+    "videos": "Videos",
+    "ost": "Original soundtrack",
+    "technicalSpecs": "Technical specs"
+  },
+  "headers": {
+    "trailerWindowTitle": "trailer",
+    "buttons": {
+      "watch": "Watch",
+      "trailer": "Trailer"
+    }
+  },
+  "ost": {
+    "duration": "Duration: {{duration}}",
+    "timeline": "Timeline in the movie: {{timeline}}",
+    "characters": "Character: {{characters}}",
+    "characters_plural": "Characters: {{characters}}",
+    "watchVideo": "Watch video",
+    "lyrics": "Lyrics"
+  },
+  "technicalSpecs": {
+    "presentation": {
+      "title": "Title",
+      "VOTitle": "Original title",
+      "originalCountry": "Original country",
+      "duration": "Duration",
+      "type": "Type",
+      "case": "Case",
+      "distributors": "Distributor",
+      "distributor_plural": "Distributors",
+      "productionStart": "Production start year",
+      "productionRelease": "Production end year",
+      "releaseDate": "Release date",
+      "budget": "Budget",
+      "boxOffice": "Box office",
+      "directors": "Director",
+      "directors_plural": "Directors",
+      "producers": "Producer",
+      "producers_plural": "Producers",
+      "screenWriters": "Screen writer",
+      "screenWriter_plural": "Screen writers",
+      "mainActors": "Main actor",
+      "mainActors_plural": "Main actors",
+      "movieChronologicalFranchise": "Franchise (chronological order)",
+      "movieLogicalFranchise": "Franchise (logical order)"
+    },
+    "movieSpecs": {
+      "sectionTitle": "Cinematographic specifications",
+      "movieFormat": "Movie format",
+      "cinematographicProcess": "Cinematographic process",
+      "formatType": "Format type",
+      "colorimetry": "Colorimetry",
+      "imageDefinition": "Image definition",
+      "soundDefinition": "Audio definition",
+      "aspectRatio": "Aspect ratio"
+    }
+  },
+  "sectionEmpty": {
+    "message": "This section does not have any content yet. If you want to improve the content of this movie page and to add new things, do not hesitate, your precious help is welcome!",
+    "buttons": {
+      "edit": "Edit this section"
+    }
+  }
+}

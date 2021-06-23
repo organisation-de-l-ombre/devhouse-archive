@@ -27,7 +27,7 @@ import containerStyle from "../../Containers.module.scss";
 import "./Toggle.scss";
 
 const Settings: FunctionComponent<HTMLDivElement> = () => {
-  const { t } = useTranslation("pages\\account\\sections\\settings");
+  const { t } = useTranslation("pages\\account\\account");
   const { addNotifications } = useNotificationsManager();
   const { theme, contrastMode, switchTheme, toggleContrastMode } = useTheme();
   const { allowNotifications } = useNotificationsState();
@@ -40,7 +40,7 @@ const Settings: FunctionComponent<HTMLDivElement> = () => {
         id: generateNotificationID(),
         type: "info",
         body: t(
-          `websiteParameters.theme.themeChanged.${
+          `settings.websiteParameters.theme.themeChanged.${
             theme === "light" ? "dark" : "light"
           }`
         ),
@@ -50,7 +50,7 @@ const Settings: FunctionComponent<HTMLDivElement> = () => {
   }, [addNotifications, switchTheme, t, theme]);
   const changeThemeContrast = useCallback((): void => {
     if (!themes[`${theme}-contrast`]) {
-      alert(t("websiteParameters.contrastMode.error"));
+      alert(t("settings.websiteParameters.contrastMode.error"));
 
       return;
     }
@@ -61,7 +61,7 @@ const Settings: FunctionComponent<HTMLDivElement> = () => {
         id: generateNotificationID(),
         type: "info",
         body: t(
-          `websiteParameters.contrastMode.${
+          `settings.websiteParameters.contrastMode.${
             !contrastMode ? "enabled" : "disabled"
           }`
         ),
@@ -76,7 +76,7 @@ const Settings: FunctionComponent<HTMLDivElement> = () => {
       {
         id: generateNotificationID(),
         type: "info",
-        body: t("websiteParameters.notifications.preferencesUpdated"),
+        body: t("settings.websiteParameters.notifications.preferencesUpdated"),
         time: 5000,
       },
     ]);
@@ -99,7 +99,7 @@ const Settings: FunctionComponent<HTMLDivElement> = () => {
         <CardContainer noMargin direction="column">
           <Card noPadding transparent className={containerStyle.card}>
             <h2>
-              <Trans t={t} i18nKey="websiteParameters.title" />
+              <Trans t={t} i18nKey="settings.websiteParameters.title" />
             </h2>
             <FlexContainer
               allowWrap
@@ -107,7 +107,10 @@ const Settings: FunctionComponent<HTMLDivElement> = () => {
             >
               <form>
                 <label htmlFor="theme-toggle">
-                  <Trans t={t} i18nKey="websiteParameters.theme.title" />
+                  <Trans
+                    t={t}
+                    i18nKey="settings.websiteParameters.theme.title"
+                  />
                 </label>
                 <Toggle
                   id="theme-toggle"
@@ -122,7 +125,10 @@ const Settings: FunctionComponent<HTMLDivElement> = () => {
               </form>
               <form>
                 <label htmlFor="theme-contrast-toggle">
-                  <Trans t={t} i18nKey="websiteParameters.contrastMode.title" />
+                  <Trans
+                    t={t}
+                    i18nKey="settings.websiteParameters.contrastMode.title"
+                  />
                 </label>
                 <Toggle
                   id="theme-contrast-toggle"
@@ -139,7 +145,7 @@ const Settings: FunctionComponent<HTMLDivElement> = () => {
                 <label htmlFor="notifications-toggle">
                   <Trans
                     t={t}
-                    i18nKey="websiteParameters.notifications.title"
+                    i18nKey="settings.websiteParameters.notifications.title"
                   />
                 </label>
                 <Toggle
@@ -155,13 +161,19 @@ const Settings: FunctionComponent<HTMLDivElement> = () => {
               </form>
               <form>
                 <h3 className={globalStyles["no-margin"]}>
-                  <Trans t={t} i18nKey="websiteParameters.language.title" />
+                  <Trans
+                    t={t}
+                    i18nKey="settings.websiteParameters.language.title"
+                  />
                 </h3>
                 <Button
                   css={{ width: "fit-content", marginTop: "1rem" }}
                   onClick={() => setlanguageModalOpen(true)}
                 >
-                  <Trans t={t} i18nKey="websiteParameters.language.button" />
+                  <Trans
+                    t={t}
+                    i18nKey="settings.websiteParameters.language.button"
+                  />
                 </Button>
               </form>
             </FlexContainer>

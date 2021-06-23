@@ -1,0 +1,68 @@
+{
+  "tabBar": {
+    "movie": "Film",
+    "casting": "Casting",
+    "characters": "Personnages",
+    "videos": "Vidéos",
+    "ost": "Bande originale",
+    "technicalSpecs": "Spécifications techniques"
+  },
+  "headers": {
+    "trailerWindowTitle": "Bande annonce",
+    "buttons": {
+      "watch": "Regarder",
+      "trailer": "Bande annonce"
+    }
+  },
+  "ost": {
+    "duration": "Durée : {{duration}}",
+    "timeline": "Timeline dans le film : {{timeline}}",
+    "characters": "Personnage : {{characters}}",
+    "characters_plural": "Personnages : {{characters}}",
+    "watchVideo": "Voir la vidéo",
+    "lyrics": "Paroles"
+  },
+  "technicalSpecs": {
+    "presentation": {
+      "title": "Titre",
+      "VOTitle": "Titre original",
+      "originalCountry": "Pays d'origine",
+      "duration": "Durée",
+      "type": "Genre",
+      "case": "Classement",
+      "distributors": "Distributeur",
+      "distributor_plural": "Distributeurs",
+      "productionStart": "Année de début de production",
+      "productionRelease": "Année de fin de production",
+      "releaseDate": "Date de sortie",
+      "budget": "Budget",
+      "boxOffice": "Box office",
+      "directors": "Réalisateur",
+      "directors_plural": "Réalisateurs",
+      "producers": "Producteur",
+      "producers_plural": "Producteurs",
+      "screenWriters": "Scénariste",
+      "screenWriter_plural": "Scénaristes",
+      "mainActors": "Acteur principal",
+      "mainActors_plural": "Acteurs principaux",
+      "movieChronologicalFranchise": "Franchise (ordre chronologique)",
+      "movieLogicalFranchise": "Franchise (ordre logique)"
+    },
+    "movieSpecs": {
+      "sectionTitle": "Spécifications cinématographiques",
+      "movieFormat": "Format du film",
+      "cinematographicProcess": "Processus cinématographique",
+      "formatType": "Type de format",
+      "colorimetry": "Colorimétrie",
+      "imageDefinition": "Définition d'image",
+      "soundDefinition": "Définition audio",
+      "aspectRatio": "Aspect ratio"
+    }
+  },
+  "sectionEmpty": {
+    "message": "Cette section n'a encore aucun contenu. Si vous souhaitez améliorer le contenu de cette page de film ou ajouter de nouvelles choses, n'hésitez pas, votre aide précieuse est la bienvenue !",
+    "buttons": {
+      "edit": "Editer cette section"
+    }
+  }
+}

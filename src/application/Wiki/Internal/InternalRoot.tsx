@@ -10,7 +10,7 @@ import Router from "./modules/Router/Router";
 
 const InternalRoot: FC<RouteComponentProps> = () => {
   const { open, manageSidebar } = useSidebar();
-  const { t } = useTranslation("pages\\wiki\\internal\\root");
+  const { t } = useTranslation("pages\\wiki\\internal\\internal");
 
   return (
     <FlexContainer maxHeight expand>

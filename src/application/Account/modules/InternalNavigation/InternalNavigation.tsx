@@ -15,7 +15,7 @@ const InternalNavigation: FunctionComponent<
 > = ({ open, manageSidebar }) => {
   const { path: baseURL } = useRouteMatch();
   const { user } = useAccount();
-  const { t } = useTranslation("pages\\account\\sidebar");
+  const { t } = useTranslation("pages\\account\\account");
 
   return (
     <Sidebar
@@ -28,13 +28,13 @@ const InternalNavigation: FunctionComponent<
     >
       <SidebarSection>
         <SidebarItem to={baseURL} exact>
-          <Trans t={t} i18nKey="items.account" />
+          <Trans t={t} i18nKey="sidebar.account" />
         </SidebarItem>
         <SidebarItem to={`${baseURL}/authorizations`} exact>
-          <Trans t={t} i18nKey="items.authorizations" />
+          <Trans t={t} i18nKey="sidebar.authorizations" />
         </SidebarItem>
         <SidebarItem to={`${baseURL}/settings`} exact>
-          <Trans t={t} i18nKey="items.settings" />
+          <Trans t={t} i18nKey="sidebar.settings" />
         </SidebarItem>
       </SidebarSection>
     </Sidebar>
