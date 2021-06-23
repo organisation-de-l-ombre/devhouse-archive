@@ -10,11 +10,11 @@ export const Admin = new AdminApi(
       headers: { "X-Forwarded-Proto": "https" }
     }
   },
-  "http://localhost:1845"
+  "http://hydra-admin.hydra:4445"
 );
 
 const scarlet =
-  "http://localhost:8084";
+  "http://production.scarlet-22198115-production";
 export const LoginAPI = new LoginApi(undefined, scarlet);
 export const UserAPI = new UserApi(undefined, scarlet);
 export const WebAuthAPI = new WebauthApi(undefined, scarlet);
