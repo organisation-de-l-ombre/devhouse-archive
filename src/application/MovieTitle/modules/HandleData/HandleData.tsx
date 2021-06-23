@@ -18,14 +18,14 @@ const HandleData: FunctionComponent<
     error: TypeError | Response | null;
   }
 > = ({ isFetching, section, error }) => {
-  const { t } = useTranslation("pages\\movieTitle\\root");
+  const { t } = useTranslation("root");
 
   if (isFetching) {
     return (
       <SuspenseComponent
         minHeight
         pageBodyWidth
-        customText={t("fetchingData")}
+        customText={t("utils.apiFetch")}
       />
     );
   }
@@ -36,7 +36,9 @@ const HandleData: FunctionComponent<
 
   if (error && error instanceof TypeError) {
     return (
-      <ErrorComponent errorMessage={t("error.generic", { statusCode: 503 })} />
+      <ErrorComponent
+        errorMessage={t("error.messages.generic", { statusCode: 503 })}
+      />
     );
   }
 
@@ -45,12 +47,12 @@ const HandleData: FunctionComponent<
   }
 
   if (error && error instanceof Response && error.status === 401) {
-    return <ErrorComponent errorMessage={t("error.unauthorized")} />;
+    return <ErrorComponent errorMessage={t("error.messages.unauthorized")} />;
   }
 
   return (
     <ErrorComponent
-      errorMessage={t("error.generic", { statusCode: error.status })}
+      errorMessage={t("error.messages.generic", { statusCode: error.status })}
     />
   );
 };

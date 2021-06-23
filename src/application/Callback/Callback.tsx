@@ -54,6 +54,7 @@ const Callback: FunctionComponent<HTMLDivElement> = () => {
   });
   const { addNotifications } = useNotificationsManager();
   const { t } = useTranslation("pages\\callback\\callback");
+  const { t: tRoot } = useTranslation("root");
 
   const doLogin = useCallback(async () => {
     window.location.search
@@ -184,7 +185,7 @@ const Callback: FunctionComponent<HTMLDivElement> = () => {
     };
   });
 
-  return <SuspenseComponent customText={t("message")} />;
+  return <SuspenseComponent customText={tRoot("utils.redirecting")} />;
 };
 
 export default Callback;

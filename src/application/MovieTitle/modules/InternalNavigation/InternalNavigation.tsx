@@ -8,7 +8,7 @@ import { Trans, useTranslation } from "react-i18next";
 const InternalNavigation: ReactMovieElement = ({ dataResponse }) => {
   const { url: baseURL } = useRouteMatch();
   const { open, manageTabBar } = useTabBar();
-  const { t } = useTranslation("pages\\movieTitle\\tabbar");
+  const { t } = useTranslation("pages\\movieTitle\\movieTitle");
 
   return (
     <TabBar open={open} manageTabBar={manageTabBar}>
@@ -29,7 +29,7 @@ const InternalNavigation: ReactMovieElement = ({ dataResponse }) => {
               exact
               onClick={manageTabBar}
             >
-              <Trans t={t} i18nKey={item} />
+              <Trans t={t} i18nKey={`tabBar.${item}`} />
             </TabBarItem>
           );
         })}

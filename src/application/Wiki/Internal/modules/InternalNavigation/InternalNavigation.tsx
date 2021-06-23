@@ -8,7 +8,7 @@ const InternalNavigation: FunctionComponent<
   HTMLDivElement,
   { open: boolean; manageSidebar: () => void }
 > = ({ open, manageSidebar }) => {
-  const { t } = useTranslation("pages\\wiki\\internal\\sidebar");
+  const { t } = useTranslation("pages\\wiki\\internal\\internal");
   const { url: baseURL } = useRouteMatch();
 
   return (
@@ -17,14 +17,14 @@ const InternalNavigation: FunctionComponent<
       manageSidebar={manageSidebar}
       picture="/icons/logo128.png"
       pictureAlt="IMR logo"
-      title={t("title")}
+      title={t("sidebar.title")}
     >
       <SidebarSection>
         <h3>
-          <Trans t={t} i18nKey="sections.0.title" />
+          <Trans t={t} i18nKey="sidebar.sections.0.title" />
         </h3>
         <SidebarItem to={baseURL} exact>
-          <Trans t={t} i18nKey="sections.0.intro" />
+          <Trans t={t} i18nKey="sidebar.sections.0.intro" />
         </SidebarItem>
       </SidebarSection>
     </Sidebar>

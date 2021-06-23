@@ -25,7 +25,7 @@ const Router = lazy(() => import("./modules/Router/Router"));
 
 const MovieRoot: FC<RouteComponentProps> = ({ match }) => {
   const { language } = useLanguage();
-  const { t } = useTranslation("pages\\movieTitle\\root");
+  const { t } = useTranslation("root");
   const params = match.params as unknown as Record<string, string>;
   const {
     error,
@@ -43,18 +43,22 @@ const MovieRoot: FC<RouteComponentProps> = ({ match }) => {
   );
 
   if (isFetching) {
-    return <SuspenseComponent minHeight customText={t("fetchingData")} />;
+    return <SuspenseComponent minHeight customText={t("utils.apiFetch")} />;
   }
 
   if (error && error instanceof TypeError) {
     return (
-      <ErrorComponent errorMessage={t("error.generic", { statusCode: 503 })} />
+      <ErrorComponent
+        errorMessage={t("error.messages.generic", { statusCode: 503 })}
+      />
     );
   }
 
   if (error && error instanceof Response && error.status !== 404) {
     return (
-      <ErrorComponent errorMessage={t("error", { statusCode: error.status })} />
+      <ErrorComponent
+        errorMessage={t("error.messages.generic", { statusCode: error.status })}
+      />
     );
   }
 

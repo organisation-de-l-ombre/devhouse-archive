@@ -20,11 +20,16 @@ import containerStyle from "../../Containers.module.scss";
 
 const Authorizations: FunctionComponent<HTMLDivElement> = () => {
   const { error, isFetching, data, refetch } = useAuthorizations();
-  const { t } = useTranslation("pages\\account\\sections\\authorizations");
+  const { t } = useTranslation("pages\\account\\account");
+  const { t: tRoot } = useTranslation("root");
 
   if (error) {
     return (
-      <ErrorComponent errorMessage={t("error", { statusCode: error.status })} />
+      <ErrorComponent
+        errorMessage={tRoot("error.messages.generic", {
+          statusCode: error.status,
+        })}
+      />
     );
   }
 
@@ -37,11 +42,11 @@ const Authorizations: FunctionComponent<HTMLDivElement> = () => {
           className={globalStyles["animation-opacity"]}
         >
           <h2>
-            <Trans t={t} i18nKey="noData.title" />
+            <Trans t={t} i18nKey="authorizations.noData.title" />
           </h2>
           <hr />
           <p>
-            <Trans t={t} i18nKey="noData.description" />
+            <Trans t={t} i18nKey="authorizations.noData.description" />
           </p>
         </Card>
       </FlexContainer>
@@ -58,7 +63,7 @@ const Authorizations: FunctionComponent<HTMLDivElement> = () => {
     >
       <FlexContainer column>
         <h2 css={{ color: "var(--font-color-hover)" }}>
-          <Trans t={t} i18nKey="statusTitle" />
+          <Trans t={t} i18nKey="authorizations.statusTitle" />
         </h2>
         <ButtonsGroup expand>
           <Button>
@@ -68,14 +73,20 @@ const Authorizations: FunctionComponent<HTMLDivElement> = () => {
                   className={globalStyles["rotate-infinite-animation"]}
                 />
                 <span>
-                  <Trans t={t} i18nKey="buttons.status.fetching" />
+                  <Trans
+                    t={t}
+                    i18nKey="authorizations.buttons.status.fetching"
+                  />
                 </span>
               </>
             ) : (
               <>
                 <FaCheckCircle />
                 <span>
-                  <Trans t={t} i18nKey="buttons.status.fetched" />
+                  <Trans
+                    t={t}
+                    i18nKey="authorizations.buttons.status.fetched"
+                  />
                 </span>
               </>
             )}
@@ -83,7 +94,7 @@ const Authorizations: FunctionComponent<HTMLDivElement> = () => {
           <Button onClick={() => refetch()}>
             <MdRefresh />
             <span>
-              <Trans t={t} i18nKey="buttons.refresh" />
+              <Trans t={t} i18nKey="authorizations.buttons.refresh" />
             </span>
           </Button>
         </ButtonsGroup>

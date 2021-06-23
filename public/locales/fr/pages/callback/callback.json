@@ -1,5 +1,4 @@
 {
   "error": "L'authentification a échoué. {{error}}",
-  "userLoggedIn": "Vous êtes connecté en tant que {{username}}.",
-  "message": "Veuillez patienter, vous allez être redirigé dans quelques secondes..."
+  "userLoggedIn": "Vous êtes connecté en tant que {{username}}."
 }

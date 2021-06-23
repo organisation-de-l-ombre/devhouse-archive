@@ -18,7 +18,7 @@ const AuthorizationCard: FunctionComponent<
   HTMLDivElement,
   { authorization: Authorization }
 > = ({ authorization }) => {
-  const { t } = useTranslation("pages\\account\\sections\\authorizations");
+  const { t } = useTranslation("pages\\account\\account");
   const { language } = useLanguage();
   const grantedAt: string[] = new Intl.DateTimeFormat(language, {
     dateStyle: "full",
@@ -31,7 +31,9 @@ const AuthorizationCard: FunctionComponent<
 
   const { remove } = useAuthorizationsDeleteMutation(authorization.client.id);
   const deleteAuthorization = useCallback((): void => {
-    const confirmation = window.confirm(t("deleteAuthorization.confirmation"));
+    const confirmation = window.confirm(
+      t("authorizations.deleteAuthorization.confirmation")
+    );
 
     if (confirmation) {
       remove();
@@ -44,25 +46,25 @@ const AuthorizationCard: FunctionComponent<
       <FlexContainer allowWrap className={containerStyle["forms-container"]}>
         <TextArea>
           <h3>
-            <Trans t={t} i18nKey="authorization.grantedAt" />
+            <Trans t={t} i18nKey="authorizations.authorization.grantedAt" />
           </h3>
           <span>
             {authorization.grantedAt ? (
               grantedAt.join("")
             ) : (
-              <Trans t={t} i18nKey="authorization.unknownDate" />
+              <Trans t={t} i18nKey="authorizations.authorization.unknownDate" />
             )}
           </span>
         </TextArea>
         <TextArea>
           <h3>
-            <Trans t={t} i18nKey="authorization.scopes" />
+            <Trans t={t} i18nKey="authorizations.authorization.scopes" />
           </h3>
           <span>{authorization.scopes.join(", ")}</span>
         </TextArea>
         <TextArea>
           <h3>
-            <Trans t={t} i18nKey="authorization.audiences" />
+            <Trans t={t} i18nKey="authorizations.authorization.audiences" />
           </h3>
           <span>{authorization.audiences.join(", ")}</span>
         </TextArea>
@@ -71,7 +73,7 @@ const AuthorizationCard: FunctionComponent<
         <Button onClick={deleteAuthorization}>
           <FaRegTrashAlt />
           <span>
-            <Trans t={t} i18nKey="deleteAuthorization.button" />
+            <Trans t={t} i18nKey="authorizations.deleteAuthorization.button" />
           </span>
         </Button>
       </ButtonsGroup>
