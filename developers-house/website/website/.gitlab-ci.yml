@@ -43,7 +43,7 @@ node_build:
     - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
     - npm config set -- '//gitlab.com/api/v4/packages/npm/:_authToken' "${NPM_TOKEN}"
     - yarn install
-    - yarn build
+    - yarn build --noninteractive
   cache:
     key: node-modules
     paths:
@@ -52,11 +52,16 @@ node_build:
   artifacts:
     name: "React build"
     paths:
-      - dist
+      - build
 
 build:
   stage: docker
   needs:
     - node_build
+  before_script:
+    - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" >> .npmrc
+    - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+    - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+    - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${NPM_TOKEN}" >> .npmrc
   dependencies:
     - node_build

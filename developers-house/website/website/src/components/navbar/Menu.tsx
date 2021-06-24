@@ -149,7 +149,7 @@ export const Menu = (): ReactElement => {
         </Gate>
 
         <div
-          css={{ marginLeft: "auto", display: "flex", flexDirection: "row" }}
+          css={{ marginLeft: "auto", display: "flex", flexDirection: "column" }}
         >
           <Gate gate="feature_login">{UserButton}</Gate>
           <NavigationItem

@@ -1,0 +1,4 @@
+{
+    "plugins": ["@loadable/babel-plugin", "@emotion/babel-plugin"],
+    "presets": ["razzle/babel", "@emotion/babel-preset-css-prop"]
+}
