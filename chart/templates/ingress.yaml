@@ -23,7 +23,7 @@ spec:
         paths:
           - path: {{ .Values.ingress.path | default "/" | quote }}
             backend:
-              serviceName: {{ .Values.gitlab.app }}
+              serviceName: {{ include "..fullname" . }}
               servicePort: {{ .Values.service.externalPort }}
 {{- if .Values.service.commonName }}
     - host: {{ template "hostname" .Values.service.commonName }}
