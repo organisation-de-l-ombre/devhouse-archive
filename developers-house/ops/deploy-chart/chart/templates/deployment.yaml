@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.gitlab.app }}
+  name: {{ include "..fullname" . }}
   annotations:
     app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
     app.gitlab.com/env: {{ .Values.gitlab.env | quote }}
