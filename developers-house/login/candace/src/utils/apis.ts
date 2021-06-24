@@ -14,7 +14,7 @@ export const Admin = new AdminApi(
 );
 
 const scarlet =
-  "http://production.scarlet-22198115-production";
+  "http://developers-house-dev-login-group-scarlet.scarlet-22198115-production";
 export const LoginAPI = new LoginApi(undefined, scarlet);
 export const UserAPI = new UserApi(undefined, scarlet);
 export const WebAuthAPI = new WebauthApi(undefined, scarlet);
