@@ -17,10 +17,6 @@ spec:
   template:
     metadata:
       annotations:
-        'consul.hashicorp.com/connect-inject': 'true'
-        consul.hashicorp.com/connect-service-port: "{{ .Values.service.internalPort }}"
-        consul.hashicorp.com/service-tags: {{ .Values.gitlab.env | quote }}
-        consul.hashicorp.com/connect-service: "{{ .Values.gitlab.app }}"
         app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
         app.gitlab.com/env: {{ .Values.gitlab.env | quote }}
         checksum/application-secrets: "{{ .Values.application.secretChecksum }}"
@@ -56,6 +52,9 @@ spec:
             - secretRef:
                 name: oauth-client-{{ include "..fullname" . }}
           {{- end }}
+          env:
+            - name: GITLAB_ENV
+              value: {{ .Values.gitlab.env | quote }}
           ports:
             - name: {{ .Values.service.name }}
               containerPort: {{ .Values.service.internalPort }}
