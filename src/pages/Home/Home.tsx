@@ -17,7 +17,7 @@ import { Gate } from "@components/FeatureGate/FeatureGateProvider";
 import { discordServer } from "../../constants";
 import styles from "./Home.module.scss";
 
-const shareAvailable = !!navigator.share;
+const shareAvailable = typeof window !== "undefined" && !!navigator.share;
 
 const Section: FC = (props) => <Flex {...props} justifyContent="space-evenly" justifyItems="center" alignItems="center" flexDirection="row" flexWrap className={styles.section} />;
 
