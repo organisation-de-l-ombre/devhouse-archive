@@ -80,9 +80,7 @@ export const renderApp = (
           <CacheProvider value={cache}>
             <StaticRouter context={context} location={req.url}>
               <Provider store={store}>
-                <I18nextProvider i18n={req.i18n}>
-                  <App />
-                </I18nextProvider>
+                <App />
               </Provider>
             </StaticRouter>
           </CacheProvider>
