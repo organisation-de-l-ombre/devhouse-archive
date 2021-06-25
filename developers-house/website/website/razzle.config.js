@@ -2,16 +2,19 @@ const LoadableWebpackPlugin = require("@loadable/webpack-plugin");
 const path = require("path");
 
 module.exports = {
-    plugins: ["scss", {
-        name: 'typescript',
-        options: {
-            useBabel: true,
-            tsLoader: {
-                transpileOnly: true,
-                experimentalWatchApi: false,
+    plugins: [
+        "scss",
+        {
+            name: "typescript",
+            options: {
+                useBabel: true,
+                tsLoader: {
+                    transpileOnly: true,
+                    experimentalWatchApi: false,
+                },
             },
         },
-    }],
+    ],
     modifyWebpackConfig(opts) {
         const config = opts.webpackConfig;
 
@@ -32,4 +35,4 @@ module.exports = {
         }
         return config;
     },
-}
+};
