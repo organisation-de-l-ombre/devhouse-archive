@@ -22,7 +22,7 @@ autoscaling:
 resources:
   limits:
     cpu: 100m
-    memory: 50Mi
+    memory: 150Mi
   requests:
     cpu: 10m
     memory: 25Mi
