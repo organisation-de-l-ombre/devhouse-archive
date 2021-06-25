@@ -1,4 +1,3 @@
-*
-!build/
-!package.json
-!.npmrc
+src/
+cache/
+node_modules/

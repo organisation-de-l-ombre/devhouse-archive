@@ -17,6 +17,7 @@ module.exports = {
     ],
     modifyWebpackConfig(opts) {
         const config = opts.webpackConfig;
+        config.devtool = false;
 
         // add loadable webpack plugin only
         // when we are building the client bundle
