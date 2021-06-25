@@ -37,6 +37,7 @@ i18next
     backend: {
       loadPath: pathLocales,
     },
+    fallbackLng: "en",
     supportedLngs: ["en", "fr"],
     ns: ["layout"],
     preload: ["en", "fr"],
