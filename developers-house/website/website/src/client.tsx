@@ -6,7 +6,6 @@ import { Provider } from "react-redux";
 import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 import { BrowserRouter } from "react-router-dom";
-import { useSSR } from "react-i18next";
 import { Hydrate } from "react-query/hydration";
 import loadable from "@loadable/component";
 
@@ -28,8 +27,6 @@ const cache = createCache({
 
 // TODO: client must implement redux store.
 const MainComponent = (): ReactElement => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  useSSR((window as any).INSTATE, "en");
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={dehydratedState}>

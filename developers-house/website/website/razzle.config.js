@@ -33,6 +33,16 @@ module.exports = {
                 })
             );
         }
+
+        if (opts.env.target === 'web' && opts.env.dev) {
+            config.devServer.proxy = {
+                context: () => true,
+                target: 'http://localhost:3000',
+                changeOrigin: true,
+            };
+            config.devServer.index = '';
+        }
+
         return config;
     },
 };

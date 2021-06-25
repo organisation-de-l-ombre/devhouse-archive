@@ -1,7 +1,7 @@
 import React, { ReactElement, useCallback, FC, useMemo } from "react";
 import { Route, Switch } from "react-router";
 import { useDispatch } from "react-redux";
-import { AiFillLock } from "react-icons/all";
+import { AiFillLock } from "react-icons/ai";
 import { withGate } from "@components/FeatureGate/FeatureGateProvider";
 import { Button, NavLinkButton } from "../../components/new/Button/Button";
 import ButtonGroup from "../../components/new/Button/ButtonGroup";
