@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { RequestContext, UserAPIApi } from "@developers-house/abdera";
+import { Configuration, UserAPIApi } from "@developers-house/abdera";
 import { SVGDefinitions } from "@components/UserAvatarStatus/SVGDefinitions";
 import Navigator from "@pages/Navigator";
 import { Menu } from "@components/navbar";
@@ -11,15 +11,16 @@ import "./transitions.css";
 import { i18n } from "i18next";
 import clientI18N from "@utilities/i18n";
 import { I18nextProvider, useSSR } from "react-i18next";
+import { fetch as fetchPolyfill } from "cross-fetch";
 
 const NotificationsArea = loadable(
   () => import("@components/notifications/NotificationsArea")
 );
 
-const UserAPI = new UserAPIApi().withPreMiddleware(
-  async (context: RequestContext) => {
-    return { url: context.url, init: context.init };
-  }
+const UserAPI = new UserAPIApi(
+  new Configuration({
+    fetchApi: fetchPolyfill,
+  })
 );
 
 const ErrorPage = loadable(() => import("@pages/ErrorPage"));

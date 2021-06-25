@@ -1,7 +1,7 @@
 import React from "react";
 import { StaticRouter } from "react-router-dom";
 import express, { Request } from "express";
-import { renderToString } from "react-dom/server";
+import { renderToStaticMarkup, renderToString } from "react-dom/server";
 import { Provider } from "react-redux";
 import createStore from "@state/redux";
 import i18next from "i18next";
@@ -14,7 +14,8 @@ import { ChunkExtractor, ChunkExtractorManager } from "@loadable/server";
 import path from "path";
 import { initialize } from "unleash-client";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { dehydrate, Hydrate } from "react-query/hydration";
+import { dehydrate } from "react-query/hydration";
+import PreloadContext from "@components/PreloadContext/PreloadContext";
 import App from "./Root";
 
 const pathLocales = path.join(
@@ -44,9 +45,9 @@ i18next
     },
   });
 
-export const renderApp = (
+export const renderApp = async (
   req: Request
-): { redirect?: string; html?: string } => {
+): Promise<{ redirect?: string; html?: string }> => {
   const context: { redirect?: string; url?: string } = {};
 
   const flags = unleash.getFeatureToggleDefinitions().map((flag) => ({
@@ -70,12 +71,15 @@ export const renderApp = (
     entrypoints: ["client"],
   });
   const queryClient = new QueryClient();
-  const dehydratedState = dehydrate(queryClient);
+  const preloaderContext = {
+    done: false,
+    promises: [],
+  };
 
-  const element = (
-    <ChunkExtractorManager extractor={extractor}>
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={dehydratedState}>
+  const jsx = (
+    <PreloadContext.Provider value={preloaderContext}>
+      <ChunkExtractorManager extractor={extractor}>
+        <QueryClientProvider client={queryClient}>
           <CacheProvider value={cache}>
             <StaticRouter context={context} location={req.url}>
               <Provider store={store}>
@@ -83,11 +87,18 @@ export const renderApp = (
               </Provider>
             </StaticRouter>
           </CacheProvider>
-        </Hydrate>
-      </QueryClientProvider>
-    </ChunkExtractorManager>
+        </QueryClientProvider>
+      </ChunkExtractorManager>
+    </PreloadContext.Provider>
   );
-  const { html, styles } = extractCriticalToChunks(renderToString(element));
+
+  renderToStaticMarkup(jsx);
+  preloaderContext.done = true;
+
+  await Promise.all(preloaderContext.promises);
+  const dehydratedState = dehydrate(queryClient);
+
+  const { html, styles } = extractCriticalToChunks(renderToString(jsx));
   // collect script tags
   const scriptTags = extractor.getScriptTags();
 
@@ -142,8 +153,8 @@ server
   .use(middleware.handle(i18next))
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR!))
-  .get("/*", (req, res) => {
-    const { html = "", redirect = null } = renderApp(req);
+  .get("/*", async (req, res) => {
+    const { html = "", redirect = null } = await renderApp(req);
     if (redirect) {
       res.redirect(redirect);
     } else {
