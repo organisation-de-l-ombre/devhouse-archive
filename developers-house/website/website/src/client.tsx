@@ -7,17 +7,15 @@ import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 import { BrowserRouter } from "react-router-dom";
 import { Hydrate } from "react-query/hydration";
+import "rc-tooltip/assets/bootstrap.css";
+import "./transitions.css";
 import loadable from "@loadable/component";
 
+const Root = loadable(() => import("Root"));
+
 const queryClient = new QueryClient();
-const Root = loadable(() => import("./Root"));
-const preloadedState =
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (window as any).PRELOADED_STATE;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-delete (window as any).PRELOADED_STATE;
-// eslint-disable-next-line no-underscore-dangle, @typescript-eslint/no-explicit-any
-const dehydratedState = (window as any).__REACT_QUERY_STATE__;
+const preloadedState = window.PRELOADED_STATE;
+const dehydratedState = window.REACT_QUERY;
 
 const store = createStore(preloadedState);
 
@@ -25,7 +23,6 @@ const cache = createCache({
   key: "ssr-render",
 });
 
-// TODO: client must implement redux store.
 const MainComponent = (): ReactElement => {
   return (
     <QueryClientProvider client={queryClient}>

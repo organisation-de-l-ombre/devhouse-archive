@@ -1,5 +1,16 @@
+import { RootState } from "@state/redux";
 import express from "express";
+import { Resource } from "i18next";
+import { DeepPartial } from "redux";
 
+declare global {
+  interface Window {
+    INSTATE: Resource;
+    LANG: string;
+    PRELOADED_STATE: DeepPartial<RootState>;
+    REACT_QUERY: unknown;
+  }
+}
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 let app = require("./server").default;
 

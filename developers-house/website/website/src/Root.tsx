@@ -3,19 +3,12 @@ import { ErrorBoundary } from "react-error-boundary";
 import { Configuration, UserAPIApi } from "@developers-house/abdera";
 import { SVGDefinitions } from "@components/UserAvatarStatus/SVGDefinitions";
 import Navigator from "@pages/Navigator";
-import { Menu } from "@components/navbar";
 import loadable from "@loadable/component";
 import ThemeProvider from "@components/ThemeProvider/ThemeProvider";
-import "rc-tooltip/assets/bootstrap.css";
-import "./transitions.css";
 import { i18n } from "i18next";
 import clientI18N from "@utilities/i18n";
 import { I18nextProvider, useSSR } from "react-i18next";
 import { fetch as fetchPolyfill } from "cross-fetch";
-
-const NotificationsArea = loadable(
-  () => import("@components/notifications/NotificationsArea")
-);
 
 const UserAPI = new UserAPIApi(
   new Configuration({
@@ -24,11 +17,16 @@ const UserAPI = new UserAPIApi(
 );
 
 const ErrorPage = loadable(() => import("@pages/ErrorPage"));
+const Menu = loadable(() => import("@components/navbar"));
+const NotificationsArea = loadable(
+  () => import("@components/notifications/NotificationsArea")
+);
+
 const I18nSSRHydrator = () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  useSSR((window as any).INSTATE, "en");
+  useSSR(window.INSTATE, window.LANG);
   return <></>;
 };
+
 export default function Root({
   i18nInstance = clientI18N,
 }: {
