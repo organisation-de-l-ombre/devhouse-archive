@@ -132,7 +132,8 @@ const server = express();
 server
   .disable("x-powered-by")
   .use(middleware.handle(i18next))
-  .use(express.static(process.env.RAZZLE_PUBLIC_DIR || ""))
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  .use(express.static(process.env.RAZZLE_PUBLIC_DIR!))
   .get("/*", renderApp);
 
 export default server;
