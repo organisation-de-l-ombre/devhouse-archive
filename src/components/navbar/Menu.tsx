@@ -64,7 +64,7 @@ const UserButton: FC = () => {
   );
 };
 
-export const Menu = (): ReactElement => {
+const Menu = (): ReactElement => {
   const [open, switchOpen, setOpen] = useSwitcher();
   const blacklisted = useStartsWith("/settings");
   const transparent = useScrollPosition() === 0 && !blacklisted;
@@ -176,3 +176,5 @@ export const Menu = (): ReactElement => {
     </NavigationContainer>
   );
 };
+
+export default Menu;
