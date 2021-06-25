@@ -30,7 +30,7 @@ test:
     - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" >> .npmrc
     - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
     - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
-    - npm config set -- '//gitlab.com/api/v4/packages/npm/:_authToken' "${NPM_TOKEN}"
+    - npm config set -- '//gitlab.com/api/v4/packages/npm/:_authToken' "${CI_JOB_TOKEN}"
   script:
     - yarn install
 node_build:
@@ -40,7 +40,7 @@ node_build:
     - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" >> .npmrc
     - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
     - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
-    - npm config set -- '//gitlab.com/api/v4/packages/npm/:_authToken' "${NPM_TOKEN}"
+    - npm config set -- '//gitlab.com/api/v4/packages/npm/:_authToken' "${CI_JOB_TOKEN}"
     - yarn install
     - CI=false yarn build --noninteractive
   cache:
@@ -61,6 +61,6 @@ build:
     - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" >> .npmrc
     - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
     - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
-    - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${NPM_TOKEN}" >> .npmrc
+    - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
   dependencies:
     - node_build
