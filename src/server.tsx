@@ -4,7 +4,6 @@ import express, { Request } from "express";
 import { renderToString } from "react-dom/server";
 import { Provider } from "react-redux";
 import createStore from "@state/redux";
-import { I18nextProvider } from "react-i18next";
 import i18next from "i18next";
 import middleware from "i18next-http-middleware";
 import createEmotionServer from "@emotion/server/create-instance";

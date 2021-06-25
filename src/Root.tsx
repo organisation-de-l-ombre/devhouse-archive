@@ -9,8 +9,8 @@ import ThemeProvider from "@components/ThemeProvider/ThemeProvider";
 import "rc-tooltip/assets/bootstrap.css";
 import "./transitions.css";
 import { i18n } from "i18next";
-import tri18n from "@utilities/i18n";
-import { I18nextProvider } from "react-i18next";
+import clientI18N from "@utilities/i18n";
+import { I18nextProvider, useSSR } from "react-i18next";
 
 const NotificationsArea = loadable(
   () => import("@components/notifications/NotificationsArea")
@@ -23,14 +23,19 @@ const UserAPI = new UserAPIApi().withPreMiddleware(
 );
 
 const ErrorPage = loadable(() => import("@pages/ErrorPage"));
-
+const I18nSSRHydrator = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  useSSR((window as any).INSTATE, "en");
+  return <></>;
+};
 export default function Root({
-  i18nInstance = tri18n,
+  i18nInstance = clientI18N,
 }: {
   i18nInstance?: i18n;
 }): ReactElement {
   return (
     <I18nextProvider i18n={i18nInstance}>
+      {typeof window !== "undefined" && <I18nSSRHydrator />}
       <ErrorBoundary FallbackComponent={ErrorPage}>
         <SVGDefinitions />
         <ThemeProvider>
