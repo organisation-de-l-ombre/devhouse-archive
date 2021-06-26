@@ -47,5 +47,8 @@ export const Loader: React.FC<
 export default function SuspenseLoader({
   children,
 }: PropsWithChildren<unknown>): React.ReactElement {
+  if (typeof window === "undefined") {
+    return <>{children}</>;
+  }
   return <Suspense fallback={<Loader />}>{children}</Suspense>;
 }

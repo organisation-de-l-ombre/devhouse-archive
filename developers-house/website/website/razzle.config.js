@@ -1,6 +1,6 @@
 const LoadableWebpackPlugin = require("@loadable/webpack-plugin");
 const TerserPlugin = require('terser-webpack-plugin');
-
+const { InjectManifest } = require("workbox-webpack-plugin");
 const path = require("path");
 
 module.exports = {
@@ -19,8 +19,7 @@ module.exports = {
                     async: false,
                 }
             },
-        },
-        "bundle-analyzer"
+        }
     ],
     modifyWebpackConfig(opts) {
         const config = opts.webpackConfig;
@@ -48,7 +47,10 @@ module.exports = {
             };
             config.devServer.index = '';
         }
-        if (opts.env.target === 'web' && !opts.env.dev)
+        if (opts.env.target === 'web' && !opts.env.dev) {
+            config.plugins.push(new InjectManifest({
+                swSrc: "./src/service-worker.ts",
+            }));
             config.optimization.minimizer[0] = new TerserPlugin({
                 terserOptions: {
                     parse: {
@@ -88,6 +90,7 @@ module.exports = {
                 sourceMap: false,
                 parallel: false,
             });
+        }
         return config;
     },
 };

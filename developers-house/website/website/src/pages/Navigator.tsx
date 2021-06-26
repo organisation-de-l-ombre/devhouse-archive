@@ -9,6 +9,7 @@ import {
 import "./transitions.css";
 import { RouteProps } from "react-router";
 import loadable from "@loadable/component";
+import SuspenseLoader from "@components/SuspenseLoader/SuspenseLoader";
 import NotFound from "./NotFound/NotFound";
 import styles from "./navigator.module.scss";
 import { useNotificationsManager } from "../hooks/useNotifications";
@@ -79,16 +80,18 @@ const Navigator = () => {
       <GA />
       <Scroller />
       <div className={styles.content}>
-        <Switch>
-          <Route path="/members" exact component={MembersPage} />
-          <Route path="/" exact component={HomePage} />
-          <Route path="/about" exact component={AboutPage} />
-          <Route path="/projects" exact component={ProjectsPage} />
-          <Route path="/projects/:id" exact component={ProjectDetailsPage} />
-          <Route path="/callback" exact component={Callback} />
-          <PrivateRoute path="/settings" component={Settings} />
-          <Route path="*" exact component={NotFound} />
-        </Switch>
+        <SuspenseLoader>
+          <Switch>
+            <Route path="/members" exact component={MembersPage} />
+            <Route path="/" exact component={HomePage} />
+            <Route path="/about" exact component={AboutPage} />
+            <Route path="/projects" exact component={ProjectsPage} />
+            <Route path="/projects/:id" exact component={ProjectDetailsPage} />
+            <Route path="/callback" exact component={Callback} />
+            <PrivateRoute path="/settings" component={Settings} />
+            <Route path="*" exact component={NotFound} />
+          </Switch>
+        </SuspenseLoader>
       </div>
     </div>
   );

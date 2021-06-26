@@ -35,13 +35,17 @@ export const renderApp = async (
   // We get the flags linked to the user.
   const flags = unleash.getFeatureToggleDefinitions().map((flag) => ({
     name: flag.name,
-    enabled: flag.enabled,
+    enabled: process.env.NODE_ENV === "development" ? true : flag.enabled,
     variants: flag.variants,
   }));
 
   // This is the initialState given to the ssr renderer.
   const store = createStore({
-    account: { state: "available", client_id: process.env.client_id },
+    account: {
+      state: "available",
+      client_id:
+        process.env.client_id || "4f48003e-3e66-40c4-b2b7-a0516dc40d4a",
+    },
     featureFlags: { featureFlags: flags },
   });
 
