@@ -40,7 +40,7 @@ const NotificationsArea = loadable(
 );
 
 const ClientAccesor = () => {
-  useSSR(CborJS.decode(decode(window.PRELOADED_STATE)), window.LANG);
+  useSSR(CborJS.decode(decode(window.INSTATE)), window.LANG);
   return <></>;
 };
 const Accesor = () => {
