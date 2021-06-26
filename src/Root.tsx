@@ -9,10 +9,12 @@ import { i18n } from "i18next";
 import clientI18N from "@utilities/i18n";
 import { I18nextProvider, useSSR } from "react-i18next";
 import { fetch as fetchPolyfill } from "cross-fetch";
+import { getAbderaEndpoint } from "@utilities/endpoints";
 
 const UserAPI = new UserAPIApi(
   new Configuration({
     fetchApi: fetchPolyfill,
+    basePath: getAbderaEndpoint(),
   })
 );
 
