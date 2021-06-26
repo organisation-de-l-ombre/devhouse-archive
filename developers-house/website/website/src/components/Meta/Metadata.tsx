@@ -17,8 +17,8 @@ export const Metadata: FC<MetadataProps> = ({
   image = "https://www.developershouse.xyz/icons/embed-back.png?v=4",
   keywords = ["developershouse", "projects"],
 }) => {
-  description = description.replace("\r\n", "");
-  title = title.replace("\r\n", "");
+  description = description.replace(/(\r|\n)/g, "").replace(/\s\s+/g, " ");
+  title = title.replace(/(\r|\n)/g, "").replace(/\s\s+/g, " ");
   const shortDescription =
     description.length > 32 ? `${description.slice(0, 32)}...` : description;
   const context = useContext(SSRContext);

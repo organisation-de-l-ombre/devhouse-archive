@@ -19,7 +19,7 @@ import Helmet from "react-helmet";
 import { SSRContext } from "@components/SSRContext/SSRContext";
 import cookieParser from "cookie-parser";
 import cbor from "cbor-js";
-import { decode } from "base64-arraybuffer";
+import { decode, encode } from "base64-arraybuffer";
 import { DeepPartial } from "redux";
 import App from "./Root";
 
@@ -42,12 +42,8 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
   }));
 
   const state: DeepPartial<RootState> = {
-    account: {
-      state: "available",
-      client_id:
-        process.env.client_id || "4f48003e-3e66-40c4-b2b7-a0516dc40d4a",
-    },
-    theme: {},
+    account: {},
+    theme: { theme: "light" },
     featureFlags: { featureFlags: flags },
   };
   const persistedStoreKeys = [
@@ -60,6 +56,9 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
     if (!cookie) return;
     Object.assign(state[element], cbor.decode(decode(cookie)));
   });
+  if (!state.account) state.account = {};
+  state.account.client_id = process.env.client_id;
+  state.account.state = "available";
 
   // This is the initialState given to the ssr renderer.
   const store = createStore(state);
@@ -126,16 +125,10 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
     <html ${helmet.htmlAttributes.toString()}>
       <head>
         <script>
-          window.REACT_QUERY = ${JSON.stringify(dehydratedState).replace(
-            /</g,
-            "\\u003c"
-          )};
-          window.PRELOADED_STATE = ${JSON.stringify(store.getState()).replace(
-            /</g,
-            "\\u003c"
-          )};
-          window.INSTATE = ${JSON.stringify(req.i18n.store)};
-          window.LANG = ${JSON.stringify(req.language)};
+          window.REACT_QUERY = "${encode(cbor.encode(dehydratedState))}";
+          window.PRELOADED_STATE = "${encode(cbor.encode(store.getState()))}";
+          window.INSTATE = "${encode(cbor.encode(req.i18n.store))}";
+          window.LANG = "${req.language}";
         </script>
         ${helmet.title.toString()}
         ${helmet.meta.toString()}

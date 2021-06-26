@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Configuration, UserAPIApi } from "@developers-house/abdera";
 import { SVGDefinitions } from "@components/UserAvatarStatus/SVGDefinitions";
@@ -11,6 +11,8 @@ import { I18nextProvider, useSSR } from "react-i18next";
 import { fetch as fetchPolyfill } from "cross-fetch";
 import { getAbderaEndpoint } from "@utilities/endpoints";
 import { useAppSelector } from "@state/hooks";
+import { decode } from "base64-arraybuffer";
+import CborJS from "cbor-js";
 
 let token: string | undefined = "";
 const UserAPI = new UserAPIApi(
@@ -38,7 +40,7 @@ const NotificationsArea = loadable(
 );
 
 const ClientAccesor = () => {
-  useSSR(window.INSTATE, window.LANG);
+  useSSR(CborJS.decode(decode(window.PRELOADED_STATE)), window.LANG);
   return <></>;
 };
 const Accesor = () => {

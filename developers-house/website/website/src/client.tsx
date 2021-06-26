@@ -15,7 +15,7 @@ import { register } from "@utilities/serviceWorker";
 import { addNotification } from "@state/slices/notifications/notifications";
 import { SSRContext } from "@components/SSRContext/SSRContext";
 import { throttle } from "lodash";
-import { encode } from "base64-arraybuffer";
+import { encode, decode } from "base64-arraybuffer";
 import Cookies from "js-cookie";
 import CborJS from "cbor-js";
 import { persistedStoreKeys } from "./constants";
@@ -23,8 +23,8 @@ import { persistedStoreKeys } from "./constants";
 const Root = loadable(() => import("Root"));
 
 const queryClient = new QueryClient();
-const preloadedState = window.PRELOADED_STATE;
-const dehydratedState = window.REACT_QUERY;
+const preloadedState = CborJS.decode(decode(window.PRELOADED_STATE));
+const dehydratedState = CborJS.decode(decode(window.REACT_QUERY));
 
 const store = createStore(preloadedState);
 
