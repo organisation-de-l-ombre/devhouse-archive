@@ -23,6 +23,7 @@ import postTakeouts from "./routes/user/post-takeouts";
 import getLinksRoute from "./routes/user/get-links";
 import getSelfRoute from "./routes/user/get-self";
 import { getFeatureFlags } from "./routes/data/get-feature-gates";
+import fastifyCors from "fastify-cors";
 
 interface Scarlet {
   user: UserApi;
@@ -68,6 +69,7 @@ export default class Server {
     this.server.decorateRequest("redis", this.redis);
     this.server.decorateRequest("hydra", this.hydra);
     this.server.decorateRequest("scarlet", this.scarlet);
+    void this.server.register(fastifyCors, {});
 
     this.server.register(fastifyAuth).after(() => {
       this.server.route(getProjectsRoute);
