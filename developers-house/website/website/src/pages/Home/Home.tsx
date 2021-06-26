@@ -14,7 +14,7 @@ import { Banner } from "@components/Banner/Banner";
 import { Flex } from "@components/new/Flex/FlexContainer";
 import { Stack } from "@components/new/Stack/Stack";
 import { Gate } from "@components/FeatureGate/FeatureGateProvider";
-import { Helmet } from "react-helmet";
+import { Metadata } from "@components/Meta/Metadata";
 import { discordServer } from "../../constants";
 import styles from "./Home.module.scss";
 
@@ -43,10 +43,12 @@ export default function HomePage(): ReactElement {
 
   return (
     <Flex flexDirection="column">
-      <Helmet>
-        <title>Home | Developer&rsquo;s House</title>
-        <meta name="og:title" content=""/>
-      </Helmet>
+      <Metadata title="Developer's House - Nice and diversified projects" description="We are yound developers who learn progressively development in
+              different programming languages and with different
+              technologies/tools. Our goal is to learn working with a team, and
+              to learn the job of developer. We create awesome and crazy
+              projects to learn but also to propose alternatives to existing
+              projects or useful functionnalities for you."/>
       <Flex
         justifyItems="center"
         flexDirection="column"

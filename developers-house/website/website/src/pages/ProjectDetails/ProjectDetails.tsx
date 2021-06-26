@@ -13,6 +13,7 @@ import UserAvatarStatus from "@components/UserAvatarStatus/UserAvatarStatus";
 import { getAvatar, statusToColor } from "@utilities/index";
 import { Header } from "@components/Header";
 import { withGate } from "@components/FeatureGate/FeatureGateProvider";
+import { Metadata } from "@components/Meta/Metadata";
 import { discordServer } from "../../constants";
 import styles from "./ProjectDetails.module.scss";
 
@@ -54,6 +55,10 @@ const ProjectDetails: FC<RouteComponentProps> = ({ match }) => {
   return (
     <FlexContainer className={styles.container}>
       <BackToProjects />
+      <Metadata
+        title={`${data.name} | Developer's House`}
+        description={data.shortDescription || "Unknown project"}
+      />
       <div className={styles.headers}>
         {data.logo && (
           <img src={data.logo} alt={`${data.name} icon`} draggable={false} />
