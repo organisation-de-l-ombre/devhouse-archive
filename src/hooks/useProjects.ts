@@ -38,7 +38,9 @@ const fetchProjectMarkdown = async (
     project.markdown = await fetch(
       project.markdownS3.replace(
         /(s3\.developershouse\.xyz|cdn\.developershouse\.xyz)/g,
-        "minio.minio.svc.cluster.local"
+        typeof window === "undefined"
+          ? "minio.minio.svc.cluster.local"
+          : "cdn.developershouse.xyz"
       )
     ).then((response) => response.text());
   }
