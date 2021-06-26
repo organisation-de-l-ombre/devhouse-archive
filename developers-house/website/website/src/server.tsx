@@ -16,6 +16,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { dehydrate } from "react-query/hydration";
 import PreloadContext from "@components/PreloadContext/PreloadContext";
 import Helmet from "react-helmet";
+import { SSRContext } from "@components/SSRContext/SSRContext";
 import App from "./Root";
 
 const unleash = initialize({
@@ -26,10 +27,7 @@ const unleash = initialize({
 
 const emotionCacheKey = "ssr-render";
 
-export const renderApp = async (
-  req: Request,
-  response: Response
-): Promise<void> => {
+export const renderApp = async (req: Request, res: Response): Promise<void> => {
   const context: StaticRouterProps["context"] = {};
 
   // We get the flags linked to the user.
@@ -67,19 +65,21 @@ export const renderApp = async (
   };
 
   const jsx = (
-    <PreloadContext.Provider value={preloaderContext}>
-      <ChunkExtractorManager extractor={extractor}>
-        <QueryClientProvider client={queryClient}>
-          <CacheProvider value={cache}>
-            <StaticRouter context={context} location={req.url}>
-              <Provider store={store}>
-                <App i18nInstance={req.i18n} />
-              </Provider>
-            </StaticRouter>
-          </CacheProvider>
-        </QueryClientProvider>
-      </ChunkExtractorManager>
-    </PreloadContext.Provider>
+    <SSRContext.Provider value={{ req, res }}>
+      <PreloadContext.Provider value={preloaderContext}>
+        <ChunkExtractorManager extractor={extractor}>
+          <QueryClientProvider client={queryClient}>
+            <CacheProvider value={cache}>
+              <StaticRouter context={context} location={req.url}>
+                <Provider store={store}>
+                  <App i18nInstance={req.i18n} />
+                </Provider>
+              </StaticRouter>
+            </CacheProvider>
+          </QueryClientProvider>
+        </ChunkExtractorManager>
+      </PreloadContext.Provider>
+    </SSRContext.Provider>
   );
 
   // We render a first time to get all the loading promises.
@@ -100,7 +100,7 @@ export const renderApp = async (
   const linkTags = extractor.getLinkTags();
   // collect style tags
   const styleTags = extractor.getStyleTags();
-  response.send(`<!doctype html>
+  res.send(`<!doctype html>
     <html ${helmet.htmlAttributes.toString()}>
       <head>
         <script>
@@ -118,7 +118,6 @@ export const renderApp = async (
         ${helmet.title.toString()}
         ${helmet.meta.toString()}
         ${helmet.link.toString()}
-        <meta name="viewport" content="width=device-width, initial-scale=1">
         ${linkTags}
         ${styleTags}
         ${await extractor.getInlineStyleTags()}

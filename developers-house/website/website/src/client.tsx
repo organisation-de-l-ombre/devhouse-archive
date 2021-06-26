@@ -13,6 +13,7 @@ import loadable from "@loadable/component";
 import SuspenseLoader from "@components/SuspenseLoader/SuspenseLoader";
 import { register } from "@utilities/serviceWorker";
 import { addNotification } from "@state/slices/notifications/notifications";
+import { SSRContext } from "@components/SSRContext/SSRContext";
 
 const Root = loadable(() => import("Root"));
 
@@ -39,19 +40,21 @@ const cache = createCache({
 
 const MainComponent = (): ReactElement => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Hydrate state={dehydratedState}>
-        <CacheProvider value={cache}>
-          <BrowserRouter>
-            <Provider store={store}>
-              <SuspenseLoader>
-                <Root />
-              </SuspenseLoader>
-            </Provider>
-          </BrowserRouter>
-        </CacheProvider>
-      </Hydrate>
-    </QueryClientProvider>
+    <SSRContext.Provider value={null}>
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={dehydratedState}>
+          <CacheProvider value={cache}>
+            <BrowserRouter>
+              <Provider store={store}>
+                <SuspenseLoader>
+                  <Root />
+                </SuspenseLoader>
+              </Provider>
+            </BrowserRouter>
+          </CacheProvider>
+        </Hydrate>
+      </QueryClientProvider>
+    </SSRContext.Provider>
   );
 };
 
