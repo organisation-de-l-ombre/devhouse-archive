@@ -55,6 +55,7 @@ export const renderApp = async (
 
   const extractor = new ChunkExtractor({
     statsFile: path.resolve("build/loadable-stats.json"),
+    outputPath: path.resolve("build/public"),
     // razzle client bundle entrypoint is client.js
     entrypoints: ["client", "Root"],
   });
