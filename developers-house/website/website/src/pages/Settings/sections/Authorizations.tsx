@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
-import { AiOutlineLoading, BiRefresh, BiTrash } from "react-icons/all";
+import { BiRefresh, BiTrash } from "react-icons/bi";
+import { AiOutlineLoading } from "react-icons/ai";
 import { Authorization } from "@developers-house/abdera";
 import { Stack } from "@components/new/Stack/Stack";
 import { Section } from "@components/new/Section/Section";
