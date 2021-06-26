@@ -3,6 +3,9 @@ const TerserPlugin = require('terser-webpack-plugin');
 const { InjectManifest } = require("workbox-webpack-plugin");
 const path = require("path");
 
+/**
+ * @type import("razzle")
+ */
 module.exports = {
     enableSourceMaps: false,
     plugins: [
