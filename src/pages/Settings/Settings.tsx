@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router";
 import { useDispatch } from "react-redux";
 import { AiFillLock } from "react-icons/ai";
 import { withGate } from "@components/FeatureGate/FeatureGateProvider";
+import { Metadata } from "@components/Meta/Metadata";
 import { Button, NavLinkButton } from "../../components/new/Button/Button";
 import ButtonGroup from "../../components/new/Button/ButtonGroup";
 import Authorizations from "./sections/Authorizations";
@@ -57,6 +58,10 @@ const Settings = (): ReactElement => {
 
   return (
     <div className={styles.main}>
+      <Metadata
+        title="Settings | Developer's House"
+        description="Manage and administrate all your Developer's House accounts, services and settings"
+      />
       <div className={styles.navigation}>
         <div className={styles.navigationHeader}>
           <UserAvatarStatus

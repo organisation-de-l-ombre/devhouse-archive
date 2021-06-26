@@ -12,6 +12,7 @@ import { Flex } from "@components/new/Flex/FlexContainer";
 import { Stack } from "@components/new/Stack/Stack";
 import { Header } from "@components/Header";
 import { withGate } from "@components/FeatureGate/FeatureGateProvider";
+import { Metadata } from "@components/Meta/Metadata";
 import styles from "./Projects.module.scss";
 
 const ProjectsPage = (): ReactElement => {
@@ -33,6 +34,12 @@ const ProjectsPage = (): ReactElement => {
 
   return (
     <div className={styles.main}>
+      <Metadata
+        title="Projects | Developer's House"
+        description="We are much more than you think! That is why this webpage exist on
+            the website. Here are displayed each projects of our team. You can
+            found all information you need."
+      />
       <Stack>
         <Header>
           <h1>About our projects</h1>

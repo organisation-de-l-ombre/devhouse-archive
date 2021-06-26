@@ -6,6 +6,7 @@ import FlexContainer from "@components/FlexContainer/FlexContainer";
 import { withNetwork } from "@hooks/hoc/withNetwork";
 import { Header } from "@components/Header";
 import { withGate } from "@components/FeatureGate/FeatureGateProvider";
+import { Metadata } from "@components/Meta/Metadata";
 import MemberDisplay from "./MemberDisplay";
 import styles from "./member.module.scss";
 
@@ -29,6 +30,12 @@ const MembersPage = (): ReactElement => {
 
   return (
     <div>
+      <Metadata
+        title="Members | Developer's House"
+        description="Thanks to all of our team to have helped to develop and to make
+            possible this project! Without these persons below this project
+            wouldn't exist."
+      />
       <Header>
         <h1>Our members</h1>
         <h2>
