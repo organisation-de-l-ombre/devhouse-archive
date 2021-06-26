@@ -107,10 +107,6 @@ export const Metadata: FC<MetadataProps> = ({
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="black" />
       <meta name="format-detection" content="telephone=no" />
-      <meta
-        name="viewport"
-        content="width = 320, initial-scale = 2.3, user-scalable = no"
-      />
       <link rel="apple-touch-icon" href="icons/logo192.png" />
       <link rel="apple-touch-startup-image" href="icons/logo192.png" />
     </Helmet>

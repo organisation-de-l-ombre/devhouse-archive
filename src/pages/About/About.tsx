@@ -7,7 +7,7 @@ export default withGate(function AboutPage(): ReactElement {
   return (
     <Header>
       <Metadata
-        title="Developer's House | About"
+        title="About | Developer's House"
         description="Developer's House is a team of young developers, you can find out more about the team on the about page"
       />
       <h1>About us</h1>
