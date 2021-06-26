@@ -3,7 +3,7 @@ import { Resource } from "i18next";
 
 declare global {
   interface Window {
-    INSTATE: Resource;
+    INSTATE: string;
     LANG: string;
     PRELOADED_STATE: string;
     REACT_QUERY: string;
