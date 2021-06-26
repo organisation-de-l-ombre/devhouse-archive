@@ -64,7 +64,7 @@ const UserButton: FC = () => {
   );
 };
 
-export const Menu = (): ReactElement => {
+const Menu = (): ReactElement => {
   const [open, switchOpen, setOpen] = useSwitcher();
   const blacklisted = useStartsWith("/settings");
   const transparent = useScrollPosition() === 0 && !blacklisted;
@@ -139,7 +139,6 @@ export const Menu = (): ReactElement => {
             </NavLink>
           )}
         </Gate>
-
         <Gate gate="feature_contact">
           {() => (
             <NavLink to="/contact" activeClassName={styles.active}>
@@ -148,31 +147,30 @@ export const Menu = (): ReactElement => {
           )}
         </Gate>
 
-        <div
-          css={{ marginLeft: "auto", display: "flex", flexDirection: "row" }}
+        <span css={{ marginLeft: "auto" }} />
+        <Gate gate="feature_login">{UserButton}</Gate>
+        <NavigationItem
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch(setTheme(dark ? "dark" : "light"));
+            addNotification({
+              level: "information",
+              text: `Switched to ${dark ? "dark" : "light"} theme.`,
+              time: 5000,
+            });
+          }}
         >
-          <Gate gate="feature_login">{UserButton}</Gate>
-          <NavigationItem
-            onClick={(e) => {
-              e.stopPropagation();
-              dispatch(setTheme(dark ? "dark" : "light"));
-              addNotification({
-                level: "information",
-                text: `Switched to ${dark ? "dark" : "light"} theme.`,
-                time: 5000,
-              });
-            }}
-          >
-            {dark ? <BsMoon /> : <FaSun />}
-            <div className={globalStyles.onlyMobiles}>
-              <Trans
-                t={t}
-                i18nKey={`menu.theme.text.${!dark ? "light" : "dark"}`}
-              />
-            </div>
-          </NavigationItem>
-        </div>
+          {dark ? <BsMoon /> : <FaSun />}
+          <div className={globalStyles.onlyMobiles}>
+            <Trans
+              t={t}
+              i18nKey={`menu.theme.text.${!dark ? "light" : "dark"}`}
+            />
+          </div>
+        </NavigationItem>
       </DrawerContent>
     </NavigationContainer>
   );
 };
+
+export default Menu;

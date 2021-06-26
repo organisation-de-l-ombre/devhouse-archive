@@ -14,12 +14,23 @@ import { Banner } from "@components/Banner/Banner";
 import { Flex } from "@components/new/Flex/FlexContainer";
 import { Stack } from "@components/new/Stack/Stack";
 import { Gate } from "@components/FeatureGate/FeatureGateProvider";
+import { Metadata } from "@components/Meta/Metadata";
 import { discordServer } from "../../constants";
 import styles from "./Home.module.scss";
 
-const shareAvailable = !!navigator.share;
+const shareAvailable = typeof window !== "undefined" && !!navigator.share;
 
-const Section: FC = (props) => <Flex {...props} justifyContent="space-evenly" justifyItems="center" alignItems="center" flexDirection="row" flexWrap className={styles.section} />;
+const Section: FC = (props) => (
+  <Flex
+    {...props}
+    justifyContent="space-evenly"
+    justifyItems="center"
+    alignItems="center"
+    flexDirection="row"
+    flexWrap
+    className={styles.section}
+  />
+);
 
 export default function HomePage(): ReactElement {
   const share = useCallback(() => {
@@ -32,32 +43,44 @@ export default function HomePage(): ReactElement {
 
   return (
     <Flex flexDirection="column">
-      <Flex justifyItems="center" flexDirection="column" alignItems="center" className={styles.homeHeader}>
+      <Metadata title="Developer's House - Nice and diversified projects" description="We are yound developers who learn progressively development in
+              different programming languages and with different
+              technologies/tools. Our goal is to learn working with a team, and
+              to learn the job of developer. We create awesome and crazy
+              projects to learn but also to propose alternatives to existing
+              projects or useful functionnalities for you."/>
+      <Flex
+        justifyItems="center"
+        flexDirection="column"
+        alignItems="center"
+        className={styles.homeHeader}
+      >
         <Banner className={styles.banner} />
         <h1 css={{ marginBottom: "2rem" }}>
-          We are young developers who learn to work as a team by developing
-          some nice, diversified and interesting projects.
+          We are young developers who learn to work as a team by developing some
+          nice, diversified and interesting projects.
         </h1>
         <ButtonGroup outline flexWrap>
           <Gate gate="feature_projects">
             {() => (
               <NavLinkButton to="/projects">
                 <RiPencilRuler2Line />
-              Projects
-              </NavLinkButton>)}
+                Projects
+              </NavLinkButton>
+            )}
           </Gate>
           <Gate gate="feature_members">
             {() => (
               <NavLinkButton to="/members">
                 <BsPeople />
-                  Members
+                Members
               </NavLinkButton>
             )}
           </Gate>
           <ButtonLink href={discordServer} target="blank">
             <FaDiscord />
-              Discord server
-            </ButtonLink>
+            Discord server
+          </ButtonLink>
         </ButtonGroup>
       </Flex>
       <Flex flexDirection="column" className={styles.coloring}>
@@ -94,7 +117,7 @@ export default function HomePage(): ReactElement {
               projects around image manipulation & edition, cinematography and
               entertainment/fun. To know more, click on the button below.
             </p>
-            <Gate gate="feature_projects" >
+            <Gate gate="feature_projects">
               {() => (
                 <ButtonGroup className={styles["buttons-group"]}>
                   <NavLinkButton to="/projects">View projects</NavLinkButton>
@@ -106,9 +129,7 @@ export default function HomePage(): ReactElement {
         </Section>
         <Section>
           <Stack className={styles.text}>
-            <h1>
-              Technologies and tools used
-            </h1>
+            <h1>Technologies and tools used</h1>
             <p>
               As we learn the job of developers, for a good begenning we decided
               to use powerful, flexible, complete and reliable technologies.
@@ -159,14 +180,16 @@ export default function HomePage(): ReactElement {
               participate to an awesome project!
             </p>
             <ButtonGroup flexWrap>
-              <Gate gate="feature_members" >
+              <Gate gate="feature_members">
                 {() => (
                   <NavLinkButton to="/members">View members</NavLinkButton>
                 )}
               </Gate>
-              <Gate gate="feature_join" >
+              <Gate gate="feature_join">
                 {() => (
-                  <NavLinkButton to="/recruitments/apply">Join us now</NavLinkButton>
+                  <NavLinkButton to="/recruitments/apply">
+                    Join us now
+                  </NavLinkButton>
                 )}
               </Gate>
             </ButtonGroup>
@@ -184,12 +207,10 @@ export default function HomePage(): ReactElement {
               you need to contact us, hoping it will help you 👀
             </p>
             <ButtonGroup flexWrap>
-              <Gate gate="feature_about" >
-                {() => (
-                  <NavLinkButton to="/about">Learn more</NavLinkButton>
-                )}
+              <Gate gate="feature_about">
+                {() => <NavLinkButton to="/about">Learn more</NavLinkButton>}
               </Gate>
-              <Gate gate="feature_contact" >
+              <Gate gate="feature_contact">
                 {() => (
                   <NavLinkButton to="/contact">Contact form</NavLinkButton>
                 )}

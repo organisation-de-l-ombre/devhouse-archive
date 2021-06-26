@@ -1,1 +1,0 @@
-const a={online:"rgb(67, 181, 129)",idle:"rgb(250, 166, 26)",dnd:"rgb(240, 71, 71)",offline:"gray",invisible:"gray"};function r(r){return a[r]||a.offline}function t(a){return a.avatar?`https://cdn.discordapp.com/avatars/${a.id}/${a.avatar}.${a.avatar.startsWith("a_")?"gif":"webp"}`:`https://cdn.discordapp.com/embed/avatars/${parseInt(a.id,10)%5}.png`}export{t as g,r as s};
