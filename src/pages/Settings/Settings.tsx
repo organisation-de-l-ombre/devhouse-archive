@@ -67,7 +67,7 @@ const Settings = (): ReactElement => {
           <UserAvatarStatus
             width="7rem"
             statusColor="grey"
-            avatar={`https://imageproxy.developershouse.xyz/250x250/https://s3.developershouse.xyz/${user?.avatar}`}
+            avatar={`https://imageproxy.developershouse.xyz/${user?.avatar}?height=250&width=250`}
             animate
           />
           <h3>{user?.username}</h3>

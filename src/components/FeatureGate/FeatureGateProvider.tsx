@@ -17,9 +17,12 @@ export function Gate<
   children: ComponentType<P>;
   props?: WithConditionalCSSProp<PropsWithChildren<P>>;
 }): ReactElement {
-  const state = useAppSelector((store) =>
+  let state = useAppSelector((store) =>
     store.featureFlags.featureFlags.find(({ name }) => name === gate)
   )?.enabled;
+  if (process.env.NODE_ENV !== "production") {
+    state = true;
+  }
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   return state ? <Children {...(props as never as P)} /> : <></>;

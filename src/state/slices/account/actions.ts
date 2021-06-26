@@ -1,4 +1,3 @@
-import { UserAPIApi } from "@developers-house/abdera";
 import { AppThunk } from "../../redux";
 import { retrieveOauthToken } from "./utils";
 import { setState, setUser } from "./account";
@@ -11,14 +10,14 @@ export function login(): AppThunk<void> {
     if (!state.account.client_id) return;
     try {
       const token = await retrieveOauthToken(state.account.client_id);
-      const user = await new UserAPIApi()
-        .withPreMiddleware(async (c) => {
-          c.init.headers = {
+      const user = await fetch(
+        "https://auth-server.developershouse.xyz/userinfo",
+        {
+          headers: {
             Authorization: `Bearer ${token}`,
-          };
-          return c;
-        })
-        .selfGet();
+          },
+        }
+      ).then((x) => x.json());
       dispatch(setUser({ ...user, token }));
       dispatch(setState("available"));
       dispatch(

@@ -7,8 +7,6 @@ import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 import { BrowserRouter } from "react-router-dom";
 import { Hydrate } from "react-query/hydration";
-import "rc-tooltip/assets/bootstrap.css";
-import "./transitions.css";
 import loadable from "@loadable/component";
 import SuspenseLoader from "@components/SuspenseLoader/SuspenseLoader";
 import { register } from "@utilities/serviceWorker";
