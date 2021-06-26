@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { manageAuth } from "@lib/manageAuthentication";
+import manageAuth from "@lib/manageAuthentication";
 import { useTranslation } from "react-i18next";
 import useAccount from "@hooks/useAccount";
 import { useHistory } from "react-router";

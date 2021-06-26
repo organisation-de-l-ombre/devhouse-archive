@@ -86,7 +86,7 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
   const { posterWidth, posterHeight } = calculatePosterDimensions();
 
   if (isFetching) {
-    return <SuspenseComponent customText={tRoot("fetchingData")} />;
+    return <SuspenseComponent minHeight customText={tRoot("fetchingData")} />;
   }
 
   if (error || !data) {
@@ -138,11 +138,15 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
               background-size: cover;
               background-repeat: no-repeat;
               background-position-x: center;
-              opacity: var(--media-headers-background-opacity);
-              ${Boolean(backgroundError && backgroundLoaded) &&
+              opacity: 0;
+              ${backgroundLoaded &&
               `
                 background-color: var(--media-headers-primary-background-color);
-                opacity: 0.6;
+                opacity: ${
+                  backgroundError
+                    ? "0.6"
+                    : "var(--media-headers-background-opacity)"
+                };
               `}
               ${!backgroundLoaded && "filter: blur(5px);"}
               transition: background-color 0.5s, opacity 0.5s, filter 0.5s;

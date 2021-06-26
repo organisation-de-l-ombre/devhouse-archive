@@ -1,4 +1,4 @@
-import React, { FC, lazy } from "react";
+import React, { FC, lazy, Suspense } from "react";
 import { RouteComponentProps } from "react-router";
 import { useTranslation } from "react-i18next";
 import useLanguage from "@hooks/useLanguage";
@@ -63,15 +63,17 @@ const MovieRoot: FC<RouteComponentProps> = ({ match }) => {
   }
 
   return (
-    <FlexContainer column>
-      <Helmet>
-        <title>{data.body.title} - IMR</title>
-      </Helmet>
-      <Headers dataResponse={data} />
-      <InternalNavigation dataResponse={data} />
-      <BackToTop />
-      <Router dataResponse={data} />
-    </FlexContainer>
+    <Suspense fallback={<SuspenseComponent />}>
+      <FlexContainer column>
+        <Helmet>
+          <title>{data.body.title} - IMR</title>
+        </Helmet>
+        <Headers dataResponse={data} />
+        <InternalNavigation dataResponse={data} />
+        <BackToTop />
+        <Router dataResponse={data} />
+      </FlexContainer>
+    </Suspense>
   );
 };
 

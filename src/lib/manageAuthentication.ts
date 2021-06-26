@@ -44,7 +44,4 @@ const manageAuth = async (): Promise<void> => {
   )}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
 };
 
-const getAvatar = (path: string): string =>
-  `https://s3.developershouse.xyz/${path}`;
-
-export { manageAuth, getAvatar };
+export default manageAuth;

@@ -3,8 +3,8 @@ import { useRouteMatch } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
 import { Sidebar, SidebarItem, SidebarSection } from "@components/modules";
 import useAccount from "@hooks/useAccount";
-import { getAvatar } from "@lib/manageAuthentication";
 import { FunctionComponent } from "@typings/FunctionComponent";
+import fetchImage from "@lib/fetchImage";
 
 const InternalNavigation: FunctionComponent<
   HTMLDivElement,
@@ -20,7 +20,12 @@ const InternalNavigation: FunctionComponent<
   return (
     <Sidebar
       title={user?.username as string}
-      picture={getAvatar(user?.avatar as string)}
+      picture={fetchImage({
+        type: "image",
+        image: user?.avatar as string,
+        width: 128,
+        height: 128,
+      })}
       pictureCircle
       pictureAlt={`Avatar of ${user?.username}`}
       open={open}

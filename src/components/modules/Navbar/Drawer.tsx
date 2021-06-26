@@ -1,7 +1,6 @@
 import React, { Dispatch, FC, SetStateAction, useCallback } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
-import { getAvatar } from "@lib/manageAuthentication";
 import { FaBell, FaBellSlash, FaMoon, FaSun, FaUser } from "react-icons/fa";
 import { MdSearch } from "react-icons/md";
 import useAccount from "@hooks/useAccount";
@@ -17,6 +16,7 @@ import { FunctionComponent } from "@typings/FunctionComponent";
 import MinimalIcon from "@svg/icons/Minimal";
 import { useClient } from "@hooks/useInternal";
 import { AiFillWarning } from "react-icons/ai";
+import fetchImage from "@lib/fetchImage";
 import DisplayLanguageSVG from "../DisplayLanguageSVG/DisplayLanguageSVG";
 import styles from "./Navbar.module.scss";
 
@@ -163,7 +163,12 @@ const UserManagement: FC<{
     >
       {avatar ? (
         <img
-          src={getAvatar(avatar)}
+          src={fetchImage({
+            type: "image",
+            image: avatar,
+            width: 30,
+            height: 30,
+          })}
           alt={`Avatar of ${username}`}
           draggable={false}
         />
@@ -275,7 +280,7 @@ const DrawerEnd: FunctionComponent<
         <span className={styles["switcher-span"]}>
           <Trans
             t={t}
-            i18nKey={`items.theme.${theme === "light" ? "light" : "dark"}`}
+            i18nKey={`items.theme.${theme === "light" ? "dark" : "light"}`}
           />
         </span>
       </button>
