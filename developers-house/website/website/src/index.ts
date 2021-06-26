@@ -1,5 +1,4 @@
 import express from "express";
-import { Resource } from "i18next";
 
 declare global {
   interface Window {
