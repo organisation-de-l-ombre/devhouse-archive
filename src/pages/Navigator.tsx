@@ -1,4 +1,4 @@
-import React, { FC, useEffect, Suspense } from "react";
+import React, { FC, useEffect } from "react";
 import {
   Route,
   Switch,
@@ -8,26 +8,24 @@ import {
 } from "react-router-dom";
 import "./transitions.css";
 import { RouteProps } from "react-router";
-import { Loader } from "../components/SuspenseLoader/SuspenseLoader";
+import loadable from "@loadable/component";
+import SuspenseLoader from "@components/SuspenseLoader/SuspenseLoader";
 import NotFound from "./NotFound/NotFound";
 import styles from "./navigator.module.scss";
 import { useNotificationsManager } from "../hooks/useNotifications";
 import { useHasUser } from "../state/slices/account/hooks";
 
-const AboutPage = React.lazy(() => import("./About/About"));
-const HomePage = React.lazy(() => import("./Home/Home"));
-const ProjectsPage = React.lazy(() => import("./Projects/Projects"));
-const ProjectDetailsPage = React.lazy(
+const HomePage = loadable(() => import("./Home/Home"));
+const AboutPage = loadable(() => import("./About/About"));
+const ProjectsPage = loadable(() => import("./Projects/Projects"));
+const ProjectDetailsPage = loadable(
   () => import("./ProjectDetails/ProjectDetails")
 );
-const Callback = React.lazy(() => import("./Settings/Callback"));
-const Settings = React.lazy(() => import("./Settings/Settings"));
-const MembersPage = React.lazy(() => import("./Members/Members"));
+const Callback = loadable(() => import("./Settings/Callback"));
+const Settings = loadable(() => import("./Settings/Settings"));
+const MembersPage = loadable(() => import("./Members/Members"));
 
-const PrivateRoute: FC<{ component: FC<unknown> } & RouteProps> = ({
-  component: Component,
-  ...rest
-}) => {
+const PrivateRoute: FC<RouteProps> = ({ ...rest }) => {
   const auth = useHasUser();
   const history = useHistory();
   const { addNotification } = useNotificationsManager();
@@ -41,17 +39,10 @@ const PrivateRoute: FC<{ component: FC<unknown> } & RouteProps> = ({
       history.push("/");
     }
   }, [addNotification, auth, history]);
-  return (
-    <Route
-      {...rest}
-      render={(props) => {
-        if (auth) {
-          return <Component {...props} />;
-        }
-        return null;
-      }}
-    />
-  );
+  if (auth) {
+    return <Route {...rest} />;
+  }
+  return null;
 };
 
 const GA: FC = () => {
@@ -59,13 +50,16 @@ const GA: FC = () => {
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as any).gtag("event", "page_view", {
-      page_title: route.pathname,
-      page_location: route.hash,
-      page_path: route.pathname,
+    if ((window as any).gtag) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      send_to: (window as any).GA_TAG,
-    });
+      (window as any).gtag("event", "page_view", {
+        page_title: route.pathname,
+        page_location: route.hash,
+        page_path: route.pathname,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        send_to: (window as any).GA_TAG,
+      });
+    }
   }, [route]);
 
   return null;
@@ -86,7 +80,7 @@ const Navigator = () => {
       <GA />
       <Scroller />
       <div className={styles.content}>
-        <Suspense fallback={<Loader />}>
+        <SuspenseLoader>
           <Switch>
             <Route path="/members" exact component={MembersPage} />
             <Route path="/" exact component={HomePage} />
@@ -97,7 +91,7 @@ const Navigator = () => {
             <PrivateRoute path="/settings" component={Settings} />
             <Route path="*" exact component={NotFound} />
           </Switch>
-        </Suspense>
+        </SuspenseLoader>
       </div>
     </div>
   );

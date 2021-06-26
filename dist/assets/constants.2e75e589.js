@@ -1,1 +1,0 @@
-import{l as o}from"./Root.74cc1349.js";const s=new o.DisplayDataApi,t={},i=o=>{o.split("&").forEach((o=>{const s=o.split("="),[i,a]=s;t[i]=a}))},a="https://discord.com/invite/QECkmy8TqC";i(window.location.hash.substring(1)||""),i(window.location.href.split("?")[1]||"");const c=t;export{s as D,c as R,a as d};

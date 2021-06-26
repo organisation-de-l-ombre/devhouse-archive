@@ -1,1 +1,0 @@
-import{j as o}from"./vendor.55145a9c.js";import{w as r}from"./Root.74cc1349.js";import{H as e}from"./index.f5db3048.js";import"./index.d2924874.js";var t=r((function(){return o(e,null,o("h1",null,"About us"),o("p",null,"We are a small team of developers #TODO"))}),"feature_about");export default t;
