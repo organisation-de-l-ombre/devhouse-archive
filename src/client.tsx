@@ -10,6 +10,9 @@ import { Hydrate } from "react-query/hydration";
 import "rc-tooltip/assets/bootstrap.css";
 import "./transitions.css";
 import loadable from "@loadable/component";
+import SuspenseLoader from "@components/SuspenseLoader/SuspenseLoader";
+import { register } from "@utilities/serviceWorker";
+import { addNotification } from "@state/slices/notifications/notifications";
 
 const Root = loadable(() => import("Root"));
 
@@ -18,7 +21,18 @@ const preloadedState = window.PRELOADED_STATE;
 const dehydratedState = window.REACT_QUERY;
 
 const store = createStore(preloadedState);
-
+register({
+  onUpdate() {},
+  onSuccess() {
+    store.dispatch(
+      addNotification({
+        text: "Application available for offline use.",
+        time: 2500,
+        level: "information",
+      })
+    );
+  },
+});
 const cache = createCache({
   key: "ssr-render",
 });
@@ -30,7 +44,9 @@ const MainComponent = (): ReactElement => {
         <CacheProvider value={cache}>
           <BrowserRouter>
             <Provider store={store}>
-              <Root />
+              <SuspenseLoader>
+                <Root />
+              </SuspenseLoader>
             </Provider>
           </BrowserRouter>
         </CacheProvider>

@@ -1,6 +1,6 @@
 import times from "lodash.times";
 
-export function randomString(randomBytesLength = 9): string {
+export function randomString(randomBytesLength = 48): string {
   if (typeof window === "undefined") {
     return "";
   }
@@ -17,5 +17,8 @@ export function randomString(randomBytesLength = 9): string {
     );
   }
 
-  return window.btoa(String.fromCharCode(...randomBytes));
+  return window
+    .btoa(String.fromCharCode(...randomBytes))
+    .replaceAll("+", "-")
+    .replaceAll("/", "_");
 }
