@@ -14,6 +14,7 @@ import { Banner } from "@components/Banner/Banner";
 import { Flex } from "@components/new/Flex/FlexContainer";
 import { Stack } from "@components/new/Stack/Stack";
 import { Gate } from "@components/FeatureGate/FeatureGateProvider";
+import { Helmet } from "react-helmet";
 import { discordServer } from "../../constants";
 import styles from "./Home.module.scss";
 
@@ -42,6 +43,10 @@ export default function HomePage(): ReactElement {
 
   return (
     <Flex flexDirection="column">
+      <Helmet>
+        <title>Home | Developer&rsquo;s House</title>
+        <meta name="og:title" content=""/>
+      </Helmet>
       <Flex
         justifyItems="center"
         flexDirection="column"
