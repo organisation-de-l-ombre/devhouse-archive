@@ -40,7 +40,7 @@ const UserButton: FC = () => {
                 animate
                 status={false}
                 statusColor="transparent"
-                avatar={`https://imageproxy.developershouse.xyz/120x120/https://s3.developershouse.xyz/${user?.avatar}`}
+                avatar={`https://imageproxy.developershouse.xyz/${user?.avatar}?height=120&width=120`}
               />
               <span className={styles.username}>{user?.username}</span>
             </NavigationItem>

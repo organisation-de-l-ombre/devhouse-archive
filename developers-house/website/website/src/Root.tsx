@@ -13,6 +13,8 @@ import { getAbderaEndpoint } from "@utilities/endpoints";
 import { useAppSelector } from "@state/hooks";
 import { decode } from "base64-arraybuffer";
 import CborJS from "cbor-js";
+import "rc-tooltip/assets/bootstrap.css";
+import "./transitions.css";
 
 let token: string | undefined = "";
 const UserAPI = new UserAPIApi(

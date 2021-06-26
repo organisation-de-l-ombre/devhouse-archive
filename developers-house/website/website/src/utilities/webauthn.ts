@@ -1,11 +1,13 @@
 import { SelfUser } from "@developers-house/abdera";
 
-export const available = "credentials" in navigator;
+export const available =
+  typeof navigator === "undefined" ? false : "credentials" in navigator;
 
 export const requestKeyAdd = (
   challenge: string,
   user: SelfUser
 ): Promise<PublicKeyCredential | null> => {
+  if (typeof navigator === "undefined") return Promise.resolve(null);
   return navigator.credentials.create({
     publicKey: {
       challenge: Uint8Array.from(challenge, (c) => c.charCodeAt(0)),
