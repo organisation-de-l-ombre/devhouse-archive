@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactElement, useEffect } from "react";
+import React, { PropsWithChildren, ReactElement } from "react";
 import { Helmet } from "react-helmet";
 import styles from "./themes.module.scss";
 import { useTheme } from "../../state/slices/theme/hooks";

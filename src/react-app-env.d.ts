@@ -14,6 +14,10 @@ declare module "react-component-caching" {
   const module: any;
   export default module;
 }
+declare module "cbor-js" {
+  const module: any;
+  export default module;
+}
 
 declare namespace NodeJS {
   interface ProcessEnv {

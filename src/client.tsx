@@ -14,6 +14,11 @@ import SuspenseLoader from "@components/SuspenseLoader/SuspenseLoader";
 import { register } from "@utilities/serviceWorker";
 import { addNotification } from "@state/slices/notifications/notifications";
 import { SSRContext } from "@components/SSRContext/SSRContext";
+import { throttle } from "lodash";
+import { encode } from "base64-arraybuffer";
+import Cookies from "js-cookie";
+import CborJS from "cbor-js";
+import { persistedStoreKeys } from "./constants";
 
 const Root = loadable(() => import("Root"));
 
@@ -22,6 +27,16 @@ const preloadedState = window.PRELOADED_STATE;
 const dehydratedState = window.REACT_QUERY;
 
 const store = createStore(preloadedState);
+
+store.subscribe(
+  throttle(() => {
+    const state = store.getState();
+    persistedStoreKeys.forEach((element: keyof typeof state) => {
+      Cookies.set(`store-${element}`, encode(CborJS.encode(state[element])));
+    });
+  }, 4000)
+);
+
 register({
   onUpdate() {},
   onSuccess() {
