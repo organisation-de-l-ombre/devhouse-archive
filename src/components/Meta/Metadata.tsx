@@ -3,7 +3,6 @@ import i18n from "@utilities/i18n";
 import { I18next } from "i18next-http-middleware";
 import React, { FC, useContext } from "react";
 import { Helmet } from "react-helmet";
-import { useRouteMatch } from "react-router";
 
 type MetadataProps = {
   title: string;
@@ -18,12 +17,14 @@ export const Metadata: FC<MetadataProps> = ({
   image = "https://www.developershouse.xyz/icons/embed-back.png?v=4",
   keywords = ["developershouse", "projects"],
 }) => {
+  description = description.replace("\r\n", "");
+  title = title.replace("\r\n", "");
   const shortDescription =
     description.length > 32 ? `${description.slice(0, 32)}...` : description;
-  const match = useRouteMatch();
   const context = useContext(SSRContext);
-  let url = `${match}`;
+  let url: string;
   let i18next: I18next;
+
   if (context) {
     i18next = context.req.i18n;
     url = context.req.url;
@@ -34,6 +35,7 @@ export const Metadata: FC<MetadataProps> = ({
 
   return (
     <Helmet>
+      <html lang={i18next.language} />
       <title>{title}</title>
       <script
         async
