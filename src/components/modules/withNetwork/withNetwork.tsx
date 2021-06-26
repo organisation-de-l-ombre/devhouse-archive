@@ -7,9 +7,7 @@ import { ReactElement } from "react-markdown";
 
 function withNetwork<Props>(Component: ComponentType<Props>) {
   return (props: Props): ReactElement => {
-    const { t } = useTranslation(
-      "components\\modules\\withNetwork\\withNetwork"
-    );
+    const { t } = useTranslation("root");
     const [online, setOnline] = useState<boolean>(window.navigator.onLine);
     const setOnlineStatus = useCallback((): void => {
       setOnline(true);
@@ -62,7 +60,7 @@ function withNetwork<Props>(Component: ComponentType<Props>) {
           >
             <RiWifiOffLine />
             <p>
-              <Trans t={t} i18nKey="message" />
+              <Trans t={t} i18nKey="withNetwork.noNetwork" />
             </p>
           </Card>
         </FlexContainer>

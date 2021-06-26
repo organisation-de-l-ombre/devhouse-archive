@@ -7,7 +7,7 @@ import { SuspenseComponent, withNetwork } from "@components/modules";
 import { FunctionComponent } from "@typings/FunctionComponent";
 
 const Login: FunctionComponent<HTMLDivElement> = () => {
-  const { t } = useTranslation("pages\\login\\login");
+  const { t } = useTranslation("root");
   const { user } = useAccount();
   const history = useHistory();
 
@@ -20,7 +20,7 @@ const Login: FunctionComponent<HTMLDivElement> = () => {
     manageAuth();
   }, [history, user]);
 
-  return <SuspenseComponent customText={t("message")} />;
+  return <SuspenseComponent customText={t("utils.redirecting")} />;
 };
 
 export default withNetwork(Login);

@@ -15,7 +15,7 @@ const AccountRoot: FunctionComponent<HTMLDivElement> = () => {
   const { user } = useAccount();
   const history = useHistory();
   const { open, manageSidebar } = useSidebar();
-  const { t } = useTranslation("pages\\account\\root");
+  const { t } = useTranslation("pages\\account\\account");
 
   React.useEffect(() => {
     if (!user) {

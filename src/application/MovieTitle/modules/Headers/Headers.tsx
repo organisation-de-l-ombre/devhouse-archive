@@ -64,9 +64,9 @@ const calculatePosterDimensions = (): PosterDimensions => {
 const Headers: ReactMovieElement = ({ dataResponse }) => {
   const { language } = useLanguage();
   const [trailerWindowOpen, setTrailerWindowOpen] = useState<boolean>(false);
-  const { t } = useTranslation("pages\\movieTitle\\headers");
-  const { t: tRoot } = useTranslation("pages\\movieTitle\\root");
-  const { t: tTags } = useTranslation("pages\\movieTitle\\tags");
+  const { t } = useTranslation("pages\\movieTitle\\movieTitle");
+  const { t: tRoot } = useTranslation("root");
+  const { t: tTags } = useTranslation("media\\media");
   const {
     isFetching,
     error,
@@ -116,7 +116,7 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
     <>
       {data.trailer && (
         <YouTubePlayer
-          title={`${data.title} - ${t("trailerWindowTitle")}`}
+          title={`${data.title} - ${t("headers.trailerWindowTitle")}`}
           videoID={data.trailer}
           autoPlay
           open={trailerWindowOpen}
@@ -214,7 +214,7 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
                 {data.type.map((tag: string): React.ReactElement => {
                   return (
                     <ButtonLink key={tag} to={`/browse?tag=${tag}`}>
-                      <Trans t={tTags} i18nKey={tag} />
+                      <Trans t={tTags} i18nKey={`tags.${tag}`} />
                     </ButtonLink>
                   );
                 })}
@@ -224,7 +224,7 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
               <Button>
                 <MdMovie />
                 <span>
-                  <Trans t={t} i18nKey="watch" />
+                  <Trans t={t} i18nKey="headers.buttons.watch" />
                 </span>
               </Button>
               {data.trailer && (
@@ -243,7 +243,7 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
                 >
                   <FaPlay />
                   <span>
-                    <Trans t={t} i18nKey="trailer" />
+                    <Trans t={t} i18nKey="headers.buttons.trailer" />
                   </span>
                 </Button>
               )}

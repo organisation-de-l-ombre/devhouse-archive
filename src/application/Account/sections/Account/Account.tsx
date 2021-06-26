@@ -20,7 +20,8 @@ import { withNetwork } from "@components/modules";
 import containerStyle from "../../Containers.module.scss";
 
 const Account: FunctionComponent<HTMLDivElement> = () => {
-  const { t } = useTranslation("pages\\account\\sections\\account");
+  const { t } = useTranslation("pages\\account\\account");
+  const { t: tRoot } = useTranslation("root");
   const { user, removeUser } = useAccount();
   const { addNotifications } = useNotificationsManager();
   const logout = useCallback((): void => {
@@ -29,7 +30,7 @@ const Account: FunctionComponent<HTMLDivElement> = () => {
       {
         id: generateNotificationID(),
         type: "info",
-        body: t("devHouse.loggedOut"),
+        body: t("account.devHouse.loggedOut"),
         time: 5000,
       },
     ]);
@@ -50,7 +51,7 @@ const Account: FunctionComponent<HTMLDivElement> = () => {
       <CardContainer noMargin direction="column">
         <Card noPadding transparent className={containerStyle.card}>
           <h2>
-            <Trans t={t} i18nKey="devHouse.title" />
+            <Trans t={t} i18nKey="account.devHouse.title" />
           </h2>
           <FlexContainer
             allowWrap
@@ -58,37 +59,37 @@ const Account: FunctionComponent<HTMLDivElement> = () => {
           >
             <TextArea>
               <h3>
-                <Trans t={t} i18nKey="devHouse.username" />
+                <Trans t={t} i18nKey="account.devHouse.username" />
               </h3>
               <span>{user.username}</span>
             </TextArea>
             <TextArea>
               <h3>
-                <Trans t={t} i18nKey="devHouse.id" />
+                <Trans t={t} i18nKey="account.devHouse.id" />
               </h3>
               <span>{user.sub}</span>
             </TextArea>
             <TextArea>
               <h3>
-                <Trans t={t} i18nKey="devHouse.dataCollection" />
+                <Trans t={t} i18nKey="account.devHouse.dataCollection" />
               </h3>
               <span>
                 {user.dataCollection ? (
-                  <Trans t={t} i18nKey="yes" />
+                  <Trans t={tRoot} i18nKey="global.yes" />
                 ) : (
-                  <Trans t={t} i18nKey="no" />
+                  <Trans t={tRoot} i18nKey="global.no" />
                 )}
               </span>
             </TextArea>
             <TextArea>
               <h3>
-                <Trans t={t} i18nKey="devHouse.premiumAccess" />
+                <Trans t={t} i18nKey="account.devHouse.premiumAccess" />
               </h3>
               <span>
                 {user.premium ? (
-                  <Trans t={t} i18nKey="yes" />
+                  <Trans t={tRoot} i18nKey="global.yes" />
                 ) : (
-                  <Trans t={t} i18nKey="no" />
+                  <Trans t={tRoot} i18nKey="global.no" />
                 )}
               </span>
             </TextArea>
@@ -100,23 +101,23 @@ const Account: FunctionComponent<HTMLDivElement> = () => {
             >
               <FaEdit />
               <span>
-                <Trans t={t} i18nKey="devHouse.editAccount" />
+                <Trans t={t} i18nKey="account.devHouse.editAccount" />
               </span>
             </ButtonExternalLink>
             <Button onClick={logout}>
               <RiLogoutBoxRLine />
               <span>
-                <Trans t={t} i18nKey="devHouse.logout" />
+                <Trans t={t} i18nKey="account.devHouse.logout" />
               </span>
             </Button>
           </ButtonsGroup>
         </Card>
         <Card noPadding transparent className={containerStyle.card}>
           <h2>
-            <Trans t={t} i18nKey="imr.title" />
+            <Trans t={t} i18nKey="account.imr.title" />
           </h2>
           <GenericLoader genericMarginTop>
-            <Trans t={t} i18nKey="imr.notImplemented" />
+            <Trans t={t} i18nKey="account.imr.notImplemented" />
           </GenericLoader>
         </Card>
       </CardContainer>

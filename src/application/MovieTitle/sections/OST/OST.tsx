@@ -50,7 +50,7 @@ const DisplaySVG: FunctionComponent<IconType, { type: string }> = ({
 
 const OST: ReactMovieElement = ({ dataResponse }) => {
   const { language } = useLanguage();
-  const { t } = useTranslation("pages\\movieTitle\\ost");
+  const { t } = useTranslation("pages\\movieTitle\\movieTitle");
   const {
     isFetching,
     error,
@@ -181,7 +181,7 @@ const OST: ReactMovieElement = ({ dataResponse }) => {
                         <p>
                           <Trans
                             t={t}
-                            i18nKey="duration"
+                            i18nKey="ost.duration"
                             values={{ duration: track.duration }}
                           />
                         </p>
@@ -189,7 +189,7 @@ const OST: ReactMovieElement = ({ dataResponse }) => {
                           <p>
                             <Trans
                               t={t}
-                              i18nKey="timeline"
+                              i18nKey="ost.timeline"
                               values={{ timeline: track.timecode }}
                             />
                           </p>
@@ -198,7 +198,7 @@ const OST: ReactMovieElement = ({ dataResponse }) => {
                           <p>
                             <Trans
                               t={t}
-                              i18nKey="characters"
+                              i18nKey="ost.characters"
                               values={{
                                 characters: track.characters.join(", "),
                                 count: track.characters.length,
@@ -236,7 +236,7 @@ const OST: ReactMovieElement = ({ dataResponse }) => {
                               >
                                 <FaPlay />
                                 <span>
-                                  <Trans t={t} i18nKey="watchVideo" />
+                                  <Trans t={t} i18nKey="ost.watchVideo" />
                                 </span>
                               </Button>
                             )}
@@ -247,7 +247,7 @@ const OST: ReactMovieElement = ({ dataResponse }) => {
                               >
                                 <FaMusic />
                                 <span>
-                                  <Trans t={t} i18nKey="lyrics" />
+                                  <Trans t={t} i18nKey="ost.lyrics" />
                                 </span>
                               </ButtonExternalLink>
                             )}

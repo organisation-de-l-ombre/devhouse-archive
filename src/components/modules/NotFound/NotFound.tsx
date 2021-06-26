@@ -6,7 +6,7 @@ import { FunctionComponent } from "@typings/FunctionComponent";
 import { Card, FlexContainer, ButtonsGroup, ButtonLink } from "../../ui";
 
 const NotFound: FunctionComponent<HTMLDivElement> = () => {
-  const { t } = useTranslation("components\\notFound");
+  const { t } = useTranslation("root");
 
   return (
     <FlexContainer minHeight padding expand fullCentered>
@@ -15,12 +15,12 @@ const NotFound: FunctionComponent<HTMLDivElement> = () => {
         transparent
         className={globalStyles["opacity-display-animation"]}
       >
-        <h1>
-          <Trans t={t} i18nKey="title" />
+        <h1 css={{ fontSize: "30px" }}>
+          <Trans t={t} i18nKey="notFound.title" />
         </h1>
         <hr />
         <p>
-          <Trans t={t} i18nKey="description" />
+          <Trans t={t} i18nKey="notFound.description" />
         </p>
         <ButtonsGroup
           expand
@@ -29,10 +29,10 @@ const NotFound: FunctionComponent<HTMLDivElement> = () => {
           `}
         >
           <ButtonLink to="/">
-            <Trans t={t} i18nKey="homePage" />
+            <Trans t={t} i18nKey="notFound.buttons.homePage" />
           </ButtonLink>
           <ButtonLink to="/support">
-            <Trans t={t} i18nKey="supportPage" />
+            <Trans t={t} i18nKey="notFound.buttons.supportPage" />
           </ButtonLink>
         </ButtonsGroup>
       </Card>

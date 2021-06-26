@@ -14,7 +14,7 @@ const ErrorComponent: FunctionComponent<
   HTMLDivElement,
   { minHeight?: boolean; errorMessage?: string }
 > = ({ minHeight, errorMessage }) => {
-  const { t } = useTranslation("components\\modules\\error\\error");
+  const { t } = useTranslation("root");
   const reload = useCallback(() => {
     document.location.reload();
   }, []);
@@ -26,22 +26,25 @@ const ErrorComponent: FunctionComponent<
         transparent
         className={globalStyles["opacity-display-animation"]}
       >
-        <h1>
-          <Trans t={t} i18nKey="title" />
+        <h1 css={{ fontSize: "30px" }}>
+          <Trans t={t} i18nKey="error.title" />
         </h1>
         <hr />
         <p>
-          <Trans t={t} i18nKey="description" />
+          <Trans t={t} i18nKey="error.description" />
         </p>
         {errorMessage && (
           <code css={{ marginTop: "1.5rem" }}>{errorMessage}</code>
         )}
         <ButtonsGroup expand css={{ marginTop: "0.5rem" }}>
           <Button onClick={reload}>
-            <Trans t={t} i18nKey="reloadPage" />
+            <Trans t={t} i18nKey="error.buttons.reloadPage" />
           </Button>
-          <ButtonLink to="support">
-            <Trans t={t} i18nKey="support" />
+          <ButtonLink to="/">
+            <Trans t={t} i18nKey="error.buttons.homePage" />
+          </ButtonLink>
+          <ButtonLink to="/support">
+            <Trans t={t} i18nKey="error.buttons.supportPage" />
           </ButtonLink>
         </ButtonsGroup>
       </Card>

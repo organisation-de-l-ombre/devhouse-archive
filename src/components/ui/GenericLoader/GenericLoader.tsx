@@ -27,7 +27,7 @@ const GenericLoader: FunctionComponent<
         active
         innerClassName={styles.loader}
       />
-      <p css={{ marginTop: "1rem" }}>{children}</p>
+      <p css={{ marginTop: "1rem", textAlign: "center" }}>{children}</p>
     </FlexContainer>
   );
 };

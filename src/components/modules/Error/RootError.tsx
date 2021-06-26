@@ -10,7 +10,7 @@ import {
 } from "../../ui";
 
 const RootError: ComponentType<FallbackProps> = () => {
-  const { t } = useTranslation("components\\modules\\error\\error");
+  const { t } = useTranslation("error");
 
   return (
     <FlexContainer minHeight padding expand fullCentered>
@@ -19,19 +19,19 @@ const RootError: ComponentType<FallbackProps> = () => {
         transparent
         className={globalStyles["opacity-display-animation"]}
       >
-        <h1>
-          <Trans t={t} i18nKey="title" />
+        <h1 css={{ fontSize: "30px" }}>
+          <Trans t={t} i18nKey="error.title" />
         </h1>
         <hr />
         <p>
-          <Trans t={t} i18nKey="description" />
+          <Trans t={t} i18nKey="error.description" />
         </p>
         <ButtonsGroup expand css={{ marginTop: "0.5rem" }}>
           <ButtonExternalLink href={document.location.origin}>
-            <Trans t={t} i18nKey="reloadWebsite" />
+            <Trans t={t} i18nKey="error.buttons.homePage" />
           </ButtonExternalLink>
           <ButtonExternalLink href={`${document.location.origin}/support`}>
-            <Trans t={t} i18nKey="support" />
+            <Trans t={t} i18nKey="error.buttons.supportPage" />
           </ButtonExternalLink>
         </ButtonsGroup>
       </Card>

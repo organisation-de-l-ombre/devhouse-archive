@@ -17,8 +17,8 @@ import containerStyle from "../../Containers.module.scss";
 
 const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
   const { language } = useLanguage();
-  const { t } = useTranslation("pages\\movieTitle\\technicalSpecs");
-  const { t: tTags } = useTranslation("pages\\movieTitle\\tags");
+  const { t } = useTranslation("pages\\movieTitle\\movieTitle");
+  const { t: tTags } = useTranslation("media\\media");
   const {
     isFetching,
     error,
@@ -79,45 +79,48 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
           <tbody>
             <tr>
               <td>
-                <Trans t={t} i18nKey="presentation.title" />
+                <Trans t={t} i18nKey="technicalSpecs.presentation.title" />
               </td>
               <td>{presentation.title}</td>
             </tr>
             {presentation.VOTitle && (
               <tr>
                 <td>
-                  <Trans t={t} i18nKey="presentation.VOTitle" />
+                  <Trans t={t} i18nKey="technicalSpecs.presentation.VOTitle" />
                 </td>
                 <td>{presentation.VOTitle}</td>
               </tr>
             )}
             <tr>
               <td>
-                <Trans t={t} i18nKey="presentation.originalCountry" />
+                <Trans
+                  t={t}
+                  i18nKey="technicalSpecs.presentation.originalCountry"
+                />
               </td>
               <td>{presentation.originalCountry}</td>
             </tr>
             {presentation.duration && (
               <tr>
                 <td>
-                  <Trans t={t} i18nKey="presentation.duration" />
+                  <Trans t={t} i18nKey="technicalSpecs.presentation.duration" />
                 </td>
                 <td>{presentation.duration}</td>
               </tr>
             )}
             <tr>
               <td>
-                <Trans t={t} i18nKey="presentation.type" />
+                <Trans t={t} i18nKey="technicalSpecs.presentation.type" />
               </td>
               <td>
                 {presentation.type
-                  .map((tag: string): string => tTags(tag))
+                  .map((tag: string): string => tTags(`tags.${tag}`))
                   .join(", ")}
               </td>
             </tr>
             <tr>
               <td>
-                <Trans t={t} i18nKey="presentation.case" />
+                <Trans t={t} i18nKey="technicalSpecs.presentation.case" />
               </td>
               <td>{presentation.case}</td>
             </tr>
@@ -125,7 +128,7 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
               <td>
                 <Trans
                   t={t}
-                  i18nKey="presentation.distributors"
+                  i18nKey="technicalSpecs.presentation.distributors"
                   values={{ count: presentation.distributors.length }}
                 />
               </td>
@@ -134,7 +137,10 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
             {presentation.productionStart && (
               <tr>
                 <td>
-                  <Trans t={t} i18nKey="presentation.productionStart" />
+                  <Trans
+                    t={t}
+                    i18nKey="technicalSpecs.presentation.productionStart"
+                  />
                 </td>
                 <td>{presentation.productionStart}</td>
               </tr>
@@ -142,7 +148,10 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
             {presentation.productionRelease && (
               <tr>
                 <td>
-                  <Trans t={t} i18nKey="presentation.productionRelease" />
+                  <Trans
+                    t={t}
+                    i18nKey="technicalSpecs.presentation.productionRelease"
+                  />
                 </td>
                 <td>{presentation.productionRelease}</td>
               </tr>
@@ -150,7 +159,10 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
             {presentation.releaseDate && (
               <tr>
                 <td>
-                  <Trans t={t} i18nKey="presentation.releaseDate" />
+                  <Trans
+                    t={t}
+                    i18nKey="technicalSpecs.presentation.releaseDate"
+                  />
                 </td>
                 <td>
                   {new Intl.DateTimeFormat(language).format(
@@ -162,7 +174,7 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
             {presentation.budget && (
               <tr>
                 <td>
-                  <Trans t={t} i18nKey="presentation.budget" />
+                  <Trans t={t} i18nKey="technicalSpecs.presentation.budget" />
                 </td>
                 <td>{presentation.budget}</td>
               </tr>
@@ -170,7 +182,10 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
             {presentation.boxOffice && (
               <tr>
                 <td>
-                  <Trans t={t} i18nKey="presentation.boxOffice" />
+                  <Trans
+                    t={t}
+                    i18nKey="technicalSpecs.presentation.boxOffice"
+                  />
                 </td>
                 <td>{presentation.boxOffice}</td>
               </tr>
@@ -180,7 +195,7 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
                 <td>
                   <Trans
                     t={t}
-                    i18nKey="presentation.directors"
+                    i18nKey="technicalSpecs.presentation.directors"
                     values={{ count: presentation.directors.length }}
                   />
                 </td>
@@ -192,7 +207,7 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
                 <td>
                   <Trans
                     t={t}
-                    i18nKey="presentation.producers"
+                    i18nKey="technicalSpecs.presentation.producers"
                     values={{ count: presentation.producers.length }}
                   />
                 </td>
@@ -204,7 +219,7 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
                 <td>
                   <Trans
                     t={t}
-                    i18nKey="presentation.screenWriters"
+                    i18nKey="technicalSpecs.presentation.screenWriters"
                     values={{ count: presentation.screenWriters.length }}
                   />
                 </td>
@@ -216,7 +231,7 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
                 <td>
                   <Trans
                     t={t}
-                    i18nKey="presentation.mainActors"
+                    i18nKey="technicalSpecs.presentation.mainActors"
                     values={{ count: presentation.mainActors.length }}
                   />
                 </td>
@@ -228,7 +243,10 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
         {presentation.movieChronologicalFranchise && (
           <div>
             <h1>
-              <Trans t={t} i18nKey="presentation.movieChronologicalFranchise" />
+              <Trans
+                t={t}
+                i18nKey="technicalSpecs.presentation.movieChronologicalFranchise"
+              />
             </h1>
             <FlexContainer>
               {presentation.movieChronologicalFranchise.previous && (
@@ -267,7 +285,10 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
         {presentation.movieLogicalFranchise && (
           <FlexContainer column>
             <h1>
-              <Trans t={t} i18nKey="presentation.movieLogicalFranchise" />
+              <Trans
+                t={t}
+                i18nKey="technicalSpecs.presentation.movieLogicalFranchise"
+              />
             </h1>
             <FlexContainer>
               {presentation.movieLogicalFranchise.previous && (
@@ -313,7 +334,7 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
           )}
         >
           <h1>
-            <Trans t={t} i18nKey="movieSpecs.sectionTitle" />
+            <Trans t={t} i18nKey="technicalSpecs.movieSpecs.sectionTitle" />
           </h1>
           <table>
             <tbody>
@@ -325,7 +346,10 @@ const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
                     movieSpecs[key] && (
                       <tr key={key}>
                         <td>
-                          <Trans t={t} i18nKey={`movieSpecs.${key}`} />
+                          <Trans
+                            t={t}
+                            i18nKey={`technicalSpecs.movieSpecs.${key}`}
+                          />
                         </td>
                         <td>
                           <ul>

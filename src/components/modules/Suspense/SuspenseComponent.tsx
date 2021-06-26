@@ -11,7 +11,7 @@ const SuspenseComponent: FunctionComponent<
     customText?: string;
   }
 > = ({ minHeight, pageBodyWidth, customText }) => {
-  const { t } = useTranslation("components\\modules\\suspense\\suspense");
+  const { t } = useTranslation("root");
 
   return (
     <FlexContainer
@@ -21,7 +21,9 @@ const SuspenseComponent: FunctionComponent<
       pageBodyWidth={pageBodyWidth}
       fullCentered
     >
-      <GenericLoader centered>{customText || t("message")}</GenericLoader>
+      <GenericLoader centered>
+        {customText || t("suspense.loading")}
+      </GenericLoader>
     </FlexContainer>
   );
 };
