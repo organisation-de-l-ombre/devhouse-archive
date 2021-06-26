@@ -5,8 +5,8 @@ import {
   StaffMemberSocialsIconEnum,
 } from "@developers-house/abdera";
 import { ButtonLink } from "@components/new/Button/Button";
-import { FaGithub, FaGitlab, FaStackOverflow, GiClick } from "react-icons/all";
-import { FaDiscord } from "react-icons/fa";
+import { FaGithub, FaGitlab, FaStackOverflow, FaDiscord } from "react-icons/fa";
+import { GiClick } from "react-icons/gi";
 import { IconType } from "react-icons";
 import Tooltip from "rc-tooltip";
 import ButtonGroup from "@components/new/Button/ButtonGroup";

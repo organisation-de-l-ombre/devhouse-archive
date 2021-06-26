@@ -10,6 +10,15 @@ declare interface GlobalFetch {
   fetch(input: RequestInfo, init?: RequestInit): Promise<Response>;
 }
 
+declare module "react-component-caching" {
+  const module: any;
+  export default module;
+}
+declare module "cbor-js" {
+  const module: any;
+  export default module;
+}
+
 declare namespace NodeJS {
   interface ProcessEnv {
     readonly NODE_ENV: "development" | "production" | "test";

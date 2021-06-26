@@ -5,7 +5,9 @@ export function withNetwork<P>(
   WrappedComponent: React.ComponentType<P>
 ): React.ComponentType<P> {
   return ((props) => {
-    const [network, setNetwork] = useState(window.navigator.onLine);
+    const [network, setNetwork] = useState(
+      typeof window !== "undefined" ? window.navigator.onLine : true
+    );
 
     const setOffline = useCallback(() => {
       setNetwork(false);
@@ -25,6 +27,8 @@ export function withNetwork<P>(
     }, [setOffline, setOnline]);
 
     if (network) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       return <WrappedComponent {...props} />;
     }
 

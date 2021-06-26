@@ -1,20 +1,27 @@
-/*
- * The Error page displayed to the user when the website crashes.
- */
-
 import React, { ReactElement, useEffect, useState } from "react";
 import { withGate } from "@components/FeatureGate/FeatureGateProvider";
-import { RequestParams } from "../../constants";
 import { Loader } from "../../components/SuspenseLoader/SuspenseLoader";
 
+function parseQuery(queryString: string) {
+  const query: { [key: string]: string } = {};
+  const pairs = (
+    queryString[0] === "?" ? queryString.substr(1) : queryString
+  ).split("&");
+  for (let i = 0; i < pairs.length; i += 1) {
+    const pair = pairs[i].split("=");
+    query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || "");
+  }
+  return query;
+}
 const Callback = (): ReactElement => {
   const [message, setMessage] = useState<string>();
   useEffect(() => {
-    if (RequestParams.code && RequestParams.state) {
+    const params = parseQuery(document.location.search);
+    if (params.code && params.state) {
       const channel = new BroadcastChannel("callback");
       channel.postMessage({
-        code: RequestParams.code,
-        state: RequestParams.state,
+        code: params.code,
+        state: params.state,
       });
     } else {
       setMessage("An error occured.");

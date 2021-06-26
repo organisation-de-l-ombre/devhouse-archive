@@ -1,4 +1,5 @@
-import React, { PropsWithChildren, ReactElement, useEffect } from "react";
+import React, { PropsWithChildren, ReactElement } from "react";
+import { Helmet } from "react-helmet";
 import styles from "./themes.module.scss";
 import { useTheme } from "../../state/slices/theme/hooks";
 
@@ -6,14 +7,16 @@ const ThemeProvider = ({
   children,
 }: PropsWithChildren<unknown>): ReactElement => {
   const currentTheme = useTheme();
-
-  useEffect(() => {
-    const elem = document.querySelector("#root");
-    if (elem)
-      elem.className = `${styles[currentTheme]} ${styles.themeContainer} ${styles.wrapper}`;
-  }, [currentTheme]);
-
-  return <>{children}</>;
+  return (
+    <>
+      <Helmet>
+        <body
+          className={`${styles[currentTheme]} ${styles.themeContainer} ${styles.wrapper}`}
+        />
+      </Helmet>
+      {children}
+    </>
+  );
 };
 
 export default ThemeProvider;

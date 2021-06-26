@@ -1,24 +1,20 @@
-import { DisplayDataApi } from "@developers-house/abdera";
+import { Configuration, DisplayDataApi } from "@developers-house/abdera";
+import { RootState } from "@state/redux";
+import { getAbderaEndpoint } from "@utilities/endpoints";
+import { fetch as fetchPolyfill } from "cross-fetch";
 
-const DisplayAPIClient = new DisplayDataApi();
+export const persistedStoreKeys = [
+  "theme",
+  "account",
+] as never as (keyof RootState)[];
 
-const params: {
-  [key: string]: string;
-} = {};
-
-const doSearch = (hash: string) => {
-  hash.split("&").forEach((hk) => {
-    const temp = hk.split("=");
-    const [name, value] = temp;
-    params[name] = value;
-  });
-};
+const DisplayAPIClient = new DisplayDataApi(
+  new Configuration({
+    fetchApi: fetchPolyfill,
+    basePath: getAbderaEndpoint(),
+  })
+);
 
 const discordServer = "https://discord.com/invite/QECkmy8TqC";
 
-doSearch(window.location.hash.substring(1) || "");
-doSearch(window.location.href.split("?")[1] || "");
-
-const RequestParams = params;
-
-export { RequestParams, DisplayAPIClient, discordServer };
+export { DisplayAPIClient, discordServer };
