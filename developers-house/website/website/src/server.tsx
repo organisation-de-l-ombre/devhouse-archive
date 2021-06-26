@@ -3,7 +3,7 @@ import { StaticRouter, StaticRouterProps } from "react-router-dom";
 import express, { Request, Response } from "express";
 import { renderToStaticMarkup, renderToString } from "react-dom/server";
 import { Provider } from "react-redux";
-import createStore from "@state/redux";
+import createStore, { RootState } from "@state/redux";
 import i18next from "i18next";
 import middleware from "i18next-http-middleware";
 import createEmotionServer from "@emotion/server/create-instance";
@@ -17,6 +17,10 @@ import { dehydrate } from "react-query/hydration";
 import PreloadContext from "@components/PreloadContext/PreloadContext";
 import Helmet from "react-helmet";
 import { SSRContext } from "@components/SSRContext/SSRContext";
+import cookieParser from "cookie-parser";
+import cbor from "cbor-js";
+import { decode } from "base64-arraybuffer";
+import { DeepPartial } from "redux";
 import App from "./Root";
 
 const unleash = initialize({
@@ -37,15 +41,28 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
     variants: flag.variants,
   }));
 
-  // This is the initialState given to the ssr renderer.
-  const store = createStore({
+  const state: DeepPartial<RootState> = {
     account: {
       state: "available",
       client_id:
         process.env.client_id || "4f48003e-3e66-40c4-b2b7-a0516dc40d4a",
     },
+    theme: {},
     featureFlags: { featureFlags: flags },
+  };
+  const persistedStoreKeys = [
+    "theme",
+    "account",
+  ] as never as (keyof RootState)[];
+
+  persistedStoreKeys.forEach((element: keyof RootState) => {
+    const cookie = req.cookies[`store-${element}`];
+    if (!cookie) return;
+    Object.assign(state[element], cbor.decode(decode(cookie)));
   });
+
+  // This is the initialState given to the ssr renderer.
+  const store = createStore(state);
 
   const cache = createCache({ key: emotionCacheKey });
   const { extractCriticalToChunks, constructStyleTagsFromChunks } =
@@ -139,6 +156,7 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
 const server = express();
 
 server
+  .use(cookieParser())
   .disable("x-powered-by")
   .use(middleware.handle(i18next))
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
