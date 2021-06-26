@@ -35,12 +35,16 @@ const fetchProjectMarkdown = async (
     throw new Error("No such project");
   }
   if (project.markdownS3) {
-    project.markdown = await fetch(project.markdownS3).then((response) =>
-      response.text()
-    );
+    project.markdown = await fetch(
+      project.markdownS3.replace(
+        /(s3\.developershouse\.xyz|cdn\.developershouse\.xyz)/g,
+        "minio.minio.svc.cluster.local"
+      )
+    ).then((response) => response.text());
   }
   return project;
 };
+
 export const useProjectsWithMarkdown = (
   projectId: string,
   options?: UseQueryOptions<ProjectWithMarkdown, Error>

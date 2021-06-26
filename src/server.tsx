@@ -82,16 +82,21 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
     </SSRContext.Provider>
   );
 
+  let render: string;
   // We render a first time to get all the loading promises.
-  renderToStaticMarkup(jsx);
-  preloaderContext.done = true;
-  // Wait for all the loading promises to finish.
-  await Promise.all(preloaderContext.promises.map((x) => x.catch()));
-  // Create the cache for the react query state.
-  const dehydratedState = dehydrate(queryClient);
+  render = renderToStaticMarkup(jsx);
 
+  if (preloaderContext.promises.length > 0) {
+    preloaderContext.done = true;
+    // Wait for all the loading promises to finish.
+    await Promise.all(preloaderContext.promises.map((x) => x.catch()));
+    // Create the cache for the react query state.
+    render = renderToString(jsx);
+  }
+
+  const dehydratedState = dehydrate(queryClient);
   // Get all the used assets using emotion.
-  const { html, styles } = extractCriticalToChunks(renderToString(jsx));
+  const { html, styles } = extractCriticalToChunks(render);
 
   const helmet = Helmet.renderStatic();
   // collect script tags
