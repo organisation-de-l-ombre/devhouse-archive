@@ -1,7 +1,7 @@
 import React, { FC, lazy, ReactElement, Suspense } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { RouteComponentProps } from "react-router";
-import { SuspenseComponent } from "..";
+import SuspenseComponent from "../Suspense/Suspense";
 
 const Navbar = lazy(() => import("../Navbar/Navbar"));
 const Home = lazy(() => import("@application/Home/Home"));
