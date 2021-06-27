@@ -27,12 +27,12 @@ import CreateRedis from "ioredis";
 import App from "./Root";
 
 const redis = new CreateRedis({
-  sentinels: [
+  /* sentinels: [
     {
       host: process.env.REDIS_HOST as string,
       port: Number.parseInt(process.env.REDIS_PORT || "6379", 10),
     },
-  ],
+  ], */
   sentinelPassword: process.env.REDIS_PASSWORD,
   name: "mymaster",
   host: "localhost",
@@ -127,18 +127,24 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
     preloaderContext.done = true;
     // Wait for all the loading promises to finish.
     await Promise.all(
-      preloaderContext.promises.map(async ({ cache, promise }) => {
+      preloaderContext.promises.map(async ({ cache, promise, queryKey }) => {
         if (cache) {
-          if (redis.exists(`cache::website${cache}`)) {
-            return JSON.parse(
-              (await redis.get(`cache::website${cache}`)) as string
+          if (redis.exists(`cache::website${queryKey}`)) {
+            queryClient.setQueryData(
+              queryKey,
+              JSON.parse((await redis.get(`cache::website${cache}`)) as string)
             );
           }
         }
         const result = await promise;
         if (cache) {
           queueMicrotask(async () => {
-            await redis.set(`cache::website${cache}`, JSON.stringify(result));
+            await redis.set(
+              `cache::website${queryKey}`,
+              JSON.stringify(result),
+              "ex",
+              120
+            );
           });
         }
         return result;
