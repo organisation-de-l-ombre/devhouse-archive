@@ -131,7 +131,7 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
     await Promise.all(
       preloaderContext.promises.map(async ({ cache, promise, queryKey }) => {
         if (cache) {
-          if (redis.exists(`cache::website${queryKey}`)) {
+          if (await redis.exists(`cache::website${queryKey}`)) {
             queryClient.setQueryData(
               queryKey,
               JSON.parse((await redis.get(`cache::website${cache}`)) as string)
