@@ -124,7 +124,7 @@ podAnnotations: {}
 
 oauthClient:
   enabled: true
-  name: International Media Referencing
+  name: IMR
   grantType:
     - authorization_code
     # - implicit

@@ -27,5 +27,5 @@ yarn-error.log*
 .idea/
 .eslintcache
 
-# SRR migration
-old/
+# Razzle
+cache/
