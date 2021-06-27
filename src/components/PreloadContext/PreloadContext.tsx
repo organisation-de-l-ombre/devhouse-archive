@@ -2,8 +2,9 @@ import { createContext, useContext } from "react";
 import { QueryClient, useQueryClient } from "react-query";
 
 type Preload = {
-  promise: Promise<unknown>[];
-  cache?: string;
+  promise: Promise<unknown>;
+  cache?: boolean;
+  queryKey: string;
 };
 export type PreloadContextType = {
   done: boolean;

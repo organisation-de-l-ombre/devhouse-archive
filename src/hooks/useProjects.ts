@@ -7,13 +7,15 @@ import { DisplayAPIClient } from "../constants";
 const useProjects = (
   options?: UseQueryOptions<Projects[], Error>
 ): QueryObserverResult<Projects[], Error> => {
-  usePreload((queryClient) =>
-    queryClient.prefetchQuery(
+  usePreload((queryClient) => ({
+    promise: queryClient.prefetchQuery(
       "developers-house/projects",
       () => DisplayAPIClient.dataProjectsGet(),
       options
-    )
-  );
+    ),
+    cache: true,
+    queryKey: "developers-house/projects",
+  }));
 
   return useQuery(
     "developers-house/projects",
@@ -51,16 +53,18 @@ export const useProjectsWithMarkdown = (
   projectId: string,
   options?: UseQueryOptions<ProjectWithMarkdown, Error>
 ): QueryObserverResult<ProjectWithMarkdown, Error> => {
-  usePreload((queryClient) =>
-    queryClient.prefetchQuery(
-      ["developers-house/projects", projectId],
+  usePreload((queryClient) => ({
+    promise: queryClient.prefetchQuery(
+      ["developers-house/projects-markdown", projectId],
       () => fetchProjectMarkdown(projectId),
       options
-    )
-  );
+    ),
+    cache: true,
+    queryKey: "developers-house/projects",
+  }));
 
   return useQuery(
-    ["developers-house/projects", projectId],
+    ["developers-house/projects-markdown", projectId],
     () => fetchProjectMarkdown(projectId),
     options
   );
