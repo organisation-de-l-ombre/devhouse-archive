@@ -27,12 +27,12 @@ import CreateRedis from "ioredis";
 import App from "./Root";
 
 const redis = new CreateRedis({
-  /* sentinels: [
+  sentinels: [
     {
       host: process.env.REDIS_HOST as string,
       port: Number.parseInt(process.env.REDIS_PORT || "6379", 10),
     },
-  ], */
+  ],
   sentinelPassword: process.env.REDIS_PASSWORD,
   name: "mymaster",
   host: "localhost",
