@@ -4,6 +4,7 @@ import React, { useCallback, useRef, useState } from "react";
 
 interface ImageProps {
   withBackground?: boolean;
+  withBoxShadow?: boolean;
   placeholder: string;
   image: string;
   alt: string;
@@ -13,6 +14,7 @@ interface ImageProps {
 
 const Image: FunctionComponent<HTMLDivElement, ImageProps> = ({
   withBackground,
+  withBoxShadow,
   placeholder,
   image,
   alt,
@@ -37,9 +39,9 @@ const Image: FunctionComponent<HTMLDivElement, ImageProps> = ({
         height: ${height}px !important;
         overflow: hidden;
         border-radius: 5px;
-        box-shadow: 0 0 0.3rem black;
         ${withBackground &&
         "background-color: var(--primary-background-color);"}
+        ${withBoxShadow && "box-shadow: 0 0 0.3rem black;"}
 
         img {
           width: 100%;

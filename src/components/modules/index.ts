@@ -8,7 +8,6 @@ export { default as withFooter } from "./withFooter/withFooter";
 export { default as Navbar } from "./Navbar/Navbar";
 export { default as NotFound } from "./NotFound/NotFound";
 export * from "./Sidebar/Sidebar";
-export { default as RootSuspense } from "./Suspense/RootSuspense";
-export { default as SuspenseComponent } from "./Suspense/SuspenseComponent";
+export { default as SuspenseComponent } from "./Suspense/Suspense";
 export * from "./TabBar/TabBar";
 export { default as withNetwork } from "./withNetwork/withNetwork";

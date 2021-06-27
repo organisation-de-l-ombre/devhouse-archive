@@ -10,7 +10,7 @@ import { Helmet } from "react-helmet";
 import { MovieDataResponse } from "@developers-house/amelia";
 
 const SuspenseComponent = lazy(
-  () => import("@components/modules/Suspense/SuspenseComponent")
+  () => import("@components/modules/Suspense/Suspense")
 );
 const ErrorComponent = lazy(
   () => import("@components/modules/Error/ErrorComponent")

@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { lazy, ReactElement, useState } from "react";
 import { SiSpotify, SiDeezer, SiApplemusic } from "react-icons/si";
 import { FaMusic, FaPlay } from "react-icons/fa";
 import detectMobileDevice from "@lib/detectMobileDevice";
@@ -33,6 +33,13 @@ import {
   VideoObject,
 } from "../../types";
 
+interface CoverDimensions {
+  coverWidth: number;
+  coverHeight: number;
+}
+
+const ImageComponent = lazy(() => import("@components/modules/Image/Image"));
+
 const DisplaySVG: FunctionComponent<IconType, { type: string }> = ({
   type,
 }) => {
@@ -46,6 +53,16 @@ const DisplaySVG: FunctionComponent<IconType, { type: string }> = ({
     default:
       return <FaMusic />;
   }
+};
+
+const calculateCoverDimensions = (): CoverDimensions => {
+  if (window.innerWidth > 400) {
+    return { coverWidth: 256, coverHeight: 256 };
+  }
+
+  const squarelength: number = Math.ceil((50 / 100) * window.innerWidth);
+
+  return { coverWidth: squarelength, coverHeight: squarelength };
 };
 
 const OST: ReactMovieElement = ({ dataResponse }) => {
@@ -64,12 +81,12 @@ const OST: ReactMovieElement = ({ dataResponse }) => {
     },
     fetchOptions
   );
-
   const [playerOpen, setPlayerOpen] = useState<boolean>(false);
   const [video, setVideo] = useState<VideoObject>({
     title: "",
     videoID: "",
   });
+  const { coverWidth, coverHeight } = calculateCoverDimensions();
 
   if (isFetching || error) {
     return (
@@ -123,17 +140,26 @@ const OST: ReactMovieElement = ({ dataResponse }) => {
             <h1>{data.album.name}</h1>
             <FlexContainer allowWrap>
               {data.album.coverURL && (
-                <div className={styles["album-cover"]}>
-                  <img
-                    src={fetchImage({
-                      type: "image",
-                      width: 256,
-                      height: 256,
-                      image: data.album.coverURL,
-                    })}
-                    alt={data.album.albumName}
-                  />
-                </div>
+                <ImageComponent
+                  withBackground
+                  withBoxShadow
+                  placeholder={fetchImage({
+                    type: "image",
+                    image: data.album.coverURL,
+                    width: Math.ceil(coverWidth / 5),
+                    height: Math.ceil(coverHeight / 5),
+                  })}
+                  image={fetchImage({
+                    type: "image",
+                    image: data.album.coverURL,
+                    width: coverWidth,
+                    height: coverHeight,
+                  })}
+                  alt={dataResponse.body.title}
+                  width={coverWidth}
+                  height={coverHeight}
+                  css={{ margin: "2rem 2rem 0 0" }}
+                />
               )}
               <FlexContainer column className={styles["album-headers"]}>
                 <h2>{data.album.albumName}</h2>

@@ -1,7 +1,7 @@
 export interface MovieHeadersSection {
   id: string;
   title: string;
-  internationalTitle: string;
+  internationalTitle?: string;
   companies: string[];
   releaseDate?: string;
   internationalReleaseDate?: string;

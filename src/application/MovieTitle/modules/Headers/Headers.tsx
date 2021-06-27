@@ -53,7 +53,7 @@ const calculatePosterDimensions = (): PosterDimensions => {
     return { posterWidth: initialWidth, posterHeight: initialHeight };
   }
 
-  const posterWidth = Math.ceil((40 / 100) * window.innerWidth);
+  const posterWidth = Math.ceil((50 / 100) * window.innerWidth);
 
   return {
     posterWidth,
@@ -86,7 +86,7 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
   const { posterWidth, posterHeight } = calculatePosterDimensions();
 
   if (isFetching) {
-    return <SuspenseComponent minHeight customText={tRoot("fetchingData")} />;
+    return <SuspenseComponent minHeight customText={tRoot("utils.apiFetch")} />;
   }
 
   if (error || !data) {
@@ -167,6 +167,7 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
           {data.moviePoster && (
             <ImageComponent
               withBackground
+              withBoxShadow
               placeholder={fetchImage({
                 type: "image",
                 image: data.moviePoster,
@@ -186,10 +187,11 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
             />
           )}
           <FlexContainer column className={styles["headers-content"]}>
-            <h1>{data.title}</h1>
-            <h2>
-              <i>{data.companies.join(", ")}</i>
-            </h2>
+            <h1>
+              {data.title}
+              {data.internationalTitle && ` (${data.internationalTitle})`}
+            </h1>
+            <h2>{data.companies.join(", ")}</h2>
             {data.releaseDate && (
               <h2>
                 {new Intl.DateTimeFormat(language).format(

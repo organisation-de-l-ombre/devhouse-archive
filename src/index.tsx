@@ -1,6 +1,5 @@
-import React, { FC } from "react";
+import React, { FC, Suspense } from "react";
 import ReactDOM from "react-dom";
-import { RootSuspense } from "@components/modules";
 import {
   FetchParams,
   RequestContext,
@@ -27,11 +26,11 @@ export const DevHouseUserAPIInit = new UserAPIApi().withPreMiddleware(
 
 const RootComponent: FC = () => {
   return (
-    <React.Suspense fallback={<RootSuspense />}>
+    <Suspense fallback={null}>
       <Provider store={store}>
         <Application />
       </Provider>
-    </React.Suspense>
+    </Suspense>
   );
 };
 

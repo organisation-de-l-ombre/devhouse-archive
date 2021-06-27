@@ -2,15 +2,15 @@ import React, { FC, useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import useNavbar from "@hooks/useNavbar";
 import routeWithOnlyContent from "@lib/routeWithOnlyContent";
+import classnames from "classnames";
+import BodyContext from "@contexts/body";
 import {
   Drawer,
   DrawerBackdrop,
   DrawerEnd,
   DrawerStart,
   MobileNavigation,
-} from "@components/modules/Navbar/Drawer";
-import classnames from "classnames";
-import BodyContext from "@contexts/body";
+} from "./Drawer";
 import { NotificationsModal, LanguageModal } from "../../ui";
 import styles from "./Navbar.module.scss";
 
