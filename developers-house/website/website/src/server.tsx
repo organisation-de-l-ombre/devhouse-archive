@@ -136,6 +136,7 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
               queryKey,
               JSON.parse((await redis.get(`cache::website${cache}`)) as string)
             );
+            return Promise.resolve();
           }
         }
         const result = await promise;
