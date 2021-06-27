@@ -26,6 +26,8 @@ import { DeepPartial } from "redux";
 import CreateRedis from "ioredis";
 import App from "./Root";
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 const redis = new CreateRedis({
   sentinels: [
     {
