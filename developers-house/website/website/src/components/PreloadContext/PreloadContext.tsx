@@ -1,10 +1,10 @@
 import { createContext, useContext } from "react";
-import { QueryClient, useQueryClient } from "react-query";
+import { QueryClient, QueryKey, useQueryClient } from "react-query";
 
 type Preload = {
   promise: Promise<unknown>;
   cache?: boolean;
-  queryKey: string;
+  queryKey: QueryKey;
 };
 export type PreloadContextType = {
   done: boolean;
