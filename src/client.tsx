@@ -16,30 +16,26 @@ import createCache, { EmotionCache } from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
 import debounce from "lodash.debounce";
 import Cookies from "js-cookie";
-import { I18nextProvider, useTranslation } from "react-i18next";
-import i18n from "@lib/i18n";
+import { useSSR, useTranslation } from "react-i18next";
 import useLanguage from "@hooks/useLanguage";
 import { useNotificationsManager } from "@hooks/useNotifications";
 import generateNotificationID from "@lib/generateNotificationID";
 import { QueryClient, QueryClientProvider } from "react-query";
-import globalStyles from "@styles/Global.module.scss";
-import BodyContext from "@contexts/body";
 import useReducedMotion from "@hooks/useReducedMotion";
 import { Globals } from "react-spring";
-import classnames from "classnames";
-import themes from "@styles/Themes.module.scss";
-import useTheme from "@hooks/useTheme";
-import { Helmet } from "react-helmet";
+import { Resource } from "i18next";
 
 declare global {
   interface Window {
-    REDUX_STATE: string;
+    REDUX_STORE: string;
+    LANGUAGE_STORE: string;
+    LANGUAGE: string;
   }
 }
 
 loadableReady((): void => {
   const persistedState: GlobalState = cborDecode(
-    base64Decode(window.REDUX_STATE)
+    base64Decode(window.REDUX_STORE)
   );
   const store = createStore(persistedState);
 
@@ -59,58 +55,46 @@ loadableReady((): void => {
     }, 500)
   );
 
-  const ReduxDataManager: FC = ({ children }) => {
+  const DataManager: FC = ({ children }) => {
     const [pageLoaded, setPageLoaded] = useState<boolean>(false);
     const { addNotifications } = useNotificationsManager();
     const { t } = useTranslation(
       "components\\ui\\languageModal\\languageModal"
     );
     const { language } = useLanguage();
-    const [scroll, setScroll] = useState<boolean>(true);
-    const { theme, contrastMode } = useTheme();
 
     useEffect((): void => {
       setPageLoaded(true);
     }, []);
 
     useEffect((): void => {
-      i18n.changeLanguage(language).then((): void => {
-        if (pageLoaded) {
-          if (process.env.NODE_ENV === "production") {
-            window.scrollTo({ top: 0 });
-          }
-
-          addNotifications([
-            {
-              id: generateNotificationID(),
-              type: "info",
-              body: t("languageChanged"),
-              time: 5000,
-            },
-          ]);
+      if (pageLoaded) {
+        if (process.env.NODE_ENV === "production") {
+          window.scrollTo({ top: 0 });
         }
-      });
+
+        addNotifications([
+          {
+            id: generateNotificationID(),
+            type: "info",
+            body: t("languageChanged"),
+            time: 5000,
+          },
+        ]);
+      }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [language]);
 
-    return (
-      <BodyContext.Provider value={{ scroll, setScroll }}>
-        <Helmet>
-          <body
-            className={classnames(
-              themes[`${theme}${contrastMode ? "-contrast" : ""}`],
-              {
-                [globalStyles["overflow-hidden"]]: !scroll,
-              }
-            )}
-          />
-        </Helmet>
-        {children}
-      </BodyContext.Provider>
-    );
+    return <>{children}</>;
   };
 
   const RootComponent: FC = () => {
+    const languageStore: Resource = cborDecode(
+      base64Decode(window.LANGUAGE_STORE)
+    );
+
+    useSSR(languageStore, window.LANGUAGE);
+
     const emotionCache: EmotionCache = createCache({
       key: "imr-frontend",
     });
@@ -125,17 +109,15 @@ loadableReady((): void => {
 
     return (
       <Provider store={store}>
-        <I18nextProvider i18n={i18n}>
-          <ReduxDataManager>
-            <CacheProvider value={emotionCache}>
-              <QueryClientProvider client={queryClient}>
-                <BrowserRouter>
-                  <Application />
-                </BrowserRouter>
-              </QueryClientProvider>
-            </CacheProvider>
-          </ReduxDataManager>
-        </I18nextProvider>
+        <DataManager>
+          <CacheProvider value={emotionCache}>
+            <QueryClientProvider client={queryClient}>
+              <BrowserRouter>
+                <Application />
+              </BrowserRouter>
+            </QueryClientProvider>
+          </CacheProvider>
+        </DataManager>
       </Provider>
     );
   };

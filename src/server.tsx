@@ -8,7 +8,8 @@ import { resolve } from "path";
 import { createStore, persistedKeys } from "@store/store";
 import { Provider } from "react-redux";
 import i18nInstance from "@lib/i18n";
-import i18nMiddleware from "i18next-http-middleware";
+import Backend from "i18next-fs-backend";
+import i18nMiddleware, { LanguageDetector } from "i18next-http-middleware";
 import {
   encode as base64Encode,
   decode as base64Decode,
@@ -34,13 +35,14 @@ interface RenderedApp {
 
 const handleApplication = async ({
   cookies,
+  query,
   url,
   i18n,
 }: Request): Promise<RenderedApp> => {
   const extractor = new ChunkExtractor({
     statsFile: resolve("build", "loadable-stats.json"),
     outputPath: resolve("build/public"),
-    entrypoints: ["client", "application/Application"],
+    entrypoints: ["client"],
   });
   const emotionCache: EmotionCache = createCache({
     key: "imr-frontend",
@@ -60,17 +62,27 @@ const handleApplication = async ({
   }
 
   const store: Store = createStore(persistedState);
-  const { language }: GlobalState = store.getState();
+  const queryLanguage = query.language as string | undefined;
 
-  if (!language.language) {
+  if (queryLanguage && supportedLanguages.includes(queryLanguage)) {
     store.dispatch({
       type: LANGUAGE_UPDATED,
-      payload: supportedLanguages.includes(i18n.language)
-        ? i18n.language
-        : "en",
+      payload: queryLanguage,
     });
+    i18n.changeLanguage(queryLanguage);
   } else {
-    i18n.changeLanguage(language.language);
+    const { language }: GlobalState = store.getState();
+
+    if (!language.language) {
+      store.dispatch({
+        type: LANGUAGE_UPDATED,
+        payload: supportedLanguages.includes(i18n.language)
+          ? i18n.language
+          : "en",
+      });
+    } else {
+      i18n.changeLanguage(language.language);
+    }
   }
 
   const { html: reactRender, styles }: EmotionCriticalToChunks =
@@ -105,7 +117,7 @@ const handleApplication = async ({
     <html ${helmet.htmlAttributes.toString()}>
     <head>
       <meta charset="utf-8" />
-      <title>International Media Referencing</title>
+      <title>IMR</title>
       <link rel="icon" href="/favicon.ico" />
       <meta
         name="viewport"
@@ -132,7 +144,9 @@ const handleApplication = async ({
       ${constructStyleTagsFromChunks({ html: reactRender, styles })}
       <link rel="stylesheet" href="/index.css" />
       <script id="imr-data">
-        window.REDUX_STATE = "${base64Encode(cborEncode(store.getState()))}"
+        window.REDUX_STORE = "${base64Encode(cborEncode(store.getState()))}"
+        window.LANGUAGE_STORE = "${base64Encode(cborEncode(i18n.store.data))}"
+        window.LANGUAGE = "${i18n.language}"
       </script>
       <script id="analytics">
         window.dataLayer = window.dataLayer || [];
@@ -160,19 +174,41 @@ const handleApplication = async ({
   return { html };
 };
 
-const server: Express = express()
-  .disable("x-powered-by")
-  .use(express.static(process.env.RAZZLE_PUBLIC_DIR as string))
-  .use(cookieParser())
-  .use(i18nMiddleware.handle(i18nInstance))
-  .get("/*", async (request: Request, response: Response): Promise<void> => {
-    const { redirect = "", html = "" } = await handleApplication(request);
+const server: Express = express();
 
-    if (redirect) {
-      response.redirect(redirect);
+i18nInstance
+  .use(Backend)
+  .use(LanguageDetector)
+  .init(
+    {
+      debug: false,
+      initImmediate: false,
+      preload: ["en"],
+      backend: {
+        loadPath: resolve("build/public/locales/{{lng}}/{{ns}}.json"),
+      },
+    },
+    (): void => {
+      server
+        .disable("x-powered-by")
+        .use(express.static(process.env.RAZZLE_PUBLIC_DIR as string))
+        .use(cookieParser())
+        .use(i18nMiddleware.handle(i18nInstance))
+        .get(
+          "/*",
+          async (request: Request, response: Response): Promise<void> => {
+            const { redirect = "", html = "" } = await handleApplication(
+              request
+            );
+
+            if (redirect) {
+              response.redirect(redirect);
+            }
+
+            response.send(html);
+          }
+        );
     }
-
-    response.send(html);
-  });
+  );
 
 export default server;

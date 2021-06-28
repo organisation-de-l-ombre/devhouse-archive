@@ -1,33 +1,24 @@
 import i18n from "i18next";
-import { supportedLanguages } from "@store/language/types";
-import ClientBackend from "i18next-http-backend";
-import ServerBackend from "i18next-fs-backend";
+import Backend from "i18next-http-backend";
+import { initReactI18next } from "react-i18next";
 import { LanguageDetector } from "i18next-http-middleware";
+import { supportedLanguages } from "@store/language/types";
 
-if (typeof window !== "undefined") {
-  i18n.use(ClientBackend).init({
+if (process && !process.release) {
+  i18n.use(Backend).use(initReactI18next).use(LanguageDetector);
+}
+
+if (!i18n.isInitialized) {
+  i18n.init({
+    debug: false,
     initImmediate: false,
     fallbackLng: "en",
     supportedLngs: supportedLanguages,
+    load: "languageOnly",
     react: {
       useSuspense: false,
     },
   });
-} else {
-  i18n
-    .use(ServerBackend)
-    .use(LanguageDetector)
-    .init({
-      initImmediate: false,
-      fallbackLng: "en",
-      supportedLngs: supportedLanguages,
-      backend: {
-        loadPath: "./build/public/locales/{{lng}}/{{ns}}.json",
-      },
-      react: {
-        useSuspense: false,
-      },
-    });
 }
 
 export default i18n;
