@@ -4,11 +4,13 @@ import { usePreload } from "@components/PreloadContext/PreloadContext";
 import { DisplayAPIClient } from "../constants";
 
 const useMembers = (): QueryObserverResult<StaffMember[], Error> => {
-  usePreload((client) =>
-    client.prefetchQuery("developers-house/members", () =>
+  usePreload((client) => ({
+    promise: client.prefetchQuery("developers-house/members", () =>
       DisplayAPIClient.dataStaffGet()
-    )
-  );
+    ),
+    cache: true,
+    queryKey: "developers-house/members",
+  }));
   return useQuery("developers-house/members", () =>
     DisplayAPIClient.dataStaffGet()
   );

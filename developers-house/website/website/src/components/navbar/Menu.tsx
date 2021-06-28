@@ -67,7 +67,8 @@ const UserButton: FC = () => {
 const Menu = (): ReactElement => {
   const [open, switchOpen, setOpen] = useSwitcher();
   const blacklisted = useStartsWith("/settings");
-  const transparent = useScrollPosition() === 0 && !blacklisted;
+  const transparent =
+    useScrollPosition() === 0 && !blacklisted && typeof window !== "undefined";
   const dispatch = useDispatch();
 
   const dark = useTheme() === "light";
