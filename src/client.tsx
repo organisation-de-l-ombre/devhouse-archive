@@ -16,7 +16,7 @@ import createCache, { EmotionCache } from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
 import debounce from "lodash.debounce";
 import Cookies from "js-cookie";
-import { useSSR, useTranslation } from "react-i18next";
+import { initReactI18next, useSSR, useTranslation } from "react-i18next";
 import useLanguage from "@hooks/useLanguage";
 import { useNotificationsManager } from "@hooks/useNotifications";
 import generateNotificationID from "@lib/generateNotificationID";
@@ -24,6 +24,23 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import useReducedMotion from "@hooks/useReducedMotion";
 import { Globals } from "react-spring";
 import { Resource } from "i18next";
+import i18n from "@lib/i18n";
+import { supportedLanguages } from "@store/language/types";
+import I18NextHttpBackend from "i18next-http-backend";
+
+i18n
+  .use(initReactI18next)
+  .use(I18NextHttpBackend)
+  .init({
+    debug: false,
+    initImmediate: false,
+    fallbackLng: "en",
+    supportedLngs: supportedLanguages,
+    load: "languageOnly",
+    react: {
+      useSuspense: false,
+    },
+  });
 
 declare global {
   interface Window {

@@ -4,7 +4,7 @@ import { renderToString } from "react-dom/server";
 import { StaticRouter, StaticRouterProps } from "react-router-dom";
 import Application from "@application/Application";
 import { ChunkExtractor, ChunkExtractorManager } from "@loadable/server";
-import { resolve } from "path";
+import { join, resolve } from "path";
 import { createStore, persistedKeys } from "@store/store";
 import { Provider } from "react-redux";
 import i18nInstance from "@lib/i18n";
@@ -27,6 +27,8 @@ import { GlobalState } from "@store/types";
 import { LANGUAGE_UPDATED, supportedLanguages } from "@store/language/types";
 import { Helmet } from "react-helmet";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { opendir } from "fs/promises";
+import { readdirSync, Stats, statSync } from "fs";
 
 interface RenderedApp {
   redirect?: string;
@@ -144,9 +146,9 @@ const handleApplication = async ({
       ${constructStyleTagsFromChunks({ html: reactRender, styles })}
       <link rel="stylesheet" href="/index.css" />
       <script id="imr-data">
-        window.REDUX_STORE = "${base64Encode(cborEncode(store.getState()))}"
-        window.LANGUAGE_STORE = "${base64Encode(cborEncode(i18n.store.data))}"
-        window.LANGUAGE = "${i18n.language}"
+        window.REDUX_STORE = "${base64Encode(cborEncode(store.getState()))}";
+        window.LANGUAGE_STORE = "${base64Encode(cborEncode(i18n.store.data))}";
+        window.LANGUAGE = "${i18n.language}";
       </script>
       <script id="analytics">
         window.dataLayer = window.dataLayer || [];
@@ -174,18 +176,46 @@ const handleApplication = async ({
   return { html };
 };
 
+const walk = (dir: string): string[] => {
+  const folders = readdirSync(dir);
+  const ret = [];
+  for (const folder of folders) {
+    const path = join(dir, folder);
+    const stat = statSync(path);
+    if (stat.isDirectory()) {
+      ret.push(...walk(path));
+    } else {
+      ret.push(path);
+    }
+  }
+  return ret;
+};
+
 const server: Express = express();
 
 i18nInstance
-  .use(Backend)
   .use(LanguageDetector)
+  .use(Backend)
   .init(
     {
       debug: false,
       initImmediate: false,
       preload: ["en"],
+      supportedLngs: supportedLanguages,
+      keySeparator: ".",
+      nonExplicitSupportedLngs: true,
+      fallbackLng: "en",
+      defaultNS: "root",
+      fallbackNS: "root",
+      ns: walk("./public/locales/en").map((path) => {
+        return path
+          .replace(/(public\/locales\/en\/|\.json)/g, "")
+          .replace(/\//g, "\\");
+      }),
+      load: "all",
       backend: {
-        loadPath: resolve("build/public/locales/{{lng}}/{{ns}}.json"),
+        loadPath: (lng: string, namespace: string) =>
+          `./public/locales/${lng}/${namespace.replace(/\\/g, "/")}.json`,
       },
     },
     (): void => {
@@ -193,7 +223,7 @@ i18nInstance
         .disable("x-powered-by")
         .use(express.static(process.env.RAZZLE_PUBLIC_DIR as string))
         .use(cookieParser())
-        .use(i18nMiddleware.handle(i18nInstance))
+        .use(i18nMiddleware.handle(i18nInstance, {}))
         .get(
           "/*",
           async (request: Request, response: Response): Promise<void> => {
