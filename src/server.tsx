@@ -14,14 +14,31 @@ import path from "path";
 import { initialize } from "unleash-client";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { dehydrate } from "react-query/hydration";
-import PreloadContext from "@components/PreloadContext/PreloadContext";
+import PreloadContext, {
+  PreloadContextType,
+} from "@components/PreloadContext/PreloadContext";
 import Helmet from "react-helmet";
 import { SSRContext } from "@components/SSRContext/SSRContext";
 import cookieParser from "cookie-parser";
 import cbor from "cbor-js";
 import { decode, encode } from "base64-arraybuffer";
 import { DeepPartial } from "redux";
+import CreateRedis from "ioredis";
 import App from "./Root";
+
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
+const redis = new CreateRedis({
+  sentinels: [
+    {
+      host: process.env.REDIS_HOST as string,
+      port: Number.parseInt(process.env.REDIS_PORT || "6379", 10),
+    },
+  ],
+  sentinelPassword: process.env.REDIS_PASSWORD,
+  name: "mymaster",
+  host: "localhost",
+});
 
 const unleash = initialize({
   url: "https://gitlab.com/api/v4/feature_flags/unleash/21654973",
@@ -69,9 +86,9 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
   // This is the initialState given to the ssr renderer.
   const store = createStore(state);
 
-  const cache = createCache({ key: emotionCacheKey });
+  const emotionCache = createCache({ key: emotionCacheKey });
   const { extractCriticalToChunks, constructStyleTagsFromChunks } =
-    createEmotionServer(cache);
+    createEmotionServer(emotionCache);
 
   const extractor = new ChunkExtractor({
     statsFile: path.resolve("build/loadable-stats.json"),
@@ -81,7 +98,7 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
   });
 
   const queryClient = new QueryClient();
-  const preloaderContext: { done: boolean; promises: Promise<never>[] } = {
+  const preloaderContext: PreloadContextType = {
     done: false,
     promises: [],
   };
@@ -91,7 +108,7 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
       <PreloadContext.Provider value={preloaderContext}>
         <ChunkExtractorManager extractor={extractor}>
           <QueryClientProvider client={queryClient}>
-            <CacheProvider value={cache}>
+            <CacheProvider value={emotionCache}>
               <StaticRouter context={context} location={req.url}>
                 <Provider store={store}>
                   <App i18nInstance={req.i18n} />
@@ -111,7 +128,30 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
   if (preloaderContext.promises.length > 0) {
     preloaderContext.done = true;
     // Wait for all the loading promises to finish.
-    await Promise.all(preloaderContext.promises.map((x) => x.catch()));
+    await Promise.all(
+      preloaderContext.promises.map(async ({ cache, promise, queryKey }) => {
+        if (cache) {
+          const key = `cache::website${encode(cbor.encode(queryKey))}`;
+          const cacheValue = await redis.get(key);
+          if (cacheValue) {
+            queryClient.prefetchQuery(queryKey, () => JSON.parse(cacheValue));
+            return Promise.resolve();
+          }
+        }
+        const result = await promise;
+        if (cache) {
+          queueMicrotask(async () => {
+            await redis.set(
+              `cache::website${queryKey}`,
+              JSON.stringify(result),
+              "ex",
+              120
+            );
+          });
+        }
+        return result;
+      })
+    );
     // Create the cache for the react query state.
     render = renderToString(jsx);
   }
