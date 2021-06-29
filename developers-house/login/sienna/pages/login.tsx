@@ -53,7 +53,7 @@ export default function Login(): ReactElement {
             {data.platforms.map((platform) => (
               <ButtonLink
                 href={platform.url}
-                style={{ background: platform.color }}
+                style={{ background: platform.color, color: "white" }}
                 key={platform.name}
               >
                 {platform.name}
