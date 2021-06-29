@@ -1,11 +1,10 @@
-FROM node
-
+FROM node:lts-alpine
 WORKDIR /app
-COPY package.json package.json
-COPY .npmrc .npmrc
 
-RUN npm install --only=prod --force
+COPY package.json .
+COPY .npmrc .
+COPY build .
 
-COPY build /app/build
+RUN npm install --production
 
 ENTRYPOINT ["node", "build/server.js"]
