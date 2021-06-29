@@ -1,4 +1,5 @@
 import React, {
+  FormEvent,
   ReactElement,
   useCallback,
   useContext,
@@ -21,23 +22,29 @@ export default function Login(): ReactElement {
   const element = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
-  const validate = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await submitTwoFaSessionOTP(
-        Number(element.current.value)
-      );
-      if (response.error === false) {
-        await router.push(response.redirect);
-      } else {
-        setMessage(response.message);
+  const validate = useCallback(
+    async (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      setLoading(true);
+
+      try {
+        const response = await submitTwoFaSessionOTP(
+          Number(element.current.value)
+        );
+
+        if (response.error === false) {
+          await router.push(response.redirect);
+        } else {
+          setMessage(response.message);
+          setLoading(false);
+        }
+      } catch (e) {
+        setError(e);
         setLoading(false);
       }
-    } catch (e) {
-      setError(e);
-      setLoading(false);
-    }
-  }, [router]);
+    },
+    [router]
+  );
 
   useEffect(() => {
     if (!data.session) {
@@ -47,11 +54,23 @@ export default function Login(): ReactElement {
 
   return (
     <ErrorGate loading={loading} error={error}>
-      <p>You need a code from your phone lmao</p>
-      <input min={0} max={9999} ref={element} type="number" />
-      <br />
-      <p>{message}</p>
-      <Button onClick={validate}>Validate</Button>
+      <p>
+        To finalize the authentication, please enter your 6-digit authentication
+        code. Use the one from your authentication application or from your
+        backup codes.
+      </p>
+      <form style={{ marginTop: "1rem" }} onSubmit={validate}>
+        <input
+          minLength={6}
+          maxLength={6}
+          min={0}
+          max={999999}
+          ref={element}
+          type="number"
+        />
+        {message && <p style={{ marginTop: "1rem" }}>{message}</p>}
+        <Button type="submit">Validate</Button>
+      </form>
     </ErrorGate>
   );
 }
