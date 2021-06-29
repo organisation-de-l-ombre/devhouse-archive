@@ -1,0 +1,4 @@
+{
+  "error": "L'authentification a échoué. {{error}}",
+  "userLoggedIn": "Vous êtes connecté en tant que {{username}}."
+}

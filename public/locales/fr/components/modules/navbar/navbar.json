@@ -1,0 +1,35 @@
+{
+  "mobileMenu": "IMR",
+  "items": {
+    "home": "Accueil",
+    "browse": "Parcourir",
+    "movies": "Films",
+    "series": "Séries",
+    "user": {
+      "login": "Se connecter",
+      "manageAccount": "Gérer le compte",
+      "authError": "Connexion impossible"
+    },
+    "search": "Rechercher",
+    "changeLanguage": "Changer la langue",
+    "notifications": "Paramètres des notifications",
+    "theme": {
+      "light": "Passer au thème clair",
+      "dark": "Passer au thème sombre"
+    }
+  },
+  "acronyms": {
+    "authError": "Authentification par compte impossible",
+    "search": "Rechercher du contenu",
+    "changeLanguage": "Changer la langue",
+    "notifications": "Paramètres des notifications",
+    "theme": "Changer le thème de couleurs"
+  },
+  "notifications": {
+    "userLogout": "Vous avez été déconnecté avec succès.",
+    "themeChanged": {
+      "light": "Le site web est passé en mode clair.",
+      "dark": "Le site web est passé en mode sombre."
+    }
+  }
+}

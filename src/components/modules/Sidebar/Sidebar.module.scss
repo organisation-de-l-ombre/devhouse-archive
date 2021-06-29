@@ -1,0 +1,146 @@
+.sidebar {
+  padding: 2rem;
+  width: 15rem;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--primary-background-color);
+  overflow-y: auto;
+  transition: transform 300ms;
+  position: relative;
+  bottom: 0;
+
+  button {
+    display: none;
+  }
+
+  .headers {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    img {
+      width: 128px;
+      height: 128px;
+      margin-bottom: 1rem;
+      pointer-events: none;
+    }
+
+    h1 {
+      margin-top: 1rem;
+      font-size: 25px;
+    }
+  }
+
+  .section {
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
+
+    h3 {
+      margin-bottom: 1rem;
+      padding-left: 1rem;
+      color: var(--font-color-hover);
+      text-align: start;
+    }
+
+    .section-item {
+      margin-top: 0.5rem;
+      padding: 0.5rem 1rem;
+      text-align: start;
+      transition: color 0.5s, background-color 0.5s;
+      border-radius: 5px;
+
+      &:hover {
+        color: var(--font-color-hover);
+      }
+
+      &.active {
+        background-color: var(--primary-background-color-hover);
+      }
+    }
+  }
+
+  @media screen and (max-width: 1100px) {
+    z-index: 6;
+    position: absolute;
+    top: 3.5rem;
+    bottom: 0;
+    transform: translateX(-100%);
+
+    button {
+      margin-bottom: 2rem;
+      display: flex;
+      align-self: flex-end;
+      border: none;
+      outline: none;
+      background-color: transparent;
+      cursor: pointer;
+
+      svg {
+        transform: scale(1.5);
+        transition: fill 0.5s;
+      }
+
+      &:hover {
+        svg {
+          fill: var(--font-color-hover);
+        }
+      }
+    }
+
+    &.open {
+      transform: translateX(0);
+      position: fixed;
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+    top: 0;
+    width: calc(100% - 4rem);
+    z-index: 10;
+  }
+}
+
+.manager {
+  display: none;
+
+  @media screen and (max-width: 1100px) {
+    width: fit-content;
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    left: 0;
+    border-bottom-right-radius: 5px;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    background-color: var(--primary-background-color);
+    transition: background-color 0.5s;
+    display: flex;
+    align-items: center;
+
+    svg {
+      transform: scale(2);
+    }
+
+    &:hover {
+      background-color: var(--primary-background-color-hover);
+    }
+  }
+}
+
+.container {
+  position: relative;
+  overflow-y: auto;
+  transition: opacity 300ms;
+
+  &.open {
+    transition: opacity 300ms;
+  }
+
+  @media screen and (max-width: 1100px) {
+    &.open {
+      opacity: 0.1;
+    }
+  }
+}

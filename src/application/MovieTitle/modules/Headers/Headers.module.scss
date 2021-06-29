@@ -1,0 +1,73 @@
+.headers-background {
+  z-index: 4;
+  position: relative;
+  background-color: var(--media-headers-background-color);
+
+  .headers {
+    padding: 0 2rem 4rem 2rem;
+    width: calc(100% - 4rem);
+    position: relative;
+
+    .movie-poster {
+      margin: 4rem 2rem 0 0;
+    }
+
+    .headers-content {
+      margin-top: 4rem;
+      flex: 1 30rem;
+
+      h1,
+      h2,
+      p,
+      span,
+      i,
+      q,
+      a {
+        color: white;
+      }
+
+      a,
+      button {
+        background-color: var(--media-headers-primary-background-color);
+
+        &:hover {
+          color: var(--font-color-hover);
+
+          span {
+            color: var(--font-color-hover);
+          }
+
+          svg {
+            fill: var(--font-color-hover);
+          }
+        }
+      }
+
+      svg {
+        fill: white;
+      }
+
+      h2,
+      p {
+        margin-top: 1rem;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      p {
+        line-height: 1.5;
+      }
+    }
+
+    @media screen and (max-width: 700px) {
+      padding-bottom: 2rem;
+
+      .movie-poster,
+      .headers-content {
+        margin-top: 2rem;
+      }
+    }
+  }
+}

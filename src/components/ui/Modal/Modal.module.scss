@@ -1,0 +1,57 @@
+.background {
+  z-index: 11;
+  padding: 4rem 2rem;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  box-shadow: rgba(0, 0, 0, 0.6) 0 0 0 100rem;
+
+  .modal {
+    min-width: 30rem;
+    max-width: 50rem;
+    margin: 4rem 2rem;
+    background-color: var(--primary-background-color);
+    border-radius: 5px;
+    overflow: hidden;
+    transition: opacity 500ms;
+  
+    .headers {
+      padding: 1rem;
+      background-color: var(--secondary-background-color);
+  
+      svg {
+        width: 30px;
+        height: 30px;
+      }
+  
+      > div {
+        margin-right: 1rem;
+  
+        svg {
+          margin-right: 1rem;
+        }
+  
+        h1 {
+          font-size: 20px;
+        }
+      }
+  
+      > svg {
+        margin-left: 1rem;
+        cursor: pointer;
+        transition: fill 500ms;
+  
+        &:hover {
+          fill: var(--font-color-hover);
+        }
+      }
+    }
+
+    > div:last-of-type {
+      padding: 1rem;
+    }
+  }
+}

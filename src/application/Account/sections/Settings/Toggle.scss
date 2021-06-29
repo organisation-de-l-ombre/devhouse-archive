@@ -1,0 +1,19 @@
+.settings-toggle { width: fit-content; }
+
+.settings-toggle.react-toggle--checked .react-toggle-track {
+  background-color: var(--secondary-background-color);
+}
+
+.settings-toggle.react-toggle--checked .react-toggle-thumb { border-color: transparent; }
+
+.react-toggle-thumb { background-color: var(--font-color-hover); }
+
+.react-toggle-track { background-color: var(--secondary-background-color); }
+
+.settings-toggle.react-toggle:hover:not(.react-toggle--disabled) .react-toggle-track {
+  background-color: var(--secondary-background-color-hover);
+}
+
+.settings-toggle.react-toggle--checked:hover:not(.react-toggle--disabled) .react-toggle-track {
+  background-color: var(--secondary-background-color-hover);
+}
