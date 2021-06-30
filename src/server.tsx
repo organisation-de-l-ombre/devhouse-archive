@@ -184,15 +184,15 @@ i18nInstance
       nonExplicitSupportedLngs: true,
       defaultNS: "root",
       fallbackNS: "root",
-      ns: walkDirectories("./public/locales/en").map((path) => {
+      ns: walkDirectories("./build/public/locales/en").map((path) => {
         return path
-          .replace(/(public\/locales\/en\/|\.json)/g, "")
+          .replace(/(build\/public\/locales\/en\/|\.json)/g, "")
           .replace(/\//g, "\\");
       }),
       load: "all",
       backend: {
         loadPath: (lng: string, namespace: string) =>
-          `./public/locales/${lng}/${namespace.replace(/\\/g, "/")}.json`,
+          `./build/public/locales/${lng}/${namespace.replace(/\\/g, "/")}.json`,
       },
     },
     (): void => {
