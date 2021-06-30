@@ -3,8 +3,8 @@ WORKDIR /app
 
 COPY package.json .
 COPY .npmrc .
-COPY build ./
+COPY build /app/build
 
 RUN npm install --production
 
-ENTRYPOINT ["node", "server.js"]
+ENTRYPOINT ["node", "build/server.js"]
