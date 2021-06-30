@@ -1,0 +1,114 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  color: var(--font-color);
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(230, 85, 85);
+}
+
+body {
+  background-color: var(--secondary-background-color);
+  overflow-x: hidden;
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: normal;
+  }
+
+  a,
+  button,
+  p,
+  span,
+  li,
+  code,
+  label {
+    font-size: 18px;
+  }
+
+  a,
+  button {
+    text-align: center;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  h1 {
+    font-size: 35px;
+  }
+
+  h2 {
+    font-size: 25px;
+  }
+
+  hr {
+    margin: 1.5rem 0;
+    border-color: var(--font-color);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  span,
+  a,
+  button,
+  q,
+  i,
+  li {
+    word-wrap: break-word;
+  }
+
+  td {
+    vertical-align: top;
+  }
+
+  code {
+    padding: 0.75rem;
+    border-radius: 5px;
+  }
+
+  button {
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+
+  img {
+    font-size: 12px;
+    pointer-events: none;
+  }
+
+  .app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--website-background-color);
+    transition: background-color ease-in-out 300ms;
+  }
+}

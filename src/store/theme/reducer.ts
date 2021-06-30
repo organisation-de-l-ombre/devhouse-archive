@@ -6,20 +6,8 @@ import {
   THEME_CONTRAST_UPDATED,
 } from "./types";
 
-const detectBrowserColorTheme = (): Theme => {
-  if (
-    typeof window !== "undefined" &&
-    window.matchMedia &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches
-  ) {
-    return "dark";
-  }
-
-  return "light";
-};
-
 const themeState: ThemeState = {
-  theme: detectBrowserColorTheme(),
+  theme: "light",
   contrastMode: false,
 };
 

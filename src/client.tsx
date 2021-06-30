@@ -1,6 +1,6 @@
-import "react-app-polyfill/ie11";
-import Application from "@application/Application";
 import React, { FC, useEffect, useState } from "react";
+import { register } from "@lib/serviceWorker";
+import Application from "@application/Application";
 import { decode as cborDecode, encode as cborEncode } from "cbor-js";
 import {
   decode as base64Decode,
@@ -36,6 +36,9 @@ import { Helmet } from "react-helmet";
 import classnames from "classnames";
 import themes from "@styles/Themes.module.scss";
 import globalStyles from "@styles/Global.module.scss";
+import "@styles/Root.scss";
+
+register();
 
 i18n
   .use(initReactI18next)
@@ -57,6 +60,7 @@ declare global {
     REDUX_STORE: string;
     LANGUAGE_STORE: string;
     LANGUAGE: string;
+    THEME_DETECTION: boolean;
   }
 }
 
@@ -101,16 +105,27 @@ loadableReady((): void => {
       "components\\ui\\languageModal\\languageModal"
     );
     const { language } = useLanguage();
-    const [, setLanguageInQuery] = useQueryState<string>("language");
+    const [, setLanguageInQuery] = useQueryState<string>("language", language);
     const [scroll, setScroll] = useState<boolean>(true);
-    const { theme, contrastMode } = useTheme();
+    const { theme, contrastMode, switchTheme } = useTheme();
 
     useEffect((): void => {
+      if (window.THEME_DETECTION) {
+        switchTheme(
+          window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light"
+        );
+      }
+
       setPageLoaded(true);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect((): void => {
       i18n.changeLanguage(language).then((): void => {
+        setLanguageInQuery(language);
+
         if (pageLoaded) {
           if (process.env.NODE_ENV === "production") {
             window.scrollTo({ top: 0 });
@@ -126,7 +141,6 @@ loadableReady((): void => {
           ]);
         }
       });
-      setLanguageInQuery(language);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [language]);
 

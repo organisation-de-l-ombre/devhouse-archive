@@ -25,11 +25,12 @@ import cookieParser from "cookie-parser";
 import { I18nextProvider } from "react-i18next";
 import { GlobalState } from "@store/types";
 import { supportedLanguages } from "@store/language/types";
-import { Helmet } from "react-helmet";
+import { Helmet, HelmetData } from "react-helmet";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { readdirSync, statSync } from "fs";
 import { ServerContext } from "@contexts/server";
 import themes from "@styles/Themes.module.scss";
+import "@styles/Root.scss";
 
 const handleApplication = async (
   request: Request,
@@ -79,8 +80,8 @@ const handleApplication = async (
     if (!language?.language) {
       persistedState.language = {
         ...persistedState.language,
-        language: supportedLanguages.includes(i18n.language)
-          ? i18n.language
+        language: supportedLanguages.includes(i18n.language.split("-")[0])
+          ? i18n.language.split("-")[0]
           : "en",
       };
     } else {
@@ -116,7 +117,7 @@ const handleApplication = async (
     return;
   }
 
-  const helmet = Helmet.renderStatic();
+  const helmet: HelmetData = Helmet.renderStatic();
   const linkTags: string = extractor.getLinkTags();
   const styletags: string = extractor.getStyleTags();
   const scriptTags: string = extractor.getScriptTags();
@@ -133,10 +134,11 @@ const handleApplication = async (
         ${styletags}
         ${await extractor.getInlineStyleTags()}
         ${constructStyleTagsFromChunks({ html: reactRender, styles })}
-        <script id="imr-data">
+        <script id="imr-frontend-data">
           window.REDUX_STORE = "${base64Encode(cborEncode(store.getState()))}";
           window.LANGUAGE_STORE = "${base64Encode(cborEncode(i18n.store.data))}";
           window.LANGUAGE = "${i18n.language}";
+          window.THEME_DETECTION = ${!persistedState.theme}
         </script>
       </head>
       <body

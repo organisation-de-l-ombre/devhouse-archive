@@ -54,7 +54,6 @@ const MetadataBuilder: FC<MetadataBuilderProps> = ({
       <meta charSet="utf-8" />
       <title>{title || t("helmet.title")}</title>
       <link rel="icon" href="/favicon.ico" />
-      <link rel="stylesheet" href="/index.css" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta name="theme-color" content="#E65555" />
       <meta name="format-detection" content="telephone=no" />
@@ -74,6 +73,7 @@ const MetadataBuilder: FC<MetadataBuilderProps> = ({
         href="/manifest.json"
       />
       <link href="/embed.json" type="application/json+oembed" />
+      <link rel="canonical" href={url} />
 
       <meta name="language" content={language} />
       <meta

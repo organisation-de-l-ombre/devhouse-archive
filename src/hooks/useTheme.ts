@@ -9,7 +9,7 @@ interface ThemeHook {
   theme: Theme;
   contrastMode: boolean;
   toggleContrastMode: () => void;
-  switchTheme: () => void;
+  switchTheme: (themeValue?: Theme) => void;
 }
 
 const useTheme = (): ThemeHook => {
@@ -22,15 +22,24 @@ const useTheme = (): ThemeHook => {
     dispatch(updateContrastMode(!contrastMode));
   }, [contrastMode, dispatch]);
 
-  const switchTheme = useCallback((): void => {
-    const newTheme: Theme = theme === "light" ? "dark" : "light";
+  const switchTheme = useCallback(
+    (themeValue?: Theme): void => {
+      let newTheme: Theme;
 
-    if (contrastMode && !themes[`${newTheme}-contrast`]) {
-      toggleContrastMode();
-    }
+      if (themeValue) {
+        newTheme = themeValue;
+      } else {
+        newTheme = theme === "light" ? "dark" : "light";
 
-    dispatch(updateTheme(newTheme));
-  }, [contrastMode, dispatch, theme, toggleContrastMode]);
+        if (contrastMode && !themes[`${newTheme}-contrast`]) {
+          toggleContrastMode();
+        }
+      }
+
+      dispatch(updateTheme(newTheme));
+    },
+    [contrastMode, dispatch, theme, toggleContrastMode]
+  );
 
   return { theme, contrastMode, toggleContrastMode, switchTheme };
 };
