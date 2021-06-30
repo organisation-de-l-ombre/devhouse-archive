@@ -6,26 +6,14 @@ import { RiMessage2Fill } from "react-icons/ri";
 import { FlexContainer, ButtonsGroup, ButtonLink } from "@components/ui";
 import globalStyles from "@styles/Global.module.scss";
 import { BackToTop, withFooter } from "@components/modules";
-import { useSpring, animated } from "react-spring";
-import { Helmet } from "react-helmet";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import styles from "./Home.module.scss";
 
-const HeadersContainer = animated(FlexContainer);
-
 const Home: FunctionComponent<HTMLDivElement> = () => {
   const { t } = useTranslation("pages\\home\\home");
-  const headersStyles = useSpring({
-    from: { transform: "scale(0)", opacity: "0" },
-    to: { transform: "scale(1)", opacity: "1" },
-    config: { duration: 500 },
-  });
 
   return (
     <FlexContainer column>
-      <Helmet>
-        <title>{t("pageTitle")}</title>
-      </Helmet>
       <FlexContainer
         horizontallyCentered
         className={globalStyles["position-relative"]}
@@ -36,13 +24,11 @@ const Home: FunctionComponent<HTMLDivElement> = () => {
           }}
           className={styles["headers-background"]}
         />
-        <HeadersContainer
-          padding
+        <FlexContainer
           pageBodyWidth
           column
           verticallyCentered
           className={styles.headers}
-          style={headersStyles}
         >
           <h1>
             <Trans t={t} i18nKey="headers.title" />
@@ -73,7 +59,7 @@ const Home: FunctionComponent<HTMLDivElement> = () => {
               </span>
             </ButtonLink>
           </ButtonsGroup>
-        </HeadersContainer>
+        </FlexContainer>
       </FlexContainer>
       <BackToTop />
       <FlexContainer

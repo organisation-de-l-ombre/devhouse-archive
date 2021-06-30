@@ -3,7 +3,6 @@ import { useCallback, useState, Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 import { Language } from "@store/language/types";
 import { GlobalState } from "@store/types";
-import i18n from "@lib/i18n";
 import changeLanguage from "@store/language/actions";
 
 interface LanguageHook {
@@ -32,7 +31,6 @@ const useLanguage = (): LanguageHook => {
       }
 
       dispatch(changeLanguage(languageState));
-      await i18n.changeLanguage(languageState);
       setLanguageState("default");
 
       if (setLanguageWindowOpen) {

@@ -1,11 +1,11 @@
 import { createContext, Dispatch, SetStateAction } from "react";
 
-interface BodyContextType {
+interface BodyContextProps {
   scroll: boolean;
   setScroll: Dispatch<SetStateAction<boolean>>;
 }
 
-const BodyContext = createContext<BodyContextType>({
+const BodyContext = createContext<BodyContextProps>({
   scroll: true,
   setScroll: () => {},
 });

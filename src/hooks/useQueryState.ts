@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router";
 
 type QueryStateHook<T> = [
   queryState: T | undefined,
@@ -36,6 +37,19 @@ const useQueryState = <T>(
     queryRef.current.set(name, JSON.stringify(queryState));
     window.history.replaceState(null, "", `?${queryRef.current.toString()}`);
   }, [name, queryState]);
+
+  const { pathname } = useLocation();
+
+  useEffect((): void => {
+    if (queryState === undefined) {
+      return;
+    }
+
+    queryRef.current = new URLSearchParams(window.location.search);
+    queryRef.current.set(name, JSON.stringify(queryState));
+    window.history.replaceState(null, "", `?${queryRef.current.toString()}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   return [queryState, setQueryState];
 };

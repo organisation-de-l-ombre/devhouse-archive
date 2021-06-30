@@ -1,4 +1,9 @@
 {
+  "helmet": {
+    "title": "International Media Referencing",
+    "description": "International Media Referencing is an alternative and complete online database which references a great deal of cinematographic content such as movies or series.",
+    "topics": "Movies, films, series, TV shows, cinema, cinematography"
+  },
   "error": {
     "title": "Something went wrong...",
     "description": "It would seem the website encountered an unexcepted error. If it happens again, don't hesitate to report it.",

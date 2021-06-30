@@ -3,6 +3,7 @@ export { default as DisplayLanguageSVG } from "./DisplayLanguageSVG/DisplayLangu
 export { default as ErrorComponent } from "./Error/ErrorComponent";
 export { default as RootError } from "./Error/RootError";
 export { default as Image } from "./Image/Image";
+export { default as MetadataBuilder } from "./MetadataBuilder/MetadataBuiler";
 export { default as withFooter } from "./withFooter/withFooter";
 export { default as Navbar } from "./Navbar/Navbar";
 export { default as NotFound } from "./NotFound/NotFound";

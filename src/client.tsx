@@ -8,7 +8,7 @@ import {
 } from "base64-arraybuffer";
 import { createStore, persistBlacklist } from "@store/store";
 import { BrowserRouter } from "react-router-dom";
-import { loadableReady } from "@loadable/component";
+import loadable, { loadableReady } from "@loadable/component";
 import { hydrate } from "react-dom";
 import { GlobalState } from "@store/types";
 import { Provider } from "react-redux";
@@ -18,23 +18,33 @@ import debounce from "lodash.debounce";
 import Cookies from "js-cookie";
 import { initReactI18next, useSSR, useTranslation } from "react-i18next";
 import useLanguage from "@hooks/useLanguage";
-import { useNotificationsManager } from "@hooks/useNotifications";
+import {
+  useNotificationsManager,
+  useNotificationsState,
+} from "@hooks/useNotifications";
 import generateNotificationID from "@lib/generateNotificationID";
 import { QueryClient, QueryClientProvider } from "react-query";
 import useReducedMotion from "@hooks/useReducedMotion";
 import { Globals } from "react-spring";
-import { Resource } from "i18next";
-import i18n from "@lib/i18n";
+import i18n, { Resource } from "i18next";
 import { supportedLanguages } from "@store/language/types";
-import I18NextHttpBackend from "i18next-http-backend";
+import HTTPBackend from "i18next-http-backend";
+import useQueryState from "@hooks/useQueryState";
+import useTheme from "@hooks/useTheme";
+import BodyContext from "@contexts/body";
+import { Helmet } from "react-helmet";
+import classnames from "classnames";
+import themes from "@styles/Themes.module.scss";
+import globalStyles from "@styles/Global.module.scss";
 
 i18n
   .use(initReactI18next)
-  .use(I18NextHttpBackend)
+  .use(HTTPBackend)
   .init({
     debug: false,
     initImmediate: false,
     fallbackLng: "en",
+    preload: ["en"],
     supportedLngs: supportedLanguages,
     load: "languageOnly",
     react: {
@@ -51,6 +61,18 @@ declare global {
 }
 
 loadableReady((): void => {
+  const NotificationsModal = loadable(
+    () =>
+      import(
+        "@components/ui/Notifications/NotificationsModal/NotificationsModal"
+      )
+  );
+  const NotificationsGroup = loadable(
+    () =>
+      import(
+        "@components/ui/Notifications/NotificationsGroup/NotificationsGroup"
+      )
+  );
   const persistedState: GlobalState = cborDecode(
     base64Decode(window.REDUX_STORE)
   );
@@ -79,30 +101,62 @@ loadableReady((): void => {
       "components\\ui\\languageModal\\languageModal"
     );
     const { language } = useLanguage();
+    const [, setLanguageInQuery] = useQueryState<string>("language");
+    const [scroll, setScroll] = useState<boolean>(true);
+    const { theme, contrastMode } = useTheme();
 
     useEffect((): void => {
       setPageLoaded(true);
     }, []);
 
     useEffect((): void => {
-      if (pageLoaded) {
-        if (process.env.NODE_ENV === "production") {
-          window.scrollTo({ top: 0 });
-        }
+      i18n.changeLanguage(language).then((): void => {
+        if (pageLoaded) {
+          if (process.env.NODE_ENV === "production") {
+            window.scrollTo({ top: 0 });
+          }
 
-        addNotifications([
-          {
-            id: generateNotificationID(),
-            type: "info",
-            body: t("languageChanged"),
-            time: 5000,
-          },
-        ]);
-      }
+          addNotifications([
+            {
+              id: generateNotificationID(),
+              type: "info",
+              body: t("languageChanged"),
+              time: 5000,
+            },
+          ]);
+        }
+      });
+      setLanguageInQuery(language);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [language]);
 
-    return <>{children}</>;
+    return (
+      <BodyContext.Provider value={{ scroll, setScroll }}>
+        <Helmet>
+          <body
+            className={classnames(
+              themes[`${theme}${contrastMode ? "-contrast" : ""}`],
+              {
+                [globalStyles["overflow-hidden"]]: !scroll,
+              }
+            )}
+          />
+        </Helmet>
+        {children}
+      </BodyContext.Provider>
+    );
+  };
+
+  const NotificationsWrapper: FC = () => {
+    const { firstUse } = useNotificationsState();
+    const [open, setOpen] = useState<boolean>(firstUse);
+
+    return (
+      <>
+        <NotificationsModal open={open} setOpen={setOpen} />
+        <NotificationsGroup />
+      </>
+    );
   };
 
   const RootComponent: FC = () => {
@@ -126,15 +180,16 @@ loadableReady((): void => {
 
     return (
       <Provider store={store}>
-        <DataManager>
-          <CacheProvider value={emotionCache}>
-            <QueryClientProvider client={queryClient}>
-              <BrowserRouter>
+        <CacheProvider value={emotionCache}>
+          <QueryClientProvider client={queryClient}>
+            <BrowserRouter>
+              <DataManager>
                 <Application />
-              </BrowserRouter>
-            </QueryClientProvider>
-          </CacheProvider>
-        </DataManager>
+                <NotificationsWrapper />
+              </DataManager>
+            </BrowserRouter>
+          </QueryClientProvider>
+        </CacheProvider>
       </Provider>
     );
   };

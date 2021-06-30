@@ -2,6 +2,7 @@ import {
   applyMiddleware,
   combineReducers,
   createStore as createReduxStore,
+  DeepPartial,
   Middleware,
   Store,
 } from "redux";
@@ -21,7 +22,7 @@ import { NotificationsConfigReducer } from "./notifications/notificationsConfig/
 import { InternalReducer } from "./internal/reducer";
 
 const createStore = (
-  persistedState?: GlobalState,
+  persistedState?: DeepPartial<GlobalState>,
   middlewares: Middleware[] = []
 ): Store => {
   const reducer = combineReducers({
@@ -43,7 +44,7 @@ const createStore = (
     callCompose = composeWithDevTools(callCompose);
   }
 
-  const store = createReduxStore(reducer, persistedState, callCompose);
+  const store = createReduxStore(reducer, persistedState as never, callCompose);
 
   if (typeof window !== "undefined") {
     initMessageListener(store);
