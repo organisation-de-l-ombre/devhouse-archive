@@ -2,19 +2,19 @@
    "type": "postgres",
    "host": "192.168.1.80",
    "port": 5432,
-   "username": "test",
-   "password": "test",
-   "database": "test",
+   "username": "kylian",
+   "password": "Aglae2008#",
+   "database": "imr",
    "synchronize": true,
    "logging": false,
    "entities": [
-      "src/entity/**/*.ts"
+      "dist/src/entity/**/*.js"
    ],
    "migrations": [
-      "src/migration/**/*.ts"
+      "dist/src/migration/**/*.js"
    ],
    "subscribers": [
-      "src/subscriber/**/*.ts"
+      "dist/src/subscriber/**/*.js"
    ],
    "cli": {
       "entitiesDir": "src/entity",

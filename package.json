@@ -41,7 +41,7 @@
    },
    "scripts": {
       "dev": "tsc -p . && node dist/src/index",
-      "start": "ts-node src/index.ts",
+      "start": "node src/index",
       "build": "yarn gen:client-axios && tsc -p .",
       "test": "jest --passWithNoTests",
       "prepare": "husky install",
