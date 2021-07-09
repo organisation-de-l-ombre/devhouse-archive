@@ -7,16 +7,17 @@ info:
 
 servers:
   - url: https://amelia-api.developershouse.xyz
-    description: First version of the API in production
+    description: Production version of Amelia
 
 paths:
-  "/data/movies/title/{movieTitle}/{language}":
+  # Get movie title
+  "/data/movies/title/{movieId}/{language}":
     description: Get movie data
     get:
       operationId: getMovieData
       parameters:
         - in: path
-          name: movieTitle
+          name: movieId
           required: true
           schema:
             type: string
@@ -29,26 +30,39 @@ paths:
         - Movie data
       responses:
         200:
-          description: Successfully generated signed S3 link to provide data access
+          description: Successfully found movie data.
           content:
             application/json:
               schema:
                   $ref: "#/components/schemas/movieDataResponse"
         404:
-          description: Movie not found on the database
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/genericReturn"
+          description: Movie not found on the database.
 
+  # Search content into the database
   "/data/search":
     description: Search content into the database
     get:
       operationId: getSearchResults
       parameters:
         - in: query
-          name: title
+          name: language
           required: true
+          schema:
+            type: string
+        - in: query
+          name: title
+          schema:
+            type: string
+        - in: query
+          name: compagnies
+          schema:
+            type: string
+        - in: query
+          name: tags
+          schema:
+            type: string
+        - in: query
+          name: case
           schema:
             type: string
       tags:
@@ -71,19 +85,12 @@ paths:
                     items:
                       $ref: "#/components/schemas/searchResponse"
         400:
-          description: "Bad request: missing parameters"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/genericReturn"
+          description: "Bad request: missing parameters."
 
         404:
-          description: Content not found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/genericReturn"
+          description: No content found.
 
+  # Get a specific wiki page
   "/data/wiki/{type}/{language}/{path}":
     description: Get wiki data
     get:
@@ -108,71 +115,101 @@ paths:
         - Wiki
       responses:
         200:
-          description: Successfully found wiki
+          description: Successfully found wiki content.
           content:
-            application/json:
+            text/plain:
               schema:
-                $ref: "#/components/schemas/wikiResponse"
+                type: string
         404:
-          description: Content not found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/genericReturn"
+          description: Wiki data not found.
 
 components:
   schemas:
-    genericReturn:
-      type: object
-      required:
-        - statusCode
-        - message
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: number
+    # Generic schemas
+    arrayString:
+      type: array
+      items:
+        type: string
 
+    # Movie data schemas
     movieDataResponse:
       type: object
       required:
-        - statusCode
-        - body
+        - id
+        - internationalTitle
+        - internationalReleaseDate
+        - originalCountry
+        - companies
+        - tags
+        - case
+        - localizedInformation
+        - data
       properties:
-        statusCode:
-          type: number
-        body:
-          type: object
-          required:
-            - id
-            - title
-            - data
-          properties:
-            id:
-              type: string
-            title:
-              type: string
-            data:
-              type: object
-              required:
-                - headers
-                - movie
-              properties:
-                headers:
-                  type: string
-                movie:
-                  type: string
-                casting:
-                  type: string
-                characters:
-                  type: string
-                videos:
-                  type: string
-                ost:
-                  type: string
-                technical-specs:
-                  type: string
+        id:
+          type: string
+        internationalTitle:
+          type: string
+        internationalReleaseDate:
+          type: string
+        originalCountry:
+          type: string
+        companies:
+          $ref: "#/components/schemas/arrayString"
+        tags:
+          $ref: "#/components/schemas/arrayString"
+        case:
+          type: string
+        localizedInformation:
+          $ref: "#/components/schemas/localizedMovieInformation"
+        data:
+          $ref: "#/components/schemas/movieData"
 
+    localizedMovieInformation:
+      type:
+        object
+      required:
+        - title
+        - releaseDate
+        - poster
+        - description
+        - firstAdd
+        - lastModification
+      properties:
+        title:
+          type: string
+        releaseDate:
+          type: string
+        poster:
+          type: string
+        description:
+          type: string
+        firstAdd:
+          type: string
+        lastModification:
+          type: string
+    
+    movieData:
+      type: object
+      required:
+        - headers
+        - movie
+      properties:
+        headers:
+          type: string
+        movie:
+          type: string
+        casting:
+          type: string
+        characters:
+          type: string
+        videos:
+          type: string
+        ost:
+          type: string
+        technical-specs:
+          type: string
+
+    # Search schemas
     searchResponse:
       type: object
       required:
@@ -188,15 +225,4 @@ components:
         poster:
           type: string
         releaseDate:
-          type: string
-
-    wikiResponse:
-      type: object
-      required:
-        - statusCode
-        - body
-      properties:
-        statusCode:
-          type: number
-        body:
           type: string
