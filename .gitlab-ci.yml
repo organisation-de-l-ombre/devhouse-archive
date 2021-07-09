@@ -20,7 +20,7 @@ package:
       - openapi-gen/*
   script:
     - yarn
-    - yarn gen:client
+    - yarn gen:client-axios
     - cd openapi-gen
     - apt-get update -y
     - apt-get install jq -y
