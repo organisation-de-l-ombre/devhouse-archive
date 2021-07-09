@@ -1,6 +1,6 @@
 {
   "name": "@developers-house/amelia",
-  "version": "1.1.10",
+  "version": "1.1.11",
   "description": "The library to allow IMR frontend to interact with Amelia, to manage users and data.",
   "main": "lib/index.js",
   "files": [
@@ -8,6 +8,9 @@
   ],
   "types": "lib/index.d.ts",
   "author": "Prévot Kylian <kylian.prevot@outlook.com>",
+  "dependencies": {
+    "axios": "0.21.1"
+  },
   "devDependencies": {
     "typescript": "^4.2.3"
   },
