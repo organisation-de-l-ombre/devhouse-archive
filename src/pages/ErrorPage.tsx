@@ -5,6 +5,7 @@
 import React, { ReactElement } from "react";
 import { FallbackProps } from "react-error-boundary";
 import { Metadata } from "@components/Meta/Metadata";
+import { usePreload } from "@components/PreloadContext/PreloadContext";
 import globalStyles from "../styles/Global.module.scss";
 import FlexContainer from "../components/FlexContainer/FlexContainer";
 import { Button } from "../components/new/Button/Button";

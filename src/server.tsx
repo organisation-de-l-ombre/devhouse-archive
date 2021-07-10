@@ -24,6 +24,7 @@ import cbor from "cbor-js";
 import { decode, encode } from "base64-arraybuffer";
 import { DeepPartial } from "redux";
 import CreateRedis from "ioredis";
+import reactSSRPrepass from "react-ssr-prepass";
 import App from "./Root";
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
@@ -121,44 +122,32 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
     </SSRContext.Provider>
   );
 
-  let render: string;
-  // We render a first time to get all the loading promises.
-  render = renderToStaticMarkup(jsx);
+  await reactSSRPrepass(jsx);
 
-  if (preloaderContext.promises.length > 0) {
-    preloaderContext.done = true;
-    // Wait for all the loading promises to finish.
-    await Promise.all(
-      preloaderContext.promises.map(async ({ cache, promise, queryKey }) => {
-        if (cache) {
-          const key = `cache::website${encode(cbor.encode(queryKey))}`;
-          const cacheValue = await redis.get(key);
-          if (cacheValue) {
-            queryClient.prefetchQuery(queryKey, () => JSON.parse(cacheValue));
-            return Promise.resolve();
-          }
+  preloaderContext.done = true;
+  // Wait for all the loading promises to finish.
+  await Promise.all(
+    preloaderContext.promises.map(async ({ cache, promise, queryKey }) => {
+      const key = `cache::website${encode(cbor.encode(queryKey))}`;
+      if (cache) {
+        const cacheValue = await redis.get(key);
+        if (cacheValue) {
+          queryClient.prefetchQuery(queryKey, () => JSON.parse(cacheValue));
+          return Promise.resolve();
         }
-        const result = await promise;
-        if (cache) {
-          queueMicrotask(async () => {
-            await redis.set(
-              `cache::website${queryKey}`,
-              JSON.stringify(result),
-              "ex",
-              120
-            );
-          });
-        }
-        return result;
-      })
-    );
-    // Create the cache for the react query state.
-    render = renderToString(jsx);
-  }
-
+      }
+      const result = await promise;
+      if (cache) {
+        queueMicrotask(async () => {
+          await redis.set(key, JSON.stringify(result), "ex", 120);
+        });
+      }
+      return result;
+    })
+  );
   const dehydratedState = dehydrate(queryClient);
   // Get all the used assets using emotion.
-  const { html, styles } = extractCriticalToChunks(render);
+  const { html, styles } = extractCriticalToChunks(renderToString(jsx));
 
   const helmet = Helmet.renderStatic();
   // collect script tags
