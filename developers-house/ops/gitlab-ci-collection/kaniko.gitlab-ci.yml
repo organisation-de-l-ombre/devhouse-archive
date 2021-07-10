@@ -4,6 +4,7 @@ build:
     before_script:
         - echo ""
     stage: build
+    services: []
     image:
         name: gcr.io/kaniko-project/executor:debug
         entrypoint: [""]
