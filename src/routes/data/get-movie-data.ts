@@ -102,7 +102,7 @@ export default {
 
     for (const section of sections) {
       const command: GetObjectCommand = new GetObjectCommand({
-        Bucket: process.env.S3_BUCKET || "",
+        Bucket: process.env.S3_BUCKET_NAME || "",
         Key: `${
           process.env.S3_PRIVATE || ""
         }/movies/title/${movieId}/${language}/${
