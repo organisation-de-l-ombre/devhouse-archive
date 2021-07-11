@@ -8,14 +8,17 @@ export class MovieTitle {
   @PrimaryColumn()
   id!: string;
 
-  @Column()
-  internationalTitle!: string;
+  @Column({ name: "internationalTitle" })
+  title!: string;
 
-  @Column()
-  internationalReleaseDate!: Date;
+  @Column({ name: "internationalReleaseDate" })
+  releaseDate?: Date;
 
   @Column()
   originalCountry!: string;
+
+  @Column({ nullable: true })
+  duration?: number;
 
   @ManyToMany(() => Company)
   @JoinTable()

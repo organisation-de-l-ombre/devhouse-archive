@@ -3,7 +3,7 @@ openapi: 3.0.0
 info:
   title: Amelia
   description: Amelia is the API which allows to interact with the frontend of IMR & to manage data and users
-  version: 1.1.9
+  version: 2.0.0
 
 servers:
   - url: https://amelia-api.developershouse.xyz
@@ -136,8 +136,8 @@ components:
       type: object
       required:
         - id
-        - internationalTitle
-        - internationalReleaseDate
+        - title
+        - releaseDate
         - originalCountry
         - companies
         - tags
@@ -147,11 +147,13 @@ components:
       properties:
         id:
           type: string
-        internationalTitle:
+        title:
           type: string
-        internationalReleaseDate:
+        releaseDate:
           type: string
         originalCountry:
+          type: string
+        duration:
           type: string
         companies:
           $ref: "#/components/schemas/arrayString"
@@ -169,19 +171,22 @@ components:
         object
       required:
         - title
-        - releaseDate
-        - poster
-        - description
         - firstAdd
-        - lastModification
+        - lastEdit
       properties:
         title:
           type: string
         releaseDate:
           type: string
+        background:
+          type: string
         poster:
           type: string
         description:
+          type: string
+        quotation:
+          type: string
+        trailer:
           type: string
         firstAdd:
           type: string
@@ -191,11 +196,8 @@ components:
     movieData:
       type: object
       required:
-        - headers
         - movie
       properties:
-        headers:
-          type: string
         movie:
           type: string
         casting:
@@ -206,7 +208,7 @@ components:
           type: string
         ost:
           type: string
-        technical-specs:
+        technicalSpecs:
           type: string
 
     # Search schemas

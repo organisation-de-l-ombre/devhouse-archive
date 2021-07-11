@@ -18,20 +18,9 @@ import { S3 } from "@aws-sdk/client-s3";
 import fastifyCors from "fastify-cors";
 import { readdirSync } from "fs";
 import path from "path";
-import { addAliases } from "module-alias";
 import dotenv from "dotenv";
 
 dotenv.config();
-
-addAliases({
-  "@entities": path.join(__dirname, "entity")
-});
-
-import { Company } from "@entities/company";
-import { LocalizedMovie } from "@entities/localized-movie";
-import { MovieTitle } from "@entities/movie-title";
-import { Tag } from "@entities/tag";
-import { movieTitle1625207358437 } from "./migration/1625207358437-movie-title";
 
 interface RouteFile {
   default: RouteOptions;
@@ -41,7 +30,7 @@ process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
 
 export const internalS3ClientEndpoint: string =
   process.env.NODE_ENV === "development"
-    ? "https://s3.developershouse.xyz"
+    ? "https://cdn.developershouse.xyz"
     : "https://minio.minio";
 
 new (class Amelia {
@@ -59,7 +48,7 @@ new (class Amelia {
     forcePathStyle: true
   });
   externalS3Client: S3 = new S3({
-    endpoint: "https://s3.developershouse.xyz",
+    endpoint: "https://cdn.developershouse.xyz",
     region: "eu",
     credentials: {
       accessKeyId: process.env.S3_ACCESS_KEY || "",
@@ -90,8 +79,9 @@ new (class Amelia {
         database: process.env.POSTGRES_DATABASE || "",
         username: process.env.POSTGRES_USERNAME || "",
         password: process.env.POSTGRES_PASSWORD || "",
-        entities: [Company, LocalizedMovie, MovieTitle, Tag],
-        migrations: [movieTitle1625207358437]
+        entities: ["dist/src/entity/**/*.js"],
+        migrations: ["dist/src/migration/**/*.js"],
+        synchronize: true
       });
 
       console.info("Connected to the Postgres database.");

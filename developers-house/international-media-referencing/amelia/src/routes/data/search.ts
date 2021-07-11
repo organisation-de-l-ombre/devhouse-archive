@@ -14,8 +14,6 @@ export default {
     }
   },
   async handler(request: FastifyRequest, reply: FastifyReply): Promise<void> {
-    this.log()
-
     let { title } = request.query as RequestParameters;
 
     if (!title || (title && title.length < 3) || (title && title.length > 32)) {
