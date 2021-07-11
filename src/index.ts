@@ -117,9 +117,7 @@ new (class Amelia {
   private async handleRouting(): Promise<void> {
     this.FastifyClient.setErrorHandler(
       (error: Error, _request: FastifyRequest, reply: FastifyReply): void => {
-        if (process.env.NODE_ENV === "development") {
-          console.error(error);
-        }
+        console.error(error);
 
         void reply.code(500).send();
       }
