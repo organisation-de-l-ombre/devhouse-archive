@@ -10,3 +10,4 @@ openapi-gen/*
 !openapi-gen/global-fetch.ts
 !openapi-gen/tsconfig.json
 .env
+ormconfig.json

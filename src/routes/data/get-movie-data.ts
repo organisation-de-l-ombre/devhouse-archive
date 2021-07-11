@@ -1,20 +1,14 @@
 import { FastifyReply, FastifyRequest, RouteOptions } from "fastify";
-import { GetObjectCommand } from "@aws-sdk/client-s3";
+import { GetObjectCommand, ListObjectsCommandOutput } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { MovieTitle } from "@entities/movie-title";
+import { LocalizedMovie } from "@entities/localized-movie";
+import { Tag } from "@entities/tag";
+import { Company } from "@entities/company";
 
 interface RequestParameters {
-  movieTitle: string;
+  movieId: string;
   language: string;
-}
-
-interface MovieData {
-  headers?: string;
-  movie?: string;
-  casting?: string;
-  characters?: string;
-  ost?: string;
-  "technical-specs"?: string;
 }
 
 type Section =
@@ -22,55 +16,57 @@ type Section =
   | "movie"
   | "casting"
   | "characters"
+  | "videos"
   | "ost"
   | "technical-specs";
 
+type MovieData = {
+  [key in Section]?: string;
+};
+
 export default {
   method: "GET",
-  url: "/data/movies/title/:movieTitle/:language",
+  url: "/data/movies/title/:movieId/:language",
   schema: {
     params: {
-      movieTitle: { type: "string" },
+      movieId: { type: "string" },
       language: { type: "string" }
     }
   },
   async handler(request: FastifyRequest, reply: FastifyReply): Promise<void> {
-    const { movieTitle, language } = request.params as RequestParameters;
+    const { movieId, language } = request.params as RequestParameters;
     const repository = request.databaseConnection().getRepository(MovieTitle);
     const databaseRequest: MovieTitle[] = await repository.find({
       where: {
-        id: movieTitle
+        id: movieId
       },
-      relations: ["availableLanguages"]
+      relations: ["companies", "tags", "localizedInformation"]
     });
     const databaseResult: MovieTitle = databaseRequest[0];
 
     if (
       databaseRequest.length === 0 ||
-      databaseResult.availableLanguages.findIndex(
-        (lang): boolean => lang.language === language
-      ) === -1
+      !databaseResult.localizedInformation.some(
+        (localizedMovie: LocalizedMovie): boolean =>
+          localizedMovie.language === language
+      )
     ) {
-      void reply.code(404).send({
-        statusCode: 404,
-        message: `Movie not found.`
-      });
+      void reply.code(404).send();
 
       return;
     }
 
-    const files = await request.internalS3Client().listObjects({
-      Bucket: process.env.S3_BUCKET_NAME || "",
-      Prefix: `${
-        process.env.S3_PRIVATE || ""
-      }/movies/title/${movieTitle}/${language}`
-    });
+    const files: ListObjectsCommandOutput = await request
+      .internalS3Client()
+      .listObjects({
+        Bucket: process.env.S3_BUCKET || "",
+        Prefix: `${
+          process.env.S3_PRIVATE || ""
+        }/movies/title/${movieId}/${language}`
+      });
 
     if (!files.Contents || (files.Contents && files.Contents.length === 0)) {
-      void reply.code(404).send({
-        statusCode: 404,
-        message: `Movie not found.`
-      });
+      void reply.code(404).send();
 
       return;
     }
@@ -95,23 +91,22 @@ export default {
 
     const movieData: MovieData = {};
     const indexes = {
-      headers: "1",
-      movie: "2",
-      casting: "3",
-      characters: "4",
-      videos: "5",
-      ost: "6",
-      "technical-specs": "7"
+      headers: 1,
+      movie: 2,
+      casting: 3,
+      characters: 4,
+      videos: 5,
+      ost: 6,
+      "technical-specs": 7
     };
 
     for (const section of sections) {
       const command: GetObjectCommand = new GetObjectCommand({
-        Bucket: process.env.S3_BUCKET_NAME || "",
+        Bucket: process.env.S3_BUCKET || "",
         Key: `${
           process.env.S3_PRIVATE || ""
-        }/movies/title/${movieTitle}/${language}/${
-          // eslint-disable-next-line security/detect-object-injection
-          indexes[section]
+        }/movies/title/${movieId}/${language}/${
+          indexes[section as keyof typeof indexes]
         }_${section}.json`
       });
       const dataURL = await getSignedUrl(request.externalS3Client(), command, {
@@ -121,13 +116,23 @@ export default {
       Object.assign(movieData, { [section]: dataURL });
     }
 
+    const localizedMovie = databaseResult.localizedInformation.find(
+      (localizedMovie: LocalizedMovie): boolean =>
+        localizedMovie.language === language
+    ) as LocalizedMovie;
+
     void reply.code(200).send({
-      statusCode: 200,
-      body: {
-        id: databaseResult.id,
-        title: databaseResult.name,
-        data: movieData
-      }
+      ...databaseResult,
+      companies: databaseResult.companies.map(
+        (company: Company): string => company.name
+      ),
+      tags: databaseResult.tags.map((tag: Tag): string => tag.name),
+      case: databaseResult.case,
+      localizedInformation: {
+        ...localizedMovie,
+        id: undefined
+      },
+      data: movieData
     });
   }
 } as RouteOptions;
