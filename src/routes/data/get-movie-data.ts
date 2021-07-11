@@ -59,7 +59,7 @@ export default {
     const files: ListObjectsCommandOutput = await request
       .internalS3Client()
       .listObjects({
-        Bucket: process.env.S3_BUCKET || "",
+        Bucket: process.env.S3_BUCKET_NAME || "",
         Prefix: `${
           process.env.S3_PRIVATE || ""
         }/movies/title/${movieId}/${language}`
