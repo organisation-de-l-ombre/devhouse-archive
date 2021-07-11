@@ -1,37 +1,37 @@
-import {
-  Entity,
-  Column,
-  ManyToMany,
-  JoinTable,
-  PrimaryColumn,
-} from "typeorm";
-import { Tag } from "./tag";
+import { Entity, Column, ManyToMany, JoinTable, PrimaryColumn } from "typeorm";
 import { Company } from "./company";
-import { Language } from "./language";
+import { Tag } from "./tag";
+import { LocalizedMovie } from "./localized-movie";
 
 @Entity()
 export class MovieTitle {
   @PrimaryColumn()
   id!: string;
 
-  @Column()
-  name!: string;
+  @Column({ name: "internationalTitle" })
+  title!: string;
+
+  @Column({ name: "internationalReleaseDate" })
+  releaseDate?: Date;
 
   @Column()
-  poster!: string;
+  originalCountry!: string;
+
+  @Column({ nullable: true })
+  duration?: number;
 
   @ManyToMany(() => Company)
   @JoinTable()
   companies!: Company[];
 
   @Column()
-  releaseDate!: Date;
+  case!: string;
 
   @ManyToMany(() => Tag)
   @JoinTable()
   tags!: Tag[];
 
-  @ManyToMany(() => Language)
+  @ManyToMany(() => LocalizedMovie)
   @JoinTable()
-  availableLanguages!: Language[];
+  localizedInformation!: LocalizedMovie[];
 }
