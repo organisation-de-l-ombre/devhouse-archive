@@ -18,9 +18,14 @@ import { S3 } from "@aws-sdk/client-s3";
 import fastifyCors from "fastify-cors";
 import { readdirSync } from "fs";
 import path from "path";
+import { addAliases } from "module-alias";
 import dotenv from "dotenv";
 
 dotenv.config();
+
+addAliases({
+  "@entities": path.join(__dirname, "entity")
+});
 
 interface RouteFile {
   default: RouteOptions;
