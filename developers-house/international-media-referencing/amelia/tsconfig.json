@@ -10,8 +10,12 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@entities/*": ["./entity/*"],
+    }
   },
   "include": ["src", "openapi-gen"],
   "exclude": ["dist", "node_modules"]

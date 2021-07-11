@@ -9,6 +9,7 @@
    "version": "1.1.0",
    "devDependencies": {
       "@types/jest": "^26.0.22",
+      "@types/module-alias": "^2.0.1",
       "@types/node": "^8.0.29",
       "@types/node-fetch": "^2.5.10",
       "@typescript-eslint/eslint-plugin": "^4.20.0",
@@ -40,7 +41,7 @@
    },
    "scripts": {
       "dev": "tsc -p . && node dist/src/index",
-      "start": "node src/index",
+      "start": "node dist/src/index",
       "build": "yarn gen:client-axios && tsc -p .",
       "test": "jest --passWithNoTests",
       "prepare": "husky install",
@@ -56,6 +57,7 @@
       "@sentry/tracing": "^6.4.0",
       "fastify": "^3.14.1",
       "fastify-cors": "^5.2.0",
+      "module-alias": "^2.2.2",
       "node-fetch": "^2.6.1",
       "pg": "^8.5.1",
       "reflect-metadata": "^0.1.10",
