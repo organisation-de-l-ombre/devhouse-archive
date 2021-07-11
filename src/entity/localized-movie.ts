@@ -12,17 +12,26 @@ export class LocalizedMovie {
   title!: string;
 
   @Column()
-  releaseDate!: Date;
+  releaseDate?: Date;
 
-  @Column()
-  poster!: string;
+  @Column({ nullable: true })
+  background?: string;
 
-  @Column()
-  description!: string;
+  @Column({ nullable: true })
+  poster?: string;
+
+  @Column({ nullable: true })
+  description?: string;
+
+  @Column({ nullable: true })
+  quotation?: string;
+
+  @Column({ nullable: true })
+  trailer?: string;
 
   @Column()
   firstAdd!: Date;
 
-  @Column()
-  lastModification!: Date;
+  @Column("timestamp", { name: "lastModification" })
+  lastEdit!: Date;
 }

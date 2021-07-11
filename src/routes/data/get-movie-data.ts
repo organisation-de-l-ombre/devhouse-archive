@@ -122,22 +122,15 @@ export default {
     ) as LocalizedMovie;
 
     void reply.code(200).send({
-      id: databaseResult.id,
-      internationalTitle: databaseResult.internationalTitle,
-      internationalReleaseDate: databaseResult.internationalReleaseDate,
-      originalCountry: databaseResult.originalCountry,
-      compagnies: databaseResult.companies.map(
+      ...databaseResult,
+      companies: databaseResult.companies.map(
         (company: Company): string => company.name
       ),
       tags: databaseResult.tags.map((tag: Tag): string => tag.name),
       case: databaseResult.case,
       localizedInformation: {
-        title: localizedMovie.title,
-        releaseDate: localizedMovie.releaseDate,
-        poster: localizedMovie.poster,
-        description: localizedMovie.description,
-        fistAdd: localizedMovie.firstAdd,
-        lastModification: localizedMovie.lastModification
+        ...localizedMovie,
+        id: undefined
       },
       data: movieData
     });
