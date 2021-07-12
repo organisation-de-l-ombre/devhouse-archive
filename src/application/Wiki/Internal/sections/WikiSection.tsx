@@ -17,11 +17,7 @@ const WikiSection: FunctionComponent<
   const { isFetching, data } = useQuery(
     `wiki/internal/${section}`,
     () => {
-      return WikiAPI.getWiki({
-        type,
-        language,
-        path: `sections_${section}`,
-      });
+      return WikiAPI.getWiki(type, language, `sections_${section}`);
     },
     fetchOptions
   );
@@ -30,7 +26,7 @@ const WikiSection: FunctionComponent<
     return <SuspenseComponent />;
   }
 
-  if (!data || (data && !data.body)) {
+  if (!data?.data || (data.data && !data.data.body)) {
     return <NotFound />;
   }
 
@@ -42,7 +38,7 @@ const WikiSection: FunctionComponent<
       column
       className={styles.markdown}
     >
-      <ReactMarkdown>{data.body}</ReactMarkdown>
+      <ReactMarkdown>{data.data.body}</ReactMarkdown>
     </FlexContainer>
   );
 };

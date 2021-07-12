@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { register } from "@lib/serviceWorker";
+// import { register } from "@lib/serviceWorker";
 import Application from "@application/Application";
 import { decode as cborDecode, encode as cborEncode } from "cbor-js";
 import {
@@ -7,7 +7,7 @@ import {
   encode as base64Encode,
 } from "base64-arraybuffer";
 import { createStore, persistBlacklist } from "@store/store";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import loadable, { loadableReady } from "@loadable/component";
 import { hydrate } from "react-dom";
 import { GlobalState } from "@store/types";
@@ -29,7 +29,6 @@ import { Globals } from "react-spring";
 import i18n, { Resource } from "i18next";
 import { supportedLanguages } from "@store/language/types";
 import HTTPBackend from "i18next-http-backend";
-import useQueryState from "@hooks/useQueryState";
 import useTheme from "@hooks/useTheme";
 import BodyContext from "@contexts/body";
 import { Helmet } from "react-helmet";
@@ -37,8 +36,9 @@ import classnames from "classnames";
 import themes from "@styles/Themes.module.scss";
 import globalStyles from "@styles/Global.module.scss";
 import "@styles/Root.scss";
+import { QueryParamProvider } from "use-query-params";
 
-register();
+// register();
 
 i18n
   .use(initReactI18next)
@@ -57,7 +57,7 @@ i18n
 
 declare global {
   interface Window {
-    REDUX_STORE: string;
+    DATA_STORE: string;
     LANGUAGE_STORE: string;
     LANGUAGE: string;
     THEME_DETECTION: boolean;
@@ -78,8 +78,9 @@ loadableReady((): void => {
       )
   );
   const persistedState: GlobalState = cborDecode(
-    base64Decode(window.REDUX_STORE)
+    base64Decode(window.DATA_STORE)
   );
+
   const store = createStore(persistedState);
 
   store.subscribe(
@@ -93,7 +94,9 @@ loadableReady((): void => {
       for (const key of keys) {
         const value = base64Encode(cborEncode(currentState[key]));
 
-        Cookies.set(`imr-redux-${key}`, value);
+        Cookies.set(`imr-data-${key}`, value, {
+          expires: 365,
+        });
       }
     }, 500)
   );
@@ -105,7 +108,6 @@ loadableReady((): void => {
       "components\\ui\\languageModal\\languageModal"
     );
     const { language } = useLanguage();
-    const [, setLanguageInQuery] = useQueryState<string>("language", language);
     const [scroll, setScroll] = useState<boolean>(true);
     const { theme, contrastMode, switchTheme } = useTheme();
 
@@ -123,10 +125,8 @@ loadableReady((): void => {
     }, []);
 
     useEffect((): void => {
-      i18n.changeLanguage(language).then((): void => {
-        setLanguageInQuery(language);
-
-        if (pageLoaded) {
+      if (pageLoaded) {
+        i18n.changeLanguage(language).then((): void => {
           if (process.env.NODE_ENV === "production") {
             window.scrollTo({ top: 0 });
           }
@@ -139,8 +139,8 @@ loadableReady((): void => {
               time: 5000,
             },
           ]);
-        }
-      });
+        });
+      }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [language]);
 
@@ -197,10 +197,12 @@ loadableReady((): void => {
         <CacheProvider value={emotionCache}>
           <QueryClientProvider client={queryClient}>
             <BrowserRouter>
-              <DataManager>
-                <Application />
-                <NotificationsWrapper />
-              </DataManager>
+              <QueryParamProvider ReactRouterRoute={Route}>
+                <DataManager>
+                  <Application />
+                  <NotificationsWrapper />
+                </DataManager>
+              </QueryParamProvider>
             </BrowserRouter>
           </QueryClientProvider>
         </CacheProvider>

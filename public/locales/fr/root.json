@@ -35,6 +35,9 @@
     "apiFetch": "Récupération des données depuis la base de données... Veuillez patienter quelques instants.",
     "redirecting": "Veuillez patienter, vous allez être redirigé dans quelques secondes..."
   },
+  "notifications": {
+    "accountRequired": "Vous devez être connecté pour accéder à cette page."
+  },
   "global": {
     "yes": "Oui",
     "no": "Non"

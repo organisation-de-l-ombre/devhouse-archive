@@ -4,7 +4,7 @@ import { AiOutlineLoading } from "react-icons/ai";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdRefresh } from "react-icons/md";
 import { Authorization } from "@developers-house/abdera";
-import { useAuthorizations } from "@hooks/API/useAuthorizations";
+import { useAuthorizations } from "@hooks/api/useAuthorizations";
 import {
   FlexContainer,
   Button,

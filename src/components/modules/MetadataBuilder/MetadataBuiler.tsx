@@ -4,7 +4,6 @@ import { supportedLanguages } from "@store/language/types";
 import React, { FC, ReactElement, useContext } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
-import { useRouteMatch } from "react-router";
 
 interface MetadataBuilderProps {
   title?: string;
@@ -15,14 +14,14 @@ interface MetadataBuilderProps {
   locales?: string[];
 }
 
-const formatURL = (serverContext: ServerContextProps, path: string): string => {
+const formatURL = (serverContext: ServerContextProps): string => {
   if (serverContext) {
     const { request } = serverContext;
 
-    return `${request.protocol}://${request.get("host")}${path}`;
+    return `${request.protocol}://${request.get("host")}${request.path}`;
   }
 
-  return `${window.location.origin}${path}`;
+  return `${window.location.origin}${window.location.pathname}`;
 };
 
 const MetadataBuilder: FC<MetadataBuilderProps> = ({
@@ -36,9 +35,7 @@ const MetadataBuilder: FC<MetadataBuilderProps> = ({
   const { t } = useTranslation("root");
   const { language } = useLanguage();
   const serverContext = useContext(ServerContext);
-  const { path } = useRouteMatch();
-
-  const url = formatURL(serverContext, path);
+  const url = formatURL(serverContext);
   let description = t("helmet.description");
 
   if (initialDescription) {
@@ -73,7 +70,6 @@ const MetadataBuilder: FC<MetadataBuilderProps> = ({
         href="/manifest.json"
       />
       <link href="/embed.json" type="application/json+oembed" />
-      <link rel="canonical" href={url} />
 
       <meta name="language" content={language} />
       <meta

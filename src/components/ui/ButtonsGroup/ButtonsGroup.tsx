@@ -1,6 +1,7 @@
 import React from "react";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import { css } from "@emotion/react";
+import detectMobileDevice from "@lib/detectMobileDevice";
 
 interface ButtonsGroupProps {
   genericMarginTop?: boolean;
@@ -14,6 +15,10 @@ const ButtonsGroup: FunctionComponent<HTMLDivElement, ButtonsGroupProps> = ({
   expand,
   ...props
 }) => {
+  if (detectMobileDevice()) {
+    minimal = true;
+  }
+
   return (
     <div
       css={css`
@@ -24,7 +29,8 @@ const ButtonsGroup: FunctionComponent<HTMLDivElement, ButtonsGroupProps> = ({
 
         a,
         button {
-          margin: 1rem 1rem 0 0;
+          margin-top: ${minimal ? "0.75rem" : "1rem"};
+          margin-right: ${minimal ? "0.75rem" : "1rem"};
           padding: ${minimal ? "0.5rem" : "0.75rem"};
           ${expand && "flex-grow: 1;"}
 

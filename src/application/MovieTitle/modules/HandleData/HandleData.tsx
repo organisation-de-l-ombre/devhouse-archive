@@ -2,6 +2,7 @@ import { FunctionComponent } from "@typings/FunctionComponent";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import loadable from "@loadable/component";
+import { AxiosResponse } from "axios";
 
 const SuspenseComponent = loadable(
   () => import("@components/modules/Suspense/Suspense")
@@ -16,7 +17,7 @@ const HandleData: FunctionComponent<
   {
     isFetching: boolean;
     section: string | undefined;
-    error: TypeError | Response | null;
+    error: TypeError | AxiosResponse | null;
   }
 > = ({ isFetching, section, error }) => {
   const { t } = useTranslation("root");

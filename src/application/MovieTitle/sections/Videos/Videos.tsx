@@ -7,35 +7,27 @@ import {
   YouTubePlayer,
 } from "@components/ui";
 import globalStyles from "@styles/Global.module.scss";
-import { fetchOptions } from "@lib/api";
-import { UseQueryResult, useQuery } from "react-query";
-import useLanguage from "@hooks/useLanguage";
 import HandleData from "@application/MovieTitle/modules/HandleData/HandleData";
 import classnames from "classnames";
+import { FunctionComponent } from "@typings/FunctionComponent";
+import { useMovieTitleState, useMovieTitleSection } from "@hooks/useMovieTitle";
+import { useRouteMatch } from "react-router";
 import {
-  ReactMovieElement,
   SummaryObject,
   VideoObject,
   VideosSection,
   VideosGlobalSection,
-} from "../../types";
+  MovieTitleParams,
+} from "../../../../types/movieTitle";
 import containerStyle from "../../Containers.module.scss";
 import styles from "./Videos.module.scss";
 
-const Videos: ReactMovieElement = ({ dataResponse }) => {
-  const { language } = useLanguage();
-  const {
-    isFetching,
-    error,
-    data,
-  }: UseQueryResult<VideosGlobalSection, TypeError | Response> = useQuery(
-    `movie-title/${dataResponse.body.id}/${language}/videos`,
-    (): Promise<VideosGlobalSection> => {
-      return fetch(dataResponse.body.data.videos || "").then(
-        (response: Response) => response.json()
-      );
-    },
-    fetchOptions
+const Videos: FunctionComponent<HTMLDivElement> = () => {
+  const { params } = useRouteMatch<MovieTitleParams>();
+  const { sectionLoading, s3Links } = useMovieTitleState(params.movieId);
+  const { error, data } = useMovieTitleSection<VideosGlobalSection>(
+    params.movieId,
+    "videos"
   );
   const [playerOpen, setPlayerOpen] = useState<boolean>(false);
   const [videoState, setVideoState] = useState<VideoObject>({
@@ -43,11 +35,11 @@ const Videos: ReactMovieElement = ({ dataResponse }) => {
     videoID: "",
   });
 
-  if (isFetching || error) {
+  if (sectionLoading || error) {
     return (
       <HandleData
-        isFetching={isFetching}
-        section={dataResponse.body.data.videos}
+        isFetching={sectionLoading}
+        section={s3Links.videos}
         error={error}
       />
     );

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useState } from "react";
 import { FaPlay } from "react-icons/fa";
 import { MdMovie } from "react-icons/md";
@@ -10,15 +11,14 @@ import {
   ButtonsGroup,
 } from "@components/ui";
 import { Trans, useTranslation } from "react-i18next";
-import { useQuery, UseQueryResult } from "react-query";
-import fetchOptions from "@lib/api/fetchOptions";
-import { SuspenseComponent } from "@components/modules";
 import fetchImage from "@lib/fetchImage";
 import { css } from "@emotion/react";
 import loadable from "@loadable/component";
+import { useLocation } from "react-router";
+import { FunctionComponent } from "@typings/FunctionComponent";
+import { MovieElementProps } from "@typings/movieTitle";
 import styles from "./Headers.module.scss";
 import containerStyle from "../../Containers.module.scss";
-import { ReactMovieElement, MovieHeadersSection } from "../../types";
 
 const YouTubePlayer = loadable(
   () => import("@components/ui/YouTubePlayer/YouTubePlayer")
@@ -38,17 +38,37 @@ interface PosterDimensions {
 }
 
 const calculateBackgroundDimensions = (): BackgroundDimensions => {
-  if (window.innerWidth > 400) {
-    return {};
+  if (typeof window === "undefined") {
+    return {
+      backgroundWidth: 1920,
+      backgroundHeight: 1080,
+    };
+  }
+
+  const screenWidth = window.outerWidth;
+  const screenHeight = window.outerHeight;
+
+  if (screenWidth > 3840 && screenHeight > 2160) {
+    return {
+      backgroundWidth: 3840,
+      backgroundHeight: 2160,
+    };
   }
 
   return {
-    backgroundWidth: 400,
-    backgroundHeight: 1000,
+    backgroundWidth: screenWidth,
+    backgroundHeight: screenHeight,
   };
 };
 
 const calculatePosterDimensions = (): PosterDimensions => {
+  if (typeof window === "undefined") {
+    return {
+      posterWidth: 270,
+      posterHeight: 400,
+    };
+  }
+
   const initialWidth = 270;
   const initialHeight = 400;
   const ratio = 270 / 400;
@@ -65,47 +85,32 @@ const calculatePosterDimensions = (): PosterDimensions => {
   };
 };
 
-const Headers: ReactMovieElement = ({ dataResponse }) => {
+const Headers: FunctionComponent<HTMLDivElement, MovieElementProps> = ({
+  dataResponse,
+}) => {
+  const { localizedInformation } = dataResponse;
   const { language } = useLanguage();
-  const [trailerWindowOpen, setTrailerWindowOpen] = useState<boolean>(false);
-  const { t } = useTranslation("pages\\movieTitle\\movieTitle");
-  const { t: tRoot } = useTranslation("root");
-  const { t: tTags } = useTranslation("media\\media");
-  const {
-    isFetching,
-    error,
-    data,
-  }: UseQueryResult<MovieHeadersSection, TypeError | Response> = useQuery(
-    `movie-title/${dataResponse.body.id}/${language}/headers`,
-    (): Promise<MovieHeadersSection> => {
-      return fetch(dataResponse.body.data.headers).then((response: Response) =>
-        response.json()
-      );
-    },
-    fetchOptions
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
+  const [trailerWindowOpen, setTrailerWindowOpen] = useState<boolean>(
+    queryParams.get("focus") === "trailer" || false
   );
+  const { t } = useTranslation("pages\\movieTitle\\movieTitle");
+  const { t: tTags } = useTranslation("media\\media");
   const [backgroundLoaded, setBackgoundLoaded] = useState<boolean>(false);
   const [backgroundError, setBackgroundError] = useState<boolean>(false);
   const { backgroundWidth, backgroundHeight } = calculateBackgroundDimensions();
   const { posterWidth, posterHeight } = calculatePosterDimensions();
 
-  if (isFetching) {
-    return <SuspenseComponent minHeight customText={tRoot("utils.apiFetch")} />;
-  }
-
-  if (error || !data) {
-    return null;
-  }
-
   let background;
 
-  if (data.backgroundImage) {
+  if (localizedInformation.background && typeof window !== "undefined") {
     background = new Image();
     background.src = fetchImage({
       type: "background",
       width: backgroundWidth,
       height: backgroundHeight,
-      image: data.backgroundImage,
+      image: localizedInformation.background,
     });
     background.onerror = (): void => {
       setBackgoundLoaded(true);
@@ -118,10 +123,12 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
 
   return (
     <>
-      {data.trailer && (
+      {localizedInformation.trailer && typeof window !== "undefined" && (
         <YouTubePlayer
-          title={`${data.title} - ${t("headers.trailerWindowTitle")}`}
-          videoID={data.trailer}
+          title={`${localizedInformation.title} - ${t(
+            "headers.trailerWindowTitle"
+          )}`}
+          videoID={localizedInformation.trailer}
           autoPlay
           open={trailerWindowOpen}
           setOpen={setTrailerWindowOpen}
@@ -168,56 +175,57 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
           />
         )}
         <FlexContainer pageBodyWidth allowWrap className={styles.headers}>
-          {data.moviePoster && (
+          {localizedInformation.poster && (
             <ImageComponent
               withBackground
               withBoxShadow
               placeholder={fetchImage({
                 type: "image",
-                image: data.moviePoster,
+                image: localizedInformation.poster,
                 width: Math.ceil(posterWidth / 5),
                 height: Math.ceil(posterHeight / 5),
               })}
               image={fetchImage({
                 type: "image",
-                image: data.moviePoster,
+                image: localizedInformation.poster,
                 width: posterWidth,
                 height: posterHeight,
               })}
-              alt={dataResponse.body.title}
+              alt={localizedInformation.title}
               width={posterWidth}
               height={posterHeight}
               className={styles["movie-poster"]}
             />
           )}
           <FlexContainer column className={styles["headers-content"]}>
-            <h1>
-              {data.title}
-              {data.internationalTitle && ` (${data.internationalTitle})`}
-            </h1>
-            <h2>{data.companies.join(", ")}</h2>
-            {data.releaseDate && (
+            <h1>{`${localizedInformation.title} (${dataResponse.title})`}</h1>
+            <h2>{dataResponse.companies.join(", ")}</h2>
+            {localizedInformation.releaseDate && (
               <h2>
                 {new Intl.DateTimeFormat(language).format(
-                  new Date(data.releaseDate)
+                  new Date(localizedInformation.releaseDate)
                 )}
-                {data.duration ? ` • ${data.duration}` : ""}
-                {data.publicType ? ` • ${data.publicType}` : ""}
+                {dataResponse.duration ? ` • ${dataResponse.duration}` : ""}
+                {dataResponse._case}
               </h2>
             )}
-            {data.synopsis && (
+            {localizedInformation.description && (
               <p>
-                <q className={containerStyle.quotes}>{data.synopsis}</q>
+                <q className={containerStyle.quotes}>
+                  {localizedInformation.description}
+                </q>
               </p>
             )}
-            {data.quotation && (
+            {localizedInformation.quotation && (
               <p>
-                <q className={containerStyle.quotes}>{data.quotation}</q>
+                <q className={containerStyle.quotes}>
+                  {localizedInformation.quotation}
+                </q>
               </p>
             )}
-            {data.type && (
+            {dataResponse.tags && (
               <ButtonsGroup minimal>
-                {data.type.map((tag: string): React.ReactElement => {
+                {dataResponse.tags.map((tag: string): React.ReactElement => {
                   return (
                     <ButtonLink key={tag} to={`/browse?tag=${tag}`}>
                       <Trans t={tTags} i18nKey={`tags.${tag}`} />
@@ -233,14 +241,14 @@ const Headers: ReactMovieElement = ({ dataResponse }) => {
                   <Trans t={t} i18nKey="headers.buttons.watch" />
                 </span>
               </Button>
-              {data.trailer && (
+              {localizedInformation.trailer && (
                 <Button
                   onClick={() => {
                     const isMobileDevice: boolean = detectMobileDevice();
 
                     if (isMobileDevice) {
                       window.open(
-                        `https://www.youtube.com/watch?v=${data.trailer}`
+                        `https://www.youtube.com/watch?v=${localizedInformation.trailer}`
                       );
                     } else {
                       setTrailerWindowOpen(!trailerWindowOpen);

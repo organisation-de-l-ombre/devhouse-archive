@@ -7,39 +7,31 @@ import {
   DetailedText,
   List,
 } from "@components/ui";
-import { useQuery, UseQueryResult } from "react-query";
-import { fetchOptions } from "@lib/api";
-import useLanguage from "@hooks/useLanguage";
 import HandleData from "@application/MovieTitle/modules/HandleData/HandleData";
-import containerStyle from "../../Containers.module.scss";
 import {
   BodyContent,
   GenericSection,
-  ReactMovieElement,
+  MovieTitleParams,
   SummaryObject,
-} from "../../types";
+} from "@typings/movieTitle";
+import { useMovieTitleState, useMovieTitleSection } from "@hooks/useMovieTitle";
+import { useRouteMatch } from "react-router";
+import { FunctionComponent } from "@typings/FunctionComponent";
+import containerStyle from "../../Containers.module.scss";
 
-const Movie: ReactMovieElement = ({ dataResponse }) => {
-  const { language } = useLanguage();
-  const {
-    isFetching,
-    error,
-    data,
-  }: UseQueryResult<GenericSection, TypeError | Response> = useQuery(
-    `movie-title/${dataResponse.body.id}/${language}/movie`,
-    (): Promise<GenericSection> => {
-      return fetch(dataResponse.body.data.movie).then((response: Response) =>
-        response.json()
-      );
-    },
-    fetchOptions
+const Movie: FunctionComponent<HTMLDivElement> = () => {
+  const { params } = useRouteMatch<MovieTitleParams>();
+  const { sectionLoading, s3Links } = useMovieTitleState(params.movieId);
+  const { error, data } = useMovieTitleSection<GenericSection>(
+    params.movieId,
+    "movie"
   );
 
-  if (isFetching || error) {
+  if (sectionLoading || error) {
     return (
       <HandleData
-        isFetching={isFetching}
-        section={dataResponse.body.data.movie}
+        isFetching={sectionLoading}
+        section={s3Links.movie}
         error={error}
       />
     );

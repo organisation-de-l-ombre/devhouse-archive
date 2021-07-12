@@ -20,6 +20,7 @@ import useQueryState from "@hooks/useQueryState";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import { SuspenseComponent, withNetwork } from "@components/modules";
 import classnames from "classnames";
+import { AxiosResponse } from "axios";
 import styles from "./Search.module.scss";
 import "./Animations.scss";
 
@@ -64,10 +65,8 @@ const Search: FunctionComponent<HTMLDivElement> = () => {
       setIsFetching(true);
       setFirstTime(false);
 
-      SearchAPI.getSearchResults({
-        title: inputForm.value,
-      })
-        .then((response: InlineResponse200): void => {
+      SearchAPI.getSearchResults(inputForm.value)
+        .then(({ data: response }: AxiosResponse<InlineResponse200>): void => {
           if (response.data.length) {
             setData(response.data);
           }

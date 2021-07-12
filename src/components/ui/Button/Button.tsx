@@ -2,12 +2,17 @@ import React, { FC } from "react";
 import { css, SerializedStyles } from "@emotion/react";
 import { ButtonComponent, FunctionComponent } from "@typings/FunctionComponent";
 import { NavLink, NavLinkProps } from "react-router-dom";
+import detectMobileDevice from "@lib/detectMobileDevice";
 
 interface ButtonProps {
   minimal?: boolean;
 }
 
 const styles = (minimal?: boolean): SerializedStyles => {
+  if (detectMobileDevice()) {
+    minimal = true;
+  }
+
   return css`
     padding: ${minimal ? "0.5rem" : "0.75rem"};
     border: 0.15rem solid var(--font-color-hover);

@@ -35,6 +35,9 @@
     "apiFetch": "Fetching data from the database... Please wait few seconds.",
     "redirecting": "Please wait, you will be redirected in few seconds..."
   },
+  "notifications": {
+    "accountRequired": "You have to be logged in to access this page."
+  },
   "global": {
     "yes": "Yes",
     "no": "No"

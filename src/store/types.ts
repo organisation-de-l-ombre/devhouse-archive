@@ -5,11 +5,13 @@ import { NotificationsDataState } from "./notifications/notificationsData/types"
 import { NotificationsConfigState } from "./notifications/notificationsConfig/types";
 import { InternalState } from "./internal/types";
 import { ThemeState } from "./theme/types";
+import { MovieTitleState } from "./movieTitle/types";
 
 interface GlobalState {
   account: { user: User };
   language: { language: Language };
   internal: InternalState;
+  movieTitle: MovieTitleState;
   notificationsConfig: NotificationsConfigState;
   notificationsData: NotificationsDataState;
   theme: ThemeState;

@@ -1,8 +1,6 @@
-import React, { Suspense } from "react";
+import React, { FC } from "react";
 import { Switch, useRouteMatch, Route } from "react-router";
-import { SuspenseComponent } from "@components/modules";
 import loadable from "@loadable/component";
-import { ReactMovieElement } from "../../types";
 
 const MovieSection = loadable(() => import("../../sections/Movie/Movie"));
 const CastingSection = loadable(() => import("../../sections/Casting/Casting"));
@@ -18,35 +16,27 @@ const NotFound = loadable(
   () => import("@components/modules/NotFound/NotFound")
 );
 
-const Router: ReactMovieElement = ({ dataResponse }) => {
+const Router: FC = () => {
   const { url: baseURL } = useRouteMatch();
 
   return (
-    <Suspense fallback={<SuspenseComponent minHeight />}>
-      <Switch>
-        <Route path={baseURL} exact>
-          <MovieSection dataResponse={dataResponse} />
-        </Route>
-        <Route path={`${baseURL}/casting`} exact>
-          <CastingSection dataResponse={dataResponse} />
-        </Route>
-        <Route path={`${baseURL}/characters`} exact>
-          <CharactersSection dataResponse={dataResponse} />
-        </Route>
-        <Route path={`${baseURL}/videos`} exact>
-          <VideosSection dataResponse={dataResponse} />
-        </Route>
-        <Route path={`${baseURL}/ost`} exact>
-          <OSTSection dataResponse={dataResponse} />
-        </Route>
-        <Route path={`${baseURL}/technicalSpecs`} exact>
-          <TechnicalSpecsSection dataResponse={dataResponse} />
-        </Route>
-        <Route path="*" exact>
-          <NotFound />
-        </Route>
-      </Switch>
-    </Suspense>
+    <Switch>
+      <Route path={baseURL} exact component={MovieSection} />
+      <Route path={`${baseURL}/casting`} exact component={CastingSection} />
+      <Route
+        path={`${baseURL}/characters`}
+        exact
+        component={CharactersSection}
+      />
+      <Route path={`${baseURL}/videos`} exact component={VideosSection} />
+      <Route path={`${baseURL}/ost`} exact component={OSTSection} />
+      <Route
+        path={`${baseURL}/technicalSpecs`}
+        exact
+        component={TechnicalSpecsSection}
+      />
+      <Route path="*" exact component={NotFound} />
+    </Switch>
   );
 };
 

@@ -20,6 +20,7 @@ import { AccountReducer } from "./account/reducer";
 import { GlobalState } from "./types";
 import { NotificationsConfigReducer } from "./notifications/notificationsConfig/reducer";
 import { InternalReducer } from "./internal/reducer";
+import MovieTitleReducer from "./movieTitle/reducer";
 
 const createStore = (
   persistedState?: DeepPartial<GlobalState>,
@@ -29,6 +30,7 @@ const createStore = (
     account: AccountReducer,
     language: LanguageReducer,
     internal: InternalReducer,
+    movieTitle: MovieTitleReducer,
     notificationsConfig: NotificationsConfigReducer,
     notificationsData: NotificationsDataReducer,
     theme: ThemeReducer,
@@ -62,6 +64,7 @@ const persistedKeys: (keyof GlobalState)[] = [
 ];
 const persistBlacklist: (keyof GlobalState)[] = [
   "internal",
+  "movieTitle",
   "notificationsData",
 ];
 

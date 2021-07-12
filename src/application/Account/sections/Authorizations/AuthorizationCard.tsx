@@ -3,7 +3,7 @@ import { Authorization } from "@developers-house/abdera";
 import { Trans, useTranslation } from "react-i18next";
 import { FaRegTrashAlt } from "react-icons/fa";
 import useLanguage from "@hooks/useLanguage";
-import { useAuthorizationsDeleteMutation } from "@hooks/API/useAuthorizations";
+import { useAuthorizationsDeleteMutation } from "@hooks/api/useAuthorizations";
 import {
   FlexContainer,
   TextArea,

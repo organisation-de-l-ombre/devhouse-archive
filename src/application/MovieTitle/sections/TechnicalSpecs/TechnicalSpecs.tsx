@@ -1,43 +1,34 @@
 import React, { ReactElement } from "react";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
-import {
-  ReactMovieElement,
-  TechnicalSpecsSection,
-} from "@application/MovieTitle/types";
+import { MovieTitleParams, TechnicalSpecsSection } from "@typings/movieTitle";
 import { FlexContainer } from "@components/ui";
-import useLanguage from "@hooks/useLanguage";
 import { Trans, useTranslation } from "react-i18next";
-import { useQuery, UseQueryResult } from "react-query";
-import fetchOptions from "@lib/api/fetchOptions";
 import HandleData from "@application/MovieTitle/modules/HandleData/HandleData";
 import classnames from "classnames";
 import fetchImage from "@lib/fetchImage";
-import styles from "./TechnicalSpecs.module.scss";
+import { FunctionComponent } from "@typings/FunctionComponent";
+import { useMovieTitleState, useMovieTitleSection } from "@hooks/useMovieTitle";
+import { useRouteMatch } from "react-router";
+import useLanguage from "@hooks/useLanguage";
 import containerStyle from "../../Containers.module.scss";
+import styles from "./TechnicalSpecs.module.scss";
 
-const TechnicalSpecs: ReactMovieElement = ({ dataResponse }) => {
+const TechnicalSpecs: FunctionComponent<HTMLDivElement> = () => {
   const { language } = useLanguage();
+  const { params } = useRouteMatch<MovieTitleParams>();
+  const { sectionLoading, s3Links } = useMovieTitleState(params.movieId);
+  const { error, data } = useMovieTitleSection<TechnicalSpecsSection>(
+    params.movieId,
+    "technicalSpecs"
+  );
   const { t } = useTranslation("pages\\movieTitle\\movieTitle");
   const { t: tTags } = useTranslation("media\\media");
-  const {
-    isFetching,
-    error,
-    data,
-  }: UseQueryResult<TechnicalSpecsSection, TypeError | Response> = useQuery(
-    `movie-title/${dataResponse.body.id}/technical-specs`,
-    (): Promise<TechnicalSpecsSection> => {
-      return fetch(dataResponse.body.data.technicalSpecs || "").then(
-        (response: Response) => response.json()
-      );
-    },
-    fetchOptions
-  );
 
-  if (isFetching) {
+  if (sectionLoading || error) {
     return (
       <HandleData
-        isFetching={isFetching}
-        section={dataResponse.body.data.technicalSpecs}
+        isFetching={sectionLoading}
+        section={s3Links.technicalSpecs}
         error={error}
       />
     );

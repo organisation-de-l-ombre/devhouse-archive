@@ -1,14 +1,11 @@
 import React, { FC } from "react";
 import { RouteComponentProps } from "react-router";
 import { useTranslation } from "react-i18next";
-import useLanguage from "@hooks/useLanguage";
 import { FlexContainer } from "@components/ui";
-import { withNetwork } from "@components/modules";
-import { MovieDataAPI, fetchOptions } from "@lib/api";
-import { useQuery, UseQueryResult } from "react-query";
-import { Helmet } from "react-helmet";
-import { MovieDataResponse } from "@developers-house/amelia";
+import { MetadataBuilder, withNetwork } from "@components/modules";
 import loadable from "@loadable/component";
+import { MovieTitleParams } from "@typings/movieTitle";
+import { useMovieTitleRoot } from "@hooks/useMovieTitle";
 
 const SuspenseComponent = loadable(
   () => import("@components/modules/Suspense/Suspense")
@@ -26,60 +23,59 @@ const InternalNavigation = loadable(
 const BackToTop = loadable(
   () => import("@components/modules/BackToTop/BackToTop")
 );
-const Router = loadable(() => import("./modules/Router/Router"));
+// const Router = loadable(() => import("./modules/Router/Router"));
 
 const MovieRoot: FC<RouteComponentProps> = ({ match }) => {
-  const { language } = useLanguage();
   const { t } = useTranslation("root");
-  const params = match.params as unknown as Record<string, string>;
-  const {
-    error,
-    isFetching,
-    data,
-  }: UseQueryResult<MovieDataResponse, TypeError | Response> = useQuery(
-    `movie-title/${params.title}/${language}/root`,
-    (): Promise<MovieDataResponse> => {
-      return MovieDataAPI.getMovieData({
-        movieTitle: params.title,
-        language,
-      });
-    },
-    fetchOptions
-  );
+  const { t: tMedia } = useTranslation("media\\media");
+  const { movieId } = match.params as unknown as MovieTitleParams;
+  const movieTitle = useMovieTitleRoot(movieId);
 
-  if (isFetching) {
+  if (!movieTitle) {
+    return null;
+  }
+
+  if (movieTitle.rootStatus === "loading") {
     return <SuspenseComponent minHeight customText={t("utils.apiFetch")} />;
   }
 
-  if (error && error instanceof TypeError) {
+  if (movieTitle.rootStatus === "error") {
+    if (movieTitle.error === "cors" || movieTitle.error === "internal") {
+      return (
+        <ErrorComponent
+          errorMessage={t("error.messages.generic", { statusCode: 503 })}
+        />
+      );
+    }
+
+    if (movieTitle.error === "not-found") {
+      return <NotFound />;
+    }
+
     return (
       <ErrorComponent
-        errorMessage={t("error.messages.generic", { statusCode: 503 })}
+        errorMessage={t("error.messages.generic", {
+          statusCode: movieTitle.statusCode,
+        })}
       />
     );
-  }
-
-  if (error && error instanceof Response && error.status !== 404) {
-    return (
-      <ErrorComponent
-        errorMessage={t("error.messages.generic", { statusCode: error.status })}
-      />
-    );
-  }
-
-  if ((error && error instanceof Response && error.status === 404) || !data) {
-    return <NotFound />;
   }
 
   return (
     <FlexContainer column>
-      <Helmet>
-        <title>{data.body.title} - IMR</title>
-      </Helmet>
-      <Headers dataResponse={data} />
-      <InternalNavigation dataResponse={data} />
+      <MetadataBuilder
+        title={`${movieTitle.localizedInformation.title} (${movieTitle.title}) - IMR`}
+        embedTitle={`${movieTitle.localizedInformation.title} (${movieTitle.title})`}
+        description={movieTitle.localizedInformation.description}
+        image={`https://cdn.developershouse.xyz/${movieTitle.localizedInformation.poster}`}
+        keywords={movieTitle.tags.map((tag: string): string =>
+          tMedia(`tags.${tag}`)
+        )}
+      />
+      <Headers dataResponse={movieTitle} />
+      <InternalNavigation dataResponse={movieTitle} />
       <BackToTop />
-      <Router dataResponse={data} />
+      {/** <Router /> * */}
     </FlexContainer>
   );
 };

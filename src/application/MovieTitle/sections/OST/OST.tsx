@@ -13,25 +13,24 @@ import {
   ButtonExternalLink,
   CardContainer,
 } from "@components/ui";
-import { fetchOptions } from "@lib/api";
 import { Trans, useTranslation } from "react-i18next";
-import { UseQueryResult, useQuery } from "react-query";
-import useLanguage from "@hooks/useLanguage";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import { IconType } from "react-icons";
 import HandleData from "@application/MovieTitle/modules/HandleData/HandleData";
 import fetchImage from "@lib/fetchImage";
-import styles from "./OST.module.scss";
-import containerStyle from "../../Containers.module.scss";
 import {
+  MovieTitleParams,
   OSTSection,
-  ReactMovieElement,
   StreamingObject,
   SummaryObject,
   TrackInformationObject,
   TracksSection,
   VideoObject,
-} from "../../types";
+} from "@typings/movieTitle";
+import { useMovieTitleState, useMovieTitleSection } from "@hooks/useMovieTitle";
+import { useRouteMatch } from "react-router";
+import styles from "./OST.module.scss";
+import containerStyle from "../../Containers.module.scss";
 
 interface CoverDimensions {
   coverWidth: number;
@@ -65,22 +64,14 @@ const calculateCoverDimensions = (): CoverDimensions => {
   return { coverWidth: squarelength, coverHeight: squarelength };
 };
 
-const OST: ReactMovieElement = ({ dataResponse }) => {
-  const { language } = useLanguage();
-  const { t } = useTranslation("pages\\movieTitle\\movieTitle");
-  const {
-    isFetching,
-    error,
-    data,
-  }: UseQueryResult<OSTSection, TypeError | Response> = useQuery(
-    `movie-title/${dataResponse.body.id}/${language}/ost`,
-    (): Promise<OSTSection> => {
-      return fetch(dataResponse.body.data.ost || "").then(
-        (response: Response) => response.json()
-      );
-    },
-    fetchOptions
+const OST: FunctionComponent<HTMLDivElement> = () => {
+  const { params } = useRouteMatch<MovieTitleParams>();
+  const { sectionLoading, s3Links, title } = useMovieTitleState(params.movieId);
+  const { error, data } = useMovieTitleSection<OSTSection>(
+    params.movieId,
+    "ost"
   );
+  const { t } = useTranslation("pages\\movieTitle\\movieTitle");
   const [playerOpen, setPlayerOpen] = useState<boolean>(false);
   const [video, setVideo] = useState<VideoObject>({
     title: "",
@@ -88,11 +79,11 @@ const OST: ReactMovieElement = ({ dataResponse }) => {
   });
   const { coverWidth, coverHeight } = calculateCoverDimensions();
 
-  if (isFetching || error) {
+  if (sectionLoading || error) {
     return (
       <HandleData
-        isFetching={isFetching}
-        section={dataResponse.body.data.ost}
+        isFetching={sectionLoading}
+        section={s3Links.ost}
         error={error}
       />
     );
@@ -155,7 +146,7 @@ const OST: ReactMovieElement = ({ dataResponse }) => {
                     width: coverWidth,
                     height: coverHeight,
                   })}
-                  alt={dataResponse.body.title}
+                  alt={title}
                   width={coverWidth}
                   height={coverHeight}
                   css={{ margin: "2rem 2rem 0 0" }}
@@ -253,7 +244,7 @@ const OST: ReactMovieElement = ({ dataResponse }) => {
                                     );
                                   } else {
                                     setVideo({
-                                      title: `${dataResponse.body.title} - ${track.title}`,
+                                      title: `${title} - ${track.title}`,
                                       videoID: track.videoID as string,
                                     });
                                     setPlayerOpen(!playerOpen);

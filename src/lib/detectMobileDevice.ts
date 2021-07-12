@@ -1,4 +1,8 @@
 const detectMobileDevice = (): boolean => {
+  if (typeof navigator === "undefined") {
+    return false;
+  }
+
   return !!(
     navigator.userAgent.match(/iPhone/i) ||
     navigator.userAgent.match(/webOS/i) ||

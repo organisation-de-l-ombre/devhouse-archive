@@ -73,6 +73,8 @@ module.exports = {
       });
     }
 
+    webpackConfig.stats = false;
+
     return webpackConfig;
   },
 };

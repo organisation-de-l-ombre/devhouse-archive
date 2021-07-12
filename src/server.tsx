@@ -5,6 +5,7 @@ import { StaticRouter, StaticRouterProps } from "react-router-dom";
 import Application from "@application/Application";
 import { ChunkExtractor, ChunkExtractorManager } from "@loadable/server";
 import { join, resolve } from "path";
+import ssrPrepass from "react-ssr-prepass";
 import { createStore, persistedKeys } from "@store/store";
 import { Provider } from "react-redux";
 import i18nInstance from "i18next";
@@ -28,8 +29,7 @@ import { supportedLanguages } from "@store/language/types";
 import { Helmet, HelmetData } from "react-helmet";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { readdirSync, statSync } from "fs";
-import { ServerContext } from "@contexts/server";
-import themes from "@styles/Themes.module.scss";
+import { ServerContext, ServerContextProps } from "@contexts/server";
 import "@styles/Root.scss";
 
 const handleApplication = async (
@@ -52,28 +52,24 @@ const handleApplication = async (
   const persistedState: DeepPartial<GlobalState> = {};
 
   for (const key of persistedKeys) {
-    const cookie = cookies[`imr-redux-${key}`];
+    const cookie = cookies[`imr-data-${key}`];
 
     if (cookie) {
-      persistedState[key] = cborDecode(base64Decode(cookie)) as never;
+      persistedState[key] = cborDecode(base64Decode(cookie));
     }
   }
 
-  const queryLanguageRegex = /"([a-z]{2,2})"/;
-  const queryLanguage = query.language
-    ? queryLanguageRegex.exec(query.language as string)
-    : null;
+  const queryLanguage = query.language as string | undefined;
 
   if (
     queryLanguage &&
-    queryLanguage[1] &&
-    supportedLanguages.includes(queryLanguage[1])
+    queryLanguage.match(/[a-z]{2,2}/) &&
+    supportedLanguages.includes(queryLanguage)
   ) {
     persistedState.language = {
       ...persistedState.language,
-      language: queryLanguage[1],
+      language: queryLanguage,
     };
-    i18n.changeLanguage(queryLanguage[1]);
   } else {
     const { language } = persistedState;
 
@@ -84,33 +80,42 @@ const handleApplication = async (
           ? i18n.language.split("-")[0]
           : "en",
       };
-    } else {
-      i18n.changeLanguage(language.language);
     }
   }
 
+  await i18n.changeLanguage(persistedState.language?.language);
+
+  const serverContext: ServerContextProps = {
+    request,
+    response,
+    preload: [],
+    preloadLoaded: false,
+  };
   const store: Store = createStore(persistedState);
-  const { theme }: GlobalState = store.getState();
+  const jsx = (
+    <ChunkExtractorManager extractor={extractor}>
+      <CacheProvider value={emotionCache}>
+        <QueryClientProvider client={queryClient}>
+          <StaticRouter context={context} location={url}>
+            <ServerContext.Provider value={serverContext}>
+              <Provider store={store}>
+                <I18nextProvider i18n={i18n}>
+                  <Application />
+                </I18nextProvider>
+              </Provider>
+            </ServerContext.Provider>
+          </StaticRouter>
+        </QueryClientProvider>
+      </CacheProvider>
+    </ChunkExtractorManager>
+  );
+
+  await ssrPrepass(jsx);
+  await Promise.all(serverContext.preload);
+  serverContext.preloadLoaded = true;
+
   const { html: reactRender, styles }: EmotionCriticalToChunks =
-    extractCriticalToChunks(
-      renderToString(
-        <ChunkExtractorManager extractor={extractor}>
-          <CacheProvider value={emotionCache}>
-            <QueryClientProvider client={queryClient}>
-              <StaticRouter context={context} location={url}>
-                <ServerContext.Provider value={{ request, response }}>
-                  <Provider store={store}>
-                    <I18nextProvider i18n={i18n}>
-                      <Application />
-                    </I18nextProvider>
-                  </Provider>
-                </ServerContext.Provider>
-              </StaticRouter>
-            </QueryClientProvider>
-          </CacheProvider>
-        </ChunkExtractorManager>
-      )
-    );
+    extractCriticalToChunks(renderToString(jsx));
 
   if (context.url) {
     response.redirect(context.url);
@@ -122,10 +127,9 @@ const handleApplication = async (
   const styletags: string = extractor.getStyleTags();
   const scriptTags: string = extractor.getScriptTags();
   response.send(
-    // prettier-ignore
     `
     <!doctype html>
-      <html ${helmet.htmlAttributes.toString()}>
+    <html ${helmet.htmlAttributes.toString()}>
       <head>
         ${helmet.title.toString()}
         ${helmet.meta.toString()}
@@ -135,16 +139,15 @@ const handleApplication = async (
         ${await extractor.getInlineStyleTags()}
         ${constructStyleTagsFromChunks({ html: reactRender, styles })}
         <script id="imr-frontend-data">
-          window.REDUX_STORE = "${base64Encode(cborEncode(store.getState()))}";
-          window.LANGUAGE_STORE = "${base64Encode(cborEncode(i18n.store.data))}";
+          window.DATA_STORE = "${base64Encode(cborEncode(store.getState()))}";
+          window.LANGUAGE_STORE = "${base64Encode(
+            cborEncode(i18n.store.data)
+          )}";
           window.LANGUAGE = "${i18n.language}";
           window.THEME_DETECTION = ${!persistedState.theme}
         </script>
       </head>
-      <body
-        class="${themes[`${theme.theme}${theme.contrastMode ? "-contrast" : ""}`]}"
-        ${helmet.bodyAttributes.toString()}
-      >
+      <body ${helmet.bodyAttributes.toString()}>
         <div class="app">${reactRender}</div>
         ${scriptTags}
       </body>
@@ -167,6 +170,7 @@ const walkDirectories = (directory: string): string[] => {
       files.push(path);
     }
   }
+
   return files;
 };
 

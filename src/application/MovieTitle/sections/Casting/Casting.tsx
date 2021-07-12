@@ -6,41 +6,33 @@ import {
   Card,
   CardContainer,
 } from "@components/ui";
-import { fetchOptions } from "@lib/api";
-import { UseQueryResult, useQuery } from "react-query";
-import useLanguage from "@hooks/useLanguage";
 import HandleData from "@application/MovieTitle/modules/HandleData/HandleData";
+import { FunctionComponent } from "@typings/FunctionComponent";
+import { useMovieTitleSection, useMovieTitleState } from "@hooks/useMovieTitle";
+import { useRouteMatch } from "react-router";
 import styles from "./Casting.module.scss";
 import containerStyle from "../../Containers.module.scss";
 import {
   CastingObject,
   CastingSection,
   CharacterObject,
-  ReactMovieElement,
+  MovieTitleParams,
   SummaryObject,
-} from "../../types";
+} from "../../../../types/movieTitle";
 
-const Casting: ReactMovieElement = ({ dataResponse }) => {
-  const { language } = useLanguage();
-  const {
-    isFetching,
-    error,
-    data,
-  }: UseQueryResult<CastingSection, TypeError | Response> = useQuery(
-    `movie-title/${dataResponse.body.id}/${language}/casting`,
-    (): Promise<CastingSection> => {
-      return fetch(dataResponse.body.data.casting || "").then(
-        (response: Response) => response.json()
-      );
-    },
-    fetchOptions
+const Casting: FunctionComponent<HTMLDivElement> = () => {
+  const { params } = useRouteMatch<MovieTitleParams>();
+  const { sectionLoading, s3Links } = useMovieTitleState(params.movieId);
+  const { error, data } = useMovieTitleSection<CastingSection>(
+    params.movieId,
+    "casting"
   );
 
-  if (isFetching || error) {
+  if (sectionLoading || error) {
     return (
       <HandleData
-        isFetching={isFetching}
-        section={dataResponse.body.data.casting}
+        isFetching={sectionLoading}
+        section={s3Links.casting}
         error={error}
       />
     );

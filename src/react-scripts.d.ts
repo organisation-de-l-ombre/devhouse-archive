@@ -5,7 +5,7 @@
 
 declare module "cbor-js" {
   export const encode: <T>(toEncode: T) => ArrayBuffer;
-  export const decode: (toDecode: ArrayBuffer) => T;
+  export const decode: <T>(toDecode: ArrayBuffer) => T;
 }
 
 declare namespace NodeJS {
