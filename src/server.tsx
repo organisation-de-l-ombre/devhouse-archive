@@ -30,6 +30,7 @@ import { Helmet, HelmetData } from "react-helmet";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { readdirSync, statSync } from "fs";
 import { ServerContext, ServerContextProps } from "@contexts/server";
+import themes from "@styles/Themes.module.scss";
 import "@styles/Root.scss";
 
 const handleApplication = async (
@@ -123,6 +124,10 @@ const handleApplication = async (
   }
 
   const helmet: HelmetData = Helmet.renderStatic();
+  const globalState: GlobalState = store.getState();
+  const {
+    theme: { theme, contrastMode },
+  } = globalState;
   const linkTags: string = extractor.getLinkTags();
   const styletags: string = extractor.getStyleTags();
   const scriptTags: string = extractor.getScriptTags();
@@ -139,7 +144,7 @@ const handleApplication = async (
         ${await extractor.getInlineStyleTags()}
         ${constructStyleTagsFromChunks({ html: reactRender, styles })}
         <script id="imr-frontend-data">
-          window.DATA_STORE = "${base64Encode(cborEncode(store.getState()))}";
+          window.DATA_STORE = "${base64Encode(cborEncode(globalState))}";
           window.LANGUAGE_STORE = "${base64Encode(
             cborEncode(i18n.store.data)
           )}";
@@ -147,7 +152,10 @@ const handleApplication = async (
           window.THEME_DETECTION = ${!persistedState.theme}
         </script>
       </head>
-      <body ${helmet.bodyAttributes.toString()}>
+      <body
+        class="${themes[`${theme}${contrastMode ? `-${contrastMode}` : ""}`]}"
+        ${helmet.bodyAttributes.toString()}
+      >
         <div class="app">${reactRender}</div>
         ${scriptTags}
       </body>

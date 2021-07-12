@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-// import { register } from "@lib/serviceWorker";
+import { register } from "@lib/serviceWorker";
 import Application from "@application/Application";
 import { decode as cborDecode, encode as cborEncode } from "cbor-js";
 import {
@@ -38,7 +38,7 @@ import globalStyles from "@styles/Global.module.scss";
 import "@styles/Root.scss";
 import { QueryParamProvider } from "use-query-params";
 
-// register();
+register();
 
 i18n
   .use(initReactI18next)

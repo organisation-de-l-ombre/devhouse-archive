@@ -14,7 +14,7 @@
     "lint": "tsc --noEmit && eslint src/**/*.ts{,x} --fix",
     "css:lint": "stylelint src/**/*.{,s}css",
     "start": "razzle start",
-    "build": "NODE_OPTIONS=--max-old-space-size=4069 razzle build",
+    "build": "NODE_OPTIONS=--max-old-space-size=4069 razzle build --noninteractive",
     "test": "razzle test --env=jsdom",
     "start:prod": "node build/server.js"
   },
