@@ -1,41 +1,34 @@
 import React, { ReactElement } from "react";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
-import { MovieTitleParams, TechnicalSpecsSection } from "@typings/movieTitle";
+import {
+  MovieTitleComponent,
+  TechnicalSpecsSection,
+} from "@typings/movieTitle";
 import { FlexContainer } from "@components/ui";
 import { Trans, useTranslation } from "react-i18next";
 import HandleData from "@application/MovieTitle/modules/HandleData/HandleData";
 import classnames from "classnames";
 import fetchImage from "@lib/fetchImage";
-import { FunctionComponent } from "@typings/FunctionComponent";
-import { useMovieTitleState, useMovieTitleSection } from "@hooks/useMovieTitle";
-import { useRouteMatch } from "react-router";
+import { useMovieTitleSection } from "@hooks/useMovieTitle";
 import useLanguage from "@hooks/useLanguage";
 import containerStyle from "../../Containers.module.scss";
 import styles from "./TechnicalSpecs.module.scss";
 
-const TechnicalSpecs: FunctionComponent<HTMLDivElement> = () => {
+const TechnicalSpecs: MovieTitleComponent = ({ dataResponse }) => {
   const { language } = useLanguage();
-  const { params } = useRouteMatch<MovieTitleParams>();
-  const { sectionLoading, s3Links } = useMovieTitleState(params.movieId);
-  const { error, data } = useMovieTitleSection<TechnicalSpecsSection>(
-    params.movieId,
-    "technicalSpecs"
+  const data = useMovieTitleSection<TechnicalSpecsSection>(
+    dataResponse.id,
+    "technical-specs"
   );
   const { t } = useTranslation("pages\\movieTitle\\movieTitle");
-  const { t: tTags } = useTranslation("media\\media");
-
-  if (sectionLoading || error) {
-    return (
-      <HandleData
-        isFetching={sectionLoading}
-        section={s3Links.technicalSpecs}
-        error={error}
-      />
-    );
-  }
+  const { t: tMedia } = useTranslation("media\\media");
 
   if (!data) {
     return null;
+  }
+
+  if (data.sectionStatus === "loading" || data.sectionStatus === "error") {
+    return <HandleData dataResponse={data} />;
   }
 
   const { presentation, movieSpecs } = data;
@@ -105,7 +98,7 @@ const TechnicalSpecs: FunctionComponent<HTMLDivElement> = () => {
               </td>
               <td>
                 {presentation.type
-                  .map((tag: string): string => tTags(`tags.${tag}`))
+                  .map((tag: string): string => tMedia(`tags.${tag}`))
                   .join(", ")}
               </td>
             </tr>

@@ -1,4 +1,5 @@
-import React, { lazy, ReactElement, useState } from "react";
+import React, { ReactElement, useState } from "react";
+import loadable from "@loadable/component";
 import { SiSpotify, SiDeezer, SiApplemusic } from "react-icons/si";
 import { FaMusic, FaPlay } from "react-icons/fa";
 import detectMobileDevice from "@lib/detectMobileDevice";
@@ -19,7 +20,7 @@ import { IconType } from "react-icons";
 import HandleData from "@application/MovieTitle/modules/HandleData/HandleData";
 import fetchImage from "@lib/fetchImage";
 import {
-  MovieTitleParams,
+  MovieTitleComponent,
   OSTSection,
   StreamingObject,
   SummaryObject,
@@ -27,8 +28,7 @@ import {
   TracksSection,
   VideoObject,
 } from "@typings/movieTitle";
-import { useMovieTitleState, useMovieTitleSection } from "@hooks/useMovieTitle";
-import { useRouteMatch } from "react-router";
+import { useMovieTitleSection } from "@hooks/useMovieTitle";
 import styles from "./OST.module.scss";
 import containerStyle from "../../Containers.module.scss";
 
@@ -37,7 +37,9 @@ interface CoverDimensions {
   coverHeight: number;
 }
 
-const ImageComponent = lazy(() => import("@components/modules/Image/Image"));
+const ImageComponent = loadable(
+  () => import("@components/modules/Image/Image")
+);
 
 const DisplaySVG: FunctionComponent<IconType, { type: string }> = ({
   type,
@@ -64,13 +66,8 @@ const calculateCoverDimensions = (): CoverDimensions => {
   return { coverWidth: squarelength, coverHeight: squarelength };
 };
 
-const OST: FunctionComponent<HTMLDivElement> = () => {
-  const { params } = useRouteMatch<MovieTitleParams>();
-  const { sectionLoading, s3Links, title } = useMovieTitleState(params.movieId);
-  const { error, data } = useMovieTitleSection<OSTSection>(
-    params.movieId,
-    "ost"
-  );
+const OST: MovieTitleComponent = ({ dataResponse }) => {
+  const data = useMovieTitleSection<OSTSection>(dataResponse.id, "ost");
   const { t } = useTranslation("pages\\movieTitle\\movieTitle");
   const [playerOpen, setPlayerOpen] = useState<boolean>(false);
   const [video, setVideo] = useState<VideoObject>({
@@ -79,18 +76,12 @@ const OST: FunctionComponent<HTMLDivElement> = () => {
   });
   const { coverWidth, coverHeight } = calculateCoverDimensions();
 
-  if (sectionLoading || error) {
-    return (
-      <HandleData
-        isFetching={sectionLoading}
-        section={s3Links.ost}
-        error={error}
-      />
-    );
-  }
-
   if (!data) {
     return null;
+  }
+
+  if (data.sectionStatus === "loading" || data.sectionStatus === "error") {
+    return <HandleData dataResponse={data} />;
   }
 
   return (
@@ -133,6 +124,7 @@ const OST: FunctionComponent<HTMLDivElement> = () => {
               {data.album.coverURL && (
                 <ImageComponent
                   withBackground
+                  withBorderRadius
                   withBoxShadow
                   placeholder={fetchImage({
                     type: "image",
@@ -146,7 +138,7 @@ const OST: FunctionComponent<HTMLDivElement> = () => {
                     width: coverWidth,
                     height: coverHeight,
                   })}
-                  alt={title}
+                  alt={dataResponse.localizedInformation.title}
                   width={coverWidth}
                   height={coverHeight}
                   css={{ margin: "2rem 2rem 0 0" }}
@@ -244,7 +236,7 @@ const OST: FunctionComponent<HTMLDivElement> = () => {
                                     );
                                   } else {
                                     setVideo({
-                                      title: `${title} - ${track.title}`,
+                                      title: `${dataResponse.localizedInformation.title} - ${track.title}`,
                                       videoID: track.videoID as string,
                                     });
                                     setPlayerOpen(!playerOpen);

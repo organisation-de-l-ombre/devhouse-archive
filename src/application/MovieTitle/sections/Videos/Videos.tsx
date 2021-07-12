@@ -9,24 +9,20 @@ import {
 import globalStyles from "@styles/Global.module.scss";
 import HandleData from "@application/MovieTitle/modules/HandleData/HandleData";
 import classnames from "classnames";
-import { FunctionComponent } from "@typings/FunctionComponent";
-import { useMovieTitleState, useMovieTitleSection } from "@hooks/useMovieTitle";
-import { useRouteMatch } from "react-router";
+import { useMovieTitleSection } from "@hooks/useMovieTitle";
 import {
   SummaryObject,
   VideoObject,
   VideosSection,
   VideosGlobalSection,
-  MovieTitleParams,
+  MovieTitleComponent,
 } from "../../../../types/movieTitle";
 import containerStyle from "../../Containers.module.scss";
 import styles from "./Videos.module.scss";
 
-const Videos: FunctionComponent<HTMLDivElement> = () => {
-  const { params } = useRouteMatch<MovieTitleParams>();
-  const { sectionLoading, s3Links } = useMovieTitleState(params.movieId);
-  const { error, data } = useMovieTitleSection<VideosGlobalSection>(
-    params.movieId,
+const Videos: MovieTitleComponent = ({ dataResponse }) => {
+  const data = useMovieTitleSection<VideosGlobalSection>(
+    dataResponse.id,
     "videos"
   );
   const [playerOpen, setPlayerOpen] = useState<boolean>(false);
@@ -35,18 +31,12 @@ const Videos: FunctionComponent<HTMLDivElement> = () => {
     videoID: "",
   });
 
-  if (sectionLoading || error) {
-    return (
-      <HandleData
-        isFetching={sectionLoading}
-        section={s3Links.videos}
-        error={error}
-      />
-    );
-  }
-
   if (!data) {
     return null;
+  }
+
+  if (data.sectionStatus === "loading" || data.sectionStatus === "error") {
+    return <HandleData dataResponse={data} />;
   }
 
   return (

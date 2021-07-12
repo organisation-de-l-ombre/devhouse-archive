@@ -60,6 +60,7 @@ declare global {
     DATA_STORE: string;
     LANGUAGE_STORE: string;
     LANGUAGE: string;
+    LANGUAGE_IN_QUERY: string;
     THEME_DETECTION: boolean;
   }
 }
@@ -101,6 +102,12 @@ loadableReady((): void => {
     }, 500)
   );
 
+  if (window.LANGUAGE_IN_QUERY) {
+    const { language }: GlobalState = store.getState();
+
+    Cookies.set("imr-data-language", base64Encode(cborEncode(language)));
+  }
+
   const DataManager: FC = ({ children }) => {
     const [pageLoaded, setPageLoaded] = useState<boolean>(false);
     const { addNotifications } = useNotificationsManager();
@@ -125,12 +132,12 @@ loadableReady((): void => {
     }, []);
 
     useEffect((): void => {
-      if (pageLoaded) {
-        i18n.changeLanguage(language).then((): void => {
-          if (process.env.NODE_ENV === "production") {
-            window.scrollTo({ top: 0 });
-          }
+      i18n.changeLanguage(language).then((): void => {
+        if (process.env.NODE_ENV === "production") {
+          window.scrollTo({ top: 0 });
+        }
 
+        if (pageLoaded) {
           addNotifications([
             {
               id: generateNotificationID(),
@@ -139,8 +146,8 @@ loadableReady((): void => {
               time: 5000,
             },
           ]);
-        });
-      }
+        }
+      });
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [language]);
 
@@ -173,7 +180,7 @@ loadableReady((): void => {
     );
   };
 
-  const RootComponent: FC = () => {
+  const Root: FC = () => {
     const languageStore: Resource = cborDecode(
       base64Decode(window.LANGUAGE_STORE)
     );
@@ -210,7 +217,7 @@ loadableReady((): void => {
     );
   };
 
-  hydrate(<RootComponent />, document.querySelector(".app"));
+  hydrate(<Root />, document.querySelector(".app"));
 });
 
 if (module.hot) {

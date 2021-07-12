@@ -7,16 +7,10 @@ import {
   VideosGlobalSection,
 } from "@typings/movieTitle";
 
-// type Status = "loading" | "error" | "success";
+const MOVIE_TITLE_ADDED = "movieTitle/add";
+const MOVIE_TITLE_SECTION_ADDED = "movieTitle/sectionAdded";
 
-interface MovieTitleSections {
-  movie?: GenericSection;
-  casting?: CastingSection;
-  characters?: GenericSection;
-  videos?: VideosGlobalSection;
-  ost?: OSTSection;
-  technical_specs?: TechnicalSpecsSection;
-}
+type Errors = "cors" | "internal" | "not-found" | "unauthorized" | "other";
 
 interface MovieTitleLoading {
   id: string;
@@ -26,8 +20,17 @@ interface MovieTitleLoading {
 interface MovieTitleError {
   id: string;
   rootStatus: "error";
-  error: "cors" | "internal" | "not-found" | "unauthorized" | "other";
+  error: Errors;
   statusCode?: number;
+}
+
+interface MovieTitleSections {
+  movie?: GenericSection;
+  casting?: CastingSection;
+  characters?: GenericSection;
+  videos?: VideosGlobalSection;
+  ost?: OSTSection;
+  "technical-specs"?: TechnicalSpecsSection;
 }
 
 type MovieTitleSuccess = MovieDataResponse & {
@@ -41,52 +44,51 @@ interface MovieTitleState {
   [key: string]: MovieTitle;
 }
 
-const MOVIE_TITLE_ADDED = "@movieTitle/add";
-const MOVIE_TITLE_SECTION_LOADED = "@movieTitle/sectionLoadingUpdated";
-const MOVIE_TITLE_SECTION_ADDED = "@movieTitle/sectionAdded";
-
 interface RootAddPayload {
   type: typeof MOVIE_TITLE_ADDED;
   payload: MovieTitle;
 }
 
-interface SectionLoadingPayload {
-  type: typeof MOVIE_TITLE_SECTION_LOADED;
-  payload: {
-    movieId: string;
-    loading: boolean;
-  };
+interface MovieTitleSectionLoading {
+  id: string;
+  sectionId: keyof MovieTitleSections;
+  sectionStatus: "loading";
 }
 
-type SectionData =
-  | GenericSection
-  | CastingSection
-  | VideosGlobalSection
-  | OSTSection
-  | TechnicalSpecsSection;
+interface MovieTitleSectionError {
+  id: string;
+  sectionId: keyof MovieTitleSections;
+  sectionStatus: "error";
+  error: Errors;
+  statusCode?: number;
+}
+
+type MovieTitleSectionSuccess<T> = {
+  id: string;
+  sectionId: keyof MovieTitleSections;
+  sectionStatus: "success";
+} & T;
+
+type MovieTitleSection<T = unknown> =
+  | MovieTitleSectionLoading
+  | MovieTitleSectionError
+  | MovieTitleSectionSuccess<T>;
 
 interface SectionAddPayload {
   type: typeof MOVIE_TITLE_SECTION_ADDED;
-  payload: {
-    movieId: string;
-    section: keyof MovieTitleSections;
-    data: SectionData;
-  };
+  payload: MovieTitleSection;
 }
 
-type MovieTitlePayload =
-  | RootAddPayload
-  | SectionLoadingPayload
-  | SectionAddPayload;
+type MovieTitlePayload = RootAddPayload | SectionAddPayload;
 
 export {
+  MOVIE_TITLE_ADDED,
+  MOVIE_TITLE_SECTION_ADDED,
   MovieTitleSections,
   MovieTitleSuccess,
   MovieTitle,
+  MovieTitleSection,
+  MovieTitleSectionSuccess,
   MovieTitleState,
-  MOVIE_TITLE_ADDED,
-  MOVIE_TITLE_SECTION_LOADED,
-  MOVIE_TITLE_SECTION_ADDED,
-  SectionData,
   MovieTitlePayload,
 };

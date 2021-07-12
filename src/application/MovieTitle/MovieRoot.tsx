@@ -23,7 +23,7 @@ const InternalNavigation = loadable(
 const BackToTop = loadable(
   () => import("@components/modules/BackToTop/BackToTop")
 );
-// const Router = loadable(() => import("./modules/Router/Router"));
+const Router = loadable(() => import("./modules/Router/Router"));
 
 const MovieRoot: FC<RouteComponentProps> = ({ match }) => {
   const { t } = useTranslation("root");
@@ -75,7 +75,7 @@ const MovieRoot: FC<RouteComponentProps> = ({ match }) => {
       <Headers dataResponse={movieTitle} />
       <InternalNavigation dataResponse={movieTitle} />
       <BackToTop />
-      {/** <Router /> * */}
+      <Router dataResponse={movieTitle} />
     </FlexContainer>
   );
 };

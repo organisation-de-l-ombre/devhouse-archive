@@ -1,8 +1,12 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { MovieDataResponse } from "@developers-house/amelia";
 import { MovieDataAPI } from "@lib/api";
 import { addMovieTitle, addMovieTitleSection } from "@store/movieTitle/actions";
-import { MovieTitle, MovieTitleSections } from "@store/movieTitle/types";
+import {
+  MovieTitle,
+  MovieTitleSection,
+  MovieTitleSections,
+  MovieTitleSuccess,
+} from "@store/movieTitle/types";
 import { GlobalState } from "@store/types";
 import axios, { AxiosResponse } from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,16 +20,16 @@ const useMovieTitleState = (movieId: string): MovieTitle | undefined => {
 
 const useMovieTitleSectionState = <T>(
   movieId: string,
-  section: keyof MovieTitleSections
+  sectionId: keyof MovieTitleSections
 ): T | undefined => {
   return useSelector((state: GlobalState): T | undefined => {
-    const movieTitle: MovieTitle = state.movieTitle[movieId];
+    const movieTitle: MovieTitle | undefined = state.movieTitle[movieId];
 
-    if (movieTitle.rootStatus !== "success") {
+    if (!movieTitle || (movieTitle && movieTitle.rootStatus !== "success")) {
       return undefined;
     }
 
-    return movieTitle.sections[section as never];
+    return movieTitle.sections[sectionId] as T | undefined;
   });
 };
 
@@ -135,28 +139,110 @@ const useMovieTitleRoot = (movieId: string): MovieTitle | undefined => {
 
 const useMovieTitleSection = <T>(
   movieId: string,
-  section: keyof MovieTitleSections
-): T | undefined => {
+  sectionId: keyof MovieTitleSections
+): MovieTitleSection<T> | undefined => {
+  const { data: s3Links } = useMovieTitleState(movieId) as MovieTitleSuccess;
   const dispatch = useDispatch();
-  const movieTitle = useMovieTitleState(movieId) as MovieTitle;
-
-  if (movieTitle.rootStatus !== "success") {
-    return undefined;
-  }
-
   const fetchMovieSection = useCallback(async (): Promise<void> => {
-    const { data }: AxiosResponse<T> = await axios.get(
-      movieTitle.data[section as never]
+    dispatch(
+      addMovieTitleSection({
+        id: movieId,
+        sectionId,
+        sectionStatus: "loading",
+      })
     );
 
-    if (data) {
-      dispatch(addMovieTitleSection(movieId, section, data as never));
+    try {
+      const { data, status }: AxiosResponse = await axios.get(
+        s3Links[sectionId as never] || ""
+      );
+
+      if (!data) {
+        switch (status) {
+          case 503: {
+            dispatch(
+              addMovieTitleSection({
+                id: movieId,
+                sectionId,
+                sectionStatus: "error",
+                error: "internal",
+                statusCode: status,
+              })
+            );
+
+            break;
+          }
+
+          case 404: {
+            dispatch(
+              addMovieTitleSection({
+                id: movieId,
+                sectionId,
+                sectionStatus: "error",
+                error: "not-found",
+                statusCode: status,
+              })
+            );
+
+            break;
+          }
+
+          case 401: {
+            dispatch(
+              addMovieTitleSection({
+                id: movieId,
+                sectionId,
+                sectionStatus: "error",
+                error: "unauthorized",
+                statusCode: status,
+              })
+            );
+
+            break;
+          }
+
+          default: {
+            dispatch(
+              addMovieTitleSection({
+                id: movieId,
+                sectionId,
+                sectionStatus: "error",
+                error: "other",
+                statusCode: status,
+              })
+            );
+
+            break;
+          }
+        }
+
+        return;
+      }
+
+      dispatch(
+        addMovieTitleSection({
+          id: movieId,
+          sectionId,
+          sectionStatus: "success",
+          ...data,
+        })
+      );
+    } catch {
+      dispatch(
+        addMovieTitleSection({
+          id: movieId,
+          sectionId,
+          sectionStatus: "error",
+          error: "cors",
+        })
+      );
     }
-  }, [dispatch, movieId, movieTitle.data, section]);
+  }, [dispatch, movieId, s3Links, sectionId]);
 
-  usePreload(fetchMovieSection);
-
-  const movieSection = useMovieTitleSectionState<T>(movieId, section);
+  const movieSection = useMovieTitleSectionState<MovieTitleSection<T>>(
+    movieId,
+    sectionId
+  );
 
   useEffect((): void => {
     if (!movieSection) {
@@ -167,4 +253,9 @@ const useMovieTitleSection = <T>(
   return movieSection;
 };
 
-export { useMovieTitleState, useMovieTitleRoot, useMovieTitleSection };
+export {
+  useMovieTitleState,
+  useMovieTitleSectionState,
+  useMovieTitleRoot,
+  useMovieTitleSection,
+};

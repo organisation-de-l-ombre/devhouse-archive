@@ -61,6 +61,7 @@ const handleApplication = async (
   }
 
   const queryLanguage = query.language as string | undefined;
+  let languageInQuery = false;
 
   if (
     queryLanguage &&
@@ -71,6 +72,8 @@ const handleApplication = async (
       ...persistedState.language,
       language: queryLanguage,
     };
+
+    languageInQuery = true;
   } else {
     const { language } = persistedState;
 
@@ -149,7 +152,8 @@ const handleApplication = async (
             cborEncode(i18n.store.data)
           )}";
           window.LANGUAGE = "${i18n.language}";
-          window.THEME_DETECTION = ${!persistedState.theme}
+          window.LANGUAGE_IN_QUERY = ${languageInQuery};
+          window.THEME_DETECTION = ${!persistedState.theme};
         </script>
       </head>
       <body
@@ -211,10 +215,10 @@ i18nInstance
     },
     (): void => {
       server
-        .disable("x-powered-by")
         .use(express.static(process.env.RAZZLE_PUBLIC_DIR as string))
         .use(cookieParser())
         .use(i18nMiddleware.handle(i18nInstance))
+        .set("Etag", true)
         .get("/*", handleApplication);
     }
   );

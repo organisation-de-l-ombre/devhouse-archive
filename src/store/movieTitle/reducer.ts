@@ -1,4 +1,10 @@
-import { MovieTitlePayload, MovieTitleState, MOVIE_TITLE_ADDED } from "./types";
+import {
+  MovieTitle,
+  MovieTitlePayload,
+  MovieTitleState,
+  MOVIE_TITLE_ADDED,
+  MOVIE_TITLE_SECTION_ADDED,
+} from "./types";
 
 const movieTitleState: MovieTitleState = {};
 
@@ -11,6 +17,28 @@ const MovieTitleReducer = (
       return {
         ...state,
         [payload.payload.id]: payload.payload,
+      };
+    }
+
+    case MOVIE_TITLE_SECTION_ADDED: {
+      const movieTitle: MovieTitle | undefined = state[payload.payload.id];
+
+      if (!movieTitle || (movieTitle && movieTitle.rootStatus !== "success")) {
+        return state;
+      }
+
+      return {
+        ...state,
+        [payload.payload.id]: {
+          ...movieTitle,
+          sections: {
+            ...movieTitle.sections,
+            [payload.payload.sectionId]: {
+              ...movieTitle.sections[payload.payload.sectionId],
+              ...payload.payload,
+            },
+          },
+        },
       };
     }
 

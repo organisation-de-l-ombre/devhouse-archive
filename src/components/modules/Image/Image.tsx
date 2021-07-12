@@ -1,16 +1,10 @@
-import { css, SerializedStyles } from "@emotion/react";
+import { css } from "@emotion/react";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import React, { useCallback, useRef, useState } from "react";
 
-interface ImageStylesProps {
-  withBackground?: boolean;
-  withBoxShadow?: boolean;
-  width: number;
-  height: number;
-}
-
 interface ImageProps {
   withBackground?: boolean;
+  withBorderRadius?: boolean;
   withBoxShadow?: boolean;
   placeholder: string;
   image: string;
@@ -20,31 +14,10 @@ interface ImageProps {
   height: number;
 }
 
-const imageWrapperStyles = ({
-  withBackground,
-  withBoxShadow,
-  width,
-  height,
-}: ImageStylesProps): SerializedStyles => {
-  return css`
-    width: ${width}px;
-    height: ${height}px !important;
-    overflow: hidden;
-    border-radius: 5px;
-    ${withBackground && "background-color: var(--primary-background-color);"}
-    ${withBoxShadow && "box-shadow: 0 0 0.3rem black;"}
-
-    img {
-      width: 100%;
-      height: 100%;
-      font-size: 18px;
-    }
-  `;
-};
-
 const Image: FunctionComponent<HTMLDivElement, ImageProps> = ({
   withBackground,
   withBoxShadow,
+  withBorderRadius,
   placeholder,
   image,
   alt,
@@ -66,22 +39,37 @@ const Image: FunctionComponent<HTMLDivElement, ImageProps> = ({
   if (typeof window === "undefined") {
     return (
       <div
-        css={imageWrapperStyles({
-          withBackground,
-          withBoxShadow,
-          width,
-          height,
-        })}
+        css={css`
+          width: ${width}px;
+          height: ${height}px !important;
+          overflow: hidden;
+          ${withBackground &&
+          "background-color: var(--primary-background-color);"}
+          ${withBorderRadius && "border-radius: 5px;"}
+          ${withBoxShadow && "box-shadow: 0 0 0.3rem black;"}
+        `}
         {...props}
-      >
-        <img src={image} alt={alt} draggable={draggable} />
-      </div>
+      />
     );
   }
 
   return (
     <div
-      css={imageWrapperStyles({ withBackground, withBoxShadow, width, height })}
+      css={css`
+        width: ${width}px;
+        height: ${height}px !important;
+        overflow: hidden;
+        ${withBackground &&
+        "background-color: var(--primary-background-color);"}
+        ${withBorderRadius && "border-radius: 5px;"}
+        ${withBoxShadow && "box-shadow: 0 0 0.3rem black;"}
+  
+        img {
+          width: 100%;
+          height: 100%;
+          font-size: 18px;
+        }
+      `}
       {...props}
     >
       <img

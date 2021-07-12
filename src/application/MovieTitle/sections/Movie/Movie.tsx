@@ -11,34 +11,21 @@ import HandleData from "@application/MovieTitle/modules/HandleData/HandleData";
 import {
   BodyContent,
   GenericSection,
-  MovieTitleParams,
+  MovieTitleComponent,
   SummaryObject,
 } from "@typings/movieTitle";
-import { useMovieTitleState, useMovieTitleSection } from "@hooks/useMovieTitle";
-import { useRouteMatch } from "react-router";
-import { FunctionComponent } from "@typings/FunctionComponent";
+import { useMovieTitleSection } from "@hooks/useMovieTitle";
 import containerStyle from "../../Containers.module.scss";
 
-const Movie: FunctionComponent<HTMLDivElement> = () => {
-  const { params } = useRouteMatch<MovieTitleParams>();
-  const { sectionLoading, s3Links } = useMovieTitleState(params.movieId);
-  const { error, data } = useMovieTitleSection<GenericSection>(
-    params.movieId,
-    "movie"
-  );
-
-  if (sectionLoading || error) {
-    return (
-      <HandleData
-        isFetching={sectionLoading}
-        section={s3Links.movie}
-        error={error}
-      />
-    );
-  }
+const Movie: MovieTitleComponent = ({ dataResponse }) => {
+  const data = useMovieTitleSection<GenericSection>(dataResponse.id, "movie");
 
   if (!data) {
     return null;
+  }
+
+  if (data.sectionStatus === "loading" || data.sectionStatus === "error") {
+    return <HandleData dataResponse={data} />;
   }
 
   return (

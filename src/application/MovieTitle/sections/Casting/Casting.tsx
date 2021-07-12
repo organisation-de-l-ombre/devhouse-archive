@@ -7,39 +7,26 @@ import {
   CardContainer,
 } from "@components/ui";
 import HandleData from "@application/MovieTitle/modules/HandleData/HandleData";
-import { FunctionComponent } from "@typings/FunctionComponent";
-import { useMovieTitleSection, useMovieTitleState } from "@hooks/useMovieTitle";
-import { useRouteMatch } from "react-router";
+import { useMovieTitleSection } from "@hooks/useMovieTitle";
 import styles from "./Casting.module.scss";
 import containerStyle from "../../Containers.module.scss";
 import {
   CastingObject,
   CastingSection,
   CharacterObject,
-  MovieTitleParams,
+  MovieTitleComponent,
   SummaryObject,
 } from "../../../../types/movieTitle";
 
-const Casting: FunctionComponent<HTMLDivElement> = () => {
-  const { params } = useRouteMatch<MovieTitleParams>();
-  const { sectionLoading, s3Links } = useMovieTitleState(params.movieId);
-  const { error, data } = useMovieTitleSection<CastingSection>(
-    params.movieId,
-    "casting"
-  );
-
-  if (sectionLoading || error) {
-    return (
-      <HandleData
-        isFetching={sectionLoading}
-        section={s3Links.casting}
-        error={error}
-      />
-    );
-  }
+const Casting: MovieTitleComponent = ({ dataResponse }) => {
+  const data = useMovieTitleSection<CastingSection>(dataResponse.id, "casting");
 
   if (!data) {
     return null;
+  }
+
+  if (data.sectionStatus === "loading" || data.sectionStatus === "error") {
+    return <HandleData dataResponse={data} />;
   }
 
   return (

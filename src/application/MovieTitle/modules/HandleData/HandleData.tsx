@@ -1,8 +1,8 @@
-import { FunctionComponent } from "@typings/FunctionComponent";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import loadable from "@loadable/component";
-import { AxiosResponse } from "axios";
+import { FunctionComponent } from "@typings/FunctionComponent";
+import { MovieTitleSection } from "@store/movieTitle/types";
 
 const SuspenseComponent = loadable(
   () => import("@components/modules/Suspense/Suspense")
@@ -14,49 +14,59 @@ const SectionEmpty = loadable(() => import("../SectionEmpty/SectionEmpty"));
 
 const HandleData: FunctionComponent<
   HTMLDivElement,
-  {
-    isFetching: boolean;
-    section: string | undefined;
-    error: TypeError | AxiosResponse | null;
-  }
-> = ({ isFetching, section, error }) => {
+  { dataResponse: MovieTitleSection }
+> = ({ dataResponse }) => {
   const { t } = useTranslation("root");
 
-  if (isFetching) {
-    return (
-      <SuspenseComponent
-        minHeight
-        pageBodyWidth
-        customText={t("utils.apiFetch")}
-      />
-    );
-  }
+  switch (dataResponse.sectionStatus) {
+    case "loading": {
+      return (
+        <SuspenseComponent
+          minHeight
+          pageBodyWidth
+          customText={t("utils.apiFetch")}
+        />
+      );
+    }
 
-  if (!error) {
-    return null;
-  }
+    case "error": {
+      switch (dataResponse.error) {
+        case "cors": {
+          return <ErrorComponent errorMessage={t("error.messages.cors")} />;
+        }
 
-  if (error && error instanceof TypeError) {
-    return (
-      <ErrorComponent
-        errorMessage={t("error.messages.generic", { statusCode: 503 })}
-      />
-    );
-  }
+        case "internal": {
+          return <ErrorComponent errorMessage={t("error.messages.internal")} />;
+        }
 
-  if (!section) {
-    return <SectionEmpty />;
-  }
+        case "not-found": {
+          return <SectionEmpty />;
+        }
 
-  if (error && error instanceof Response && error.status === 401) {
-    return <ErrorComponent errorMessage={t("error.messages.unauthorized")} />;
-  }
+        case "unauthorized": {
+          return (
+            <ErrorComponent errorMessage={t("error.messages.unauthorized")} />
+          );
+        }
 
-  return (
-    <ErrorComponent
-      errorMessage={t("error.messages.generic", { statusCode: error.status })}
-    />
-  );
+        case "other": {
+          return (
+            <ErrorComponent
+              errorMessage={t("error.messages.generic", {
+                status: dataResponse.statusCode,
+              })}
+            />
+          );
+        }
+
+        default:
+          return null;
+      }
+    }
+
+    default:
+      return null;
+  }
 };
 
 export default HandleData;

@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import React, { useState } from "react";
 import { FaPlay } from "react-icons/fa";
 import { MdMovie } from "react-icons/md";
@@ -15,8 +14,7 @@ import fetchImage from "@lib/fetchImage";
 import { css } from "@emotion/react";
 import loadable from "@loadable/component";
 import { useLocation } from "react-router";
-import { FunctionComponent } from "@typings/FunctionComponent";
-import { MovieElementProps } from "@typings/movieTitle";
+import { MovieTitleComponent } from "@typings/movieTitle";
 import styles from "./Headers.module.scss";
 import containerStyle from "../../Containers.module.scss";
 
@@ -85,9 +83,7 @@ const calculatePosterDimensions = (): PosterDimensions => {
   };
 };
 
-const Headers: FunctionComponent<HTMLDivElement, MovieElementProps> = ({
-  dataResponse,
-}) => {
+const Headers: MovieTitleComponent = ({ dataResponse }) => {
   const { localizedInformation } = dataResponse;
   const { language } = useLanguage();
   const { search } = useLocation();
@@ -170,7 +166,7 @@ const Headers: FunctionComponent<HTMLDivElement, MovieElementProps> = ({
               height: 100%;
               position: absolute;
               background-color: var(--media-headers-primary-background-color);
-              opacity: 0.6;
+              opacity: ${typeof window === "undefined" ? "0" : "0.6"};
             `}
           />
         )}
@@ -178,6 +174,7 @@ const Headers: FunctionComponent<HTMLDivElement, MovieElementProps> = ({
           {localizedInformation.poster && (
             <ImageComponent
               withBackground
+              withBorderRadius
               withBoxShadow
               placeholder={fetchImage({
                 type: "image",
@@ -206,7 +203,10 @@ const Headers: FunctionComponent<HTMLDivElement, MovieElementProps> = ({
                   new Date(localizedInformation.releaseDate)
                 )}
                 {dataResponse.duration ? ` • ${dataResponse.duration}` : ""}
-                {dataResponse._case}
+                {
+                  /* eslint-disable-next-line no-underscore-dangle */
+                  dataResponse._case
+                }
               </h2>
             )}
             {localizedInformation.description && (

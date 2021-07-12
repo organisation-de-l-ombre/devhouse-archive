@@ -5,7 +5,7 @@ export * from "./modules/Headers";
 export * from "./global/Summary";
 export * from "./global/GenericSectionBody";
 export * from "./global/MovieTitleParams";
-export * from "./global/MovieElementProps";
+export * from "./global/MovieTitleComponent";
 
 // Sections
 export * from "./sections/GenericSection";
