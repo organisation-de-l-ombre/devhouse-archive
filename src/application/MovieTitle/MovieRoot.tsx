@@ -2,14 +2,15 @@ import React, { FC } from "react";
 import { RouteComponentProps } from "react-router";
 import { useTranslation } from "react-i18next";
 import { FlexContainer } from "@components/ui";
-import { MetadataBuilder, withNetwork } from "@components/modules";
+import {
+  MetadataBuilder,
+  SuspenseComponent,
+  withNetwork,
+} from "@components/modules";
 import loadable from "@loadable/component";
 import { MovieTitleParams } from "@typings/movieTitle";
 import { useMovieTitleRoot } from "@hooks/useMovieTitle";
 
-const SuspenseComponent = loadable(
-  () => import("@components/modules/Suspense/Suspense")
-);
 const ErrorComponent = loadable(
   () => import("@components/modules/Error/ErrorComponent")
 );
@@ -36,24 +37,26 @@ const MovieRoot: FC<RouteComponentProps> = ({ match }) => {
   }
 
   if (movieTitle.rootStatus === "loading") {
-    return <SuspenseComponent minHeight customText={t("utils.apiFetch")} />;
+    return <SuspenseComponent customText={t("utils.apiFetch")} />;
   }
 
   if (movieTitle.rootStatus === "error") {
     if (movieTitle.error === "cors" || movieTitle.error === "internal") {
       return (
         <ErrorComponent
+          fallback={<SuspenseComponent />}
           errorMessage={t("error.messages.generic", { statusCode: 503 })}
         />
       );
     }
 
     if (movieTitle.error === "not-found") {
-      return <NotFound />;
+      return <NotFound fallback={<SuspenseComponent />} />;
     }
 
     return (
       <ErrorComponent
+        fallback={<SuspenseComponent />}
         errorMessage={t("error.messages.generic", {
           statusCode: movieTitle.statusCode,
         })}
@@ -72,10 +75,13 @@ const MovieRoot: FC<RouteComponentProps> = ({ match }) => {
           tMedia(`tags.${tag}`)
         )}
       />
-      <Headers dataResponse={movieTitle} />
-      <InternalNavigation dataResponse={movieTitle} />
-      <BackToTop />
-      <Router dataResponse={movieTitle} />
+      <Headers fallback={<SuspenseComponent />} dataResponse={movieTitle} />
+      <InternalNavigation
+        fallback={<SuspenseComponent />}
+        dataResponse={movieTitle}
+      />
+      <BackToTop fallback={<SuspenseComponent />} />
+      <Router fallback={<SuspenseComponent />} dataResponse={movieTitle} />
     </FlexContainer>
   );
 };

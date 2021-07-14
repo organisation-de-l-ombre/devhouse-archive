@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import loadable from "@loadable/component";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import {
   MovieTitleComponent,
@@ -8,11 +9,15 @@ import { FlexContainer } from "@components/ui";
 import { Trans, useTranslation } from "react-i18next";
 import HandleData from "@application/MovieTitle/modules/HandleData/HandleData";
 import classnames from "classnames";
-import fetchImage from "@lib/fetchImage";
+import { fetchImage } from "@lib/utils";
 import { useMovieTitleSection } from "@hooks/useMovieTitle";
 import useLanguage from "@hooks/useLanguage";
 import containerStyle from "../../Containers.module.scss";
 import styles from "./TechnicalSpecs.module.scss";
+
+const ImageComponent = loadable(
+  () => import("@components/modules/Image/Image")
+);
 
 const TechnicalSpecs: MovieTitleComponent = ({ dataResponse }) => {
   const { language } = useLanguage();
@@ -46,18 +51,22 @@ const TechnicalSpecs: MovieTitleComponent = ({ dataResponse }) => {
         className={styles.presentation}
       >
         {presentation.movieLogo && (
-          <div className={styles.logo}>
-            <img
-              src={fetchImage({
-                type: "image",
-                width: 270,
-                height: 155,
-                image: presentation.movieLogo,
-              })}
-              alt={`Movie logo of ${presentation.title}`}
-              draggable={false}
-            />
-          </div>
+          <ImageComponent
+            placeholder={fetchImage({
+              image: presentation.movieLogo,
+              width: Math.ceil(270 / 5),
+              height: Math.ceil(155 / 5),
+            })}
+            image={fetchImage({
+              image: presentation.movieLogo,
+              width: 270,
+              height: 155,
+            })}
+            alt={dataResponse.localizedInformation.title}
+            width={270}
+            height={155}
+            css={{ marginBottom: "2rem" }}
+          />
         )}
         <table>
           <tbody>
@@ -225,7 +234,7 @@ const TechnicalSpecs: MovieTitleComponent = ({ dataResponse }) => {
           </tbody>
         </table>
         {presentation.movieChronologicalFranchise && (
-          <div>
+          <div className={styles.franchise}>
             <h1>
               <Trans
                 t={t}
@@ -267,7 +276,7 @@ const TechnicalSpecs: MovieTitleComponent = ({ dataResponse }) => {
           </div>
         )}
         {presentation.movieLogicalFranchise && (
-          <FlexContainer column>
+          <div className={styles.franchise}>
             <h1>
               <Trans
                 t={t}
@@ -306,7 +315,7 @@ const TechnicalSpecs: MovieTitleComponent = ({ dataResponse }) => {
                 </FlexContainer>
               )}
             </FlexContainer>
-          </FlexContainer>
+          </div>
         )}
       </FlexContainer>
       {movieSpecs && (

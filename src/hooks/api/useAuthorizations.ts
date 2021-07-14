@@ -9,7 +9,7 @@ import { Authorization } from "@developers-house/abdera";
 import { useTranslation } from "react-i18next";
 import { DevHouseUserAPI, fetchOptions } from "@lib/api";
 import generateNotificationID from "@lib/generateNotificationID";
-import getClientID from "@lib/getClientID";
+import { getClientId } from "@lib/utils";
 import { useNotificationsManager } from "@hooks/useNotifications";
 import useAccount from "@hooks/useAccount";
 
@@ -85,7 +85,7 @@ const useAuthorizationsDeleteMutation = (
           },
         ]);
 
-        const clientID: string = getClientID();
+        const clientID: string = getClientId();
 
         if (clientID === "Invalid client ID") {
           return;

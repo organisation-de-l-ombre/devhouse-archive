@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FaPlay } from "react-icons/fa";
 import { MdMovie } from "react-icons/md";
-import detectMobileDevice from "@lib/detectMobileDevice";
+import { BsStarFill } from "react-icons/bs";
+import { ImHeart } from "react-icons/im";
+import { IoMdShareAlt } from "react-icons/io";
+import { calculateDuration, detectMobileDevice, fetchImage } from "@lib/utils";
 import useLanguage from "@hooks/useLanguage";
 import {
   FlexContainer,
@@ -10,13 +13,13 @@ import {
   ButtonsGroup,
 } from "@components/ui";
 import { Trans, useTranslation } from "react-i18next";
-import fetchImage from "@lib/fetchImage";
 import { css } from "@emotion/react";
 import loadable from "@loadable/component";
 import { useLocation } from "react-router";
 import { MovieTitleComponent } from "@typings/movieTitle";
 import styles from "./Headers.module.scss";
 import containerStyle from "../../Containers.module.scss";
+import ShareModal from "../ShareModal/ShareModal";
 
 const YouTubePlayer = loadable(
   () => import("@components/ui/YouTubePlayer/YouTubePlayer")
@@ -25,45 +28,30 @@ const ImageComponent = loadable(
   () => import("@components/modules/Image/Image")
 );
 
-interface BackgroundDimensions {
-  backgroundWidth?: number;
-  backgroundHeight?: number;
-}
-
 interface PosterDimensions {
-  posterWidth: number;
-  posterHeight: number;
+  width: number;
+  height: number;
 }
 
-const calculateBackgroundDimensions = (): BackgroundDimensions => {
-  if (typeof window === "undefined") {
-    return {
-      backgroundWidth: 1920,
-      backgroundHeight: 1080,
-    };
-  }
-
+const calculateBackgroundSize = (): "normal" | "large" | "small" => {
   const screenWidth = window.outerWidth;
-  const screenHeight = window.outerHeight;
 
-  if (screenWidth > 3840 && screenHeight > 2160) {
-    return {
-      backgroundWidth: 3840,
-      backgroundHeight: 2160,
-    };
+  if (screenWidth > 1920) {
+    return "large";
   }
 
-  return {
-    backgroundWidth: screenWidth,
-    backgroundHeight: screenHeight,
-  };
+  if (screenWidth < 400) {
+    return "small";
+  }
+
+  return "normal";
 };
 
 const calculatePosterDimensions = (): PosterDimensions => {
   if (typeof window === "undefined") {
     return {
-      posterWidth: 270,
-      posterHeight: 400,
+      width: 270,
+      height: 400,
     };
   }
 
@@ -72,14 +60,14 @@ const calculatePosterDimensions = (): PosterDimensions => {
   const ratio = 270 / 400;
 
   if (window.innerWidth > 400) {
-    return { posterWidth: initialWidth, posterHeight: initialHeight };
+    return { width: initialWidth, height: initialHeight };
   }
 
-  const posterWidth = Math.ceil((50 / 100) * window.innerWidth);
+  const width = Math.ceil((50 / 100) * window.innerWidth);
 
   return {
-    posterWidth,
-    posterHeight: Math.ceil(posterWidth * (1 / ratio)),
+    width,
+    height: Math.ceil(width * (1 / ratio)),
   };
 };
 
@@ -92,22 +80,46 @@ const Headers: MovieTitleComponent = ({ dataResponse }) => {
     queryParams.get("focus") === "trailer" || false
   );
   const { t } = useTranslation("pages\\movieTitle\\movieTitle");
-  const { t: tTags } = useTranslation("media\\media");
+  const { t: tMedia } = useTranslation("media\\media");
   const [backgroundLoaded, setBackgoundLoaded] = useState<boolean>(false);
   const [backgroundError, setBackgroundError] = useState<boolean>(false);
-  const { backgroundWidth, backgroundHeight } = calculateBackgroundDimensions();
-  const { posterWidth, posterHeight } = calculatePosterDimensions();
-
+  const { width, height } = calculatePosterDimensions();
+  const [mainInformation, setMainInformation] = useState<string[]>([]);
+  const [shareModalOpen, setShareModalOpen] = useState<boolean>(false);
+  const openShareModal = useCallback((): void => {
+    setShareModalOpen(true);
+  }, []);
   let background;
 
+  useEffect((): void => {
+    const temp: string[] = [];
+
+    if (localizedInformation.releaseDate) {
+      temp.push(
+        new Intl.DateTimeFormat(language).format(
+          new Date(localizedInformation.releaseDate)
+        )
+      );
+    }
+
+    if (dataResponse.duration) {
+      temp.push(calculateDuration(dataResponse.duration as unknown as number));
+    }
+
+    temp.push(tMedia(`cases.${dataResponse.case}`));
+
+    setMainInformation(temp);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   if (localizedInformation.background && typeof window !== "undefined") {
+    const backgroundSize = calculateBackgroundSize();
+
     background = new Image();
-    background.src = fetchImage({
-      type: "background",
-      width: backgroundWidth,
-      height: backgroundHeight,
-      image: localizedInformation.background,
-    });
+    background.src = `https://cdn.developershouse.xyz/${localizedInformation.background.replace(
+      "headers-background",
+      `headers-background-${backgroundSize}.webp`
+    )}`;
     background.onerror = (): void => {
       setBackgoundLoaded(true);
       setBackgroundError(true);
@@ -131,6 +143,11 @@ const Headers: MovieTitleComponent = ({ dataResponse }) => {
           autoClose
         />
       )}
+      <ShareModal
+        open={shareModalOpen}
+        setOpen={setShareModalOpen}
+        dataResponse={dataResponse}
+      />
       <FlexContainer
         horizontallyCentered
         className={styles["headers-background"]}
@@ -177,38 +194,65 @@ const Headers: MovieTitleComponent = ({ dataResponse }) => {
               withBorderRadius
               withBoxShadow
               placeholder={fetchImage({
-                type: "image",
                 image: localizedInformation.poster,
-                width: Math.ceil(posterWidth / 5),
-                height: Math.ceil(posterHeight / 5),
+                width: Math.ceil(width / 5),
+                height: Math.ceil(height / 5),
+                format: "webp",
               })}
               image={fetchImage({
-                type: "image",
                 image: localizedInformation.poster,
-                width: posterWidth,
-                height: posterHeight,
+                width,
+                height,
+                format: "webp",
               })}
               alt={localizedInformation.title}
-              width={posterWidth}
-              height={posterHeight}
+              width={width}
+              height={height}
               className={styles["movie-poster"]}
             />
           )}
           <FlexContainer column className={styles["headers-content"]}>
             <h1>{`${localizedInformation.title} (${dataResponse.title})`}</h1>
-            <h2>{dataResponse.companies.join(", ")}</h2>
-            {localizedInformation.releaseDate && (
-              <h2>
-                {new Intl.DateTimeFormat(language).format(
-                  new Date(localizedInformation.releaseDate)
-                )}
-                {dataResponse.duration ? ` • ${dataResponse.duration}` : ""}
-                {
-                  /* eslint-disable-next-line no-underscore-dangle */
-                  dataResponse._case
-                }
-              </h2>
+            <h2>
+              {dataResponse.companies
+                .map((company: string): string =>
+                  tMedia(`companies.${company}`)
+                )
+                .join(", ")}
+            </h2>
+            {(localizedInformation.releaseDate || dataResponse.duration) && (
+              <h2>{mainInformation.join(" • ")}</h2>
             )}
+            <FlexContainer
+              allowWrap
+              verticallyCentered
+              className={styles["buttons-top"]}
+            >
+              <button
+                type="button"
+                aria-label={t("headers.topButtons.grade")}
+                title={t("headers.topButtons.grade")}
+              >
+                <BsStarFill />
+                <span>4,2 / 5</span>
+              </button>
+              <button
+                type="button"
+                aria-label={t("headers.topButtons.favourites")}
+                title={t("headers.topButtons.favourites")}
+              >
+                <ImHeart />
+              </button>
+              <button
+                type="button"
+                id="share-movie"
+                aria-label={t("headers.topButtons.share")}
+                title={t("headers.topButtons.share")}
+                onClick={openShareModal}
+              >
+                <IoMdShareAlt />
+              </button>
+            </FlexContainer>
             {localizedInformation.description && (
               <p>
                 <q className={containerStyle.quotes}>
@@ -224,21 +268,29 @@ const Headers: MovieTitleComponent = ({ dataResponse }) => {
               </p>
             )}
             {dataResponse.tags && (
-              <ButtonsGroup minimal>
+              <ButtonsGroup
+                minimal
+                genericMarginTop
+                className={styles["buttons-bottom"]}
+              >
                 {dataResponse.tags.map((tag: string): React.ReactElement => {
                   return (
                     <ButtonLink key={tag} to={`/browse?tag=${tag}`}>
-                      <Trans t={tTags} i18nKey={`tags.${tag}`} />
+                      <Trans t={tMedia} i18nKey={`tags.${tag}`} />
                     </ButtonLink>
                   );
                 })}
               </ButtonsGroup>
             )}
-            <ButtonsGroup minimal>
+            <ButtonsGroup
+              minimal
+              genericMarginTop
+              className={styles["buttons-bottom"]}
+            >
               <Button>
                 <MdMovie />
                 <span>
-                  <Trans t={t} i18nKey="headers.buttons.watch" />
+                  <Trans t={t} i18nKey="headers.bottomButtons.watch" />
                 </span>
               </Button>
               {localizedInformation.trailer && (
@@ -257,7 +309,7 @@ const Headers: MovieTitleComponent = ({ dataResponse }) => {
                 >
                   <FaPlay />
                   <span>
-                    <Trans t={t} i18nKey="headers.buttons.trailer" />
+                    <Trans t={t} i18nKey="headers.bottomButtons.trailer" />
                   </span>
                 </Button>
               )}

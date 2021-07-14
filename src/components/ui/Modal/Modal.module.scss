@@ -15,12 +15,13 @@
     margin: 4rem 2rem;
     background-color: var(--primary-background-color);
     border-radius: 5px;
-    overflow: hidden;
     transition: opacity 500ms;
   
     .headers {
       padding: 1rem;
       background-color: var(--secondary-background-color);
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
   
       svg {
         width: 30px;

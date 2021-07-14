@@ -1,0 +1,24 @@
+.select {
+  position: relative;
+  width: fit-content;
+  padding: 0.75rem;
+  background-color: var(--secondary-background-color);
+  border-radius: 5px;
+  font-size: 18px;
+  line-height: 1.5;
+
+  option {
+    margin: 0.75rem !important;
+  }
+
+  &:active {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+}

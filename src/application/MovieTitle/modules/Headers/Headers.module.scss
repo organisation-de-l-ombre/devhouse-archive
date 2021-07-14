@@ -26,8 +26,37 @@
         color: white;
       }
 
-      a,
-      button {
+      .buttons-top > button {
+        margin: 1rem 1rem 0 0;
+        padding: 0.75rem;
+        display: flex;
+        align-items: center;
+        background-color: var(--media-headers-primary-background-color);
+        border: 0.15rem solid var(--font-color-hover);
+        border-radius: 50px;
+        cursor: pointer;
+        transition: background-color 0.5s;
+
+        svg {
+          width: 22px;
+          height: 22px;
+        }
+
+        span {
+          margin-left: 0.75rem;
+        }
+
+        &:hover {
+          background-color: var(--media-headers-primary-background-color-hover);
+        }
+      }
+
+      .buttons-top > button[id=share-movie] > svg {
+        transform: scale(1.5);
+      }
+
+      .buttons-bottom > a,
+      .buttons-bottom > button {
         background-color: var(--media-headers-primary-background-color);
 
         &:hover {

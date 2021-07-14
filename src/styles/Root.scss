@@ -103,6 +103,11 @@ body {
     pointer-events: none;
   }
 
+  select {
+    outline: none;
+    border: none;
+  }
+
   .app {
     min-height: 100vh;
     display: flex;

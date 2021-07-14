@@ -1,5 +1,5 @@
 import React, { useState, ReactElement } from "react";
-import detectMobileDevice from "@lib/detectMobileDevice";
+import { detectMobileDevice } from "@lib/utils";
 import {
   FlexContainer,
   Summary,

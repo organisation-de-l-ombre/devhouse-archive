@@ -1,10 +1,11 @@
 import times from "lodash.times";
-import getClientID from "./getClientID";
+import { getClientId } from "./utils";
 
-export function randomString(randomBytesLength = 48): string {
+const randomString = (randomBytesLength = 48): string => {
   if (typeof window === "undefined") {
     return "";
   }
+
   // 9 * 4/3 = 12
   // this is to avoid getting padding of a random byte string when it is base64 encoded
   let randomBytes: Uint8Array | number[];
@@ -22,7 +23,7 @@ export function randomString(randomBytesLength = 48): string {
     .btoa(String.fromCharCode(...randomBytes))
     .replaceAll("+", "-")
     .replaceAll("/", "_");
-}
+};
 
 const generateCodeChallenge = async (code: string): Promise<string> => {
   const digest = await crypto.subtle.digest(
@@ -39,12 +40,12 @@ const generateCodeChallenge = async (code: string): Promise<string> => {
 };
 
 const manageAuth = async (): Promise<void> => {
-  const clientID: string = getClientID();
+  const clientId: string = getClientId();
   const state = randomString(32);
 
   localStorage.setItem("state-oauth", state);
 
-  if (clientID === "Invalid client ID") {
+  if (clientId === "Invalid client ID") {
     throw new Error("Failed to fetch client ID.");
   }
 
@@ -57,7 +58,7 @@ const manageAuth = async (): Promise<void> => {
   const codeChallenge = await generateCodeChallenge(codeVerifier);
 
   document.location.href = `https://auth-server.developershouse.xyz/oauth2/auth?response_type=code&client_id=${encodeURIComponent(
-    clientID
+    clientId
   )}&scope=${encodeURIComponent(
     scopes.join(" ")
   )}&redirect_uri=${encodeURIComponent(

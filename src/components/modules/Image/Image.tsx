@@ -40,8 +40,8 @@ const Image: FunctionComponent<HTMLDivElement, ImageProps> = ({
     return (
       <div
         css={css`
-          width: ${width}px;
-          height: ${height}px !important;
+          width: ${width}px !important;
+          height: ${height}px;
           overflow: hidden;
           ${withBackground &&
           "background-color: var(--primary-background-color);"}
@@ -56,8 +56,8 @@ const Image: FunctionComponent<HTMLDivElement, ImageProps> = ({
   return (
     <div
       css={css`
-        width: ${width}px;
-        height: ${height}px !important;
+        width: ${width}px !important;
+        height: ${height}px;
         overflow: hidden;
         ${withBackground &&
         "background-color: var(--primary-background-color);"}

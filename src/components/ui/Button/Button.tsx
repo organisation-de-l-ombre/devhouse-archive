@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { css, SerializedStyles } from "@emotion/react";
 import { ButtonComponent, FunctionComponent } from "@typings/FunctionComponent";
 import { NavLink, NavLinkProps } from "react-router-dom";
-import detectMobileDevice from "@lib/detectMobileDevice";
+import { detectMobileDevice } from "@lib/utils";
 
 interface ButtonProps {
   minimal?: boolean;

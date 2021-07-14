@@ -10,6 +10,7 @@ export { default as List } from "./List/List";
 export { default as Modal } from "./Modal/Modal";
 export { default as NotificationsGroup } from "./Notifications/NotificationsGroup/NotificationsGroup";
 export { default as NotificationsModal } from "./Notifications/NotificationsModal/NotificationsModal";
+export { default as Select } from "./Select/Select";
 export * from "./Summary/Summary";
 export { default as TextArea } from "./TextArea/TextArea";
 export { default as YouTubePlayer } from "./YouTubePlayer/YouTubePlayer";

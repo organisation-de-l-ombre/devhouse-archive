@@ -4,7 +4,7 @@ import { Trans, useTranslation } from "react-i18next";
 import { Sidebar, SidebarItem, SidebarSection } from "@components/modules";
 import useAccount from "@hooks/useAccount";
 import { FunctionComponent } from "@typings/FunctionComponent";
-import fetchImage from "@lib/fetchImage";
+import { fetchImage } from "@lib/utils";
 
 const InternalNavigation: FunctionComponent<
   HTMLDivElement,
@@ -21,7 +21,6 @@ const InternalNavigation: FunctionComponent<
     <Sidebar
       title={user?.username as string}
       picture={fetchImage({
-        type: "image",
         image: user?.avatar as string,
         width: 128,
         height: 128,

@@ -36,6 +36,7 @@ interface MovieTitleSections {
 type MovieTitleSuccess = MovieDataResponse & {
   rootStatus: "success";
   sections: MovieTitleSections;
+  case?: string;
 };
 
 type MovieTitle = MovieTitleLoading | MovieTitleError | MovieTitleSuccess;

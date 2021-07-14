@@ -1,15 +1,48 @@
 {
   "tabBar": {
-    "movie": "Film",
-    "casting": "Casting",
-    "characters": "Personnages",
-    "videos": "Vidéos",
-    "ost": "Bande originale",
-    "technical-specs": "Spécifications techniques"
+    "movie": {
+      "name": "Film",
+      "acronym": "Film"
+    },
+    "casting": {
+      "name": "Casting",
+      "acronym": "Casting"
+    },
+    "characters": {
+      "name": "Personnages",
+      "acronym": "Personnages"
+    },
+    "videos": {
+      "name": "Vidéos",
+      "acronym": "Vidéos"
+    },
+    "ost": {
+      "name": "Bande originale",
+      "acronym": "Bande originale"
+    },
+    "technical-specs": {
+      "name": "Specs. techniques",
+      "acronym": "Spécifications techniques"
+    }
   },
   "headers": {
     "trailerWindowTitle": "Bande annonce",
-    "buttons": {
+    "topButtons": {
+      "grade": "Noter ce film",
+      "favourites": "Ajouter ce film à vos favoris",
+      "share": "Partager ce film"
+    },
+    "shareModal": {
+      "title": "Partager {{title}}",
+      "description": "Envie de partager {{title}} avec vos amis ? Vous êtes au bon endroit ! Pour faciliter votre quête, vous avez la possibilité de partager directement ce film en lisant automatiquement la bande-annonce, ou en affichant les différents moyens de le regarder en streaming. Vous pouvez également partager une section spécifique de ce film.",
+      "focusOnTrailer": "Lire automatiquemetn la bande-annonce",
+      "focusOnWatch": "Afficher les services de streaming qui proposent ce film",
+      "selectSection": "Sélectionnez une section spécifique",
+      "preview": "Aperçu du lien",
+      "copyToClipboard": "Copier dans le presse-papier",
+      "urlCopied": "Lien copié dans le presse-papier !"
+    },
+    "bottomButtons": {
       "watch": "Regarder",
       "trailer": "Bande annonce"
     }

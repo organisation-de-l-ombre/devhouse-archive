@@ -16,7 +16,7 @@ import { FunctionComponent } from "@typings/FunctionComponent";
 import MinimalIcon from "@svg/icons/Minimal";
 import { useClient } from "@hooks/useInternal";
 import { AiFillWarning } from "react-icons/ai";
-import fetchImage from "@lib/fetchImage";
+import { fetchImage } from "@lib/utils";
 import DisplayLanguageSVG from "../DisplayLanguageSVG/DisplayLanguageSVG";
 import styles from "./Navbar.module.scss";
 
@@ -164,7 +164,6 @@ const UserManagement: FC<{
       {avatar ? (
         <img
           src={fetchImage({
-            type: "image",
             image: avatar,
             width: 30,
             height: 30,

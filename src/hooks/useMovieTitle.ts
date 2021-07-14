@@ -46,7 +46,13 @@ const useMovieTitleRoot = (movieId: string): MovieTitle | undefined => {
 
     try {
       const { data, status }: AxiosResponse<MovieDataResponse> =
-        await MovieDataAPI.getMovieData(movieId, language);
+        typeof window === "undefined" &&
+        process.env.NODE_ENV === "production" &&
+        !process.env.FETCH_EXTERNAL_AMELIA_ENDPOINT
+          ? await axios.get(
+              `https://production.amelia-25638828-production.svc.cluster.local/data/movies/title/${movieId}/${language}`
+            )
+          : await MovieDataAPI.getMovieData(movieId, language);
 
       if (!data) {
         switch (status) {

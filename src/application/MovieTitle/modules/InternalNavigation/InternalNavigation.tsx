@@ -23,8 +23,10 @@ const InternalNavigation: MovieTitleComponent = ({
               to={`${baseURL}${item !== "movie" ? `/${item}` : ""}`}
               exact
               onClick={manageTabBar}
+              aria-label={t(`tabBar.${item}.acronym`)}
+              title={t(`tabBar.${item}.acronym`)}
             >
-              <Trans t={t} i18nKey={`tabBar.${item}`} />
+              <Trans t={t} i18nKey={`tabBar.${item}.name`} />
             </TabBarItem>
           );
         })}

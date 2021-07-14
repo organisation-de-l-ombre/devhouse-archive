@@ -1,7 +1,7 @@
 import React from "react";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import { css } from "@emotion/react";
-import detectMobileDevice from "@lib/detectMobileDevice";
+import { detectMobileDevice } from "@lib/utils";
 
 interface ButtonsGroupProps {
   genericMarginTop?: boolean;
@@ -23,7 +23,7 @@ const ButtonsGroup: FunctionComponent<HTMLDivElement, ButtonsGroupProps> = ({
     <div
       css={css`
         width: fit-content;
-        ${genericMarginTop && "margin-top: 1rem;"}
+        ${genericMarginTop && `margin-top: ${minimal ? "0.25" : "1"}rem;`}
         display: flex;
         flex-wrap: wrap;
 

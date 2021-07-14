@@ -1,4 +1,4 @@
-import getClientID from "@lib/getClientID";
+import { getClientId } from "@lib/utils";
 import {
   CLIENT_UPDATED,
   FEATURES_FLAGS_ADDED,
@@ -7,7 +7,7 @@ import {
 } from "./types";
 
 const internalState: InternalState = {
-  clientID: getClientID(),
+  clientID: getClientId(),
   featuresFlags: [],
 };
 

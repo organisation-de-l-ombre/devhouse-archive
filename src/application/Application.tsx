@@ -2,21 +2,36 @@ import React, { FC, ReactElement } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import loadable from "@loadable/component";
 import { Route, RouteComponentProps, Switch } from "react-router";
-import { MetadataBuilder } from "@components/modules";
+import { MetadataBuilder, SuspenseComponent } from "@components/modules";
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+
+dayjs.extend(duration);
 
 const RootError = loadable(() => import("@components/modules/Error/RootError"));
 const Navbar = loadable(() => import("@components/modules/Navbar/Navbar"));
-const Home = loadable(() => import("@application/Home/Home"));
-const Account = loadable(() => import("@application/Account/AccountRoot"));
-const Callback = loadable(() => import("@application/Callback/Callback"));
-const Login = loadable(() => import("@application/Login/Login"));
-const MovieTitle = loadable(() => import("@application/MovieTitle/MovieRoot"));
+const Home = loadable(() => import("@application/Home/Home"), {
+  fallback: <SuspenseComponent />,
+});
+const Account = loadable(() => import("@application/Account/AccountRoot"), {
+  fallback: <SuspenseComponent />,
+});
+const Callback = loadable(() => import("@application/Callback/Callback"), {
+  fallback: <SuspenseComponent />,
+});
+const Login = loadable(() => import("@application/Login/Login"), {
+  fallback: <SuspenseComponent />,
+});
+const MovieTitle = loadable(() => import("@application/MovieTitle/MovieRoot"), {
+  fallback: <SuspenseComponent />,
+});
 /* const Search = loadable(() => import("@application/Search/Search"));
 const InternalWiki = loadable(
   () => import("@application/Wiki/Internal/InternalRoot")
 ); */
 const NotFound = loadable(
-  () => import("@components/modules/NotFound/NotFound")
+  () => import("@components/modules/NotFound/NotFound"),
+  { fallback: <SuspenseComponent /> }
 );
 
 const Application: FC = () => {

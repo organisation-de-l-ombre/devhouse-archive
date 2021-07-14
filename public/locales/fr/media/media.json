@@ -6,5 +6,14 @@
     "musical": "Musical",
     "children": "Enfants",
     "adventure": "Aventure"
+  },
+  "companies": {
+    "walt_disney_pictures": "Walt Disney Pictures",
+    "disney_animation_television": "Disney Animation Television",
+    "dreamworks_animation": "DreamWorks Animation",
+    "universal_pictures": "Universal Pictures"
+  },
+  "cases": {
+    "all_audiences": "Tous publics"
   }
 }

@@ -1,5 +1,6 @@
-import { ServerContext, ServerContextProps } from "@contexts/server";
+import { ServerContext } from "@contexts/server";
 import useLanguage from "@hooks/useLanguage";
+import { formatURL } from "@lib/utils";
 import { supportedLanguages } from "@store/language/types";
 import React, { FC, ReactElement, useContext } from "react";
 import { Helmet } from "react-helmet";
@@ -13,16 +14,6 @@ interface MetadataBuilderProps {
   keywords?: string[];
   locales?: string[];
 }
-
-const formatURL = (serverContext: ServerContextProps): string => {
-  if (serverContext) {
-    const { request } = serverContext;
-
-    return `${request.protocol}://${request.get("host")}${request.path}`;
-  }
-
-  return `${window.location.origin}${window.location.pathname}`;
-};
 
 const MetadataBuilder: FC<MetadataBuilderProps> = ({
   title,

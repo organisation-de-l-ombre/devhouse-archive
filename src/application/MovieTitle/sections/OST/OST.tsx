@@ -2,7 +2,7 @@ import React, { ReactElement, useState } from "react";
 import loadable from "@loadable/component";
 import { SiSpotify, SiDeezer, SiApplemusic } from "react-icons/si";
 import { FaMusic, FaPlay } from "react-icons/fa";
-import detectMobileDevice from "@lib/detectMobileDevice";
+import { detectMobileDevice, fetchImage } from "@lib/utils";
 import {
   FlexContainer,
   Summary,
@@ -18,7 +18,6 @@ import { Trans, useTranslation } from "react-i18next";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import { IconType } from "react-icons";
 import HandleData from "@application/MovieTitle/modules/HandleData/HandleData";
-import fetchImage from "@lib/fetchImage";
 import {
   MovieTitleComponent,
   OSTSection,
@@ -57,6 +56,10 @@ const DisplaySVG: FunctionComponent<IconType, { type: string }> = ({
 };
 
 const calculateCoverDimensions = (): CoverDimensions => {
+  if (typeof window === "undefined") {
+    return { coverWidth: 256, coverHeight: 256 };
+  }
+
   if (window.innerWidth > 400) {
     return { coverWidth: 256, coverHeight: 256 };
   }
@@ -127,13 +130,11 @@ const OST: MovieTitleComponent = ({ dataResponse }) => {
                   withBorderRadius
                   withBoxShadow
                   placeholder={fetchImage({
-                    type: "image",
                     image: data.album.coverURL,
                     width: Math.ceil(coverWidth / 5),
                     height: Math.ceil(coverHeight / 5),
                   })}
                   image={fetchImage({
-                    type: "image",
                     image: data.album.coverURL,
                     width: coverWidth,
                     height: coverHeight,

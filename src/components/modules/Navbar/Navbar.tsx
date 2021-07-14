@@ -1,7 +1,7 @@
 import React, { FC, useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import useNavbar from "@hooks/useNavbar";
-import routeWithOnlyContent from "@lib/routeWithOnlyContent";
+import { navbarRoutesBlacklist } from "@lib/utils";
 import classnames from "classnames";
 import BodyContext from "@contexts/body";
 import {
@@ -27,9 +27,9 @@ const Navbar: FC = () => {
   }, [open, setScroll]);
 
   if (
-    routeWithOnlyContent.navbarBlacklist.filter((route: string): boolean =>
+    navbarRoutesBlacklist.some((route: string): boolean =>
       pathname.startsWith(route)
-    ).length
+    )
   ) {
     return null;
   }
