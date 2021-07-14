@@ -3,7 +3,7 @@ openapi: 3.0.0
 info:
   title: Amelia
   description: Amelia is the API which allows to interact with the frontend of IMR & to manage data and users
-  version: 2.0.3
+  version: 2.1.3
 
 servers:
   - url: https://amelia-api.developershouse.xyz
@@ -198,6 +198,8 @@ components:
       required:
         - movie
       properties:
+        watch:
+          type: string
         movie:
           type: string
         casting:
