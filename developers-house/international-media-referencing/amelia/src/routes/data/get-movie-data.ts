@@ -12,7 +12,7 @@ interface RequestParameters {
 }
 
 type Section =
-  | "headers"
+  | "watch"
   | "movie"
   | "casting"
   | "characters"
@@ -24,7 +24,7 @@ type MovieData = {
   [key in Section]?: string;
 };
 
-export default {
+const getMovieData: RouteOptions = {
   method: "GET",
   url: "/data/movies/title/:movieId/:language",
   schema: {
@@ -91,7 +91,7 @@ export default {
 
     const movieData: MovieData = {};
     const indexes = {
-      headers: 1,
+      watch: 1,
       movie: 2,
       casting: 3,
       characters: 4,
@@ -135,4 +135,6 @@ export default {
       data: movieData
     });
   }
-} as RouteOptions;
+};
+
+export default getMovieData;
