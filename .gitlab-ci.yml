@@ -22,6 +22,7 @@ build:
       fi
 
 cypress:
+  allow_failure: true
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
