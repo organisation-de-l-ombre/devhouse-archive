@@ -52,6 +52,13 @@ spec:
             - secretRef:
                 name: oauth-client-{{ include "..fullname" . }}
           {{- end }}
+          {{- if .Values.storageBucket.enabled }}
+            - secretRef:
+                name: bucket-{{ include "..fullname" . }}
+            - configMapRef:
+                name: bucket-{{ include "..fullname" . }}
+          {{- end }}
+
           env:
             - name: GITLAB_ENV
               value: {{ .Values.gitlab.env | quote }}
