@@ -5,6 +5,7 @@
 
 stages:
   - build
+  - docker
   - test
   - review
   - staging
@@ -14,7 +15,7 @@ stages:
 
 # Build stage, this one uses a deamonless build via kaniko.
 build:
-  stage: build
+  stage: docker
   image:
     # We need to use the debug version in order to have a shell in the container.
     name: gcr.io/kaniko-project/executor:debug
