@@ -16,6 +16,8 @@ package:
     changes:
       - openapi.yaml
       - openapi-gen/*
+    refs:
+      - master
 
   script:
     - yarn
