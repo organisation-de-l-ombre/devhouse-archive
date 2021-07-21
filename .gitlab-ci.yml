@@ -1,29 +1,9 @@
 include:
-  - template: Auto-DevOps.gitlab-ci.yml
   - project: "developers-house/dev/gitlab-ci-collection"
     ref: master
-    file: "kaniko.gitlab-ci.yml"
-  - project: "developers-house/dev/gitlab-ci-collection"
-    ref: master
-    file: "helm.gitlab-ci.yml"
+    file: "base.gitlab-ci.yml"
 
-stages:
-  - build
-  - docker
-  - test
-  - deploy # dummy stage to follow the template guidelines
-  - review
-  - dast
-  - staging
-  - canary
-  - production
-  - incremental rollout 10%
-  - incremental rollout 25%
-  - incremental rollout 50%
-  - incremental rollout 100%
-  - performance
-  - cleanup
-
+# Execute the tests
 test:
   image: node:14
   before_script:
@@ -32,9 +12,12 @@ test:
     - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
     - npm config set -- '//gitlab.com/api/v4/packages/npm/:_authToken' "${CI_JOB_TOKEN}"
   script:
+    - yarn
     - yarn install
-node_build:
+
+"Build razzle artifacts":
   image: node:14
+  stage: build
 
   script:
     - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" >> .npmrc
@@ -43,24 +26,24 @@ node_build:
     - npm config set -- '//gitlab.com/api/v4/packages/npm/:_authToken' "${CI_JOB_TOKEN}"
     - yarn install
     - CI=false yarn build
+
   cache:
     key: node-modules
     paths:
       - node_modules
-  stage: build
+
   artifacts:
     name: "React build"
     paths:
       - build
 
 build:
-  stage: docker
   needs:
-    - node_build
+    - "Build razzle artifacts"
   before_script:
     - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" >> .npmrc
     - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
     - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
     - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
   dependencies:
-    - node_build
+    - "Build razzle artifacts"
