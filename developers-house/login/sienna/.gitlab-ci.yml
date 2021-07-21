@@ -1,44 +1,32 @@
 include:
-  - template: Auto-DevOps.gitlab-ci.yml
   - project: 'developers-house/dev/gitlab-ci-collection'
     ref: master
-    file: 'kaniko.gitlab-ci.yml'
-  - project: 'developers-house/dev/gitlab-ci-collection'
-    ref: master
-    file: 'helm.gitlab-ci.yml'
+    file: 'base.gitlab-ci.yml'
 
 build:
   before_script:
     - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" >> .npmrc
     - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
     - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
-    - |
-      if [[ -z "$CI_COMMIT_TAG" ]]; then
-          export CI_APPLICATION_REPOSITORY=${CI_APPLICATION_REPOSITORY:-$CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG}
-          export CI_APPLICATION_TAG=${CI_APPLICATION_TAG:-$CI_COMMIT_SHA}
-      else
-          export CI_APPLICATION_REPOSITORY=${CI_APPLICATION_REPOSITORY:-$CI_REGISTRY_IMAGE}
-          export CI_APPLICATION_TAG=${CI_APPLICATION_TAG:-$CI_COMMIT_TAG}
-      fi
 
 cypress:
+  image: cypress/browsers:node12.14.1-chrome85-ff81
+  stage: test
+
   allow_failure: true
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
       - node_modules/
       - .npm/
-  image: cypress/browsers:node12.14.1-chrome85-ff81
-  stage: test
 
   parallel:
     matrix:
-      - RUNNER: [chrome]
-      
+      - RUNNER: [chrome, firefox]
   script:
     - yarn
     - yarn run build
-    - yarn run start &
+    - yarn run start & # Start the server in parallel
     - npx cypress run --record --key 4a4e3f7e-8127-4f60-a851-d4ba1ac91157 --browser $RUNNER
   artifacts:
     when: always
