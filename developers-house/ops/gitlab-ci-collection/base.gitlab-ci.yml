@@ -6,7 +6,7 @@
 stages:
   - build
   - test
-  - deploy
+  - review
   - staging
   - production
   - cleanup
@@ -20,7 +20,6 @@ build:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint:
     - ''
-  services: []
   script:
   - /kaniko/executor --context . --dockerfile ./Dockerfile --destination "$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG" $AUTO_DEVOPS_BUILD_IMAGE_EXTRA_ARGS --cache=true
   rules:
