@@ -1,11 +1,7 @@
 include:
-  - template: Auto-DevOps.gitlab-ci.yml
   - project: "developers-house/dev/gitlab-ci-collection"
     ref: master
-    file: "kaniko.gitlab-ci.yml"
-  - project: "developers-house/dev/gitlab-ci-collection"
-    ref: master
-    file: "helm.gitlab-ci.yml"
+    file: "base.gitlab-ci.yml"
 
 build:
   before_script: &script
