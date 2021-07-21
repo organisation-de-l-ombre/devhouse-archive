@@ -55,7 +55,7 @@ service:
 # is already handled for you.
 # https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
-  enabled: true
+  enabled: false
   path: "/"
   annotations: {}
 
@@ -65,7 +65,7 @@ health:
   # Check if the container if alive.
   # if not, the container will be restarted.
   livenessProbe:
-    path: "/_healz"
+    path: "/"
     initialDelaySeconds: 15
     timeoutSeconds: 15
     scheme: "HTTP"
@@ -75,7 +75,7 @@ health:
   # The container will not be available if this check
   # is not passing.
   readinessProbe:
-    path: "/_healz"
+    path: "/"
     initialDelaySeconds: 5
     timeoutSeconds: 3
     scheme: "HTTP"
