@@ -1,11 +1,7 @@
 include:
-  - template: Auto-DevOps.gitlab-ci.yml
   - project: 'developers-house/dev/gitlab-ci-collection'
     ref: master
-    file: 'kaniko.gitlab-ci.yml'
-  - project: 'developers-house/dev/gitlab-ci-collection'
-    ref: master
-    file: 'helm.gitlab-ci.yml'
+    file: 'base.gitlab-ci.yml'
 
 build:
   before_script:
@@ -14,52 +10,49 @@ build:
     - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
 
 
+# Publish the npm package
 package:
   stage: build
-  image: timbru31/java-node
+  image: timbru31/java-node # We need java in the container
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
-      - .npm/
+      - node_modules/
   only:
     changes:
       - openapi.yaml
-      - gen/*
-      - .gitlab-ci.yml
+      - openapi-gen/*
     refs:
       - master
+
   script:
-    - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" >> .npmrc
-    - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
-    - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
     - yarn
-    - yarn gen:client
-    - cd gen
+    - yarn gen:client-axios
+    - cd openapi-gen
     - apt-get update -y
     - apt-get install jq -y
     - yarn
     - yarn build
-    - |
-      {
-        echo "@${CI_PROJECT_ROOT_NAMESPACE}:registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/"
-        echo "${CI_API_V4_URL#https?}/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=\${CI_JOB_TOKEN}"
-      } | tee --append .npmrc
+    - echo "@${CI_PROJECT_ROOT_NAMESPACE}:registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
+    - echo "${CI_API_V4_URL#https?}/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=\${CI_JOB_TOKEN}" > .npmrc
+
+    # This may be replaced by an automatic bump.
     - VERSION=$(jq .version package.json)
     - echo "${VERSION:1:${#VERSION}-2}"
     - yarn publish --new-version "${VERSION:1:${#VERSION}-2}"
 
+
+# Report the test results
 test:
   image: timbru31/java-node
   script:
-    - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" >> .npmrc
-    - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
-    - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
     - yarn install
     - yarn build
     - rm -r dist
-    - npx jest --ci --reporters=default --reporters=jest-junit
+    - npx jest --passWithNoTests --ci --reporters=default --reporters=jest-junit
   artifacts:
     when: always
     reports:
       junit:
-        - junit.xml
+        - junit.xml # GitLab only supports junit test results.
+
