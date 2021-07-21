@@ -88,7 +88,6 @@ review:
   artifacts:
     paths:
     - environment_url.txt # Return the environment name
-    when: always
 
   rules:
   - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH" # Disable on the default branch.
@@ -183,7 +182,6 @@ production:
   artifacts:
     paths:
     - environment_url.txt
-    when: always
   
   rules:
     - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
