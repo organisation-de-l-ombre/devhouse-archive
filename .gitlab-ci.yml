@@ -1,4 +1,5 @@
 include:
+  # Include the new deployment chart https://gitlab.com/developers-house/dev/gitlab-ci-collection/-/blob/master/base.gitlab-ci.yml
   - project: "developers-house/dev/gitlab-ci-collection"
     ref: master
     file: "base.gitlab-ci.yml"
