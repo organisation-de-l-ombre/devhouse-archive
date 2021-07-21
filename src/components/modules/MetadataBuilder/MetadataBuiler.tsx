@@ -1,7 +1,6 @@
 import { ServerContext } from "@contexts/server";
 import useLanguage from "@hooks/useLanguage";
-import { formatURL } from "@lib/utils";
-import { supportedLanguages } from "@store/language/types";
+import { formatURL, supportedLanguages } from "@lib/utils";
 import React, { FC, ReactElement, useContext } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";

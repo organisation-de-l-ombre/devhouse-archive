@@ -1,18 +1,34 @@
 import React from "react";
-import Loader, { LoaderType } from "react-loaders";
-import "loaders.css/src/animations/line-scale.scss";
 import { FunctionComponent } from "@typings/FunctionComponent";
-import styles from "./GenericLoader.module.scss";
+import { AiOutlineLoading } from "react-icons/ai";
+import { css, keyframes } from "@emotion/react";
 import FlexContainer from "../FlexContainer/FlexContainer";
 
-const GenericLoader: FunctionComponent<
-  HTMLDivElement,
-  {
-    genericMarginTop?: boolean;
-    centered?: boolean;
-    loaderType?: LoaderType;
+interface GenericLoaderProps {
+  genericMarginTop?: boolean;
+  centered?: boolean;
+  loaderWidth?: number;
+  loaderHeight?: number;
+}
+
+const loaderAnimation = keyframes`
+  from {
+    transform: rotate(0);
   }
-> = ({ genericMarginTop, centered, loaderType, children, ...props }) => {
+
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const GenericLoader: FunctionComponent<HTMLDivElement, GenericLoaderProps> = ({
+  genericMarginTop,
+  centered,
+  loaderWidth = 30,
+  loaderHeight = 30,
+  children,
+  ...props
+}) => {
   return (
     <FlexContainer
       maxWidth
@@ -22,10 +38,12 @@ const GenericLoader: FunctionComponent<
       css={{ width: "fit-content" }}
       {...props}
     >
-      <Loader
-        type={loaderType || "line-scale"}
-        active
-        innerClassName={styles.loader}
+      <AiOutlineLoading
+        css={css`
+          width: ${loaderWidth}px;
+          height: ${loaderHeight}px;
+          animation: ${loaderAnimation} 1s infinite;
+        `}
       />
       <p css={{ marginTop: "1rem", textAlign: "center" }}>{children}</p>
     </FlexContainer>

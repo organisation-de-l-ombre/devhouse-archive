@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { RouteComponentProps } from "react-router";
+import { RouteComponentProps, useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
 import { FlexContainer } from "@components/ui";
 import {
@@ -31,6 +31,7 @@ const MovieRoot: FC<RouteComponentProps> = ({ match }) => {
   const { t: tMedia } = useTranslation("media\\media");
   const { movieId } = match.params as unknown as MovieTitleParams;
   const movieTitle = useMovieTitleRoot(movieId);
+  const { pathname } = useLocation();
 
   if (!movieTitle) {
     return null;
@@ -44,7 +45,6 @@ const MovieRoot: FC<RouteComponentProps> = ({ match }) => {
     if (movieTitle.error === "cors" || movieTitle.error === "internal") {
       return (
         <ErrorComponent
-          fallback={<SuspenseComponent />}
           errorMessage={t("error.messages.generic", { statusCode: 503 })}
         />
       );
@@ -56,7 +56,6 @@ const MovieRoot: FC<RouteComponentProps> = ({ match }) => {
 
     return (
       <ErrorComponent
-        fallback={<SuspenseComponent />}
         errorMessage={t("error.messages.generic", {
           statusCode: movieTitle.statusCode,
         })}
@@ -75,13 +74,17 @@ const MovieRoot: FC<RouteComponentProps> = ({ match }) => {
           tMedia(`tags.${tag}`)
         )}
       />
-      <Headers fallback={<SuspenseComponent />} dataResponse={movieTitle} />
-      <InternalNavigation
-        fallback={<SuspenseComponent />}
-        dataResponse={movieTitle}
-      />
-      <BackToTop fallback={<SuspenseComponent />} />
-      <Router fallback={<SuspenseComponent />} dataResponse={movieTitle} />
+      {!pathname.endsWith("/watch") && (
+        <>
+          <Headers dataResponse={movieTitle} />
+          <InternalNavigation
+            fallback={<SuspenseComponent />}
+            dataResponse={movieTitle}
+          />
+        </>
+      )}
+      <BackToTop />
+      <Router dataResponse={movieTitle} />
     </FlexContainer>
   );
 };

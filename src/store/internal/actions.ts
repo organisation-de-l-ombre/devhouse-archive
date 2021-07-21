@@ -1,6 +1,6 @@
 import { Action } from "@store/types";
 import { Dispatch } from "redux";
-import { CLIENT_UPDATED, FEATURES_FLAGS_ADDED } from "./types";
+import { CLIENT_UPDATED, FEATURES_FLAGS_ADDED } from "@store/actions";
 
 const updateClient = (id: string): Action => {
   return (dispatch: Dispatch): void => {

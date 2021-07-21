@@ -7,4 +7,8 @@ COPY build /app/build
 
 RUN npm install --production
 
+ENV PORT=3200
+
+EXPOSE 3200
+
 ENTRYPOINT ["node", "build/server.js"]

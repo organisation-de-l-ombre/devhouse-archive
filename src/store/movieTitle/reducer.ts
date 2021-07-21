@@ -1,10 +1,5 @@
-import {
-  MovieTitle,
-  MovieTitlePayload,
-  MovieTitleState,
-  MOVIE_TITLE_ADDED,
-  MOVIE_TITLE_SECTION_ADDED,
-} from "./types";
+import { MOVIE_TITLE_ADDED, MOVIE_TITLE_SECTION_ADDED } from "@store/actions";
+import { MovieTitle, MovieTitlePayload, MovieTitleState } from "./types";
 
 const movieTitleState: MovieTitleState = {};
 

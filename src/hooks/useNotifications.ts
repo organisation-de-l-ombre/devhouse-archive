@@ -14,9 +14,9 @@ import {
 } from "@store/notifications/notificationsData/actions";
 import {
   Notification,
+  NotificationPayload,
   NotificationsDataState,
 } from "@store/notifications/notificationsData/types";
-import generateNotificationID from "@lib/generateNotificationID";
 
 interface NotificationsPreferencesHook {
   toggleFirstUse: () => void;
@@ -28,7 +28,7 @@ interface NotificationsPreferencesHook {
 }
 
 interface NotificationsManagerHook {
-  addNotifications: (notifications: Notification[]) => void;
+  addNotifications: (notifications: NotificationPayload[]) => void;
   deleteNotification: (id: string) => void;
   deleteAllNotifications: () => void;
 }
@@ -82,7 +82,6 @@ const useNotificationsPreferences = (): NotificationsPreferencesHook => {
       addNotifications([
         {
           type: "info",
-          id: generateNotificationID(),
           body: t("preferencesUpdated"),
           time: 5000,
         },
@@ -110,8 +109,8 @@ const useNotificationsManager = (): NotificationsManagerHook => {
   const dispatch = useDispatch();
 
   const addNotifications = useCallback(
-    (notifications: Notification[]): void => {
-      dispatch(pushNotifications(notifications));
+    (notifications: NotificationPayload[]): void => {
+      dispatch(pushNotifications(notifications as Notification[]));
     },
     [dispatch]
   );

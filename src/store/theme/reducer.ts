@@ -1,10 +1,5 @@
-import {
-  Theme,
-  THEME_UPDATED,
-  ThemePayload,
-  ThemeState,
-  THEME_CONTRAST_UPDATED,
-} from "./types";
+import { THEME_UPDATED, THEME_CONTRAST_UPDATED } from "@store/actions";
+import { Theme, ThemePayload, ThemeState } from "./types";
 
 const themeState: ThemeState = {
   theme: "light",
@@ -27,4 +22,4 @@ const ThemeReducer = (
   }
 };
 
-export { themeState, ThemeReducer };
+export default ThemeReducer;

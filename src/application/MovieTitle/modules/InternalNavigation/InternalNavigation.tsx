@@ -14,8 +14,11 @@ const InternalNavigation: MovieTitleComponent = ({
 
   return (
     <TabBar open={open} manageTabBar={manageTabBar}>
-      {(Object.keys(data).slice(1) as (keyof typeof data)[])
-        .filter((item: keyof typeof data): boolean => data[item] !== undefined)
+      {(Object.keys(data) as (keyof typeof data)[])
+        .filter(
+          (item: keyof typeof data): boolean =>
+            item !== "watch" && data[item] !== undefined
+        )
         .map((item: string): React.ReactElement => {
           return (
             <TabBarItem

@@ -1,13 +1,7 @@
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { FaEdit } from "react-icons/fa";
-import {
-  FlexContainer,
-  GenericLoader,
-  Card,
-  Button,
-  ButtonsGroup,
-} from "@components/ui";
+import { FlexContainer, Card, Button, ButtonsGroup } from "@components/ui";
 import { FunctionComponent } from "@typings/FunctionComponent";
 
 const SectionEmpty: FunctionComponent<HTMLDivElement> = () => {
@@ -16,9 +10,9 @@ const SectionEmpty: FunctionComponent<HTMLDivElement> = () => {
   return (
     <FlexContainer minHeight padding pageBodyWidth fullCentered>
       <Card noPadding transparent>
-        <GenericLoader>
+        <p>
           <Trans t={t} i18nKey="sectionEmpty.message" />
-        </GenericLoader>
+        </p>
         <ButtonsGroup>
           <Button>
             <FaEdit />

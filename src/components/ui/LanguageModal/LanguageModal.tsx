@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, ReactElement } from "react";
 import { MdLanguage } from "react-icons/md";
 import { Trans, useTranslation } from "react-i18next";
 import useLanguage from "@hooks/useLanguage";
-import { supportedLanguages } from "@store/language/types";
+import { supportedLanguages } from "@lib/utils";
 import { DisplayLanguageSVG } from "@components/modules";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import { css } from "@emotion/react";

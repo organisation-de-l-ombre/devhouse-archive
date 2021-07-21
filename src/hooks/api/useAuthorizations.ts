@@ -8,7 +8,6 @@ import {
 import { Authorization } from "@developers-house/abdera";
 import { useTranslation } from "react-i18next";
 import { DevHouseUserAPI, fetchOptions } from "@lib/api";
-import generateNotificationID from "@lib/generateNotificationID";
 import { getClientId } from "@lib/utils";
 import { useNotificationsManager } from "@hooks/useNotifications";
 import useAccount from "@hooks/useAccount";
@@ -20,7 +19,6 @@ const useAuthorizationsError = (): ((error?: Error) => Error) => {
   return (error?: Error): Error => {
     addNotifications([
       {
-        id: generateNotificationID(),
         type: "error",
         body: t("hooks.error"),
         time: 5000,
@@ -78,7 +76,6 @@ const useAuthorizationsDeleteMutation = (
       onSuccess() {
         addNotifications([
           {
-            id: generateNotificationID(),
             type: "info",
             body: t("hooks.authorizationDeleted"),
             time: 5000,
@@ -94,7 +91,6 @@ const useAuthorizationsDeleteMutation = (
           removeUser();
           addNotifications([
             {
-              id: generateNotificationID(),
               type: "info",
               body: tAccount("devHouse.loggedOut"),
               time: 5000,

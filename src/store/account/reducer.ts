@@ -1,4 +1,5 @@
-import { USER_CREATED, USER_DELETED, UserPayload, UserState } from "./types";
+import { USER_CREATED, USER_DELETED } from "@store/actions";
+import { UserPayload, UserState } from "./types";
 
 const accountState: UserState = { user: undefined };
 
@@ -18,4 +19,4 @@ const AccountReducer = (
   }
 };
 
-export { accountState, AccountReducer };
+export default AccountReducer;

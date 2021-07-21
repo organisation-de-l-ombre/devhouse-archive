@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect } from "react";
 import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
-import generateNotificationID from "@lib/generateNotificationID";
 import useAccount from "@hooks/useAccount";
 import { useNotificationsManager } from "@hooks/useNotifications";
 import { UserObject } from "@store/account/types";
@@ -161,7 +160,6 @@ const Callback: FunctionComponent<HTMLDivElement> = () => {
       if (callbackState.error && callbackState.errorMessage) {
         addNotifications([
           {
-            id: generateNotificationID(),
             type: "error",
             body: t("error", { error: callbackState.errorMessage }),
             time: 5000,
@@ -173,7 +171,6 @@ const Callback: FunctionComponent<HTMLDivElement> = () => {
       if (callbackState.accountUsername) {
         addNotifications([
           {
-            id: generateNotificationID(),
             type: "info",
             body: t("userLoggedIn", {
               username: callbackState.accountUsername,

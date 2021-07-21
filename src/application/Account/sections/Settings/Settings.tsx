@@ -5,7 +5,6 @@ import Toggle from "react-toggle";
 import { FaSun, FaMoon } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { GoCheck } from "react-icons/go";
-import generateNotificationID from "@lib/generateNotificationID";
 import {
   useNotificationsManager,
   useNotificationsPreferences,
@@ -37,7 +36,6 @@ const Settings: FunctionComponent<HTMLDivElement> = () => {
 
     addNotifications([
       {
-        id: generateNotificationID(),
         type: "info",
         body: t(
           `settings.websiteParameters.theme.themeChanged.${
@@ -58,7 +56,6 @@ const Settings: FunctionComponent<HTMLDivElement> = () => {
     toggleContrastMode();
     addNotifications([
       {
-        id: generateNotificationID(),
         type: "info",
         body: t(
           `settings.websiteParameters.contrastMode.${
@@ -74,7 +71,6 @@ const Settings: FunctionComponent<HTMLDivElement> = () => {
 
     addNotifications([
       {
-        id: generateNotificationID(),
         type: "info",
         body: t("settings.websiteParameters.notifications.preferencesUpdated"),
         time: 5000,

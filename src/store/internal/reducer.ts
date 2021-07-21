@@ -1,10 +1,6 @@
 import { getClientId } from "@lib/utils";
-import {
-  CLIENT_UPDATED,
-  FEATURES_FLAGS_ADDED,
-  InternalPayload,
-  InternalState,
-} from "./types";
+import { CLIENT_UPDATED, FEATURES_FLAGS_ADDED } from "@store/actions";
+import { InternalPayload, InternalState } from "./types";
 
 const internalState: InternalState = {
   clientID: getClientId(),
@@ -30,4 +26,4 @@ const InternalReducer = (
   }
 };
 
-export { internalState, InternalReducer };
+export default InternalReducer;

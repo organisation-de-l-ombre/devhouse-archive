@@ -1,14 +1,13 @@
 import { MovieDataResponse } from "@developers-house/amelia";
+import { MOVIE_TITLE_ADDED, MOVIE_TITLE_SECTION_ADDED } from "@store/actions";
 import {
   CastingSection,
   GenericSection,
   OSTSection,
   TechnicalSpecsSection,
   VideosGlobalSection,
+  WatchModule,
 } from "@typings/movieTitle";
-
-const MOVIE_TITLE_ADDED = "movieTitle/add";
-const MOVIE_TITLE_SECTION_ADDED = "movieTitle/sectionAdded";
 
 type Errors = "cors" | "internal" | "not-found" | "unauthorized" | "other";
 
@@ -25,6 +24,7 @@ interface MovieTitleError {
 }
 
 interface MovieTitleSections {
+  watch?: WatchModule;
   movie?: GenericSection;
   casting?: CastingSection;
   characters?: GenericSection;
@@ -83,8 +83,6 @@ interface SectionAddPayload {
 type MovieTitlePayload = RootAddPayload | SectionAddPayload;
 
 export {
-  MOVIE_TITLE_ADDED,
-  MOVIE_TITLE_SECTION_ADDED,
   MovieTitleSections,
   MovieTitleSuccess,
   MovieTitle,

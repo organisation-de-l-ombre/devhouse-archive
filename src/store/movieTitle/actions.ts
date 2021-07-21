@@ -1,11 +1,7 @@
+import { MOVIE_TITLE_ADDED, MOVIE_TITLE_SECTION_ADDED } from "@store/actions";
 import { Action } from "@store/types";
 import { Dispatch } from "redux";
-import {
-  MovieTitle,
-  MovieTitleSection,
-  MOVIE_TITLE_ADDED,
-  MOVIE_TITLE_SECTION_ADDED,
-} from "./types";
+import { MovieTitle, MovieTitleSection } from "./types";
 
 const addMovieTitle = (payload: MovieTitle): Action => {
   return (dispatch: Dispatch): void => {

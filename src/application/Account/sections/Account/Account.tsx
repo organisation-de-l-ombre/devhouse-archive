@@ -1,6 +1,5 @@
 import React, { useCallback } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import generateNotificationID from "@lib/generateNotificationID";
 import { useNotificationsManager } from "@hooks/useNotifications";
 import useAccount from "@hooks/useAccount";
 import {
@@ -28,7 +27,6 @@ const Account: FunctionComponent<HTMLDivElement> = () => {
     removeUser();
     addNotifications([
       {
-        id: generateNotificationID(),
         type: "info",
         body: t("account.devHouse.loggedOut"),
         time: 5000,
@@ -116,7 +114,7 @@ const Account: FunctionComponent<HTMLDivElement> = () => {
           <h2>
             <Trans t={t} i18nKey="account.imr.title" />
           </h2>
-          <GenericLoader genericMarginTop>
+          <GenericLoader genericMarginTop centered>
             <Trans t={t} i18nKey="account.imr.notImplemented" />
           </GenericLoader>
         </Card>

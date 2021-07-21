@@ -1,6 +1,7 @@
 import { Dispatch } from "redux";
+import { THEME_CONTRAST_UPDATED, THEME_UPDATED } from "@store/actions";
 import { Action } from "../types";
-import { Theme, THEME_CONTRAST_UPDATED, THEME_UPDATED } from "./types";
+import { Theme } from "./types";
 
 const updateTheme = (theme: Theme): Action => {
   return (dispatch: Dispatch): void => {

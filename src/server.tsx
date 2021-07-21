@@ -25,7 +25,7 @@ import { DeepPartial, Store } from "redux";
 import cookieParser from "cookie-parser";
 import { I18nextProvider } from "react-i18next";
 import { GlobalState } from "@store/types";
-import { supportedLanguages } from "@store/language/types";
+import { supportedLanguages } from "@lib/utils";
 import { Helmet, HelmetData } from "react-helmet";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { readdirSync, statSync } from "fs";
@@ -219,6 +219,18 @@ i18nInstance
         .use(cookieParser())
         .use(i18nMiddleware.handle(i18nInstance))
         .set("Etag", true)
+        .use(
+          (
+            error: Error,
+            _request: Request,
+            response: Response,
+            _next: () => void
+          ): void => {
+            console.error(error);
+
+            response.status(500).send();
+          }
+        )
         .get("/*", handleApplication);
     }
   );

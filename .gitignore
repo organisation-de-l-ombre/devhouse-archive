@@ -21,11 +21,13 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+yarn.lock
 
 # configs
 .vscode/
 .idea/
 .eslintcache
+.npmrc
 
 # Razzle
 cache/

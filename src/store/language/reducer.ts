@@ -1,8 +1,5 @@
-import {
-  LANGUAGE_UPDATED,
-  LanguagePayload,
-  LanguageReducerState,
-} from "./types";
+import { LANGUAGE_UPDATED } from "@store/actions";
+import { LanguagePayload, LanguageReducerState } from "./types";
 
 const languageState: LanguageReducerState = { language: "" };
 
@@ -19,4 +16,4 @@ const LanguageReducer = (
   }
 };
 
-export { languageState, LanguageReducer };
+export default LanguageReducer;

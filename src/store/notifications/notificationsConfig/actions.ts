@@ -1,6 +1,9 @@
 import { Action } from "@store/types";
 import { Dispatch } from "redux";
-import { USER_FIRST_USE, UPDATE_NOTIFICATIONS_PERMISSIONS } from "./types";
+import {
+  USER_FIRST_USE,
+  UPDATE_NOTIFICATIONS_PERMISSIONS,
+} from "@store/actions";
 
 const setFirstUse = (): Action => {
   return (dispatch: Dispatch): void => {

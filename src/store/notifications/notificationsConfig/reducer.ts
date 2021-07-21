@@ -1,9 +1,8 @@
 import {
-  NotificationsConfigPayload,
-  NotificationsConfigState,
   UPDATE_NOTIFICATIONS_PERMISSIONS,
   USER_FIRST_USE,
-} from "./types";
+} from "@store/actions";
+import { NotificationsConfigPayload, NotificationsConfigState } from "./types";
 
 const notificationsConfigState: NotificationsConfigState = {
   firstUse: true,
@@ -29,4 +28,4 @@ const NotificationsConfigReducer = (
   }
 };
 
-export { notificationsConfigState, NotificationsConfigReducer };
+export default NotificationsConfigReducer;

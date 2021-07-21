@@ -8,13 +8,4 @@ interface LanguageReducerState {
   language: Language;
 }
 
-const LANGUAGE_UPDATED = "language/languageUpdated";
-const supportedLanguages = ["en", "fr"];
-
-export {
-  Language,
-  LanguagePayload,
-  LanguageReducerState,
-  LANGUAGE_UPDATED,
-  supportedLanguages,
-};
+export { Language, LanguagePayload, LanguageReducerState };

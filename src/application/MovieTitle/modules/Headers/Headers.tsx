@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { FaPlay } from "react-icons/fa";
-import { MdMovie } from "react-icons/md";
+import { MdMovie, MdEdit } from "react-icons/md";
 import { BsStarFill } from "react-icons/bs";
 import { ImHeart } from "react-icons/im";
 import { IoMdShareAlt } from "react-icons/io";
@@ -13,63 +13,21 @@ import {
   ButtonsGroup,
 } from "@components/ui";
 import { Trans, useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
 import loadable from "@loadable/component";
 import { useLocation } from "react-router";
 import { MovieTitleComponent } from "@typings/movieTitle";
-import styles from "./Headers.module.scss";
+import { calculatePosterDimensions } from "@lib/movieTitle";
+import styles from "../../Headers.module.scss";
 import containerStyle from "../../Containers.module.scss";
-import ShareModal from "../ShareModal/ShareModal";
+import Background from "../Background/Background";
 
 const YouTubePlayer = loadable(
   () => import("@components/ui/YouTubePlayer/YouTubePlayer")
 );
+const ShareModal = loadable(() => import("../ShareModal/ShareModal"));
 const ImageComponent = loadable(
   () => import("@components/modules/Image/Image")
 );
-
-interface PosterDimensions {
-  width: number;
-  height: number;
-}
-
-const calculateBackgroundSize = (): "normal" | "large" | "small" => {
-  const screenWidth = window.outerWidth;
-
-  if (screenWidth > 1920) {
-    return "large";
-  }
-
-  if (screenWidth < 400) {
-    return "small";
-  }
-
-  return "normal";
-};
-
-const calculatePosterDimensions = (): PosterDimensions => {
-  if (typeof window === "undefined") {
-    return {
-      width: 270,
-      height: 400,
-    };
-  }
-
-  const initialWidth = 270;
-  const initialHeight = 400;
-  const ratio = 270 / 400;
-
-  if (window.innerWidth > 400) {
-    return { width: initialWidth, height: initialHeight };
-  }
-
-  const width = Math.ceil((50 / 100) * window.innerWidth);
-
-  return {
-    width,
-    height: Math.ceil(width * (1 / ratio)),
-  };
-};
 
 const Headers: MovieTitleComponent = ({ dataResponse }) => {
   const { localizedInformation } = dataResponse;
@@ -81,15 +39,13 @@ const Headers: MovieTitleComponent = ({ dataResponse }) => {
   );
   const { t } = useTranslation("pages\\movieTitle\\movieTitle");
   const { t: tMedia } = useTranslation("media\\media");
-  const [backgroundLoaded, setBackgoundLoaded] = useState<boolean>(false);
-  const [backgroundError, setBackgroundError] = useState<boolean>(false);
   const { width, height } = calculatePosterDimensions();
   const [mainInformation, setMainInformation] = useState<string[]>([]);
+  const isMobileDevice = detectMobileDevice();
   const [shareModalOpen, setShareModalOpen] = useState<boolean>(false);
-  const openShareModal = useCallback((): void => {
+  const shareMovie = useCallback((): void => {
     setShareModalOpen(true);
   }, []);
-  let background;
 
   useEffect((): void => {
     const temp: string[] = [];
@@ -106,28 +62,11 @@ const Headers: MovieTitleComponent = ({ dataResponse }) => {
       temp.push(calculateDuration(dataResponse.duration as unknown as number));
     }
 
-    temp.push(tMedia(`cases.${dataResponse.case}`));
+    temp.push(dataResponse.case as string);
 
     setMainInformation(temp);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  if (localizedInformation.background && typeof window !== "undefined") {
-    const backgroundSize = calculateBackgroundSize();
-
-    background = new Image();
-    background.src = `https://cdn.developershouse.xyz/${localizedInformation.background.replace(
-      "headers-background",
-      `headers-background-${backgroundSize}.webp`
-    )}`;
-    background.onerror = (): void => {
-      setBackgoundLoaded(true);
-      setBackgroundError(true);
-    };
-    background.onload = (): void => {
-      setBackgoundLoaded(true);
-    };
-  }
+  }, [language]);
 
   return (
     <>
@@ -143,50 +82,15 @@ const Headers: MovieTitleComponent = ({ dataResponse }) => {
           autoClose
         />
       )}
-      <ShareModal
-        open={shareModalOpen}
-        setOpen={setShareModalOpen}
-        dataResponse={dataResponse}
-      />
-      <FlexContainer
-        horizontallyCentered
-        className={styles["headers-background"]}
-      >
-        {background ? (
-          <div
-            css={css`
-              width: 100%;
-              height: 100%;
-              position: absolute;
-              background-image: url("${background.src}");
-              background-size: cover;
-              background-repeat: no-repeat;
-              background-position-x: center;
-              opacity: 0;
-              ${backgroundLoaded &&
-              `
-                background-color: var(--media-headers-primary-background-color);
-                opacity: ${
-                  backgroundError
-                    ? "0.6"
-                    : "var(--media-headers-background-opacity)"
-                };
-              `}
-              ${!backgroundLoaded && "filter: blur(5px);"}
-              transition: background-color 0.5s, opacity 0.5s, filter 0.5s;
-            `}
-          />
-        ) : (
-          <div
-            css={css`
-              width: 100%;
-              height: 100%;
-              position: absolute;
-              background-color: var(--media-headers-primary-background-color);
-              opacity: ${typeof window === "undefined" ? "0" : "0.6"};
-            `}
-          />
-        )}
+      {!isMobileDevice && (
+        <ShareModal
+          open={shareModalOpen}
+          setOpen={setShareModalOpen}
+          dataResponse={dataResponse}
+        />
+      )}
+      <FlexContainer horizontallyCentered className={styles["headers-root"]}>
+        <Background dataResponse={dataResponse} />
         <FlexContainer pageBodyWidth allowWrap className={styles.headers}>
           {localizedInformation.poster && (
             <ImageComponent
@@ -221,7 +125,13 @@ const Headers: MovieTitleComponent = ({ dataResponse }) => {
                 .join(", ")}
             </h2>
             {(localizedInformation.releaseDate || dataResponse.duration) && (
-              <h2>{mainInformation.join(" • ")}</h2>
+              <h2>
+                {mainInformation
+                  .map((item: string): string =>
+                    item === dataResponse.case ? tMedia(`cases.${item}`) : item
+                  )
+                  .join(" • ")}
+              </h2>
             )}
             <FlexContainer
               allowWrap
@@ -245,12 +155,18 @@ const Headers: MovieTitleComponent = ({ dataResponse }) => {
               </button>
               <button
                 type="button"
-                id="share-movie"
+                aria-label={t("headers.topButtons.edit")}
+                title={t("headers.topButtons.edit")}
+              >
+                <MdEdit css={{ transform: "scale(1.25)" }} />
+              </button>
+              <button
+                type="button"
                 aria-label={t("headers.topButtons.share")}
                 title={t("headers.topButtons.share")}
-                onClick={openShareModal}
+                onClick={shareMovie}
               >
-                <IoMdShareAlt />
+                <IoMdShareAlt css={{ transform: "scale(1.5)" }} />
               </button>
             </FlexContainer>
             {localizedInformation.description && (
@@ -282,38 +198,40 @@ const Headers: MovieTitleComponent = ({ dataResponse }) => {
                 })}
               </ButtonsGroup>
             )}
-            <ButtonsGroup
-              minimal
-              genericMarginTop
-              className={styles["buttons-bottom"]}
-            >
-              <Button>
-                <MdMovie />
-                <span>
-                  <Trans t={t} i18nKey="headers.bottomButtons.watch" />
-                </span>
-              </Button>
-              {localizedInformation.trailer && (
-                <Button
-                  onClick={() => {
-                    const isMobileDevice: boolean = detectMobileDevice();
-
-                    if (isMobileDevice) {
-                      window.open(
-                        `https://www.youtube.com/watch?v=${localizedInformation.trailer}`
-                      );
-                    } else {
-                      setTrailerWindowOpen(!trailerWindowOpen);
-                    }
-                  }}
-                >
-                  <FaPlay />
-                  <span>
-                    <Trans t={t} i18nKey="headers.bottomButtons.trailer" />
-                  </span>
-                </Button>
-              )}
-            </ButtonsGroup>
+            {(dataResponse.data.watch || localizedInformation.trailer) && (
+              <ButtonsGroup
+                minimal
+                genericMarginTop
+                className={styles["buttons-bottom"]}
+              >
+                {dataResponse.data.watch && (
+                  <ButtonLink to={`/movies/title/${dataResponse.id}/watch`}>
+                    <MdMovie />
+                    <span>
+                      <Trans t={t} i18nKey="headers.bottomButtons.watch" />
+                    </span>
+                  </ButtonLink>
+                )}
+                {localizedInformation.trailer && (
+                  <Button
+                    onClick={() => {
+                      if (isMobileDevice) {
+                        window.open(
+                          `https://www.youtube.com/watch?v=${localizedInformation.trailer}`
+                        );
+                      } else {
+                        setTrailerWindowOpen(true);
+                      }
+                    }}
+                  >
+                    <FaPlay />
+                    <span>
+                      <Trans t={t} i18nKey="headers.bottomButtons.trailer" />
+                    </span>
+                  </Button>
+                )}
+              </ButtonsGroup>
+            )}
           </FlexContainer>
         </FlexContainer>
       </FlexContainer>

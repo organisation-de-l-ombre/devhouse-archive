@@ -9,13 +9,4 @@ interface ThemeState {
   contrastMode: boolean;
 }
 
-const THEME_UPDATED = "theme/themeUpdated";
-const THEME_CONTRAST_UPDATED = "theme/contrastUpdated";
-
-export {
-  Theme,
-  ThemePayload,
-  ThemeState,
-  THEME_UPDATED,
-  THEME_CONTRAST_UPDATED,
-};
+export { Theme, ThemePayload, ThemeState };

@@ -22,5 +22,5 @@ const port = process.env.PORT || 3200;
 export default express()
   .use((req, res) => app.handle(req, res))
   .listen(port, () => {
-    console.log(`> App started http://localhost:${port}`);
+    console.log(`🚀 App started http://localhost:${port}`);
   });

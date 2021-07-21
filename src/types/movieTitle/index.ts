@@ -1,5 +1,5 @@
 // Modules
-export * from "./modules/Headers";
+export * from "./modules/Watch";
 
 // Global
 export * from "./global/Summary";

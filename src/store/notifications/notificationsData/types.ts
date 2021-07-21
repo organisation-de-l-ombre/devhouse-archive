@@ -1,29 +1,30 @@
-import { ReactElement } from "react";
-import { IconType } from "react-icons";
+import {
+  NOTIFICATION_DELETE,
+  NOTIFICATIONS_DELETE_ALL,
+  NOTIFICATIONS_PUSH,
+} from "@store/actions";
 
-interface Button {
-  text: string;
-  icon?: ReactElement | IconType;
-  onClick: () => unknown;
+interface NotificationPayload {
+  id?: string;
+  type: "info" | "warning" | "error";
+  body: string;
+  time: number;
 }
+
 interface Notification {
   id: string;
   type: "info" | "warning" | "error";
   body: string;
-  buttons?: Button[];
   time: number;
 }
+
 interface NotificationsDataState {
   notifications: Notification[];
 }
 
-const NOTIFICATIONS_PUSH = "notifications/push";
-const NOTIFICATION_DELETE = "notifications/delete";
-const NOTIFICATIONS_DELETE_ALL = "notifications/deleteAll";
-
 interface NotificationPushPayload {
   type: typeof NOTIFICATIONS_PUSH;
-  payload: Notification[];
+  payload: NotificationPayload[];
 }
 interface NotificationDeletePayload {
   type: typeof NOTIFICATION_DELETE;
@@ -39,11 +40,8 @@ type NotificationsDataPayload =
   | NotificationDeleteAllPayload;
 
 export {
-  Button,
   Notification,
+  NotificationPayload,
   NotificationsDataState,
-  NOTIFICATIONS_PUSH,
-  NOTIFICATION_DELETE,
-  NOTIFICATIONS_DELETE_ALL,
   NotificationsDataPayload,
 };

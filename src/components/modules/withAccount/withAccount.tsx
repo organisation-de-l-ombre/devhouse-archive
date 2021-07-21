@@ -3,7 +3,6 @@ import useAccount from "@hooks/useAccount";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 import { useNotificationsManager } from "@hooks/useNotifications";
-import generateNotificationID from "@lib/generateNotificationID";
 
 function withAccount<Props>(Component: ComponentType<Props>) {
   return (props: Props): ReactElement => {
@@ -18,7 +17,6 @@ function withAccount<Props>(Component: ComponentType<Props>) {
 
         addNotifications([
           {
-            id: generateNotificationID(),
             type: "warning",
             body: t("notifications.accountRequired"),
             time: 5000,

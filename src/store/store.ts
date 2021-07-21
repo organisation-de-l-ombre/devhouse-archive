@@ -13,13 +13,13 @@ import {
   initMessageListener,
   initStateWithPrevTab,
 } from "redux-state-sync";
-import { NotificationsDataReducer } from "./notifications/notificationsData/reducer";
-import { LanguageReducer } from "./language/reducer";
-import { ThemeReducer } from "./theme/reducer";
-import { AccountReducer } from "./account/reducer";
 import { GlobalState } from "./types";
-import { NotificationsConfigReducer } from "./notifications/notificationsConfig/reducer";
-import { InternalReducer } from "./internal/reducer";
+import NotificationsDataReducer from "./notifications/notificationsData/reducer";
+import LanguageReducer from "./language/reducer";
+import ThemeReducer from "./theme/reducer";
+import AccountReducer from "./account/reducer";
+import NotificationsConfigReducer from "./notifications/notificationsConfig/reducer";
+import InternalReducer from "./internal/reducer";
 import MovieTitleReducer from "./movieTitle/reducer";
 
 const createStore = (

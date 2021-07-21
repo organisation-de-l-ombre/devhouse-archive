@@ -4,6 +4,7 @@ import loadable from "@loadable/component";
 import { MovieTitleSuccess } from "@store/movieTitle/types";
 import { SuspenseComponent } from "@components/modules";
 
+const WatchModule = loadable(() => import("../Watch/Watch"));
 const MovieSection = loadable(() => import("../../sections/Movie/Movie"));
 const CharactersSection = loadable(
   () => import("../../sections/Characters/Characters")
@@ -23,6 +24,12 @@ const Router: FC<{ dataResponse: MovieTitleSuccess }> = ({ dataResponse }) => {
 
   return (
     <Switch>
+      <Route path={`${baseURL}/watch`} exact>
+        <WatchModule
+          fallback={<SuspenseComponent minHeight />}
+          dataResponse={dataResponse}
+        />
+      </Route>
       <Route path={baseURL} exact>
         <MovieSection
           fallback={<SuspenseComponent minHeight />}

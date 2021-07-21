@@ -30,6 +30,7 @@
     "topButtons": {
       "grade": "Grade this movie",
       "favourites": "Add this movie to your favourites",
+      "edit": "Edit this movie",
       "share": "Share this movie"
     },
     "shareModal": {

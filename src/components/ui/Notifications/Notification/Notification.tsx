@@ -1,15 +1,10 @@
 import React from "react";
 import { FaWindowClose } from "react-icons/fa";
 import { useNotificationsManager } from "@hooks/useNotifications";
-import {
-  Notification,
-  Button as ButtonType,
-} from "@store/notifications/notificationsData/types";
+import { Notification } from "@store/notifications/notificationsData/types";
 import { css } from "@emotion/react";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import FlexContainer from "../../FlexContainer/FlexContainer";
-import { Button } from "../../Button/Button";
-import ButtonsGroup from "../../ButtonsGroup/ButtonsGroup";
 
 const NotificationComponent: FunctionComponent<
   HTMLDivElement,
@@ -69,23 +64,7 @@ const NotificationComponent: FunctionComponent<
         }
       `}
     >
-      {notification.buttons?.length ? (
-        <FlexContainer column css={{ marginRight: "1rem" }}>
-          <p>{notification.body}</p>
-          <ButtonsGroup genericMarginTop>
-            {notification.buttons.map((b: ButtonType): React.ReactElement => {
-              return (
-                <Button key={b.text} onClick={() => b.onClick()}>
-                  {b.icon ? b.icon : <></>}
-                  <span>{b.text}</span>
-                </Button>
-              );
-            })}
-          </ButtonsGroup>
-        </FlexContainer>
-      ) : (
-        <p css={{ marginRight: "1rem" }}>{notification.body}</p>
-      )}
+      <p css={{ marginRight: "1rem" }}>{notification.body}</p>
       <FaWindowClose
         css={css`
           margin-left: 1rem;

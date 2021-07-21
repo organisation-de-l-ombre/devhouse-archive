@@ -22,12 +22,9 @@ import {
   useNotificationsManager,
   useNotificationsState,
 } from "@hooks/useNotifications";
-import generateNotificationID from "@lib/generateNotificationID";
 import { QueryClient, QueryClientProvider } from "react-query";
-import useReducedMotion from "@hooks/useReducedMotion";
-import { Globals } from "react-spring";
 import i18n, { Resource } from "i18next";
-import { supportedLanguages } from "@store/language/types";
+import { supportedLanguages } from "@lib/utils";
 import HTTPBackend from "i18next-http-backend";
 import useTheme from "@hooks/useTheme";
 import BodyContext from "@contexts/body";
@@ -140,7 +137,6 @@ loadableReady((): void => {
         if (pageLoaded) {
           addNotifications([
             {
-              id: generateNotificationID(),
               type: "info",
               body: t("languageChanged"),
               time: 5000,
@@ -191,13 +187,6 @@ loadableReady((): void => {
       key: "imr-frontend",
     });
     const queryClient: QueryClient = new QueryClient();
-    const prefersReducedMotion = useReducedMotion();
-
-    useEffect(() => {
-      Globals.assign({
-        skipAnimation: prefersReducedMotion,
-      });
-    }, [prefersReducedMotion]);
 
     return (
       <Provider store={store}>

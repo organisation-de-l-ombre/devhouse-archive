@@ -4,7 +4,6 @@ import { Trans, useTranslation } from "react-i18next";
 import { FaBell, FaBellSlash, FaMoon, FaSun, FaUser } from "react-icons/fa";
 import { MdSearch } from "react-icons/md";
 import useAccount from "@hooks/useAccount";
-import generateNotificationID from "@lib/generateNotificationID";
 import useTheme from "@hooks/useTheme";
 import {
   useNotificationsManager,
@@ -205,7 +204,6 @@ const DrawerEnd: FunctionComponent<
     manageNavbar();
     addNotifications([
       {
-        id: generateNotificationID(),
         type: "info",
         body: t(
           `notifications.themeChanged.${theme === "light" ? "dark" : "light"}`

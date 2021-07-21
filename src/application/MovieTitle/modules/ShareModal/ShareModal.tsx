@@ -4,7 +4,6 @@ import { ServerContext, ServerContextProps } from "@contexts/server";
 import { css } from "@emotion/react";
 import useLanguage from "@hooks/useLanguage";
 import { useNotificationsManager } from "@hooks/useNotifications";
-import generateNotificationID from "@lib/generateNotificationID";
 import { formatURL } from "@lib/utils";
 import { MovieTitleSections, MovieTitleSuccess } from "@store/movieTitle/types";
 import { FunctionComponent } from "@typings/FunctionComponent";
@@ -32,12 +31,10 @@ interface ShareModalState {
   section: keyof MovieTitleSections;
 }
 
-interface ItemOptions {
+interface OptionsProps {
   label: string;
   value: string;
 }
-
-const options: ItemOptions[] = [];
 
 const ShareModal: FunctionComponent<HTMLDivElement, ShareModalProps> = ({
   open,
@@ -49,6 +46,14 @@ const ShareModal: FunctionComponent<HTMLDivElement, ShareModalProps> = ({
     focus: undefined,
     section: "movie",
   });
+  const [optionsState] = useState<(keyof typeof dataResponse.data)[]>(
+    (
+      Object.keys(dataResponse.data) as (keyof typeof dataResponse.data)[]
+    ).filter(
+      (item: keyof typeof dataResponse.data): boolean =>
+        item !== "watch" && dataResponse.data[item] !== undefined
+    )
+  );
   const changeFocus = useCallback((focus: Focus): void => {
     setShareModalState((previousState: ShareModalState): ShareModalState => {
       return { ...previousState, focus };
@@ -82,7 +87,6 @@ const ShareModal: FunctionComponent<HTMLDivElement, ShareModalProps> = ({
     setOpen(false);
     addNotifications([
       {
-        id: generateNotificationID(),
         type: "info",
         body: t("headers.shareModal.urlCopied"),
         time: 5000,
@@ -91,22 +95,13 @@ const ShareModal: FunctionComponent<HTMLDivElement, ShareModalProps> = ({
   }, [addNotifications, setOpen, t, url]);
 
   useEffect((): void => {
-    for (const option of Object.keys(dataResponse.data).slice(1)) {
-      options.push({ label: t(`tabBar.${option}.acronym`), value: option });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect((): void => {
     if (
       shareModalState.focus !== undefined &&
       shareModalState.section !== "movie"
     ) {
-      setShareModalState((previousState: ShareModalState): ShareModalState => {
-        return { ...previousState, section: "movie" };
-      });
+      changeSection("movie");
     }
-  }, [shareModalState.focus, shareModalState.section]);
+  }, [changeSection, shareModalState.focus, shareModalState.section]);
 
   return (
     <Modal
@@ -210,7 +205,12 @@ const ShareModal: FunctionComponent<HTMLDivElement, ShareModalProps> = ({
           <Trans t={t} i18nKey="headers.shareModal.selectSection" />
         </h1>
         <Select
-          options={options}
+          options={optionsState.map(
+            (item: string): OptionsProps => ({
+              label: t(`tabBar.${item}.acronym`),
+              value: item,
+            })
+          )}
           defaultValue={{ label: t(`tabBar.movie.acronym`), value: "movie" }}
           value={{
             label: t(`tabBar.${shareModalState.section}.acronym`),
