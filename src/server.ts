@@ -42,7 +42,7 @@ declare module "fastify" {
 }
 
 const scarlet =
-  "http://developers-house-dev-login-group-scarlet.scarlet-22198115-production";
+  "http://production.scarlet-22198115-production";
 
 export default class Server {
   private readonly server: FastifyInstance = Fastify();
