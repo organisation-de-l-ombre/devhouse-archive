@@ -73,11 +73,9 @@ review:
     # Creates the docker pull secret for the images to be pulled with.
     # See source https://gitlab.com/developers-house/auto-deploy-image/-/blob/master/src/bin/auto-deploy#L112
     - auto-deploy create_secret
-    # Remove this environment variable to bypass this check https://gitlab.com/developers-house/auto-deploy-image/-/blob/master/src/bin/auto-deploy#L366
-    - unset ROLLOUT_STATUS_DISABLED
     # Deploys the helm chart to the cluster using helm
     # See source https://gitlab.com/developers-house/auto-deploy-image/-/blob/master/src/bin/auto-deploy#L182
-    - auto-deploy deploy
+    - ROLLOUT_STATUS_DISABLED=true auto-deploy deploy
     # Writes the environment url to a file
     - echo $CI_ENVIRONMENT_URL > environment_url.txt
 
@@ -141,11 +139,9 @@ staging:
     # Creates the docker pull secret for the images to be pulled with.
     # See source https://gitlab.com/developers-house/auto-deploy-image/-/blob/master/src/bin/auto-deploy#L112
     - auto-deploy create_secret
-    # Remove this environment variable to bypass this check https://gitlab.com/developers-house/auto-deploy-image/-/blob/master/src/bin/auto-deploy#L366
-    - unset ROLLOUT_STATUS_DISABLED
     # Deploys the helm chart to the cluster using helm
     # See source https://gitlab.com/developers-house/auto-deploy-image/-/blob/master/src/bin/auto-deploy#L182
-    - auto-deploy deploy
+    - ROLLOUT_STATUS_DISABLED=true auto-deploy deploy
     # Writes the environment url to a file
     - echo $CI_ENVIRONMENT_URL > environment_url.txt
 
@@ -174,11 +170,9 @@ production:
     # Creates the docker pull secret for the images to be pulled with.
     # See source https://gitlab.com/developers-house/auto-deploy-image/-/blob/master/src/bin/auto-deploy#L112
     - auto-deploy create_secret
-    # Remove this environment variable to bypass this check https://gitlab.com/developers-house/auto-deploy-image/-/blob/master/src/bin/auto-deploy#L366
-    - unset ROLLOUT_STATUS_DISABLED
     # Deploys the helm chart to the cluster using helm
     # See source https://gitlab.com/developers-house/auto-deploy-image/-/blob/master/src/bin/auto-deploy#L182
-    - auto-deploy deploy
+    - ROLLOUT_STATUS_DISABLED=true auto-deploy deploy
     # Writes the environment url to a file
     - echo $CI_ENVIRONMENT_URL > environment_url.txt
 
