@@ -25,7 +25,7 @@ test:
     - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
     - npm config set -- '//gitlab.com/api/v4/packages/npm/:_authToken' "${CI_JOB_TOKEN}"
     - yarn install
-    - yarn build
+    - CI=false yarn build
 
   cache:
     key: node-modules
