@@ -57,7 +57,7 @@ const getMovieData: RouteOptions = {
 
     const files: ListObjectsCommandOutput = await request
       .internalS3Client()
-      .listObjects({
+      .listObjectsV2({
         Bucket: process.env.BUCKET_NAME,
         Prefix: `${process.env.S3_PRIVATE}/movies/title/${movieId}/${language}`
       });
