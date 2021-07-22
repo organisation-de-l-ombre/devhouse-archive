@@ -55,7 +55,7 @@ service:
 # is already handled for you.
 # https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
-  enabled: false
+  enabled: true
   path: "/"
   annotations: {}
 
