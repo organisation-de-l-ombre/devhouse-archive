@@ -31,10 +31,8 @@ interface RouteFile {
   default: RouteOptions;
 }
 
-export const internalS3ClientEndpoint: string =
-  process.env.NODE_ENV === "development"
-    ? "http://vmi379623.contaboserver.net:6860"
-    : `http://${process.env.BUCKET_HOST}.cluster.local:${process.env.BUCKET_PORT}`;
+export const internalS3ClientEndpoint =
+  "http://vmi379623.contaboserver.net:6860";
 
 new (class Amelia {
   FastifyClient: FastifyInstance = Fastify({
