@@ -86,8 +86,8 @@ new (class Amelia {
         migrations: ["dist/src/migration/**/*.js"],
         synchronize: true,
         ssl: {
-          rejectUnauthorized: false,
-        },
+          rejectUnauthorized: false
+        }
       });
 
       console.info("Connected to the Postgres database.");
