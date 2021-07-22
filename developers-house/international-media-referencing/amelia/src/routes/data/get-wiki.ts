@@ -27,9 +27,7 @@ export default {
     const path = requestPath.replace(/_/gi, "/");
 
     let baseResponse = await fetch(
-      `${internalS3ClientEndpoint}/${process.env.S3_BUCKET || ""}/${
-        process.env.S3_PUBLIC || ""
-      }/wiki/${type}/${language}/${path}.md`
+      `${internalS3ClientEndpoint}/${process.env.BUCKET_NAME}/${process.env.S3_PUBLIC}/wiki/${type}/${language}/${path}.md`
     );
 
     if (language === "en" && baseResponse.status === 404) {
@@ -42,9 +40,7 @@ export default {
     }
     if (language !== "en" && baseResponse.status === 404) {
       baseResponse = await fetch(
-        `${internalS3ClientEndpoint}/${process.env.S3_BUCKET || ""}/${
-          process.env.S3_PUBLIC || ""
-        }/wiki/${type}/en/${path}.md`
+        `${internalS3ClientEndpoint}/${process.env.BUCKET_NAME}/${process.env.S3_PUBLIC}/wiki/${type}/en/${path}.md`
       );
 
       if (baseResponse.status === 404) {

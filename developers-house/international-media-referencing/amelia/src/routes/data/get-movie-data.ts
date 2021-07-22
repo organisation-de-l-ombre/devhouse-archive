@@ -1,6 +1,5 @@
 import { FastifyReply, FastifyRequest, RouteOptions } from "fastify";
-import { GetObjectCommand, ListObjectsCommandOutput } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { ListObjectsCommandOutput } from "@aws-sdk/client-s3";
 import { MovieTitle } from "@entities/movie-title";
 import { LocalizedMovie } from "@entities/localized-movie";
 import { Tag } from "@entities/tag";
@@ -59,10 +58,8 @@ const getMovieData: RouteOptions = {
     const files: ListObjectsCommandOutput = await request
       .internalS3Client()
       .listObjects({
-        Bucket: process.env.S3_BUCKET_NAME || "",
-        Prefix: `${
-          process.env.S3_PRIVATE || ""
-        }/movies/title/${movieId}/${language}`
+        Bucket: process.env.BUCKET_NAME,
+        Prefix: `${process.env.S3_PRIVATE}/movies/title/${movieId}/${language}`
       });
 
     if (!files.Contents || (files.Contents && files.Contents.length === 0)) {
@@ -101,8 +98,8 @@ const getMovieData: RouteOptions = {
     };
 
     for (const section of sections) {
-      const command: GetObjectCommand = new GetObjectCommand({
-        Bucket: process.env.S3_BUCKET_NAME || "",
+      /* const command: GetObjectCommand = new GetObjectCommand({
+        Bucket: process.env.BUCKET_NAME || "",
         Key: `${
           process.env.S3_PRIVATE || ""
         }/movies/title/${movieId}/${language}/${
@@ -111,7 +108,12 @@ const getMovieData: RouteOptions = {
       });
       const dataURL = await getSignedUrl(request.externalS3Client(), command, {
         expiresIn: 1800
-      });
+      }); */
+      const dataURL = `http://vmi379623.contaboserver.net:6860/${
+        process.env.BUCKET_NAME
+      }/${process.env.S3_PRIVATE}/movies/title/${movieId}/${language}/${
+        indexes[section as keyof typeof indexes]
+      }_${section}.json`;
 
       Object.assign(movieData, { [section]: dataURL });
     }
