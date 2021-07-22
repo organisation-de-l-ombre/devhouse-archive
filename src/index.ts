@@ -31,12 +31,10 @@ interface RouteFile {
   default: RouteOptions;
 }
 
-process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
-
 export const internalS3ClientEndpoint: string =
   process.env.NODE_ENV === "development"
-    ? "https://cdn.developershouse.xyz"
-    : "https://minio.minio";
+    ? "http://vmi379623.contaboserver.net:6860"
+    : `http://${process.env.BUCKET_HOST}.cluster.local:${process.env.BUCKET_PORT}`;
 
 new (class Amelia {
   FastifyClient: FastifyInstance = Fastify({
@@ -45,19 +43,19 @@ new (class Amelia {
   databaseConnection!: Connection;
   internalS3Client: S3 = new S3({
     endpoint: internalS3ClientEndpoint,
-    region: "eu",
+    region: "us-west-1",
     credentials: {
-      accessKeyId: process.env.S3_ACCESS_KEY || "",
-      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || ""
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
     },
     forcePathStyle: true
   });
   externalS3Client: S3 = new S3({
-    endpoint: "https://cdn.developershouse.xyz",
-    region: "eu",
+    endpoint: "http://vmi379623.contaboserver.net:6860",
+    region: "us-west-1",
     credentials: {
-      accessKeyId: process.env.S3_ACCESS_KEY || "",
-      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || ""
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
     },
     forcePathStyle: true
   });
@@ -79,11 +77,11 @@ new (class Amelia {
     try {
       this.databaseConnection = await createConnection({
         type: "postgres",
-        host: process.env.POSTGRES_HOST || "",
-        port: Number.parseInt(process.env.POSTGRES_PORT || ""),
-        database: process.env.POSTGRES_DATABASE || "",
-        username: process.env.POSTGRES_USERNAME || "",
-        password: process.env.POSTGRES_PASSWORD || "",
+        host: process.env.POSTGRES_HOST,
+        port: Number.parseInt(process.env.POSTGRES_PORT),
+        database: process.env.POSTGRES_DATABASE,
+        username: process.env.POSTGRES_USERNAME,
+        password: process.env.POSTGRES_PASSWORD,
         entities: ["dist/src/entity/**/*.js"],
         migrations: ["dist/src/migration/**/*.js"],
         synchronize: true
@@ -154,7 +152,7 @@ new (class Amelia {
 
   private listen(): void {
     this.FastifyClient.listen(
-      process.env.PORT || 9000,
+      9000,
       "0.0.0.0",
       (error: Error, address: string): void => {
         if (error) {

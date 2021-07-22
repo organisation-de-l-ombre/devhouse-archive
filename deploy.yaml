@@ -123,18 +123,16 @@ podAnnotations: {}
 
 oauthClient:
   enabled: false
-  name: Test HELM
+  name: Amelia
   grantType:
     - authorization_code
     # - implicit
   responseTypes:
     - code
     # - token
-  scope: "account.* websocket.*"
+  scope: "amelia.*"
   audiences:
-    - abdera
     - imr
-    - kuizz
   tokenEndpointAuthMethod: none
 
 storageBucket:
