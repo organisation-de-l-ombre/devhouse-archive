@@ -55,7 +55,7 @@ service:
 # is already handled for you.
 # https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
-  enabled: true
+  enabled: false
   path: "/"
   annotations: {}
 
@@ -83,7 +83,7 @@ health:
     command: []
 
 # Defines the schedule requirements and priority for
-# scheduling the pods in the cluster. You can
+# scheduling the pods in the cluster. You can 
 # put maxUnavailable OR minAvailable.
 podDisruption:
   enabled: true
@@ -94,17 +94,17 @@ podDisruption:
 # https://kubernetes.io/docs/concepts/services-networking/network-policies/
 # You should preferably only allow acces of the services you need.
 networkPolicy:
-  enabled: true
+  enabled: false
   spec:
     podSelector:
       matchLabels: {}
     ingress:
-      - from:
-          - podSelector:
-              matchLabels: {}
-          - namespaceSelector:
-              matchLabels:
-                role: ingress
+    - from:
+      - podSelector:
+          matchLabels: {}
+      - namespaceSelector:
+          matchLabels:
+            app.gitlab.com/managed_by: gitlab
 
 # The service account of the contaier.
 # Allow access to the kubernetes apis here.
@@ -132,7 +132,7 @@ oauthClient:
     # - token
   scope: "amelia.*"
   audiences:
-    - imr
+   - imr
   tokenEndpointAuthMethod: none
 
 storageBucket:
