@@ -82,7 +82,10 @@ new (class Amelia {
         password: process.env.POSTGRES_PASSWORD,
         entities: ["dist/src/entity/**/*.js"],
         migrations: ["dist/src/migration/**/*.js"],
-        synchronize: true
+        synchronize: true,
+        ssl: {
+          rejectUnauthorized: false
+        }
       });
 
       console.info("Connected to the Postgres database.");
