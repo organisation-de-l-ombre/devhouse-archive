@@ -49,7 +49,7 @@ new (class Amelia {
     forcePathStyle: true
   });
   externalS3Client: S3 = new S3({
-    endpoint: "http://vmi379623.contaboserver.net:6860",
+    endpoint: "https://cdn.developershouse.xyz",
     region: "us-west-1",
     credentials: {
       accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -82,10 +82,7 @@ new (class Amelia {
         password: process.env.POSTGRES_PASSWORD,
         entities: ["dist/src/entity/**/*.js"],
         migrations: ["dist/src/migration/**/*.js"],
-        synchronize: true,
-        ssl: {
-          rejectUnauthorized: false
-        }
+        synchronize: true
       });
 
       console.info("Connected to the Postgres database.");
