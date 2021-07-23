@@ -1,5 +1,5 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
-// https://github.com/microsoft/vscode-dev-containers/tree/v0.177.0/containers/typescript-node
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.187.0/containers/typescript-node
 {
 	"name": "Node.js & TypeScript",
 	"build": {
@@ -11,9 +11,8 @@
 	},
 
 	// Set *default* container specific settings.json values on container create.
-	"settings": { 
-		"terminal.integrated.shell.linux": "/bin/bash"
-	},
+	"settings": {},
+
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [

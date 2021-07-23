@@ -20,7 +20,7 @@ const Home: FunctionComponent<HTMLDivElement> = () => {
       >
         <div
           css={{
-            backgroundImage: `url("https://s3.developershouse.xyz/international-media-referencing/amelia-data-public/website-data/pictures/pages/home/home-headers-background.jpg")`,
+            backgroundImage: `url("https://cdn.developershouse.xyz/international-media-referencing/amelia-data-public/website-assets/backgrounds/home.webp")`,
           }}
           className={styles["headers-background"]}
         />

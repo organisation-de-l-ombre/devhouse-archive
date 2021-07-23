@@ -5,7 +5,6 @@ import { FlexContainer } from "@components/ui";
 import loadable from "@loadable/component";
 import { fetchImage } from "@lib/utils";
 import { calculatePosterDimensions } from "@lib/movieTitle";
-import { css } from "@emotion/react";
 import Background from "../Background/Background";
 import HandleData from "../HandleData/HandleData";
 import styles from "../../Headers.module.scss";

@@ -13,10 +13,12 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { IoMdShareAlt } from "react-icons/io";
+import QRCode from "qrcode";
 
 interface ShareModalProps {
   open: boolean;
@@ -27,6 +29,7 @@ interface ShareModalProps {
 type Focus = undefined | "trailer" | "watch";
 
 interface ShareModalState {
+  qrCodeSharing: boolean;
   focus: Focus;
   section: keyof MovieTitleSections;
 }
@@ -43,6 +46,7 @@ const ShareModal: FunctionComponent<HTMLDivElement, ShareModalProps> = ({
 }) => {
   const { t } = useTranslation("pages\\movieTitle\\movieTitle");
   const [shareModalState, setShareModalState] = useState<ShareModalState>({
+    qrCodeSharing: false,
     focus: undefined,
     section: "movie",
   });
@@ -54,6 +58,11 @@ const ShareModal: FunctionComponent<HTMLDivElement, ShareModalProps> = ({
         item !== "watch" && dataResponse.data[item] !== undefined
     )
   );
+  const toggleQrCodeSharing = useCallback((): void => {
+    setShareModalState((previousState: ShareModalState): ShareModalState => {
+      return { ...previousState, qrCodeSharing: !previousState.qrCodeSharing };
+    });
+  }, []);
   const changeFocus = useCallback((focus: Focus): void => {
     setShareModalState((previousState: ShareModalState): ShareModalState => {
       return { ...previousState, focus };
@@ -69,18 +78,22 @@ const ShareModal: FunctionComponent<HTMLDivElement, ShareModalProps> = ({
   );
   const serverContext: ServerContextProps = useContext(ServerContext);
   const { language } = useLanguage();
-  const url: string = formatURL(
-    serverContext,
-    `/movies/title/${dataResponse.id}/${
-      shareModalState.focus === undefined && shareModalState.section !== "movie"
-        ? shareModalState.section
-        : ""
-    }?language=${language}${
-      shareModalState.focus !== undefined
-        ? `&focus=${shareModalState.focus}`
-        : ""
-    }`
-  );
+  const url: string = useMemo((): string => {
+    return formatURL(
+      serverContext,
+      `/movies/title/${dataResponse.id}/${
+        shareModalState.focus === undefined &&
+        shareModalState.section !== "movie"
+          ? shareModalState.section
+          : ""
+      }?language=${language}${
+        shareModalState.focus !== undefined
+          ? `&focus=${shareModalState.focus}`
+          : ""
+      }`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shareModalState.focus, shareModalState.section]);
   const { addNotifications } = useNotificationsManager();
   const copyToClipboard = useCallback((): void => {
     navigator.clipboard.writeText(url);
@@ -95,13 +108,10 @@ const ShareModal: FunctionComponent<HTMLDivElement, ShareModalProps> = ({
   }, [addNotifications, setOpen, t, url]);
 
   useEffect((): void => {
-    if (
-      shareModalState.focus !== undefined &&
-      shareModalState.section !== "movie"
-    ) {
-      changeSection("movie");
+    if (shareModalState.qrCodeSharing) {
+      QRCode.toCanvas(document.getElementById("qr-code-sharing-canvas"), url);
     }
-  }, [changeSection, shareModalState.focus, shareModalState.section]);
+  }, [shareModalState.qrCodeSharing, url]);
 
   return (
     <Modal
@@ -161,6 +171,18 @@ const ShareModal: FunctionComponent<HTMLDivElement, ShareModalProps> = ({
           values={{ title: dataResponse.localizedInformation.title }}
         />
       </p>
+      <form>
+        <input
+          type="checkbox"
+          id="qr-code-sharing"
+          name="qr-code-sharing"
+          checked={shareModalState.qrCodeSharing}
+          onChange={toggleQrCodeSharing}
+        />
+        <label htmlFor="qr-code-sharing">
+          <Trans t={t} i18nKey="headers.shareModal.qrCodeSharing.label" />
+        </label>
+      </form>
       <form>
         <input
           type="checkbox"
@@ -230,6 +252,14 @@ const ShareModal: FunctionComponent<HTMLDivElement, ShareModalProps> = ({
           {url}
         </a>
       </FlexContainer>
+      {shareModalState.qrCodeSharing && (
+        <FlexContainer column>
+          <h1>
+            <Trans t={t} i18nKey="headers.shareModal.qrCodeSharing.title" />
+          </h1>
+          <canvas id="qr-code-sharing-canvas" />
+        </FlexContainer>
+      )}
       <Button
         css={{
           marginTop: "2rem",
