@@ -31,7 +31,7 @@ interface RouteFile {
   default: RouteOptions;
 }
 
-export const internalS3ClientEndpoint = "http://cdn.developershouse.xyz";
+export const internalS3ClientEndpoint = "http://cdn.developershouse.xyz:6860";
 
 new (class Amelia {
   FastifyClient: FastifyInstance = Fastify({
