@@ -1,5 +1,5 @@
-import React, { FC } from "react";
-import { RouteComponentProps, useLocation } from "react-router";
+import React, { FC, useEffect } from "react";
+import { RouteComponentProps, useHistory, useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
 import { FlexContainer } from "@components/ui";
 import {
@@ -31,7 +31,20 @@ const MovieRoot: FC<RouteComponentProps> = ({ match }) => {
   const { t: tMedia } = useTranslation("media\\media");
   const { movieId } = match.params as unknown as MovieTitleParams;
   const movieTitle = useMovieTitleRoot(movieId);
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
+  const queryParams = new URLSearchParams(search);
+  const history = useHistory();
+
+  useEffect((): void => {
+    if (
+      movieTitle &&
+      movieTitle.rootStatus === "success" &&
+      queryParams.get("focus") === "watch"
+    ) {
+      history.push(`/movies/title/${movieTitle.id}/watch`);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [movieTitle]);
 
   if (!movieTitle) {
     return null;

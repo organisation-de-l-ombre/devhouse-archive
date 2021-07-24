@@ -1,87 +1,24 @@
-.animation-opacity {
-  animation: animate-opacity 0.5s;
-
-  @keyframes animate-opacity {
-    from {
-      opacity: 0;
-    }
-
-    to {
-      opacity: 1;
-    }
+.desktop {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
   }
-}
-
-.min-height {
-  min-height: 30rem;
-}
-
-.no-margin {
-  margin: 0 !important;
-}
-
-.primary-padding {
-  padding: 1rem;
-}
-
-.secondary-padding {
-  padding: 2rem;
-}
-
-.primary-margin {
-  margin: 1rem;
-}
-
-.generic-margin-top {
-  margin-top: 1rem;
-}
-
-.secondary-margin {
-  margin: 2rem;
-}
-
-.rotate-infinite-animation {
-  animation: animate-rotate-infinite 1s infinite;
-
-  @keyframes animate-rotate-infinite {
-    from {
-      transform: rotate(0);
-    }
-
-    to {
-      transform: rotate(360deg);
-    }
+  
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
   }
-}
-
-.opacity-display-animation {
-  animation: animate-opacity-display 0.5s;
-
-  @keyframes animate-opacity-display {
-    from {
-      opacity: 0;
-    }
-
-    to {
-      opacity: 1;
-    }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--font-color-hover);
   }
-}
-
-.rounded-picture {
-  border-radius: 50%;
-}
-
-.border-radius {
-  border-radius: 5px;
 }
 
 .overflow-hidden {
   overflow: hidden;
 }
 
-.text-align-center {
-  text-align: center;
+.position-relative {
+  position: relative;
 }
 
 .page-body-width {
@@ -93,12 +30,4 @@
   @media screen and (max-width: 700px) {
     max-width: unset;
   }
-}
-
-.position-relative {
-  position: relative;
-}
-
-.box-shadow {
-  box-shadow: 0 0 0.3rem black;
 }

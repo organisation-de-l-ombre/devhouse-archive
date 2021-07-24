@@ -4,7 +4,7 @@ import { MdMovie, MdEdit } from "react-icons/md";
 import { BsStarFill } from "react-icons/bs";
 import { ImHeart } from "react-icons/im";
 import { IoMdShareAlt } from "react-icons/io";
-import { calculateDuration, detectMobileDevice, fetchImage } from "@lib/utils";
+import { calculateDuration, detectMobileDevice } from "@lib/utils";
 import useLanguage from "@hooks/useLanguage";
 import {
   FlexContainer,
@@ -16,7 +16,6 @@ import { Trans, useTranslation } from "react-i18next";
 import loadable from "@loadable/component";
 import { useLocation } from "react-router";
 import { MovieTitleComponent } from "@typings/movieTitle";
-import { calculatePosterDimensions } from "@lib/movieTitle";
 import styles from "../../Headers.module.scss";
 import containerStyle from "../../Containers.module.scss";
 import Background from "../Background/Background";
@@ -25,9 +24,7 @@ const YouTubePlayer = loadable(
   () => import("@components/ui/YouTubePlayer/YouTubePlayer")
 );
 const ShareModal = loadable(() => import("../ShareModal/ShareModal"));
-const ImageComponent = loadable(
-  () => import("@components/modules/Image/Image")
-);
+const Poster = loadable(() => import("../Poster/Poster"));
 
 const Headers: MovieTitleComponent = ({ dataResponse }) => {
   const { localizedInformation } = dataResponse;
@@ -39,7 +36,6 @@ const Headers: MovieTitleComponent = ({ dataResponse }) => {
   );
   const { t } = useTranslation("pages\\movieTitle\\movieTitle");
   const { t: tMedia } = useTranslation("media\\media");
-  const { width, height } = calculatePosterDimensions();
   const [mainInformation, setMainInformation] = useState<string[]>([]);
   const isMobileDevice = detectMobileDevice();
   const [shareModalOpen, setShareModalOpen] = useState<boolean>(false);
@@ -90,30 +86,10 @@ const Headers: MovieTitleComponent = ({ dataResponse }) => {
         />
       )}
       <FlexContainer horizontallyCentered className={styles["headers-root"]}>
-        <Background dataResponse={dataResponse} />
+        <Background dataResponse={dataResponse} usage="headers" />
         <FlexContainer pageBodyWidth allowWrap className={styles.headers}>
           {localizedInformation.poster && (
-            <ImageComponent
-              withBackground
-              withBorderRadius
-              withBoxShadow
-              placeholder={fetchImage({
-                image: localizedInformation.poster,
-                width: Math.ceil(width / 5),
-                height: Math.ceil(height / 5),
-                format: "webp",
-              })}
-              image={fetchImage({
-                image: localizedInformation.poster,
-                width,
-                height,
-                format: "webp",
-              })}
-              alt={localizedInformation.title}
-              width={width}
-              height={height}
-              className={styles["movie-poster"]}
-            />
+            <Poster dataResponse={dataResponse} />
           )}
           <FlexContainer column className={styles["headers-content"]}>
             <h1>{`${localizedInformation.title} (${dataResponse.title})`}</h1>

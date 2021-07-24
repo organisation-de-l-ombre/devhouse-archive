@@ -1,5 +1,7 @@
 // Serves movie background in function of device resolution
-const calculateBackgroundSize = (): "normal" | "large" | "small" => {
+type BackgroundSize = "normal" | "large" | "small";
+
+const calculateBackgroundSize = (): BackgroundSize => {
   if (typeof window === "undefined") {
     return "normal";
   }
@@ -47,4 +49,9 @@ const calculatePosterDimensions = (): PosterDimensions => {
   };
 };
 
-export { calculateBackgroundSize, calculatePosterDimensions };
+export {
+  BackgroundSize,
+  calculateBackgroundSize,
+  PosterDimensions,
+  calculatePosterDimensions,
+};

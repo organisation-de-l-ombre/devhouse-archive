@@ -36,6 +36,7 @@
     "shareModal": {
       "title": "Share {{title}}",
       "description": "Want to share {{title}} with your friends? You are at the right place! To easy your quest, you have the possibility to directly share this movie by playing trailer automatically, or by displaying the different streaming ways to watch it. You also can share a specific section of this movie.",
+      "qrCodeSharing": "Share with QR Code",
       "focusOnTrailer": "Play automatically trailer",
       "focusOnWatch": "Display streaming services which have this movie",
       "selectSection": "Select a specific section",
@@ -47,6 +48,13 @@
       "watch": "Watch",
       "trailer": "Trailer"
     }
+  },
+  "watch": {
+    "description": "Want to watch, rent or purchase {{title}}? Here are the different plaforms which allow you to do this! But watch out, we just reference the different viewing ways, we don't provide any subscription or any way to view this movie.",
+    "streaming": "Streaming service",
+    "streaming_plural": "Streaming services",
+    "vod": "VOD service",
+    "vod_plural": "VOD services"
   },
   "ost": {
     "duration": "Duration: {{duration}}",

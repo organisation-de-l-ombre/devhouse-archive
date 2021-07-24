@@ -23,8 +23,8 @@ const detectMobileDevice = (): boolean => {
 // Fetches images with Developer's House image proxy
 interface FetchImageProps {
   image: string;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
   format?: "jpg" | "jpeg" | "png" | "webp" | "gif";
 }
 
@@ -34,9 +34,19 @@ const fetchImage = ({
   height,
   format,
 }: FetchImageProps): string => {
+  const params = new URLSearchParams();
+
+  if (width) {
+    params.append("width", width.toString());
+  }
+
+  if (height) {
+    params.append("height", height.toString());
+  }
+
   return `https://imageproxy.developershouse.xyz/${`${image}${
     format ? `.${format}` : ""
-  }`}?width=${width}&height=${height}`;
+  }`}?${params.toString()}`;
 };
 
 // Gets IMR instance client id

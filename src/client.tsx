@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useMemo, useState } from "react";
 import { register } from "@lib/serviceWorker";
 import Application from "@application/Application";
 import { decode as cborDecode, encode as cborEncode } from "cbor-js";
@@ -24,7 +24,7 @@ import {
 } from "@hooks/useNotifications";
 import { QueryClient, QueryClientProvider } from "react-query";
 import i18n, { Resource } from "i18next";
-import { supportedLanguages } from "@lib/utils";
+import { detectMobileDevice, supportedLanguages } from "@lib/utils";
 import HTTPBackend from "i18next-http-backend";
 import useTheme from "@hooks/useTheme";
 import BodyContext from "@contexts/body";
@@ -114,6 +114,10 @@ loadableReady((): void => {
     const { language } = useLanguage();
     const [scroll, setScroll] = useState<boolean>(true);
     const { theme, contrastMode, switchTheme } = useTheme();
+    const isMobileDevice: boolean = useMemo(
+      (): boolean => detectMobileDevice(),
+      []
+    );
 
     useEffect((): void => {
       if (window.THEME_DETECTION) {
@@ -154,6 +158,7 @@ loadableReady((): void => {
             className={classnames(
               themes[`${theme}${contrastMode ? "-contrast" : ""}`],
               {
+                [globalStyles.desktop]: !isMobileDevice,
                 [globalStyles["overflow-hidden"]]: !scroll,
               }
             )}

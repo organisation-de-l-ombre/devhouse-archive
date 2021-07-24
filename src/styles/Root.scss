@@ -13,19 +13,6 @@
   }
 }
 
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background-color: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: rgb(230, 85, 85);
-}
-
 body {
   background-color: var(--secondary-background-color);
   overflow-x: hidden;

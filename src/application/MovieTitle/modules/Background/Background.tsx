@@ -1,19 +1,43 @@
+import React, { useMemo, useState } from "react";
 import { css } from "@emotion/react";
-import { calculateBackgroundSize } from "@lib/movieTitle";
-import { MovieTitleComponent } from "@typings/movieTitle";
-import React, { useState } from "react";
+import { BackgroundSize, calculateBackgroundSize } from "@lib/movieTitle";
+import { MovieTitleSuccess } from "@store/movieTitle/types";
+import { FunctionComponent } from "@typings/FunctionComponent";
 
-const Background: MovieTitleComponent = ({
+interface BackgroundProps {
+  dataResponse: MovieTitleSuccess;
+  usage: "headers" | "watch";
+}
+
+const headersUsage = `
+  width: 100%;
+  height: 100%;
+  position: absolute;
+`;
+
+const watchUsage = `
+  position: fixed;
+  top: 3.5rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
+`;
+
+const Background: FunctionComponent<HTMLDivElement, BackgroundProps> = ({
   dataResponse: { localizedInformation },
+  usage,
 }) => {
   const [backgroundLoaded, setBackgoundLoaded] = useState<boolean>(false);
   const [backgroundError, setBackgroundError] = useState<boolean>(false);
-  const backgroundSize = calculateBackgroundSize();
+  const backgroundSize = useMemo<BackgroundSize>(
+    () => calculateBackgroundSize(),
+    []
+  );
   let background;
 
   if (localizedInformation.background && typeof window !== "undefined") {
     background = new Image();
-    background.src = `https://cdn.developershouse.xyz/${localizedInformation.background?.replace(
+    background.src = `https://cdn.developershouse.xyz/${localizedInformation.background.replace(
       "headers-background",
       `headers-background-${backgroundSize}.webp`
     )}`;
@@ -30,9 +54,7 @@ const Background: MovieTitleComponent = ({
     return (
       <div
         css={css`
-          width: 100%;
-          height: 100%;
-          position: absolute;
+          ${usage === "headers" ? headersUsage : watchUsage}
           background-color: var(--media-headers-primary-background-color);
           opacity: ${typeof window === "undefined" ? "0" : "0.6"};
         `}
@@ -43,9 +65,7 @@ const Background: MovieTitleComponent = ({
   return (
     <div
       css={css`
-        width: 100%;
-        height: 100%;
-        position: absolute;
+        ${usage === "headers" ? headersUsage : watchUsage}
         background-image: url("${background.src}");
         background-size: cover;
         background-repeat: no-repeat;

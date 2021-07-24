@@ -1,5 +1,5 @@
 const LoadablePlugin = require("@loadable/webpack-plugin");
-const TerserPlugin = require('terser-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
 const { InjectManifest } = require("workbox-webpack-plugin");
 
 module.exports = {

@@ -1,5 +1,5 @@
 // Modules
-export * from "./modules/Watch";
+export * from "./sections/Watch";
 
 // Global
 export * from "./global/Summary";

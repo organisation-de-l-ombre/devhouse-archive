@@ -13,7 +13,6 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useMemo,
   useState,
 } from "react";
 import { Trans, useTranslation } from "react-i18next";
@@ -29,7 +28,6 @@ interface ShareModalProps {
 type Focus = undefined | "trailer" | "watch";
 
 interface ShareModalState {
-  qrCodeSharing: boolean;
   focus: Focus;
   section: keyof MovieTitleSections;
 }
@@ -45,8 +43,8 @@ const ShareModal: FunctionComponent<HTMLDivElement, ShareModalProps> = ({
   dataResponse,
 }) => {
   const { t } = useTranslation("pages\\movieTitle\\movieTitle");
+  const { title: movieTitle } = dataResponse.localizedInformation;
   const [shareModalState, setShareModalState] = useState<ShareModalState>({
-    qrCodeSharing: false,
     focus: undefined,
     section: "movie",
   });
@@ -58,11 +56,23 @@ const ShareModal: FunctionComponent<HTMLDivElement, ShareModalProps> = ({
         item !== "watch" && dataResponse.data[item] !== undefined
     )
   );
-  const toggleQrCodeSharing = useCallback((): void => {
-    setShareModalState((previousState: ShareModalState): ShareModalState => {
-      return { ...previousState, qrCodeSharing: !previousState.qrCodeSharing };
-    });
-  }, []);
+  const serverContext: ServerContextProps = useContext(ServerContext);
+  const { language } = useLanguage();
+  const [url, setUrl] = useState<string>(
+    formatURL(
+      serverContext,
+      `/movies/title/${dataResponse.id}/${
+        shareModalState.focus === undefined &&
+        shareModalState.section !== "movie"
+          ? shareModalState.section
+          : ""
+      }?language=${language}${
+        shareModalState.focus !== undefined
+          ? `&focus=${shareModalState.focus}`
+          : ""
+      }`
+    )
+  );
   const changeFocus = useCallback((focus: Focus): void => {
     setShareModalState((previousState: ShareModalState): ShareModalState => {
       return { ...previousState, focus };
@@ -76,24 +86,6 @@ const ShareModal: FunctionComponent<HTMLDivElement, ShareModalProps> = ({
     },
     []
   );
-  const serverContext: ServerContextProps = useContext(ServerContext);
-  const { language } = useLanguage();
-  const url: string = useMemo((): string => {
-    return formatURL(
-      serverContext,
-      `/movies/title/${dataResponse.id}/${
-        shareModalState.focus === undefined &&
-        shareModalState.section !== "movie"
-          ? shareModalState.section
-          : ""
-      }?language=${language}${
-        shareModalState.focus !== undefined
-          ? `&focus=${shareModalState.focus}`
-          : ""
-      }`
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shareModalState.focus, shareModalState.section]);
   const { addNotifications } = useNotificationsManager();
   const copyToClipboard = useCallback((): void => {
     navigator.clipboard.writeText(url);
@@ -108,17 +100,36 @@ const ShareModal: FunctionComponent<HTMLDivElement, ShareModalProps> = ({
   }, [addNotifications, setOpen, t, url]);
 
   useEffect((): void => {
-    if (shareModalState.qrCodeSharing) {
+    setUrl(
+      formatURL(
+        serverContext,
+        `/movies/title/${dataResponse.id}/${
+          shareModalState.focus === undefined &&
+          shareModalState.section !== "movie"
+            ? shareModalState.section
+            : ""
+        }?language=${language}${
+          shareModalState.focus !== undefined
+            ? `&focus=${shareModalState.focus}`
+            : ""
+        }`
+      )
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shareModalState.focus, shareModalState.section]);
+
+  useEffect((): void => {
+    if (open) {
       QRCode.toCanvas(document.getElementById("qr-code-sharing-canvas"), url);
     }
-  }, [shareModalState.qrCodeSharing, url]);
+  }, [open, url]);
 
   return (
     <Modal
       open={open}
       setOpen={setOpen}
       windowTitle={t("headers.shareModal.title", {
-        title: dataResponse.localizedInformation.title,
+        title: movieTitle,
       })}
       windowsIcon={<IoMdShareAlt />}
       containerCSS={css`
@@ -168,21 +179,9 @@ const ShareModal: FunctionComponent<HTMLDivElement, ShareModalProps> = ({
         <Trans
           t={t}
           i18nKey="headers.shareModal.description"
-          values={{ title: dataResponse.localizedInformation.title }}
+          values={{ title: movieTitle }}
         />
       </p>
-      <form>
-        <input
-          type="checkbox"
-          id="qr-code-sharing"
-          name="qr-code-sharing"
-          checked={shareModalState.qrCodeSharing}
-          onChange={toggleQrCodeSharing}
-        />
-        <label htmlFor="qr-code-sharing">
-          <Trans t={t} i18nKey="headers.shareModal.qrCodeSharing.label" />
-        </label>
-      </form>
       <form>
         <input
           type="checkbox"
@@ -246,20 +245,19 @@ const ShareModal: FunctionComponent<HTMLDivElement, ShareModalProps> = ({
       </FlexContainer>
       <FlexContainer column>
         <h1>
-          <Trans t={t} i18nKey="headers.shareModal.preview" />
+          <Trans t={t} i18nKey="headers.shareModal.qrCodeSharing" />
         </h1>
-        <a href={url} target="blank">
-          {url}
-        </a>
+        <canvas
+          id="qr-code-sharing-canvas"
+          css={{ borderRadius: "5px", pointerEvents: "none" }}
+          aria-label={t("headers.shareModal.qrCodeSharing.canvasText", {
+            title: movieTitle,
+          })}
+          title={t("headers.shareModal.qrCodeSharing.canvasText", {
+            title: movieTitle,
+          })}
+        />
       </FlexContainer>
-      {shareModalState.qrCodeSharing && (
-        <FlexContainer column>
-          <h1>
-            <Trans t={t} i18nKey="headers.shareModal.qrCodeSharing.title" />
-          </h1>
-          <canvas id="qr-code-sharing-canvas" />
-        </FlexContainer>
-      )}
       <Button
         css={{
           marginTop: "2rem",

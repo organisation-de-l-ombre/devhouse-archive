@@ -15,5 +15,13 @@
   },
   "cases": {
     "all_audiences": "Tous publics"
+  },
+  "watchServices": {
+    "disney-plus": "Disney Plus",
+    "youtube": "YouTube",
+    "amazon-prime-video": "Amazon Prime Video",
+    "canal-vod": "Canal VOD",
+    "orange-vod": "Orange VOD",
+    "apple-tv": "Apple TV"
   }
 }
