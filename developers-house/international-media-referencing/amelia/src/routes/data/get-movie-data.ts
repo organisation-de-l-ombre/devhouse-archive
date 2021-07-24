@@ -105,7 +105,7 @@ const getMovieData: RouteOptions = {
           process.env.S3_PRIVATE || ""
         }/movies/title/${movieId}/${language}/${
           indexes[section as keyof typeof indexes]
-        }_${section}.json`,
+        }_${section}.json`
       });
       const dataURL = await getSignedUrl(request.externalS3Client(), command, {
         expiresIn: 1800
