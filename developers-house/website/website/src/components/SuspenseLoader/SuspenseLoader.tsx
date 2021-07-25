@@ -8,7 +8,9 @@ import React, {
   useState,
 } from "react";
 import ReactLoaders from "react-loaders";
+import "loaders.css/src/animations/line-scale.scss";
 import styles from "./loader.module.scss";
+import "rc-tooltip/assets/bootstrap.css";
 
 const messages = [
   "Cooking some cookies 🍪",
@@ -19,7 +21,9 @@ const messages = [
 export const Loader: React.FC<
   DetailedHTMLProps<Record<string, never>, HTMLDivElement>
 > = () => {
-  const [msg, setMsg] = useState<string>();
+  const [msg, setMsg] = useState<string>(
+    messages[Math.floor(Math.random() * messages.length)]
+  );
   const changeMessage = useCallback(() => {
     setMsg(messages[Math.floor(Math.random() * messages.length)]);
   }, []);
@@ -47,5 +51,8 @@ export const Loader: React.FC<
 export default function SuspenseLoader({
   children,
 }: PropsWithChildren<unknown>): React.ReactElement {
+  if (typeof window === "undefined") {
+    return <>{children}</>;
+  }
   return <Suspense fallback={<Loader />}>{children}</Suspense>;
 }

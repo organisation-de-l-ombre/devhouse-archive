@@ -1,6 +1,9 @@
 import styled from "@emotion/styled";
+import isPropValid from "@emotion/is-prop-valid";
 
-const Stack = styled("div")<{ wrap?: boolean; direction?: "column" | "row" }>`
+const Stack = styled("div", {
+  shouldForwardProp: (prop) => isPropValid(prop) && prop !== "wrap",
+})<{ wrap?: boolean; direction?: "column" | "row" }>`
   > * {
     margin-top: 1rem;
   }

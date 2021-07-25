@@ -1,71 +1,41 @@
-import React, {
-  ComponentType,
-  FC,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { WithConditionalCSSProp } from "@emotion/react/types/jsx-namespace";
+import { useAppSelector } from "@state/hooks";
+import React, { ComponentType, PropsWithChildren } from "react";
 import { ReactElement } from "react-markdown";
 
-const availableFeatureGates = [
-  "feature_login",
-  "feature_about",
-  "feature_contact",
-  "feature_projects",
-  "feature_members",
-  "feature_join",
-] as const;
-
-type GateName = typeof availableFeatureGates[number];
-type FeatureGateState = GateName[];
-
-const FeatureGateContext = React.createContext<FeatureGateState>([]);
-const loaded = JSON.parse(localStorage.getItem("fg") || "[]");
-
-export const FeatureGateProvider: FC = ({ children }) => {
-  const [featureGates, setFeatureGates] = useState<FeatureGateState>(loaded);
-
-  useEffect(() => {
-    fetch(
-      `https://abdera-api.developershouse.xyz/data/featureflags?flags=${encodeURIComponent(
-        availableFeatureGates.join(",")
-      )}`
-    )
-      .then((r) => r.json())
-      .then(setFeatureGates)
-      .catch(() => setFeatureGates([]));
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("fg", JSON.stringify(featureGates));
-  }, [featureGates]);
-
-  return (
-    <FeatureGateContext.Provider value={featureGates}>
-      {children}
-    </FeatureGateContext.Provider>
-  );
-};
-
-export function Gate<P = undefined>({
+export function Gate<
+  P extends WithConditionalCSSProp<PropsWithChildren<unknown>> = Record<
+    string,
+    unknown
+  >
+>({
   props,
   gate,
   children: Children,
 }: {
-  gate: GateName;
+  gate: string;
   children: ComponentType<P>;
-  props?: P;
+  props?: WithConditionalCSSProp<PropsWithChildren<P>>;
 }): ReactElement {
-  const context = useContext(FeatureGateContext);
-  return context.includes(gate) ? <Children {...(props as P)} /> : <></>;
+  let state = useAppSelector((store) =>
+    store.featureFlags.featureFlags.find(({ name }) => name === gate)
+  )?.enabled;
+  if (process.env.NODE_ENV !== "production") {
+    state = true;
+  }
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  return state ? <Children {...(props as never as P)} /> : <></>;
 }
 
 export function withGate<P>(
   WrappedComponent: React.ComponentType<P>,
-  gate: GateName
+  gate: string
 ): React.ComponentType<P> {
   return ((props) => {
     return (
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       <Gate gate={gate} props={props}>
         {WrappedComponent}
       </Gate>
