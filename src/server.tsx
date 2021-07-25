@@ -1,7 +1,7 @@
 import React from "react";
 import { StaticRouter, StaticRouterProps } from "react-router-dom";
 import express, { Request, Response } from "express";
-import { renderToStaticMarkup, renderToString } from "react-dom/server";
+import { renderToString } from "react-dom/server";
 import { Provider } from "react-redux";
 import createStore, { RootState } from "@state/redux";
 import i18next from "i18next";
