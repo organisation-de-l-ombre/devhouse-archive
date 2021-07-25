@@ -24,10 +24,7 @@ import cbor from "cbor-js";
 import { decode, encode } from "base64-arraybuffer";
 import { DeepPartial } from "redux";
 import CreateRedis from "ioredis";
-<<<<<<< HEAD
 import reactSSRPrepass from "react-ssr-prepass";
-=======
->>>>>>> 1eb8423bb3ae1c34524a6b56c0da560265969289
 import App from "./Root";
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
