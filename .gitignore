@@ -31,3 +31,5 @@ package-lock.json
 
 # Related to Eslint
 .eslintcache
+build
+cache

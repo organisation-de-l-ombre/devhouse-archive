@@ -1,11 +1,7 @@
-FROM nginx
-
-COPY ./bin/startup.sh /docker-entrypoint.d/credentials.sh
-RUN chmod u+x /docker-entrypoint.d/credentials.sh
-
-COPY dist /usr/share/nginx/html
-COPY config.nginx /etc/nginx/nginx.conf
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+FROM node
+WORKDIR /app
+COPY package.json package.json
+COPY .npmrc .npmrc
+RUN npm install --only=prod --force
+COPY build /app/build
+ENTRYPOINT [ "node", "build/server.js" ]

@@ -1,5 +1,6 @@
 import React, { FC, ReactElement, useCallback } from "react";
-import { AiOutlineLoading, BiRefresh } from "react-icons/all";
+import { BiRefresh } from "react-icons/bi";
+import { AiOutlineLoading } from "react-icons/ai";
 import { Stack } from "@components/new/Stack/Stack";
 import { useCreateTakeout, useTakeouts } from "@hooks/useTakeouts";
 import { Loader } from "@components/SuspenseLoader/SuspenseLoader";

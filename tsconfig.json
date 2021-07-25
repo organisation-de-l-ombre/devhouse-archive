@@ -13,8 +13,9 @@
     "resolveJsonModule": true,
     "isolatedModules": false,
     "noEmit": true,
-    "jsx": "react",
+    "jsxImportSource": "@emotion/react",
     "baseUrl": "./src",
+    "jsx": "react-jsx",
     "downlevelIteration": true,
     "paths": {
       "@components/*": ["components/*"],
