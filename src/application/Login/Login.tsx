@@ -5,10 +5,12 @@ import useAccount from "@hooks/useAccount";
 import { useHistory } from "react-router";
 import { SuspenseComponent, withNetwork } from "@components/modules";
 import { FunctionComponent } from "@typings/FunctionComponent";
+import { useClient } from "@hooks/useInternal";
 
 const Login: FunctionComponent<HTMLDivElement> = () => {
   const { t } = useTranslation("root");
   const { user } = useAccount();
+  const { clientId } = useClient();
   const history = useHistory();
 
   useEffect((): void => {
@@ -17,8 +19,8 @@ const Login: FunctionComponent<HTMLDivElement> = () => {
       return;
     }
 
-    manageAuth();
-  }, [history, user]);
+    manageAuth(clientId);
+  }, [history, user, clientId]);
 
   return <SuspenseComponent customText={t("utils.redirecting")} />;
 };

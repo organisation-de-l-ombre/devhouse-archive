@@ -1,5 +1,5 @@
 import { ThunkAction } from "redux-thunk";
-import { User } from "./account/types";
+import { UserState } from "./account/types";
 import { Language } from "./language/types";
 import { NotificationsDataState } from "./notifications/notificationsData/types";
 import { NotificationsConfigState } from "./notifications/notificationsConfig/types";
@@ -8,7 +8,7 @@ import { ThemeState } from "./theme/types";
 import { MovieTitleState } from "./movieTitle/types";
 
 interface GlobalState {
-  account: { user: User };
+  account: UserState;
   language: { language: Language };
   internal: InternalState;
   movieTitle: MovieTitleState;

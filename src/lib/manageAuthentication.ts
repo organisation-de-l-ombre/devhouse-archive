@@ -1,5 +1,4 @@
 import times from "lodash.times";
-import { getClientId } from "./utils";
 
 const randomString = (randomBytesLength = 48): string => {
   if (typeof window === "undefined") {
@@ -39,13 +38,12 @@ const generateCodeChallenge = async (code: string): Promise<string> => {
     .replace(/\//g, "_");
 };
 
-const manageAuth = async (): Promise<void> => {
-  const clientId: string = getClientId();
+const manageAuth = async (clientId?: string): Promise<void> => {
   const state = randomString(32);
 
   localStorage.setItem("state-oauth", state);
 
-  if (clientId === "Invalid client ID") {
+  if (!clientId) {
     throw new Error("Failed to fetch client ID.");
   }
 

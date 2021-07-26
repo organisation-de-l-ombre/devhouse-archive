@@ -49,15 +49,6 @@ const fetchImage = ({
   }`}?${params.toString()}`;
 };
 
-// Gets IMR instance client id
-const getClientId = (): string => {
-  if (process.env.NODE_ENV === "development") {
-    return "5850f912-4654-42c4-9961-6ce577288bdb";
-  }
-
-  return process.env.client_id || "";
-};
-
 // Displays or not navbar in function of different routes
 const navbarRoutesBlacklist: string[] = ["/callback", "/auth/login"];
 
@@ -124,7 +115,6 @@ const supportedLanguages = ["en", "fr"];
 export {
   detectMobileDevice,
   fetchImage,
-  getClientId,
   navbarRoutesBlacklist,
   calculateDuration,
   formatURL,

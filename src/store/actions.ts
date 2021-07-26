@@ -3,7 +3,6 @@ const USER_CREATED = "account/userCreated";
 const USER_DELETED = "account/userRemoved";
 
 // Internal
-const CLIENT_UPDATED = "internal/clientUpdated";
 const FEATURES_FLAGS_ADDED = "internal/featuresFlagsAdded";
 
 // Language
@@ -29,7 +28,6 @@ const THEME_CONTRAST_UPDATED = "theme/contrastUpdated";
 export {
   USER_CREATED,
   USER_DELETED,
-  CLIENT_UPDATED,
   FEATURES_FLAGS_ADDED,
   LANGUAGE_UPDATED,
   MOVIE_TITLE_ADDED,

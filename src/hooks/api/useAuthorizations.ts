@@ -8,9 +8,9 @@ import {
 import { Authorization } from "@developers-house/abdera";
 import { useTranslation } from "react-i18next";
 import { DevHouseUserAPI, fetchOptions } from "@lib/api";
-import { getClientId } from "@lib/utils";
 import { useNotificationsManager } from "@hooks/useNotifications";
 import useAccount from "@hooks/useAccount";
+import { useClient } from "@hooks/useInternal";
 
 const useAuthorizationsError = (): ((error?: Error) => Error) => {
   const { t } = useTranslation("pages\\account\\sections\\authorizations");
@@ -48,6 +48,7 @@ const useAuthorizationsDeleteMutation = (
   remove: UseMutateFunction<void>;
 } => {
   const client = useQueryClient();
+  const { clientId } = useClient();
   const criticalError = useAuthorizationsError();
   const { t } = useTranslation("pages\\account\\sections\\authorizations");
   const { t: tAccount } = useTranslation("pages\\account\\sections\\account");
@@ -82,12 +83,10 @@ const useAuthorizationsDeleteMutation = (
           },
         ]);
 
-        const clientID: string = getClientId();
-
-        if (clientID === "Invalid client ID") {
+        if (!clientId) {
           return;
         }
-        if (clientID === id) {
+        if (clientId === id) {
           removeUser();
           addNotifications([
             {

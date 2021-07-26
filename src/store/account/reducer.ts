@@ -1,7 +1,7 @@
 import { USER_CREATED, USER_DELETED } from "@store/actions";
 import { UserPayload, UserState } from "./types";
 
-const accountState: UserState = { user: undefined };
+const accountState: UserState = { user: undefined, clientId: undefined };
 
 const AccountReducer = (
   state: UserState = accountState,

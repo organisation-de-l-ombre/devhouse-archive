@@ -1,5 +1,4 @@
 interface InternalState {
-  clientID: string;
   featuresFlags: string[];
 }
 
