@@ -1,5 +1,5 @@
 import React from "react";
-import express, { Express, Request, Response } from "express";
+import express, { Express, NextFunction, Request, Response } from "express";
 import { renderToString } from "react-dom/server";
 import { StaticRouter, StaticRouterProps } from "react-router-dom";
 import Application from "@application/Application";
@@ -31,24 +31,33 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { readdirSync, statSync } from "fs";
 import { ServerContext, ServerContextProps } from "@contexts/server";
 import themes from "@styles/Themes.module.scss";
+import morgan, { FormatFn } from "morgan";
 import "@styles/Root.scss";
 
 const handleApplication = async (
   request: Request,
-  response: Response
+  response: Response,
+  next: NextFunction
 ): Promise<void> => {
   const { cookies, query, i18n, url } = request;
+
+  // The chunkextractor from loadable is used to determine which chunks of the applications
+  // are needed on first load of the client side application.
   const extractor = new ChunkExtractor({
     statsFile: resolve("build", "loadable-stats.json"),
     outputPath: resolve("build/public"),
     entrypoints: ["client"],
   });
+  // the emotion cache caches the css for the first load on the client side.
   const emotionCache: EmotionCache = createCache({
     key: "imr-frontend",
   });
+
   const queryClient = new QueryClient();
+
   const { extractCriticalToChunks, constructStyleTagsFromChunks } =
     createEmotionServer(emotionCache);
+
   const context: StaticRouterProps["context"] = {};
   const persistedState: DeepPartial<GlobalState> = {};
 
@@ -86,56 +95,57 @@ const handleApplication = async (
       };
     }
   }
+  try {
+    await i18n.changeLanguage(persistedState.language?.language);
 
-  await i18n.changeLanguage(persistedState.language?.language);
+    const serverContext: ServerContextProps = {
+      request,
+      response,
+      preload: [],
+      preloadLoaded: false,
+    };
 
-  const serverContext: ServerContextProps = {
-    request,
-    response,
-    preload: [],
-    preloadLoaded: false,
-  };
-  const store: Store = createStore(persistedState);
-  const jsx = (
-    <ChunkExtractorManager extractor={extractor}>
-      <CacheProvider value={emotionCache}>
-        <QueryClientProvider client={queryClient}>
-          <StaticRouter context={context} location={url}>
-            <ServerContext.Provider value={serverContext}>
-              <Provider store={store}>
-                <I18nextProvider i18n={i18n}>
-                  <Application />
-                </I18nextProvider>
-              </Provider>
-            </ServerContext.Provider>
-          </StaticRouter>
-        </QueryClientProvider>
-      </CacheProvider>
-    </ChunkExtractorManager>
-  );
+    const store: Store = createStore(persistedState);
+    const jsx = (
+      <ChunkExtractorManager extractor={extractor}>
+        <CacheProvider value={emotionCache}>
+          <QueryClientProvider client={queryClient}>
+            <StaticRouter context={context} location={url}>
+              <ServerContext.Provider value={serverContext}>
+                <Provider store={store}>
+                  <I18nextProvider i18n={i18n}>
+                    <Application />
+                  </I18nextProvider>
+                </Provider>
+              </ServerContext.Provider>
+            </StaticRouter>
+          </QueryClientProvider>
+        </CacheProvider>
+      </ChunkExtractorManager>
+    );
 
-  await ssrPrepass(jsx);
-  await Promise.all(serverContext.preload);
-  serverContext.preloadLoaded = true;
+    await ssrPrepass(jsx);
+    await Promise.all(serverContext.preload);
+    serverContext.preloadLoaded = true;
 
-  const { html: reactRender, styles }: EmotionCriticalToChunks =
-    extractCriticalToChunks(renderToString(jsx));
+    const { html: reactRender, styles }: EmotionCriticalToChunks =
+      extractCriticalToChunks(renderToString(jsx));
 
-  if (context.url) {
-    response.redirect(context.url);
-    return;
-  }
+    if (context.url) {
+      response.redirect(context.url);
+      return;
+    }
 
-  const helmet: HelmetData = Helmet.renderStatic();
-  const globalState: GlobalState = store.getState();
-  const {
-    theme: { theme, contrastMode },
-  } = globalState;
-  const linkTags: string = extractor.getLinkTags();
-  const styletags: string = extractor.getStyleTags();
-  const scriptTags: string = extractor.getScriptTags();
-  response.send(
-    `
+    const helmet: HelmetData = Helmet.renderStatic();
+    const globalState: GlobalState = store.getState();
+    const {
+      theme: { theme, contrastMode },
+    } = globalState;
+    const linkTags: string = extractor.getLinkTags();
+    const styletags: string = extractor.getStyleTags();
+    const scriptTags: string = extractor.getScriptTags();
+    response.send(
+      `
     <!doctype html>
     <html ${helmet.htmlAttributes.toString()}>
       <head>
@@ -165,9 +175,15 @@ const handleApplication = async (
       </body>
     </html>
   `
-  );
+    );
+  } catch (e) {
+    // an error happened in the rendering code.
+    // we pass the error to the next middleware of the express application.
+    next(e);
+  }
 };
 
+// used to discover all the namespaces of the application and load them into i18n
 const walkDirectories = (directory: string): string[] => {
   const folders = readdirSync(directory);
   const files = [];
@@ -187,6 +203,24 @@ const walkDirectories = (directory: string): string[] => {
 };
 
 const server: Express = express();
+
+// formats the log messages for imr
+const morganFormat: FormatFn = (tokens, req, res) => {
+  return JSON.stringify({
+    method: tokens.method(req, res),
+    url: tokens.url(req, res),
+    "status-code": tokens.status(req, res),
+    "content-length": tokens.res(req, res, "content-length"),
+    referrer: tokens.referrer(req, res),
+    "user-agent": tokens["user-agent"](req, res),
+    "conversation-id": tokens["conversation-id"](req, res),
+    "session-id": tokens["session-id"](req, res),
+    hostname: tokens.hostname(req, res),
+    instance: tokens["instance-id"](req, res),
+    pid: tokens.pid(req, res),
+    "response-time": tokens["response-time"](req, res),
+  });
+};
 
 i18nInstance
   .use(LanguageDetector)
@@ -215,6 +249,7 @@ i18nInstance
     },
     (): void => {
       server
+        .use(morgan(morganFormat))
         .use(express.static(process.env.RAZZLE_PUBLIC_DIR as string))
         .use(cookieParser())
         .use(i18nMiddleware.handle(i18nInstance))
