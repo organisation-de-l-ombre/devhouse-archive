@@ -218,7 +218,8 @@ i18nInstance
         .use(express.static(process.env.RAZZLE_PUBLIC_DIR as string))
         .use(cookieParser())
         .use(i18nMiddleware.handle(i18nInstance))
-        .set("Etag", true)
+        .set("Etag", true) // usage of weak etags, may be converted to a sha256 signature later.
+        .get("/*", handleApplication)
         .use(
           (
             error: Error,
@@ -230,8 +231,7 @@ i18nInstance
 
             response.status(500).send();
           }
-        )
-        .get("/*", handleApplication);
+        );
     }
   );
 
