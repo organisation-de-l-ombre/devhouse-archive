@@ -45,7 +45,7 @@ const urlEncodeFormData = (formData: string[][]): string => {
 };
 
 const Callback: FunctionComponent<HTMLDivElement> = () => {
-  const { clientID } = useClient();
+  const { clientId } = useClient();
   const { saveUser } = useAccount();
   const history = useHistory();
   const [callbackState, setCallbackState] = React.useState<CallbackState>({
@@ -68,7 +68,7 @@ const Callback: FunctionComponent<HTMLDivElement> = () => {
 
     const [state, redirection, codeVerifier] = await getItems();
 
-    if (clientID === "Inavlid client ID") {
+    if (!clientId) {
       setCallbackState((previousState: CallbackState): CallbackState => {
         return {
           ...previousState,
@@ -81,9 +81,9 @@ const Callback: FunctionComponent<HTMLDivElement> = () => {
 
     const { code: authCode, state: authState } = authParameters;
 
-    if (authCode && authState && state === authState) {
+    if (authCode && authState && state === authState && clientId) {
       const formEncoder = urlEncodeFormData([
-        ["client_id", encodeURIComponent(clientID || "")],
+        ["client_id", encodeURIComponent(clientId)],
         ["grant_type", encodeURIComponent("authorization_code")],
         ["code", encodeURIComponent(authCode)],
         [
@@ -148,7 +148,7 @@ const Callback: FunctionComponent<HTMLDivElement> = () => {
     localStorage.removeItem("state-oauth");
     localStorage.removeItem("redirection");
     localStorage.removeItem("code-verifier");
-  }, [clientID, history, saveUser]);
+  }, [clientId, history, saveUser]);
 
   useEffect(() => {
     doLogin();

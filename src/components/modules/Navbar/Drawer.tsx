@@ -16,6 +16,7 @@ import MinimalIcon from "@svg/icons/Minimal";
 import { useClient } from "@hooks/useInternal";
 import { AiFillWarning } from "react-icons/ai";
 import { fetchImage } from "@lib/utils";
+import { User } from "@store/account/types";
 import DisplayLanguageSVG from "../DisplayLanguageSVG/DisplayLanguageSVG";
 import styles from "./Navbar.module.scss";
 
@@ -110,18 +111,17 @@ const DrawerStart: FunctionComponent<
 
 const UserManagement: FC<{
   manageNavbar: () => void;
-  avatar: string | undefined;
-  username: string | undefined;
-}> = ({ manageNavbar, avatar, username }) => {
+  user?: User;
+}> = ({ manageNavbar, user }) => {
   const { t } = useTranslation("components\\modules\\navbar\\navbar");
   const { pathname } = useLocation();
-  const { clientID } = useClient();
+  const { clientId } = useClient();
   const manageAuth = useCallback((): void => {
     manageNavbar();
     localStorage.setItem("redirection", pathname);
   }, [manageNavbar, pathname]);
 
-  if (!avatar && !username && clientID === "Invalid client ID") {
+  if (!user && !clientId) {
     return (
       <button
         type="button"
@@ -138,7 +138,7 @@ const UserManagement: FC<{
     );
   }
 
-  if (!avatar && !username) {
+  if (!user && clientId) {
     return (
       <NavLink
         to="/auth/login"
@@ -160,14 +160,14 @@ const UserManagement: FC<{
       className={styles.account}
       onClick={manageAuth}
     >
-      {avatar ? (
+      {user?.avatar ? (
         <img
           src={fetchImage({
-            image: avatar,
+            image: user.avatar,
             width: 30,
             height: 30,
           })}
-          alt={`Avatar of ${username}`}
+          alt={`Avatar of ${user.username}`}
           draggable={false}
         />
       ) : (
@@ -216,11 +216,7 @@ const DrawerEnd: FunctionComponent<
 
   return (
     <div className={styles.end}>
-      <UserManagement
-        manageNavbar={manageNavbar}
-        avatar={user?.avatar}
-        username={user?.username}
-      />
+      <UserManagement manageNavbar={manageNavbar} user={user} />
       <NavLink
         to="/search"
         exact

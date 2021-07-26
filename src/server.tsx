@@ -95,6 +95,12 @@ const handleApplication = async (
       };
     }
   }
+
+  persistedState.account = {
+    ...persistedState.account,
+    clientId: process.env.client_id,
+  };
+
   try {
     await i18n.changeLanguage(persistedState.language?.language);
 

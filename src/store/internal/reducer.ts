@@ -1,9 +1,7 @@
-import { getClientId } from "@lib/utils";
-import { CLIENT_UPDATED, FEATURES_FLAGS_ADDED } from "@store/actions";
+import { FEATURES_FLAGS_ADDED } from "@store/actions";
 import { InternalPayload, InternalState } from "./types";
 
 const internalState: InternalState = {
-  clientID: getClientId(),
   featuresFlags: [],
 };
 
@@ -12,9 +10,6 @@ const InternalReducer = (
   { type, payload }: InternalPayload
 ): InternalState => {
   switch (type) {
-    case CLIENT_UPDATED:
-      return { ...state, clientID: payload as string };
-
     case FEATURES_FLAGS_ADDED:
       return {
         ...state,

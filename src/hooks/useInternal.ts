@@ -1,17 +1,16 @@
-import { InternalState } from "@store/internal/types";
 import { GlobalState } from "@store/types";
 import { useSelector } from "react-redux";
 
 interface ClientHook {
-  clientID: string;
+  clientId?: string;
 }
 
 const useClient = (): ClientHook => {
-  const { clientID } = useSelector(
-    (state: GlobalState): InternalState => state.internal
+  const clientId = useSelector(
+    (state: GlobalState): string | undefined => state.account.clientId
   );
 
-  return { clientID };
+  return { clientId };
 };
 
 export { useClient };
