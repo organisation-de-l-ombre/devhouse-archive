@@ -262,8 +262,7 @@ i18nInstance
             response: Response,
             _next: () => void
           ): void => {
-            console.error(error);
-
+            console.error(`${error.name}: ${error.message}`);
             response.status(500).send();
           }
         );
