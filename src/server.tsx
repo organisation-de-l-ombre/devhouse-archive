@@ -249,6 +249,9 @@ i18nInstance
           // @ts-ignore
           morgan(process.env.NODE_ENV === "development" ? "dev" : morganFormat)
         )
+        .get("/.internal/healz", (req, res) => {
+          res.end("ok");
+        })
         .use(express.static(process.env.RAZZLE_PUBLIC_DIR as string))
         .use(cookieParser())
         .use(i18nMiddleware.handle(i18nInstance))
