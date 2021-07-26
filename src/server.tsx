@@ -213,11 +213,6 @@ const morganFormat: FormatFn = (tokens, req, res) => {
     "content-length": tokens.res(req, res, "content-length"),
     referrer: tokens.referrer(req, res),
     "user-agent": tokens["user-agent"](req, res),
-    "conversation-id": tokens["conversation-id"](req, res),
-    "session-id": tokens["session-id"](req, res),
-    hostname: tokens.hostname(req, res),
-    instance: tokens["instance-id"](req, res),
-    pid: tokens.pid(req, res),
     "response-time": tokens["response-time"](req, res),
   });
 };
@@ -249,7 +244,11 @@ i18nInstance
     },
     (): void => {
       server
-        .use(morgan(morganFormat))
+        .use(
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          morgan(process.env.NODE_ENV === "development" ? "dev" : morganFormat)
+        )
         .use(express.static(process.env.RAZZLE_PUBLIC_DIR as string))
         .use(cookieParser())
         .use(i18nMiddleware.handle(i18nInstance))
