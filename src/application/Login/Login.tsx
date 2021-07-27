@@ -5,7 +5,7 @@ import { useAccount } from "@hooks/useAccount";
 import { useHistory } from "react-router";
 import { SuspenseComponent, withNetwork } from "@components/modules";
 import { FunctionComponent } from "@typings/FunctionComponent";
-import { useClient } from "@hooks/useInternal";
+import { useClient } from "@hooks/useProperties";
 
 const Login: FunctionComponent<HTMLDivElement> = () => {
   const { t } = useTranslation("root");

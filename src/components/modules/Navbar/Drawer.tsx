@@ -13,7 +13,7 @@ import useLanguage from "@hooks/useLanguage";
 import { Fade as Hamburger } from "hamburger-react";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import MinimalIcon from "@svg/icons/Minimal";
-import { useClient } from "@hooks/useInternal";
+import { useClient } from "@hooks/useProperties";
 import { AiFillWarning } from "react-icons/ai";
 import { fetchImage } from "@lib/utils";
 import { User } from "@developers-house/abdera";

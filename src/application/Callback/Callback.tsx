@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useNotificationsManager } from "@hooks/useNotifications";
 import { SuspenseComponent } from "@components/modules";
 import { FunctionComponent } from "@typings/FunctionComponent";
-import { useClient } from "@hooks/useInternal";
+import { useClient } from "@hooks/useProperties";
 import { useDispatch } from "react-redux";
 import { createUser, setTokens } from "@store/account/actions";
 import { User } from "@store/account/types";
