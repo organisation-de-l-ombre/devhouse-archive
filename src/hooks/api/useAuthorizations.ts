@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { DevHouseUserAPI, fetchOptions } from "@lib/api";
 import { useNotificationsManager } from "@hooks/useNotifications";
 import { useAccountManager } from "@hooks/useAccount";
-import { useClient } from "@hooks/useInternal";
+import { useClient } from "@hooks/useProperties";
 
 const useAuthorizationsError = (): ((error?: Error) => Error) => {
   const { t } = useTranslation("pages\\account\\sections\\authorizations");
@@ -52,7 +52,7 @@ const useAuthorizationsDeleteMutation = (
   const criticalError = useAuthorizationsError();
   const { t } = useTranslation("pages\\account\\sections\\authorizations");
   const { t: tAccount } = useTranslation("pages\\account\\sections\\account");
-  const { remove } = useAccountManager();
+  const { removeUser } = useAccountManager();
   const { addNotifications } = useNotificationsManager();
   const { mutate } = useMutation(
     "delete_account_authorizations",
@@ -87,7 +87,7 @@ const useAuthorizationsDeleteMutation = (
           return;
         }
         if (clientId === id) {
-          remove();
+          removeUser();
           addNotifications([
             {
               type: "info",

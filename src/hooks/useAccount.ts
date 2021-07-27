@@ -5,7 +5,7 @@ import { deleteUser } from "@store/account/actions";
 import { User } from "@store/account/types";
 
 interface UseAccountManagerHook {
-  remove: () => void;
+  removeUser: () => void;
 }
 
 const useAccount = (): User | null => {
@@ -14,9 +14,9 @@ const useAccount = (): User | null => {
 
 const useAccountManager = (): UseAccountManagerHook => {
   const dispatch = useDispatch();
-  const remove = useCallback(() => dispatch(deleteUser()), [dispatch]);
+  const removeUser = useCallback(() => dispatch(deleteUser()), [dispatch]);
 
-  return { remove };
+  return { removeUser };
 };
 
 export { useAccount, useAccountManager };

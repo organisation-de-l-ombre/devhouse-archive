@@ -19,7 +19,7 @@ import LanguageReducer from "./language/reducer";
 import ThemeReducer from "./theme/reducer";
 import AccountReducer from "./account/reducer";
 import NotificationsConfigReducer from "./notifications/notificationsConfig/reducer";
-import PropertiesState from "./properties/reducer";
+import PropertiesReducer from "./properties/reducer";
 import MovieTitleReducer from "./movieTitle/reducer";
 
 const createStore = (
@@ -29,7 +29,7 @@ const createStore = (
   const reducer = combineReducers<GlobalState>({
     account: AccountReducer,
     language: LanguageReducer,
-    properties: PropertiesState,
+    properties: PropertiesReducer,
     movieTitle: MovieTitleReducer,
     notificationsConfig: NotificationsConfigReducer,
     notificationsData: NotificationsDataReducer,

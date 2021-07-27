@@ -21,10 +21,10 @@ import containerStyle from "../../Containers.module.scss";
 const Account: FunctionComponent<HTMLDivElement> = () => {
   const { t } = useTranslation("pages\\account\\account");
   const user = useAccount();
-  const { remove } = useAccountManager();
+  const { removeUser } = useAccountManager();
   const { addNotifications } = useNotificationsManager();
   const logout = useCallback((): void => {
-    remove();
+    removeUser();
     addNotifications([
       {
         type: "info",
@@ -32,7 +32,7 @@ const Account: FunctionComponent<HTMLDivElement> = () => {
         time: 5000,
       },
     ]);
-  }, [addNotifications, remove, t]);
+  }, [addNotifications, removeUser, t]);
 
   if (!user) {
     return null;
