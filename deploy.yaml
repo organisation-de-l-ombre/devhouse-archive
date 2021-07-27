@@ -127,11 +127,11 @@ oauthClient:
   name: IMR
   grantType:
     - authorization_code
-    # - implicit
+    - refresh_token
   responseTypes:
     - code
-    # - token
-  scope: account.info account.authorized.*
+    - id_token
+  scope: account.info account.authorized.* openid offline
   audiences:
    - abdera
    - imr
