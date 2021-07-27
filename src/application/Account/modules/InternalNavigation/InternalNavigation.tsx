@@ -2,7 +2,7 @@ import React from "react";
 import { useRouteMatch } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
 import { Sidebar, SidebarItem, SidebarSection } from "@components/modules";
-import useAccount from "@hooks/useAccount";
+import { useAccount } from "@hooks/useAccount";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import { fetchImage } from "@lib/utils";
 
@@ -14,7 +14,7 @@ const InternalNavigation: FunctionComponent<
   }
 > = ({ open, manageSidebar }) => {
   const { path: baseURL } = useRouteMatch();
-  const { user } = useAccount();
+  const user = useAccount();
   const { t } = useTranslation("pages\\account\\account");
 
   return (

@@ -1,19 +1,23 @@
-import { Action } from "@store/types";
-import { Dispatch } from "redux";
-import {
-  USER_FIRST_USE,
+import { ApplicationAction } from "@store/types";
+
+const USER_FIRST_USE = "notifications/setFirstUse";
+const UPDATE_NOTIFICATIONS_PERMISSIONS = "notifications/permissionsUpdated";
+
+const setFirstUse: ApplicationAction<"notifications/setFirstUse"> = () => {
+  return { type: USER_FIRST_USE, payload: null };
+};
+const updateNotificationsPermissions: ApplicationAction<"notifications/permissionsUpdated"> =
+  () => {
+    return { type: UPDATE_NOTIFICATIONS_PERMISSIONS, payload: null };
+  };
+
+export {
+  setFirstUse,
+  updateNotificationsPermissions,
   UPDATE_NOTIFICATIONS_PERMISSIONS,
-} from "@store/actions";
-
-const setFirstUse = (): Action => {
-  return (dispatch: Dispatch): void => {
-    dispatch({ type: USER_FIRST_USE });
-  };
+  USER_FIRST_USE,
 };
-const updateNotificationsPermissions = (): Action => {
-  return (dispatch: Dispatch): void => {
-    dispatch({ type: UPDATE_NOTIFICATIONS_PERMISSIONS });
-  };
-};
-
-export { setFirstUse, updateNotificationsPermissions };
+export interface NotificationsConfigActionTypes {
+  [USER_FIRST_USE]: null;
+  [UPDATE_NOTIFICATIONS_PERMISSIONS]: null;
+}

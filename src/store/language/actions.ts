@@ -1,12 +1,16 @@
-import { Dispatch } from "redux";
-import { LANGUAGE_UPDATED } from "@store/actions";
+import { ApplicationAction } from "@store/types";
 import { Language } from "./types";
-import { Action } from "../types";
 
-const updateLanguage = (language: Language): Action => {
-  return (dispatch: Dispatch): void => {
-    dispatch({ type: LANGUAGE_UPDATED, payload: language });
-  };
+const LANGUAGE_UPDATED = "language/languageUpdated";
+
+const updateLanguage: ApplicationAction<
+  "language/languageUpdated",
+  [Language]
+> = (language: Language) => {
+  return { type: LANGUAGE_UPDATED, payload: language };
 };
 
-export default updateLanguage;
+export { updateLanguage, LANGUAGE_UPDATED };
+export interface LanguageActionTypes {
+  [LANGUAGE_UPDATED]: Language;
+}

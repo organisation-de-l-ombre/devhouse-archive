@@ -1,21 +1,22 @@
-import { THEME_UPDATED, THEME_CONTRAST_UPDATED } from "@store/actions";
-import { Theme, ThemePayload, ThemeState } from "./types";
+import { ApplicationReducer } from "@store/types";
+import { THEME_CONTRAST_UPDATED, THEME_UPDATED } from "./actions";
+import { ThemeState } from "./types";
 
-const themeState: ThemeState = {
+const defaultThemeState: ThemeState = {
   theme: "light",
   contrastMode: false,
 };
 
-const ThemeReducer = (
-  state: ThemeState = themeState,
-  { type, payload }: ThemePayload
+const ThemeReducer: ApplicationReducer<"theme"> = (
+  state: ThemeState = defaultThemeState,
+  payload
 ): ThemeState => {
-  switch (type) {
+  switch (payload.type) {
     case THEME_UPDATED:
-      return { ...state, theme: payload as Theme };
+      return { ...state, theme: payload.payload };
 
     case THEME_CONTRAST_UPDATED:
-      return { ...state, contrastMode: payload as boolean };
+      return { ...state, contrastMode: payload.payload };
 
     default:
       return state;

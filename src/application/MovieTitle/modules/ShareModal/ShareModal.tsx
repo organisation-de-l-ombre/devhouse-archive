@@ -57,7 +57,7 @@ const ShareModal: FunctionComponent<HTMLDivElement, ShareModalProps> = ({
     )
   );
   const serverContext: ServerContextProps = useContext(ServerContext);
-  const { language } = useLanguage();
+  const language = useLanguage();
   const [url, setUrl] = useState<string>(
     formatURL(
       serverContext,

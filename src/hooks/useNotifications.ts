@@ -13,8 +13,7 @@ import {
   removeAllNotifications,
 } from "@store/notifications/notificationsData/actions";
 import {
-  Notification,
-  NotificationPayload,
+  NotificationCreate,
   NotificationsDataState,
 } from "@store/notifications/notificationsData/types";
 
@@ -28,7 +27,7 @@ interface NotificationsPreferencesHook {
 }
 
 interface NotificationsManagerHook {
-  addNotifications: (notifications: NotificationPayload[]) => void;
+  addNotifications: (notifications: NotificationCreate[]) => void;
   deleteNotification: (id: string) => void;
   deleteAllNotifications: () => void;
 }
@@ -109,8 +108,8 @@ const useNotificationsManager = (): NotificationsManagerHook => {
   const dispatch = useDispatch();
 
   const addNotifications = useCallback(
-    (notifications: NotificationPayload[]): void => {
-      dispatch(pushNotifications(notifications as Notification[]));
+    (notifications: NotificationCreate[]): void => {
+      dispatch(pushNotifications(notifications));
     },
     [dispatch]
   );

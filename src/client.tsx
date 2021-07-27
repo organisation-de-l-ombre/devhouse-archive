@@ -111,7 +111,7 @@ loadableReady((): void => {
     const { t } = useTranslation(
       "components\\ui\\languageModal\\languageModal"
     );
-    const { language } = useLanguage();
+    const language = useLanguage();
     const [scroll, setScroll] = useState<boolean>(true);
     const { theme, contrastMode, switchTheme } = useTheme();
     const isMobileDevice: boolean = useMemo(

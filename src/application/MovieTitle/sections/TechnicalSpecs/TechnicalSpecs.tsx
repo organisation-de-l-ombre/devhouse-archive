@@ -20,7 +20,7 @@ const ImageComponent = loadable(
 );
 
 const TechnicalSpecs: MovieTitleComponent = ({ dataResponse }) => {
-  const { language } = useLanguage();
+  const language = useLanguage();
   const data = useMovieTitleSection<TechnicalSpecsSection>(
     dataResponse.id,
     "technical-specs"

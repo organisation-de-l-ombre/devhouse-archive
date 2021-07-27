@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useNotificationsManager } from "@hooks/useNotifications";
-import useAccount from "@hooks/useAccount";
+import { useAccount, useAccountManager } from "@hooks/useAccount";
 import {
   FlexContainer,
   TextArea,
@@ -20,11 +20,11 @@ import containerStyle from "../../Containers.module.scss";
 
 const Account: FunctionComponent<HTMLDivElement> = () => {
   const { t } = useTranslation("pages\\account\\account");
-  const { t: tRoot } = useTranslation("root");
-  const { user, removeUser } = useAccount();
+  const user = useAccount();
+  const { remove } = useAccountManager();
   const { addNotifications } = useNotificationsManager();
   const logout = useCallback((): void => {
-    removeUser();
+    remove();
     addNotifications([
       {
         type: "info",
@@ -32,7 +32,7 @@ const Account: FunctionComponent<HTMLDivElement> = () => {
         time: 5000,
       },
     ]);
-  }, [addNotifications, removeUser, t]);
+  }, [addNotifications, remove, t]);
 
   if (!user) {
     return null;
@@ -65,31 +65,7 @@ const Account: FunctionComponent<HTMLDivElement> = () => {
               <h3>
                 <Trans t={t} i18nKey="account.devHouse.id" />
               </h3>
-              <span>{user.sub}</span>
-            </TextArea>
-            <TextArea>
-              <h3>
-                <Trans t={t} i18nKey="account.devHouse.dataCollection" />
-              </h3>
-              <span>
-                {user.dataCollection ? (
-                  <Trans t={tRoot} i18nKey="global.yes" />
-                ) : (
-                  <Trans t={tRoot} i18nKey="global.no" />
-                )}
-              </span>
-            </TextArea>
-            <TextArea>
-              <h3>
-                <Trans t={t} i18nKey="account.devHouse.premiumAccess" />
-              </h3>
-              <span>
-                {user.premium ? (
-                  <Trans t={tRoot} i18nKey="global.yes" />
-                ) : (
-                  <Trans t={tRoot} i18nKey="global.no" />
-                )}
-              </span>
+              <span>{user.id}</span>
             </TextArea>
           </FlexContainer>
           <ButtonsGroup genericMarginTop expand>

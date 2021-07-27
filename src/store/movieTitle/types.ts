@@ -1,12 +1,11 @@
 import { MovieDataResponse } from "@developers-house/amelia";
-import { MOVIE_TITLE_ADDED, MOVIE_TITLE_SECTION_ADDED } from "@store/actions";
 import {
   CastingSection,
   GenericSection,
   OSTSection,
   TechnicalSpecsSection,
   VideosGlobalSection,
-  WatchModule,
+  WatchSection,
 } from "@typings/movieTitle";
 
 type Errors = "cors" | "internal" | "not-found" | "unauthorized" | "other";
@@ -24,13 +23,13 @@ interface MovieTitleError {
 }
 
 interface MovieTitleSections {
-  watch?: WatchModule;
-  movie?: GenericSection;
-  casting?: CastingSection;
-  characters?: GenericSection;
-  videos?: VideosGlobalSection;
-  ost?: OSTSection;
-  "technical-specs"?: TechnicalSpecsSection;
+  watch?: MovieTitleSection<WatchSection>;
+  movie?: MovieTitleSection<GenericSection>;
+  casting?: MovieTitleSection<CastingSection>;
+  characters?: MovieTitleSection<GenericSection>;
+  videos?: MovieTitleSection<VideosGlobalSection>;
+  ost?: MovieTitleSection<OSTSection>;
+  "technical-specs"?: MovieTitleSection<TechnicalSpecsSection>;
 }
 
 type MovieTitleSuccess = MovieDataResponse & {
@@ -43,11 +42,6 @@ type MovieTitle = MovieTitleLoading | MovieTitleError | MovieTitleSuccess;
 
 interface MovieTitleState {
   [key: string]: MovieTitle;
-}
-
-interface RootAddPayload {
-  type: typeof MOVIE_TITLE_ADDED;
-  payload: MovieTitle;
 }
 
 interface MovieTitleSectionLoading {
@@ -75,13 +69,6 @@ type MovieTitleSection<T = unknown> =
   | MovieTitleSectionError
   | MovieTitleSectionSuccess<T>;
 
-interface SectionAddPayload {
-  type: typeof MOVIE_TITLE_SECTION_ADDED;
-  payload: MovieTitleSection;
-}
-
-type MovieTitlePayload = RootAddPayload | SectionAddPayload;
-
 export {
   MovieTitleSections,
   MovieTitleSuccess,
@@ -89,5 +76,4 @@ export {
   MovieTitleSection,
   MovieTitleSectionSuccess,
   MovieTitleState,
-  MovieTitlePayload,
 };

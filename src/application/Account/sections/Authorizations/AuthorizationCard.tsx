@@ -19,7 +19,7 @@ const AuthorizationCard: FunctionComponent<
   { authorization: Authorization }
 > = ({ authorization }) => {
   const { t } = useTranslation("pages\\account\\account");
-  const { language } = useLanguage();
+  const language = useLanguage();
   const grantedAt: string[] = new Intl.DateTimeFormat(language, {
     dateStyle: "full",
     timeStyle: "long",

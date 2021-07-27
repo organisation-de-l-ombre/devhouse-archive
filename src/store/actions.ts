@@ -1,42 +1,15 @@
-// Account
-const USER_CREATED = "account/userCreated";
-const USER_DELETED = "account/userRemoved";
+import { AccountActionsTypes } from "./account/actions";
+import { LanguageActionTypes } from "./language/actions";
+import { MovieTitleActionTypes } from "./movieTitle/actions";
+import { NotificationsConfigActionTypes } from "./notifications/notificationsConfig/actions";
+import { NotificationsDataActionTypes } from "./notifications/notificationsData/actions";
+import { PropertiesActionTypes } from "./properties/actions";
+import { ThemeActionTypes } from "./theme/actions";
 
-// Internal
-const FEATURES_FLAGS_ADDED = "internal/featuresFlagsAdded";
-
-// Language
-const LANGUAGE_UPDATED = "language/languageUpdated";
-
-// Movie title
-const MOVIE_TITLE_ADDED = "movieTitle/add";
-const MOVIE_TITLE_SECTION_ADDED = "movieTitle/sectionAdded";
-
-// Notifications config
-const USER_FIRST_USE = "notifications/setFirstUse";
-const UPDATE_NOTIFICATIONS_PERMISSIONS = "notifications/permissionsUpdated";
-
-// Notifications data
-const NOTIFICATIONS_PUSH = "notifications/push";
-const NOTIFICATION_DELETE = "notifications/delete";
-const NOTIFICATIONS_DELETE_ALL = "notifications/deleteAll";
-
-// Theme
-const THEME_UPDATED = "theme/themeUpdated";
-const THEME_CONTRAST_UPDATED = "theme/contrastUpdated";
-
-export {
-  USER_CREATED,
-  USER_DELETED,
-  FEATURES_FLAGS_ADDED,
-  LANGUAGE_UPDATED,
-  MOVIE_TITLE_ADDED,
-  MOVIE_TITLE_SECTION_ADDED,
-  USER_FIRST_USE,
-  UPDATE_NOTIFICATIONS_PERMISSIONS,
-  NOTIFICATIONS_PUSH,
-  NOTIFICATION_DELETE,
-  NOTIFICATIONS_DELETE_ALL,
-  THEME_UPDATED,
-  THEME_CONTRAST_UPDATED,
-};
+export type ReduxActions = AccountActionsTypes &
+  PropertiesActionTypes &
+  LanguageActionTypes &
+  MovieTitleActionTypes &
+  NotificationsConfigActionTypes &
+  NotificationsDataActionTypes &
+  ThemeActionTypes;

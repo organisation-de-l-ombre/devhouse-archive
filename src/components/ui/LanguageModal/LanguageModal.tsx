@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, ReactElement } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  ReactElement,
+  useState,
+  useCallback,
+} from "react";
 import { MdLanguage } from "react-icons/md";
 import { Trans, useTranslation } from "react-i18next";
 import useLanguage from "@hooks/useLanguage";
@@ -6,6 +12,8 @@ import { supportedLanguages } from "@lib/utils";
 import { DisplayLanguageSVG } from "@components/modules";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import { css } from "@emotion/react";
+import { useDispatch } from "react-redux";
+import { updateLanguage } from "@store/language/actions";
 import Modal from "../Modal/Modal";
 import FlexContainer from "../FlexContainer/FlexContainer";
 import { Button } from "../Button/Button";
@@ -17,8 +25,24 @@ const LanguageModal: FunctionComponent<
     setLanguageWindowOpen: Dispatch<SetStateAction<boolean>>;
   }
 > = ({ languageWindowOpen, setLanguageWindowOpen }) => {
-  const { language, setLanguageState, validateLanguage } = useLanguage();
+  const [languageState, setLanguageState] = useState<string>("default");
   const { t } = useTranslation("components\\ui\\languageModal\\languageModal");
+  const dispatch = useDispatch();
+  const language = useLanguage();
+
+  const validateLanguage = useCallback(async (): Promise<void> => {
+    if (languageState === "default" || languageState === language) {
+      alert(t("invalidLanguage"));
+      return;
+    }
+
+    dispatch(updateLanguage(languageState));
+    setLanguageState("default");
+
+    if (setLanguageWindowOpen) {
+      setLanguageWindowOpen(false);
+    }
+  }, [dispatch, language, languageState, t, setLanguageWindowOpen]);
 
   return (
     <Modal
@@ -87,7 +111,7 @@ const LanguageModal: FunctionComponent<
             alignSelf: "center",
             backgroundColor: "var(--primary-background-color-hover)",
           }}
-          onClick={() => validateLanguage(setLanguageWindowOpen)}
+          onClick={validateLanguage}
         >
           <Trans t={t} i18nKey="saveLanguage" />
         </Button>

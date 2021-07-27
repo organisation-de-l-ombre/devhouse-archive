@@ -1,12 +1,11 @@
-import { MOVIE_TITLE_ADDED, MOVIE_TITLE_SECTION_ADDED } from "@store/actions";
-import { MovieTitle, MovieTitlePayload, MovieTitleState } from "./types";
+import { ApplicationReducer } from "@store/types";
+import { MOVIE_TITLE_ADDED, MOVIE_TITLE_SECTION_ADDED } from "./actions";
+import { MovieTitle } from "./types";
 
-const movieTitleState: MovieTitleState = {};
-
-const MovieTitleReducer = (
-  state: MovieTitleState = movieTitleState,
-  payload: MovieTitlePayload
-): MovieTitleState => {
+const MovieTitleReducer: ApplicationReducer<"movieTitle"> = (
+  state = {},
+  payload
+) => {
   switch (payload.type) {
     case MOVIE_TITLE_ADDED: {
       return {
