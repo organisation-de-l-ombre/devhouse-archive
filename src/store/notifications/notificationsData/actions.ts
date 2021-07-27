@@ -1,13 +1,15 @@
 import { Dispatch } from "redux";
-import {
-  NOTIFICATION_DELETE,
-  NOTIFICATIONS_DELETE_ALL,
-  NOTIFICATIONS_PUSH,
-} from "@store/actions";
-import { Action, GetState } from "@store/types";
-import { Notification } from "./types";
+import { ApplicationAction, GetState } from "@store/types";
+import { NotificationCreate } from "./types";
 
-const pushNotifications = (notifications: Notification[]): Action => {
+const NOTIFICATIONS_PUSH = "notifications/push";
+const NOTIFICATION_DELETE = "notifications/delete";
+const NOTIFICATIONS_DELETE_ALL = "notifications/deleteAll";
+
+const pushNotifications: ApplicationAction<
+  "notifications/push",
+  [NotificationCreate[]]
+> = (notifications) => {
   return (dispatch: Dispatch, getState: GetState): void => {
     if (!getState().notificationsConfig.allowNotifications) {
       return;
@@ -16,19 +18,33 @@ const pushNotifications = (notifications: Notification[]): Action => {
     dispatch({ type: NOTIFICATIONS_PUSH, payload: notifications });
   };
 };
-const removeNotification = (id: string): Action => {
-  return (dispatch: Dispatch): void => {
-    dispatch({ type: NOTIFICATION_DELETE, payload: id });
-  };
-};
-const removeAllNotifications = (): Action => {
-  return (dispatch: Dispatch, getState: GetState): void => {
-    if (!getState().notificationsConfig.allowNotifications) {
-      return;
-    }
 
-    dispatch({ type: NOTIFICATIONS_DELETE_ALL });
+const removeNotification: ApplicationAction<"notifications/delete", [string]> =
+  (id: string) => {
+    return { type: NOTIFICATION_DELETE, payload: id };
   };
-};
 
-export { pushNotifications, removeNotification, removeAllNotifications };
+const removeAllNotifications: ApplicationAction<"notifications/deleteAll", []> =
+  () => {
+    return (dispatch: Dispatch, getState: GetState): void => {
+      if (!getState().notificationsConfig.allowNotifications) {
+        return;
+      }
+
+      dispatch({ type: NOTIFICATIONS_DELETE_ALL });
+    };
+  };
+
+export {
+  pushNotifications,
+  removeNotification,
+  removeAllNotifications,
+  NOTIFICATIONS_PUSH,
+  NOTIFICATION_DELETE,
+  NOTIFICATIONS_DELETE_ALL,
+};
+export interface NotificationsDataActionTypes {
+  [NOTIFICATIONS_PUSH]: NotificationCreate[];
+  [NOTIFICATION_DELETE]: string;
+  [NOTIFICATIONS_DELETE_ALL]: null;
+}

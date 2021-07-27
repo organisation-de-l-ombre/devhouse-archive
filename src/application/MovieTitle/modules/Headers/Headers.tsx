@@ -28,7 +28,7 @@ const Poster = loadable(() => import("../Poster/Poster"));
 
 const Headers: MovieTitleComponent = ({ dataResponse }) => {
   const { localizedInformation } = dataResponse;
-  const { language } = useLanguage();
+  const language = useLanguage();
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
   const [trailerWindowOpen, setTrailerWindowOpen] = useState<boolean>(

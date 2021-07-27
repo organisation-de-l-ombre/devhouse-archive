@@ -1,18 +1,16 @@
-import {
-  UPDATE_NOTIFICATIONS_PERMISSIONS,
-  USER_FIRST_USE,
-} from "@store/actions";
-import { NotificationsConfigPayload, NotificationsConfigState } from "./types";
+import { ApplicationReducer } from "@store/types";
+import { UPDATE_NOTIFICATIONS_PERMISSIONS, USER_FIRST_USE } from "./actions";
+import { NotificationsConfigState } from "./types";
 
-const notificationsConfigState: NotificationsConfigState = {
+const defaultNotificationsConfig: NotificationsConfigState = {
   firstUse: true,
   allowNotifications: false,
 };
 
-const NotificationsConfigReducer = (
-  state: NotificationsConfigState = notificationsConfigState,
-  payload: NotificationsConfigPayload
-): NotificationsConfigState => {
+const NotificationsConfigReducer: ApplicationReducer<"notificationsConfig"> = (
+  state = defaultNotificationsConfig,
+  payload
+) => {
   switch (payload.type) {
     case USER_FIRST_USE:
       return { ...state, firstUse: false };

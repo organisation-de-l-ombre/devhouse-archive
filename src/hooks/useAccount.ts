@@ -1,34 +1,22 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
 import { GlobalState } from "@store/types";
-import { User, UserObject } from "@store/account/types";
-import { createUser, deleteUser } from "@store/account/actions";
+import { deleteUser } from "@store/account/actions";
+import { User } from "@store/account/types";
 
-interface UserHook {
-  user: User;
-  saveUser: (payload: UserObject) => void;
+interface UseAccountManagerHook {
   removeUser: () => void;
 }
 
-const useAccount = (): UserHook => {
-  const dispatch = useDispatch();
-
-  const user: User = useSelector(
-    (state: GlobalState): User => state.account.user
-  );
-
-  const saveUser = useCallback(
-    (payload: UserObject): void => {
-      dispatch(createUser(payload));
-    },
-    [dispatch]
-  );
-
-  const removeUser = useCallback((): void => {
-    dispatch(deleteUser());
-  }, [dispatch]);
-
-  return { user, saveUser, removeUser };
+const useAccount = (): User | null => {
+  return useSelector((state: GlobalState) => state.account.user);
 };
 
-export default useAccount;
+const useAccountManager = (): UseAccountManagerHook => {
+  const dispatch = useDispatch();
+  const removeUser = useCallback(() => dispatch(deleteUser()), [dispatch]);
+
+  return { removeUser };
+};
+
+export { useAccount, useAccountManager };

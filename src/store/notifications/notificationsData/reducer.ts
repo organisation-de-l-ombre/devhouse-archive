@@ -1,43 +1,37 @@
 import { randomString } from "@lib/utils";
+import { ApplicationReducer } from "@store/types";
 import {
-  NOTIFICATION_DELETE,
   NOTIFICATIONS_DELETE_ALL,
   NOTIFICATIONS_PUSH,
-} from "@store/actions";
-import {
-  Notification,
-  NotificationsDataPayload,
-  NotificationsDataState,
-} from "./types";
+  NOTIFICATION_DELETE,
+} from "./actions";
+import { Notification, NotificationsDataState } from "./types";
 
-const notificationsDataState: NotificationsDataState = {
+const defaultNotificationData: NotificationsDataState = {
   notifications: [],
 };
 
-const NotificationsDataReducer = (
-  state: NotificationsDataState = notificationsDataState,
-  payload: NotificationsDataPayload
+const NotificationsDataReducer: ApplicationReducer<"notificationsData"> = (
+  state = defaultNotificationData,
+  payload
 ): NotificationsDataState => {
   switch (payload.type) {
-    case NOTIFICATIONS_PUSH:
-      for (const notification of payload.payload) {
+    case NOTIFICATIONS_PUSH: {
+      const notifications = payload.payload as Notification[];
+      for (const notification of notifications) {
         notification.id = randomString(10);
       }
 
       return {
         ...state,
-        notifications: [
-          ...state.notifications,
-          ...payload.payload,
-        ] as Notification[],
+        notifications: [...state.notifications, ...notifications],
       };
-
+    }
     case NOTIFICATION_DELETE:
       return {
         ...state,
         notifications: state.notifications.filter(
-          (notification: Notification): boolean =>
-            notification.id !== payload.payload
+          (notification) => notification.id !== payload.payload
         ),
       };
 

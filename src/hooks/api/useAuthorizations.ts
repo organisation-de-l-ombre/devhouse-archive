@@ -9,8 +9,8 @@ import { Authorization } from "@developers-house/abdera";
 import { useTranslation } from "react-i18next";
 import { DevHouseUserAPI, fetchOptions } from "@lib/api";
 import { useNotificationsManager } from "@hooks/useNotifications";
-import useAccount from "@hooks/useAccount";
-import { useClient } from "@hooks/useInternal";
+import { useAccountManager } from "@hooks/useAccount";
+import { useClient } from "@hooks/useProperties";
 
 const useAuthorizationsError = (): ((error?: Error) => Error) => {
   const { t } = useTranslation("pages\\account\\sections\\authorizations");
@@ -48,11 +48,11 @@ const useAuthorizationsDeleteMutation = (
   remove: UseMutateFunction<void>;
 } => {
   const client = useQueryClient();
-  const { clientId } = useClient();
+  const clientId = useClient();
   const criticalError = useAuthorizationsError();
   const { t } = useTranslation("pages\\account\\sections\\authorizations");
   const { t: tAccount } = useTranslation("pages\\account\\sections\\account");
-  const { removeUser } = useAccount();
+  const { removeUser } = useAccountManager();
   const { addNotifications } = useNotificationsManager();
   const { mutate } = useMutation(
     "delete_account_authorizations",

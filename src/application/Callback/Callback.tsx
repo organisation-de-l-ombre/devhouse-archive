@@ -1,43 +1,25 @@
 import React, { useCallback, useEffect } from "react";
 import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
-import useAccount from "@hooks/useAccount";
 import { useNotificationsManager } from "@hooks/useNotifications";
-import { UserObject } from "@store/account/types";
 import { SuspenseComponent } from "@components/modules";
 import { FunctionComponent } from "@typings/FunctionComponent";
-import { useClient } from "@hooks/useInternal";
+import { useClient } from "@hooks/useProperties";
+import { useDispatch } from "react-redux";
+import { createUser, setTokens } from "@store/account/actions";
+import { User } from "@store/account/types";
 
 interface AuthParameters {
   code: string | undefined;
   state: string | undefined;
 }
 
-interface CallbackState {
-  error: boolean;
-  errorMessage?: string;
-  accountUsername?: string;
-}
-
-const authParameters: AuthParameters = {
-  code: undefined,
-  state: undefined,
-};
-
-const getItems = async (): Promise<unknown[]> => {
-  return Promise.all([
-    localStorage.getItem("state-oauth"),
-    localStorage.getItem("redirection"),
-    localStorage.getItem("code-verifier"),
-  ]);
-};
-
-const urlEncodeFormData = (formData: string[][]): string => {
+const urlEncodeFormData = (formData: { [key: string]: string }): string => {
   let s = "";
 
-  formData.forEach((pair) => {
-    if (typeof pair[1] === "string") {
-      s += `${(s ? "&" : "") + encodeURIComponent(pair[0])}=${pair[1]}`;
+  Object.keys(formData).forEach((key) => {
+    if (typeof formData[key] === "string") {
+      s += `${(s ? "&" : "") + encodeURIComponent(key)}=${formData[key]}`;
     }
   });
 
@@ -45,143 +27,127 @@ const urlEncodeFormData = (formData: string[][]): string => {
 };
 
 const Callback: FunctionComponent<HTMLDivElement> = () => {
-  const { clientId } = useClient();
-  const { saveUser } = useAccount();
+  const clientId = useClient();
   const history = useHistory();
-  const [callbackState, setCallbackState] = React.useState<CallbackState>({
-    error: false,
-  });
   const { addNotifications } = useNotificationsManager();
+  const dispatch = useDispatch();
   const { t } = useTranslation("pages\\callback\\callback");
   const { t: tRoot } = useTranslation("root");
 
   const doLogin = useCallback(async () => {
+    const redirection = localStorage.getItem("redirection");
+
+    if (!clientId) {
+      history.push((redirection as string) || "/");
+      return;
+    }
+
+    const parameters: Partial<AuthParameters> = {};
     window.location.search
       .substring(1)
       .split("&")
       .forEach((hk) => {
-        const temp = hk.split("=");
-        const [name, value] = temp;
-
-        authParameters[name as keyof AuthParameters] = value;
+        const [name, value] = hk.split("=") as [keyof AuthParameters, string];
+        parameters[name] = decodeURIComponent(value);
       });
 
-    const [state, redirection, codeVerifier] = await getItems();
+    const authState = localStorage.getItem("state-oauth");
+    const codeVerifier = localStorage.getItem("code-verifier");
 
-    if (!clientId) {
-      setCallbackState((previousState: CallbackState): CallbackState => {
-        return {
-          ...previousState,
-          error: true,
-          errorMessage: "Failed to fetch client ID",
-        };
-      });
+    const { code: authCode, state } = parameters;
+
+    if (!authCode || !authState || state !== authState || !codeVerifier) {
+      // incomplete session.
       history.push((redirection as string) || "/");
+      return;
     }
 
-    const { code: authCode, state: authState } = authParameters;
+    const formData = urlEncodeFormData({
+      client_id: encodeURIComponent(clientId),
+      grant_type: encodeURIComponent("authorization_code"),
+      code: encodeURIComponent(authCode),
+      redirect_uri: encodeURIComponent(
+        `${document.location.protocol}//${document.location.host}/callback`
+      ),
+      code_verifier: codeVerifier,
+    });
 
-    if (authCode && authState && state === authState && clientId) {
-      const formEncoder = urlEncodeFormData([
-        ["client_id", encodeURIComponent(clientId)],
-        ["grant_type", encodeURIComponent("authorization_code")],
-        ["code", encodeURIComponent(authCode)],
-        [
-          "redirect_uri",
-          encodeURIComponent(
-            `${document.location.protocol}//${document.location.host}/callback`
-          ),
-        ],
-        ["code_verifier", codeVerifier as string],
+    const tokens: {
+      refresh_token: string;
+      access_token: string;
+      id_token: string;
+      expire: number;
+    } = await fetch("https://auth-server.developershouse.xyz/oauth2/token", {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      method: "POST",
+      body: formData,
+    })
+      .then((x) => x.json())
+      .catch(() => null);
+
+    if (!tokens) {
+      addNotifications([
+        {
+          type: "error",
+          body: t("error", {
+            error: "Failed to exchange the authorization token.",
+          }),
+          time: 5000,
+        },
       ]);
 
-      try {
-        const { access_token: token } = await fetch(
-          "https://auth-server.developershouse.xyz/oauth2/token",
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-            method: "POST",
-            body: formEncoder,
-          }
-        ).then(
-          (response: Response): Promise<{ access_token: string }> =>
-            response.json()
-        );
+      history.push((redirection as string) || "/");
+      return;
+    }
+    const {
+      id_token: idToken,
+      access_token: accessToken,
+      refresh_token: refreshToken,
+      expire,
+    } = tokens;
+    const expireDate = new Date();
+    expireDate.setSeconds(expireDate.getSeconds() + expire);
+    dispatch(setTokens({ accessToken, refreshToken, expire: expireDate }));
+    // minimal parser for jwt tokens.
+    const user: User | null = JSON.parse(atob(idToken.split(".")[1]));
 
-        try {
-          const userData = await fetch(
-            "https://auth-server.developershouse.xyz/userinfo",
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          ).then((response: Response): Promise<UserObject> => response.json());
+    if (!user) {
+      addNotifications([
+        {
+          type: "error",
+          body: t("error", {
+            error: "Failed to access your account information",
+          }),
+          time: 5000,
+        },
+      ]);
 
-          saveUser({ ...userData, token });
-          setCallbackState((previousState: CallbackState): CallbackState => {
-            return { ...previousState, accountUsername: userData.username };
-          });
-        } catch (error) {
-          setCallbackState((previousState: CallbackState): CallbackState => {
-            return {
-              ...previousState,
-              error: true,
-              errorMessage: (error as Error).message,
-            };
-          });
-        }
-      } catch (error) {
-        setCallbackState((previousState: CallbackState): CallbackState => {
-          return {
-            ...previousState,
-            error: true,
-            errorMessage: (error as Error).message,
-          };
-        });
-      }
+      history.push((redirection as string) || "/");
+      return;
     }
 
-    history.push((redirection as string) || "/");
+    dispatch(createUser(user));
+
+    addNotifications([
+      {
+        type: "info",
+        body: t("userLoggedIn", {
+          username: user.username,
+        }),
+        time: 5000,
+      },
+    ]);
+
     localStorage.removeItem("state-oauth");
     localStorage.removeItem("redirection");
     localStorage.removeItem("code-verifier");
-  }, [clientId, history, saveUser]);
+    history.push((redirection as string) || "/");
+  }, [clientId, history, dispatch, addNotifications, t]);
 
   useEffect(() => {
     doLogin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect((): (() => void) => {
-    return (): void => {
-      if (callbackState.error && callbackState.errorMessage) {
-        addNotifications([
-          {
-            type: "error",
-            body: t("error", { error: callbackState.errorMessage }),
-            time: 5000,
-          },
-        ]);
-
-        return;
-      }
-      if (callbackState.accountUsername) {
-        addNotifications([
-          {
-            type: "info",
-            body: t("userLoggedIn", {
-              username: callbackState.accountUsername,
-            }),
-            time: 5000,
-          },
-        ]);
-      }
-    };
-  });
-
   return <SuspenseComponent customText={tRoot("utils.redirecting")} />;
 };
 

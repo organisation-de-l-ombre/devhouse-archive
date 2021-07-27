@@ -1,3 +1,10 @@
+import { CastingSection } from "./sections/Casting";
+import { GenericSection } from "./sections/GenericSection";
+import { OSTSection } from "./sections/OST";
+import { TechnicalSpecsSection } from "./sections/TechnicalSpecs";
+import { VideosGlobalSection } from "./sections/Videos";
+import { WatchSection } from "./sections/Watch";
+
 // Modules
 export * from "./sections/Watch";
 
@@ -13,3 +20,10 @@ export * from "./sections/Casting";
 export * from "./sections/Videos";
 export * from "./sections/OST";
 export * from "./sections/TechnicalSpecs";
+export type Section =
+  | CastingSection
+  | GenericSection
+  | OSTSection
+  | TechnicalSpecsSection
+  | WatchSection
+  | VideosGlobalSection;

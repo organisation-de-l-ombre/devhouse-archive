@@ -1,5 +1,5 @@
 import React, { ComponentType, ReactElement, useEffect } from "react";
-import useAccount from "@hooks/useAccount";
+import { useAccount } from "@hooks/useAccount";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 import { useNotificationsManager } from "@hooks/useNotifications";
@@ -9,7 +9,7 @@ function withAccount<Props>(Component: ComponentType<Props>) {
     const history = useHistory();
     const { addNotifications } = useNotificationsManager();
     const { t } = useTranslation("root");
-    const { user } = useAccount();
+    const user = useAccount();
 
     useEffect((): void => {
       if (!user) {

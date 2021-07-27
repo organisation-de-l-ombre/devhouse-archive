@@ -3,7 +3,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
 import { FaBell, FaBellSlash, FaMoon, FaSun, FaUser } from "react-icons/fa";
 import { MdSearch } from "react-icons/md";
-import useAccount from "@hooks/useAccount";
+import { useAccount } from "@hooks/useAccount";
 import useTheme from "@hooks/useTheme";
 import {
   useNotificationsManager,
@@ -13,10 +13,10 @@ import useLanguage from "@hooks/useLanguage";
 import { Fade as Hamburger } from "hamburger-react";
 import { FunctionComponent } from "@typings/FunctionComponent";
 import MinimalIcon from "@svg/icons/Minimal";
-import { useClient } from "@hooks/useInternal";
+import { useClient } from "@hooks/useProperties";
 import { AiFillWarning } from "react-icons/ai";
 import { fetchImage } from "@lib/utils";
-import { User } from "@store/account/types";
+import { User } from "@developers-house/abdera";
 import DisplayLanguageSVG from "../DisplayLanguageSVG/DisplayLanguageSVG";
 import styles from "./Navbar.module.scss";
 
@@ -111,11 +111,11 @@ const DrawerStart: FunctionComponent<
 
 const UserManagement: FC<{
   manageNavbar: () => void;
-  user?: User;
+  user: User | null;
 }> = ({ manageNavbar, user }) => {
   const { t } = useTranslation("components\\modules\\navbar\\navbar");
   const { pathname } = useLocation();
-  const { clientId } = useClient();
+  const clientId = useClient();
   const manageAuth = useCallback((): void => {
     manageNavbar();
     localStorage.setItem("redirection", pathname);
@@ -160,10 +160,10 @@ const UserManagement: FC<{
       className={styles.account}
       onClick={manageAuth}
     >
-      {user?.avatar ? (
+      {user?.profilePicture ? (
         <img
           src={fetchImage({
-            image: user.avatar,
+            image: user.profilePicture,
             width: 30,
             height: 30,
           })}
@@ -195,7 +195,7 @@ const DrawerEnd: FunctionComponent<
   setNotificationsWindowOpen,
 }) => {
   const { t } = useTranslation("components\\modules\\navbar\\navbar");
-  const { user } = useAccount();
+  const user = useAccount();
   const { theme, switchTheme } = useTheme();
   const { allowNotifications } = useNotificationsState();
   const { addNotifications } = useNotificationsManager();
@@ -212,7 +212,7 @@ const DrawerEnd: FunctionComponent<
       },
     ]);
   }, [addNotifications, manageNavbar, switchTheme, t, theme]);
-  const { language } = useLanguage();
+  const language = useLanguage();
 
   return (
     <div className={styles.end}>

@@ -20,6 +20,7 @@ const randomString = (randomBytesLength = 48): string => {
 
   return window
     .btoa(String.fromCharCode(...randomBytes))
+    .replace(/=/g, "")
     .replaceAll("+", "-")
     .replaceAll("/", "_");
 };
@@ -30,15 +31,13 @@ const generateCodeChallenge = async (code: string): Promise<string> => {
     new TextEncoder().encode(code)
   );
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   return btoa(String.fromCharCode(...new Uint8Array(digest)))
     .replace(/=/g, "")
     .replace(/\+/g, "-")
     .replace(/\//g, "_");
 };
 
-const manageAuth = async (clientId?: string): Promise<void> => {
+const manageAuth = async (clientId: string | null): Promise<void> => {
   const state = randomString(32);
 
   localStorage.setItem("state-oauth", state);
@@ -47,7 +46,7 @@ const manageAuth = async (clientId?: string): Promise<void> => {
     throw new Error("Failed to fetch client ID.");
   }
 
-  const scopes = ["account.info", "account.authorized.*"];
+  const scopes = ["account.info", "account.authorized.*", "offline", "openid"];
   const audience = "imr abdera";
   const codeVerifier = randomString(32);
 

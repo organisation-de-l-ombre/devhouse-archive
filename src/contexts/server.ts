@@ -4,7 +4,7 @@ import { createContext } from "react";
 type ServerContextProps = {
   request: Request;
   response: Response;
-  preload: Promise<unknown>[];
+  preload: (Promise<unknown> | unknown)[];
   preloadLoaded: boolean;
 } | null;
 
