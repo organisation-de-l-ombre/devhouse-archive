@@ -27,7 +27,7 @@ interface UserState {
   tokens: {
     refreshToken: string;
     accessToken: string;
-    expire: Date;
+    expire: number;
   } | null;
 }
 export type Tokens = UserState["tokens"];

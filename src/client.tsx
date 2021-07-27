@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from "react";
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { register } from "@lib/serviceWorker";
 import Application from "@application/Application";
 import { decode as cborDecode, encode as cborEncode } from "cbor-js";
@@ -11,7 +11,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import loadable, { loadableReady } from "@loadable/component";
 import { hydrate } from "react-dom";
 import { GlobalState } from "@store/types";
-import { Provider } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import createCache, { EmotionCache } from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
 import debounce from "lodash.debounce";
@@ -34,6 +34,9 @@ import themes from "@styles/Themes.module.scss";
 import globalStyles from "@styles/Global.module.scss";
 import "@styles/Root.scss";
 import { QueryParamProvider } from "use-query-params";
+import { urlEncodeFormData } from "@application/Callback/Callback";
+import { useClient } from "@hooks/useProperties";
+import { setTokens } from "@store/account/actions";
 
 register();
 
@@ -131,6 +134,54 @@ loadableReady((): void => {
       setPageLoaded(true);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const tokens = useSelector((state) => state.account.tokens);
+    const clientId = useClient();
+    const dispatch = useDispatch();
+    const refreshTokens = useCallback(async () => {
+      if (tokens && clientId) {
+        if (tokens.expire < Date.now() / 1000) {
+          // we need to refresh the token
+          const encoded = urlEncodeFormData({
+            client_id: encodeURIComponent(clientId),
+            grant_type: encodeURIComponent("refresh_token"),
+            refresh_token: tokens.refreshToken,
+          });
+
+          const newTokens: {
+            refresh_token: string;
+            access_token: string;
+            id_token: string;
+            expires_in: number;
+          } = await fetch(
+            "https://auth-server.developershouse.xyz/oauth2/token",
+            {
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+              method: "POST",
+              body: encoded,
+            }
+          )
+            .then((x) => x.json())
+            .catch(() => null);
+
+          dispatch(
+            setTokens({
+              accessToken: newTokens.access_token,
+              refreshToken: newTokens.refresh_token,
+              expire: Date.now() / 1000 + newTokens.expires_in,
+            })
+          );
+        } else {
+          const seconds = tokens.expire - Date.now() / 1000;
+          console.log("refresh in ", seconds);
+          setTimeout(refreshTokens, seconds * 1000);
+        }
+      }
+    }, [clientId, tokens, dispatch]);
+
+    useEffect(() => {
+      refreshTokens();
+    }, [refreshTokens]);
 
     useEffect((): void => {
       i18n.changeLanguage(language).then((): void => {

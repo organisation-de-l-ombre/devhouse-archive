@@ -14,7 +14,9 @@ interface AuthParameters {
   state: string | undefined;
 }
 
-const urlEncodeFormData = (formData: { [key: string]: string }): string => {
+export const urlEncodeFormData = (formData: {
+  [key: string]: string;
+}): string => {
   let s = "";
 
   Object.keys(formData).forEach((key) => {
@@ -76,7 +78,7 @@ const Callback: FunctionComponent<HTMLDivElement> = () => {
       refresh_token: string;
       access_token: string;
       id_token: string;
-      expire: number;
+      expires_in: number;
     } = await fetch("https://auth-server.developershouse.xyz/oauth2/token", {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       method: "POST",
@@ -103,11 +105,17 @@ const Callback: FunctionComponent<HTMLDivElement> = () => {
       id_token: idToken,
       access_token: accessToken,
       refresh_token: refreshToken,
-      expire,
+      expires_in: expireIn,
     } = tokens;
-    const expireDate = new Date();
-    expireDate.setSeconds(expireDate.getSeconds() + expire);
-    dispatch(setTokens({ accessToken, refreshToken, expire: expireDate }));
+    console.log(`aaa${expireIn}`);
+    dispatch(
+      setTokens({
+        accessToken,
+        refreshToken,
+        expire: Date.now() / 1000 + expireIn,
+      })
+    );
+
     // minimal parser for jwt tokens.
     const user: User | null = JSON.parse(atob(idToken.split(".")[1]));
 
