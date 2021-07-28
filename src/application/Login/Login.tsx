@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import manageAuth from "@lib/manageAuthentication";
+import { redirectToLogin } from "@lib/oauth";
 import { useTranslation } from "react-i18next";
 import { useAccount } from "@hooks/useAccount";
 import { useHistory } from "react-router";
@@ -19,7 +19,9 @@ const Login: FunctionComponent<HTMLDivElement> = () => {
       return;
     }
 
-    manageAuth(clientId);
+    if (clientId) {
+      redirectToLogin(clientId);
+    }
   }, [history, user, clientId]);
 
   return <SuspenseComponent customText={t("utils.redirecting")} />;
