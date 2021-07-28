@@ -19,12 +19,12 @@ spec:
   # these are optional
   redirectUris:
   {{- if .Values.service.commonName }}
-    - https://{{ template "noquote-hostname" .Values.service.commonName }}/callback
+    - https://{{ template "noquote-hostname" .Values.service.commonName }}{{ .Values.oauthClient.callbackEndpoint }}
   {{- end }}
-    - https://{{ template "noquote-hostname" .Values.service.url }}/callback
+    - https://{{ template "noquote-hostname" .Values.service.url }}{{ .Values.oauthClient.callbackEndpoint }}
   {{- if .Values.service.additionalHosts }}
   {{- range $host := .Values.service.additionalHosts }}
-    - https://{{ template "noquote-hostname" $host }}/callback
+    - https://{{ template "noquote-hostname" $host }}{{ .Values.oauthClient.callbackEndpoint }}
   {{- end -}}
   {{- end }}
   audience:
