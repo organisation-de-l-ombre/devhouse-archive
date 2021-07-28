@@ -73,17 +73,17 @@ const redirectToLogin = async (clientId: string): Promise<void> => {
   )}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
 };
 
-const refresh = (
+const refreshToken = (
   clientId: string,
-  refreshToken: string
+  token: string
 ): Promise<Tokens & { idToken: string }> => {
   const encoded = urlEncodeFormData({
     client_id: encodeURIComponent(clientId),
     grant_type: encodeURIComponent("refresh_token"),
-    refresh_token: refreshToken,
+    refresh_token: token,
   });
 
-  return fetch("", {
+  return fetch("https://auth-server.developershouse.xyz/oauth2/token", {
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     method: "POST",
     body: encoded,
@@ -100,4 +100,4 @@ const refresh = (
 const getUser = (idToken: string): User => {
   return JSON.parse(atob(idToken.split(".")[1]));
 };
-export { redirectToLogin, refresh, urlEncodeFormData, getUser };
+export { redirectToLogin, refreshToken, urlEncodeFormData, getUser };

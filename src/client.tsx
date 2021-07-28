@@ -36,7 +36,7 @@ import "@styles/Root.scss";
 import { QueryParamProvider } from "use-query-params";
 import { useClient } from "@hooks/useProperties";
 import { createUser, setTokens } from "@store/account/actions";
-import { getUser, refresh } from "@lib/oauth";
+import { getUser, refreshToken } from "@lib/oauth";
 
 register();
 
@@ -142,7 +142,7 @@ loadableReady((): void => {
       if (tokens && clientId) {
         if (tokens.expire < Date.now() / 1000) {
           // we need to refresh the token
-          const newTokens = await refresh(clientId, tokens.refreshToken);
+          const newTokens = await refreshToken(clientId, tokens.refreshToken);
           const user = getUser(newTokens.idToken);
           dispatch(createUser(user));
           dispatch(

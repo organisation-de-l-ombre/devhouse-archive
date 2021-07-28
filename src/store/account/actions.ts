@@ -18,7 +18,6 @@ const deleteUser: ApplicationAction<"account/userRemoved"> = () => {
 const setTokens: ApplicationAction<"account/setTokens", [Tokens]> = (
   tokens: Tokens
 ) => {
-  console.log(tokens);
   return { type: USER_SET_TOKENS, payload: tokens };
 };
 
