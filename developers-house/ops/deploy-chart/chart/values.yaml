@@ -122,6 +122,7 @@ extraLabels: {}
 podAnnotations: {}
 
 oauthClient:
+  callbackEndpoint: /callback
   enabled: false
   name: Test HELM
   grantType:
