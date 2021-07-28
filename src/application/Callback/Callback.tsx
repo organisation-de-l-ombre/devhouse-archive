@@ -8,25 +8,12 @@ import { useClient } from "@hooks/useProperties";
 import { useDispatch } from "react-redux";
 import { createUser, setTokens } from "@store/account/actions";
 import { User } from "@store/account/types";
+import { getUser, urlEncodeFormData } from "@lib/oauth";
 
 interface AuthParameters {
   code: string | undefined;
   state: string | undefined;
 }
-
-export const urlEncodeFormData = (formData: {
-  [key: string]: string;
-}): string => {
-  let s = "";
-
-  Object.keys(formData).forEach((key) => {
-    if (typeof formData[key] === "string") {
-      s += `${(s ? "&" : "") + encodeURIComponent(key)}=${formData[key]}`;
-    }
-  });
-
-  return s;
-};
 
 const Callback: FunctionComponent<HTMLDivElement> = () => {
   const clientId = useClient();
@@ -117,7 +104,7 @@ const Callback: FunctionComponent<HTMLDivElement> = () => {
     );
 
     // minimal parser for jwt tokens.
-    const user: User | null = JSON.parse(atob(idToken.split(".")[1]));
+    const user = getUser(idToken);
 
     if (!user) {
       addNotifications([

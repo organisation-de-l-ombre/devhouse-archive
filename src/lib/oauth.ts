@@ -1,4 +1,17 @@
+import { Tokens, User } from "@store/account/types";
 import times from "lodash.times";
+
+const urlEncodeFormData = (formData: { [key: string]: string }): string => {
+  let s = "";
+
+  Object.keys(formData).forEach((key) => {
+    if (typeof formData[key] === "string") {
+      s += `${(s ? "&" : "") + encodeURIComponent(key)}=${formData[key]}`;
+    }
+  });
+
+  return s;
+};
 
 const randomString = (randomBytesLength = 48): string => {
   if (typeof window === "undefined") {
@@ -37,14 +50,9 @@ const generateCodeChallenge = async (code: string): Promise<string> => {
     .replace(/\//g, "_");
 };
 
-const manageAuth = async (clientId: string | null): Promise<void> => {
+const redirectToLogin = async (clientId: string): Promise<void> => {
   const state = randomString(32);
-
   localStorage.setItem("state-oauth", state);
-
-  if (!clientId) {
-    throw new Error("Failed to fetch client ID.");
-  }
 
   const scopes = ["account.info", "account.authorized.*", "offline", "openid"];
   const audience = "imr abdera";
@@ -65,4 +73,31 @@ const manageAuth = async (clientId: string | null): Promise<void> => {
   )}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
 };
 
-export default manageAuth;
+const refresh = (
+  clientId: string,
+  refreshToken: string
+): Promise<Tokens & { idToken: string }> => {
+  const encoded = urlEncodeFormData({
+    client_id: encodeURIComponent(clientId),
+    grant_type: encodeURIComponent("refresh_token"),
+    refresh_token: refreshToken,
+  });
+
+  return fetch("", {
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    method: "POST",
+    body: encoded,
+  })
+    .then((response) => response.json())
+    .then((response): Tokens & { idToken: string } => ({
+      accessToken: response.access_token,
+      refreshToken: response.refresh_token,
+      expire: response.expires_in,
+      idToken: response.id_token,
+    }));
+};
+
+const getUser = (idToken: string): User => {
+  return JSON.parse(atob(idToken.split(".")[1]));
+};
+export { redirectToLogin, refresh, urlEncodeFormData, getUser };

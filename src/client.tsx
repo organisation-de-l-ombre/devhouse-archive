@@ -34,9 +34,9 @@ import themes from "@styles/Themes.module.scss";
 import globalStyles from "@styles/Global.module.scss";
 import "@styles/Root.scss";
 import { QueryParamProvider } from "use-query-params";
-import { urlEncodeFormData } from "@application/Callback/Callback";
 import { useClient } from "@hooks/useProperties";
-import { setTokens } from "@store/account/actions";
+import { createUser, setTokens } from "@store/account/actions";
+import { getUser, refresh } from "@lib/oauth";
 
 register();
 
@@ -142,33 +142,14 @@ loadableReady((): void => {
       if (tokens && clientId) {
         if (tokens.expire < Date.now() / 1000) {
           // we need to refresh the token
-          const encoded = urlEncodeFormData({
-            client_id: encodeURIComponent(clientId),
-            grant_type: encodeURIComponent("refresh_token"),
-            refresh_token: tokens.refreshToken,
-          });
-
-          const newTokens: {
-            refresh_token: string;
-            access_token: string;
-            id_token: string;
-            expires_in: number;
-          } = await fetch(
-            "https://auth-server.developershouse.xyz/oauth2/token",
-            {
-              headers: { "Content-Type": "application/x-www-form-urlencoded" },
-              method: "POST",
-              body: encoded,
-            }
-          )
-            .then((x) => x.json())
-            .catch(() => null);
-
+          const newTokens = await refresh(clientId, tokens.refreshToken);
+          const user = getUser(newTokens.idToken);
+          dispatch(createUser(user));
           dispatch(
             setTokens({
-              accessToken: newTokens.access_token,
-              refreshToken: newTokens.refresh_token,
-              expire: Date.now() / 1000 + newTokens.expires_in,
+              accessToken: newTokens.accessToken,
+              refreshToken: newTokens.refreshToken,
+              expire: Date.now() / 1000 + newTokens.expire,
             })
           );
         } else {
