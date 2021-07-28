@@ -94,7 +94,6 @@ const Callback: FunctionComponent<HTMLDivElement> = () => {
       refresh_token: refreshToken,
       expires_in: expireIn,
     } = tokens;
-    console.log(`aaa${expireIn}`);
     dispatch(
       setTokens({
         accessToken,

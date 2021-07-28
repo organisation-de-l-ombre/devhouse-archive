@@ -154,7 +154,6 @@ loadableReady((): void => {
           );
         } else {
           const seconds = tokens.expire - Date.now() / 1000;
-          console.log("refresh in ", seconds);
           setTimeout(refreshTokens, seconds * 1000);
         }
       }
