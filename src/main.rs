@@ -72,8 +72,6 @@ fn rocket() -> Rocket {
 
 fn main() {
     dotenv().ok();
-    let con = establish_connection();
-    embedded_migrations::run(&con).unwrap();
 
     rocket()
         .attach(ScarletDB::fairing())
