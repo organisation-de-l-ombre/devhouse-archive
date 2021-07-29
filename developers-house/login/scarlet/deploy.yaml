@@ -55,7 +55,7 @@ resources:
     memory: 128Mi
 
 networkPolicy:
-  enabled: true
+  enabled: false
   spec:
     podSelector:
       matchLabels: {}
