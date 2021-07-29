@@ -44,7 +44,7 @@ macro_rules! map(
 
 fn rocket() -> Rocket {
     let postgres_url = format!(
-        "postgres://{}:{}@{}:{}/{}",
+        "postgres://{}:{}@{}:{}/{}?sslmode=require",
         env::var("POSTGRES_USERNAME").expect("You need a POSTGRES_USERNAME."),
         env::var("POSTGRES_PASSWORD").expect("You need a POSTGRES_PASSWORD."),
         env::var("POSTGRES_HOST").expect("You need a POSTGRES_HOST."),
