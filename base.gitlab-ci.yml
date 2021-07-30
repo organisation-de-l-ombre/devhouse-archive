@@ -3,6 +3,11 @@
 # of the infrastructure, please, test your changes on another repo before submitting your changes.
 # -----------------
 
+include:
+  - project: 'dependabot-gitlab/dependabot-standalone'
+    file: '.gitlab-ci.yml'
+
+
 stages:
   - build
   - docker
