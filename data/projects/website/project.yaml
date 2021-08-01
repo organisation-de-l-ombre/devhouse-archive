@@ -1,6 +1,6 @@
 name: Developer's House website
 normalizedName: website
-logo: https://s3.developershouse.xyz/website-assets/projects/website/icon.png
+logo: https://cdn.developershouse.xyz/website-assets/projects/website/icon.png
 shortDescription: The main website of the Developer's House organization.
 longDescription: |
   It is even the website you are currently on! It allows you to see our projects, our

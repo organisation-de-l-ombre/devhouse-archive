@@ -1,6 +1,6 @@
 name: Login Platform
 normalizedName: login-platform
-logo: https://s3.developershouse.xyz/website-assets/projects/login/icon.png
+logo: https://cdn.developershouse.xyz/website-assets/projects/login/icon.png
 shortDescription: Login platform handles all the users sessions, and RGPD compliance.
 longDescription: |
   The Login Services handle all the user accounts, manage all the user's data, and
