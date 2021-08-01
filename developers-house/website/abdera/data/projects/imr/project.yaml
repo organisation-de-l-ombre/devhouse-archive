@@ -1,6 +1,6 @@
 name: International Media Referencing
 normalizedName: imr
-logo: https://s3.developershouse.xyz/website-assets/projects/imr/icon.png
+logo: https://cdn.developershouse.xyz/website-assets/projects/imr/icon.png
 shortDescription: A complete and online database referencing a great deal of movies and series.
 longDescription: |
   International Media Referencing is an online web database which references a great deal of multimedia
@@ -12,4 +12,4 @@ members:
   - id: "537979556259430411" # Kylian
 managers:
   - id: "537979556259430411" # Kylian
-markdown_s3: https://s3.developershouse.xyz/website-assets/projects/imr/project.md
+markdown_s3: https://cdn.developershouse.xyz/website-assets/projects/imr/markdown.md
