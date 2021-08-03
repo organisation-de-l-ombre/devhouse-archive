@@ -14,7 +14,7 @@ package:
   only:
     changes:
       - openapi.yaml
-      - openapi-gen/*
+      - gen/*
     refs:
       - master
   before_script:
@@ -24,7 +24,7 @@ package:
   script:
     - yarn
     - yarn gen:client-axios
-    - cd openapi-gen
+    - cd gen
     - apt-get update -y
     - apt-get install jq -y
     - yarn
