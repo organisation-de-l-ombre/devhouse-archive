@@ -24,21 +24,21 @@ package:
   script:
     - apt-get update -y
     - apt-get install jq -y
-    - yarn
-    - yarn gen:client
+    - npm i
+    - npm run gen:client
     - cd gen
 
     - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" >> .npmrc
     - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
     - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
   
-    - yarn
-    - yarn build
+    - npm i
+    - npm run build
 
     # This may be replaced by an automatic bump.
     - VERSION=$(jq .version package.json)
     - echo "${VERSION:1:${#VERSION}-2}"
-    - yarn publish --new-version "${VERSION:1:${#VERSION}-2}"
+    - npm publish
 
 
 # Report the test results
