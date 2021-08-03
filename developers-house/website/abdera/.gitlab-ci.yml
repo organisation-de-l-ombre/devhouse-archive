@@ -18,9 +18,9 @@ package:
     refs:
       - master
   before_script:
-    - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" > .npmrc
-    - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" > .npmrc
-    - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" > .npmrc
+    - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" >> .npmrc
+    - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+    - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
   script:
     - yarn
     - yarn gen:client-axios
@@ -40,9 +40,9 @@ package:
 test:
   image: timbru31/java-node
   before_script:
-    - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" > .npmrc
-    - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" > .npmrc
-    - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" > .npmrc
+    - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" >> .npmrc
+    - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+    - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
   script:
     - yarn install
     - yarn build
