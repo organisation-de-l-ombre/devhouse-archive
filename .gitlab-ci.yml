@@ -24,10 +24,10 @@ package:
     - cd openapi-gen
     - apt-get update -y
     - apt-get install jq -y
-    - yarn
-    - yarn build
     - echo "@${CI_PROJECT_ROOT_NAMESPACE}:registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
     - echo "${CI_API_V4_URL#https?}/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=\${CI_JOB_TOKEN}" > .npmrc
+    - yarn
+    - yarn build
 
     # This may be replaced by an automatic bump.
     - VERSION=$(jq .version package.json)
