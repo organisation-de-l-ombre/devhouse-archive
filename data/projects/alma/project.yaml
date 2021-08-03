@@ -8,8 +8,7 @@ longDescription: |
   House internal team can access it to retrieve, manage or delete
   data.
 members:
-  - id: "357595301210619904" # icecodder
-  - id: "314354049023737857" # Matthieu
+  - id: "537979556259430411" # Kylian
 managers:
   - id: "357595301210619904" # icecodder
   - id: "314354049023737857" # Matthieu

@@ -13,7 +13,6 @@
     "@oryd/hydra-client": "^1.9.0-alpha.2",
     "@sentry/node": "^5.28.0",
     "@types/ioredis": "^4.17.7",
-    "@types/yaml": "^1.9.7",
     "axios": "^0.21.1",
     "connect": "^3.7.0",
     "fastify": "^3.7.0",

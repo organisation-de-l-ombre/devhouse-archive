@@ -3,7 +3,7 @@ openapi: 3.0.0
 info:
   title: Abdera API
   description: A simple api for the ressources needed by the website.
-  version: v1
+  version: 1.6.0
 
 servers:
   - url: https://abdera-api.developershouse.xyz
@@ -40,7 +40,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Projects"
+                  $ref: "#/components/schemas/Project"
   "/user/:id":
     get:
       tags:
@@ -275,15 +275,16 @@ components:
                 type: string
               name:
                 type: string
-    Projects:
+    Project:
       type: object
       required:
         - name
         - logo
+        - shortDescription
         - longDescription
         - normalizedName
+        - members
         - managers
-        - markdown_s3
       properties:
         name:
           type: string
@@ -291,9 +292,11 @@ components:
           type: string
         logo:
           type: string
+        banner:
+          type: string
         shortDescription:
           type: string
-        longDescription: # URL to the markdown
+        longDescription:
           type: string
         members:
           type: array

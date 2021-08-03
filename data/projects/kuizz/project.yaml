@@ -7,8 +7,7 @@ longDescription: |
   in real-time with your friends around the world. Kuizz will be 
   available on all mobile platforms, such as Android, iOS. Kuizz
   will be cross-platform and free for everyone.
-members:
-  - id: "314354049023737857" # Matthieu
+members: []
 managers:
   - id: "314354049023737857" # Matthieu
 logo: https://cdn.developershouse.xyz/website-assets/projects/kuizz/icon.png
