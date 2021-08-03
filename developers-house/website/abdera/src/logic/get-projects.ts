@@ -1,29 +1,29 @@
-import { Projects } from "../../gen";
+import { Project } from "../../gen";
 import { readYamlFolder } from "../utils/read-yaml-folder";
 import path from "path";
 import { fetchStaff } from "./get-staff";
 import { Redis } from "ioredis";
 
-const selfProjects: Projects[] = [];
-readYamlFolder<Projects>(
+const selfProjects: Project[] = [];
+readYamlFolder<Project>(
   "projects",
   path.join(process.cwd(), "data", "projects")
-).map((project: Projects) => selfProjects.push(project));
+).map((project: Project) => selfProjects.push(project));
 
-async function getProjects(redis: Redis): Promise<Projects[]> {
+async function getProjects(redis: Redis): Promise<Project[]> {
   const fetcher = fetchStaff(redis);
-  return await Promise.all(
-    selfProjects.map(async ({ members, managers, ...project }) => ({
+  return await Promise.all<Project>(
+    selfProjects.map(async ({ members, managers, ...project }: Project) => ({
       ...project,
       members: members
-        ? (await Promise.all(members.map(({ id }) => fetcher(id)))).filter(
-          Boolean
-        )
+        ? (
+            await Promise.all(members.map(({ id }) => fetcher(id)))
+          ).filter(Boolean)
         : [],
       managers: managers
-        ? (await Promise.all(managers.map(({ id }) => fetcher(id)))).filter(
-          Boolean
-        )
+        ? (
+            await Promise.all(managers.map(({ id }) => fetcher(id)))
+          ).filter(Boolean)
         : []
     }))
   );

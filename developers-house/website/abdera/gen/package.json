@@ -1,7 +1,7 @@
 {
     "name": "@developers-house/abdera",
-    "version": "1.5.0",
-    "description": "Th library responsible for the data management & takeout.",
+    "version": "1.6.0",
+    "description": "Amelia is the library responsible for the data management & takeouts.",
     "main": "dist/index.js",
     "files": [
         "dist"

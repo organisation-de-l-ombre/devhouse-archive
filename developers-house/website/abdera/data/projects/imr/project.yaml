@@ -8,8 +8,7 @@ longDescription: |
   (IMDB, TMDB) while adding features like Wikipedia or Fandom (detailled information, casting, original
   soundtrack, etc...). Everyone who possesses a verified account on the platform can add or edit content
   to contribute.
-members:
-  - id: "537979556259430411" # Kylian
+members: []
 managers:
   - id: "537979556259430411" # Kylian
 markdown_s3: https://cdn.developershouse.xyz/website-assets/projects/imr/markdown.md

@@ -8,7 +8,6 @@ longDescription: |
   handle the login system management and moderation requirements. This is a central
   piece of Developer's House and is required for the functionement of various services.
 members:
-  - id: "314354049023737857" # Matthieu
   - id: "537979556259430411" # Kylian
   - id: "357595301210619904" # icecodder
 managers:
