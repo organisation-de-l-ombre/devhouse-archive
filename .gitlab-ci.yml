@@ -23,8 +23,9 @@ package:
     - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
   script:
     - yarn
-    - yarn gen:client-axios
+    - yarn gen:client
     - cd gen
+    - cp ../.npmrc . # copy the npmrc to the current directory 
     - apt-get update -y
     - apt-get install jq -y
     - yarn
