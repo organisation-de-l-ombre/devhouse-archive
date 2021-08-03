@@ -17,15 +17,16 @@ package:
       - openapi-gen/*
     refs:
       - master
-
+  before_script:
+    - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" > .npmrc
+    - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" > .npmrc
+    - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" > .npmrc
   script:
     - yarn
     - yarn gen:client-axios
     - cd openapi-gen
     - apt-get update -y
     - apt-get install jq -y
-    - echo "@${CI_PROJECT_ROOT_NAMESPACE}:registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
-    - echo "${CI_API_V4_URL#https?}/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=\${CI_JOB_TOKEN}" > .npmrc
     - yarn
     - yarn build
 
