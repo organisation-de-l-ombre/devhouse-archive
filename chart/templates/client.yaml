@@ -20,12 +20,12 @@ spec:
   {{- $clbck := .Values.oauthClient.callbackEndpoint -}}
   redirectUris:
   {{- if .Values.service.commonName }}
-    - https://{{ template "noquote-hostname" .Values.service.commonName }}{{ $clbck }}
+    - https://{{ template "noquote-hostname" .Values.service.commonName }}{{ .Values.oauthClient.callbackEndpoint }}
   {{- end }}
-    - https://{{ template "noquote-hostname" .Values.service.url }}{{ $clbck }}
+    - https://{{ template "noquote-hostname" .Values.service.url }}{{ .Values.oauthClient.callbackEndpoint }}
   {{- if .Values.service.additionalHosts }}
   {{- range $host := .Values.service.additionalHosts }}
-    - https://{{ template "noquote-hostname" $host }}{{ $clbck }}
+    # - https://{{ template "noquote-hostname" $host }}{{ $clbck }}
   {{- end -}}
   {{- end }}
   audience:
