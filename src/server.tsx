@@ -73,7 +73,9 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
     variants: flag.variants,
   }));
 
-  req.span.addTags(flags);
+  req.span.addTags({
+    flags: flags.filter((x) => x.enabled).map((x) => x.name),
+  });
 
   const state: DeepPartial<RootState> = {
     account: {},
@@ -146,7 +148,7 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
   await reactSSRPrepass(jsx);
 
   const loadingDataSpan = Tracer.startSpan("load_data", {
-    childOf: preRenderPass,
+    childOf: req.span,
   });
 
   preloaderContext.done = true;
@@ -172,6 +174,7 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
   );
 
   loadingDataSpan.finish();
+  preRenderPass.finish();
 
   const renderSpan = Tracer.startSpan("render", { childOf: req.span });
 
