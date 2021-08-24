@@ -10,20 +10,28 @@ declare interface GlobalFetch {
   fetch(input: RequestInfo, init?: RequestInit): Promise<Response>;
 }
 
-declare module "react-component-caching" {
-  const module: any;
-  export default module;
-}
-declare module "cbor-js" {
-  const module: any;
-  export default module;
-}
-
 declare namespace NodeJS {
   interface ProcessEnv {
     readonly NODE_ENV: "development" | "production" | "test";
     readonly PUBLIC_URL: string;
   }
+}
+
+declare module "express-opentracing" {
+  import { Tracer } from "opentracing";
+  import { RequestHandler } from "express";
+
+  export type MiddlewareOptions = {
+    tracer: Tracer;
+  };
+  export default function middleware(
+    options: MiddlewareOptions
+  ): RequestHandler;
+}
+
+declare module "cbor-js" {
+  const module: any;
+  export default module;
 }
 
 declare module "*.bmp" {

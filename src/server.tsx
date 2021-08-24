@@ -9,6 +9,7 @@ import middleware from "i18next-http-middleware";
 import createEmotionServer from "@emotion/server/create-instance";
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
+import openTracing from "express-opentracing";
 import { ChunkExtractor, ChunkExtractorManager } from "@loadable/server";
 import path from "path";
 import { initialize } from "unleash-client";
@@ -25,9 +26,15 @@ import { decode, encode } from "base64-arraybuffer";
 import { DeepPartial } from "redux";
 import CreateRedis from "ioredis";
 import reactSSRPrepass from "react-ssr-prepass";
+import { Tracer } from "@utilities/jaeger";
+import { opentracing } from "jaeger-client";
 import App from "./Root";
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+declare module "express-serve-static-core" {
+  interface Request {
+    span: opentracing.Span;
+  }
+}
 
 const redis = new CreateRedis({
   sentinels: [
@@ -50,6 +57,8 @@ const unleash = initialize({
 const emotionCacheKey = "ssr-render";
 
 export const renderApp = async (req: Request, res: Response): Promise<void> => {
+  req.span.logEvent("render_start", {});
+
   const context: StaticRouterProps["context"] = {};
   if (
     req.query.language &&
@@ -64,6 +73,8 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
     variants: flag.variants,
   }));
 
+  req.span.addTags(flags);
+
   const state: DeepPartial<RootState> = {
     account: {},
     theme: { theme: "light" },
@@ -73,6 +84,10 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
     "theme",
     "account",
   ] as never as (keyof RootState)[];
+
+  const loadingSpan = Tracer.startSpan("start_loading_state", {
+    childOf: req.span,
+  });
 
   persistedStoreKeys.forEach((element: keyof RootState) => {
     const cookie = req.cookies[`store-${element}`];
@@ -104,6 +119,12 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
     promises: [],
   };
 
+  loadingSpan.finish();
+
+  const preRenderPass = Tracer.startSpan("pre_render_pass", {
+    childOf: req.span,
+  });
+
   const jsx = (
     <SSRContext.Provider value={{ req, res }}>
       <PreloadContext.Provider value={preloaderContext}>
@@ -123,6 +144,10 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
   );
 
   await reactSSRPrepass(jsx);
+
+  const loadingDataSpan = Tracer.startSpan("load_data", {
+    childOf: preRenderPass,
+  });
 
   preloaderContext.done = true;
   // Wait for all the loading promises to finish.
@@ -145,6 +170,11 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
       return result;
     })
   );
+
+  loadingDataSpan.finish();
+
+  const renderSpan = Tracer.startSpan("render", { childOf: req.span });
+
   const dehydratedState = dehydrate(queryClient);
   // Get all the used assets using emotion.
   const { html, styles } = extractCriticalToChunks(renderToString(jsx));
@@ -156,6 +186,9 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
   const linkTags = extractor.getLinkTags();
   // collect style tags
   const styleTags = extractor.getStyleTags();
+
+  renderSpan.finish();
+
   res.send(`<!doctype html>
     <html ${helmet.htmlAttributes.toString()}>
       <head>
@@ -184,6 +217,7 @@ export const renderApp = async (req: Request, res: Response): Promise<void> => {
 const server = express();
 
 server
+  .use(openTracing({ tracer: Tracer }))
   .use(cookieParser())
   .disable("x-powered-by")
   .use(middleware.handle(i18next))
