@@ -3,9 +3,6 @@
 /// <reference types="node" />
 /// <reference types="react" />
 /// <reference types="react-dom" />
-
-import { opentracing } from "jaeger-client";
-
 /// <reference lib="dom" />
 /// <reference types="@emotion/react/types/css-prop" />
 
@@ -18,6 +15,23 @@ declare namespace NodeJS {
     readonly NODE_ENV: "development" | "production" | "test";
     readonly PUBLIC_URL: string;
   }
+}
+
+declare module "express-opentracing" {
+  import { Tracer } from "opentracing";
+  import { RequestHandler } from "express";
+
+  export type MiddlewareOptions = {
+    tracer: Tracer;
+  };
+  export default function middleware(
+    options: MiddlewareOptions
+  ): RequestHandler;
+}
+
+declare module "cbor-js" {
+  const module: any;
+  export default module;
 }
 
 declare module "*.bmp" {
