@@ -134,6 +134,7 @@ oauthClient:
   scope: "account.* websocket.*"
   audiences:
     - abdera
+  callbackEndpoint: /callback
   tokenEndpointAuthMethod: none
 
 storageBucket:
