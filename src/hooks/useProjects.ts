@@ -1,12 +1,12 @@
 import { QueryObserverResult, useQuery, UseQueryOptions } from "react-query";
-import { Projects } from "@developers-house/abdera";
+import { Project } from "@developers-house/abdera";
 import { usePreload } from "@components/PreloadContext/PreloadContext";
 import fetch from "cross-fetch";
 import { DisplayAPIClient } from "../constants";
 
 const useProjects = (
-  options?: UseQueryOptions<Projects[], Error>
-): QueryObserverResult<Projects[], Error> => {
+  options?: UseQueryOptions<Project[], Error>
+): QueryObserverResult<Project[], Error> => {
   usePreload((queryClient) => ({
     promise: queryClient.prefetchQuery(
       "developers-house/projects",
@@ -24,7 +24,7 @@ const useProjects = (
   );
 };
 
-type ProjectWithMarkdown = Projects & { markdown: string };
+type ProjectWithMarkdown = Project & { markdown: string };
 const fetchProjectMarkdown = async (
   projectId: string
 ): Promise<ProjectWithMarkdown> => {
