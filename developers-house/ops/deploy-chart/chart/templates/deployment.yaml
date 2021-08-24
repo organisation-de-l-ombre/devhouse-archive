@@ -60,6 +60,10 @@ spec:
           {{- end }}
 
           env:
+            - name: JAEGER_AGENT_HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
             - name: GITLAB_ENV
               value: {{ .Values.gitlab.env | quote }}
           ports:
