@@ -3,20 +3,14 @@
 /// <reference types="node" />
 /// <reference types="react" />
 /// <reference types="react-dom" />
+
+import { opentracing } from "jaeger-client";
+
 /// <reference lib="dom" />
 /// <reference types="@emotion/react/types/css-prop" />
 
 declare interface GlobalFetch {
   fetch(input: RequestInfo, init?: RequestInit): Promise<Response>;
-}
-
-declare module "react-component-caching" {
-  const module: any;
-  export default module;
-}
-declare module "cbor-js" {
-  const module: any;
-  export default module;
 }
 
 declare namespace NodeJS {
