@@ -33,7 +33,7 @@
         "yaml": "^1.10.2"
     },
     "scripts": {
-        "gen:client": "openapi-generator-cli generate -i openapi.yaml -g typescript-fetch -o gen",
+        "gen:client": "openapi-generator-cli generate -i openapi.yaml -g typescript-axios -o gen",
         "gen:types": "openapi-generator-cli generate -i openapi.yaml -g typescript -o src/types --global-property models",
         "build": "yarn gen:types && tsc -p .",
         "start": "node dist",
