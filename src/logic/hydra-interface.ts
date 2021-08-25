@@ -38,7 +38,7 @@ async function getAuthorizations(
         }
       }
     )
-    .map((item) => item !== undefined) as unknown as Authorization[];
+    .filter((item) => item !== undefined) as Authorization[];
 }
 
 async function logoutAll(user: string, hydra: AdminApi): Promise<void> {
