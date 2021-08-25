@@ -23,3 +23,4 @@ x/
 # Test files
 **/*.spec.ts
 *.config.js
+src/types

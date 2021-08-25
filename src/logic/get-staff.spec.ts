@@ -1,6 +1,6 @@
 import getStaff, { fetchStaff } from "./get-staff";
 import Redis from "ioredis-mock";
-import { StaffMember, StaffMemberPresenceStatusEnum } from "../../gen";
+import { StaffMember } from "../types/models/StaffMember";
 
 const user: StaffMember = {
   avatar: "",
@@ -9,23 +9,23 @@ const user: StaffMember = {
   presence: {
     emote: "",
     text: "",
-    status: StaffMemberPresenceStatusEnum.Online,
+    status: "online"
   },
   socials: [],
   role: {
     name: "",
     position: 0,
-    color: "",
+    color: ""
   },
-  username: "",
+  username: ""
 };
 
 const mockRedis = new Redis({
   data: {
     "discord:cache:index": JSON.stringify(["_user"]),
     "discord:cache:users:_user": JSON.stringify(user),
-    "discord:cache:users:invalid": "hey",
-  },
+    "discord:cache:users:invalid": "hey"
+  }
 });
 
 describe("fetchStaff(redis)", () => {

@@ -11,7 +11,11 @@ const deleteAuthorizationRoute = (server: FastifyInstance): RouteOptions => {
   return {
     method: "DELETE",
     async handler(request: FastifyRequest, response: FastifyReply) {
-      let clientId: string | undefined = request.query["clientId"] as string;
+      let clientId: string | undefined = (
+        request.query as {
+          [key: string]: unknown;
+        }
+      )["clientId"] as string;
 
       if (clientId === "") {
         clientId = undefined;

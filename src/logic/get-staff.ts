@@ -1,13 +1,14 @@
 import { Redis } from "ioredis";
-import { StaffMember, StaffMemberPresenceStatusEnum } from "../../gen";
 import { readYamlFolder } from "../utils/read-yaml-folder";
 import path from "path";
+import { StaffMember } from "../types/models/StaffMember";
 
 const selfMembers: Partial<StaffMember>[] = [];
-readYamlFolder("members", path.join(process.cwd(), "data", "members"))
-  .filter(
-    (member: StaffMember): boolean => Boolean(member) && Boolean(member.id)
-  )
+readYamlFolder<StaffMember>(
+  "members",
+  path.join(process.cwd(), "data", "members")
+)
+  .filter((member: StaffMember) => Boolean(member) && Boolean(member.id))
   .map((member: StaffMember) => selfMembers.push(member));
 
 /**
@@ -17,7 +18,7 @@ readYamlFolder("members", path.join(process.cwd(), "data", "members"))
  */
 export function fetchStaff(
   redis: Redis
-): (id: string) => Promise<null | StaffMember> {
+): (id: string) => Promise<undefined | StaffMember> {
   return async function (id: string) {
     const key = `discord:cache:users:${id}`;
     const data = await redis.get(key);
@@ -45,7 +46,7 @@ const completion: StaffMember = {
   id: "",
   presence: {
     text: "",
-    status: StaffMemberPresenceStatusEnum.Online,
+    status: "online",
     emote: ""
   },
   role: {
@@ -72,11 +73,9 @@ async function getStaff(redis: Redis): Promise<StaffMember[] | string> {
 
       const fetcher = fetchStaff(redis);
 
-      return (
-        await Promise.all<StaffMember>(
-          membersIds.map((element) => fetcher(element))
-        )
-      ).filter(Boolean);
+      return (await Promise.all(membersIds.map((id) => fetcher(id)))).filter(
+        Boolean
+      ) as StaffMember[];
     } catch {
       return [];
     }

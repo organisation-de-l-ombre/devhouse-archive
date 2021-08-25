@@ -1,5 +1,5 @@
-import { Takeout } from "../../gen";
 import axios, { AxiosResponse } from "axios";
+import { Takeout } from "../types/models/Takeout";
 
 const CRYIR_ENDPOINT =
   process.env.CRYIR_ENDPOINT ||

@@ -1,8 +1,8 @@
 node_modules/
 dist/
 .idea/
-gen/*
-!gen/package.json
-!gen/tsconfig.json
-!gen/global-fetch.ts
+client/*
+!client/package.json
+!client/tsconfig.json
+!client/global-fetch.ts
 pnpm-lock.yaml

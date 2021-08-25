@@ -1,6 +1,6 @@
-import { AdminApi, PreviousConsentSession } from "@oryd/hydra-client";
+import { AdminApi, PreviousConsentSession } from "@ory/hydra-client";
 import { validateHydraResponse } from "../hydra";
-import { Authorization } from "../../gen";
+import { Authorization } from "../types/models/Authorization";
 
 async function deleteAuthorization(
   user: string,
@@ -20,17 +20,25 @@ async function getAuthorizations(
     await hydra.listSubjectConsentSessions(user)
   );
 
-  return hydraResponse.map((client: PreviousConsentSession) => ({
-    scopes: client.grant_scope,
-    audiences: client.grant_access_token_audience,
-    client: {
-      name: client.consent_request.client.client_name,
-      id: client.consent_request.client.client_id,
-      tos: client.consent_request.client.tos_uri,
-      image: client.consent_request.client.logo_uri
-    },
-    grantedAt: client.handled_at
-  }));
+  return hydraResponse
+    .map<Authorization | undefined>(
+      (client: PreviousConsentSession): Authorization | undefined => {
+        if (client.consent_request?.client) {
+          return {
+            scopes: client.grant_scope as string[],
+            audiences: client.grant_access_token_audience as string[],
+            client: {
+              name: client.consent_request.client.client_name || "",
+              id: client.consent_request.client.client_id as string,
+              tos: client.consent_request.client.tos_uri as string,
+              image: client.consent_request.client.logo_uri as string
+            },
+            grantedAt: client.handled_at as string
+          };
+        }
+      }
+    )
+    .map((item) => item !== undefined) as unknown as Authorization[];
 }
 
 async function logoutAll(user: string, hydra: AdminApi): Promise<void> {

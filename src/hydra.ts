@@ -1,4 +1,4 @@
-import { AdminApi } from "@oryd/hydra-client";
+import { AdminApi } from "@ory/hydra-client";
 import axios, { AxiosResponse } from "axios";
 
 const requester = axios.create({
@@ -8,7 +8,7 @@ const requester = axios.create({
 });
 
 export const AdminAPI = new AdminApi(
-  {},
+  undefined,
   process.env.HYDRA_ADMIN || "http://localhost:5005",
   requester as never
 );
