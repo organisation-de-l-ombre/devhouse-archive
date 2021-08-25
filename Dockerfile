@@ -13,4 +13,5 @@ COPY package.json .
 COPY --from=build /build/node_modules /app/node_modules
 COPY --from=build /build/dist .
 COPY data /app/data
+ENV NODE_ENV=production
 ENTRYPOINT node index
