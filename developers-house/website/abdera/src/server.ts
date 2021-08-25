@@ -1,10 +1,10 @@
-import { AdminApi } from "@oryd/hydra-client";
-import Fastify, {
+import { AdminApi } from "@ory/hydra-client";
+import fastify, {
   FastifyInstance,
-  FastifyReply,
-  FastifyRequest
+  FastifyRequest,
+  FastifyReply
 } from "fastify";
-import CreateRedis, { Redis } from "ioredis";
+import { Redis } from "ioredis";
 import { AdminAPI } from "./hydra";
 import {
   UserApi,
@@ -22,40 +22,18 @@ import postLogoutAll from "./routes/user/post-logout-all";
 import postTakeouts from "./routes/user/post-takeouts";
 import getLinksRoute from "./routes/user/get-links";
 import getSelfRoute from "./routes/user/get-self";
-import { getFeatureFlags } from "./routes/data/get-feature-gates";
 import fastifyCors from "fastify-cors";
+import { Scarlet } from "./utils/types";
+import { redisBuild } from "./utils/redis";
+import { Tracer } from "./jaeger";
+import { FORMAT_HTTP_HEADERS } from "opentracing";
 
-interface Scarlet {
-  user: UserApi;
-  webAuth: WebauthApi;
-  login: LoginApi;
-  links: LinksApi;
-}
-
-declare module "fastify" {
-  export interface FastifyRequest {
-    redis: Redis;
-    hydra: AdminApi;
-    user: string;
-    scarlet: Scarlet;
-  }
-}
-
+// TODO: Dynamic domain names.
 const scarlet = "http://production.scarlet-22198115-production";
 
 export default class Server {
-  private readonly server: FastifyInstance = Fastify();
-  private readonly redis: Redis = new CreateRedis({
-    sentinels: [
-      {
-        host: process.env.REDIS_HOST,
-        port: Number.parseInt(process.env.REDIS_PORT || "6379")
-      }
-    ],
-    sentinelPassword: process.env.REDIS_PASSWORD,
-    name: "mymaster",
-    host: "localhost"
-  });
+  private readonly server: FastifyInstance = fastify();
+  private readonly redis: Redis = redisBuild();
   private readonly hydra: AdminApi = AdminAPI;
   private readonly scarlet: Scarlet = {
     user: new UserApi(undefined, scarlet),
@@ -65,9 +43,22 @@ export default class Server {
   };
 
   constructor(port: number) {
-    this.server.decorateRequest("redis", this.redis);
-    this.server.decorateRequest("hydra", this.hydra);
-    this.server.decorateRequest("scarlet", this.scarlet);
+    this.server.addHook("onRequest", (request, _response, next) => {
+      request.redis = this.redis;
+      request.hydra = this.hydra;
+      request.scarlet = this.scarlet;
+      const remoteSpan = Tracer.extract(FORMAT_HTTP_HEADERS, request.headers);
+      request.span = Tracer.startSpan("request_start", {
+        childOf: remoteSpan || undefined
+      });
+      next();
+    });
+
+    this.server.addHook("onSend", (request, _response, _payload, next) => {
+      request.span.finish();
+      next();
+    });
+
     void this.server.register(fastifyCors, {});
 
     this.server.register(fastifyAuth).after(() => {
@@ -80,21 +71,22 @@ export default class Server {
       this.server.route(postTakeouts(this.server));
       this.server.route(getLinksRoute(this.server));
       this.server.route(getSelfRoute(this.server));
-      this.server.route(getFeatureFlags);
 
       this.server.setErrorHandler(Server.errorHandler);
       this.server.setNotFoundHandler(Server.notFound);
     });
 
-    void this.server.listen({
-      port,
-      host: "0.0.0.0"
-    });
+    void this.server
+      .listen({
+        port,
+        host: "0.0.0.0"
+      })
+      .then(() => console.log("Server started."));
   }
 
   private static errorHandler(
     this: void,
-    error,
+    error: unknown,
     _request: FastifyRequest,
     response: FastifyReply
   ) {

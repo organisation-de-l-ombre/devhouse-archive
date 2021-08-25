@@ -1,8 +1,9 @@
-import { Project } from "../../gen";
 import { readYamlFolder } from "../utils/read-yaml-folder";
 import path from "path";
 import { fetchStaff } from "./get-staff";
 import { Redis } from "ioredis";
+import { Project } from "../types/models/Project";
+import { StaffMember } from "../types/models/StaffMember";
 
 const selfProjects: Project[] = [];
 readYamlFolder<Project>(
@@ -12,19 +13,15 @@ readYamlFolder<Project>(
 
 async function getProjects(redis: Redis): Promise<Project[]> {
   const fetcher = fetchStaff(redis);
-  return await Promise.all<Project>(
+  return await Promise.all(
     selfProjects.map(async ({ members, managers, ...project }: Project) => ({
       ...project,
-      members: members
-        ? (
-            await Promise.all(members.map(({ id }) => fetcher(id)))
-          ).filter(Boolean)
-        : [],
-      managers: managers
-        ? (
-            await Promise.all(managers.map(({ id }) => fetcher(id)))
-          ).filter(Boolean)
-        : []
+      members: (
+        await Promise.all(members.map(({ id }) => fetcher(id)))
+      ).filter((user) => user !== undefined) as StaffMember[],
+      managers: (
+        await Promise.all(managers.map(({ id }) => fetcher(id)))
+      ).filter((user) => user !== undefined) as StaffMember[]
     }))
   );
 }
