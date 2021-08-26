@@ -64,8 +64,18 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.hostIP
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
             - name: GITLAB_ENV
               value: {{ .Values.gitlab.env | quote }}
+            - name: JAEGER_TAGS
+              value: pod=$(POD_NAME),namespace=$(POD_NAMESPACE)
           ports:
             - name: {{ .Values.service.name }}
               containerPort: {{ .Values.service.internalPort }}
