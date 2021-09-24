@@ -10,7 +10,7 @@ export const Admin = new AdminApi(
       headers: { "X-Forwarded-Proto": "https" }
     }
   },
-  "http://hydra-1626807582-admin.hydra:4445"
+  "http://hydra-admin.hydra:4445"
 );
 
 const scarlet =
