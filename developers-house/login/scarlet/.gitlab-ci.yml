@@ -34,12 +34,6 @@ package:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
       - node_modules/
-  only:
-    changes:
-      - openapi.yaml
-      - gen/*
-    refs:
-      - master
 
   script:
     - yarn
