@@ -17,12 +17,6 @@ package:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
       - node_modules/
-  only:
-    changes:
-      - openapi.yaml
-      - gen/*
-    refs:
-      - master
   before_script:
     - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" >> .npmrc
     - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
