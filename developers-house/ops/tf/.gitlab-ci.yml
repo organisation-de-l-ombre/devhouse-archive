@@ -65,6 +65,6 @@ deploy:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: manual
   dependencies:
-    - build
+    - plan
   environment:
     name: $TF_STATE_NAME
