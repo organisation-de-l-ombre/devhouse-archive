@@ -27,6 +27,8 @@ stages:
   - deploy
 
 before_script:
+  - echo ${TF_ADDRESS}
+  - echo ${TF_STATE_NAME}
   - cd ${TF_ROOT}
 
 init:
