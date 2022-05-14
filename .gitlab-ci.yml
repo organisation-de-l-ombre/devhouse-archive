@@ -8,13 +8,19 @@ include:
   - template: Jobs/SAST-IaC.gitlab-ci.yml   # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/SAST-IaC.gitlab-ci.yml
 
 variables:
-  TF_STATE_NAME: ${TF_STATE_NAME:-default}
+  TF_STATE_NAME: default
 
 stages:
   - validate
   - test
   - build
   - deploy
+
+vars:
+  stage: build
+  script:
+    - echo $TF_ADDRESS
+    - echo $TF_STATE_NAME
 
 fmt:
   extends: .terraform:fmt
