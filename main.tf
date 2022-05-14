@@ -82,7 +82,7 @@ resource "helm_release" "cilium" {
 #     -> a prometheus cluster is also created
 # * grafana (used to viazualize the metrics)
 # * alertmanager (used to watch & broadcast alerts)
-resource "helm_release" "kube-prometheus" {
+resource "helm_release" "kube_prometheus" {
   name = "kube-prometheus"
 
   namespace = "monitoring"
@@ -118,7 +118,7 @@ resource "helm_release" "tempo" {
 
   depends_on = [
     helm_release.cilium,
-    helm_release.kube-prometheus
+    helm_release.kube_prometheus
   ]
 }
 
@@ -138,14 +138,14 @@ resource "helm_release" "loki" {
 
   depends_on = [
     helm_release.cilium,
-    helm_release.kube-prometheus
+    helm_release.kube_prometheus
   ]
 }
 
 
 # Rook is used as out storage layer; it enables use of ceph-based volumes and object storage
 # Rook-operator handles the lifecycle of ceph clusters
-resource "helm_release" "rook-operator" {
+resource "helm_release" "rook_operator" {
   name = "rook-operator"
 
   namespace        = "rook-ceph"
@@ -157,14 +157,14 @@ resource "helm_release" "rook-operator" {
   # We need the monitoring because we use "ServiceMonitors" provided by the prometheus-operator
   depends_on = [
     helm_release.cilium,
-    helm_release.kube-prometheus
+    helm_release.kube_prometheus
   ]
 
   values = [file("${path.module}/yamls/rook-operator.yml")]
 }
 
 # Simply bootstrap the rook-ceph cluster using crds (CustomRessourcesDefinitions)
-resource "helm_release" "rook-cluster" {
+resource "helm_release" "rook_cluster" {
   name = "rook-cluster"
 
   namespace        = "rook-ceph"
@@ -177,8 +177,8 @@ resource "helm_release" "rook-cluster" {
   # We also need the rook operator, since we use CustomRessources defined by the operator itself
   depends_on = [
     helm_release.cilium,
-    helm_release.kube-prometheus,
-    helm_release.rook-operator
+    helm_release.kube_prometheus,
+    helm_release.rook_operator
   ]
 
   values = [file("${path.module}/yamls/rook-cluster.yml")]
@@ -197,7 +197,7 @@ resource "helm_release" "ingress" {
   # We alse need the monitoring because we use ServiceMonitors custom ressources defined bu prometheus-operator
   depends_on = [
     helm_release.cilium,
-    helm_release.kube-prometheus
+    helm_release.kube_prometheus
   ]
 
   values = [file("${path.module}/yamls/ingress.yml")]
@@ -213,7 +213,7 @@ resource "cloudflare_argo_tunnel" "traffic_tunnel" {
 
 # We create a record that catch all the subdomains of the domain
 # We route all the data to the argo tunnel
-resource "cloudflare_record" "catch-all" {
+resource "cloudflare_record" "catch_all" {
   zone_id = var.cloudflare_zone_id
   name    = "*"
   value   = cloudflare_argo_tunnel.traffic_tunnel.cname
@@ -238,7 +238,7 @@ resource "kubernetes_config_map" "cloudflare_configmap" {
   ]
 
   data = {
-    "config.yml" : "${file("${path.module}/cloudflared-config.yml")}"
+    "config.yml" = "${file("${path.module}/cloudflared-config.yml")}"
   }
 }
 
@@ -256,9 +256,9 @@ resource "kubernetes_secret" "cloudflare_secret" {
 
   data = {
     "creds.json" = jsonencode({
-      "AccountTag" : var.cloudflare_account_id
-      "TunnelSecret" : cloudflare_argo_tunnel.traffic_tunnel.secret
-      "TunnelID" : cloudflare_argo_tunnel.traffic_tunnel.id
+      "AccountTag" = var.cloudflare_account_id
+      "TunnelSecret" = cloudflare_argo_tunnel.traffic_tunnel.secret
+      "TunnelID" = cloudflare_argo_tunnel.traffic_tunnel.id
     })
   }
 }
