@@ -9,6 +9,7 @@ include:
 
 variables:
   TF_STATE_NAME: default
+  TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${TF_STATE_NAME}
 
 stages:
   - validate
@@ -17,7 +18,7 @@ stages:
   - deploy
 
 vars:
-  stage: build
+  stage: validate
   script:
     - echo $TF_ADDRESS
     - echo $TF_STATE_NAME
@@ -38,4 +39,4 @@ deploy:
   dependencies:
     - build
   environment:
-    name: default
+    name: $TF_STATE_NAME
