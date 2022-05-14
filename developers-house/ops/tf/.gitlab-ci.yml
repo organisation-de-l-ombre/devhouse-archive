@@ -6,6 +6,9 @@
 include:
   - template: Jobs/SAST-IaC.gitlab-ci.yml   # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/SAST-IaC.gitlab-ci.yml
 
+image:
+  name: registry.gitlab.com/gitlab-org/terraform-images/releases/terraform:1.1.9
+
 cache:
   key: "${TF_ROOT}"
   paths:
@@ -36,13 +39,11 @@ fmt:
   script:
     - gitlab-terraform fmt
   allow_failure: true
-  needs: []
 
 validate:
   stage: validate
   script:
     - gitlab-terraform validate
-  needs: []
 
 plan:
   stage: build
