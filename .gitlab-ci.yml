@@ -16,7 +16,7 @@ cache:
 
 variables:
   TF_ROOT: ${CI_PROJECT_DIR}  # The relative path to the root directory of the Terraform project
-  TF_STATE_NAME: ${TF_STATE_NAME:-default}
+  TF_STATE_NAME: ${TF_STATE_NAME:-production}
   TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${TF_STATE_NAME}
 
 stages:
