@@ -4,38 +4,66 @@
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Terraform.latest.gitlab-ci.yml
 
 include:
-  - template: Terraform/Base.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Terraform/Base.gitlab-ci.yml
   - template: Jobs/SAST-IaC.gitlab-ci.yml   # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/SAST-IaC.gitlab-ci.yml
 
+cache:
+  key: "${TF_ROOT}"
+  paths:
+    - ${TF_ROOT}/.terraform/
+
 variables:
-  TF_STATE_NAME: default
+  TF_ROOT: ${CI_PROJECT_DIR}  # The relative path to the root directory of the Terraform project
+  TF_STATE_NAME: ${TF_STATE_NAME:-default}
   TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${TF_STATE_NAME}
 
 stages:
+  - prepare
   - validate
   - test
   - build
   - deploy
 
-vars:
-  stage: validate
+before_script:
+  - cd ${TF_ROOT}
+
+init:
+  stage: prepare
   script:
-    - echo $TF_ADDRESS
-    - echo $TF_STATE_NAME
+    - gitlab-terraform init
 
 fmt:
-  extends: .terraform:fmt
+  stage: validate
+  script:
+    - gitlab-terraform fmt
+  allow_failure: true
   needs: []
 
 validate:
-  extends: .terraform:validate
+  stage: validate
+  script:
+    - gitlab-terraform validate
   needs: []
 
-build:
-  extends: .terraform:build
+plan:
+  stage: build
+  script:
+    - gitlab-terraform plan
+    - gitlab-terraform plan-json
+  resource_group: ${TF_STATE_NAME}
+  artifacts:
+    paths:
+      - ${TF_ROOT}/plan.cache
+    reports:
+      terraform: ${TF_ROOT}/plan.json
 
 deploy:
-  extends: .terraform:deploy
+  stage: deploy
+  script:
+    - gitlab-terraform apply
+  resource_group: ${TF_STATE_NAME}
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual
   dependencies:
     - build
   environment:
