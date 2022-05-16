@@ -14,12 +14,6 @@ terraform {
   }
 }
 
-
-variable "kubeconfig_path" {
-  type        = string
-  description = "Path of the kubectl config"
-}
-
 variable "cloudflare_email" {
   type        = string
   description = "Email of the cloudflare account used"
@@ -45,10 +39,12 @@ variable "cloudflare_zone_id" {
   description = "Zone id"
 }
 
-
-provider "kubernetes" {
-  config_path = var.kubeconfig_path
+variable "gitlab_agent_token" {
+  type        = string
+  description = "Gitlab agent token"
 }
+
+provider "kubernetes" {}
 
 # We use helm to deploy all the infrastructure,
 # so we use the helm terraform provider.
@@ -165,6 +161,28 @@ resource "helm_release" "promtail" {
     helm_release.kube_prometheus,
     helm_release.loki
   ]
+}
+
+resource "helm_release" "gitlab_agent" {
+  name = "gitlab-agent"
+
+  namespace = "gitlab"
+  create_namespace = true
+
+  chart = "gitlab-agent"
+  repository = "https://charts.gitlab.io"
+
+  set {
+    name = "config.token"
+    value = var.gitlab_agent_token
+    type = "string"
+  }
+
+  set {
+    name = "config.kasAddress"
+    value = "wss://kas.gitlab.com"
+    type = "string"
+  }
 }
 
 
