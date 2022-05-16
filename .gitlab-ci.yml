@@ -1,12 +1,10 @@
-variables:
-  DOCKER_BUILDKIT: '1'
-
 include:
   - template: Auto-DevOps.gitlab-ci.yml
-  - project: 'developers-house/dev/gitlab-ci-collection'
+  - project: 'developers-house/ops/gitlab-ci-collection'
     ref: master
     file: 'kaniko.gitlab-ci.yml'
 variables:
+  DOCKER_BUILDKIT: '1'
   AUTO_DEVOPS_CHART_REPOSITORY: 'https://charts.helm.sh/stable'
   HELM_UPGRADE_VALUES_FILE: 'deploy.yaml'
   TEST_DISABLED: 'true'
