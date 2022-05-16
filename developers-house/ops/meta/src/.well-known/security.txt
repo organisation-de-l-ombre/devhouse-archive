@@ -1,1 +1,2 @@
+# Please contact Matthieu if any security issues are discovered
 Contact: mailto:matthieu@matthieu-dev.xyz
