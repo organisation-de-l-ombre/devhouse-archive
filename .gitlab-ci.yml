@@ -59,6 +59,9 @@ stop@review:
   stage: stop
   image: bitnami/kubectl
 
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+
   rules:
   - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH" # Disable on the default branch.
     when: never
