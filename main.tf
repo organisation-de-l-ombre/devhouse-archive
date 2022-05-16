@@ -45,14 +45,7 @@ variable "gitlab_agent_token" {
 }
 
 provider "kubernetes" {}
-
-# We use helm to deploy all the infrastructure,
-# so we use the helm terraform provider.
-provider "helm" {
-  kubernetes {
-    config_path = var.kubeconfig_path
-  }
-}
+provider "helm" {}
 
 provider "cloudflare" {
   email   = var.cloudflare_email
