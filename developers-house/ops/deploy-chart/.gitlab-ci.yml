@@ -12,6 +12,7 @@ variables:
   CODE_QUALITY_DISABLED: 'true'
   SECRET_DETECTION_DISABLED: 'true'
   SAST_DISABLED: 'true'
+  KUBE_CONTEXT: "developers-house/ops/agent:main-cluster"
 
 contexts:
   stage: .pre
