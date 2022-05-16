@@ -3,6 +3,7 @@ include:
   - project: 'developers-house/ops/gitlab-ci-collection'
     ref: master
     file: 'kaniko.gitlab-ci.yml'
+
 variables:
   DOCKER_BUILDKIT: '1'
   AUTO_DEVOPS_CHART_REPOSITORY: 'https://charts.helm.sh/stable'
@@ -13,16 +14,3 @@ variables:
   SECRET_DETECTION_DISABLED: 'true'
   SAST_DISABLED: 'true'
   KUBE_CONTEXT: "developers-house/ops/agent:main-cluster"
-
-contexts:
-  stage: .pre
-  image:
-    name: bitnami/kubectl:latest
-    entrypoint: [""]
-  script:
-    - kubectl config get-contexts 
-
-.auto-deploy:
-  image: registry.gitlab.com/gitlab-org/cluster-integration/auto-deploy-image/v2-3-1:latest
-  variables:
-    AUTO_DEVOPS_FORCE_DEPLOY_V2: 1
