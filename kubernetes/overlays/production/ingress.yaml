@@ -4,10 +4,9 @@ metadata:
   name: meta-http
 spec:
   rules:
-  - host: "*"
-    http:
+  - http:
       paths:
-      - path: /.well-known/security.txt
+      - path: /
         pathType: Prefix
         backend:
           service:

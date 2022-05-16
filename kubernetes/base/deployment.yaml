@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: meta-http
-        image: nginx
+        image: meta-http
         resources:
           requests:
             cpu: 50m
@@ -51,3 +51,5 @@ spec:
         - containerPort:  80
           name: http
       restartPolicy: Always
+      imagePullSecrets:
+        - name: ${IMAGE_PULL_SECRET}
