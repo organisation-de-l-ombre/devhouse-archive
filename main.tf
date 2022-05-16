@@ -116,6 +116,8 @@ resource "helm_release" "tempo" {
 
   values = [file("${path.module}/yamls/tempo.yml")]
 
+  wait = false
+
   depends_on = [
     helm_release.cilium,
     helm_release.kube_prometheus
@@ -130,15 +132,38 @@ resource "helm_release" "loki" {
   namespace        = "monitoring"
   create_namespace = true
 
-  chart      = "loki-stack"
+  chart      = "loki-distributed"
   repository = "https://grafana.github.io/helm-charts"
 
 
   values = [file("${path.module}/yamls/loki.yml")]
 
+  wait = false
+
   depends_on = [
     helm_release.cilium,
     helm_release.kube_prometheus
+  ]
+}
+
+resource "helm_release" "promtail" {
+  name = "promtail"
+
+  namespace        = "monitoring"
+  create_namespace = true
+
+  chart      = "promtail"
+  repository = "https://grafana.github.io/helm-charts"
+
+
+  values = [file("${path.module}/yamls/promtail.yml")]
+
+  wait = false
+
+  depends_on = [
+    helm_release.cilium,
+    helm_release.kube_prometheus,
+    helm_release.loki
   ]
 }
 
@@ -215,6 +240,19 @@ resource "cloudflare_argo_tunnel" "traffic_tunnel" {
 # We route all the data to the argo tunnel
 resource "cloudflare_record" "catch_all" {
   zone_id = var.cloudflare_zone_id
+  name    = "*"
+  value   = cloudflare_argo_tunnel.traffic_tunnel.cname
+  type    = "CNAME"
+  ttl     = 1
+  proxied = true
+
+  depends_on = [
+    cloudflare_argo_tunnel.traffic_tunnel
+  ]
+}
+
+resource "cloudflare_record" "catch_all_matthieu_dev" {
+  zone_id = "9e2bc49eb331f6117f70f16ad0fedd91"
   name    = "*"
   value   = cloudflare_argo_tunnel.traffic_tunnel.cname
   type    = "CNAME"
