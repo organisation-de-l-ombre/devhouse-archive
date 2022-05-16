@@ -1,0 +1,75 @@
+stages:
+  - build
+  - tests
+  - deploy
+
+before_script:
+  - |
+    if [[ -z "$CI_COMMIT_TAG" ]]; then
+        export CI_APPLICATION_REPOSITORY=${CI_APPLICATION_REPOSITORY:-$CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG}
+        export CI_APPLICATION_TAG=${CI_APPLICATION_TAG:-$CI_COMMIT_SHA}
+    else
+        export CI_APPLICATION_REPOSITORY=${CI_APPLICATION_REPOSITORY:-$CI_REGISTRY_IMAGE}
+        export CI_APPLICATION_TAG=${CI_APPLICATION_TAG:-$CI_COMMIT_TAG}
+    fi
+
+build:
+  stage: build
+  services: []
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\", \"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context . --dockerfile ./Dockerfile --destination "$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG" --cache=true
+
+deploy@review:
+  stage: deploy
+  image: bitnami/kubectl
+
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    url: http://$CI_ENVIRONMENT_SLUG-$CI_PROJECT_NAME.$KUBE_INGRESS_BASE_DOMAIN
+    on_stop: stop@review
+
+  artifacts:
+    paths:
+    - environment_url.txt # Return the environment name
+
+  rules:
+  - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH" # Disable on the default branch.
+    when: never
+  - if: "$CI_COMMIT_TAG || $CI_COMMIT_BRANCH"
+
+  script:
+    # For envsubstr
+    - apt-get update && apt-get install -y gettext-base
+    # Creates the namespace if it does not exists
+    - kubectl get namespace ${KUBE_NAMESPACE} || kubectl create ${KUBE_NAMESPACE}
+    - echo $CI_ENVIRONMENT_URL > environment_url.txt
+
+    - cd kubernetes/overlays/review
+    - kustomize edit set image meta-http=$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG
+
+    - DOMAIN=$CI_ENVIRONMENT_SLUG-$CI_PROJECT_NAME.$KUBE_INGRESS_BASE_DOMAIN
+    - envsubst < kustomize build | kubectl apply -n $KUBE_NAMESPACE -f -
+
+stop@review:
+  stage: stop
+  image: bitnami/kubectl
+
+  rules:
+  - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH" # Disable on the default branch.
+    when: never
+  - if: "$CI_COMMIT_TAG || $CI_COMMIT_BRANCH"
+
+  script:
+    # For envsubstr
+    - apt-get update && apt-get install -y gettext-base
+    - kubectl get namespace ${KUBE_NAMESPACE} || kubectl create ${KUBE_NAMESPACE}
+    - echo $CI_ENVIRONMENT_URL > environment_url.txt
+    - cd kubernetes/overlays/review
+    - kustomize edit set image meta-http=$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG
+    - DOMAIN=$CI_ENVIRONMENT_SLUG-$CI_PROJECT_NAME.$KUBE_INGRESS_BASE_DOMAIN
+    - envsubst < kustomize build | kubectl remove -n $KUBE_NAMESPACE -f -
