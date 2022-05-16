@@ -13,6 +13,14 @@ variables:
   SECRET_DETECTION_DISABLED: 'true'
   SAST_DISABLED: 'true'
 
+contexts:
+  stage: .pre
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: [""]
+  script:
+    - kubectl config get-contexts 
+
 .auto-deploy:
   image: registry.gitlab.com/gitlab-org/cluster-integration/auto-deploy-image/v2-3-1:latest
   variables:
