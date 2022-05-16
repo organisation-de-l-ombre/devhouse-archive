@@ -3,6 +3,7 @@ stages:
   - build
   - tests
   - deploy
+  - stop
 
 before_script:
   - |
@@ -28,7 +29,7 @@ build:
 prepare@review:
   stage: prepare
   image: bitnami/kubectl
-  
+
   environment:
     name: review/$CI_COMMIT_REF_NAME
     action: prepare
