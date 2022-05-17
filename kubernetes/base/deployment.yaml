@@ -18,6 +18,8 @@ spec:
     metadata:
       labels:
         app: meta-http
+      annotations:
+        io.cilium.proxy-visibility: "<Ingress/80/TCP/HTTP>"
     spec:
       containers:
       - name: meta-http
