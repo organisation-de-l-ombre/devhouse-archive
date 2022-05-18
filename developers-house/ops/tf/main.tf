@@ -96,6 +96,18 @@ resource "helm_release" "kube_prometheus" {
 
   wait = false
 
+  set {
+    name  = "grafana.grafana\\.ini.auth\\.gitlab.client_id"
+    value = "ed13776e09fd34b288a49e8d19aeed49c7905eb95edf13013996a2a50358379e"
+    type = "string"
+  }
+
+  set {
+    name  = "grafana.grafana\\.ini.auth\\.gitlab.client_secret"
+    value = "ce9b3474ae6372a26b8c3aaba9c7c761db849c981ee2e44bccd6ff2d08c06902"
+    type = "string"
+  }
+
   # We need the networking
   depends_on = [
     helm_release.cilium
@@ -170,22 +182,22 @@ resource "helm_release" "promtail" {
 resource "helm_release" "gitlab_agent" {
   name = "gitlab-agent"
 
-  namespace = "gitlab"
+  namespace        = "gitlab"
   create_namespace = true
 
-  chart = "gitlab-agent"
+  chart      = "gitlab-agent"
   repository = "https://charts.gitlab.io"
 
   set {
-    name = "config.token"
+    name  = "config.token"
     value = var.gitlab_agent_token
-    type = "string"
+    type  = "string"
   }
 
   set {
-    name = "config.kasAddress"
+    name  = "config.kasAddress"
     value = "wss://kas.gitlab.com"
-    type = "string"
+    type  = "string"
   }
 }
 
@@ -233,13 +245,13 @@ resource "helm_release" "rook_cluster" {
 
 # The ingress's job is to handle the routing of all the http/https traffic
 resource "helm_release" "ingress" {
-  name = "haproxy-ingress"
+  name = "ingress"
 
-  namespace        = "haproxy-ingress"
+  namespace        = "ingress"
   create_namespace = true
 
-  chart      = "haproxy-ingress"
-  repository = "https://haproxy-ingress.github.io/charts"
+  chart      = "ingress-nginx"
+  repository = "https://kubernetes.github.io/ingress-nginx"
 
   # We alse need the monitoring because we use ServiceMonitors custom ressources defined bu prometheus-operator
   depends_on = [
@@ -290,7 +302,7 @@ resource "cloudflare_record" "catch_all_matthieu_dev" {
 resource "kubernetes_config_map" "cloudflare_configmap" {
   metadata {
     name      = "cloudflared-config"
-    namespace = "haproxy-ingress"
+    namespace = "ingress"
   }
 
   depends_on = [
@@ -306,7 +318,7 @@ resource "kubernetes_config_map" "cloudflare_configmap" {
 resource "kubernetes_secret" "cloudflare_secret" {
   metadata {
     name      = "cloudflared-secret"
-    namespace = "haproxy-ingress"
+    namespace = "ingress"
   }
 
   depends_on = [
@@ -316,9 +328,9 @@ resource "kubernetes_secret" "cloudflare_secret" {
 
   data = {
     "creds.json" = jsonencode({
-      "AccountTag" = var.cloudflare_account_id
+      "AccountTag"   = var.cloudflare_account_id
       "TunnelSecret" = cloudflare_argo_tunnel.traffic_tunnel.secret
-      "TunnelID" = cloudflare_argo_tunnel.traffic_tunnel.id
+      "TunnelID"     = cloudflare_argo_tunnel.traffic_tunnel.id
     })
   }
 }
@@ -326,8 +338,8 @@ resource "kubernetes_secret" "cloudflare_secret" {
 # Deployement of the cloudflared tunnel
 resource "kubernetes_deployment" "cloudflared" {
   metadata {
-    name = "cloudflared"
-    namespace = "haproxy-ingress"
+    name      = "cloudflared"
+    namespace = "ingress"
     labels = {
       app = "cloudflared"
     }
@@ -352,12 +364,12 @@ resource "kubernetes_deployment" "cloudflared" {
         }
       }
 
-      
+
 
       spec {
-        restart_policy = "Always"
+        restart_policy                  = "Always"
         automount_service_account_token = false
-        
+
         volume {
           name = "config"
           config_map {
@@ -373,8 +385,8 @@ resource "kubernetes_deployment" "cloudflared" {
         }
 
         container {
-          image = "cloudflare/cloudflared"
-          name  = "cloudflared"
+          image             = "cloudflare/cloudflared"
+          name              = "cloudflared"
           image_pull_policy = "Always"
 
           security_context {
@@ -384,9 +396,9 @@ resource "kubernetes_deployment" "cloudflared" {
             read_only_root_filesystem = true
           }
 
-          
 
-          resources { 
+
+          resources {
             limits = {
               cpu    = "100m"
               memory = "100Mi"
@@ -407,13 +419,13 @@ resource "kubernetes_deployment" "cloudflared" {
           volume_mount {
             name       = "credentials"
             mount_path = "/secrets"
-            read_only = true
+            read_only  = true
           }
 
           volume_mount {
             name       = "config"
             mount_path = "/etc/cloudflared"
-            read_only = true
+            read_only  = true
           }
 
           liveness_probe {
@@ -433,7 +445,7 @@ resource "kubernetes_deployment" "cloudflared" {
             }
           }
 
-          
+
         }
       }
     }
