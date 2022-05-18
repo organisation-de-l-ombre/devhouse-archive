@@ -782,11 +782,13 @@ grafana:
       access: proxy
       url: http://loki-loki-distributed-gateway:80
       version: 1
+      editable: true
       isDefault: false
     - name: Tempo
       type: tempo
       access: proxy
-      url: http://loki-loki-distributed-gateway:80
+      editable: true
+      url: http://tempo-tempo-distributed-query-frontend:3100
       version: 1
       isDefault: false
 
