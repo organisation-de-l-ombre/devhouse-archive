@@ -44,8 +44,19 @@ variable "gitlab_agent_token" {
   description = "Gitlab agent token"
 }
 
-provider "kubernetes" {}
-provider "helm" {}
+variable "kube_context" {
+  type        = string
+  description = "Gitlab agent token"
+}
+
+provider "kubernetes" {
+  config_context = var.kube_context
+}
+provider "helm" {
+  kubernetes {
+    config_context = var.kube_context
+  }
+}
 
 provider "cloudflare" {
   email   = var.cloudflare_email

@@ -18,6 +18,7 @@ variables:
   TF_ROOT: ${CI_PROJECT_DIR}  # The relative path to the root directory of the Terraform project
   TF_STATE_NAME: production
   TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${TF_STATE_NAME}
+  TF_VAR_kube_context: developers-house/ops/agent:main-cluster
 
 stages:
   - prepare
@@ -34,22 +35,26 @@ before_script:
 init:
   stage: prepare
   script:
+    - export KUBE_CONFIG_PATH=$KUBECONFIG
     - gitlab-terraform init
 
 fmt:
   stage: validate
   script:
+    - export KUBE_CONFIG_PATH=$KUBECONFIG
     - gitlab-terraform fmt
   allow_failure: true
 
 validate:
   stage: validate
   script:
+    - export KUBE_CONFIG_PATH=$KUBECONFIG
     - gitlab-terraform validate
 
 plan:
   stage: build
   script:
+    - export KUBE_CONFIG_PATH=$KUBECONFIG
     - gitlab-terraform plan
     - gitlab-terraform plan-json
   resource_group: ${TF_STATE_NAME}
@@ -62,6 +67,7 @@ plan:
 deploy:
   stage: deploy
   script:
+    - export KUBE_CONFIG_PATH=$KUBECONFIG
     - gitlab-terraform apply
   resource_group: ${TF_STATE_NAME}
   rules:
