@@ -352,9 +352,12 @@ resource "kubernetes_deployment" "cloudflared" {
         }
       }
 
+      
+
       spec {
         restart_policy = "Always"
-
+        automount_service_account_token = false
+        
         volume {
           name = "config"
           config_map {
@@ -372,9 +375,18 @@ resource "kubernetes_deployment" "cloudflared" {
         container {
           image = "cloudflare/cloudflared"
           name  = "cloudflared"
-          image_pull_policy = "IfNotPresent"
+          image_pull_policy = "Always"
 
-          resources {
+          security_context {
+            capabilities {
+              drop = ["ALL"]
+            }
+            read_only_root_filesystem = true
+          }
+
+          
+
+          resources { 
             limits = {
               cpu    = "100m"
               memory = "100Mi"
@@ -395,11 +407,13 @@ resource "kubernetes_deployment" "cloudflared" {
           volume_mount {
             name       = "credentials"
             mount_path = "/secrets"
+            read_only = true
           }
 
           volume_mount {
             name       = "config"
             mount_path = "/etc/cloudflared"
+            read_only = true
           }
 
           liveness_probe {
@@ -418,6 +432,8 @@ resource "kubernetes_deployment" "cloudflared" {
               port = 8080
             }
           }
+
+          
         }
       }
     }
