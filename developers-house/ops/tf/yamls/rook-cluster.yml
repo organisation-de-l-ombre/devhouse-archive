@@ -363,7 +363,7 @@ cephClusterSpec:
 ingress:
   dashboard:
     annotations:
-      kubernetes.io/ingress.class: haproxy
+      kubernetes.io/ingress.class: nginx
     # If the dashboard has ssl: true the following will make sure the NGINX Ingress controller can expose the dashboard correctly
     #   nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     #   nginx.ingress.kubernetes.io/server-snippet: |
@@ -375,7 +375,7 @@ ingress:
     # - hosts:
     #     - dashboard.example.com
     #   secretName: testsecret-tls
-    ingressClassName: haproxy
+    ingressClassName: nginx
 
 cephBlockPools:
   - name: ceph-cheap-pool
