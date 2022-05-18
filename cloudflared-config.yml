@@ -1,3 +1,3 @@
 credentials-file: /secrets/creds.json
 ingress:
-  - service: http://haproxy-ingress:80
+  - service: http://nginx-ingress:80
