@@ -14,12 +14,6 @@ terraform {
   }
 }
 
-
-variable "kubeconfig_path" {
-  type        = string
-  description = "Path of the kubectl config"
-}
-
 variable "cloudflare_email" {
   type        = string
   description = "Email of the cloudflare account used"
@@ -45,16 +39,22 @@ variable "cloudflare_zone_id" {
   description = "Zone id"
 }
 
-
-provider "kubernetes" {
-  config_path = var.kubeconfig_path
+variable "gitlab_agent_token" {
+  type        = string
+  description = "Gitlab agent token"
 }
 
-# We use helm to deploy all the infrastructure,
-# so we use the helm terraform provider.
+variable "kube_context" {
+  type        = string
+  description = "Gitlab agent token"
+}
+
+provider "kubernetes" {
+  config_context = var.kube_context
+}
 provider "helm" {
   kubernetes {
-    config_path = var.kubeconfig_path
+    config_context = var.kube_context
   }
 }
 
@@ -116,6 +116,8 @@ resource "helm_release" "tempo" {
 
   values = [file("${path.module}/yamls/tempo.yml")]
 
+  wait = false
+
   depends_on = [
     helm_release.cilium,
     helm_release.kube_prometheus
@@ -130,16 +132,61 @@ resource "helm_release" "loki" {
   namespace        = "monitoring"
   create_namespace = true
 
-  chart      = "loki-stack"
+  chart      = "loki-distributed"
   repository = "https://grafana.github.io/helm-charts"
 
 
   values = [file("${path.module}/yamls/loki.yml")]
 
+  wait = false
+
   depends_on = [
     helm_release.cilium,
     helm_release.kube_prometheus
   ]
+}
+
+resource "helm_release" "promtail" {
+  name = "promtail"
+
+  namespace        = "monitoring"
+  create_namespace = true
+
+  chart      = "promtail"
+  repository = "https://grafana.github.io/helm-charts"
+
+
+  values = [file("${path.module}/yamls/promtail.yml")]
+
+  wait = false
+
+  depends_on = [
+    helm_release.cilium,
+    helm_release.kube_prometheus,
+    helm_release.loki
+  ]
+}
+
+resource "helm_release" "gitlab_agent" {
+  name = "gitlab-agent"
+
+  namespace = "gitlab"
+  create_namespace = true
+
+  chart = "gitlab-agent"
+  repository = "https://charts.gitlab.io"
+
+  set {
+    name = "config.token"
+    value = var.gitlab_agent_token
+    type = "string"
+  }
+
+  set {
+    name = "config.kasAddress"
+    value = "wss://kas.gitlab.com"
+    type = "string"
+  }
 }
 
 
@@ -226,6 +273,19 @@ resource "cloudflare_record" "catch_all" {
   ]
 }
 
+resource "cloudflare_record" "catch_all_matthieu_dev" {
+  zone_id = "9e2bc49eb331f6117f70f16ad0fedd91"
+  name    = "*"
+  value   = cloudflare_argo_tunnel.traffic_tunnel.cname
+  type    = "CNAME"
+  ttl     = 1
+  proxied = true
+
+  depends_on = [
+    cloudflare_argo_tunnel.traffic_tunnel
+  ]
+}
+
 # See cloudflared-config.yml for the configuration
 resource "kubernetes_config_map" "cloudflare_configmap" {
   metadata {
@@ -292,9 +352,12 @@ resource "kubernetes_deployment" "cloudflared" {
         }
       }
 
+      
+
       spec {
         restart_policy = "Always"
-
+        automount_service_account_token = false
+        
         volume {
           name = "config"
           config_map {
@@ -312,9 +375,18 @@ resource "kubernetes_deployment" "cloudflared" {
         container {
           image = "cloudflare/cloudflared"
           name  = "cloudflared"
-          image_pull_policy = "IfNotPresent"
+          image_pull_policy = "Always"
 
-          resources {
+          security_context {
+            capabilities {
+              drop = ["ALL"]
+            }
+            read_only_root_filesystem = true
+          }
+
+          
+
+          resources { 
             limits = {
               cpu    = "100m"
               memory = "100Mi"
@@ -335,11 +407,13 @@ resource "kubernetes_deployment" "cloudflared" {
           volume_mount {
             name       = "credentials"
             mount_path = "/secrets"
+            read_only = true
           }
 
           volume_mount {
             name       = "config"
             mount_path = "/etc/cloudflared"
+            read_only = true
           }
 
           liveness_probe {
@@ -358,6 +432,8 @@ resource "kubernetes_deployment" "cloudflared" {
               port = 8080
             }
           }
+
+          
         }
       }
     }
