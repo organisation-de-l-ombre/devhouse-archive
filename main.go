@@ -74,7 +74,7 @@ func main() {
 
 		http.HandleFunc("/", h)
 
-		http.ListenAndServe(":8090", nil)
+		http.ListenAndServe("0.0.0.0:8090", nil)
 	}()
 
 	sigs := make(chan os.Signal, 1)
