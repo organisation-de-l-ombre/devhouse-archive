@@ -6,7 +6,7 @@ stages:
   - stop
 
 variables:
-  KUBE_CONTEXT: developers-house/ops/agent:main-cluster
+  KUBE_CONTEXT: developers-house/agent:main-cluster
   KUBE_NAMESPACE: $CI_ENVIRONMENT_SLUG-$CI_PROJECT_NAME # Kubernetes namespace
   IMAGE_PULL_SECRET: gitlab-registry-${CI_PROJECT_PATH_SLUG}
 
@@ -57,7 +57,7 @@ image:
   stage: deploy
   script:
     - echo "** Deploying"
-    - kubectl config use-context developers-house/ops/agent:main-cluster
+    - kubectl config use-context ${KUBE_CONTEXT}
     - apk add --no-cache curl gettext
 
     - cd ${OVERLAY}
@@ -70,7 +70,7 @@ image:
   stage: stop
   script:
     - echo "** Deploying"
-    - kubectl config use-context developers-house/ops/agent:main-cluster
+    - kubectl config use-context ${KUBE_CONTEXT}
     - apk add --no-cache curl gettext
 
     - cd ${OVERLAY}
