@@ -57,7 +57,7 @@ image:
   stage: deploy
   script:
     - echo "** Deploying"
-    - kubectl config use-context developers-house/ops/agent:main-cluster
+    - kubectl config use-context ${KUBE_CONTEXT}
     - apk add --no-cache curl gettext
 
     - cd ${OVERLAY}
@@ -70,7 +70,7 @@ image:
   stage: stop
   script:
     - echo "** Deploying"
-    - kubectl config use-context developers-house/ops/agent:main-cluster
+    - kubectl config use-context ${KUBE_CONTEXT}
     - apk add --no-cache curl gettext
 
     - cd ${OVERLAY}
