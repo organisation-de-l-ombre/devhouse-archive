@@ -104,7 +104,6 @@ deploy@production:
 
   environment:
     name: production
-    action: prepare
     kubernetes:
       namespace: $KUBE_NAMESPACE
   
