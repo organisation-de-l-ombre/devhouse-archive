@@ -43,6 +43,7 @@ func main() {
 		} else {
 			kubeconfig = flag.String("kubeconfig", "", "absolute path to the kubeconfig file")
 		}
+
 		flag.Parse()
 
 		log.Info().Msgf("Using kubeconfig: %s", *kubeconfig)
