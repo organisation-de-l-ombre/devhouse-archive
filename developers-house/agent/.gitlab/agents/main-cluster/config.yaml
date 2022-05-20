@@ -2,3 +2,5 @@ ci_access:
   groups:
     - id: developers-house/ops
     - id: developers-house/login
+  projects:
+    - id: developers-house/login/gdpr-collector
