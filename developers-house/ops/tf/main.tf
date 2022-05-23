@@ -262,6 +262,22 @@ resource "helm_release" "ingress" {
   values = [file("${path.module}/yamls/ingress.yml")]
 }
 
+resource "helm_release" "gitlab_runner" {
+  name = "gitlab-runner"
+
+  namespace = "gitlab-runner"
+  create_namespace = true
+
+  chart = "gitlab-runner"
+  repository = "https://charts.gitlab.io"
+
+    depends_on = [
+    helm_release.cilium
+  ]
+
+  values = [file("${path.module}/yamls/gitlab-runner.yml")]
+}
+
 # We use a cloudflare tunnel to route the traffic to our infrastructure.
 # We load the existing tunnel
 resource "cloudflare_argo_tunnel" "traffic_tunnel" {
