@@ -247,19 +247,17 @@ resource "helm_release" "rook_cluster" {
 resource "helm_release" "ingress" {
   name = "ingress"
 
-  namespace        = "ingress"
+  namespace        = "projectcontour"
   create_namespace = true
 
-  chart      = "ingress-nginx"
-  repository = "https://kubernetes.github.io/ingress-nginx"
+  chart      = "contour"
+  repository = "https://charts.bitnami.com/bitnami"
 
   # We alse need the monitoring because we use ServiceMonitors custom ressources defined bu prometheus-operator
   depends_on = [
     helm_release.cilium,
     helm_release.kube_prometheus
   ]
-
-  values = [file("${path.module}/yamls/ingress.yml")]
 }
 
 resource "helm_release" "gitlab_runner" {
@@ -318,7 +316,7 @@ resource "cloudflare_record" "catch_all_matthieu_dev" {
 resource "kubernetes_config_map" "cloudflare_configmap" {
   metadata {
     name      = "cloudflared-config"
-    namespace = "ingress"
+    namespace = "projectcontour"
   }
 
   depends_on = [
@@ -334,7 +332,7 @@ resource "kubernetes_config_map" "cloudflare_configmap" {
 resource "kubernetes_secret" "cloudflare_secret" {
   metadata {
     name      = "cloudflared-secret"
-    namespace = "ingress"
+    namespace = "projectcontour"
   }
 
   depends_on = [
@@ -355,7 +353,7 @@ resource "kubernetes_secret" "cloudflare_secret" {
 resource "kubernetes_deployment" "cloudflared" {
   metadata {
     name      = "cloudflared"
-    namespace = "ingress"
+    namespace = "projectcontour"
     labels = {
       app = "cloudflared"
     }
