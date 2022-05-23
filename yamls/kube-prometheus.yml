@@ -222,7 +222,7 @@ alertmanager:
 
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    ingressClassName: haproxy
+    ingressClassName: nginx
 
     annotations: {}
 
@@ -650,6 +650,16 @@ grafana:
   enabled: true
   namespaceOverride: ""
 
+  persistence:
+    enabled: true
+    type: pvc
+    storageClassName: ceph-block
+    accessModes:
+    - ReadWriteOnce
+    size: 10Gi
+    finalizers:
+    - kubernetes.io/pvc-protection
+  
   ## ForceDeployDatasources Create datasource configmap even if grafana deployment has been disabled
   ##
   forceDeployDatasources: false
@@ -667,8 +677,6 @@ grafana:
   ##
   defaultDashboardsTimezone: utc
 
-  adminPassword: prom-operator
-
   rbac:
     ## If true, Grafana PSPs will be created
     ##
@@ -682,7 +690,7 @@ grafana:
     ## IngressClassName for Grafana Ingress.
     ## Should be provided if Ingress is enable.
     ##
-    ingressClassName: haproxy
+    ingressClassName: nginx
 
     ## Annotations for Grafana Ingress
     ##
@@ -766,19 +774,21 @@ grafana:
 
   ## Configure additional grafana datasources (passed through tpl)
   ## ref: http://docs.grafana.org/administration/provisioning/#datasources
-  additionalDataSources: []
-  # - name: prometheus-sample
-  #   access: proxy
-  #   basicAuth: true
-  #   basicAuthPassword: pass
-  #   basicAuthUser: daco
-  #   editable: false
-  #   jsonData:
-  #       tlsSkipVerify: true
-  #   orgId: 1
-  #   type: prometheus
-  #   url: https://{{ printf "%s-prometheus.svc" .Release.Name }}:9090
-  #   version: 1
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      access: proxy
+      url: http://loki-loki-distributed-gateway:80
+      version: 1
+      editable: true
+      isDefault: false
+    - name: Tempo
+      type: tempo
+      access: proxy
+      editable: true
+      url: http://tempo-tempo-distributed-query-frontend:3100
+      version: 1
+      isDefault: false
 
   ## Passed to grafana subchart and used by servicemonitor below
   ##
@@ -817,7 +827,23 @@ grafana:
     #   targetLabel: nodename
     #   replacement: $1
     #   action: replace
-
+  grafana.ini:
+    server:
+      domain: grafana.matthieu-dev.xyz
+      root_url: "https://%(domain)s/"
+      protocol: http
+    tracing.jaeger:
+      address: tempo-tempo-distributed-distributor.monitoring.svc.cluster.local:14268
+    auth.gitlab:
+        enabled: true
+  
+        allowed_groups: developers-house
+        hosted_domain: grafana.matthieu-dev.xyz
+  imageRenderer:
+    enabled: true
+    networkPolicy:
+      limitIngress: true
+      limitEgress: true
 ## Component scraping the kube api server
 ##
 kubeApiServer:
@@ -859,6 +885,7 @@ kubeApiServer:
     #   regex: default;kubernetes;https
     # - targetLabel: __address__
     #   replacement: kubernetes.default.svc:443
+
 
 ## Component scraping the kubelet and kubelet-hosted cAdvisor
 ##
@@ -2255,7 +2282,7 @@ prometheus:
     ## prometheus resource to be created with selectors based on values in the helm deployment,
     ## which will also match the PrometheusRule resources created
     ##
-    ruleSelectorNilUsesHelmValues: true
+    ruleSelectorNilUsesHelmValues: false
 
     ## PrometheusRules to be selected for target discovery.
     ## If {}, select all PrometheusRules
@@ -2280,7 +2307,7 @@ prometheus:
     ## prometheus resource to be created with selectors based on values in the helm deployment,
     ## which will also match the servicemonitors created
     ##
-    serviceMonitorSelectorNilUsesHelmValues: true
+    serviceMonitorSelectorNilUsesHelmValues: false
 
     ## ServiceMonitors to be selected for target discovery.
     ## If {}, select all ServiceMonitors
@@ -2303,7 +2330,7 @@ prometheus:
     ## prometheus resource to be created with selectors based on values in the helm deployment,
     ## which will also match the podmonitors created
     ##
-    podMonitorSelectorNilUsesHelmValues: true
+    podMonitorSelectorNilUsesHelmValues: false
 
     ## PodMonitors to be selected for target discovery.
     ## If {}, select all PodMonitors
@@ -2323,7 +2350,7 @@ prometheus:
     ## prometheus resource to be created with selectors based on values in the helm deployment,
     ## which will also match the probes created
     ##
-    probeSelectorNilUsesHelmValues: true
+    probeSelectorNilUsesHelmValues: false
 
     ## Probes to be selected for target discovery.
     ## If {}, select all Probes
