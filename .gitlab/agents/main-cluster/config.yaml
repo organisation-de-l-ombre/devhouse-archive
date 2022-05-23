@@ -2,5 +2,6 @@ ci_access:
   groups:
     - id: developers-house/ops
     - id: developers-house/login
+    - id: developers-house/kuizz
   projects:
     - id: developers-house/login/gdpr-collector
