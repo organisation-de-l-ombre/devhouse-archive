@@ -18,7 +18,7 @@ variables:
   TF_ROOT: ${CI_PROJECT_DIR}  # The relative path to the root directory of the Terraform project
   TF_STATE_NAME: production
   TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${TF_STATE_NAME}
-  TF_VAR_kube_context: developers-house/ops/agent:main-cluster
+  TF_VAR_kube_context: developers-house/agent:main-cluster
 
 stages:
   - prepare
