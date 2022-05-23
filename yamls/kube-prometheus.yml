@@ -832,7 +832,8 @@ grafana:
       domain: grafana.matthieu-dev.xyz
       root_url: "https://%(domain)s/"
       protocol: http
-
+    tracing.jaeger:
+      address: tempo-tempo-distributed-distributor.monitoring.svc.cluster.local:14268
     auth.gitlab:
         enabled: true
   
