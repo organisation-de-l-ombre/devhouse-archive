@@ -14,12 +14,6 @@ terraform {
   }
 }
 
-
-variable "kubeconfig_path" {
-  type        = string
-  description = "Path of the kubectl config"
-}
-
 variable "cloudflare_email" {
   type        = string
   description = "Email of the cloudflare account used"
@@ -45,16 +39,22 @@ variable "cloudflare_zone_id" {
   description = "Zone id"
 }
 
-
-provider "kubernetes" {
-  config_path = var.kubeconfig_path
+variable "gitlab_agent_token" {
+  type        = string
+  description = "Gitlab agent token"
 }
 
-# We use helm to deploy all the infrastructure,
-# so we use the helm terraform provider.
+variable "kube_context" {
+  type        = string
+  description = "Gitlab agent token"
+}
+
+provider "kubernetes" {
+  config_context = var.kube_context
+}
 provider "helm" {
   kubernetes {
-    config_path = var.kubeconfig_path
+    config_context = var.kube_context
   }
 }
 
@@ -82,7 +82,7 @@ resource "helm_release" "cilium" {
 #     -> a prometheus cluster is also created
 # * grafana (used to viazualize the metrics)
 # * alertmanager (used to watch & broadcast alerts)
-resource "helm_release" "kube-prometheus" {
+resource "helm_release" "kube_prometheus" {
   name = "kube-prometheus"
 
   namespace = "monitoring"
@@ -95,6 +95,18 @@ resource "helm_release" "kube-prometheus" {
   values = [file("${path.module}/yamls/kube-prometheus.yml")]
 
   wait = false
+
+  set {
+    name  = "grafana.grafana\\.ini.auth\\.gitlab.client_id"
+    value = "ed13776e09fd34b288a49e8d19aeed49c7905eb95edf13013996a2a50358379e"
+    type = "string"
+  }
+
+  set {
+    name  = "grafana.grafana\\.ini.auth\\.gitlab.client_secret"
+    value = "ce9b3474ae6372a26b8c3aaba9c7c761db849c981ee2e44bccd6ff2d08c06902"
+    type = "string"
+  }
 
   # We need the networking
   depends_on = [
@@ -116,9 +128,11 @@ resource "helm_release" "tempo" {
 
   values = [file("${path.module}/yamls/tempo.yml")]
 
+  wait = false
+
   depends_on = [
     helm_release.cilium,
-    helm_release.kube-prometheus
+    helm_release.kube_prometheus
   ]
 }
 
@@ -130,22 +144,67 @@ resource "helm_release" "loki" {
   namespace        = "monitoring"
   create_namespace = true
 
-  chart      = "loki-stack"
+  chart      = "loki-distributed"
   repository = "https://grafana.github.io/helm-charts"
 
 
   values = [file("${path.module}/yamls/loki.yml")]
 
+  wait = false
+
   depends_on = [
     helm_release.cilium,
-    helm_release.kube-prometheus
+    helm_release.kube_prometheus
   ]
+}
+
+resource "helm_release" "promtail" {
+  name = "promtail"
+
+  namespace        = "monitoring"
+  create_namespace = true
+
+  chart      = "promtail"
+  repository = "https://grafana.github.io/helm-charts"
+
+
+  values = [file("${path.module}/yamls/promtail.yml")]
+
+  wait = false
+
+  depends_on = [
+    helm_release.cilium,
+    helm_release.kube_prometheus,
+    helm_release.loki
+  ]
+}
+
+resource "helm_release" "gitlab_agent" {
+  name = "gitlab-agent"
+
+  namespace        = "gitlab"
+  create_namespace = true
+
+  chart      = "gitlab-agent"
+  repository = "https://charts.gitlab.io"
+
+  set {
+    name  = "config.token"
+    value = var.gitlab_agent_token
+    type  = "string"
+  }
+
+  set {
+    name  = "config.kasAddress"
+    value = "wss://kas.gitlab.com"
+    type  = "string"
+  }
 }
 
 
 # Rook is used as out storage layer; it enables use of ceph-based volumes and object storage
 # Rook-operator handles the lifecycle of ceph clusters
-resource "helm_release" "rook-operator" {
+resource "helm_release" "rook_operator" {
   name = "rook-operator"
 
   namespace        = "rook-ceph"
@@ -157,14 +216,14 @@ resource "helm_release" "rook-operator" {
   # We need the monitoring because we use "ServiceMonitors" provided by the prometheus-operator
   depends_on = [
     helm_release.cilium,
-    helm_release.kube-prometheus
+    helm_release.kube_prometheus
   ]
 
   values = [file("${path.module}/yamls/rook-operator.yml")]
 }
 
 # Simply bootstrap the rook-ceph cluster using crds (CustomRessourcesDefinitions)
-resource "helm_release" "rook-cluster" {
+resource "helm_release" "rook_cluster" {
   name = "rook-cluster"
 
   namespace        = "rook-ceph"
@@ -177,8 +236,8 @@ resource "helm_release" "rook-cluster" {
   # We also need the rook operator, since we use CustomRessources defined by the operator itself
   depends_on = [
     helm_release.cilium,
-    helm_release.kube-prometheus,
-    helm_release.rook-operator
+    helm_release.kube_prometheus,
+    helm_release.rook_operator
   ]
 
   values = [file("${path.module}/yamls/rook-cluster.yml")]
@@ -186,21 +245,37 @@ resource "helm_release" "rook-cluster" {
 
 # The ingress's job is to handle the routing of all the http/https traffic
 resource "helm_release" "ingress" {
-  name = "haproxy-ingress"
+  name = "ingress"
 
-  namespace        = "haproxy-ingress"
+  namespace        = "ingress"
   create_namespace = true
 
-  chart      = "haproxy-ingress"
-  repository = "https://haproxy-ingress.github.io/charts"
+  chart      = "ingress-nginx"
+  repository = "https://kubernetes.github.io/ingress-nginx"
 
   # We alse need the monitoring because we use ServiceMonitors custom ressources defined bu prometheus-operator
   depends_on = [
     helm_release.cilium,
-    helm_release.kube-prometheus
+    helm_release.kube_prometheus
   ]
 
   values = [file("${path.module}/yamls/ingress.yml")]
+}
+
+resource "helm_release" "gitlab_runner" {
+  name = "gitlab-runner"
+
+  namespace = "gitlab-runner"
+  create_namespace = true
+
+  chart = "gitlab-runner"
+  repository = "https://charts.gitlab.io"
+
+    depends_on = [
+    helm_release.cilium
+  ]
+
+  values = [file("${path.module}/yamls/gitlab-runner.yml")]
 }
 
 # We use a cloudflare tunnel to route the traffic to our infrastructure.
@@ -213,8 +288,21 @@ resource "cloudflare_argo_tunnel" "traffic_tunnel" {
 
 # We create a record that catch all the subdomains of the domain
 # We route all the data to the argo tunnel
-resource "cloudflare_record" "catch-all" {
+resource "cloudflare_record" "catch_all" {
   zone_id = var.cloudflare_zone_id
+  name    = "*"
+  value   = cloudflare_argo_tunnel.traffic_tunnel.cname
+  type    = "CNAME"
+  ttl     = 1
+  proxied = true
+
+  depends_on = [
+    cloudflare_argo_tunnel.traffic_tunnel
+  ]
+}
+
+resource "cloudflare_record" "catch_all_matthieu_dev" {
+  zone_id = "9e2bc49eb331f6117f70f16ad0fedd91"
   name    = "*"
   value   = cloudflare_argo_tunnel.traffic_tunnel.cname
   type    = "CNAME"
@@ -230,7 +318,7 @@ resource "cloudflare_record" "catch-all" {
 resource "kubernetes_config_map" "cloudflare_configmap" {
   metadata {
     name      = "cloudflared-config"
-    namespace = "haproxy-ingress"
+    namespace = "ingress"
   }
 
   depends_on = [
@@ -238,7 +326,7 @@ resource "kubernetes_config_map" "cloudflare_configmap" {
   ]
 
   data = {
-    "config.yml" : "${file("${path.module}/cloudflared-config.yml")}"
+    "config.yml" = "${file("${path.module}/cloudflared-config.yml")}"
   }
 }
 
@@ -246,7 +334,7 @@ resource "kubernetes_config_map" "cloudflare_configmap" {
 resource "kubernetes_secret" "cloudflare_secret" {
   metadata {
     name      = "cloudflared-secret"
-    namespace = "haproxy-ingress"
+    namespace = "ingress"
   }
 
   depends_on = [
@@ -256,9 +344,9 @@ resource "kubernetes_secret" "cloudflare_secret" {
 
   data = {
     "creds.json" = jsonencode({
-      "AccountTag" : var.cloudflare_account_id
-      "TunnelSecret" : cloudflare_argo_tunnel.traffic_tunnel.secret
-      "TunnelID" : cloudflare_argo_tunnel.traffic_tunnel.id
+      "AccountTag"   = var.cloudflare_account_id
+      "TunnelSecret" = cloudflare_argo_tunnel.traffic_tunnel.secret
+      "TunnelID"     = cloudflare_argo_tunnel.traffic_tunnel.id
     })
   }
 }
@@ -266,8 +354,8 @@ resource "kubernetes_secret" "cloudflare_secret" {
 # Deployement of the cloudflared tunnel
 resource "kubernetes_deployment" "cloudflared" {
   metadata {
-    name = "cloudflared"
-    namespace = "haproxy-ingress"
+    name      = "cloudflared"
+    namespace = "ingress"
     labels = {
       app = "cloudflared"
     }
@@ -292,8 +380,11 @@ resource "kubernetes_deployment" "cloudflared" {
         }
       }
 
+
+
       spec {
-        restart_policy = "Always"
+        restart_policy                  = "Always"
+        automount_service_account_token = false
 
         volume {
           name = "config"
@@ -310,9 +401,18 @@ resource "kubernetes_deployment" "cloudflared" {
         }
 
         container {
-          image = "cloudflare/cloudflared"
-          name  = "cloudflared"
-          image_pull_policy = "IfNotPresent"
+          image             = "cloudflare/cloudflared"
+          name              = "cloudflared"
+          image_pull_policy = "Always"
+
+          security_context {
+            capabilities {
+              drop = ["ALL"]
+            }
+            read_only_root_filesystem = true
+          }
+
+
 
           resources {
             limits = {
@@ -335,11 +435,13 @@ resource "kubernetes_deployment" "cloudflared" {
           volume_mount {
             name       = "credentials"
             mount_path = "/secrets"
+            read_only  = true
           }
 
           volume_mount {
             name       = "config"
             mount_path = "/etc/cloudflared"
+            read_only  = true
           }
 
           liveness_probe {
@@ -358,6 +460,8 @@ resource "kubernetes_deployment" "cloudflared" {
               port = 8080
             }
           }
+
+
         }
       }
     }

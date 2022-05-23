@@ -133,7 +133,7 @@ ingester:
     # If set to "-", storageClassName: "", which disables dynamic provisioning.
     # If empty or set to null, no storageClassName spec is
     # set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS, and OpenStack).
-    storageClass: null
+    storageClass: "ceph-block"
   config:
     # -- Maximum size of a block before cutting it
     max_block_bytes: null
@@ -798,8 +798,6 @@ gateway:
     enabled: false
     # -- The basic auth username for the gateway
     username: null
-    # -- The basic auth password for the gateway
-    password: null
     # -- Uses the specified username and password to compute a htpasswd using Sprig's `htpasswd` function.
     # The value is templated using `tpl`. Override this to use a custom htpasswd, e.g. in case the default causes
     # high CPU load.
