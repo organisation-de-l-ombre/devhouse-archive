@@ -151,7 +151,8 @@ service:
   # loadBalancerIP:
 
   ## Additional Kubernetes Dashboard Service annotations
-  annotations: {}
+  annotations:
+    projectcontour.io/upstream-protocol.tls: "443"
 
   ## Here labels can be added to the Kubernetes Dashboard service
   labels: {}
