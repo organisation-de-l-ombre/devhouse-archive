@@ -1,3 +1,0 @@
-credentials-file: /secrets/creds.json
-ingress:
-  - service: http://ingress-ingress-nginx-controller:80

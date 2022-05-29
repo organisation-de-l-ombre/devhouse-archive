@@ -258,6 +258,8 @@ resource "helm_release" "ingress" {
     helm_release.cilium,
     helm_release.kube_prometheus
   ]
+  
+  values = [file("${path.module}/yamls/ingress.yml")]
 }
 
 resource "helm_release" "gitlab_runner" {
@@ -276,12 +278,16 @@ resource "helm_release" "gitlab_runner" {
   values = [file("${path.module}/yamls/gitlab-runner.yml")]
 }
 
-# We use a cloudflare tunnel to route the traffic to our infrastructure.
-# We load the existing tunnel
-resource "cloudflare_argo_tunnel" "traffic_tunnel" {
-  account_id = var.cloudflare_account_id
-  name       = "dh-tunnel"
-  secret     = var.cloudflare_tunnel_secret
+resource "helm_release" "kubernetes_dashboard" {
+  name = "kubernetes-dashboard"
+
+  namespace = "kubernetes-dashboard"
+  create_namespace = true
+
+  chart = "kubernetes-dashboard"
+  repository = "https://kubernetes.github.io/dashboard/"
+
+  values = [file("${path.module}/yamls/kubernetes-dashboard.yml")]
 }
 
 # We create a record that catch all the subdomains of the domain
@@ -289,179 +295,17 @@ resource "cloudflare_argo_tunnel" "traffic_tunnel" {
 resource "cloudflare_record" "catch_all" {
   zone_id = var.cloudflare_zone_id
   name    = "*"
-  value   = cloudflare_argo_tunnel.traffic_tunnel.cname
+  value   = "ns.developershouse.xyz"
   type    = "CNAME"
   ttl     = 1
   proxied = true
-
-  depends_on = [
-    cloudflare_argo_tunnel.traffic_tunnel
-  ]
 }
 
 resource "cloudflare_record" "catch_all_matthieu_dev" {
   zone_id = "9e2bc49eb331f6117f70f16ad0fedd91"
   name    = "*"
-  value   = cloudflare_argo_tunnel.traffic_tunnel.cname
+  value   = "ns.developershouse.xyz"
   type    = "CNAME"
   ttl     = 1
   proxied = true
-
-  depends_on = [
-    cloudflare_argo_tunnel.traffic_tunnel
-  ]
-}
-
-# See cloudflared-config.yml for the configuration
-resource "kubernetes_config_map" "cloudflare_configmap" {
-  metadata {
-    name      = "cloudflared-config"
-    namespace = "projectcontour"
-  }
-
-  depends_on = [
-    helm_release.ingress
-  ]
-
-  data = {
-    "config.yml" = "${file("${path.module}/cloudflared-config.yml")}"
-  }
-}
-
-# Secret generated from the argo tunnel
-resource "kubernetes_secret" "cloudflare_secret" {
-  metadata {
-    name      = "cloudflared-secret"
-    namespace = "projectcontour"
-  }
-
-  depends_on = [
-    helm_release.ingress,
-    cloudflare_argo_tunnel.traffic_tunnel
-  ]
-
-  data = {
-    "creds.json" = jsonencode({
-      "AccountTag"   = var.cloudflare_account_id
-      "TunnelSecret" = cloudflare_argo_tunnel.traffic_tunnel.secret
-      "TunnelID"     = cloudflare_argo_tunnel.traffic_tunnel.id
-    })
-  }
-}
-
-# Deployement of the cloudflared tunnel
-resource "kubernetes_deployment" "cloudflared" {
-  metadata {
-    name      = "cloudflared"
-    namespace = "projectcontour"
-    labels = {
-      app = "cloudflared"
-    }
-  }
-  depends_on = [
-    helm_release.ingress
-  ]
-
-  spec {
-    replicas = 1
-
-    selector {
-      match_labels = {
-        app = "cloudflared"
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          app = "cloudflared"
-        }
-      }
-
-
-
-      spec {
-        restart_policy                  = "Always"
-        automount_service_account_token = false
-
-        volume {
-          name = "config"
-          config_map {
-            name = kubernetes_config_map.cloudflare_configmap.metadata[0].name
-          }
-        }
-
-        volume {
-          name = "credentials"
-          secret {
-            secret_name = kubernetes_secret.cloudflare_secret.metadata[0].name
-          }
-        }
-
-        container {
-          image             = "cloudflare/cloudflared"
-          name              = "cloudflared"
-          image_pull_policy = "Always"
-
-          security_context {
-            capabilities {
-              drop = ["ALL"]
-            }
-            read_only_root_filesystem = true
-          }
-
-
-
-          resources {
-            limits = {
-              cpu    = "100m"
-              memory = "100Mi"
-            }
-            requests = {
-              cpu    = "100m"
-              memory = "100Mi"
-            }
-          }
-
-          command = ["cloudflared", "tunnel", "run", "dh-tunnel"]
-
-          env {
-            name  = "TUNNEL_METRICS"
-            value = "0.0.0.0:8080"
-          }
-
-          volume_mount {
-            name       = "credentials"
-            mount_path = "/secrets"
-            read_only  = true
-          }
-
-          volume_mount {
-            name       = "config"
-            mount_path = "/etc/cloudflared"
-            read_only  = true
-          }
-
-          liveness_probe {
-            http_get {
-              path = "/healthcheck"
-              port = 8080
-            }
-
-            initial_delay_seconds = 3
-            period_seconds        = 3
-          }
-
-          readiness_probe {
-            http_get {
-              path = "/ready"
-              port = 8080
-            }
-          }
-
-
-        }
-      }
-    }
-  }
 }
