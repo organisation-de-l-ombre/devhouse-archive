@@ -1,0 +1,16 @@
+## Developement services for Scarlet
+## Scarlet requires services in order to function.
+## Theses services are required 
+version: '3'
+services:
+
+  # Database for postgres.
+  postgres:
+    image: "postgres"
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "test"
+      POSTGRES_PASSWORD: "test"
+      POSTGRES_DB: "scarlet"
