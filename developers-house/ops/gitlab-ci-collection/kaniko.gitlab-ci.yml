@@ -1,0 +1,27 @@
+# Builds a Docker image using Google's Kaniko builder.
+# https://github.com/GoogleContainerTools/kaniko
+build:
+    before_script:
+        - echo ""
+    stage: build
+    services: []
+    image:
+        name: gcr.io/kaniko-project/executor:debug
+        entrypoint: [""]
+    script:
+        - |
+            if [[ -z "$CI_COMMIT_TAG" ]]; then
+                export CI_APPLICATION_REPOSITORY=${CI_APPLICATION_REPOSITORY:-$CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG}
+                export CI_APPLICATION_TAG=${CI_APPLICATION_TAG:-$CI_COMMIT_SHA}
+            else
+                export CI_APPLICATION_REPOSITORY=${CI_APPLICATION_REPOSITORY:-$CI_REGISTRY_IMAGE}
+                export CI_APPLICATION_TAG=${CI_APPLICATION_TAG:-$CI_COMMIT_TAG}
+            fi
+        - mkdir -p /kaniko/.docker
+        - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\", \"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+        - /kaniko/executor --context . --dockerfile ./Dockerfile --destination "$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG" $AUTO_DEVOPS_BUILD_IMAGE_EXTRA_ARGS --cache=true
+    cache:
+      key: kaniko
+        
+      paths:
+        - vendor/
