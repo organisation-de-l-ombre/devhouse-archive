@@ -1,0 +1,74 @@
+.light {
+  --website-background-color: rgb(255, 255, 255);
+
+  --primary-background-color: rgb(240, 240, 240);
+  --primary-background-color-hover: rgb(220, 220, 220);
+
+  --secondary-background-color: rgb(200, 200, 200);
+  --secondary-background-color-hover: rgb(180, 180, 180);
+
+  --media-headers-background-color: rgb(35, 35, 35);
+  --media-headers-primary-background-color: rgb(60, 60, 60);
+  --media-headers-primary-background-color-hover: rgb(80, 80, 80);
+  --media-headers-background-opacity: 0.2;
+
+  --notification-info-color: rgb(180, 230, 170);
+  --notification-warning-color: rgb(240, 220, 110);
+  --notification-error-color: rgb(250, 170, 170);
+
+  --font-color: black;
+  --link-font-color: rgb(41, 136, 244);
+  --font-color-hover: rgb(230, 85, 85);
+
+  --background-opacity: 0.5;
+}
+
+.dark {
+  --website-background-color: rgb(35, 35, 35);
+
+  --primary-background-color: rgb(60, 60, 60);
+  --primary-background-color-hover: rgb(80, 80, 80);
+
+  --secondary-background-color: rgb(100, 100, 100);
+  --secondary-background-color-hover: rgb(120, 120, 120);
+
+  --media-headers-background-color: rgb(35, 35, 35);
+  --media-headers-primary-background-color: rgb(60, 60, 60);
+  --media-headers-primary-background-color-hover: rgb(80, 80, 80);
+  --media-headers-background-opacity: 0.2;
+
+  --notification-info-color: rgb(130, 200, 120);
+  --notification-warning-color: rgb(240, 220, 110);
+  --notification-error-color: rgb(250, 170, 170);
+  
+  --font-color: white;
+  --link-font-color: rgb(41, 136, 244);
+  --font-color-hover: rgb(230, 85, 85);
+
+  --background-opacity: 0.3;
+}
+
+.dark-contrast {
+  --website-background-color: rgb(0, 0, 0);
+
+  --primary-background-color: rgb(20, 20, 20);
+  --primary-background-color-hover: rgb(40, 40, 40);
+
+  --secondary-background-color: rgb(60, 60, 60);
+  --secondary-background-color-hover: rgb(80, 80, 80);
+
+  --media-headers-background-color: rgb(0, 0, 0);
+  --media-headers-primary-background-color: rgb(20, 20, 20);
+  --media-headers-primary-background-color-hover: rgb(40, 40, 40);
+  --media-headers-background-opacity: 0.2;
+
+  --notification-info-color: green;
+  --notification-warning-color: yellow;
+  --notification-error-color: red;
+  
+  --font-color: white;
+  --link-font-color: rgb(41, 136, 244);
+  --font-color-hover: rgb(230, 85, 85);
+
+  --background-opacity: 0.3;
+}

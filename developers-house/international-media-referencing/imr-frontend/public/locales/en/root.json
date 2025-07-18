@@ -1,0 +1,46 @@
+{
+  "helmet": {
+    "title": "International Media Referencing",
+    "description": "International Media Referencing is an alternative and complete online database which references a great deal of cinematographic content such as movies or series.",
+    "topics": "Movies, films, series, TV shows, cinema, cinematography"
+  },
+  "error": {
+    "title": "Something went wrong...",
+    "description": "It would seem the website encountered an unexcepted error. If it happens again, don't hesitate to report it.",
+    "messages": {
+      "unauthorized": "The access to this resource has expired. Reload the page to get the access again.",
+      "generic": "The access to this resource is not possible. The server returned an error with status code {{statusCode}}."
+    },
+    "buttons": {
+      "homePage": "Home page",
+      "reloadPage": "Reload page",
+      "supportPage": "Support page"
+    }
+  },
+  "suspense": {
+    "loading": "Loading the resource you requested..."
+  },
+  "withNetwork": {
+    "noNetwork": "The content of this page needs an internet connection, and it would seem you are offline... Try to reconnect to get the access."
+  },
+  "notFound": {
+    "title": "Resource not found",
+    "description": "This URL does not exist. You must have gotten lost...",
+    "buttons": {
+      "homePage": "Home page",
+      "supportPage": "Support page"
+    }
+  },
+  "utils": {
+    "apiFetch": "Fetching data from the database... Please wait few seconds.",
+    "redirecting": "Please wait, you will be redirected in few seconds..."
+  },
+  "notifications": {
+    "accountRequired": "You have to be logged in to access this page."
+  },
+  "global": {
+    "yes": "Yes",
+    "no": "No",
+    "close": "Close"
+  }
+}

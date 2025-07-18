@@ -1,0 +1,27 @@
+{
+  "tags": {
+    "entertainment": "Animation",
+    "family": "Familial",
+    "humor": "Humour",
+    "musical": "Musical",
+    "children": "Enfants",
+    "adventure": "Aventure"
+  },
+  "companies": {
+    "walt_disney_pictures": "Walt Disney Pictures",
+    "disney_animation_television": "Disney Animation Television",
+    "dreamworks_animation": "DreamWorks Animation",
+    "universal_pictures": "Universal Pictures"
+  },
+  "cases": {
+    "all_audiences": "Tous publics"
+  },
+  "watchServices": {
+    "disney-plus": "Disney Plus",
+    "youtube": "YouTube",
+    "amazon-prime-video": "Amazon Prime Video",
+    "canal-vod": "Canal VOD",
+    "orange-vod": "Orange VOD",
+    "apple-tv": "Apple TV"
+  }
+}

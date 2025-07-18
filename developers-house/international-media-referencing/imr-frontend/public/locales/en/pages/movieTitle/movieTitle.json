@@ -1,0 +1,110 @@
+{
+  "tabBar": {
+    "movie": {
+      "name": "Movie",
+      "acronym": "Movie"
+    },
+    "casting": {
+      "name": "Casting",
+      "acronym": "Casting"
+    },
+    "characters": {
+      "name": "Characters",
+      "acronym": "Characters"
+    },
+    "videos": {
+      "name": "Videos",
+      "acronym": "Videos"
+    },
+    "ost": {
+      "name": "Original soundtrack",
+      "acronym": "Original soundtrack"
+    },
+    "technical-specs": {
+      "name": "Technical specs.",
+      "acronym": "Technical specifications"
+    }
+  },
+  "headers": {
+    "trailerWindowTitle": "trailer",
+    "topButtons": {
+      "grade": "Grade this movie",
+      "favourites": "Add this movie to your favourites",
+      "edit": "Edit this movie",
+      "share": "Share this movie"
+    },
+    "shareModal": {
+      "title": "Share {{title}}",
+      "description": "Want to share {{title}} with your friends? You are at the right place! To easy your quest, you have the possibility to directly share this movie by playing trailer automatically, or by displaying the different streaming ways to watch it. You also can share a specific section of this movie.",
+      "qrCodeSharing": "Share with QR Code",
+      "focusOnTrailer": "Play automatically trailer",
+      "focusOnWatch": "Display streaming services which have this movie",
+      "selectSection": "Select a specific section",
+      "preview": "Link preview",
+      "copyToClipboard": "Copy to clipboard",
+      "urlCopied": "Link copied to clipboard!"
+    },
+    "bottomButtons": {
+      "watch": "Watch",
+      "trailer": "Trailer"
+    }
+  },
+  "watch": {
+    "description": "Want to watch, rent or purchase {{title}}? Here are the different plaforms which allow you to do this! But watch out, we just reference the different viewing ways, we don't provide any subscription or any way to view this movie.",
+    "streaming": "Streaming service",
+    "streaming_plural": "Streaming services",
+    "vod": "VOD service",
+    "vod_plural": "VOD services"
+  },
+  "ost": {
+    "duration": "Duration: {{duration}}",
+    "timeline": "Timeline in the movie: {{timeline}}",
+    "characters": "Character: {{characters}}",
+    "characters_plural": "Characters: {{characters}}",
+    "watchVideo": "Watch video",
+    "lyrics": "Lyrics"
+  },
+  "technicalSpecs": {
+    "presentation": {
+      "title": "Title",
+      "VOTitle": "Original title",
+      "originalCountry": "Original country",
+      "duration": "Duration",
+      "type": "Type",
+      "case": "Case",
+      "distributors": "Distributor",
+      "distributor_plural": "Distributors",
+      "productionStart": "Production start year",
+      "productionRelease": "Production end year",
+      "releaseDate": "Release date",
+      "budget": "Budget",
+      "boxOffice": "Box office",
+      "directors": "Director",
+      "directors_plural": "Directors",
+      "producers": "Producer",
+      "producers_plural": "Producers",
+      "screenWriters": "Screen writer",
+      "screenWriter_plural": "Screen writers",
+      "mainActors": "Main actor",
+      "mainActors_plural": "Main actors",
+      "movieChronologicalFranchise": "Franchise (chronological order)",
+      "movieLogicalFranchise": "Franchise (logical order)"
+    },
+    "movieSpecs": {
+      "sectionTitle": "Cinematographic specifications",
+      "movieFormat": "Movie format",
+      "cinematographicProcess": "Cinematographic process",
+      "formatType": "Format type",
+      "colorimetry": "Colorimetry",
+      "imageDefinition": "Image definition",
+      "soundDefinition": "Audio definition",
+      "aspectRatio": "Aspect ratio"
+    }
+  },
+  "sectionEmpty": {
+    "message": "This section does not have any content yet. If you want to improve the content of this movie page and to add new things, do not hesitate, your precious help is welcome!",
+    "buttons": {
+      "edit": "Edit this section"
+    }
+  }
+}

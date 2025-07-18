@@ -1,0 +1,47 @@
+.container {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+
+  h1,
+  h2 {
+    color: var(--font-color-hover);
+  }
+
+  .summary {
+    max-width: 20rem;
+  }
+
+  .list {
+    margin-top: 1.75rem;
+
+    li {
+      margin-top: 0.25rem;
+    }
+  }
+
+  .sub-groups {
+    margin-top: 2rem;
+  }
+
+  @media screen and (max-width: 700px) {
+    max-width: unset;
+  }
+}
+
+.generic-margin-top {
+  margin-top: 4rem;
+}
+
+.quotes {
+  font-style: italic;
+
+  &:before {
+    content: "\201F";
+    font-family: sans-serif;
+  }
+
+  &:after {
+    content: "\201D";
+    font-family: sans-serif;
+  }
+}

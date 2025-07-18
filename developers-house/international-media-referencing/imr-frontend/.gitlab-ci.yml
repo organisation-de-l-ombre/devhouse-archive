@@ -1,0 +1,49 @@
+include:
+  - project: "developers-house/dev/gitlab-ci-collection"
+    ref: master
+    file: "base.gitlab-ci.yml"
+
+# Execute the tests
+test:
+  image: node:14
+  before_script:
+    - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" >> .npmrc
+    - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+    - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+    - npm config set -- '//gitlab.com/api/v4/packages/npm/:_authToken' "${CI_JOB_TOKEN}"
+  script:
+    - yarn
+    - yarn install
+
+"Build razzle artifacts":
+  image: node:14
+  stage: build
+
+  script:
+    - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" >> .npmrc
+    - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+    - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+    - npm config set -- '//gitlab.com/api/v4/packages/npm/:_authToken' "${CI_JOB_TOKEN}"
+    - yarn install
+    - CI=false yarn build
+
+  cache:
+    key: node-modules
+    paths:
+      - node_modules
+
+  artifacts:
+    name: "React build"
+    paths:
+      - build
+
+build:
+  needs:
+    - "Build razzle artifacts"
+  before_script:
+    - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" >> .npmrc
+    - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+    - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+    - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+  dependencies:
+    - "Build razzle artifacts"

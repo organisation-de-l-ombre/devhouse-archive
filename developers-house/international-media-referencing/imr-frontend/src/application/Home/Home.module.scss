@@ -1,0 +1,28 @@
+.headers-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  opacity: var(--background-opacity);
+}
+
+.headers {
+  padding: 8rem 2rem;
+  z-index: 1;
+
+  h1 {
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    margin-top: 1rem;
+    font-size: 22px;
+  }
+}
+
+.body {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}

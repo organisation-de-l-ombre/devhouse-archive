@@ -1,0 +1,20 @@
+kind: OAuth2Client
+apiVersion: hydra.ory.sh/v1alpha1
+metadata:
+  name: imr-dev
+  namespace: default
+spec:
+  audience:
+    - imr
+    - abdera
+  clientName: IMR (DEV)
+  grantTypes:
+    - implicit
+  hydraAdmin: {}
+  redirectUris:
+    - 'http://localhost:3200/callback'
+  responseTypes:
+    - code
+  scope: "account.info account.authorized.*"
+  secretName: imr-dev
+  tokenEndpointAuthMethod: none

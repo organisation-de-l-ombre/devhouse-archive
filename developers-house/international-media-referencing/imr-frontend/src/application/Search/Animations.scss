@@ -1,0 +1,13 @@
+.advanced-search-transitions-enter { opacity: 0; }
+
+.advanced-search-transitions-enter-active {
+  opacity: 1;
+  transition: opacity 300ms;
+}
+
+.advanced-search-transitions-exit { opacity: 1; }
+
+.advanced-search-transitions-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
+}
