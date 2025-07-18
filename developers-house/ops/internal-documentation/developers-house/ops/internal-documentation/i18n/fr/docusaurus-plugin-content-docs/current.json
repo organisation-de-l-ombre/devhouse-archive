@@ -1,0 +1,10 @@
+{
+    "version.label": {
+        "message": "Suivant",
+        "description": "The label for version current"
+    },
+    "sidebar.tutorialSidebar.category.Developement Environment": {
+        "message": "Environment de développement",
+        "description": "The label for category development environment in sidebar tutorialSidebar"
+    }
+}
