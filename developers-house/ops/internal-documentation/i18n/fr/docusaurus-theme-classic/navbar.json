@@ -1,0 +1,10 @@
+{
+  "title": {
+    "message": "Developer's House",
+    "description": "The title in the navbar"
+  },
+  "item.label.Main documentation": {
+    "message": "Documentation principale",
+    "description": "Navbar item with label Main documentation"
+  }
+}
