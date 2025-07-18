@@ -1,0 +1,36 @@
+{{- if .Values.oauthClient.enabled }}
+apiVersion: hydra.ory.sh/v1alpha1
+kind: OAuth2Client
+metadata:
+  name: {{ include "..fullname" . }}
+  labels:
+    {{- include "..labels" . | nindent 4 }}
+  annotations:
+    app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
+    app.gitlab.com/env: {{ .Values.gitlab.env | quote }}
+spec:
+  clientName: {{ .Values.oauthClient.name }} ({{ include "..fullname" . }})
+  grantTypes:
+    - authorization_code
+  responseTypes:
+    - code
+  scope: {{ .Values.oauthClient.scope }}
+  secretName: oauth-client-{{ include "..fullname" . }}
+  # these are optional
+  redirectUris:
+  {{- if .Values.service.commonName }}
+    - https://{{ template "noquote-hostname" .Values.service.commonName }}{{ .Values.oauthClient.callbackEndpoint }}
+  {{- end }}
+    - https://{{ template "noquote-hostname" .Values.service.url }}{{ .Values.oauthClient.callbackEndpoint }}
+  {{- if .Values.service.additionalHosts }}
+  {{- $clbck := .Values.oauthClient.callbackEndpoint -}}
+  {{- range $host := .Values.service.additionalHosts }}
+    - https://{{ template "noquote-hostname" $host }}{{ $clbck }}
+  {{- end -}}
+  {{- end }}
+  audience:
+  {{- range $aud := .Values.oauthClient.audiences }}
+    - {{ $aud }}
+  {{- end }}
+  tokenEndpointAuthMethod: {{ .Values.oauthClient.tokenEndpointAuthMethod }}
+{{- end}}
