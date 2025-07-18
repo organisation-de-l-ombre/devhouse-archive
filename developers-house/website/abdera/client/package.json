@@ -1,0 +1,17 @@
+{
+    "name": "@developers-house/abdera",
+    "version": "1.6.11",
+    "description": "Amelia is the library responsible for the data management & takeouts.",
+    "main": "dist/index.js",
+    "files": [
+        "dist"
+    ],
+    "types": "dist/index.d.ts",
+    "author": "Matthieu <matthieu974fr.pignolet@gmail.com>",
+    "devDependencies": {
+        "typescript": "^4.2.3"
+    },
+    "scripts": {
+        "build": "tsc"
+    }
+}

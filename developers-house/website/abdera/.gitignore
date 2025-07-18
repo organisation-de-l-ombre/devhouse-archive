@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.idea/
+client/*
+!client/package.json
+!client/tsconfig.json
+!client/global-fetch.ts
+pnpm-lock.yaml

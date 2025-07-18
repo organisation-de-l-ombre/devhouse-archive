@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fetchStaff(redis) Fetched a specific user 1`] = `
+Object {
+  "avatar": "",
+  "discriminator": "",
+  "id": "",
+  "presence": Object {
+    "emote": "",
+    "status": "online",
+    "text": "",
+  },
+  "role": Object {
+    "color": "",
+    "name": "",
+    "position": 0,
+  },
+  "socials": Array [],
+  "username": "",
+}
+`;
+
+exports[`getStaff(redis) Fetched a list of correct users 1`] = `
+Array [
+  Object {
+    "avatar": "",
+    "discriminator": "",
+    "id": "",
+    "presence": Object {
+      "emote": "",
+      "status": "online",
+      "text": "",
+    },
+    "role": Object {
+      "color": "",
+      "name": "",
+      "position": 0,
+    },
+    "socials": Array [],
+    "username": "",
+  },
+]
+`;
+
+exports[`getStaff(redis) Ignores the invalid users 1`] = `Array []`;
+
+exports[`getStaff(redis) Returns an empty array if the index doesn't exists 1`] = `Array []`;
