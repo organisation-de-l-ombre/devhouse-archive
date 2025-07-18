@@ -1,0 +1,23 @@
+cluster:
+  id: 0
+  name: kubernetes
+encryption:
+  nodeEncryption: false
+hubble:
+  enabled: true
+  relay:
+    enabled: true
+  ui:
+    enabled: true
+    securityContext:
+      enabled: false
+ipam:
+  mode: cluster-pool
+kubeProxyReplacement: disabled
+operator:
+  replicas: 1
+
+ipv4:
+  enabled: true
+ipv6:
+  enabled: true
