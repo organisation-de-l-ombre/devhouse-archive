@@ -1,0 +1,53 @@
+include:
+  - project: 'developers-house/ops/gitlab-ci-collection'
+    ref: master
+    file: 'base.gitlab-ci.yml'
+
+"Rust project build":
+  stage: build
+  image: rustlang/rust@sha256:d73ff45159dc1fb61582e4c251b8695002face55b530a58375435bf2c2496fec
+
+  script:
+    - cargo update
+    - cargo build --release
+
+  cache:
+    key: cargo
+    paths:
+      - target
+
+  artifacts:
+    name: 'target'
+    paths:
+      - target
+
+build:
+  needs:
+    - "Rust project build"
+  dependencies:
+    - "Rust project build"
+
+package:
+  stage: build
+  image: timbru31/java-node # We need java in the container
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+
+  script:
+    - yarn
+    - yarn gen:client-axios
+    - cd gen
+    - apt-get update -y
+    - apt-get install jq -y
+    - yarn
+    - yarn build
+    - echo "@${CI_PROJECT_ROOT_NAMESPACE}:registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
+    - echo "${CI_API_V4_URL#https?}/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=\${CI_JOB_TOKEN}" > .npmrc
+
+    # This may be replaced by an automatic bump.
+    - VERSION=$(jq .version package.json)
+    - echo "${VERSION:1:${#VERSION}-2}"
+    - yarn publish --new-version "${VERSION:1:${#VERSION}-2}"
+

@@ -1,0 +1,29 @@
+[package]
+name = "scarlet"
+version = "1.0.0"
+authors = ["matthieu <matthieu@developershouse.xyz>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+diesel = { version = "1.4.6", features = ["bitflags", "postgres", "chrono", "uuid"] }
+dotenv = "0.15.0"
+chrono = { version = "0.4.19", features = ["serde"] }
+uuid = { version = "0.6.5", features = ["serde", "v4"] }
+serde = { version = "1.0.125", features = ["derive", "serde_derive"] }
+serde_json = "1.0"
+rocket = { version = "0.4.7" }
+diesel_migrations = "1.4.0"
+redis = { version = "*" }
+base32 = "0.4.0"
+rand = "0.8.3"
+
+[dependencies.rocket_contrib]
+version = "0.4.7"
+default-features = false
+features = ["uuid", "json", "diesel_postgres_pool", "redis_pool"]
+
+[dependencies.otp]
+
+git = "https://github.com/TimDumol/rust-otp"
