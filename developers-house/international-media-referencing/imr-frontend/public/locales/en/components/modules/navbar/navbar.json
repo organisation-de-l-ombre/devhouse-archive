@@ -1,0 +1,35 @@
+{
+  "mobileMenu": "IMR",
+  "items": {
+    "home": "Home",
+    "browse": "Browse",
+    "movies": "Movies",
+    "series": "Series",
+    "user": {
+      "manageAccount": "Manage account",
+      "login": "Login",
+      "authError": "Login unavailabe"
+    },
+    "search": "Search",
+    "changeLanguage": "Change language",
+    "notifications": "Notifications settings",
+    "theme": {
+      "light": "Switch to light theme",
+      "dark": "Switch to dark theme"
+    }
+  },
+  "acronyms": {
+    "authError": "Account authentication unavailable",
+    "search": "Search media",
+    "changeLanguage": "Change language",
+    "notifications": "Notifications settings",
+    "theme": "Change colors theme"
+  },
+  "notifications": {
+    "userLogout": "You have been logged out successfully.",
+    "themeChanged": {
+      "light": "The website has been switched to light mode.",
+      "dark": "The website has been switched to dark mode."
+    }
+  }
+}

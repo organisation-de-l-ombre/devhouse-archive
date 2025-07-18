@@ -1,0 +1,37 @@
+{
+  "left": {
+    "imr": "Copyright © {{year}} IMR. Tous droits réservés."
+  },
+  "right": {
+    "mainTitle": "International Media Referencing, un projet Developer's House.",
+    "containers": [
+      {
+        "title": "IMR",
+        "home": "Accueil",
+        "about": "A propos",
+        "contact": "Contact",
+        "status": "Statut des services"
+      },
+      {
+        "title": "Developer's House",
+        "website": "Site web",
+        "about": "A propos",
+        "discord": "Serveur Discord"
+      },
+      {
+        "title": "Ressources",
+        "support": "Support",
+        "mediaRegistration": "Référencement",
+        "documentation": "Documentation",
+        "developers": "Développeurs"
+      },
+      {
+        "title": "Autres",
+        "conditions": "Conditions",
+        "legalMentions": "Mentions légales",
+        "chart": "Chartre",
+        "acknowledgements": "Remerciements"
+      }
+    ]
+  }
+}

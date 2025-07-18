@@ -1,0 +1,10 @@
+{
+  "title": "Préférences de notifications",
+  "description": "Afin de vous offir une meilleure expérience au sein du site web, nous vous invitons à choisir si vous souhaitez recevoir des notifications ou non. Veuillez choisir une option ci dessous :",
+  "options": {
+    "yes": "Accepter",
+    "no": "Refuser"
+  },
+  "invalidPreference": "Ce paramètre n'est pas valide, veuillez choisir un paramètre différent de celui actuel.",
+  "preferencesUpdated": "Vos préférences ont été mises à jour."
+}

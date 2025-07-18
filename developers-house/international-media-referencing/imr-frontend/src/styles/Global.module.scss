@@ -1,0 +1,33 @@
+.desktop {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--font-color-hover);
+  }
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.position-relative {
+  position: relative;
+}
+
+.page-body-width {
+  width: calc(100% - 4rem);
+  max-width: 75%;
+  padding-left: 2rem;
+  padding-right: 2rem;
+
+  @media screen and (max-width: 700px) {
+    max-width: unset;
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "helmet": {
+    "title": "International Media Referencing",
+    "description": "International Media Referencing est une base de données alternative et complète qui référence un large choix de contenus cinématographiques, tels que les films et séries.",
+    "topics": "Films, séries, cinéma, cinématographie"
+  },
+  "error": {
+    "title": "Quelque-chose s'est mal passé...",
+    "description": "Il semblerait que le site web ait rencontré une erreur inattendue. Si cela se reproduit à nouveau, n'hésitez pas à la reporter.",
+    "messages": {
+      "unauthorized": "L'accès à cette ressource a expiré. Rechargez la page pour y avoir à nouveau accès.",
+      "generic": "L'accès à cette ressource n'est pas possible. Le serveur a retourné une erreur {{statusCode}}."
+    },
+    "buttons": {
+      "homePage": "Page d'accueil",
+      "reloadPage": "Recharger la page",
+      "supportPage": "Page de support"
+    }
+  },
+  "suspense": {
+    "loading": "Chargement de la ressource demandée..."
+  },
+  "withNetwork": {
+    "noNetwork": "Le contenu de cette page requiert une connexion internet, et il semblerait que vous soyez hors ligne... Tentez de vous reconnecter pour y avoir accès."
+  },
+  "notFound": {
+    "title": "Ressource inexistante",
+    "description": "Cette URL n'existe pas. Vous avez dû vous égarer...",
+    "buttons": {
+      "homePage": "Page d'accueil",
+      "supportPage": "Page de support"
+    }
+  },
+  "utils": {
+    "apiFetch": "Récupération des données depuis la base de données... Veuillez patienter quelques instants.",
+    "redirecting": "Veuillez patienter, vous allez être redirigé dans quelques secondes..."
+  },
+  "notifications": {
+    "accountRequired": "Vous devez être connecté pour accéder à cette page."
+  },
+  "global": {
+    "yes": "Oui",
+    "no": "Non",
+    "close": "Fermer"
+  }
+}

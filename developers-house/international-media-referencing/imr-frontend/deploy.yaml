@@ -1,0 +1,142 @@
+
+# The number of replicas of the application.
+# ignored if the autoscaling is enabled.
+replicaCount: 1
+
+# The autoscaling section defined how
+# the service should be scaled depending
+# on metrics such as memory percentage
+# or cpu percentage of the containers.
+# you must fill the ressources section for
+# this to work.
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 280
+  targetMemoryUtilizationPercentage: 280
+
+# The limits of the container, if
+# the container starts to use more
+# memory than expected, if will be
+# killed with an error "OOMKilled".
+resources:
+  limits:
+    cpu: 250m
+    memory: 200Mi
+  requests:
+    cpu: 25m
+    memory: 170Mi
+
+# Other details of the deployment.
+podSecurityContext: {}
+securityContext: {}
+nodeSelector: {}
+affinity: {}
+tolerations: {}
+
+# A service allow your application
+# to be accesser in the cluster
+# or outside.
+# https://kubernetes.io/docs/concepts/services-networking/service/
+service:
+  enabled: true
+  annotations: {}
+  name: web
+  type: ClusterIP
+  url: <gitlab>
+  additionalHosts: []
+  commonName: <gitlab>
+  externalPort: 80
+  # The port of your application goes here.
+  internalPort: 3200
+
+# An ingress allows you to deploy an external http
+# endpoint for your service, the http configuration
+# is already handled for you.
+# https://kubernetes.io/docs/concepts/services-networking/ingress/
+ingress:
+  enabled: true
+  path: "/"
+  annotations: {}
+
+# How the health of the container should be checked.
+# https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+health:
+  # Check if the container if alive.
+  # if not, the container will be restarted.
+  livenessProbe:
+    path: "/.internal/healz"
+    initialDelaySeconds: 15
+    timeoutSeconds: 15
+    scheme: "HTTP"
+    probeType: "httpGet"
+    command: []
+  # Check if the container is ready to be available.
+  # The container will not be available if this check
+  # is not passing.
+  readinessProbe:
+    path: "/.internal/healz"
+    initialDelaySeconds: 5
+    timeoutSeconds: 3
+    scheme: "HTTP"
+    probeType: "httpGet"
+    command: []
+
+# Defines the schedule requirements and priority for
+# scheduling the pods in the cluster. You can 
+# put maxUnavailable OR minAvailable.
+podDisruption:
+  enabled: true
+  # minAvailable: 1
+  maxUnavailable: 1
+
+# Defines where the container is awwloed to connect.
+# https://kubernetes.io/docs/concepts/services-networking/network-policies/
+# You should preferably only allow acces of the services you need.
+networkPolicy:
+  enabled: true
+  spec:
+    podSelector:
+      matchLabels: {}
+    ingress:
+    - from:
+      - podSelector:
+          matchLabels: {}
+      - namespaceSelector:
+          matchLabels:
+            role: ingress
+
+# The service account of the contaier.
+# Allow access to the kubernetes apis here.
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# Annotations attached to the container.
+extraLabels: {}
+podAnnotations: {}
+
+oauthClient:
+  enabled: true
+  name: IMR
+  grantType:
+    - authorization_code
+    - refresh_token
+  responseTypes:
+    - code
+    - id_token
+  scope: account.info account.authorized.* openid offline
+  audiences:
+   - abdera
+   - imr
+  tokenEndpointAuthMethod: none
+
+storageBucket:
+  enabled: false
+  namePrefix: <name>

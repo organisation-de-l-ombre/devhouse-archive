@@ -1,0 +1,110 @@
+{
+  "tabBar": {
+    "movie": {
+      "name": "Film",
+      "acronym": "Film"
+    },
+    "casting": {
+      "name": "Casting",
+      "acronym": "Casting"
+    },
+    "characters": {
+      "name": "Personnages",
+      "acronym": "Personnages"
+    },
+    "videos": {
+      "name": "Vidéos",
+      "acronym": "Vidéos"
+    },
+    "ost": {
+      "name": "Bande originale",
+      "acronym": "Bande originale"
+    },
+    "technical-specs": {
+      "name": "Specs. techniques",
+      "acronym": "Spécifications techniques"
+    }
+  },
+  "headers": {
+    "trailerWindowTitle": "Bande annonce",
+    "topButtons": {
+      "grade": "Noter ce film",
+      "favourites": "Ajouter ce film à vos favoris",
+      "edit": "Editer ce film",
+      "share": "Partager ce film"
+    },
+    "shareModal": {
+      "title": "Partager {{title}}",
+      "description": "Envie de partager {{title}} avec vos amis ? Vous êtes au bon endroit ! Pour faciliter votre quête, vous avez la possibilité de partager directement ce film en lisant automatiquement la bande-annonce, ou en affichant les différents moyens de le regarder en streaming. Vous pouvez également partager une section spécifique de ce film.",
+      "qrCodeSharing": "Partager avec un QR Code",
+      "focusOnTrailer": "Lire automatiquement la bande-annonce",
+      "focusOnWatch": "Afficher les services de streaming qui proposent ce film",
+      "selectSection": "Sélectionnez une section spécifique",
+      "preview": "Aperçu du lien",
+      "copyToClipboard": "Copier dans le presse-papier",
+      "urlCopied": "Lien copié dans le presse-papier !"
+    },
+    "bottomButtons": {
+      "watch": "Regarder",
+      "trailer": "Bande annonce"
+    }
+  },
+  "watch": {
+    "description": "Vous souhaitez regarder, louer ou acheter {{title}} ? Voici les différentes plateformes qui vous permettent de faire cela ! Mais prenez garde, nous référencons uniquement les différents moyens de visionnage, nous ne fournissons aucun abonnement ou moyen de voir ce film.",
+    "streaming": "Service de streaming",
+    "streaming_plural": "Services de streaming",
+    "vod": "Service VOD",
+    "vod_plural": "Services VOD"
+  },
+  "ost": {
+    "duration": "Durée : {{duration}}",
+    "timeline": "Timeline dans le film : {{timeline}}",
+    "characters": "Personnage : {{characters}}",
+    "characters_plural": "Personnages : {{characters}}",
+    "watchVideo": "Voir la vidéo",
+    "lyrics": "Paroles"
+  },
+  "technicalSpecs": {
+    "presentation": {
+      "title": "Titre",
+      "VOTitle": "Titre original",
+      "originalCountry": "Pays d'origine",
+      "duration": "Durée",
+      "type": "Genre",
+      "case": "Classement",
+      "distributors": "Distributeur",
+      "distributor_plural": "Distributeurs",
+      "productionStart": "Année de début de production",
+      "productionRelease": "Année de fin de production",
+      "releaseDate": "Date de sortie",
+      "budget": "Budget",
+      "boxOffice": "Box office",
+      "directors": "Réalisateur",
+      "directors_plural": "Réalisateurs",
+      "producers": "Producteur",
+      "producers_plural": "Producteurs",
+      "screenWriters": "Scénariste",
+      "screenWriter_plural": "Scénaristes",
+      "mainActors": "Acteur principal",
+      "mainActors_plural": "Acteurs principaux",
+      "movieChronologicalFranchise": "Franchise (ordre chronologique)",
+      "movieLogicalFranchise": "Franchise (ordre logique)"
+    },
+    "movieSpecs": {
+      "sectionTitle": "Spécifications cinématographiques",
+      "movieFormat": "Format du film",
+      "cinematographicProcess": "Processus cinématographique",
+      "formatType": "Type de format",
+      "colorimetry": "Colorimétrie",
+      "imageDefinition": "Définition d'image",
+      "soundDefinition": "Définition audio",
+      "aspectRatio": "Aspect ratio"
+    }
+  },
+  "sectionEmpty": {
+    "message": "Cette section n'a encore aucun contenu. Si vous souhaitez améliorer le contenu de cette page de film ou ajouter de nouvelles choses, n'hésitez pas, votre aide précieuse est la bienvenue !",
+    "buttons": {
+      "edit": "Editer cette section"
+    }
+  }
+}

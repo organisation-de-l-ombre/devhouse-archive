@@ -1,0 +1,20 @@
+{
+  "pageTitle": "International Media Referencing - The online and complete alternative database referencing a great deal of cinematographic contents.",
+  "headers": {
+    "title": "International Media Referencing",
+    "presentation": [
+      "The online and complete alternative database referencing a great deal of cinematographic content.",
+      "What are you waiting for? Start the adventure with us! There are so much to discover..."
+    ],
+    "buttons": {
+      "about": "The IMR project",
+      "contact": "Contact us",
+      "support": "Get support"
+    }
+  },
+  "prototypeAccess": {
+    "title": "Access to movie prototypes",
+    "tangled": "Tangled - preview",
+    "spirit": "Spirit Untamed - preview"
+  }
+}
