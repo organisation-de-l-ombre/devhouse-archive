@@ -1,0 +1,91 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/naming-convention */
+/// <reference types="node" />
+/// <reference types="react" />
+/// <reference types="react-dom" />
+/// <reference lib="dom" />
+/// <reference types="@emotion/react/types/css-prop" />
+
+declare interface GlobalFetch {
+  fetch(input: RequestInfo, init?: RequestInit): Promise<Response>;
+}
+
+declare namespace NodeJS {
+  interface ProcessEnv {
+    readonly NODE_ENV: "development" | "production" | "test";
+    readonly PUBLIC_URL: string;
+  }
+}
+
+declare module "express-opentracing" {
+  import { Tracer } from "opentracing";
+  import { RequestHandler } from "express";
+
+  export type MiddlewareOptions = {
+    tracer: Tracer;
+  };
+  export default function middleware(
+    options: MiddlewareOptions
+  ): RequestHandler;
+}
+
+declare module "cbor-js" {
+  const module: any;
+  export default module;
+}
+
+declare module "*.bmp" {
+  const src: string;
+  export default src;
+}
+
+declare module "*.gif" {
+  const src: string;
+  export default src;
+}
+
+declare module "*.jpg" {
+  const src: string;
+  export default src;
+}
+
+declare module "*.jpeg" {
+  const src: string;
+  export default src;
+}
+
+declare module "*.png" {
+  const src: string;
+  export default src;
+}
+
+declare module "*.webp" {
+  const src: string;
+  export default src;
+}
+
+declare module "*.svg" {
+  import * as React from "react";
+
+  export const ReactComponent: React.FunctionComponent<
+    React.SVGProps<SVGSVGElement> & { title?: string }
+  >;
+
+  const src: string;
+  export default src;
+}
+
+declare module "*.module.css" {
+  const classes: { readonly [key: string]: string };
+  export default classes;
+}
+
+declare module "*.module.scss" {
+  const classes: { readonly [key: string]: string };
+  export default classes;
+}
+
+declare module "*.module.sass" {
+  const classes: { readonly [key: string]: string };
+  export default classes;
+}

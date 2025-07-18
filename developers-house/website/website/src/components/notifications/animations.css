@@ -1,0 +1,21 @@
+.notification-enter {
+  opacity: 0;
+  overflow: hidden;
+  transform: translateY(100%);
+}
+
+.notification-enter-active {
+  opacity: 1;
+  overflow: hidden;
+  transform: translateY(0);
+}
+
+.notification-exit {
+  opacity: 1;
+  transition: transform 300ms, position 0ms 300ms;
+}
+
+.notification-exit-active {
+  overflow: hidden;
+  transform: translateX(-150%);
+}
