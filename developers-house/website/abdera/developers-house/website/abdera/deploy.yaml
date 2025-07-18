@@ -1,0 +1,25 @@
+ingress:
+  enabled: true
+  path: "/"
+  annotations: {}
+
+health:
+  # Check if the container if alive.
+  # if not, the container will be restarted.
+  livenessProbe:
+    path: "/data/staff"
+    initialDelaySeconds: 15
+    timeoutSeconds: 15
+    scheme: "HTTP"
+    probeType: "httpGet"
+    command: []
+  # Check if the container is ready to be available.
+  # The container will not be available if this check
+  # is not passing.
+  readinessProbe:
+    path: "/data/staff"
+    initialDelaySeconds: 5
+    timeoutSeconds: 3
+    scheme: "HTTP"
+    probeType: "httpGet"
+    command: []
