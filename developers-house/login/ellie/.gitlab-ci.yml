@@ -1,0 +1,4 @@
+include:
+  - project: 'developers-house/dev/gitlab-ci-collection'
+    ref: master
+    file: 'base.gitlab-ci.yml'
