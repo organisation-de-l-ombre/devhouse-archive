@@ -1,0 +1,21 @@
+# Files and folders prettier should ignore.
+# Documentation for this file can be found at https://prettier.io/docs/en/ignore.html
+# Please try to keep this file the same as the .eslintignore file and the .gitignore file.
+# This is a template you can modify per project.
+
+# TypeScript compiled files folders
+dist/
+build/
+
+# TypeScript v1 declaration files
+typings/
+
+# Dependency directories
+node_modules/
+jspm_packages/
+vendor/
+x/
+
+# Editors/IDE
+.idea/
+.vscode/

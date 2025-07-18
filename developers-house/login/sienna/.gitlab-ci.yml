@@ -1,0 +1,36 @@
+include:
+  - project: 'developers-house/dev/gitlab-ci-collection'
+    ref: master
+    file: 'base.gitlab-ci.yml'
+
+build:
+  before_script:
+    - echo "@developers-house:registry=https://gitlab.com/api/v4/packages/npm/" >> .npmrc
+    - echo "//gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+    - echo "//gitlab.com/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+
+cypress:
+  image: cypress/browsers:node12.14.1-chrome85-ff81
+  stage: test
+
+  allow_failure: true
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+      - .npm/
+
+  parallel:
+    matrix:
+      - RUNNER: [chrome, firefox]
+  script:
+    - yarn
+    - yarn run build
+    - yarn run start & # Start the server in parallel
+    - npx cypress run --record --key 4a4e3f7e-8127-4f60-a851-d4ba1ac91157 --browser $RUNNER
+  artifacts:
+    when: always
+    paths:
+      - cypress/videos/**/*.mp4
+      - cypress/screenshots/**/*.png
+    expire_in: 1 day
