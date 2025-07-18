@@ -1,0 +1,219 @@
+stages:
+  - prepare
+  - build
+  - tests
+  - deploy
+  - stop
+
+variables:
+  KUBE_CONTEXT: developers-house/agent:main-cluster
+  KUBE_NAMESPACE: $CI_ENVIRONMENT_SLUG-$CI_PROJECT_NAME # Kubernetes namespace
+  IMAGE_PULL_SECRET: gitlab-registry-${CI_PROJECT_PATH_SLUG}
+
+build:
+  stage: build
+  services: []
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\", \"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context . --dockerfile ./Dockerfile --destination "$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG" --cache=true
+
+### Scripts for repository
+before_script:
+  - |
+    if [[ -z "$CI_COMMIT_TAG" ]]; then
+        export CI_APPLICATION_REPOSITORY=${CI_APPLICATION_REPOSITORY:-$CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG}
+        export CI_APPLICATION_TAG=${CI_APPLICATION_TAG:-$CI_COMMIT_SHA}
+    else
+        export CI_APPLICATION_REPOSITORY=${CI_APPLICATION_REPOSITORY:-$CI_REGISTRY_IMAGE}
+        export CI_APPLICATION_TAG=${CI_APPLICATION_TAG:-$CI_COMMIT_TAG}
+    fi
+
+image: 
+  name: line/kubectl-kustomize
+  entrypoint: [""]
+
+.prepare: &prepare
+  stage: prepare
+  script:
+    - echo "** Preparing environment ${CI_ENVIRONMENT_NAME}(${CI_ENVIRONMENT_SLUG})"
+    - kubectl config use-context ${KUBE_CONTEXT}
+    # Ensuring the namespace is created
+    - kubectl get namespace ${KUBE_NAMESPACE} || kubectl create namespace ${KUBE_NAMESPACE}
+    # Ensuring that the secret used to pull the docker image is present
+    - |
+      kubectl create secret -n "$KUBE_NAMESPACE" \
+        docker-registry "$IMAGE_PULL_SECRET" \
+        --docker-server="$CI_REGISTRY" \
+        --docker-username="${CI_DEPLOY_USER:-$CI_REGISTRY_USER}" \
+        --docker-password="${CI_DEPLOY_PASSWORD:-$CI_REGISTRY_PASSWORD}" \
+        --docker-email="$GITLAB_USER_EMAIL" \
+        -o yaml --dry-run | kubectl replace -n "$KUBE_NAMESPACE" --force -f -
+
+.deploy: &deploy
+  stage: deploy
+  script:
+    - echo "** Deploying"
+    - kubectl config use-context ${KUBE_CONTEXT}
+    - apk add --no-cache curl gettext
+
+    - cd ${OVERLAY}
+    - kustomize edit set image meta-http=$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG
+    
+    - kustomize build | envsubst
+    - kustomize build | envsubst | kubectl apply -n $KUBE_NAMESPACE -f -
+
+.stop: &stop
+  stage: stop
+  script:
+    - echo "** Deploying"
+    - kubectl config use-context ${KUBE_CONTEXT}
+    - apk add --no-cache curl gettext
+
+    - cd ${OVERLAY}
+    - kustomize edit set image meta-http=$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG
+
+    - kustomize build | envsubst | kubectl delete -n $KUBE_NAMESPACE -f -
+    - kubectl delete namespace $KUBE_NAMESPACE
+
+# Prepare a production environment
+prepare@production:
+  <<: *prepare
+
+  environment:
+    name: production
+    action: prepare
+    deployment_tier: production
+  
+  rules:
+    # Do not deploy if we are in a deploy-freezed time
+    - if: '$CI_DEPLOY_FREEZE'
+      when: never
+    # Only if we have kubernetes configured
+    - if: '($CI_KUBERNETES_ACTIVE == null || $CI_KUBERNETES_ACTIVE == "") && ($KUBECONFIG == null || $KUBECONFIG == "")'
+      when: never
+    # Only master branch
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
+
+deploy@production:
+  <<: *deploy
+
+  environment:
+    name: production
+    kubernetes:
+      namespace: $KUBE_NAMESPACE
+  
+  variables:
+    OVERLAY: kubernetes/overlays/production
+
+  rules:
+    # Do not deploy if we are in a deploy-freezed time
+    - if: '$CI_DEPLOY_FREEZE'
+      when: never
+    # Only if we have kubernetes configured
+    - if: '($CI_KUBERNETES_ACTIVE == null || $CI_KUBERNETES_ACTIVE == "") && ($KUBECONFIG == null || $KUBECONFIG == "")'
+      when: never
+    # Only master branch
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
+stop@production:
+  <<: *stop
+
+  environment:
+    name: production
+    action: stop
+    kubernetes:
+      namespace: $KUBE_NAMESPACE
+
+  variables:
+    DOMAIN: $PRODUCTION_DOMAIN
+    OVERLAY: kubernetes/overlays/production
+
+  rules:
+    # Do not deploy if we are in a deploy-freezed time
+    - if: '$CI_DEPLOY_FREEZE'
+      when: never
+    # Only if we have kubernetes configured
+    - if: '($CI_KUBERNETES_ACTIVE == null || $CI_KUBERNETES_ACTIVE == "") && ($KUBECONFIG == null || $KUBECONFIG == "")'
+      when: never
+    # Only master branch
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: manual
+
+# Prepare a production environment
+prepare@review:
+  <<: *prepare
+
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    url: http://$CI_ENVIRONMENT_SLUG-$CI_PROJECT_NAME.$KUBE_INGRESS_BASE_DOMAIN
+    action: prepare
+    auto_stop_in: 1 day
+    deployment_tier: development
+    kubernetes:
+      namespace: $KUBE_NAMESPACE
+  
+  variables:
+    DOMAIN: $PRODUCTION_DOMAIN
+    OVERLAY: kubernetes/overlays/production
+
+  rules:
+    # Only if we have kubernetes configured
+    - if: '($CI_KUBERNETES_ACTIVE == null || $CI_KUBERNETES_ACTIVE == "") && ($KUBECONFIG == null || $KUBECONFIG == "")'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: never
+    - if: "$CI_COMMIT_TAG || $CI_COMMIT_BRANCH"
+
+deploy@review:
+  <<: *deploy
+
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    url: http://$CI_ENVIRONMENT_SLUG-$CI_PROJECT_NAME.$KUBE_INGRESS_BASE_DOMAIN
+    on_stop: stop@review
+    auto_stop_in: 1 day
+    deployment_tier: development
+    kubernetes:
+      namespace: $KUBE_NAMESPACE
+  
+  variables:
+    DOMAIN: $CI_ENVIRONMENT_SLUG-$CI_PROJECT_NAME.$KUBE_INGRESS_BASE_DOMAIN
+    OVERLAY: kubernetes/overlays/review
+  
+  rules:
+    # Only if we have kubernetes configured
+    - if: '($CI_KUBERNETES_ACTIVE == null || $CI_KUBERNETES_ACTIVE == "") && ($KUBECONFIG == null || $KUBECONFIG == "")'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: never
+    - if: "$CI_COMMIT_TAG || $CI_COMMIT_BRANCH"
+
+stop@review:
+  <<: *stop
+
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    url: http://$CI_ENVIRONMENT_SLUG-$CI_PROJECT_NAME.$KUBE_INGRESS_BASE_DOMAIN
+    auto_stop_in: 1 day
+    action: stop
+    deployment_tier: development
+    kubernetes:
+      namespace: $KUBE_NAMESPACE
+  
+  variables:
+    DOMAIN: $PRODUCTION_DOMAIN
+    OVERLAY: kubernetes/overlays/production
+
+  rules:
+    # Only if we have kubernetes configured
+    - if: '($CI_KUBERNETES_ACTIVE == null || $CI_KUBERNETES_ACTIVE == "") && ($KUBECONFIG == null || $KUBECONFIG == "")'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: never
+    - if: "$CI_COMMIT_TAG || $CI_COMMIT_BRANCH"
+      when: manual
