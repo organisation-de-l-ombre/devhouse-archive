@@ -1,0 +1,16 @@
+FROM golang AS build
+WORKDIR /go/src
+COPY go ./go
+COPY logic ./logic
+COPY main.go .
+COPY go.mod go.mod
+
+ENV CGO_ENABLED=0
+RUN go get -d -v ./...
+
+RUN go build -a -installsuffix cgo -o openapi .
+
+FROM scratch AS runtime
+COPY --from=build /go/src/openapi ./
+EXPOSE 5000/tcp
+ENTRYPOINT ["./openapi"]
