@@ -1,0 +1,14 @@
+name: Alma
+normalizedName: alma
+logo: https://cdn.developershouse.xyz/website-assets/projects/alma/icon.png
+shortDescription: A web administration panel for managing users, permissions, data and services for Developer's House team.
+longDescription: |
+  Alma is a web administration panel to manage the different services
+  related to the Developer's House login system, all the Developer's
+  House internal team can access it to retrieve, manage or delete
+  data.
+members:
+  - id: "537979556259430411" # Kylian
+managers:
+  - id: "357595301210619904" # icecodder
+  - id: "314354049023737857" # Matthieu
