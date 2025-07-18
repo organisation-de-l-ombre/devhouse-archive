@@ -1,0 +1,40 @@
+{{- if .Values.ingress.enabled -}}
+{{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1beta1
+{{- else -}}
+apiVersion: extensions/v1beta1
+{{- end }}
+kind: Ingress
+metadata:
+  name: {{ include "..fullname" . }}
+  labels:
+    {{- include "..labels" . | nindent 4 }}
+  annotations:
+    app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
+    app.gitlab.com/env: {{ .Values.gitlab.env | quote }}
+
+  {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  rules:
+    - host: {{ template "hostname" .Values.service.url }}
+      http: &httpRule
+        paths:
+          - path: {{ .Values.ingress.path | default "/" | quote }}
+            backend:
+              serviceName: {{ include "..fullname" . }}
+              servicePort: {{ .Values.service.externalPort }}
+{{- if .Values.service.commonName }}
+    - host: {{ template "hostname" .Values.service.commonName }}
+      http:
+        <<: *httpRule
+{{- end }}
+{{- if .Values.service.additionalHosts }}
+{{- range $host := .Values.service.additionalHosts }}
+    - host: {{ template "hostname" $host }}
+      http:
+        <<: *httpRule
+{{- end }}
+{{- end }}
+{{- end }}

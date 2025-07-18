@@ -1,0 +1,123 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "..fullname" . }}
+  annotations:
+    app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
+    app.gitlab.com/env: {{ .Values.gitlab.env | quote }}
+  labels:
+    {{- include "..labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "..selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
+        app.gitlab.com/env: {{ .Values.gitlab.env | quote }}
+        checksum/application-secrets: "{{ .Values.application.secretChecksum }}"
+        {{- with .Values.podAnnotations }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "..selectorLabels" . | nindent 8 }}
+    spec:
+      imagePullSecrets:
+{{ toYaml .Values.image.secrets | indent 10 }}
+      serviceAccountName: {{ include "..serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ include "..fullname" . }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.application.secretName }}
+          envFrom:
+          {{- else if .Values.oauthClient.enabled }}
+          envFrom:
+          {{- else if .Values.storageBucket.enabled }}
+          envFrom:
+          {{- end }}
+          {{- if .Values.application.secretName }}
+            - secretRef:
+                name: {{ .Values.application.secretName }}
+          {{- end }}
+          {{- if .Values.oauthClient.enabled }}
+            - secretRef:
+                name: oauth-client-{{ include "..fullname" . }}
+          {{- end }}
+          {{- if .Values.storageBucket.enabled }}
+            - secretRef:
+                name: bucket-{{ include "..fullname" . }}
+            - configMapRef:
+                name: bucket-{{ include "..fullname" . }}
+          {{- end }}
+
+          env:
+            - name: JAEGER_AGENT_HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: GITLAB_ENV
+              value: {{ .Values.gitlab.env | quote }}
+            - name: JAEGER_TAGS
+              value: pod=$(POD_NAME),namespace=$(POD_NAMESPACE)
+          ports:
+            - name: {{ .Values.service.name }}
+              containerPort: {{ .Values.service.internalPort }}
+          livenessProbe:
+{{- if eq .Values.health.livenessProbe.probeType "httpGet" }}
+            httpGet:
+              path: {{ .Values.health.livenessProbe.path }}
+              scheme: {{ .Values.health.livenessProbe.scheme }}
+              port: {{ .Values.service.internalPort }}
+{{- else if eq .Values.health.livenessProbe.probeType "tcpSocket" }}
+            tcpSocket:
+              port: {{ .Values.service.internalPort }}
+{{- else if eq .Values.health.livenessProbe.probeType "exec" }}
+            exec:
+              command:
+                {{ toYaml .Values.health.livenessProbe.command | indent 16 }}
+{{- end }}
+          readinessProbe:
+{{- if eq .Values.health.readinessProbe.probeType "httpGet" }}
+            httpGet:
+              path: {{ .Values.health.readinessProbe.path }}
+              scheme: {{ .Values.health.readinessProbe.scheme }}
+              port: {{ .Values.service.internalPort }}
+{{- else if eq .Values.health.readinessProbe.probeType "tcpSocket" }}
+            tcpSocket:
+              port: {{ .Values.service.internalPort }}
+{{- else if eq .Values.health.readinessProbe.probeType "exec" }}
+            exec:
+              command:
+                {{ toYaml .Values.health.readinessProbe.command | indent 16 }}
+{{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
