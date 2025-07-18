@@ -1,0 +1,25 @@
+.loader {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+
+  .centered {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.color {
+  div {
+    background-color: var(--foreground-primary);
+  }
+}
+
+#root {
+  height: 100vh;
+}

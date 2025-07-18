@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /settings
+Disallow: /icons
+Disallow: /settings
+Disallow: /workbox-*
