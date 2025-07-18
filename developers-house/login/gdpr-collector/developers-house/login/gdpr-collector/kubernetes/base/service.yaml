@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: gdpr-collector
+spec:
+  selector:
+    app: gdpr-collector
+  type: ClusterIP
+  ports:
+  - name: http
+    port:  8090
+    targetPort: 8090
