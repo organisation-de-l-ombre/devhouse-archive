@@ -1,0 +1,50 @@
+include:
+  # Include the new deployment chart https://gitlab.com/developers-house/dev/gitlab-ci-collection/-/blob/master/base.gitlab-ci.yml
+  - project: "developers-house/dev/gitlab-ci-collection"
+    ref: master
+    file: "base.gitlab-ci.yml"
+
+# Publish the npm package
+package:
+  stage: build
+  image: timbru31/java-node # We need java in the container
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+  only:
+    changes:
+      - openapi.yaml
+      - openapi-gen/*
+    refs:
+      - master
+
+  script:
+    - yarn
+    - yarn gen:client
+    - cd openapi-gen
+    - apt-get update -y
+    - apt-get install jq -y
+    - yarn
+    - yarn build
+    - echo "@${CI_PROJECT_ROOT_NAMESPACE}:registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
+    - echo "${CI_API_V4_URL#https?}/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=\${CI_JOB_TOKEN}" > .npmrc
+
+    # This may be replaced by an automatic bump.
+    - VERSION=$(jq .version package.json)
+    - echo "${VERSION:1:${#VERSION}-2}"
+    - yarn publish --new-version "${VERSION:1:${#VERSION}-2}"
+
+# Report the test results
+test:
+  image: timbru31/java-node
+  script:
+    - yarn install
+    - yarn build
+    - rm -r dist
+    - npx jest --passWithNoTests --ci --reporters=default --reporters=jest-junit
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - junit.xml # GitLab only supports junit test results.

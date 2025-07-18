@@ -1,0 +1,232 @@
+openapi: 3.0.0
+
+info:
+  title: Amelia
+  description: Amelia is the API which allows to interact with the frontend of IMR & to manage data and users
+  version: 2.1.6
+
+servers:
+  - url: https://amelia-api.developershouse.xyz
+    description: Production version of Amelia
+
+paths:
+  # Get movie title
+  "/data/movies/title/{movieId}/{language}":
+    description: Get movie data
+    get:
+      operationId: getMovieData
+      parameters:
+        - in: path
+          name: movieId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: language
+          required: true
+          schema:
+            type: string
+      tags:
+        - Movie data
+      responses:
+        200:
+          description: Successfully found movie data.
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/movieDataResponse"
+        404:
+          description: Movie not found on the database.
+
+  # Search content into the database
+  "/data/search":
+    description: Search content into the database
+    get:
+      operationId: getSearchResults
+      parameters:
+        - in: query
+          name: language
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: title
+          schema:
+            type: string
+        - in: query
+          name: compagnies
+          schema:
+            type: string
+        - in: query
+          name: tags
+          schema:
+            type: string
+        - in: query
+          name: case
+          schema:
+            type: string
+      tags:
+        - Content search
+      responses:
+        200:
+          description: Successfully found content
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - statusCode
+                  - data
+                properties:
+                  statusCode:
+                    type: number
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/searchResponse"
+        400:
+          description: "Bad request: missing parameters."
+
+        404:
+          description: No content found.
+
+  # Get a specific wiki page
+  "/data/wiki/{type}/{language}/{path}":
+    description: Get wiki data
+    get:
+      operationId: getWiki
+      parameters:
+        - in: path
+          name: type
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: language
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: path
+          required: true
+          schema:
+            type: string
+      tags:
+        - Wiki
+      responses:
+        200:
+          description: Successfully found wiki content.
+          content:
+            text/plain:
+              schema:
+                type: string
+        404:
+          description: Wiki data not found.
+
+components:
+  schemas:
+    # Generic schemas
+    arrayString:
+      type: array
+      items:
+        type: string
+
+    # Movie data schemas
+    movieDataResponse:
+      type: object
+      required:
+        - id
+        - title
+        - releaseDate
+        - originalCountry
+        - companies
+        - tags
+        - case
+        - localizedInformation
+        - data
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        releaseDate:
+          type: string
+        originalCountry:
+          type: string
+        duration:
+          type: string
+        companies:
+          $ref: "#/components/schemas/arrayString"
+        tags:
+          $ref: "#/components/schemas/arrayString"
+        case:
+          type: string
+        localizedInformation:
+          $ref: "#/components/schemas/localizedMovieInformation"
+        data:
+          $ref: "#/components/schemas/movieData"
+
+    localizedMovieInformation:
+      type:
+        object
+      required:
+        - title
+        - firstAdd
+        - lastEdit
+      properties:
+        title:
+          type: string
+        releaseDate:
+          type: string
+        background:
+          type: string
+        poster:
+          type: string
+        description:
+          type: string
+        quotation:
+          type: string
+        trailer:
+          type: string
+        firstAdd:
+          type: string
+        lastModification:
+          type: string
+    
+    movieData:
+      type: object
+      required:
+        - movie
+      properties:
+        watch:
+          type: string
+        movie:
+          type: string
+        casting:
+          type: string
+        characters:
+          type: string
+        videos:
+          type: string
+        ost:
+          type: string
+        technical-specs:
+          type: string
+
+    # Search schemas
+    searchResponse:
+      type: object
+      required:
+        - id
+        - name
+        - poster
+        - releaseDate
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        poster:
+          type: string
+        releaseDate:
+          type: string

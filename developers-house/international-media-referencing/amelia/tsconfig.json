@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "downlevelIteration": true,
+    "strict": true,
+    "baseUrl": "./src",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@entities/*": ["./entity/*"],
+    }
+  },
+  "include": ["src", "openapi-gen"],
+  "exclude": ["dist", "node_modules"]
+}
