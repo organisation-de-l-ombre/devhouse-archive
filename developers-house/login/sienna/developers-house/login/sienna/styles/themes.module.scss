@@ -1,0 +1,26 @@
+.dark {
+  --primary: #141414;
+  --background: rgb(60, 60, 60);
+  --background-primary: rgb(80, 80, 80);
+  --background-primary-hover: rgb(100, 100, 100);
+  --card-min-dimensions: 30rem;
+  --card-internal-header: 4%;
+  --border-radius: 5px;
+  --text-color-button: white;
+  --invert-primary: invert(#141414);
+  --link-color: rgb(58, 140, 232);
+}
+
+.light {
+  --primary: #cacaca;
+  --background: rgb(255, 255, 255);
+  --background-primary: rgb(230, 230, 230);
+  --background-primary-hover: rgb(210, 210, 210);
+  --card-min-dimensions: 30rem;
+  --card-header-background: #d7d7d7;
+  --card-internal-header: 4%;
+  --border-radius: 5px;
+  --text-color-button: black;
+  --invert-primary: invert(#e3e3e3);
+  --link-color: rgb(58, 140, 232);
+}

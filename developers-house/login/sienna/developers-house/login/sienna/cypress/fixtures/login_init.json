@@ -1,0 +1,9 @@
+{
+    "platforms": [{
+        "name": "cypress auth",
+        "color": "green",
+        "url": "__test/success"
+    }],
+    "clientName": "fake cypress",
+    "error": false
+}

@@ -1,0 +1,11 @@
+{
+    "audiences": ["fake_audience"],
+    "challenge": "123",
+    "clientName": "fakeClient",
+    "tos": "",
+    "image": "",
+    "owner": "",
+    "scopes": ["fake1", "fake2"],
+    "contact": "",
+    "error": false
+}
