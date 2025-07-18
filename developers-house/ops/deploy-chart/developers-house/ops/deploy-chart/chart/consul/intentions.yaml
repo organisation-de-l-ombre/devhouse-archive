@@ -1,0 +1,19 @@
+{{ if .Values.consul.intentions }}
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+    name: {{ .Values.consul.service }}
+    labels:
+        {{- include "..labels" . | nindent 4 }}
+    annotations:
+        app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
+        app.gitlab.com/env: {{ .Values.gitlab.env | quote }}
+spec:
+    destination:
+        name: {{ .Values.consul.service }}
+    sources:
+    {{- range $i, $val := .Values.consul.allowed }}
+      - name: {{ $val }}
+        action: allow
+    {{ end -}} }}
+{{- end -}}
